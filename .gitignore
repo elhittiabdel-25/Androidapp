@@ -5,3 +5,6 @@ local.properties
 *.iml
 .DS_Store
 app/src/main/assets/quran/
+__pycache__/
+*.pyc
+tools/cards/cards.json

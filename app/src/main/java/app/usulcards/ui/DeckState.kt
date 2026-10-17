@@ -16,9 +16,11 @@ import app.usulcards.data.ProgressStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-/** Which cards are in the deck, in which order, and where the reader is. */
+/** Which cards are in the deck (all, one category, or one path), in which order, and where the reader is. */
 class DeckState(private val repo: ContentRepo) {
-    var filter by mutableStateOf<String?>(null)
+    var category by mutableStateOf<String?>(null)
+        private set
+    var filter by mutableStateOf<String?>(null)   // the path, when one path is open
         private set
     val queue = mutableStateListOf<String>()
     var index by mutableIntStateOf(0)
@@ -31,16 +33,23 @@ class DeckState(private val repo: ContentRepo) {
         rebuild()
     }
 
+    /** One path (its category comes with it); null opens all cards. */
     fun setPath(path: String?) {
         filter = path
+        category = path?.let { repo.categoryOf(it)?.id }
+        rebuild()
+    }
+
+    /** Every path of a category, one after another; null opens all cards. */
+    fun setCategory(id: String?) {
+        category = id
+        filter = null
         rebuild()
     }
 
     private fun rebuild() {
         queue.clear()
-        val list = repo.cards.filter { filter == null || it.path == filter }
-        val ordered = if (filter == null) list else list.sortedBy { it.order }
-        queue.addAll(ordered.map { it.id })
+        queue.addAll(repo.cardsFor(category, filter).map { it.id })
         index = 0
         resetCard()
     }

@@ -34,6 +34,9 @@ data class SceneItem(
     val kind: String,   // tone override or role inside a custom scene
 )
 
+/** A group of learning paths (modules) shown together; [glyph] picks its emblem. */
+data class Category(val id: String, val title: String, val about: String, val glyph: String, val paths: List<String>)
+
 /** A light animation drawn above the card text; [type] picks the renderer. */
 data class Scene(
     val type: String,
@@ -83,11 +86,30 @@ fun ayahFile(surah: Int, ayah: Int): String = "quran/%03d%03d.mp3".format(surah,
 class ContentRepo(
     val books: Map<String, Book>,
     val cards: List<Card>,
+    val categories: List<Category>,
     private val uthmani: Map<String, String>,
     private val recitations: Set<String>,
 ) {
     val byId: Map<String, Card> = cards.associateBy { it.id }
-    val paths: List<String> = cards.map { it.path }.distinct()
+
+    /** Paths in category order, then any path that no category lists. */
+    val paths: List<String> = run {
+        val used = cards.map { it.path }.distinct()
+        categories.flatMap { it.paths }.filter { it in used } + used.filter { p -> categories.none { p in it.paths } }
+    }
+
+    fun category(id: String?): Category? = categories.firstOrNull { it.id == id }
+    fun categoryOf(path: String): Category? = categories.firstOrNull { path in it.paths }
+
+    /** Cards of one path (in path order), of one category (path by path), or all cards. */
+    fun cardsFor(categoryId: String?, path: String?): List<Card> {
+        val cat = category(categoryId)
+        return when {
+            path != null -> cards.filter { it.path == path }.sortedBy { it.order }
+            cat != null -> cards.filter { it.path in cat.paths }.sortedWith(compareBy<Card>({ cat.paths.indexOf(it.path) }, { it.order }))
+            else -> cards
+        }
+    }
 
     /** Verse text in Uthmani script when the build fetched it, otherwise the simple text from the card. */
     fun verseText(e: Evidence): String {
@@ -117,7 +139,14 @@ class ContentRepo(
                 emptyMap()
             }
             val recitations = (ctx.assets.list("quran") ?: emptyArray()).filter { it.endsWith(".mp3") }.map { "quran/$it" }.toSet()
-            return ContentRepo(books, cards, uthmani, recitations)
+            val categories = (root.optJSONArray("categories") ?: JSONArray()).objects().map {
+                Category(it.getString("id"), it.getString("title"), it.optString("about", ""), it.optString("glyph", ""),
+                    it.getJSONArray("paths").strings())
+            }.ifEmpty {
+                // older packs: one category per topic
+                cards.groupBy { it.topic }.map { (topic, cs) -> Category(topic, topic, "", "", cs.map { it.path }.distinct()) }
+            }
+            return ContentRepo(books, cards, categories, uthmani, recitations)
         }
 
         private fun parseCard(o: JSONObject): Card {

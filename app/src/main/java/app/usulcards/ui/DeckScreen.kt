@@ -35,6 +35,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
@@ -71,26 +72,33 @@ fun DeckScreen(
     ) {
         Header(progress)
 
-        // Learning paths as chips
+        // Categories, then the paths of the chosen category
         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            val all = listOf<String?>(null) + repo.paths
-            items(all) { p ->
-                val ids = repo.cards.filter { p == null || it.path == p }.map { it.id }
-                val done = ids.count { it in progress.learned }
-                val selected = deck.filter == p
-                Row(
-                    Modifier
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(if (selected) pal.accentSoft else pal.surface)
-                        .border(1.dp, if (selected) pal.accentSoft else pal.line, RoundedCornerShape(12.dp))
-                        .clickable { player.stop(); deck.setPath(p) }
-                        .padding(horizontal = 12.dp, vertical = 8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(p ?: "كل البطاقات", color = if (selected) pal.accent else pal.ink, fontSize = 14.sp,
-                        fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal, fontFamily = Fonts.ui)
-                    Text("$done/${ids.size}", color = pal.muted, fontSize = 12.sp, fontFamily = Fonts.ui)
+            item {
+                DeckChip("كل البطاقات", repo.cards.map { it.id }, progress, deck.category == null, pal.accent, pal.accentSoft) {
+                    player.stop(); deck.setCategory(null)
+                }
+            }
+            items(repo.categories.size) { i ->
+                val cat = repo.categories[i]
+                val (fg, bg) = categoryTone(pal, cat.id, i)
+                DeckChip(cat.title, repo.cardsFor(cat.id, null).map { it.id }, progress, deck.category == cat.id, fg, bg, glyph = cat.glyph) {
+                    player.stop(); deck.setCategory(cat.id)
+                }
+            }
+        }
+        repo.category(deck.category)?.let { cat ->
+            val (fg, bg) = categoryTone(pal, cat.id, repo.categories.indexOf(cat))
+            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                item {
+                    DeckChip("كل القسم", repo.cardsFor(cat.id, null).map { it.id }, progress, deck.filter == null, fg, bg, small = true) {
+                        player.stop(); deck.setCategory(cat.id)
+                    }
+                }
+                items(cat.paths.filter { it in repo.paths }) { p ->
+                    DeckChip(p, repo.cardsFor(null, p).map { it.id }, progress, deck.filter == p, fg, bg, small = true) {
+                        player.stop(); deck.setPath(p)
+                    }
                 }
             }
         }
@@ -226,9 +234,9 @@ private fun Header(progress: ProgressStore) {
         }
     }
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-        Column {
-            Text("بطاقات الأصول", fontFamily = Fonts.kufi, fontWeight = FontWeight.Bold, fontSize = 26.sp, color = pal.ink)
-            Text("من مكتبة المحتوى الإسلامي", color = pal.muted, fontSize = 12.sp, fontFamily = Fonts.ui)
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            BrandMark(42.dp)
+            BrandTitle()
         }
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             Box(contentAlignment = Alignment.Center) {
@@ -244,6 +252,37 @@ private fun Header(progress: ProgressStore) {
                 Text("نقطة", fontSize = 11.sp, color = pal.muted, fontFamily = Fonts.ui)
             }
         }
+    }
+}
+
+@Composable
+private fun DeckChip(
+    label: String,
+    ids: List<String>,
+    progress: ProgressStore,
+    selected: Boolean,
+    fg: Color,
+    bg: Color,
+    glyph: String = "",
+    small: Boolean = false,
+    onClick: () -> Unit,
+) {
+    val pal = LocalPalette.current
+    val done = ids.count { it in progress.learned }
+    Row(
+        Modifier
+            .clip(RoundedCornerShape(12.dp))
+            .background(if (selected) bg else pal.surface)
+            .border(1.dp, if (selected) fg.copy(alpha = 0.4f) else pal.line, RoundedCornerShape(12.dp))
+            .clickable(onClick = onClick)
+            .padding(horizontal = 12.dp, vertical = if (small) 6.dp else 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        if (glyph.isNotEmpty()) CategoryGlyph(glyph, if (selected) fg else pal.muted, 18.dp)
+        Text(label, color = if (selected) fg else pal.ink, fontSize = if (small) 13.sp else 14.sp,
+            fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal, fontFamily = Fonts.ui)
+        Text("$done/${ids.size}", color = pal.muted, fontSize = 12.sp, fontFamily = Fonts.ui)
     }
 }
 

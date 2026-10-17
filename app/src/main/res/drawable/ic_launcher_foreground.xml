@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- A small stack of cards with an eight-pointed star (the knowledge-card motif). Safe zone: central 66dp. -->
+<!-- Re-Iman mark: a gold ring that turns back on itself (renewal) around an eight-pointed star.
+     Same drawing as BrandMark in ui/Brand.kt. Everything stays inside the 66dp safe zone. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <!-- back card -->
+    <!-- renewal ring: 300 degrees clockwise from the upper right to the top -->
     <path
-        android:fillColor="#5577C9"
-        android:pathData="M40,30 L72,30 Q76,30 76,34 L76,74 Q76,78 72,78 L40,78 Q36,78 36,74 L36,34 Q36,30 40,30 Z" />
-    <!-- front card, slightly rotated feel by offset -->
+        android:pathData="M73.745,42.6 A22.8,22.8 0 1,1 54,31.2"
+        android:strokeColor="#FFE5B54B"
+        android:strokeWidth="4.32"
+        android:strokeLineCap="round" />
+    <!-- arrow head pointing into the gap -->
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M34,36 L66,36 Q70,36 70,40 L70,80 Q70,84 66,84 L34,84 Q30,84 30,80 L30,40 Q30,36 34,36 Z" />
-    <!-- eight-pointed star: two overlapping squares -->
+        android:fillColor="#FFE5B54B"
+        android:pathData="M61.2,31.2 L52.8,24.96 L52.8,37.44 Z" />
+    <!-- eight-pointed star: two squares -->
     <path
-        android:fillColor="#C99A2E"
-        android:pathData="M42,52 L58,52 L58,68 L42,68 Z" />
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M45.09,45.09 L62.91,45.09 L62.91,62.91 L45.09,62.91 Z" />
     <path
-        android:fillColor="#C99A2E"
-        android:pathData="M50,48.7 L61.3,60 L50,71.3 L38.7,60 Z" />
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M54,41.4 L66.6,54 L54,66.6 L41.4,54 Z" />
+    <!-- centre -->
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M50,55 A5,5 0 1,1 49.99,55 Z" />
+        android:fillColor="#FFE5B54B"
+        android:pathData="M50.88,54 a3.12,3.12 0 1,0 6.24,0 a3.12,3.12 0 1,0 -6.24,0 Z" />
 </vector>

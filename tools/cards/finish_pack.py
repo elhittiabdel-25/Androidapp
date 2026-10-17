@@ -1,6 +1,9 @@
-"""Add the card animations from scenes.py to the app's content pack (run after tools/tts/build_content.py).
+"""Finish the app's content pack (run after tools/tts/build_content.py): add the module categories from
+categories.py and the card animations from scenes.py.
 
-    python3 tools/cards/build_scenes.py [path/to/cards.json]     (default: the app's assets, edited in place)
+    python3 tools/cards/finish_pack.py [path/to/cards.json]     (default: the app's assets, edited in place)
+
+Categories: every path used by a card must be in exactly one category.
 
 For each item it finds the cue word in the spoken text of its clip and stores how far into the clip it is
 (`frac`, a little early so the item lands with the word). Labels written without harakat are copied, vowelled,
@@ -13,6 +16,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(HERE, "..", "tts"))
 from scenes import SCENES                      # noqa: E402
+from categories import CATEGORIES              # noqa: E402
 from build_content import spoken, letters      # noqa: E402
 
 MARKS = "ًٌٍَُِّْٰ"
@@ -221,13 +225,21 @@ def build(path):
                     err(cid, f"stars scene lacks a {k} item")
         c["scene"] = scene
         done += 1
+    used = [c["path"] for c in pack["cards"]]
+    listed = [p for cat in CATEGORIES for p in cat["paths"]]
+    for p in sorted(set(used)):
+        if listed.count(p) != 1:
+            err("categories", f"path «{p}» is in {listed.count(p)} categories (needs exactly one)")
+    for p in set(listed) - set(used):
+        err("categories", f"path «{p}» has no cards")
+    pack["categories"] = CATEGORIES
     for n in notes:
         print("note:", n)
     if errors:
         print("\n".join("ERROR " + e for e in errors))
         sys.exit(1)
     json.dump(pack, open(path, "w", encoding="utf-8"), ensure_ascii=False)
-    print(f"{done} scenes written to {path}")
+    print(f"{len(CATEGORIES)} categories and {done} scenes written to {path}")
 
 
 if __name__ == "__main__":

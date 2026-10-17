@@ -13,15 +13,12 @@ on:
   workflow_dispatch:
     inputs:
       cards:
-        description: "Card ids to check, comma-separated (empty = the batch-2 cards)"
+        description: "Card ids to check, comma-separated (empty = all cards)"
         required: false
         default: ""
 
 permissions:
   contents: write
-
-env:
-  BATCH2: tawhid-fadl,tahqiq-tawhid,khawf-shirk,dawa-tawhid,qawaid-arba,tamaim-ruqa,tabarruk,dhabh-nadhr,istiadha-istighatha,shafaa,ghuluw-salihin,qubur,sihr-nushra,kahana,nujum,tatayyur,mahabba,khawf-tawakkul,sabr-qadar,riya,itaat-ulama,alfadh-shirk,adab-alfadh,istihza,uluw-maiyya,quran-kalam,ruya,akhira,karamat,akhlaq-sunna
 
 jobs:
   check:
@@ -42,8 +39,7 @@ jobs:
 
       - name: Transcribe and score
         run: |
-          CARDS="${{ inputs.cards }}"
-          python3 tools/tts/speech_check.py "$RUNNER_TEMP/tools" "$RUNNER_TEMP/out" "${CARDS:-$BATCH2}" 2>&1 | tee "$RUNNER_TEMP/out-log.txt"
+          python3 tools/tts/speech_check.py "$RUNNER_TEMP/tools" "$RUNNER_TEMP/out" "${{ inputs.cards }}" 2>&1 | tee "$RUNNER_TEMP/out-log.txt"
 
       - name: Push the report to the checks branch
         if: always()

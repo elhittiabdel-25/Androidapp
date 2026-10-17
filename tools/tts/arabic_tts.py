@@ -35,6 +35,12 @@ def waqf_word(w):
         return core[:-1] + "ه" + SUKUN
     if not tail:
         return w
+    # Two consonants at the end (شِرْكْ, الْفَرْقْ, شِئْتْ): the voice swallows the last one (heard 45-50% of the
+    # time against 62-75% for other words at a pause). Keep its short vowel instead, without tanween (رَوْم-like).
+    if len(core) >= 2 and core[-2] == SUKUN:
+        short = {FATHATAN: FATHA, DAMMATAN: DAMMA, KASRATAN: KASRA}
+        vowel = next((short.get(ch, ch) for ch in tail if ch in VOWELS), "")
+        return core + (SHADDA if SHADDA in tail else "") + vowel
     return core + (SHADDA if SHADDA in tail else "") + SUKUN
 
 def apply_waqf(text):
@@ -52,6 +58,7 @@ def apply_waqf(text):
 # -- 2. the name of Allah ----------------------------------------------------
 ALLAH = {   # bare form -> spelling (case vowel appended separately)
     "الله": "اللاه", "والله": "وَلَّاه", "فالله": "فَلَّاه", "تالله": "تَلَّاه",
+    "فوالله": "فَوَلَّاه",
     "لله": "لِلَّاه", "ولله": "وَلِلَّاه", "فلله": "فَلِلَّاه",
     "بالله": "بِلَّاه", "وبالله": "وَبِلَّاه",
     "اللهم": "اللاهُمَّ",
@@ -99,11 +106,25 @@ def wasl_alif(text):
 # -- 8. waw/ya carrying a vowel after a short vowel: espeak makes a diphthong (سَوَاءٌ -> "sa-u-āʔ").
 #       A tatweel between them is invisible to the listener and keeps the consonant: سَـوَاءٌ -> "sawāʔ".
 def glide_consonant(text):
+    # after the article, a lam with sukun before the madda makes the voice swallow the "ʔā" (الْآخِرَة heard
+    # as الخرة in 5 of 5 clips); without the sukun the hamza and vowel come through (tested with Whisper)
+    text = re.sub(f"ل{SUKUN}آ", "لآ", text)
     text = text.replace("آ", "ء" + FATHA + "ا")                                                  # آيَةُ -> ءَايَةُ ("ʔāyatu")
     return re.sub(f"([{FATHA}{DAMMA}{KASRA}])([وي])(?=[{FATHATAN}{DAMMATAN}{KASRATAN}{FATHA}{DAMMA}{KASRA}{SHADDA}])", "\\1\u0640\\2", text)
 
+# -- 9. a word that starts with a silent alif at the start of speech or after a pause is read with its
+#       opening vowel (اجْتَنِبُوا -> "ijtanibū"); written bare, the voice skips it ("jtanibū", heard as أشتنب).
+#       Kasra, or damma when the verb's middle letter has damma (انْظُرْ -> اُنْظُرْ). Not the article ال.
+def initial_wasl(text):
+    def repl(m):
+        lead, rest = m.group(1), m.group(2)
+        vowel = DAMMA if re.match(f"[{AR}]{SUKUN}[{AR}]{DAMMA}", rest) else KASRA
+        return lead + "ا" + vowel + rest
+    return re.sub(f"((?:^|[{PAUSE}])\\s*)ا(?!ل)(?=[{AR}]{SUKUN})([{AR}]{SUKUN}[{AR}][{MARKS}]*)", repl, text)
+
 def prepare(text):
     text = text.replace("«", "").replace("»", "").replace("ﷺ", "صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ")
+    text = initial_wasl(text)
     text = apply_waqf(text)
     text = fix_allah(text)
     text = bi_article(text)

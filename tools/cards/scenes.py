@@ -1,4 +1,4 @@
-"""Card animations ("scenes"), one per card. Built into the app by build_scenes.py.
+"""Card animations ("scenes"), one per card. Built into the app by finish_pack.py.
 
 Each item appears when the card's audio reaches clip `at` (title, face-0, deep-1...) and the cue word in it.
 `cue=None` means the start of the clip; `at` defaults to the previous item's clip.
