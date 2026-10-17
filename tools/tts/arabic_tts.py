@@ -89,12 +89,27 @@ def bi_article(text):
 def double_wy(text):
     return re.sub(f"([وي])(?:{SHADDA}([{VOWELS}])|([{VOWELS}]){SHADDA})", lambda m: m.group(1) + SUKUN + m.group(1) + (m.group(2) or m.group(3)), text)
 
+# -- 7. silent (wasl) alif: espeak reads it as a long ā (الِاسْتِعَانَة -> "ali-āsti...", فَاعْبُدْ -> "fāʕbud")
+def wasl_alif(text):
+    text = re.sub(f"(?<![{AR}{MARKS}])ال{KASRA}ا", "ال" + KASRA, text)                          # الِاسْتِعَانَة -> الِسْتِعَانَة
+    text = re.sub(f"(?<![{AR}{MARKS}])([وف]{FATHA})ال{KASRA}ا", r"\1ل" + KASRA, text)            # وَالِاسْتِعَاذَة -> وَلِسْتِعَاذَة
+    text = re.sub(f"(?<![{AR}{MARKS}])([وفبلك][{FATHA}{KASRA}])ا(?=[\u0621-\u0643\u0645-\u064A]{SUKUN})", r"\1", text)  # لِابْنِ -> لِبْنِ
+    return text
+
+# -- 8. waw/ya carrying a vowel after a short vowel: espeak makes a diphthong (سَوَاءٌ -> "sa-u-āʔ").
+#       A tatweel between them is invisible to the listener and keeps the consonant: سَـوَاءٌ -> "sawāʔ".
+def glide_consonant(text):
+    text = text.replace("آ", "ء" + FATHA + "ا")                                                  # آيَةُ -> ءَايَةُ ("ʔāyatu")
+    return re.sub(f"([{FATHA}{DAMMA}{KASRA}])([وي])(?=[{FATHATAN}{DAMMATAN}{KASRATAN}{FATHA}{DAMMA}{KASRA}{SHADDA}])", "\\1\u0640\\2", text)
+
 def prepare(text):
     text = text.replace("«", "").replace("»", "").replace("ﷺ", "صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ")
     text = apply_waqf(text)
     text = fix_allah(text)
     text = bi_article(text)
+    text = wasl_alif(text)
     text = sun_letters(text)
     text = double_wy(text)
     text = shadda_first(text)
+    text = glide_consonant(text)
     return text
