@@ -17,6 +17,12 @@ SPLIT = re.compile(r"(?<=[.؛!؟])\s+")
 
 def sentences(t): return [s for s in SPLIT.split(t) if s]
 
+# Speech text notation: "[shown|spoken]" swaps a word for the voice only; "{x}" is spoken but not shown.
+def spoken(s):
+    return re.sub(r"\{([^}]*)\}", r"\1", re.sub(r"\[([^|\]]*)\|([^\]]*)\]", r"\2", s))
+def shown(s):
+    return re.sub(r"\{[^}]*\}", "", re.sub(r"\[([^|\]]*)\|([^\]]*)\]", r"\1", s))
+
 def letters(t):
     t = re.sub(r"﴿[^﴾]*﴾", " ", t); t = re.sub(r"\[[^\]]*\]", " ", t)
     t = t.replace("ﷺ", "صلى الله عليه وسلم")
@@ -49,16 +55,19 @@ def main(out, do_asr):
         segs += [(f"had-{i}", f"hadith:{i}", e["text"], s, "deep") for i, (e, s) in enumerate(zip(hadiths, sp["hadith"]))]
         os.makedirs(f"{out}/audio/{c['id']}", exist_ok=True)
         card_out = dict(c); card_out["faceSentences"] = face; card_out["audio"] = []; card_out["diac"] = {}
-        for key, tag, disp, spoken, layer in segs:
+        for key, tag, disp, spoken_raw, layer in segs:
             is_para = tag in para
-            sim = difflib.SequenceMatcher(None, letters(disp), letters(spoken)).ratio()
+            say, show = spoken(spoken_raw), shown(spoken_raw)
+            if strip(say).startswith("ر"):
+                print(f"!! {c['id']} {tag}: starts with ر — the voice weakens it; add a lead word, e.g. {{وَ}}")
+            sim = difflib.SequenceMatcher(None, letters(disp), letters(show)).ratio()
             if not is_para and sim < 0.9:
-                print(f"!! {c['id']} {tag}: spoken text differs from display (sim {sim:.2f})\n   D: {letters(disp)}\n   S: {letters(spoken)}")
+                print(f"!! {c['id']} {tag}: spoken text differs from display (sim {sim:.2f})\n   D: {letters(disp)}\n   S: {letters(show)}")
             mp3 = f"{out}/audio/{c['id']}/{key}.mp3"
-            wav = tts_mp3(spoken, mp3)
+            wav = tts_mp3(say, mp3)
             card_out["audio"].append({"key": key, "target": tag, "layer": layer, "file": f"audio/{c['id']}/{key}.mp3"})
-            if not is_para: card_out["diac"][tag] = spoken      # vowelled display text, same wording as the card
-            report.append({"card": c["id"], "seg": tag, "plain": letters(spoken), "wav": wav, "paraphrase": is_para, "sim": round(sim, 3)})
+            if not is_para: card_out["diac"][tag] = show        # vowelled display text, same wording as the card
+            report.append({"card": c["id"], "seg": tag, "plain": letters(say), "wav": wav, "paraphrase": is_para, "sim": round(sim, 3)})
         app_cards.append(card_out)
     json.dump({"books": cards["books"], "cards": app_cards}, open(f"{out}/content/cards.json", "w", encoding="utf-8"), ensure_ascii=False)
     print(f"{len(report)} audio segments written")
