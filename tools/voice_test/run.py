@@ -18,9 +18,6 @@ for it in items:
     wav = model.generate(it["text"], language_id="ar")   # no audio prompt: the model's built-in neutral voice
     wav_path = os.path.join(out_dir, it["id"] + ".wav")
     ta.save(wav_path, wav, model.sr)
-    mp3 = wav_path[:-4] + ".mp3"
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", wav_path, "-ac", "1", "-b:a", "64k", mp3], check=True)
-    os.remove(wav_path)
     secs = wav.shape[-1] / model.sr
     log.append({"id": it["id"], "gen_seconds": round(time.time() - t, 1), "audio_seconds": round(secs, 2)})
     print(f"{it['id']:18s} {time.time() - t:5.1f}s for {secs:4.1f}s of audio", flush=True)
