@@ -6,7 +6,7 @@ Outputs: OUT/content/cards.json, OUT/audio/<card>/<key>.mp3, OUT/report.json
 Checks : segment counts match, spoken text matches display text (unless marked paraphrase),
          and every audio clip is transcribed back with Whisper and scored (run with --asr).
 """
-import json, re, subprocess, sys, os, difflib, concurrent.futures as cf
+import json, re, subprocess, sys, os, difflib, shutil, concurrent.futures as cf
 from arabic_tts import prepare, strip
 from roundtrip import asr, wer
 
@@ -64,7 +64,11 @@ def main(out, do_asr):
             if not is_para and sim < 0.9:
                 print(f"!! {c['id']} {tag}: spoken text differs from display (sim {sim:.2f})\n   D: {letters(disp)}\n   S: {letters(show)}")
             mp3 = f"{out}/audio/{c['id']}/{key}.mp3"
-            wav = tts_mp3(say, mp3)
+            old = f"{os.environ.get('REUSE_AUDIO', '/nonexistent')}/{c['id']}/{key}.mp3"
+            if os.path.exists(old):          # card already approved: keep its clip as is
+                shutil.copy(old, mp3); wav = None
+            else:
+                wav = tts_mp3(say, mp3)
             card_out["audio"].append({"key": key, "target": tag, "layer": layer, "file": f"audio/{c['id']}/{key}.mp3"})
             if not is_para: card_out["diac"][tag] = show        # vowelled display text, same wording as the card
             report.append({"card": c["id"], "seg": tag, "plain": letters(say), "wav": wav, "paraphrase": is_para, "sim": round(sim, 3)})
@@ -74,12 +78,13 @@ def main(out, do_asr):
     if do_asr:
         def check(r):
             hyp = asr(r["wav"]); r["heard"] = hyp; r["wer"] = round(wer(r["plain"], hyp), 3); return r
+        todo = [r for r in report if r["wav"]]
         with cf.ThreadPoolExecutor(max_workers=2) as ex:
-            report = list(ex.map(check, report))
+            list(ex.map(check, todo))
+        report = [r for r in report if r.get("wer") is not None]
         bad = [r for r in report if r["wer"] > 0.25]
         print(f"ASR check: mean WER {sum(r['wer'] for r in report)/len(report):.3f}; {len(bad)} segments above 0.25")
         for r in bad: print(f"  {r['card']} {r['seg']} WER={r['wer']} heard: {r['heard']}")
-    for r in report: r.pop("wav", None)
     json.dump(report, open(f"{out}/report.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
 if __name__ == "__main__":

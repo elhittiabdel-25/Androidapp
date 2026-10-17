@@ -241,7 +241,7 @@ private fun DeepLayer(
                         },
                     )
                     Spacer(Modifier.width(8.dp))
-                    Text("ص ${s.pages}", color = pal.muted, fontSize = 13.sp, fontFamily = Fonts.ui)
+                    Text(if (s.pages.firstOrNull()?.isDigit() == true) "ص ${s.pages}" else s.pages, color = pal.muted, fontSize = 13.sp, fontFamily = Fonts.ui)
                 }
             }
         }
