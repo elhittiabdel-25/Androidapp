@@ -41,7 +41,7 @@ class DeckState(private val repo: ContentRepo) {
     }
 
     /** Every path of a category, one after another; null opens all cards. */
-    fun setCategory(id: String?) {
+    fun openCategory(id: String?) {
         category = id
         filter = null
         rebuild()

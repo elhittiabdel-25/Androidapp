@@ -91,7 +91,7 @@ fun UsulApp(repo: ContentRepo, progress: ProgressStore, player: AudioPlayer) {
                         when (tab) {
                             0 -> DeckScreen(repo, deck, progress, player, confetti, snackbar)
                             1 -> CategoriesScreen(repo, progress) { cat, path ->
-                                if (path != null) deck.setPath(path) else deck.setCategory(cat)
+                                if (path != null) deck.setPath(path) else deck.openCategory(cat)
                                 tab = 0
                             }
                             else -> SavedScreen(repo, progress) { id -> deck.jumpTo(id); tab = 0 }

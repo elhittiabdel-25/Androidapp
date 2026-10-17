@@ -76,14 +76,14 @@ fun DeckScreen(
         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             item {
                 DeckChip("كل البطاقات", repo.cards.map { it.id }, progress, deck.category == null, pal.accent, pal.accentSoft) {
-                    player.stop(); deck.setCategory(null)
+                    player.stop(); deck.openCategory(null)
                 }
             }
             items(repo.categories.size) { i ->
                 val cat = repo.categories[i]
                 val (fg, bg) = categoryTone(pal, cat.id, i)
                 DeckChip(cat.title, repo.cardsFor(cat.id, null).map { it.id }, progress, deck.category == cat.id, fg, bg, glyph = cat.glyph) {
-                    player.stop(); deck.setCategory(cat.id)
+                    player.stop(); deck.openCategory(cat.id)
                 }
             }
         }
@@ -92,7 +92,7 @@ fun DeckScreen(
             LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 item {
                     DeckChip("كل القسم", repo.cardsFor(cat.id, null).map { it.id }, progress, deck.filter == null, fg, bg, small = true) {
-                        player.stop(); deck.setCategory(cat.id)
+                        player.stop(); deck.openCategory(cat.id)
                     }
                 }
                 items(cat.paths.filter { it in repo.paths }) { p ->
