@@ -27,8 +27,12 @@ jobs:
           pip install --quiet torch==2.6.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cpu
           pip install --quiet chatterbox-tts==0.1.7
       - name: Generate test sentences
-        run: python tools/voice_test/run.py
-      - name: Save samples to this branch
+        run: |
+          mkdir -p tools/voice_test/out
+          set -o pipefail
+          python tools/voice_test/run.py 2>&1 | tee tools/voice_test/out/run.log
+      - name: Save samples and log to this branch
+        if: always()
         run: |
           git config user.name "voice-test-bot"
           git config user.email "noreply@github.com"
