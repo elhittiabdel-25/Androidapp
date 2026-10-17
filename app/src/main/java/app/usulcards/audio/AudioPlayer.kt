@@ -20,6 +20,10 @@ class AudioPlayer(private val context: Context) {
     var isPlaying by mutableStateOf(false)
         private set
 
+    /** Id of the card whose audio is playing, so only that card's animation follows the voice. */
+    var owner by mutableStateOf<String?>(null)
+        private set
+
     private var player: MediaPlayer? = null
     private var queue: List<PlayItem> = emptyList()
     private var index = 0
@@ -27,9 +31,21 @@ class AudioPlayer(private val context: Context) {
     private var speed = 1f
     private var session = 0
 
-    fun play(items: List<PlayItem>, speed: Float, onFinished: () -> Unit) {
+    /** How far the current clip has played, from 0 to 1 (0 between clips). */
+    fun positionFraction(): Float {
+        val p = player ?: return 0f
+        return try {
+            val d = p.duration
+            if (d > 0) (p.currentPosition.toFloat() / d).coerceIn(0f, 1f) else 0f
+        } catch (e: Exception) {
+            0f
+        }
+    }
+
+    fun play(items: List<PlayItem>, speed: Float, owner: String? = null, onFinished: () -> Unit) {
         stop()
         if (items.isEmpty()) return
+        this.owner = owner
         this.speed = speed
         queue = items
         index = 0
@@ -107,5 +123,6 @@ class AudioPlayer(private val context: Context) {
         onDone = null
         isPlaying = false
         currentKey = null
+        owner = null
     }
 }

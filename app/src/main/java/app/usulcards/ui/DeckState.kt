@@ -117,7 +117,7 @@ class DeckController(
     }
 
     fun listen(card: Card) {
-        player.play(playlist(card, deck.deepOpen), progress.speed) {
+        player.play(playlist(card, deck.deepOpen), progress.speed, card.id) {
             if (progress.continuous && deck.canGo(1)) navigate(1, autoPlay = true)
         }
     }

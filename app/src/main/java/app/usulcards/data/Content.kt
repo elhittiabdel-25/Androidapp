@@ -20,6 +20,31 @@ data class Flag(val level: String, val text: String)
 data class AudioSeg(val key: String, val target: String, val layer: String, val file: String)
 data class Quiz(val q: String, val a: String)
 
+/**
+ * One element of a card animation. It appears when the card's audio reaches clip [at]
+ * (e.g. "face-0") and that clip has played [frac] of its length; with no audio the scene previews by itself.
+ */
+data class SceneItem(
+    val label: String,
+    val sub: String,
+    val at: String,
+    val frac: Float,
+    val side: Int,      // sides: 0 = first column, 1 = second; chain: forks
+    val value: Float,   // timeline: years
+    val kind: String,   // tone override or role inside a custom scene
+)
+
+/** A light animation drawn above the card text; [type] picks the renderer. */
+data class Scene(
+    val type: String,
+    val layout: String,
+    val title: String,
+    val tone: String,
+    val sides: List<Pair<String, String>>,   // (title, tone) for the two columns of a "sides" scene
+    val items: List<SceneItem>,
+    val note: String,
+)
+
 data class Card(
     val id: String,
     val type: String,
@@ -36,6 +61,7 @@ data class Card(
     val quiz: Quiz,
     val audio: List<AudioSeg>,
     val diac: Map<String, String>,   // vowelled text by target ("title", "face:0", "deeper:1", "hadith:0")
+    val scene: Scene?,
 ) {
     val needsReview: Boolean get() = verify.any { it.level == "review" }
     val books: List<String> get() = sources.map { it.book }.distinct()
@@ -124,8 +150,29 @@ class ContentRepo(
                     AudioSeg(it.getString("key"), it.getString("target"), it.getString("layer"), it.getString("file"))
                 },
                 diac = diacJson.keys().asSequence().associateWith { diacJson.getString(it) },
+                scene = o.optJSONObject("scene")?.let { parseScene(it) },
             )
         }
+
+        private fun parseScene(s: JSONObject): Scene = Scene(
+            type = s.getString("type"),
+            layout = s.optString("layout", ""),
+            title = s.optString("title", ""),
+            tone = s.optString("tone", ""),
+            sides = (s.optJSONArray("sides") ?: JSONArray()).objects().map { it.optString("title", "") to it.optString("tone", "") },
+            items = s.getJSONArray("items").objects().map {
+                SceneItem(
+                    label = it.optString("label", ""),
+                    sub = it.optString("sub", ""),
+                    at = it.optString("at", ""),
+                    frac = it.optDouble("frac", 0.0).toFloat(),
+                    side = it.optInt("side", -1),
+                    value = it.optDouble("value", 0.0).toFloat(),
+                    kind = it.optString("kind", ""),
+                )
+            },
+            note = s.optString("note", ""),
+        )
     }
 }
 

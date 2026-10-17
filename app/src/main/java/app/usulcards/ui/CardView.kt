@@ -32,6 +32,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -105,6 +106,11 @@ fun CardView(
                     .clip(RoundedCornerShape(6.dp))
                     .background(if (playingKey == "title") pal.highlight else Color.Transparent),
             )
+
+            // Light animation of the card's idea; it follows the voice while the card is read.
+            card.scene?.let { scene ->
+                key(card.id) { SceneHost(card, scene, player, progress.showDiacritics) }
+            }
 
             // Face: one span per sentence so the sentence being read is highlighted.
             val face = buildAnnotatedString {
