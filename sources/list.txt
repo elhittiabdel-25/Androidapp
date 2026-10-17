@@ -1,0 +1,8 @@
+lum.doc https://islamcontent.com/storage/contents/90367/ar_Lomat_AlAatakad_AlHady_Ela_Sabeel_AlRashad.doc
+kashf.doc https://islamcontent.com/storage/contents/90307/ar_explanation_of_kashf_shubuhat_bin_ibraaheem.doc
+harras.doc https://islamcontent.com/storage/contents/90453/ar_Explaining_AlAqida_Al_Wasitiyah_hras.doc
+tawhid.docx https://islamcontent.com/storage/contents/15382/ar-the-book-of-tawheed.docx
+qawaid.doc https://islamcontent.com/storage/contents/8391/ar_Explanation_of_the_Four_Fundamentals_alFawzaan.doc
+quran-uthmani.json https://api.alquran.cloud/v1/quran/quran-uthmani
+quran-simple.json https://api.alquran.cloud/v1/quran/quran-simple
+quran-simple-clean.json https://api.alquran.cloud/v1/quran/quran-simple-clean
