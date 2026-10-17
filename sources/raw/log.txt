@@ -1,0 +1,8 @@
+ok lum.doc 1697792
+ok kashf.doc 1944576
+ok harras.doc 3024896
+ok tawhid.docx 7734199
+ok qawaid.doc 1250304
+ok quran-uthmani.json 2109200
+ok quran-simple.json 2070157
+ok quran-simple-clean.json 1506861
