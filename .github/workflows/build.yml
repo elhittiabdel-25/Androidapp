@@ -27,7 +27,23 @@ jobs:
           gradle-version: "8.9"
 
       - name: Build signed APK
-        run: gradle :app:assembleRelease --no-daemon --stacktrace
+        run: |
+          set -o pipefail
+          gradle :app:assembleRelease --no-daemon --stacktrace 2>&1 | tee "$RUNNER_TEMP/gradle.log"
+
+      # Job logs are not always reachable, so a failed build pushes its errors to the build-logs branch.
+      - name: Push the build errors to the build-logs branch
+        if: failure()
+        run: |
+          mkdir -p "$RUNNER_TEMP/log"
+          grep -E "^e: |^w: .*error|error:|What went wrong|FAILED|Exception|AAPT|Lint found" "$RUNNER_TEMP/gradle.log" | head -150 > "$RUNNER_TEMP/log/errors.txt" || true
+          tail -250 "$RUNNER_TEMP/gradle.log" > "$RUNNER_TEMP/log/tail.txt" || true
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git checkout --orphan build-logs
+          git rm -rq --cached . && rm -rf -- * .github
+          cp "$RUNNER_TEMP"/log/* . && git add errors.txt tail.txt
+          git commit -qm "Build errors of ${GITHUB_SHA::7}" && git push -qf origin build-logs
 
       - name: Publish to Releases
         env:
