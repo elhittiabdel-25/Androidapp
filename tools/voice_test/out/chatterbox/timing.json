@@ -1,0 +1,152 @@
+[
+ {
+  "id": "allah-1-diac",
+  "gen_seconds": 71.9,
+  "audio_seconds": 3.88
+ },
+ {
+  "id": "allah-1-plain",
+  "gen_seconds": 37.9,
+  "audio_seconds": 3.64
+ },
+ {
+  "id": "allah-2-diac",
+  "gen_seconds": 39.1,
+  "audio_seconds": 3.72
+ },
+ {
+  "id": "allah-2-plain",
+  "gen_seconds": 25.0,
+  "audio_seconds": 1.96
+ },
+ {
+  "id": "allah-3-diac",
+  "gen_seconds": 40.6,
+  "audio_seconds": 3.84
+ },
+ {
+  "id": "allah-3-plain",
+  "gen_seconds": 30.7,
+  "audio_seconds": 2.4
+ },
+ {
+  "id": "allah-4-diac",
+  "gen_seconds": 40.8,
+  "audio_seconds": 3.8
+ },
+ {
+  "id": "allah-4-plain",
+  "gen_seconds": 33.2,
+  "audio_seconds": 2.92
+ },
+ {
+  "id": "allah-5-diac",
+  "gen_seconds": 33.4,
+  "audio_seconds": 2.92
+ },
+ {
+  "id": "allah-5-plain",
+  "gen_seconds": 43.2,
+  "audio_seconds": 4.08
+ },
+ {
+  "id": "allah-6-diac",
+  "gen_seconds": 47.3,
+  "audio_seconds": 4.56
+ },
+ {
+  "id": "allah-6-plain",
+  "gen_seconds": 31.3,
+  "audio_seconds": 2.68
+ },
+ {
+  "id": "allah-7-diac",
+  "gen_seconds": 28.5,
+  "audio_seconds": 2.24
+ },
+ {
+  "id": "allah-7-plain",
+  "gen_seconds": 39.6,
+  "audio_seconds": 3.72
+ },
+ {
+  "id": "khuliqna-diac",
+  "gen_seconds": 19.6,
+  "audio_seconds": 1.24
+ },
+ {
+  "id": "khuliqna-plain",
+  "gen_seconds": 50.9,
+  "audio_seconds": 4.84
+ },
+ {
+  "id": "rabi3an-diac",
+  "gen_seconds": 34.1,
+  "audio_seconds": 2.8
+ },
+ {
+  "id": "rabi3an-plain",
+  "gen_seconds": 42.2,
+  "audio_seconds": 3.8
+ },
+ {
+  "id": "taghut-diac",
+  "gen_seconds": 106.6,
+  "audio_seconds": 10.24
+ },
+ {
+  "id": "taghut-plain",
+  "gen_seconds": 96.8,
+  "audio_seconds": 9.12
+ },
+ {
+  "id": "isti3ana-diac",
+  "gen_seconds": 52.1,
+  "audio_seconds": 4.52
+ },
+ {
+  "id": "isti3ana-plain",
+  "gen_seconds": 42.8,
+  "audio_seconds": 3.56
+ },
+ {
+  "id": "tawheed-diac",
+  "gen_seconds": 85.5,
+  "audio_seconds": 7.88
+ },
+ {
+  "id": "tawheed-plain",
+  "gen_seconds": 71.5,
+  "audio_seconds": 7.32
+ },
+ {
+  "id": "purpose-diac",
+  "gen_seconds": 125.7,
+  "audio_seconds": 13.24
+ },
+ {
+  "id": "purpose-plain",
+  "gen_seconds": 85.1,
+  "audio_seconds": 9.04
+ },
+ {
+  "id": "ihsan-diac",
+  "gen_seconds": 334.2,
+  "audio_seconds": 32.72
+ },
+ {
+  "id": "ihsan-plain",
+  "gen_seconds": 47.0,
+  "audio_seconds": 4.96
+ },
+ {
+  "id": "asma-diac",
+  "gen_seconds": 105.3,
+  "audio_seconds": 11.8
+ },
+ {
+  "id": "asma-plain",
+  "gen_seconds": 90.9,
+  "audio_seconds": 9.8
+ }
+]
