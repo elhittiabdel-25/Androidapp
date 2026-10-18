@@ -13,7 +13,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from arabic_tts import prepare                          # noqa: E402
 from roundtrip import wer                               # noqa: E402
-from build_content import spoken, letters, encode       # noqa: E402
+from build_content import spoken, letters, encode, tts_wav   # noqa: E402
 
 T = os.environ.get("TTS_TOOLS", HERE)
 B = f"{T}/sherpa-onnx-v1.12.20-linux-x64-static/bin"
@@ -53,9 +53,7 @@ def take(job):
     else:
         wav = os.path.join(TMP, tag + ".wav")
         f = os.path.join(TMP, tag + ".ogg")
-        subprocess.run([f"{B}/sherpa-onnx-offline-tts", f"--vits-model={M}/ar_JO-kareem-medium.onnx",
-                        f"--vits-tokens={M}/tokens.txt", f"--vits-data-dir={M}/espeak-ng-data", "--num-threads=1",
-                        f"--output-filename={wav}", prepare(say)], check=True, capture_output=True)
+        tts_wav(say, wav)
         encode(wav, f)
     hyp = asr(f, tag)
     return cid, key, n, wer(letters(say), letters(hyp)), hyp, f

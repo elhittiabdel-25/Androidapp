@@ -41,12 +41,25 @@ def encode(wav, out):
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", wav, *args, out], check=True)
 
 
+VOICE = os.environ.get("VOICE", "g2p")      # g2p: our phonemizer (arabic_g2p.py) + the model run directly;
+                                            # espeak: the older path (sherpa-onnx's espeak-ng on prepare()d text)
+
+
+def tts_wav(text, wav):
+    """Voice `text` with Piper Kareem into a WAV file."""
+    if VOICE == "espeak":
+        subprocess.run([f"{B}/sherpa-onnx-offline-tts", f"--vits-model={M}/ar_JO-kareem-medium.onnx", f"--vits-tokens={M}/tokens.txt",
+                        f"--vits-data-dir={M}/espeak-ng-data", "--num-threads=2", f"--output-filename={wav}", prepare(text)],
+                       check=True, capture_output=True)
+    else:
+        from kareem import speak
+        speak(text, wav)
+    return wav
+
+
 def tts_clip(text, out, wav=None):
     """Voice `text` with Piper Kareem into `out` (.ogg or .mp3); the WAV is kept next to it (or at `wav`)."""
-    wav = wav or os.path.splitext(out)[0] + ".wav"
-    subprocess.run([f"{B}/sherpa-onnx-offline-tts", f"--vits-model={M}/ar_JO-kareem-medium.onnx", f"--vits-tokens={M}/tokens.txt",
-                    f"--vits-data-dir={M}/espeak-ng-data", "--num-threads=2", f"--output-filename={wav}", prepare(text)],
-                   check=True, capture_output=True)
+    wav = tts_wav(text, wav or os.path.splitext(out)[0] + ".wav")
     encode(wav, out)
     return wav
 

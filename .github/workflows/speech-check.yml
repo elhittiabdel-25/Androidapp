@@ -16,6 +16,10 @@ on:
         description: "Card ids to check, comma-separated (empty = all cards)"
         required: false
         default: ""
+      report:
+        description: "Branch for the report (default: checks). Give each of several parallel runs its own."
+        required: false
+        default: "checks"
 
 permissions:
   contents: write
@@ -59,15 +63,18 @@ jobs:
 
       - name: Push the report to the checks branch
         if: always()
+        env:
+          REPORT_BRANCH: ${{ inputs.report }}
         run: |
           mkdir -p "$RUNNER_TEMP/report"
           cp "$RUNNER_TEMP"/out/speech-check.* "$RUNNER_TEMP/report/" 2>/dev/null || true
           cp "$RUNNER_TEMP/out-log.txt" "$RUNNER_TEMP/report/run.log" 2>/dev/null || true
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git checkout --orphan checks
+          BRANCH="${REPORT_BRANCH:-checks}"
+          git checkout --orphan "$BRANCH"
           git rm -rq --cached . && rm -rf -- * .github
           mkdir reports && cp "$RUNNER_TEMP"/report/* reports/
           echo "Speech check of ${GITHUB_SHA::7}" > reports/README.md
           git add reports && git commit -qm "Speech check of ${GITHUB_SHA::7}"
-          git push -qf origin checks
+          git push -qf origin "$BRANCH"
