@@ -5,6 +5,9 @@ name: Build APK
 on:
   push:
     branches: [main]
+    paths-ignore:          # documentation alone doesn't need a new build
+      - "docs/**"
+      - "README.md"
   workflow_dispatch:
 
 permissions:
