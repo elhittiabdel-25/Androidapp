@@ -357,9 +357,9 @@ private fun DrawScope.keyScene(a: ArtCtx) {
     drawRect(Brush.radialGradient(listOf(Color.Transparent, Color(0x73000000)), center = Offset(w * 0.45f, h * 0.42f), radius = w * 0.8f))
 
     // the door, in a horseshoe arch on the left
-    val cx = w * 0.23f
-    val cy = h * 0.34f
-    val r = w * 0.14f
+    val cx = w * 0.165f
+    val cy = h * 0.36f
+    val r = w * 0.118f
     val j = r * 0.84f
     val floorY = h * 0.85f
     val opening = horseshoe(cx, cy, r, j, floorY)
@@ -412,13 +412,13 @@ private fun DrawScope.keyScene(a: ArtCtx) {
     }
 
     // the key: bow on the right, tip on the left pointing at the door
-    val ky = h * 0.32f
-    val tip = Offset(w * 0.43f, ky)
-    val ringC = Offset(w * 0.89f, ky)
-    val ringR = w * 0.062f
-    val th = max(h * 0.034f, 5f * dp)
-    val maxTooth = h * 0.085f
-    val toothX = FloatArray(7) { i -> w * 0.82f - i * (w * 0.35f / 6f) }   // first condition next to the bow
+    val ky = h * 0.27f
+    val tip = Offset(w * 0.31f, ky)
+    val ringC = Offset(w * 0.915f, ky)
+    val ringR = w * 0.058f
+    val th = max(h * 0.042f, 6f * dp)
+    val maxTooth = h * 0.1f
+    val toothX = FloatArray(7) { i -> w * 0.84f - i * (w * 0.48f / 6f) }   // first condition next to the bow
     val teeth = FloatArray(7) { i -> a.b("tooth", i) }
     val keyAlpha = keyIn * (1f - seg(open, 0.42f, 0.52f))
     val bob = if (open > 0f) 0f else sin(t * 1.2f) * 1.5f * dp
@@ -436,16 +436,19 @@ private fun DrawScope.keyScene(a: ArtCtx) {
         drawCircle(Brush.radialGradient(listOf(ArtInk.Ivory.copy(alpha = 0.9f * f), Color.Transparent), center = keyhole, radius = 14f * dp), radius = 14f * dp, center = keyhole)
     }
 
-    // tags: the word over the shaft, one tag per tooth in three rows
+    // tags: the word over the shaft, one tag per tooth in two staggered rows (lines first, tags over them)
     val fade = 1f - seg(open, 0f, 0.18f)
-    tagAt(a.tag("key"), Offset(w * 0.66f, ky - h * 0.13f), keyIn * fade, back = Color(0xCC2A1C08), ink = ArtInk.BrassLight)
+    tagAt(a.tag("key"), Offset(w * 0.6f, ky - h * 0.12f), keyIn * fade, back = Color(0xCC2A1C08), ink = ArtInk.BrassLight)
+    val rowY = { i: Int -> ky + th / 2 + maxTooth + h * (0.08f + 0.09f * (i % 2)) }
     for (i in 0 until 7) {
         val p = seg(teeth[i], 0.3f, 0.9f) * fade * keyIn
         if (p <= 0f) continue
         val bottom = ky + th / 2 + maxTooth * TOOTH_H[i]
-        val ly = ky + h * (0.21f + 0.085f * (i % 3))
-        drawLine(ArtInk.Ivory.copy(alpha = 0.35f * p), Offset(toothX[i], bottom + 2f * dp), Offset(toothX[i], ly - 8f * dp), 1f * dp)
-        tagAt(a.tag("tooth", i), Offset(toothX[i], ly), p)
+        drawLine(ArtInk.Ivory.copy(alpha = 0.35f * p), Offset(toothX[i], bottom + 2f * dp), Offset(toothX[i], rowY(i)), 1f * dp)
+    }
+    for (i in 0 until 7) {
+        val p = seg(teeth[i], 0.3f, 0.9f) * fade * keyIn
+        if (p > 0f) tagAt(a.tag("tooth", i), Offset(toothX[i], rowY(i)), p, back = Color(0xE6101426))
     }
 }
 
@@ -564,11 +567,11 @@ private fun DrawScope.ropeScene(a: ArtCtx) {
 
     // dusk sky, sun, hills
     drawRect(Brush.verticalGradient(0f to DuskInk.Top, 0.5f to DuskInk.Mid, 0.8f to DuskInk.Low, 1f to DuskInk.Horizon))
-    val sun = Offset(w * 0.18f, h * 0.7f)
+    val sun = Offset(w * 0.18f, h * 0.6f)
     drawCircle(Brush.radialGradient(listOf(DuskInk.Sun.copy(alpha = 0.6f), Color.Transparent), center = sun, radius = w * 0.26f), radius = w * 0.26f, center = sun)
     drawCircle(DuskInk.Sun, radius = w * 0.045f, center = sun)
-    hills(DuskInk.FarHills, h * 0.68f, h * 0.035f, 0.011f, 0.023f, 1.7f)
-    hills(DuskInk.NearHills, h * 0.76f, h * 0.03f, 0.017f, 0.041f, 0.4f)
+    hills(DuskInk.FarHills, h * 0.6f, h * 0.035f, 0.011f, 0.023f, 1.7f)
+    hills(DuskInk.NearHills, h * 0.67f, h * 0.03f, 0.017f, 0.041f, 0.4f)
 
     // light from above for the firm rope
     val anchorG = Offset(w * 0.6f, -h * 0.02f)
@@ -578,23 +581,24 @@ private fun DrawScope.ropeScene(a: ArtCtx) {
 
     // the chasm between two cliffs
     val left = Path().apply {
-        moveTo(0f, h * 0.8f); lineTo(w * 0.16f, h * 0.79f); lineTo(w * 0.3f, h * 0.83f); lineTo(w * 0.35f, h); lineTo(0f, h); close()
+        moveTo(0f, h * 0.7f); lineTo(w * 0.2f, h * 0.69f); lineTo(w * 0.36f, h * 0.73f); lineTo(w * 0.4f, h * 0.86f); lineTo(w * 0.37f, h); lineTo(0f, h); close()
     }
     val right = Path().apply {
-        moveTo(w, h * 0.77f); lineTo(w * 0.84f, h * 0.79f); lineTo(w * 0.69f, h * 0.84f); lineTo(w * 0.63f, h); lineTo(w, h); close()
+        moveTo(w, h * 0.67f); lineTo(w * 0.8f, h * 0.69f); lineTo(w * 0.64f, h * 0.74f); lineTo(w * 0.6f, h * 0.88f); lineTo(w * 0.63f, h); lineTo(w, h); close()
     }
-    drawRect(Brush.verticalGradient(listOf(Color.Transparent, DuskInk.Deep), startY = h * 0.78f, endY = h), topLeft = Offset(0f, h * 0.78f), size = Size(w, h * 0.22f))
+    drawRect(Brush.verticalGradient(listOf(Color.Transparent, DuskInk.Deep), startY = h * 0.7f, endY = h * 0.92f), topLeft = Offset(w * 0.3f, h * 0.7f), size = Size(w * 0.4f, h * 0.3f))
     drawPath(left, DuskInk.Cliff)
     drawPath(right, DuskInk.Cliff)
-    drawLine(DuskInk.Rim.copy(alpha = 0.45f), Offset(0f, h * 0.8f), Offset(w * 0.16f, h * 0.79f), 1.3f * dp)
-    drawLine(DuskInk.Rim.copy(alpha = 0.3f), Offset(w * 0.16f, h * 0.79f), Offset(w * 0.3f, h * 0.83f), 1.3f * dp)
-    drawLine(DuskInk.Rim.copy(alpha = 0.3f), Offset(w, h * 0.77f), Offset(w * 0.84f, h * 0.79f), 1.3f * dp)
+    drawLine(DuskInk.Rim.copy(alpha = 0.5f), Offset(0f, h * 0.7f), Offset(w * 0.2f, h * 0.69f), 1.3f * dp)
+    drawLine(DuskInk.Rim.copy(alpha = 0.35f), Offset(w * 0.2f, h * 0.69f), Offset(w * 0.36f, h * 0.73f), 1.3f * dp)
+    drawLine(DuskInk.Rim.copy(alpha = 0.35f), Offset(w, h * 0.67f), Offset(w * 0.8f, h * 0.69f), 1.3f * dp)
+    drawLine(DuskInk.Rim.copy(alpha = 0.2f), Offset(w * 0.8f, h * 0.69f), Offset(w * 0.64f, h * 0.74f), 1.3f * dp)
 
     // the lantern: unsteady on frayed ropes, steady once it holds the firm one
     val unsteady = 1f - hold
     val sway = (sin(t * 1.7f) * 0.012f + sin(t * 3.1f + 1f) * 0.006f) * w * unsteady + sin(t * 1.1f) * 0.004f * w * hold
     val dip = 0.03f * h * bump(seg(cut, 0.2f, 0.6f))
-    val ring = Offset(w * 0.5f + sway, h * 0.46f + dip)
+    val ring = Offset(w * 0.5f + sway, h * 0.4f + dip)
     val s = w * 0.03f
 
     // the firm rope and its loop: faint at first, gold once held
@@ -647,8 +651,8 @@ private fun DrawScope.ropeScene(a: ArtCtx) {
 
     // tags: the firm handhold, then the meaning
     tagAt(a.tag("hold"), cubic(anchorG, g1, g2, ring, 0.32f) + Offset(34f * dp, 0f), seg(a.b("hold"), 0.3f, 0.9f), back = Color(0xCC3A2808), ink = ArtInk.Gold)
-    tagAt(a.tag("meaning", 0, 0), Offset(w * 0.17f, h * 0.9f), meaning, back = Color(0xCC4A1A10), ink = ArtInk.Ember)
-    tagAt(a.tag("meaning", 0, 1), Offset(w * 0.8f, h * 0.9f), meaning, back = Color(0xCC3A2808), ink = ArtInk.Gold)
+    tagAt(a.tag("meaning", 0, 0), Offset(w * 0.2f, h * 0.84f), meaning, back = Color(0xCC4A1A10), ink = ArtInk.Ember)
+    tagAt(a.tag("meaning", 0, 1), Offset(w * 0.8f, h * 0.09f), meaning, back = Color(0xCC3A2808), ink = ArtInk.Gold)
 }
 
 private fun DrawScope.hills(color: Color, base: Float, amp: Float, f1: Float, f2: Float, ph: Float) {
@@ -796,8 +800,9 @@ private fun DrawScope.shipScene(a: ArtCtx) {
         // the later ones: lordship claimed for them, rays to the sky
         if (later > 0f) {
             val top = st - Offset(0f, sh)
-            val end = top + Offset((n - 1) * w * 0.03f, -h * 0.2f * later)
-            drawLine(ArtInk.Ember.copy(alpha = 0.75f * later), top, end, 1.4f * dp, StrokeCap.Round, PathEffect.dashPathEffect(floatArrayOf(3f * dp, 4f * dp), -t * 14f * dp))
+            val end = top + Offset((n - 1) * w * 0.03f, -h * 0.22f * later)
+            drawLine(ArtInk.Ember.copy(alpha = 0.25f * later), top, end, 5f * dp, StrokeCap.Round)
+            drawLine(ArtInk.Ember.copy(alpha = 0.9f * later), top, end, 1.8f * dp, StrokeCap.Round, PathEffect.dashPathEffect(floatArrayOf(3f * dp, 4f * dp), -t * 14f * dp))
         }
     }
 
@@ -843,11 +848,11 @@ private fun DrawScope.shipScene(a: ArtCtx) {
     }
 
     // tags
-    tagAt(a.tag("lord"), Offset(w * 0.6f, h * 0.1f), lord * (1f - 0.7f * s), back = Color(0xCC2A2410), ink = ArtInk.Gold)
+    tagAt(a.tag("lord"), Offset(w * 0.52f, h * 0.1f), lord * (1f - s), back = Color(0xCC2A2410), ink = ArtInk.Gold)
     tagAt(a.tag("ease"), Offset(w * 0.885f, h * 0.44f), ease * (1f - 0.8f * stormA * (1f - later)), back = Color(0xCC4A1A10), ink = ArtInk.Ember)
     tagAt(a.tag("storm"), Offset(mast.x + w * 0.2f, h * 0.2f), stormA, back = Color(0xCC2A2410), ink = ArtInk.Gold)
-    tagAt(a.tag("later"), Offset(w * 0.86f, h * 0.3f), later * (1f - 0.6f * stormB), back = Color(0xCC4A1A10), ink = ArtInk.Ember)
-    tagAt(a.tag("storm2"), Offset(w * 0.66f, h * 0.36f), stormB, back = Color(0xCC4A1A10), ink = ArtInk.Ember)
+    tagAt(a.tag("later"), Offset(w * 0.85f, h * 0.27f), later * (1f - 0.75f * stormB), back = Color(0xCC4A1A10), ink = ArtInk.Ember)
+    tagAt(a.tag("storm2"), Offset(w * 0.6f, h * 0.48f), stormB, back = Color(0xE64A1A10), ink = ArtInk.Ember)
     // act titles, top right (where a right-to-left reader starts)
     val first = a.extras.getOrNull(0)
     val second = a.extras.getOrNull(1)
