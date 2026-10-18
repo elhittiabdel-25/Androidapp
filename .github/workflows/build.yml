@@ -13,6 +13,11 @@ on:
 permissions:
   contents: write
 
+# a newer push supersedes a build still running
+concurrency:
+  group: build-apk
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest

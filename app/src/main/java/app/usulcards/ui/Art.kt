@@ -650,9 +650,9 @@ private fun DrawScope.ropeScene(a: ArtCtx) {
     lantern(ring, s, mix(0.35f, 1f, hold), flick)
 
     // tags: the firm handhold, then the meaning
-    tagAt(a.tag("hold"), cubic(anchorG, g1, g2, ring, 0.32f) + Offset(34f * dp, 0f), seg(a.b("hold"), 0.3f, 0.9f), back = Color(0xCC3A2808), ink = ArtInk.Gold)
+    tagAt(a.tag("hold"), cubic(anchorG, g1, g2, ring, 0.58f) + Offset(44f * dp, 0f), seg(a.b("hold"), 0.3f, 0.9f), back = Color(0xCC3A2808), ink = ArtInk.Gold)
     tagAt(a.tag("meaning", 0, 0), Offset(w * 0.2f, h * 0.84f), meaning, back = Color(0xCC4A1A10), ink = ArtInk.Ember)
-    tagAt(a.tag("meaning", 0, 1), Offset(w * 0.8f, h * 0.09f), meaning, back = Color(0xCC3A2808), ink = ArtInk.Gold)
+    tagAt(a.tag("meaning", 0, 1), Offset(w * 0.82f, h * 0.07f), meaning, back = Color(0xCC3A2808), ink = ArtInk.Gold)
 }
 
 private fun DrawScope.hills(color: Color, base: Float, amp: Float, f1: Float, f2: Float, ph: Float) {
