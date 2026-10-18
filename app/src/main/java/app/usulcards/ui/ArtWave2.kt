@@ -74,9 +74,12 @@ private class Site(val cx: Float, val bw: Float) {
     var light = 0f
     var house = 0f
     var rival = 0f
+    var lower = 0f
+    var wall = 0f
     var fall = 0f
     var lock = 0f
     val cracks = ArrayList<Int>()
+    val names = ArrayList<Int>()
 }
 
 /**
@@ -117,6 +120,9 @@ internal fun DrawScope.buildingScene(a: ArtCtx) {
             "light" -> s.light = max(s.light, p)
             "house" -> s.house = max(s.house, p)
             "rival" -> s.rival = max(s.rival, p)
+            "lower" -> s.lower = max(s.lower, p)
+            "wall" -> s.wall = max(s.wall, p)
+            "name" -> s.names += i
             "fall" -> s.fall = max(s.fall, p)
             "lock" -> s.lock = max(s.lock, p)
             "crack" -> s.cracks += i
@@ -132,7 +138,11 @@ internal fun DrawScope.buildingScene(a: ArtCtx) {
         val bw = s.bw
         val fall = s.fall
         val baseP = max(s.base, seg(s.house, 0f, 0.3f))
-        val rows: List<Float> = if (s.house > 0f) List(5) { k -> seg(s.house, 0.15f + 0.1f * k, 0.4f + 0.1f * k) } else s.courses
+        val rows: List<Float> = when {
+            s.house > 0f -> List(5) { k -> seg(s.house, 0.15f + 0.1f * k, 0.4f + 0.1f * k) }
+            s.wall > 0f -> List(4) { k -> seg(s.wall, 0.15f * k, 0.15f * k + 0.55f) }
+            else -> s.courses
+        }
         val roofP = max(s.roof, seg(s.house, 0.7f, 1f))
         val wallTop = if (s.pillarsN > 0) floor - ph else floor - rows.size * bh
         val roofTop = wallTop - h * 0.06f
@@ -160,6 +170,14 @@ internal fun DrawScope.buildingScene(a: ArtCtx) {
             val g = easeOut(s.glow) * (1f - fall)
             val c = Offset(cx, ground - fH / 2)
             drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.55f * g), Color.Transparent), center = c, radius = bw * 0.75f), radius = bw * 0.75f, center = c)
+        }
+        // something set after it and below it: lower, and lit in jade
+        if (s.lower > 0f) {
+            val q = easeOut(s.lower)
+            val lx = cx + (if (si == 1) -1f else 1f) * (bw / 2 + w * 0.07f)
+            val lTop = mix(ground, mix(floor, roofTop, 0.45f), q)
+            drawRect(Color(0xFF3A4A48), topLeft = Offset(lx - w * 0.022f, lTop), size = Size(w * 0.044f, ground - lTop))
+            drawRect(ArtInk.Jade.copy(alpha = 0.8f), topLeft = Offset(lx - w * 0.022f, lTop), size = Size(w * 0.044f, ground - lTop), style = Stroke(1.2f * dp))
         }
         // an equal set up beside it
         if (s.rival > 0f) {
@@ -257,15 +275,24 @@ internal fun DrawScope.buildingScene(a: ArtCtx) {
             if (p <= 0f) continue
             val xs = listOf(0.28f, -0.22f, 0.05f, -0.38f, 0.38f)
             val x0 = cx + bw * xs[k % xs.size]
-            val y0 = wallTop + bh * 0.2f
-            val len = (floor - y0) * (0.55f + 0.1f * (k % 3)) * p
+            val level = a.valueAt(i).toInt()          // 0 the walls, 1 the foundation, 2 the roof
+            val y0 = when (level) {
+                1 -> floor + fH * 0.1f
+                2 -> wallTop - h * 0.055f
+                else -> wallTop + bh * 0.2f
+            }
+            val len = when (level) {
+                1 -> fH * 0.85f * p
+                2 -> h * 0.05f * p
+                else -> (floor - y0) * (0.55f + 0.1f * (k % 3)) * p
+            }
             val crack = Path().apply {
                 moveTo(x0, y0)
                 var y = y0
                 var x = x0
                 var m = 0
                 while (y < y0 + len) {
-                    y = min(y0 + len, y + bh * 0.45f)
+                    y = min(y0 + len, y + min(bh * 0.45f, len / 2f + 0.5f))
                     x += (if (m % 2 == 0) 1f else -1f) * bw * 0.035f
                     lineTo(x, y)
                     m++
@@ -326,6 +353,12 @@ internal fun DrawScope.buildingScene(a: ArtCtx) {
             tagAt(a.tagOf(i), Offset(cx, roofTop - h * 0.07f - k * h * 0.085f), seg(a.beatAt(i), 0.3f, 1f), back = TagBack, ink = ArtInk.Ember)
         }
         if (fall > 0f) tagAt(a.tag("fall"), Offset(cx, ground - h * 0.2f), seg(fall, 0.5f, 1f), back = TagBack, ink = ArtInk.Ember)
+        for ((k, i) in s.names.withIndex()) {
+            tagAt(a.tagOf(i), Offset(cx, ground - h * 0.29f - k * h * 0.085f), seg(a.beatAt(i), 0.2f, 0.8f), back = TagBack, ink = ArtInk.Ivory)
+        }
+        if (s.lower > 0f) tagAt(a.tag("lower"), Offset(cx, roofTop - h * 0.07f - s.cracks.size * h * 0.085f), seg(s.lower, 0.3f, 1f), back = TagBack, ink = ArtInk.Jade)
+        val wTl = a.tag("wall")
+        if (s.wall > 0f) tagAt(wTl, Offset(cx - bw / 2 - w * 0.025f - halfTag(wTl), floor - 2f * bh), seg(s.wall, 0.4f, 1f), back = TagBack, ink = ArtInk.Ivory)
     }
 }
 
@@ -375,7 +408,7 @@ internal fun DrawScope.gateScene(a: ArtCtx) {
     val gateX = if (hasBridge) w * 0.09f else w * 0.17f
     val scaleX = w * 0.5f
     val filterX = w * 0.72f
-    val shutX = w * 0.62f
+    val shutX = w * 0.82f
     val bridgeL = w * 0.2f
     val bridgeR = w * 0.42f
     val bridge = a.b("bridge")
@@ -607,10 +640,9 @@ internal fun DrawScope.gateScene(a: ArtCtx) {
             drawCircle(ArtInk.Ivory, radius = 2.4f * dp, center = c)
         }
         tagAt(a.tag("pass"), cubic(p0, p1, p2, p3, 0.5f) + Offset(0f, -h * 0.1f), seg(ps, 0.4f, 1f), back = TagBack, ink = ArtInk.Gold)
-        val at = listOf(0.16f, 0.33f, 0.67f, 0.84f)
         for (k in 0 until a.count("trait")) {
-            val c = cubic(p0, p1, p2, p3, at[k % at.size]) + Offset(0f, -h * 0.065f)
-            tagAt(a.tag("trait", k), c, seg(a.b("trait", k), 0.2f, 0.8f), back = TagBack, ink = ArtInk.Jade)
+            val tl = a.tag("trait", k)
+            tagAt(tl, Offset(max(gateX, halfTag(tl) + 4f * dp), h * 0.07f + k * h * 0.075f), seg(a.b("trait", k), 0.2f, 0.8f), back = TagBack, ink = ArtInk.Jade)
         }
     }
 }
@@ -894,17 +926,23 @@ private fun DrawScope.loteTree(base: Offset, scaleK: Float, alpha: Float, dashed
         drawPath(trunk, ArtInk.Ivory.copy(alpha = 0.7f * alpha), style = stroke)
         drawPath(canopy, ArtInk.Ivory.copy(alpha = 0.7f * alpha), style = stroke)
     }
-    // swords hung on the branches
-    for (k in 0 until 5) {
-        val hx = top.x + cw * (-0.8f + 0.4f * k)
+    // curved swords hung on the branches by their hilts
+    for (k in 0 until 4) {
+        val hx = top.x + cw * (-0.7f + 0.45f * k)
         val hy = top.y + th * 0.06f + (if (k % 2 == 0) 0f else th * 0.03f)
-        val sway = sin(t * 1.3f + k) * 2f * dp
-        val tip = Offset(hx + sway, hy + h * 0.1f * scaleK)
+        val sway = sin(t * 1.3f + k) * 1.5f * dp
         val col = if (dashed) ArtInk.Ivory.copy(alpha = 0.7f * alpha) else ShrineInk.Steel.copy(alpha = alpha)
-        drawLine(col.copy(alpha = col.alpha * 0.6f), Offset(hx, hy), Offset(hx + sway * 0.5f, hy + h * 0.02f * scaleK), 0.8f * dp)
-        val hilt = Offset(hx + sway * 0.5f, hy + h * 0.02f * scaleK)
-        drawLine(col, hilt + Offset(-4f * dp, 3f * dp), hilt + Offset(4f * dp, 3f * dp), 1.4f * dp, StrokeCap.Round)
-        drawLine(col, hilt + Offset(0f, 3f * dp), tip, 1.8f * dp, StrokeCap.Round)
+        val hilt = Offset(hx + sway * 0.5f, hy + h * 0.025f * scaleK)
+        drawLine(col.copy(alpha = col.alpha * 0.6f), Offset(hx, hy), hilt, 0.8f * dp)
+        drawLine(lerp(col, ShrineInk.Bark, 0.5f), hilt, hilt + Offset(2f * dp, 6f * dp * scaleK), 2.6f * dp, StrokeCap.Round)
+        val b0 = hilt + Offset(2f * dp, 6f * dp * scaleK)
+        val blade = Path().apply {
+            moveTo(b0.x, b0.y)
+            quadraticBezierTo(b0.x + 10f * dp * scaleK + sway, b0.y + h * 0.05f * scaleK, b0.x + 3f * dp + sway, b0.y + h * 0.1f * scaleK)
+            quadraticBezierTo(b0.x + 6f * dp * scaleK + sway, b0.y + h * 0.05f * scaleK, b0.x - 1.5f * dp, b0.y + 1f * dp)
+            close()
+        }
+        drawPath(blade, col)
     }
 }
 

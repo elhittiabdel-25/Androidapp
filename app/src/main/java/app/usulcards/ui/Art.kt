@@ -154,7 +154,9 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "house", "pillars", "excess", "forget", "stone", "steps", "show", "shut", "fall" -> 1600
     "rise", "dome", "feast", "door", "gold", "bridge" -> 2200
     "pass", "idol" -> 2400
-    "rival", "light", "lock", "filter", "scale", "copy", "near", "out", "tree", "names", "shirk" -> 1400
+    "rival", "light", "lock", "filter", "scale", "copy", "near", "out", "tree", "names", "shirk", "bind", "lower", "gaze", "hidden", "swap" -> 1400
+    "charm", "wall", "many" -> 1600
+    "untie", "return" -> 2200
     else -> 1000
 }
 

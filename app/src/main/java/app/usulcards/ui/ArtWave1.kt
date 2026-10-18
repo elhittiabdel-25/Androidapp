@@ -114,6 +114,14 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
     val dome = FloatArray(n)
     val shatter = FloatArray(n)
     val shake = FloatArray(n)
+    val gaze = FloatArray(n)
+    val hidden = FloatArray(n)
+    val ret = FloatArray(n)
+    val charm = FloatArray(n)
+    val bind = FloatArray(n)
+    val untieBad = FloatArray(n)
+    val untieGood = FloatArray(n)
+    var many = 0f
     val topTag = IntArray(n) { -1 }
     var centerTag = -1
     var lampNo = 0
@@ -141,6 +149,25 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
                 "dim" -> if (!guarded) flame[k] -= 0.4f * easeOut(p)
                 "ember" -> flame[k] = mix(flame[k], 0.16f, easeOut(p))
                 "out" -> if (!guarded || tg == k) flame[k] *= 1f - easeOut(p)
+                "gaze" -> {
+                    gaze[k] = easeOut(p)
+                    flame[k] += 0.25f * easeOut(p)
+                }
+                "hidden" -> hidden[k] = easeOut(p)
+                "return" -> {
+                    ret[k] = p
+                    flame[k] -= 0.3f * easeOut(seg(p, 0.6f, 1f))
+                }
+                "charm" -> charm[k] = p
+                "bind" -> {
+                    bind[k] = easeOut(p)
+                    flame[k] = mix(flame[k], 0.3f, easeOut(p))
+                }
+                "untie" -> if (a.valueAt(i) >= 1f) {
+                    untieGood[k] = p
+                    flame[k] = mix(flame[k], 0.95f, easeOut(seg(p, 0.4f, 1f)))
+                } else untieBad[k] = p
+                "many" -> many = max(many, p)
                 "shatter" -> {
                     shatter[k] = p
                     flame[k] *= 1f - easeOut(seg(p, 0.15f, 0.6f))
@@ -176,6 +203,74 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
         val sc = 0.55f + 0.45f * appear[k]
         withTransform({ scale(sc, sc, pivot = Offset(xs[k], sill)) }) {
             lantern(Offset(x, ringY), s, (flame[k] * appear[k]).coerceIn(0f, 1.4f), fl)
+        }
+        val lc = Offset(xs[k], bodyY)
+        // eyes on it: beams from both sides, and it decks itself out for them
+        if (gaze[k] > 0f) {
+            for (sd in listOf(-1f, 1f)) {
+                val src = Offset(xs[k] + sd * w * 0.42f, h * 0.02f)
+                val beam = Path().apply {
+                    moveTo(src.x, src.y)
+                    lineTo(lc.x + sd * 1.6f * s, lc.y - 1.2f * s)
+                    lineTo(lc.x + sd * 0.6f * s, lc.y + 1.4f * s)
+                    close()
+                }
+                drawPath(beam, ArtInk.Ivory.copy(alpha = 0.12f * gaze[k]))
+            }
+            for (m in 0 until 6) {
+                val ang = (m * 60f + t * 40f) * PI.toFloat() / 180f
+                val c = lc + Offset(cos(ang) * 1.5f * s, sin(ang) * 1.9f * s)
+                drawPath(starPath(c, 2.2f * dp * (0.7f + 0.3f * sin(t * 6f + m))), lerp(ArtInk.Gold, ArtInk.Ember, 0.4f).copy(alpha = gaze[k]))
+            }
+        }
+        // a hidden ember inside the flame
+        if (hidden[k] > 0f) {
+            val pulse = 0.6f + 0.4f * sin(t * 5f)
+            drawCircle(Brush.radialGradient(listOf(ArtInk.Ember.copy(alpha = 0.9f * hidden[k] * pulse), Color.Transparent), center = lc + Offset(0f, 0.25f * s), radius = 0.9f * s), radius = 0.9f * s, center = lc + Offset(0f, 0.25f * s))
+        }
+        // its light rises, and is given back
+        if (ret[k] > 0f && ret[k] < 1f) {
+            val q = ret[k]
+            val y = if (q < 0.55f) mix(bodyY, h * 0.08f, easeOut(q / 0.55f)) else mix(h * 0.08f, bodyY, easeInOut((q - 0.55f) / 0.45f))
+            val col = if (q < 0.55f) ArtInk.Gold else ArtInk.Ember
+            val c = Offset(xs[k], y)
+            drawCircle(Brush.radialGradient(listOf(col.copy(alpha = 0.7f), Color.Transparent), center = c, radius = 14f * dp), radius = 14f * dp, center = c)
+            drawCircle(ArtInk.Ivory, radius = 3f * dp, center = c)
+        }
+        // amulets hung on it: struck out
+        if (charm[k] > 0f) {
+            val q = easeOut(seg(charm[k], 0f, 0.5f))
+            val top = Offset(xs[k] + 1.3f * s, ringY + 1.5f * s)
+            drawLine(ArtInk.Ivory.copy(alpha = 0.7f * q), top, top + Offset(0f, 2.2f * s * q), 1f * dp)
+            drawCircle(ArtInk.Brass.copy(alpha = q), radius = 0.32f * s, center = top + Offset(0f, 2.4f * s * q), style = Stroke(1.4f * dp))
+            drawRect(lerp(ArtInk.Brass, ArtInk.Ember, 0.4f).copy(alpha = q), topLeft = top + Offset(-0.22f * s, 2.8f * s * q), size = Size(0.44f * s, 0.6f * s))
+            val x = seg(charm[k], 0.5f, 0.9f)
+            if (x > 0f) {
+                val c = top + Offset(0f, 2.8f * s)
+                val r = 0.9f * s
+                drawLine(ArtInk.Ember, c + Offset(-r, -r), c + Offset(-r + 2 * r * seg(x, 0f, 0.5f), -r + 2 * r * seg(x, 0f, 0.5f)), 2.2f * dp, StrokeCap.Round)
+                if (x > 0.5f) drawLine(ArtInk.Ember, c + Offset(r, -r), c + Offset(r - 2 * r * seg(x, 0.5f, 1f), -r + 2 * r * seg(x, 0.5f, 1f)), 2.2f * dp, StrokeCap.Round)
+            }
+        }
+        // a knotted cord binding it; undone by light, or crossed with another knot
+        if (bind[k] > 0f) {
+            val fallAway = easeOut(seg(untieGood[k], 0.3f, 1f))
+            val dy = fallAway * (sill - bodyY) * 0.8f
+            val cordA = bind[k] * (1f - fallAway * 0.9f)
+            val col = lerp(Color(0xFF6A4A6E), ArtInk.Jade, easeOut(seg(untieGood[k], 0f, 0.4f)))
+            for (m in 0 until 3) {
+                val y = bodyY - 0.9f * s + m * 0.9f * s + dy
+                drawLine(col.copy(alpha = cordA), Offset(xs[k] - 1.25f * s, y), Offset(xs[k] + 1.25f * s, y + 0.25f * s), 2f * dp, StrokeCap.Round)
+                drawCircle(col.copy(alpha = cordA), radius = 0.22f * s, center = Offset(xs[k] + (m - 1) * 0.5f * s, y + 0.12f * s))
+            }
+            if (untieBad[k] > 0f) {
+                val q = easeOut(seg(untieBad[k], 0f, 0.5f))
+                for (m in 0 until 2) {
+                    val y = bodyY - 0.45f * s + m * 0.9f * s
+                    drawLine(Color(0xFF2A1A2E).copy(alpha = q), Offset(xs[k] - 1.3f * s, y + 0.2f * s), Offset(xs[k] + 1.3f * s, y - 0.1f * s), 2.4f * dp, StrokeCap.Round)
+                }
+                crossAt(lc + Offset(2.4f * s, -1.6f * s), 0.7f * s, seg(untieBad[k], 0.5f, 0.9f))
+            }
         }
         // glass bell
         if (glass[k] > 0f) {
@@ -229,6 +324,19 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
             }
             val f = bump(seg(shatter[k], 0f, 0.35f))
             drawCircle(Brush.radialGradient(listOf(ArtInk.Ivory.copy(alpha = 0.8f * f), Color.Transparent), center = Offset(xs[k], bodyY), radius = 3f * s), radius = 3f * s, center = Offset(xs[k], bodyY))
+        }
+    }
+
+    // many more lights, small, along the sill
+    if (many > 0f) {
+        for (m in 0 until 18) {
+            val q = easeOut(seg(many, m * 0.03f, m * 0.03f + 0.4f))
+            if (q <= 0f) continue
+            val x = w * (0.05f + 0.9f * fract(m * 0.618f + 0.11f))
+            val y = sill - h * (0.035f + 0.02f * (m % 3))
+            val c = Offset(x, y)
+            drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.5f * q), Color.Transparent), center = c, radius = 8f * dp), radius = 8f * dp, center = c)
+            drawCircle(ArtInk.Ivory.copy(alpha = q * (0.75f + 0.25f * sin(t * 3f + m))), radius = 1.8f * dp, center = c)
         }
     }
 
@@ -290,7 +398,7 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
 
 /** Ink of a tag by what its beat does: warnings in ember, protection and favour in gold or jade. */
 private fun toneInk(kind: String, value: Float): Color = when (kind) {
-    "out", "shatter", "dim", "gust" -> ArtInk.Ember
+    "out", "shatter", "dim", "gust", "gaze", "hidden", "return", "charm", "bind" -> ArtInk.Ember
     "glass", "dome" -> ArtInk.Gold
     "grow", "ember" -> ArtInk.Jade
     else -> when (value.toInt()) {
@@ -444,8 +552,12 @@ internal fun DrawScope.trailScene(a: ArtCtx) {
         val above = m % 2 == 0
         val postTop = base + Offset(0f, -h * (0.13f + 0.03f * p))
         drawLine(TrailInk.Post.copy(alpha = p), base, postTop, 2f * dp)
-        drawRoundRect(TrailInk.Path.copy(alpha = 0.85f * p), topLeft = postTop + Offset(-6f * dp, -5f * dp), size = Size(12f * dp, 6f * dp), cornerRadius = CornerRadius(1.5f * dp, 1.5f * dp))
-        tagAt(a.tag("mark", m), postTop + Offset(0f, if (above) -h * 0.08f else -h * 0.17f), seg(a.b("mark", m), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
+        // when the first two signs are swapped, each plate crosses over to the other post
+        val sw = if (m < 2) easeInOut(a.b("swap")) else 0f
+        val other = pt(0.22f + 0.2f * (1 - m))
+        val plate = Offset(mix(postTop.x, other.x, sw), postTop.y - bump(sw) * h * (if (m == 0) 0.06f else -0.04f))
+        drawRoundRect(lerp(TrailInk.Path, ArtInk.Ember, sw).copy(alpha = 0.85f * p), topLeft = plate + Offset(-6f * dp, -5f * dp), size = Size(12f * dp, 6f * dp), cornerRadius = CornerRadius(1.5f * dp, 1.5f * dp))
+        tagAt(a.tag("mark", m), plate + Offset(0f, if (above) -h * 0.08f else -h * 0.17f), seg(a.b("mark", m), 0.3f, 1f), back = Color(0xE6101426), ink = if (sw > 0.5f) ArtInk.Ember else ArtInk.Gold)
     }
     if (marks > 0) {
         var reach = 0f
@@ -476,6 +588,8 @@ internal fun DrawScope.trailScene(a: ArtCtx) {
         if (lit > 0f) drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.4f * lit), Color.Transparent), center = g + Offset(0f, -10f * dp), radius = 30f * dp), radius = 30f * dp, center = g + Offset(0f, -10f * dp))
         tagAt(a.tag("goal"), g + Offset(w * 0.06f, -h * 0.25f), seg(a.b("goal"), 0.2f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
     }
+
+    if (a.count("swap") > 0) tagAt(a.tag("swap"), pt(0.32f) + Offset(0f, -h * 0.36f), seg(a.b("swap"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
 
     // the way shown by the lamp, all the way to the door
     val show = easeOut(a.b("show"))

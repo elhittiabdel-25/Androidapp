@@ -30,13 +30,15 @@ ART = {
     "ship": {"lord": 1, "ease": 1, "storm": 1, "later": 1, "storm2": 1},
 }
 ART_KINDS = {
-    "lantern": {"lamp", "gust", "glass", "dome", "grow", "dim", "ember", "out", "shatter", "say"},
+    "lantern": {"lamp", "gust", "glass", "dome", "grow", "dim", "ember", "out", "shatter", "say", "gaze", "hidden",
+                "return", "charm", "bind", "untie", "many"},
     "trail": {"origin", "up", "lamp", "mark", "good", "bad", "follow", "follow2", "hole", "stray", "idols", "keep",
-              "omen", "turn", "word", "goal", "lands", "open", "stuck", "walk", "show", "door"},
+              "omen", "turn", "word", "goal", "lands", "open", "stuck", "walk", "show", "door", "swap"},
     "ridge": {"stone", "pit", "lean", "walk"},
     "tree": {"root", "trunk", "crown", "fruit", "storm", "hold", "calm", "shed", "bad"},
     "streams": {"basin", "stream", "divert", "curse", "block", "near"},
-    "building": {"base", "pillars", "course", "roof", "glow", "light", "house", "rival", "fall", "crack", "lock"},
+    "building": {"base", "pillars", "course", "roof", "glow", "light", "house", "rival", "fall", "crack", "lock",
+                 "lower", "wall", "name"},
     "gate": {"trumpet", "rise", "lights", "filter", "scrolls", "scale", "bridge", "pass", "trait", "gate", "seal",
              "shut", "open"},
     "shrine": {"lamp", "excess", "names", "out", "stone", "idol", "forget", "dome", "feast", "tree", "rock", "shirk",
