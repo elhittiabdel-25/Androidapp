@@ -77,6 +77,8 @@ private class Site(val cx: Float, val bw: Float) {
     var lower = 0f
     var wall = 0f
     var raise = 0f
+    var palace = 0f
+    var brick = 0f
     var word = 0f
     var level = 0f
     var fall = 0f
@@ -125,6 +127,8 @@ internal fun DrawScope.buildingScene(a: ArtCtx) {
             "rival" -> s.rival = max(s.rival, p)
             "lower" -> s.lower = max(s.lower, p)
             "raise" -> s.raise = max(s.raise, p)
+            "palace" -> s.palace = max(s.palace, p)
+            "brick" -> s.brick = max(s.brick, p)
             "word" -> s.word = max(s.word, p)
             "level" -> s.level = max(s.level, p)
             "wall" -> s.wall = max(s.wall, p)
@@ -145,11 +149,13 @@ internal fun DrawScope.buildingScene(a: ArtCtx) {
         val fall = s.fall
         val baseP = max(s.base, seg(s.house, 0f, 0.3f))
         val rows: List<Float> = when {
+            s.palace > 0f -> List(6) { k -> seg(s.palace, 0.1f + 0.09f * k, 0.35f + 0.09f * k) }
             s.house > 0f -> List(5) { k -> seg(s.house, 0.15f + 0.1f * k, 0.4f + 0.1f * k) }
             s.wall > 0f -> List(4) { k -> seg(s.wall, 0.15f * k, 0.15f * k + 0.55f) }
             else -> s.courses
         }
-        val roofP = max(s.roof, seg(s.house, 0.7f, 1f))
+        val roofP = max(max(s.roof, seg(s.house, 0.7f, 1f)), seg(s.palace, 0.75f, 1f))
+        val baseP2 = max(baseP, seg(s.palace, 0f, 0.25f))
         val wallTop = if (s.pillarsN > 0) floor - ph else floor - rows.size * bh
         val roofTop = wallTop - h * 0.06f
 
@@ -198,8 +204,8 @@ internal fun DrawScope.buildingScene(a: ArtCtx) {
             }
         }
         // foundation: three blocks
-        if (baseP > 0f) {
-            val q = easeOut(baseP)
+        if (baseP2 > 0f) {
+            val q = easeOut(baseP2)
             val fw = bw + w * 0.05f
             val top = ground - fH * q
             for (k in 0 until 3) {
@@ -238,6 +244,19 @@ internal fun DrawScope.buildingScene(a: ArtCtx) {
                 if (right - left < brickW * 0.2f) continue
                 val drop = (1f - pj) * 8f * dp
                 val col = lerp(BuildInk.Brick, BuildInk.BrickLight, rnd(r * 31 + j) * 0.6f)
+                // a palace's one missing brick: an empty place, until the last brick is set in it
+                if (s.palace > 0f && r == 2 && j == count / 2) {
+                    val hole = Rect(left + 0.7f * dp, y0 + 0.7f * dp, right - 0.7f * dp, y1 - 0.7f * dp)
+                    drawRect(BuildInk.Opening.copy(alpha = pj), hole.topLeft, hole.size)
+                    if (s.brick > 0f) {
+                        val q = easeOut(s.brick)
+                        val from = Offset(hole.left, h * 0.05f)
+                        val tl = Offset(mix(from.x, hole.left, q), mix(from.y, hole.top, q))
+                        drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.6f * q), Color.Transparent), center = Offset(tl.x + hole.width / 2, tl.y + hole.height / 2), radius = hole.width * 1.6f), radius = hole.width * 1.6f, center = Offset(tl.x + hole.width / 2, tl.y + hole.height / 2))
+                        drawRect(ArtInk.Gold, tl, hole.size)
+                    }
+                    continue
+                }
                 block(Rect(left + 0.7f * dp, y0 + 0.7f * dp - drop, right - 0.7f * dp, y1 - 0.7f * dp - drop), col, 401 + r * 29 + j * 7 + 101 * si, alpha = pj)
             }
         }
@@ -326,6 +345,8 @@ internal fun DrawScope.buildingScene(a: ArtCtx) {
             tagAt(a.tag("raise"), Offset(cx + gw / 2 + w * 0.03f + halfTag(a.tag("raise")), roofTop - h * 0.1f), seg(s.raise, 0.3f, 1f), back = TagBack, ink = ArtInk.Ember)
         }
         if (s.word > 0f) tagAt(a.tag("word"), Offset(cx, h * 0.08f), seg(s.word, 0.3f, 1f), back = TagBack, ink = ArtInk.Gold)
+        if (s.palace > 0f) tagAt(a.tag("palace"), Offset(cx, ground + (h - ground) / 2), seg(s.palace, 0.4f, 1f), back = TagBack, ink = ArtInk.Ivory)
+        if (s.brick > 0f) tagAt(a.tag("brick"), Offset(cx + bw / 2 + w * 0.03f + halfTag(a.tag("brick")), floor - 2.5f * bh), seg(s.brick, 0.4f, 1f), back = TagBack, ink = ArtInk.Gold)
         // the station it was given: a line of gold at its top
         if (s.level > 0f) {
             val q = easeOut(s.level)
@@ -741,6 +762,7 @@ internal fun DrawScope.shrineScene(a: ArtCtx) {
     drawLine(ShrineInk.GroundEdge, Offset(0f, ground), Offset(w, ground), 1.2f * dp)
     val strip = ground + (h - ground) / 2
     when {
+        a.count("garden") + a.count("pit") + a.count("ask") > 0 -> shrineGraves(a)
         a.count("lamp") > 0 -> shrineLamps(a, ground, strip)
         a.count("tree") > 0 || a.count("copy") > 0 -> shrineTree(a, ground, strip)
         else -> shrineGrave(a, ground)
@@ -1162,4 +1184,51 @@ internal fun DrawScope.hourglassScene(a: ArtCtx) {
         tagAt(tl, Offset(tx, ty), al, back = TagBack, ink = ArtInk.Gold)
     }
     tagAt(a.tag("glass"), Offset(cx + bw * 1.5f + w * 0.03f + halfTag(a.tag("glass")), topY + h * 0.08f), seg(a.b("glass"), 0.3f, 1f), back = TagBack, ink = ArtInk.Ivory)
+}
+
+/**
+ * Two graves seen in the earth. Beats: ask ×n (the questions, written in the sky), garden (the first grave
+ * widens and fills with the light of a garden), pit (the second narrows into a pit of fire).
+ */
+private fun DrawScope.shrineGraves(a: ArtCtx) {
+    val w = size.width
+    val h = size.height
+    val dp = density
+    val t = a.t
+    val surface = h * 0.46f
+    drawRect(Brush.verticalGradient(listOf(Color(0xFF3B2A1E), Color(0xFF1E140E)), startY = surface, endY = h), topLeft = Offset(0f, surface), size = Size(w, h - surface))
+    drawLine(Color(0xFF5A4636), Offset(0f, surface), Offset(w, surface), 1.4f * dp)
+    for ((k, cx) in listOf(w * 0.7f, w * 0.3f).withIndex()) {
+        drawArc(ShrineInk.Mound, 180f, 180f, true, topLeft = Offset(cx - w * 0.09f, surface - h * 0.045f), size = Size(w * 0.18f, h * 0.09f))
+        drawRoundRect(ShrineInk.Stone, topLeft = Offset(cx + w * 0.06f, surface - h * 0.1f), size = Size(w * 0.022f, h * 0.1f), cornerRadius = CornerRadius(w * 0.011f, w * 0.011f))
+        val p = if (k == 0) a.b("garden") else a.b("pit")
+        val q = easeOut(p)
+        val chamberW = w * (0.16f + (if (k == 0) 0.16f * q else -0.07f * q))
+        val chamberH = h * (0.18f + (if (k == 0) 0.12f * q else -0.05f * q))
+        val top = surface + h * 0.08f
+        val r = Rect(cx - chamberW / 2, top, cx + chamberW / 2, top + chamberH)
+        val col = if (k == 0) lerp(Color(0xFF120C08), Color(0xFF2E5A3A), q) else lerp(Color(0xFF120C08), Color(0xFF4A1A10), q)
+        drawRoundRect(col, r.topLeft, r.size, CornerRadius(chamberW * 0.2f, chamberW * 0.2f))
+        if (k == 0 && q > 0f) {
+            drawCircle(Brush.radialGradient(listOf(Color(0xFF9FE0B0).copy(alpha = 0.55f * q), Color.Transparent), center = r.center, radius = chamberW), radius = chamberW, center = r.center)
+            for (m in 0 until 7) {
+                val fx = r.left + r.width * (0.1f + 0.13f * m)
+                val fy = r.bottom - h * 0.02f
+                drawLine(ArtInk.Jade.copy(alpha = q), Offset(fx, fy), Offset(fx, fy - h * 0.03f * q), 1.4f * dp, StrokeCap.Round)
+                drawCircle(listOf(ArtInk.Gold, ArtInk.Ivory, ArtInk.Jade)[m % 3].copy(alpha = q), radius = 2.2f * dp, center = Offset(fx, fy - h * 0.035f * q))
+            }
+            tagAt(a.tag("garden"), Offset(cx, surface - h * 0.17f), seg(a.b("garden"), 0.3f, 1f), back = TagBack, ink = ArtInk.Jade)
+        }
+        if (k == 1 && q > 0f) {
+            for (m in 0 until 6) {
+                val fx = r.left + r.width * (0.12f + 0.16f * m)
+                val fh = h * 0.05f * (0.6f + 0.4f * sin(t * 7f + m))
+                drawLine(ArtInk.Ember.copy(alpha = q), Offset(fx, r.bottom), Offset(fx, r.bottom - fh * q), 3f * dp, StrokeCap.Round)
+            }
+            tagAt(a.tag("pit"), Offset(cx, surface - h * 0.17f), seg(a.b("pit"), 0.3f, 1f), back = TagBack, ink = ArtInk.Ember)
+        }
+    }
+    for (k in 0 until a.count("ask")) {
+        tagAt(a.tag("ask", k), Offset(w * 0.5f, h * (0.07f + 0.075f * k)), seg(a.b("ask", k), 0.2f, 0.8f), back = TagBack, ink = ArtInk.Ivory)
+    }
 }

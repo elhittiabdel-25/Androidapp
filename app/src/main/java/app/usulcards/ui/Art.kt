@@ -163,7 +163,9 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "nights", "grain", "sun" -> 3200
     "descend", "recite", "keep", "write", "follow", "false", "first", "cup" -> 1400
     "will", "equal", "sever", "drain" -> 2000
-    "create" -> 2400
+    "create", "journey", "ascend", "garden", "pit", "fire", "palace" -> 2400
+    "fifty" -> 3600
+    "ring", "name", "reject", "smoke", "sunwest", "sink", "brick", "ask" -> 1400
     "untie", "return" -> 2200
     else -> 1000
 }

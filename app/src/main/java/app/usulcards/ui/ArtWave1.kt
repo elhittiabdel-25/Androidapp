@@ -135,8 +135,13 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
             val k = lampNo++
             if (k < n) {
                 appear[k] = easeOut(p)
-                flame[k] = if (a.valueAt(i) >= 2f) 0.35f else 0.85f
-                if (a.valueAt(i) in 0.5f..1.5f) glass[k] = easeOut(p)
+                val v = a.valueAt(i)
+                flame[k] = when {
+                    v >= 3f -> v / 10f          // its own brightness, from 0.3 to 1.4
+                    v >= 2f -> 0.35f
+                    else -> 0.85f
+                }
+                if (v in 0.5f..1.5f) glass[k] = easeOut(p)
             }
             continue
         }
@@ -1077,14 +1082,23 @@ internal fun DrawScope.treeScene(a: ArtCtx) {
     }
     tagAt(a.tag("trunk"), base + Offset(w * 0.16f, -trunkH * 0.4f), seg(a.b("trunk"), 0.3f, 1f), back = Color(0xE6101426))
 
-    // fruit
-    for (k in 0 until a.count("fruit")) {
+    // fruit; with three or more, their names stand in a column on the right, each with a thread to its fruit
+    val fruits = a.count("fruit")
+    for (k in 0 until fruits) {
         val p = easeOut(a.b("fruit", k))
         if (p <= 0f) continue
-        val ang = (200f + 70f * k) * PI.toFloat() / 180f
+        val ang = (200f + (if (fruits >= 3) 40f else 70f) * k) * PI.toFloat() / 180f
         val c = top + Offset(cos(ang) * trunkH * 0.45f, sin(ang) * trunkH * 0.3f + trunkH * 0.12f)
         drawCircle(ArtInk.Gold.copy(alpha = p), radius = 4f * dp * p, center = c)
-        tagAt(a.tag("fruit", k), c + Offset(0f, -h * 0.07f), seg(a.b("fruit", k), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
+        if (fruits >= 3) {
+            val tl = a.tag("fruit", k)
+            val tc = Offset(w * 0.84f, h * (0.16f + 0.1f * k))
+            val al = seg(a.b("fruit", k), 0.3f, 1f)
+            if (tl != null && al > 0f) drawLine(ArtInk.Gold.copy(alpha = 0.55f * al), c, Offset(tc.x - tl.size.width / 2f - 6f * dp, tc.y), 1f * dp)
+            tagAt(tl, tc, al, back = Color(0xE6101426), ink = ArtInk.Gold)
+        } else {
+            tagAt(a.tag("fruit", k), c + Offset(0f, -h * 0.07f), seg(a.b("fruit", k), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
+        }
     }
 
     // storm: wind streaks and rain; the roots hold
