@@ -121,7 +121,7 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
     val bind = FloatArray(n)
     val untieBad = FloatArray(n)
     val untieGood = FloatArray(n)
-    var many = 0f
+    var crowd = 0f
     val topTag = IntArray(n) { -1 }
     var centerTag = -1
     var lampNo = 0
@@ -167,7 +167,7 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
                     untieGood[k] = p
                     flame[k] = mix(flame[k], 0.95f, easeOut(seg(p, 0.4f, 1f)))
                 } else untieBad[k] = p
-                "many" -> many = max(many, p)
+                "many" -> crowd = max(crowd, p)
                 "shatter" -> {
                     shatter[k] = p
                     flame[k] *= 1f - easeOut(seg(p, 0.15f, 0.6f))
@@ -328,9 +328,9 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
     }
 
     // many more lights, small, along the sill
-    if (many > 0f) {
+    if (crowd > 0f) {
         for (m in 0 until 18) {
-            val q = easeOut(seg(many, m * 0.03f, m * 0.03f + 0.4f))
+            val q = easeOut(seg(crowd, m * 0.03f, m * 0.03f + 0.4f))
             if (q <= 0f) continue
             val x = w * (0.05f + 0.9f * fract(m * 0.618f + 0.11f))
             val y = sill - h * (0.035f + 0.02f * (m % 3))
