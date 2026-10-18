@@ -392,7 +392,7 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
         if (i >= 0) tagAt(a.tagOf(i), Offset(xs[k], ringY - h * 0.1f), seg(a.beatAt(i), 0.2f, 0.8f), back = Color(0xE6101426), ink = toneInk(a.kindAt(i), a.valueAt(i)))
     }
     if (centerTag >= 0) {
-        tagAt(a.tagOf(centerTag), Offset(xs.average().toFloat(), ringY - h * 0.12f), seg(a.beatAt(centerTag), 0.2f, 0.8f), back = Color(0xE6101426), ink = toneInk(a.kindAt(centerTag), a.valueAt(centerTag)))
+        tagAt(a.tagOf(centerTag), Offset(xs.average().toFloat(), ringY - h * (if (topTag.any { it >= 0 }) 0.22f else 0.12f)), seg(a.beatAt(centerTag), 0.2f, 0.8f), back = Color(0xE6101426), ink = toneInk(a.kindAt(centerTag), a.valueAt(centerTag)))
     }
 }
 

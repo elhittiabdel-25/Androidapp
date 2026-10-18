@@ -81,7 +81,7 @@ internal fun DrawScope.nightScene(a: ArtCtx) {
     } else if (roll >= 1f) {
         drawRect(Color(0xFF05070F), size = Size(w, ground))
     }
-    if (a.count("roll") > 0) tagAt(a.tag("roll"), Offset(w * 0.5f, max(h * 0.08f, rollY + h * 0.07f).coerceAtMost(ground - h * 0.3f)), seg(a.b("roll"), 0.1f, 0.5f), back = NightBack, ink = ArtInk.Ivory)
+    if (a.count("roll") > 0) tagAt(a.tag("roll"), Offset(w * 0.5f, h * 0.1f), seg(a.b("roll"), 0.1f, 0.5f), back = NightBack, ink = ArtInk.Ivory)
 
     // the heavens as layers, trembling at revelation, and a thread of light coming down
     val layersA = easeOut(a.b("layers"))
@@ -89,11 +89,12 @@ internal fun DrawScope.nightScene(a: ArtCtx) {
     val calm = easeOut(a.b("calm"))
     val shaking = easeOut(seg(quake, 0f, 0.3f)) * (1f - calm)
     if (layersA > 0f) {
+        val centre = Offset(w * 0.5f, h * 1.3f)
         for (k in 0 until 7) {
-            val r = w * (0.25f + 0.11f * k)
+            val r = h * (0.62f + 0.1f * k)
             val jitter = shaking * 2.5f * dp * sin(t * 40f + k * 1.3f)
             val flash = shaking * (0.5f + 0.5f * sin(t * 18f + k))
-            drawArc(lerp(Color(0xFF5A5A9A), ArtInk.Ivory, flash * 0.6f).copy(alpha = layersA * (0.55f - 0.05f * k)), 200f, 140f, false, topLeft = Offset(w * 0.5f - r, -r * 1.25f + h * 0.32f + jitter), size = Size(2 * r, 2 * r), style = Stroke((1.6f + shaking) * dp))
+            drawArc(lerp(Color(0xFF6A6AAE), ArtInk.Ivory, flash * 0.6f).copy(alpha = layersA * (0.6f - 0.05f * k)), 195f, 150f, false, topLeft = Offset(centre.x - r, centre.y - r + jitter), size = Size(2 * r, 2 * r), style = Stroke((1.6f + shaking) * dp))
         }
         if (a.count("quake") > 0) tagAt(a.tag("quake"), Offset(w * 0.8f, h * 0.42f), seg(quake, 0.3f, 1f) * (1f - calm), back = NightBack, ink = ArtInk.Ivory)
     }
@@ -102,7 +103,7 @@ internal fun DrawScope.nightScene(a: ArtCtx) {
         val end = mix(0f, ground, truth)
         drawLine(ArtInk.Gold.copy(alpha = 0.3f), Offset(w * 0.5f, 0f), Offset(w * 0.5f, end), 7f * dp, StrokeCap.Round)
         drawLine(ArtInk.Gold, Offset(w * 0.5f, 0f), Offset(w * 0.5f, end), 1.6f * dp, StrokeCap.Round)
-        tagAt(a.tag("truth"), Offset(w * 0.5f, h * 0.5f), seg(a.b("truth"), 0.4f, 1f), back = NightBack, ink = ArtInk.Gold)
+        tagAt(a.tag("truth"), Offset(w * 0.5f, h * 0.28f), seg(a.b("truth"), 0.4f, 1f), back = NightBack, ink = ArtInk.Gold)
     }
 
     // the book of revelation, and the cloud that covers it
@@ -147,13 +148,13 @@ internal fun DrawScope.nightScene(a: ArtCtx) {
         for (k in 0 until 40) {
             val col = k % 10
             val row = k / 10
-            val c = Offset(w * (0.2f + 0.6f * col / 9f), h * (0.42f + 0.065f * row))
+            val c = Offset(w * (0.2f + 0.6f * col / 9f), h * (0.5f + 0.06f * row))
             val dark = seg(nights, 0.25f + 0.017f * k, 0.3f + 0.017f * k)
             val moon = lerp(ArtInk.Ivory, Color(0xFF3A3656), dark).copy(alpha = appear)
             drawCircle(moon, radius = 4.5f * dp, center = c)
             drawCircle(lerp(NightInk.Low, NightInk.Top, 0.5f).copy(alpha = appear), radius = 4f * dp, center = c + Offset(2.2f * dp, -1.2f * dp))
         }
-        tagAt(a.tag("nights"), Offset(w * 0.5f, h * 0.73f), seg(nights, 0.2f, 0.6f), back = NightBack, ink = ArtInk.Ember)
+        tagAt(a.tag("nights"), Offset(w * 0.5f, h * 0.79f), seg(nights, 0.2f, 0.6f), back = NightBack, ink = ArtInk.Ember)
     }
 
     // shooting stars
@@ -238,7 +239,7 @@ internal fun DrawScope.nightScene(a: ArtCtx) {
     }
     if (a.count("adorn") > 0) tagAt(a.tag("adorn"), Offset(w * 0.5f, h * 0.08f), seg(a.b("adorn"), 0.3f, 1f), back = NightBack, ink = ArtInk.Gold)
     for (k in 0 until a.count("note")) {
-        tagAt(a.tag("note", k), Offset(w * 0.5f, h * (0.6f - 0.09f * k)), seg(a.b("note", k), 0.3f, 1f), back = NightBack, ink = ArtInk.Ember)
+        tagAt(a.tag("note", k), Offset(w * 0.5f, h * (0.22f + 0.09f * k)), seg(a.b("note", k), 0.3f, 1f), back = NightBack, ink = ArtInk.Ember)
     }
 }
 
