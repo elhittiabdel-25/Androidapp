@@ -2,7 +2,8 @@
 
 Inputs : ../cards/cards.json (display text, written from the books)
          speech.json        (fully vowelled spoken text for each display segment)
-Outputs: OUT/content/cards.json, OUT/audio/<card>/<key>.mp3, OUT/report.json
+Outputs: OUT/content/cards.json, OUT/audio/<card>/<key>.ogg (new clips, Opus) or .mp3 (approved older clips
+         kept as they are, see REUSE_AUDIO), OUT/report.json
 Checks : segment counts match, spoken text matches display text (unless marked paraphrase),
          and every audio clip is transcribed back with Whisper and scored (run with --asr).
 """
@@ -11,8 +12,9 @@ from arabic_tts import prepare, strip
 from roundtrip import asr, wer
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-B = f"{HERE}/sherpa-onnx-v1.12.20-linux-x64-static/bin"
-M = f"{HERE}/vits-piper-ar_JO-kareem-medium"
+TOOLS = os.environ.get("TTS_TOOLS", HERE)      # folder holding the sherpa-onnx engine and the Kareem voice
+B = f"{TOOLS}/sherpa-onnx-v1.12.20-linux-x64-static/bin"
+M = f"{TOOLS}/vits-piper-ar_JO-kareem-medium"
 SPLIT = re.compile(r"(?<=[.؛!؟])\s+")
 
 def sentences(t): return [s for s in SPLIT.split(t) if s]
@@ -29,12 +31,23 @@ def letters(t):
     t = strip(t); t = re.sub(r"[إأآٱ]", "ا", t).replace("ة", "ه").replace("ى", "ي")
     return " ".join(re.sub(r"[^ء-ي ]", " ", t).split())
 
-def tts_mp3(text, out_mp3):
-    wav = out_mp3[:-4] + ".wav"
+def encode(wav, out):
+    """Encode a voice clip: Opus 24 kbps mono in Ogg for .ogg (half the size of the old 48 kbps MP3 at the
+    same clarity for speech; Android plays it natively), MP3 48 kbps for .mp3."""
+    if out.endswith(".ogg"):
+        args = ["-c:a", "libopus", "-b:a", "24k", "-ac", "1"]
+    else:
+        args = ["-ac", "1", "-ar", "22050", "-b:a", "48k"]
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", wav, *args, out], check=True)
+
+
+def tts_clip(text, out, wav=None):
+    """Voice `text` with Piper Kareem into `out` (.ogg or .mp3); the WAV is kept next to it (or at `wav`)."""
+    wav = wav or os.path.splitext(out)[0] + ".wav"
     subprocess.run([f"{B}/sherpa-onnx-offline-tts", f"--vits-model={M}/ar_JO-kareem-medium.onnx", f"--vits-tokens={M}/tokens.txt",
                     f"--vits-data-dir={M}/espeak-ng-data", "--num-threads=2", f"--output-filename={wav}", prepare(text)],
                    check=True, capture_output=True)
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", wav, "-ac", "1", "-ar", "22050", "-b:a", "48k", out_mp3], check=True)
+    encode(wav, out)
     return wav
 
 def main(out, do_asr):
@@ -63,13 +76,15 @@ def main(out, do_asr):
             sim = difflib.SequenceMatcher(None, letters(disp), letters(show)).ratio()
             if not is_para and sim < 0.9:
                 print(f"!! {c['id']} {tag}: spoken text differs from display (sim {sim:.2f})\n   D: {letters(disp)}\n   S: {letters(show)}")
-            mp3 = f"{out}/audio/{c['id']}/{key}.mp3"
-            old = f"{os.environ.get('REUSE_AUDIO', '/nonexistent')}/{c['id']}/{key}.mp3"
-            if os.path.exists(old):          # card already approved: keep its clip as is
-                shutil.copy(old, mp3); wav = None
-            else:
-                wav = tts_mp3(say, mp3)
-            card_out["audio"].append({"key": key, "target": tag, "layer": layer, "file": f"audio/{c['id']}/{key}.mp3"})
+            reuse = os.environ.get("REUSE_AUDIO", "/nonexistent")
+            old = next((p for p in (f"{reuse}/{c['id']}/{key}.{ext}" for ext in ("ogg", "mp3")) if os.path.exists(p)), None)
+            if old:                          # clip already approved: keep it as it is, in its own format
+                name = f"{key}{os.path.splitext(old)[1]}"
+                shutil.copy(old, f"{out}/audio/{c['id']}/{name}"); wav = None
+            else:                            # new clip: Opus
+                name = f"{key}.ogg"
+                wav = tts_clip(say, f"{out}/audio/{c['id']}/{name}")
+            card_out["audio"].append({"key": key, "target": tag, "layer": layer, "file": f"audio/{c['id']}/{name}"})
             if not is_para: card_out["diac"][tag] = show        # vowelled display text, same wording as the card
             report.append({"card": c["id"], "seg": tag, "plain": letters(say), "wav": wav, "paraphrase": is_para, "sim": round(sim, 3)})
         app_cards.append(card_out)

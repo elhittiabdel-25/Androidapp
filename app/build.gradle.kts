@@ -53,7 +53,8 @@ android {
         compose = true
     }
     androidResources {
-        noCompress += listOf("mp3")
+        // audio is played straight from the APK (AssetManager.openFd), which needs it stored uncompressed
+        noCompress += listOf("mp3", "ogg")
     }
 }
 

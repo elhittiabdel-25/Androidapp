@@ -57,7 +57,7 @@ fun UsulApp(repo: ContentRepo, progress: ProgressStore, player: AudioPlayer) {
     UsulTheme {
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
             val pal = LocalPalette.current
-            val deck = remember { DeckState(repo) }
+            val deck = remember { DeckState(repo) { progress.deepByDefault } }
             val confetti = remember { ConfettiState() }
             val snackbar = remember { SnackbarHostState() }
             var tab by remember { mutableIntStateOf(0) }

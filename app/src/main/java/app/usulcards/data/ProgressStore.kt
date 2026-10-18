@@ -29,6 +29,9 @@ class ProgressStore(ctx: Context) {
         private set
     var continuous by mutableStateOf(prefs.getBoolean("continuous", false))
         private set
+    /** Every card opens with its «تعمّق» layer already expanded (off: closed until tapped). */
+    var deepByDefault by mutableStateOf(prefs.getBoolean("deepByDefault", false))
+        private set
 
     val dailyGoal = 5
 
@@ -88,5 +91,10 @@ class ProgressStore(ctx: Context) {
     fun updateContinuous(v: Boolean) {
         continuous = v
         prefs.edit().putBoolean("continuous", v).apply()
+    }
+
+    fun updateDeepByDefault(v: Boolean) {
+        deepByDefault = v
+        prefs.edit().putBoolean("deepByDefault", v).apply()
     }
 }

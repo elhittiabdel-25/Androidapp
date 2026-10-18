@@ -16,8 +16,9 @@ import app.usulcards.data.ProgressStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-/** Which cards are in the deck (all, one category, or one path), in which order, and where the reader is. */
-class DeckState(private val repo: ContentRepo) {
+/** Which cards are in the deck (all, one category, or one path), in which order, and where the reader is.
+ *  `deepByDefault` says whether a card opens with its «تعمّق» layer expanded (the reader's setting). */
+class DeckState(private val repo: ContentRepo, private val deepByDefault: () -> Boolean = { false }) {
     var category by mutableStateOf<String?>(null)
         private set
     var filter by mutableStateOf<String?>(null)   // the path, when one path is open
@@ -55,7 +56,7 @@ class DeckState(private val repo: ContentRepo) {
     }
 
     private fun resetCard() {
-        deepOpen = false
+        deepOpen = deepByDefault()
         flipped = false
         queue.getOrNull(index)?.let { if (it !in seen) seen.add(it) }
     }

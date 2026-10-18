@@ -140,6 +140,14 @@ fun DeckScreen(
             }
             Toggle("استماع متواصل", progress.continuous) { progress.updateContinuous(it) }
             Toggle("التشكيل", progress.showDiacritics) { progress.updateShowDiacritics(it) }
+            // applies to the card on screen too, then to every card that opens
+            Toggle("افتح «تعمّق» تلقائيًا", progress.deepByDefault) {
+                progress.updateDeepByDefault(it)
+                if (deck.deepOpen != it) {
+                    if (player.isPlaying) player.stop()
+                    deck.deepOpen = it
+                }
+            }
         }
 
         // The deck: two sheets behind the active card
