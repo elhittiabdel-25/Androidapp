@@ -48,6 +48,9 @@ internal fun DrawScope.nightSky(t: Float, top: Color, bottom: Color, starsTo: Fl
     }
 }
 
+/** Half the drawn width of a tag, with its padding (0 when there is none). */
+private fun DrawScope.halfTagW(tl: androidx.compose.ui.text.TextLayoutResult?): Float = if (tl == null) 0f else tl.size.width / 2f + 6f * density
+
 /** Small rounded marks of light: footprints, seen from the side. */
 private fun DrawScope.footprint(c: Offset, color: Color, alpha: Float, scale: Float = 1f) {
     if (alpha <= 0.01f) return
@@ -212,7 +215,8 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
         if (b.p <= 0f || appear[b.from] <= 0f) continue
         val p0 = Offset(xs[b.from], bodyY)
         val p2 = Offset(xs[b.to], bodyY)
-        val ctrl = Offset((p0.x + p2.x) / 2, bodyY - h * 0.42f)
+        val span = kotlin.math.abs(b.to - b.from) / max(1f, n - 1f)
+        val ctrl = Offset((p0.x + p2.x) / 2, bodyY - h * (0.2f + 0.35f * span))
         fun q(u: Float) = Offset((1 - u) * (1 - u) * p0.x + 2 * (1 - u) * u * ctrl.x + u * u * p2.x, (1 - u) * (1 - u) * p0.y + 2 * (1 - u) * u * ctrl.y + u * u * p2.y)
         if (b.cut <= 0f) {
             val reveal = easeOut(b.p)
@@ -235,7 +239,7 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
                 drawPath(path, ArtInk.Ember.copy(alpha = 1f - 0.65f * b.cut), style = Stroke(1.6f * dp, cap = StrokeCap.Round))
             }
         }
-        if (b.tag >= 0) tagAt(a.tagOf(b.tag), q(0.5f) + Offset(0f, if (b.cut > 0f) h * 0.1f else -h * 0.08f), seg(a.beatAt(b.tag), 0.3f, 1f), back = Color(0xE6101426), ink = if (b.cut > 0f) ArtInk.Ember else ArtInk.Gold)
+        if (b.tag >= 0) tagAt(a.tagOf(b.tag), q(0.5f) + Offset(0f, -h * 0.08f), seg(a.beatAt(b.tag), 0.3f, 1f), back = Color(0xE6101426), ink = if (b.cut > 0f) ArtInk.Ember else ArtInk.Gold)
     }
 
     for (k in 0 until n) {
@@ -1204,19 +1208,29 @@ internal fun DrawScope.streamsScene(a: ArtCtx) {
         if (p <= 0f) continue
         val start = Offset(s.x, land + h * 0.03f)
         val dv = diverted[k]
-        val upEnd = Offset(w * 0.5f + (s.x - w * 0.5f) * 0.35f, -h * 0.02f)
-        val end = Offset(mix(upEnd.x, pool.x + (if (pool.x > w * 0.5f) -w * 0.03f else w * 0.03f), dv), mix(upEnd.y, pool.y - h * 0.02f, dv))
-        val c1 = start + Offset(0f, -h * 0.35f)
-        val c2 = Offset(mix(upEnd.x, pool.x, dv), mix(upEnd.y + h * 0.3f, h * 0.3f, dv))
+        val inward = if (pool.x > w * 0.5f) -1f else 1f
+        val upEnd = Offset(w * 0.5f + (s.x - w * 0.5f) * 0.8f, h * 0.16f)
+        val end = Offset(mix(upEnd.x, pool.x + inward * w * 0.03f, dv), mix(upEnd.y, pool.y - h * 0.02f, dv))
+        val c1 = Offset(mix(start.x, start.x + inward * w * 0.18f, dv), mix(start.y - h * 0.3f, h * 0.42f, dv))
+        val c2 = Offset(mix(upEnd.x, pool.x + inward * w * 0.24f, dv), mix(upEnd.y + h * 0.2f, h * 0.42f, dv))
         if (dv < 0.5f) branchFrom = cubic(start, c1, c2, end, 0.45f)
         val col = lerp(lerp(StreamInk.Water, ArtInk.Gold, 0.35f), StreamInk.Dark, dv)
-        drawPath(cubicPart(start, c1, c2, end, 0f, p), col.copy(alpha = 0.3f), style = Stroke(5f * dp, cap = StrokeCap.Round))
-        drawPath(cubicPart(start, c1, c2, end, 0f, p), col, style = Stroke(1.8f * dp, cap = StrokeCap.Round, pathEffect = PathEffect.dashPathEffect(floatArrayOf(5f * dp, 4f * dp), t * 26f * dp)))
+        // a rising stream thins into the light before it reaches the top: where it goes is not drawn
+        val fadeTop = if (dv < 0.5f) Brush.verticalGradient(listOf(col.copy(alpha = 0f), col), startY = upEnd.y, endY = upEnd.y + h * 0.22f) else null
+        if (fadeTop != null) {
+            drawPath(cubicPart(start, c1, c2, end, 0f, p), fadeTop, alpha = 0.3f, style = Stroke(5f * dp, cap = StrokeCap.Round))
+            drawPath(cubicPart(start, c1, c2, end, 0f, p), fadeTop, style = Stroke(1.8f * dp, cap = StrokeCap.Round, pathEffect = PathEffect.dashPathEffect(floatArrayOf(5f * dp, 4f * dp), t * 26f * dp)))
+        } else {
+            drawPath(cubicPart(start, c1, c2, end, 0f, p), col.copy(alpha = 0.3f), style = Stroke(5f * dp, cap = StrokeCap.Round))
+            drawPath(cubicPart(start, c1, c2, end, 0f, p), col, style = Stroke(1.8f * dp, cap = StrokeCap.Round, pathEffect = PathEffect.dashPathEffect(floatArrayOf(5f * dp, 4f * dp), t * 26f * dp)))
+        }
         drawCircle(ArtInk.Ivory.copy(alpha = 0.8f * p), radius = 2.4f * dp, center = start)
         tagAt(a.tagOf(s.item, s.part), start + Offset(0f, h * (0.045f + 0.06f * (k % 2))), seg(s.p, 0.3f, 1f), back = Color(0xE6101426), ink = if (dv > 0.5f) ArtInk.Ember else ArtInk.Ivory)
     }
     for (k in 0 until a.count("divert")) {
-        tagAt(a.tag("divert", k), pool + Offset(0f, -h * 0.13f - k * h * 0.09f), seg(a.b("divert", k), 0.4f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
+        val tl = a.tag("divert", k)
+        val tx = if (pool.x > w * 0.5f) min(pool.x, w - halfTagW(tl)) else max(pool.x, halfTagW(tl))
+        tagAt(tl, Offset(tx, pool.y - h * 0.2f - k * h * 0.09f), seg(a.b("divert", k), 0.4f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
     }
     val curse = easeOut(a.b("curse"))
     if (curse > 0f) {
