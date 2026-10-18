@@ -131,6 +131,8 @@ internal fun ArtFrame(scene: Scene, beats: () -> List<Float>, time: () -> Float,
                 "gate" -> gateScene(a)
                 "shrine" -> shrineScene(a)
                 "hourglass" -> hourglassScene(a)
+                "night" -> nightScene(a)
+                "grain" -> grainScene(a)
                 else -> drawRect(pal.line)
             }
         }
@@ -155,7 +157,8 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "rise", "dome", "feast", "door", "gold", "bridge" -> 2200
     "pass", "idol" -> 2400
     "rival", "light", "lock", "filter", "scale", "copy", "near", "out", "tree", "names", "shirk", "bind", "lower", "gaze", "hidden", "swap" -> 1400
-    "charm", "wall", "many" -> 1600
+    "charm", "wall", "many", "raise", "level", "cloud", "roll", "shrink", "quake", "truth", "nocall", "adorn", "shoot", "guide", "credit", "rain", "challenge", "breath" -> 1600
+    "nights", "grain" -> 3200
     "untie", "return" -> 2200
     else -> 1000
 }

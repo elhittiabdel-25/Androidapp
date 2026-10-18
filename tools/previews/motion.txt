@@ -1,5 +1,5 @@
 # Scenes rendered frame by frame as animations by the Scene previews workflow (one id per line).
-riya
-sihr-nushra
-alfadh-shirk
-tabarruk
+kahana
+azamat-allah
+musawwirin
+sayyid

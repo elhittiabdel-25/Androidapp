@@ -38,12 +38,15 @@ ART_KINDS = {
     "tree": {"root", "trunk", "crown", "fruit", "storm", "hold", "calm", "shed", "bad"},
     "streams": {"basin", "stream", "divert", "curse", "block", "near"},
     "building": {"base", "pillars", "course", "roof", "glow", "light", "house", "rival", "fall", "crack", "lock",
-                 "lower", "wall", "name"},
+                 "lower", "wall", "name", "raise", "word", "level"},
     "gate": {"trumpet", "rise", "lights", "filter", "scrolls", "scale", "bridge", "pass", "trait", "gate", "seal",
              "shut", "open"},
     "shrine": {"lamp", "excess", "names", "out", "stone", "idol", "forget", "dome", "feast", "tree", "rock", "shirk",
                "steps", "copy", "takbir"},
     "hourglass": {"glass", "gold"},
+    "night": {"book", "cloud", "nights", "towers", "roll", "shrink", "note", "layers", "quake", "calm", "truth", "nocall",
+              "adorn", "shoot", "guide", "credit", "rain"},
+    "grain": {"grain", "challenge", "breath"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

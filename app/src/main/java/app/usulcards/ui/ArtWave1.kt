@@ -264,12 +264,12 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
                 drawCircle(col.copy(alpha = cordA), radius = 0.22f * s, center = Offset(xs[k] + (m - 1) * 0.5f * s, y + 0.12f * s))
             }
             if (untieBad[k] > 0f) {
-                val q = easeOut(seg(untieBad[k], 0f, 0.5f))
+                val q = easeOut(seg(untieBad[k], 0f, 0.5f)) * (1f - fallAway * 0.9f)
                 for (m in 0 until 2) {
-                    val y = bodyY - 0.45f * s + m * 0.9f * s
+                    val y = bodyY - 0.45f * s + m * 0.9f * s + dy
                     drawLine(Color(0xFF2A1A2E).copy(alpha = q), Offset(xs[k] - 1.3f * s, y + 0.2f * s), Offset(xs[k] + 1.3f * s, y - 0.1f * s), 2.4f * dp, StrokeCap.Round)
                 }
-                crossAt(lc + Offset(2.4f * s, -1.6f * s), 0.7f * s, seg(untieBad[k], 0.5f, 0.9f))
+                crossAt(lc + Offset(2.4f * s, -1.6f * s), 0.7f * s, seg(untieBad[k], 0.5f, 0.9f) * (1f - fallAway))
             }
         }
         // glass bell

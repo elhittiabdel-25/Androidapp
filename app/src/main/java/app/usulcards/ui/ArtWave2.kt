@@ -76,6 +76,9 @@ private class Site(val cx: Float, val bw: Float) {
     var rival = 0f
     var lower = 0f
     var wall = 0f
+    var raise = 0f
+    var word = 0f
+    var level = 0f
     var fall = 0f
     var lock = 0f
     val cracks = ArrayList<Int>()
@@ -121,6 +124,9 @@ internal fun DrawScope.buildingScene(a: ArtCtx) {
             "house" -> s.house = max(s.house, p)
             "rival" -> s.rival = max(s.rival, p)
             "lower" -> s.lower = max(s.lower, p)
+            "raise" -> s.raise = max(s.raise, p)
+            "word" -> s.word = max(s.word, p)
+            "level" -> s.level = max(s.level, p)
             "wall" -> s.wall = max(s.wall, p)
             "name" -> s.names += i
             "fall" -> s.fall = max(s.fall, p)
@@ -301,6 +307,34 @@ internal fun DrawScope.buildingScene(a: ArtCtx) {
             drawPath(crack, Color(0xFF241812), style = Stroke(2.4f * dp, cap = StrokeCap.Round))
             drawPath(crack, ArtInk.Ember.copy(alpha = 0.9f), style = Stroke(1f * dp, cap = StrokeCap.Round))
         }
+        // praise that would raise it above its place: a dashed storey, struck out
+        if (s.raise > 0f) {
+            val q = easeOut(s.raise)
+            val gh = h * 0.16f * q
+            val gw = bw * 0.8f
+            val ghost = Rect(cx - gw / 2, roofTop - gh, cx + gw / 2, roofTop)
+            drawRect(ArtInk.Ivory.copy(alpha = 0.06f * q), ghost.topLeft, ghost.size)
+            drawRect(ArtInk.Ivory.copy(alpha = 0.7f * q * (1f - 0.6f * s.word)), ghost.topLeft, ghost.size, style = Stroke(1.3f * dp, pathEffect = PathEffect.dashPathEffect(floatArrayOf(5f * dp, 4f * dp))))
+            if (s.word > 0f) {
+                val c = ghost.center
+                val r = min(gw, h * 0.16f) * 0.35f
+                val a1 = seg(s.word, 0.2f, 0.6f)
+                val a2 = seg(s.word, 0.6f, 1f)
+                drawLine(ArtInk.Ember, c + Offset(-r, -r), c + Offset(-r + 2 * r * a1, -r + 2 * r * a1), 2.4f * dp, StrokeCap.Round)
+                if (a2 > 0f) drawLine(ArtInk.Ember, c + Offset(r, -r), c + Offset(r - 2 * r * a2, -r + 2 * r * a2), 2.4f * dp, StrokeCap.Round)
+            }
+            tagAt(a.tag("raise"), Offset(cx + gw / 2 + w * 0.03f + halfTag(a.tag("raise")), roofTop - h * 0.1f), seg(s.raise, 0.3f, 1f), back = TagBack, ink = ArtInk.Ember)
+        }
+        if (s.word > 0f) tagAt(a.tag("word"), Offset(cx, h * 0.08f), seg(s.word, 0.3f, 1f), back = TagBack, ink = ArtInk.Gold)
+        // the station it was given: a line of gold at its top
+        if (s.level > 0f) {
+            val q = easeOut(s.level)
+            val y = roofTop
+            drawLine(ArtInk.Gold.copy(alpha = q), Offset(cx - (bw / 2 + w * 0.08f) * q, y), Offset(cx + (bw / 2 + w * 0.08f) * q, y), 2f * dp, StrokeCap.Round)
+            for (sd in listOf(-1f, 1f)) drawLine(ArtInk.Gold.copy(alpha = q), Offset(cx + sd * (bw / 2 + w * 0.08f) * q, y - 5f * dp), Offset(cx + sd * (bw / 2 + w * 0.08f) * q, y + 5f * dp), 2f * dp, StrokeCap.Round)
+            val tl = a.tag("level")
+            tagAt(tl, Offset(cx - bw / 2 - w * 0.03f - halfTag(tl), y - h * 0.07f), seg(s.level, 0.3f, 1f), back = TagBack, ink = ArtInk.Gold)
+        }
         // dust as it falls
         if (fall > 0f && fall < 1f) {
             for (m in 0 until 7) {
@@ -347,7 +381,7 @@ internal fun DrawScope.buildingScene(a: ArtCtx) {
         if (s.lock > 0f) tagAt(a.tag("lock"), Offset(cx, floor - rows.size * bh - h * 0.13f), seg(s.lock, 0.3f, 1f), back = TagBack, ink = ArtInk.Gold)
         if (s.rival > 0f) {
             val rx = cx + (if (si == 1) -1f else 1f) * (bw / 2 + w * 0.07f)
-            tagAt(a.tag("rival"), Offset(rx, roofTop - h * 0.08f), seg(s.rival, 0.3f, 1f), back = TagBack, ink = ArtInk.Ember)
+            tagAt(a.tag("rival"), Offset(rx, roofTop - h * 0.07f - s.cracks.size * h * 0.085f), seg(s.rival, 0.3f, 1f), back = TagBack, ink = ArtInk.Ember)
         }
         for ((k, i) in s.cracks.withIndex()) {
             tagAt(a.tagOf(i), Offset(cx, roofTop - h * 0.07f - k * h * 0.085f), seg(a.beatAt(i), 0.3f, 1f), back = TagBack, ink = ArtInk.Ember)
