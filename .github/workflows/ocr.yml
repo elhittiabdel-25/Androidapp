@@ -1,0 +1,110 @@
+name: ocr
+# OCR the book PDFs whose text layer is missing or unreadable (scans, or fonts with a private encoding).
+# sources/ocr.txt has one line per job: "<id>", or "<id> <first>-<last>" to split a long book over jobs.
+# The last job commits sources/ocr/<id>.txt to this branch, with a "=== PAGE n ===" line before each
+# PDF page (n = page index in the PDF file).
+on:
+  push:
+    branches: [sources]
+    paths: ["sources/ocr.txt", ".github/workflows/ocr.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      parts: ${{ steps.parts.outputs.parts }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: parts
+        run: echo "parts=$(grep -v '^[[:space:]]*$' sources/ocr.txt | jq -R . | jq -cs .)" >> "$GITHUB_OUTPUT"
+
+  ocr:
+    needs: plan
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        part: ${{ fromJson(needs.plan.outputs.parts) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Tesseract and the best Arabic model
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq tesseract-ocr poppler-utils
+          mkdir -p "$RUNNER_TEMP/tessdata"
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/tessdata/ara.traineddata" https://github.com/tesseract-ocr/tessdata_best/raw/main/ara.traineddata
+
+      - name: OCR the pages
+        env:
+          PART: ${{ matrix.part }}
+          TESSDATA_PREFIX: ${{ runner.temp }}/tessdata
+          OMP_THREAD_LIMIT: "1"
+        run: |
+          set -eu
+          id="${PART%% *}"; range=""
+          if [ "$PART" != "$id" ]; then range="${PART#* }"; fi
+          img="$RUNNER_TEMP/img"; mkdir -p "$img" out
+          if [ -n "$range" ]; then
+            pdftoppm -r 300 -gray -png -f "${range%-*}" -l "${range#*-}" "sources/raw/$id.pdf" "$img/p"
+          else
+            pdftoppm -r 300 -gray -png "sources/raw/$id.pdf" "$img/p"
+          fi
+          echo "$(ls "$img" | wc -l) pages to read"
+          find "$img" -name '*.png' | sort | xargs -P "$(nproc)" -n 1 sh -c 'tesseract "$0" "${0%.png}" -l ara >/dev/null 2>&1 || echo "failed $0"'
+          tag="$id"
+          if [ -n "$range" ]; then tag="${id}_${range}"; fi
+          python3 - "$img" "out/$tag.txt" <<'EOF'
+          import os, re, sys
+          d, out = sys.argv[1], sys.argv[2]
+          pages = sorted((int(re.search(r'-(\d+)\.txt$', f).group(1)), f) for f in os.listdir(d) if f.endswith('.txt'))
+          with open(out, 'w', encoding='utf-8') as o:
+              for n, f in pages:
+                  o.write(f"\n=== PAGE {n} ===\n" + open(os.path.join(d, f), encoding='utf-8').read())
+          print(out, len(pages), 'pages')
+          EOF
+          echo "TAG=$tag" >> "$GITHUB_ENV"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ocr-${{ env.TAG }}
+          path: out/*.txt
+
+  collect:
+    needs: ocr
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ocr-*
+          merge-multiple: true
+          path: parts
+
+      - name: Join the parts and commit them to this branch
+        run: |
+          set -eu
+          mkdir -p sources/ocr
+          python3 - <<'EOF'
+          import os, re, collections
+          parts = collections.defaultdict(list)
+          for f in os.listdir('parts'):
+              m = re.match(r'(\d+)(?:_(\d+)-\d+)?\.txt$', f)
+              if m:
+                  parts[m.group(1)].append((int(m.group(2) or 0), f))
+          for book, fs in sorted(parts.items()):
+              with open(f'sources/ocr/{book}.txt', 'w', encoding='utf-8') as o:
+                  for _, f in sorted(fs):
+                      o.write(open(os.path.join('parts', f), encoding='utf-8').read())
+              print(book, len(fs), 'part(s)')
+          EOF
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add sources/ocr
+          git commit -qm "OCR text of the book PDFs" || echo "nothing to commit"
+          git push

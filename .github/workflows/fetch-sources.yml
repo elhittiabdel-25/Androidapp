@@ -2,6 +2,7 @@ name: fetch-sources
 on:
   push:
     branches: [sources]
+    paths: ["sources/list.txt", "sources/batch*.txt"]
 permissions:
   contents: write
 jobs:
