@@ -51,7 +51,7 @@ DAGGER_WORDS = [
     (re.compile("^الرحمن"), 4), (re.compile("^رحمن"), 2),
     (re.compile("^الإله"), 3), (re.compile("^إله"), 1),
 ]
-ALLAH = re.compile("^(?:[وفبت]|وب|فب)?الله(?:م)?$|^[وف]?لله$")
+ALLAH = re.compile("^(?:[وفبت]|وب|فب|فو)?الله(?:م)?$|^[وف]?لله$")
 
 
 def bare(s):
@@ -169,8 +169,8 @@ def analyze(word):
         if u.ch == "ل" and u.v == "i" and nxt.ch == "ل" and article_lam(us, start + 1):
             start += 1                                   # لِلْ: li + the article written without its alif
             break
-        if u.ch in "وف" and nxt.ch in "بكل" and nxt.v in ("a", "i") and not nxt.sh:
-            start += 1                                   # وَبِ، فَلِ: another proclitic may follow
+        if u.ch in "وف" and nxt.ch in "وبكل" and nxt.v in ("a", "i") and not nxt.sh:
+            start += 1                                   # وَبِ، فَلِ، فَوَ: another proclitic may follow
             continue
         break
 
