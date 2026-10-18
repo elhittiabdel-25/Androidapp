@@ -144,7 +144,7 @@ fun CardView(
                 enter = expandVertically(tween(320)) + fadeIn(tween(320)),
                 exit = shrinkVertically(tween(220)) + fadeOut(tween(160)),
             ) {
-                DeepLayer(card, repo, playingKey, follow, { t: String, p: String -> shown(t, p) }, onRelated, onPlayVerse)
+                DeepLayer(card, repo, progress, playingKey, follow, { t: String, p: String -> shown(t, p) }, onRelated, onPlayVerse)
             }
 
             QuizFlip(card, flipped, onFlip, onGrade)
@@ -159,6 +159,7 @@ fun CardView(
 private fun DeepLayer(
     card: Card,
     repo: ContentRepo,
+    progress: ProgressStore,
     playingKey: String?,
     follow: FollowState?,
     shown: (String, String) -> String,
