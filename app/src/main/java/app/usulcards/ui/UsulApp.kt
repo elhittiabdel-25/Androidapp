@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -33,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -59,46 +61,51 @@ fun UsulApp(repo: ContentRepo, progress: ProgressStore, player: AudioPlayer) {
             val confetti = remember { ConfettiState() }
             val snackbar = remember { SnackbarHostState() }
             var tab by remember { mutableIntStateOf(0) }
+            var showAbout by remember { mutableStateOf(false) }
             Box(Modifier.fillMaxSize().background(pal.bg)) {
-                Scaffold(
-                    containerColor = pal.bg,
-                    snackbarHost = { SnackbarHost(snackbar) },
-                    bottomBar = {
-                        NavigationBar(containerColor = pal.surface) {
-                            val itemColors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = pal.accent, selectedTextColor = pal.accent, indicatorColor = pal.accentSoft,
-                                unselectedIconColor = pal.muted, unselectedTextColor = pal.muted,
-                            )
-                            NavigationBarItem(
-                                selected = tab == 0, onClick = { tab = 0 }, colors = itemColors,
-                                icon = { Icon(Icons.Filled.Home, contentDescription = null) },
-                                label = { Text("البطاقات", fontFamily = Fonts.ui) },
-                            )
-                            NavigationBarItem(
-                                selected = tab == 1, onClick = { tab = 1 }, colors = itemColors,
-                                icon = { Icon(Icons.Filled.Menu, contentDescription = null) },
-                                label = { Text("الأقسام", fontFamily = Fonts.ui) },
-                            )
-                            NavigationBarItem(
-                                selected = tab == 2, onClick = { tab = 2 }, colors = itemColors,
-                                icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
-                                label = { Text("محفوظاتي", fontFamily = Fonts.ui) },
-                            )
-                        }
-                    },
-                ) { inner ->
-                    Box(Modifier.padding(inner)) {
-                        when (tab) {
-                            0 -> DeckScreen(repo, deck, progress, player, confetti, snackbar)
-                            1 -> CategoriesScreen(repo, progress) { cat, path ->
-                                if (path != null) deck.setPath(path) else deck.openCategory(cat)
-                                tab = 0
+                if (showAbout) {
+                    AboutScreen(repo) { showAbout = false }
+                } else {
+                    Scaffold(
+                        containerColor = pal.bg,
+                        snackbarHost = { SnackbarHost(snackbar) },
+                        bottomBar = {
+                            NavigationBar(containerColor = pal.surface) {
+                                val itemColors = NavigationBarItemDefaults.colors(
+                                    selectedIconColor = pal.accent, selectedTextColor = pal.accent, indicatorColor = pal.accentSoft,
+                                    unselectedIconColor = pal.muted, unselectedTextColor = pal.muted,
+                                )
+                                NavigationBarItem(
+                                    selected = tab == 0, onClick = { tab = 0 }, colors = itemColors,
+                                    icon = { Icon(Icons.Filled.Home, contentDescription = null) },
+                                    label = { Text("البطاقات", fontFamily = Fonts.ui) },
+                                )
+                                NavigationBarItem(
+                                    selected = tab == 1, onClick = { tab = 1 }, colors = itemColors,
+                                    icon = { Icon(Icons.Filled.Menu, contentDescription = null) },
+                                    label = { Text("الأقسام", fontFamily = Fonts.ui) },
+                                )
+                                NavigationBarItem(
+                                    selected = tab == 2, onClick = { tab = 2 }, colors = itemColors,
+                                    icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
+                                    label = { Text("محفوظاتي", fontFamily = Fonts.ui) },
+                                )
                             }
-                            else -> SavedScreen(repo, progress) { id -> deck.jumpTo(id); tab = 0 }
+                        },
+                    ) { inner ->
+                        Box(Modifier.padding(inner)) {
+                            when (tab) {
+                                0 -> DeckScreen(repo, deck, progress, player, confetti, snackbar)
+                                1 -> CategoriesScreen(repo, progress, onAbout = { showAbout = true }) { cat, path ->
+                                    if (path != null) deck.setPath(path) else deck.openCategory(cat)
+                                    tab = 0
+                                }
+                                else -> SavedScreen(repo, progress) { id -> deck.jumpTo(id); tab = 0 }
+                            }
                         }
                     }
+                    ConfettiLayer(confetti)
                 }
-                ConfettiLayer(confetti)
             }
         }
     }
@@ -106,7 +113,7 @@ fun UsulApp(repo: ContentRepo, progress: ProgressStore, player: AudioPlayer) {
 
 /** Categories, each with its learning paths (modules); a category or a single path opens as a deck. */
 @Composable
-private fun CategoriesScreen(repo: ContentRepo, progress: ProgressStore, onOpen: (category: String?, path: String?) -> Unit) {
+private fun CategoriesScreen(repo: ContentRepo, progress: ProgressStore, onAbout: () -> Unit, onOpen: (category: String?, path: String?) -> Unit) {
     val pal = LocalPalette.current
     LazyColumn(
         Modifier.fillMaxSize().padding(horizontal = 16.dp),
@@ -181,11 +188,24 @@ private fun CategoriesScreen(repo: ContentRepo, progress: ProgressStore, onOpen:
             }
         }
         item {
-            Text(
-                "مصدر المحتوى: كتب «مكتبة المحتوى الإسلامي» (islamcontent.com)، مع الكتاب والصفحة في كل بطاقة.",
-                fontFamily = Fonts.ui, fontSize = 12.sp, lineHeight = 19.sp, color = pal.muted,
-                modifier = Modifier.padding(top = 4.dp, bottom = 20.dp),
-            )
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 20.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(pal.surface)
+                    .border(1.dp, pal.line, RoundedCornerShape(16.dp))
+                    .clickable(onClick = onAbout)
+                    .padding(14.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                Icon(Icons.Filled.Info, contentDescription = null, tint = pal.accent)
+                Column(Modifier.weight(1f)) {
+                    Text("حول Re-Iman والمصادر", fontFamily = Fonts.ui, fontWeight = FontWeight.SemiBold, fontSize = 15.sp, color = pal.ink)
+                    Text("الكتب، والتلاوة، والصوت، والتراخيص، والخصوصية", fontFamily = Fonts.ui, fontSize = 12.sp, lineHeight = 19.sp, color = pal.muted)
+                }
+            }
         }
     }
 }

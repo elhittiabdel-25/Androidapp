@@ -1,41 +1,47 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
+// Every CI build gets a higher versionCode (Play requires it to grow with each upload).
 val buildNumber = (System.getenv("GITHUB_RUN_NUMBER") ?: "1").toInt()
+
+// The upload key never lives in the repository: CI writes it from the repository secrets
+// (UPLOAD_KEYSTORE_BASE64 and friends) and passes its path here. Without it, release builds
+// fall back to the debug key, which is fine for testing but not accepted by Google Play.
+val uploadKeystore: String? = System.getenv("UPLOAD_KEYSTORE_PATH")?.takeIf { it.isNotBlank() && file(it).exists() }
 
 android {
     namespace = "app.usulcards"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
-        applicationId = "app.usulcards"
+        applicationId = "app.reiman"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 36
         versionCode = buildNumber
-        versionName = "0.1.$buildNumber"
+        versionName = "1.0.0"
     }
 
     signingConfigs {
-        create("usul") {
-            // One fixed key so every new build installs over the previous one without losing progress.
-            storeFile = file("usul-release.p12")
-            storePassword = "usulcards"
-            keyAlias = "usul"
-            keyPassword = "usulcards"
-            storeType = "pkcs12"
+        if (uploadKeystore != null) {
+            create("upload") {
+                storeFile = file(uploadKeystore)
+                storePassword = System.getenv("UPLOAD_KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("UPLOAD_KEY_ALIAS")
+                keyPassword = System.getenv("UPLOAD_KEY_PASSWORD")
+                storeType = "pkcs12"
+            }
         }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            signingConfig = signingConfigs.getByName("usul")
-        }
-        debug {
-            signingConfig = signingConfigs.getByName("usul")
+            signingConfig = if (uploadKeystore != null) signingConfigs.getByName("upload") else signingConfigs.getByName("debug")
         }
     }
 
@@ -43,14 +49,17 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     buildFeatures {
         compose = true
     }
     androidResources {
         noCompress += listOf("mp3")
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 
