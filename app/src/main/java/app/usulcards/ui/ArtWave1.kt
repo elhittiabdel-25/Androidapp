@@ -688,7 +688,6 @@ internal fun DrawScope.ridgeScene(a: ArtCtx) {
             drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.6f * p), Color.Transparent), center = c, radius = r * 4f), radius = r * 4f, center = c)
             drawCircle(ArtInk.Gold.copy(alpha = p), radius = r, center = c)
         }
-        tagAt(a.tag("stone", m), Offset(vx, mix(h * 0.9f, h * 0.64f, m / max(1f, stones - 1f))), seg(a.b("stone", m), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
     }
 
     // pitfalls on each side: the edge crumbles where the error lies
@@ -713,7 +712,12 @@ internal fun DrawScope.ridgeScene(a: ArtCtx) {
             val q = easeOut(p)
             val a0 = edge(u - 0.06f, side)
             val a1 = edge(u + 0.06f, side)
-            val inner = Offset(mix(e.x, vx, 0.45f * q), e.y + 2f * dp)
+            val inner = Offset(mix(e.x, vx, 0.3f * q), e.y + 2f * dp)
+            val rim = Path().apply {
+                moveTo(a0.x, a0.y)
+                quadraticBezierTo(mix(a0.x, inner.x, 0.8f), mix(a0.y, inner.y, 0.4f), inner.x, inner.y)
+                quadraticBezierTo(mix(a1.x, inner.x, 0.8f), mix(a1.y, inner.y, 0.4f), a1.x, a1.y)
+            }
             val bite = Path().apply {
                 moveTo(a0.x, a0.y)
                 quadraticBezierTo(mix(a0.x, inner.x, 0.8f), mix(a0.y, inner.y, 0.4f), inner.x, inner.y)
@@ -721,7 +725,7 @@ internal fun DrawScope.ridgeScene(a: ArtCtx) {
                 close()
             }
             drawPath(bite, Color(0xFF15131F).copy(alpha = q))
-            drawPath(bite, ArtInk.Ember.copy(alpha = 0.85f * q), style = Stroke(1.6f * dp, cap = StrokeCap.Round))
+            drawPath(rim, ArtInk.Ember.copy(alpha = 0.85f * q), style = Stroke(1.6f * dp, cap = StrokeCap.Round))
         } else {
             // a side trail leaving the path, with steps going over the edge
             val start = Offset(vx, edge(u, 0f).y)
@@ -732,6 +736,10 @@ internal fun DrawScope.ridgeScene(a: ArtCtx) {
         val tx = if (side > 0) w * 0.8f else w * 0.2f
         val ty = mix(h * 0.86f, h * 0.48f, row / 2.5f)
         tagAt(a.tagOf(i), Offset(tx, ty), seg(p, 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
+    }
+
+    for (m in 0 until stones) {
+        tagAt(a.tag("stone", m), Offset(vx, mix(h * 0.9f, h * 0.64f, m / max(1f, stones - 1f))), seg(a.b("stone", m), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
     }
 
     // the traveller keeps to the middle
