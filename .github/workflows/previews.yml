@@ -1,0 +1,81 @@
+name: Scene previews
+
+# Renders the illustrated card scenes on the JVM (Paparazzi, no emulator) and pushes contact sheets, dark-theme
+# stills and animated GIFs to the `previews` branch, so the drawings can be reviewed without a phone.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "app/src/main/java/app/usulcards/ui/Art*.kt"
+      - "app/src/main/java/app/usulcards/ui/Scenes.kt"
+      - "app/src/main/assets/content/cards.json"
+      - "tools/previews/**"
+      - ".github/workflows/previews.yml"
+  workflow_dispatch:
+    inputs:
+      motion:
+        description: "Scene ids to animate, comma-separated (default: tools/previews/motion.txt)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: previews
+  cancel-in-progress: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.14.3"
+
+      - name: Prepare the preview test
+        run: |
+          python3 tools/previews/enable_paparazzi.py
+          python3 tools/previews/gen_preview_data.py app/src/main/assets/content/cards.json app/src/test/java/app/usulcards/PreviewData.kt "${{ github.event.inputs.motion }}"
+          cp tools/previews/ArtPreviewTest.kt app/src/test/java/app/usulcards/
+
+      - name: Render the scenes
+        run: |
+          set -o pipefail
+          gradle :app:recordPaparazziDebug --no-daemon --stacktrace 2>&1 | tee "$RUNNER_TEMP/gradle.log"
+
+      - name: Contact sheets and animations
+        run: |
+          pip install --quiet pillow
+          python3 tools/previews/assemble.py app/src/test/snapshots "$RUNNER_TEMP/out"
+
+      - name: Push to the previews branch
+        run: |
+          cd "$RUNNER_TEMP/out"
+          echo "Rendered from ${GITHUB_SHA::7}" > README.md
+          git init -q -b previews .
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A && git commit -qm "Scene previews of ${GITHUB_SHA::7}"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" previews
+
+      - name: Push the errors to the preview-logs branch
+        if: failure()
+        run: |
+          mkdir -p "$RUNNER_TEMP/log"
+          grep -E "^e: |error:|What went wrong|FAILED|Exception|Caused by" "$RUNNER_TEMP/gradle.log" | head -200 > "$RUNNER_TEMP/log/errors.txt" || true
+          tail -300 "$RUNNER_TEMP/gradle.log" > "$RUNNER_TEMP/log/tail.txt" || true
+          find app/build/test-results -name "*.xml" -exec cp {} "$RUNNER_TEMP/log/" \; 2>/dev/null || true
+          cd "$RUNNER_TEMP/log"
+          git init -q -b preview-logs .
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A && git commit -qm "Preview errors of ${GITHUB_SHA::7}"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" preview-logs

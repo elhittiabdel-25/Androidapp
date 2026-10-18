@@ -22,7 +22,13 @@ from build_content import spoken, letters      # noqa: E402
 MARKS = "ًٌٍَُِّْٰ"
 HARAKA = re.compile(f"[{MARKS}]")
 LEAD = 0.03          # show each item slightly before its word
-TYPES = {"steps", "sides", "chain", "timeline", "circles", "meter", "transform", "moon", "stars"}
+TYPES = {"steps", "sides", "chain", "timeline", "circles", "meter", "transform", "moon", "stars", "art"}
+# illustrated scenes: the beats each one needs (kind: how many)
+ART = {
+    "key": {"key": 1, "tooth": 7, "open": 1},
+    "rope": {"rope": 3, "cut": 1, "hold": 1, "meaning": 1},
+    "ship": {"lord": 1, "ease": 1, "storm": 1, "later": 1, "storm2": 1},
+}
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
 errors, notes = [], []
@@ -190,7 +196,7 @@ def build(path):
             texts = ([own] if own else []) + [v for k, v in diac.items() if k != target_of(at)]
             out = {"label": vowelled(cid, it["label"], texts, vocab), "at": at, "frac": round(frac, 3)}
             if it["sub"]:
-                out["sub"] = vowelled(cid, it["sub"], texts, vocab)
+                out["sub"] = "|".join(vowelled(cid, part.strip(), texts, vocab) for part in it["sub"].split("|"))
             if it.get("side") is not None:
                 out["side"] = it["side"]
             if it.get("value") is not None:
@@ -219,6 +225,17 @@ def build(path):
             for k in ("ring", "fill", "turn", "safe"):
                 if not any(i.get("kind") == k for i in items):
                     err(cid, f"transform scene lacks a {k} item")
+        if spec["type"] == "art":
+            need = ART.get(spec["layout"])
+            if need is None:
+                err(cid, f"unknown illustration «{spec['layout']}»")
+            else:
+                for k, n in need.items():
+                    have = sum(1 for i in items if i.get("kind") == k)
+                    if have != n:
+                        err(cid, f"illustration {spec['layout']} needs {n} «{k}» beat(s), has {have}")
+                if len(spec["sides"]) > 2:
+                    err(cid, "an illustration takes at most two extra titles")
         if spec["type"] == "stars":
             for k in ("decor", "meteor", "guide", "rain"):
                 if not any(i.get("kind") == k for i in items):

@@ -93,6 +93,7 @@ import kotlin.math.sqrt
  *  - while the card's audio plays, each item appears when its sentence (and the right point in it) is read;
  *  - otherwise the scene previews itself once when the card is shown, and a tap replays it.
  * Rules kept by every scene: no people or animals, no depiction of Allah, the angels or the Throne, no music.
+ * Illustrated scenes (type "art") live in Art.kt.
  */
 
 private val HARAKAT = Regex("[\\u064B-\\u0652\\u0670]")
@@ -132,11 +133,12 @@ fun SceneHost(card: Card, scene: Scene, player: AudioPlayer, showDiacritics: Boo
             wasFollowing = false
             shown = n
         } else {
+            // no voice: the scene plays itself once (illustrated scenes at a calmer pace)
             shown = 0
             delay(450)
             while (shown < n) {
                 shown += 1
-                delay(1200)
+                delay(if (scene.type == "art") 1800 else 1200)
             }
         }
     }
@@ -154,6 +156,7 @@ fun SceneHost(card: Card, scene: Scene, player: AudioPlayer, showDiacritics: Boo
                 .semantics { contentDescription = summary },
         ) {
             when (scene.type) {
+                "art" -> ArtScene(scene, shown, showDiacritics)
                 "sides" -> SidesScene(scene, shown, txt)
                 "chain" -> ChainScene(scene, shown, txt)
                 "timeline" -> TimelineScene(scene, shown, txt)
@@ -217,7 +220,7 @@ private fun SceneTitle(text: String) {
 }
 
 @Composable
-private fun SceneCaption(scene: Scene, shown: Int, txt: (String) -> String) {
+internal fun SceneCaption(scene: Scene, shown: Int, txt: (String) -> String) {
     val pal = LocalPalette.current
     Crossfade(targetState = shown - 1, label = "scene-caption") { i ->
         val text = if (i >= 0) scene.items[i].label else scene.title
