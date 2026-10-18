@@ -28,9 +28,9 @@ import kotlin.math.sin
  * card's beats (kind, target `side`, strength `value`); see tools/previews/ART_PLAN.md.
  */
 
-private class Twinkle(val x: Float, val y: Float, val r: Float, val p: Float)
+internal class Twinkle(val x: Float, val y: Float, val r: Float, val p: Float)
 
-private val TWINKLES: List<Twinkle> = run {
+internal val TWINKLES: List<Twinkle> = run {
     var seed = 11L
     fun rnd(): Float {
         seed = (seed * 16807L) % 2147483647L
@@ -465,7 +465,8 @@ internal fun DrawScope.trailScene(a: ArtCtx) {
     if (walk > 0f) walkSteps({ u -> pt(u) }, 0f, 0.9f * easeOut(walk), ArtInk.Ivory, 1f, t)
 
     // goal at the far left
-    val goalA = a.count("goal") > 0 || a.count("word") > 0 || a.count("turn") > 0
+    val hasDoor = a.count("door") > 0
+    val goalA = !hasDoor && (a.count("goal") > 0 || a.count("word") > 0 || a.count("turn") > 0)
     if (goalA) {
         val g = pt(0.97f)
         val lit = max(easeOut(a.b("goal")), word * 0.6f)
@@ -474,6 +475,45 @@ internal fun DrawScope.trailScene(a: ArtCtx) {
         drawRoundRect(lerp(Color(0xFF1C140E), ArtInk.Gold, 0.3f + 0.7f * lit), topLeft = g + Offset(-4f * dp, -15f * dp), size = Size(8f * dp, 15f * dp), cornerRadius = CornerRadius(4f * dp, 4f * dp))
         if (lit > 0f) drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.4f * lit), Color.Transparent), center = g + Offset(0f, -10f * dp), radius = 30f * dp), radius = 30f * dp, center = g + Offset(0f, -10f * dp))
         tagAt(a.tag("goal"), g + Offset(w * 0.06f, -h * 0.25f), seg(a.b("goal"), 0.2f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
+    }
+
+    // the way shown by the lamp, all the way to the door
+    val show = easeOut(a.b("show"))
+    if (show > 0f) {
+        val glowPath = Path().apply {
+            for (k in 0..30) {
+                val q = pt(0.06f + 0.9f * show * k / 30f)
+                if (k == 0) moveTo(q.x, q.y) else lineTo(q.x, q.y)
+            }
+        }
+        drawPath(glowPath, ArtInk.Gold.copy(alpha = 0.35f), style = Stroke(10f * dp, cap = StrokeCap.Round))
+        tagAt(a.tag("show"), pt(0.55f) + Offset(0f, -h * 0.1f), seg(a.b("show"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
+    }
+    // a door at the end that only light from above opens
+    if (hasDoor) {
+        val door = a.b("door")
+        val g = pt(0.95f)
+        val dj = w * 0.032f
+        val dr = dj * 1.18f
+        val dcy = g.y - h * 0.16f
+        val beam = easeOut(seg(door, 0f, 0.4f))
+        if (beam > 0f) {
+            val ray = Path().apply {
+                moveTo(g.x - w * 0.012f, 0f)
+                lineTo(g.x + w * 0.012f, 0f)
+                lineTo(g.x + dj * 1.3f, g.y)
+                lineTo(g.x - dj * 1.3f, g.y)
+                close()
+            }
+            drawPath(ray, Brush.verticalGradient(listOf(ArtInk.Gold.copy(alpha = 0.08f * beam), ArtInk.Gold.copy(alpha = 0.32f * beam)), startY = 0f, endY = g.y))
+        }
+        val open = easeOut(seg(door, 0.4f, 0.8f))
+        drawPath(horseshoe(g.x, dcy, dr + 3f * dp, dj + 3f * dp, g.y), Color(0xFF6E5532))
+        drawPath(horseshoe(g.x, dcy, dr, dj, g.y), lerp(Color(0xFF14101C), Color(0xFFFFF1C8), open))
+        val leaf = dj * (1f - 0.8f * open)
+        drawRect(Color(0xFF5A3D24), topLeft = Offset(g.x + dj - leaf, dcy - dr), size = Size(leaf, g.y - dcy + dr))
+        drawRect(Color(0xFF5A3D24), topLeft = Offset(g.x - dj, dcy - dr), size = Size(leaf, g.y - dcy + dr))
+        tagAt(a.tag("door"), Offset(g.x + w * 0.06f, dcy - dr - h * 0.1f), seg(door, 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
     }
 
     // an omen: a dark cloud and a sound, then the steps turn back
@@ -490,6 +530,7 @@ internal fun DrawScope.trailScene(a: ArtCtx) {
         walkSteps({ u -> pt(u) }, 0f, 0.42f * easeOut(seg(a.b("omen"), 0f, 0.9f)), ArtInk.Ivory, 1f, t)
         tagAt(a.tag("omen"), c + Offset(0f, -h * 0.13f), seg(a.b("omen"), 0.3f, 1f), back = Color(0xE6101426))
     }
+    if (turn > 0f && a.count("omen") == 0) walkSteps({ u -> pt(u) }, 0f, 0.42f * easeOut(seg(a.b("turn"), 0f, 0.4f)), ArtInk.Ivory, 1f, t)
     if (turn > 0f) {
         // back toward where it started, in ember
         val from = pt(0.42f)
@@ -1011,6 +1052,18 @@ internal fun DrawScope.streamsScene(a: ArtCtx) {
         val tl = a.tag("curse")
         val cx = max(pool.x, (tl?.size?.width ?: 0) / 2f + 6f * dp)
         tagAt(tl, Offset(cx, h * 0.955f), seg(a.b("curse"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
+    }
+    // help asked of someone alive and present, in what he can do: a short channel between two wells
+    val near = easeOut(a.b("near"))
+    if (near > 0f) {
+        val w1 = Offset(w * 0.95f, h * 0.8f)
+        val w2 = Offset(w * 0.85f, h * 0.92f)
+        for (c in listOf(w1, w2)) {
+            drawOval(StreamInk.Water.copy(alpha = 0.25f * near), topLeft = c + Offset(-w * 0.04f, -h * 0.025f), size = Size(w * 0.08f, h * 0.05f))
+            drawOval(ArtInk.Jade.copy(alpha = near), topLeft = c + Offset(-w * 0.04f, -h * 0.025f), size = Size(w * 0.08f, h * 0.05f), style = Stroke(1.2f * dp))
+        }
+        drawLine(ArtInk.Jade.copy(alpha = near), w1, Offset(mix(w1.x, w2.x, near), mix(w1.y, w2.y, near)), 1.8f * dp, StrokeCap.Round, PathEffect.dashPathEffect(floatArrayOf(5f * dp, 4f * dp), -t * 26f * dp))
+        tagAt(a.tag("near"), Offset(w * 0.86f, h * 0.7f), seg(a.b("near"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Jade)
     }
     val block = easeOut(a.b("block"))
     if (block > 0f) {

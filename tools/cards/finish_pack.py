@@ -32,10 +32,16 @@ ART = {
 ART_KINDS = {
     "lantern": {"lamp", "gust", "glass", "dome", "grow", "dim", "ember", "out", "shatter", "say"},
     "trail": {"origin", "up", "lamp", "mark", "good", "bad", "follow", "follow2", "hole", "stray", "idols", "keep",
-              "omen", "turn", "word", "goal", "lands", "open", "stuck", "walk"},
+              "omen", "turn", "word", "goal", "lands", "open", "stuck", "walk", "show", "door"},
     "ridge": {"stone", "pit", "lean", "walk"},
     "tree": {"root", "trunk", "crown", "fruit", "storm", "hold", "calm", "shed", "bad"},
-    "streams": {"basin", "stream", "divert", "curse", "block"},
+    "streams": {"basin", "stream", "divert", "curse", "block", "near"},
+    "building": {"base", "pillars", "course", "roof", "glow", "light", "house", "rival", "fall", "crack", "lock"},
+    "gate": {"trumpet", "rise", "lights", "filter", "scrolls", "scale", "bridge", "pass", "trait", "gate", "seal",
+             "shut", "open"},
+    "shrine": {"lamp", "excess", "names", "out", "stone", "idol", "forget", "dome", "feast", "tree", "rock", "shirk",
+               "steps", "copy", "takbir"},
+    "hourglass": {"glass", "gold"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
