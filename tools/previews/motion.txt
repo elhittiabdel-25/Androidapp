@@ -1,5 +1,5 @@
 # Scenes rendered frame by frame as animations by the Scene previews workflow (one id per line).
 isra-miraj
 khatm-nubuwwa
-ashrat-saa
-qabr
+iman-tafadul
+ibadah

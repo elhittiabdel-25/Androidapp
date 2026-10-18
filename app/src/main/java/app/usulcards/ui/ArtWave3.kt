@@ -641,7 +641,7 @@ private fun DrawScope.nightMore(a: ArtCtx, ground: Float) {
                 drawCircle(ArtInk.Ivory.copy(alpha = 0.4f * trumpet * (1f - q)), radius = q * w * 1.1f, center = Offset(w * 1.02f, -h * 0.05f), style = Stroke(1.4f * dp))
             }
         }
-        tagAt(a.tag("trumpet"), Offset(w * 0.78f, h * 0.36f), seg(a.b("trumpet"), 0.3f, 1f), back = NightBack, ink = ArtInk.Ivory)
+        tagAt(a.tag("trumpet"), Offset(w * 0.8f, h * 0.17f), seg(a.b("trumpet"), 0.3f, 1f), back = NightBack, ink = ArtInk.Ivory)
     }
     // spans of time, one inside the other
     val rings = a.count("ring")
@@ -665,7 +665,7 @@ private fun DrawScope.nightMore(a: ArtCtx, ground: Float) {
         if (p <= 0f) continue
         val q = easeOut(p)
         val from = Offset(w * 0.5f, h * 0.22f)
-        val to = Offset(w * (0.3f + 0.4f * k), h * 0.08f)
+        val to = Offset(w * (0.2f + 0.6f * k), h * 0.17f)
         tagAt(a.tag("name", k), Offset(mix(from.x, to.x, q), mix(from.y, to.y, q)), seg(p, 0f, 0.4f), back = NightBack, ink = ArtInk.Gold)
     }
     for (k in 0 until a.count("reject")) {
@@ -683,10 +683,11 @@ private fun DrawScope.nightMore(a: ArtCtx, ground: Float) {
     // smoke over the land
     val smoke = easeOut(a.b("smoke"))
     if (smoke > 0f) {
-        for (m in 0 until 9) {
-            val x = fract(m * 0.17f + t * 0.02f) * w * 1.2f - w * 0.1f
-            val y = ground - h * (0.05f + 0.12f * (m % 3)) * smoke
-            drawCircle(Color(0xFF6E6A7A).copy(alpha = 0.35f * smoke), radius = w * (0.08f + 0.02f * (m % 2)), center = Offset(x, y))
+        for (m in 0 until 12) {
+            val x = fract(m * 0.137f + t * 0.015f * (1 + m % 3)) * w * 1.3f - w * 0.15f
+            val y = ground - h * (0.04f + 0.1f * (m % 4)) * smoke
+            val r = w * (0.12f + 0.03f * (m % 3))
+            drawCircle(Brush.radialGradient(listOf(Color(0xFF8A8494).copy(alpha = 0.32f * smoke), Color.Transparent), center = Offset(x, y), radius = r), radius = r, center = Offset(x, y))
         }
         tagAt(a.tag("smoke"), Offset(w * 0.2f, ground - h * 0.32f), seg(a.b("smoke"), 0.3f, 1f), back = NightBack, ink = ArtInk.Ivory)
     }
@@ -778,8 +779,8 @@ private fun DrawScope.nightMore(a: ArtCtx, ground: Float) {
             val col = k % 10
             val row = k / 10
             val stays = k in listOf(12, 15, 22, 25, 28)
-            val c0 = Offset(w * (0.45f + 0.045f * col), h * (0.38f + 0.07f * row))
-            val c1 = Offset(w * (0.5f + 0.08f * listOf(12, 15, 22, 25, 28).indexOf(k)), h * 0.55f)
+            val c0 = Offset(w * (0.48f + 0.042f * col), h * (0.14f + 0.055f * row))
+            val c1 = Offset(w * (0.52f + 0.08f * listOf(12, 15, 22, 25, 28).indexOf(k)), h * 0.26f)
             val alpha = appear * (if (stays) 1f else 1f - keep)
             if (alpha <= 0.01f) continue
             val c = if (stays) Offset(mix(c0.x, c1.x, keep), mix(c0.y, c1.y, keep)) else c0
@@ -787,7 +788,7 @@ private fun DrawScope.nightMore(a: ArtCtx, ground: Float) {
             if (stays && keep > 0f) drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.6f * keep), Color.Transparent), center = c, radius = r * 4f), radius = r * 4f, center = c)
             drawCircle(ArtInk.Ivory.copy(alpha = alpha), radius = r, center = c)
         }
-        tagAt(a.tag("fifty", 0, 0), Offset(w * 0.66f, h * 0.3f), seg(ff, 0.1f, 0.4f) * (1f - seg(ff, 0.6f, 0.8f)), back = NightBack, ink = ArtInk.Ivory)
-        tagAt(a.tag("fifty", 0, 1), Offset(w * 0.66f, h * 0.68f), seg(ff, 0.7f, 1f), back = NightBack, ink = ArtInk.Gold)
+        tagAt(a.tag("fifty", 0, 0), Offset(w * 0.78f, h * 0.42f), seg(ff, 0.1f, 0.4f) * (1f - seg(ff, 0.6f, 0.8f)), back = NightBack, ink = ArtInk.Ivory)
+        tagAt(a.tag("fifty", 0, 1), Offset(w * 0.78f, h * 0.42f), seg(ff, 0.7f, 1f), back = NightBack, ink = ArtInk.Gold)
     }
 }
