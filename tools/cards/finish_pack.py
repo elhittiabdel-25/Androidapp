@@ -23,11 +23,19 @@ MARKS = "ًٌٍَُِّْٰ"
 HARAKA = re.compile(f"[{MARKS}]")
 LEAD = 0.03          # show each item slightly before its word
 TYPES = {"steps", "sides", "chain", "timeline", "circles", "meter", "transform", "moon", "stars", "art"}
-# illustrated scenes: the beats each one needs (kind: how many)
+# illustrated scenes: the beats each one needs (kind: how many), or for shared templates the kinds it knows
 ART = {
     "key": {"key": 1, "tooth": 7, "open": 1},
     "rope": {"rope": 3, "cut": 1, "hold": 1, "meaning": 1},
     "ship": {"lord": 1, "ease": 1, "storm": 1, "later": 1, "storm2": 1},
+}
+ART_KINDS = {
+    "lantern": {"lamp", "gust", "glass", "dome", "grow", "dim", "ember", "out", "shatter", "say"},
+    "trail": {"origin", "up", "lamp", "mark", "good", "bad", "follow", "follow2", "hole", "stray", "idols", "keep",
+              "omen", "turn", "word", "goal", "lands", "open", "stuck", "walk"},
+    "ridge": {"stone", "pit", "lean", "walk"},
+    "tree": {"root", "trunk", "crown", "fruit", "storm", "hold", "calm", "shed", "bad"},
+    "streams": {"basin", "stream", "divert", "curse", "block"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
@@ -227,7 +235,12 @@ def build(path):
                     err(cid, f"transform scene lacks a {k} item")
         if spec["type"] == "art":
             need = ART.get(spec["layout"])
-            if need is None:
+            known = ART_KINDS.get(spec["layout"])
+            if known is not None:
+                for i in items:
+                    if i.get("kind") not in known:
+                        err(cid, f"illustration {spec['layout']} has no beat «{i.get('kind')}»")
+            elif need is None:
                 err(cid, f"unknown illustration «{spec['layout']}»")
             else:
                 for k, n in need.items():

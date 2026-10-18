@@ -5,9 +5,12 @@ name: Build APK
 on:
   push:
     branches: [main]
-    paths-ignore:          # documentation alone doesn't need a new build
+    paths-ignore:          # documentation, previews and checking scripts alone don't need a new build
       - "docs/**"
       - "README.md"
+      - "tools/previews/**"
+      - "tools/cards/verify*.py"
+      - ".github/workflows/previews.yml"
   workflow_dispatch:
 
 permissions:
@@ -28,6 +31,14 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+
+      # Recitations fetched by an earlier build are reused; only verses cited for the first time are downloaded.
+      - name: Restore the verse files of earlier builds
+        uses: actions/cache@v4
+        with:
+          path: app/src/main/assets/quran
+          key: quran-${{ hashFiles('app/src/main/assets/content/cards.json') }}
+          restore-keys: quran-
 
       - name: Fetch verse recitations and Uthmani text
         run: python3 tools/fetch_quran.py app/src/main/assets | tee "$RUNNER_TEMP/quran.log"

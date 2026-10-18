@@ -29,8 +29,16 @@ def get(url, tries=3):
     return None
 
 os.makedirs(f"{ASSETS}/quran", exist_ok=True)
+try:    # files kept from an earlier build by the workflow cache: only new verses go to the network
+    cached = json.load(open(f"{ASSETS}/quran/uthmani.json", encoding="utf-8"))
+except (OSError, ValueError):
+    cached = {}
 uthmani, ok_audio = {}, 0
 for s, a in sorted(ayat):
+    if f"{s}:{a}" in cached and os.path.exists(f"{ASSETS}/quran/{s:03d}{a:03d}.mp3"):
+        uthmani[f"{s}:{a}"] = cached[f"{s}:{a}"]
+        ok_audio += 1
+        continue
     # one call returns both editions: [0] the Uthmani text, [1] the recitation with its audio links
     raw = get(f"https://api.alquran.cloud/v1/ayah/{s}:{a}/editions/quran-uthmani,{RECITER}")
     links = []
@@ -53,4 +61,8 @@ for s, a in sorted(ayat):
     ok_audio += os.path.exists(mp3)
     time.sleep(0.2)
 json.dump(uthmani, open(f"{ASSETS}/quran/uthmani.json", "w", encoding="utf-8"), ensure_ascii=False)
+cited = {f"{s:03d}{a:03d}.mp3" for s, a in ayat}
+for f in os.listdir(f"{ASSETS}/quran"):     # a verse no longer cited must not stay in the app
+    if f.endswith(".mp3") and f not in cited:
+        os.remove(f"{ASSETS}/quran/{f}")
 print(f"verses cited: {len(ayat)} | recitations: {ok_audio} | uthmani texts: {len(uthmani)}")

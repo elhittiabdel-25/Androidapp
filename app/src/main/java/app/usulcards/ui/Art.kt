@@ -117,11 +117,16 @@ internal fun ArtFrame(scene: Scene, beats: () -> List<Float>, time: () -> Float,
     }
     Column(Modifier.fillMaxWidth()) {
         Canvas(Modifier.fillMaxWidth().aspectRatio(ART_ASPECT)) {
-            val a = ArtCtx(scene.items.map { it.kind }, beats(), time(), tags, extras)
+            val a = ArtCtx(scene.items.map { it.kind }, beats(), time(), tags, extras, scene.items.map { it.side }, scene.items.map { it.value })
             when (scene.layout) {
                 "key" -> keyScene(a)
                 "rope" -> ropeScene(a)
                 "ship" -> shipScene(a)
+                "lantern" -> lanternScene(a)
+                "trail" -> trailScene(a)
+                "ridge" -> ridgeScene(a)
+                "tree" -> treeScene(a)
+                "streams" -> streamsScene(a)
                 else -> drawRect(pal.line)
             }
         }
@@ -170,7 +175,20 @@ internal class ArtCtx(
     val t: Float,
     private val tags: List<List<TextLayoutResult>>,
     val extras: List<TextLayoutResult>,
+    private val sides: List<Int> = emptyList(),
+    private val values: List<Float> = emptyList(),
 ) {
+    /** Items by position, for scenes whose beats act on a target (`side`) with a strength (`value`). */
+    val size: Int get() = kinds.size
+    fun kindAt(i: Int): String = kinds[i]
+    fun beatAt(i: Int): Float = beats.getOrElse(i) { 0f }
+    fun sideAt(i: Int): Int = sides.getOrElse(i) { -1 }
+    fun valueAt(i: Int): Float = values.getOrElse(i) { 0f }
+    fun tagOf(i: Int, part: Int = 0): TextLayoutResult? = tags.getOrNull(i)?.getOrNull(part)
+    fun parts(i: Int): Int = tags.getOrNull(i)?.size ?: 0
+    /** The n-th item of [kind], or -1. */
+    fun nth(kind: String, n: Int = 0): Int = index(kind, n)
+
     private fun index(kind: String, n: Int): Int {
         var c = 0
         for (i in kinds.indices) {
@@ -198,7 +216,7 @@ internal fun easeInOut(x: Float): Float {
     return if (c < 0.5f) 4f * c * c * c else 1f - (-2f * c + 2f).pow(3) / 2f
 }
 internal fun bump(x: Float): Float = if (x <= 0f || x >= 1f) 0f else sin(PI.toFloat() * x)
-private fun fract(x: Float): Float = x - floor(x)
+internal fun fract(x: Float): Float = x - floor(x)
 
 /** A short tag on a rounded backing, centred at [c] and kept inside the picture. */
 internal fun DrawScope.tagAt(tl: TextLayoutResult?, c: Offset, alpha: Float, back: Color = Color(0xB3101426), ink: Color = Color.Unspecified) {
@@ -241,7 +259,7 @@ internal fun horseshoe(cx: Float, cy: Float, r: Float, j: Float, floorY: Float):
 }
 
 /** Point on a cubic curve. */
-private fun cubic(p0: Offset, p1: Offset, p2: Offset, p3: Offset, t: Float): Offset {
+internal fun cubic(p0: Offset, p1: Offset, p2: Offset, p3: Offset, t: Float): Offset {
     val u = 1f - t
     val a = u * u * u
     val b = 3f * u * u * t
@@ -251,7 +269,7 @@ private fun cubic(p0: Offset, p1: Offset, p2: Offset, p3: Offset, t: Float): Off
 }
 
 /** The part of a cubic curve between [from] and [to] (0..1), as a polyline path, shifted by [shift]. */
-private fun cubicPart(p0: Offset, p1: Offset, p2: Offset, p3: Offset, from: Float, to: Float, shift: Offset = Offset.Zero): Path {
+internal fun cubicPart(p0: Offset, p1: Offset, p2: Offset, p3: Offset, from: Float, to: Float, shift: Offset = Offset.Zero): Path {
     val path = Path()
     val steps = 28
     for (k in 0..steps) {
@@ -655,7 +673,7 @@ private fun DrawScope.ropeScene(a: ArtCtx) {
     tagAt(a.tag("meaning", 0, 1), Offset(w * 0.82f, h * 0.07f), meaning, back = Color(0xCC3A2808), ink = ArtInk.Gold)
 }
 
-private fun DrawScope.hills(color: Color, base: Float, amp: Float, f1: Float, f2: Float, ph: Float) {
+internal fun DrawScope.hills(color: Color, base: Float, amp: Float, f1: Float, f2: Float, ph: Float) {
     val w = size.width
     val h = size.height
     val path = Path().apply {
