@@ -17,12 +17,10 @@ import app.usulcards.data.ProgressStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-/** Which cards are in the deck (all, one category, or one path), in which order, and where the reader is.
+/** The cards of the open module (one path), in order, and where the reader is in them.
  *  `deepByDefault` says whether a card opens with its «تعمّق» layer expanded (the reader's setting). */
 class DeckState(private val repo: ContentRepo, private val deepByDefault: () -> Boolean = { false }) {
-    var category by mutableStateOf<String?>(null)
-        private set
-    var filter by mutableStateOf<String?>(null)   // the path, when one path is open
+    var filter by mutableStateOf<String?>(null)   // the open module (path)
         private set
     val queue = mutableStateListOf<String>()
     var index by mutableIntStateOf(0)
@@ -35,23 +33,22 @@ class DeckState(private val repo: ContentRepo, private val deepByDefault: () -> 
         rebuild()
     }
 
-    /** One path (its category comes with it); null opens all cards. */
+    /** One module (path). */
     fun setPath(path: String?) {
         filter = path
-        category = path?.let { repo.categoryOf(it)?.id }
         rebuild()
     }
 
-    /** Every path of a category, one after another; null opens all cards. */
-    fun openCategory(id: String?) {
-        category = id
-        filter = null
-        rebuild()
+    /** Opens module [path] at card [cardId] (when it belongs to it), else at its first card. */
+    fun open(path: String, cardId: String?) {
+        if (filter != path) setPath(path)
+        val i = cardId?.let { queue.indexOf(it) } ?: -1
+        goTo(if (i >= 0) i else 0)
     }
 
     private fun rebuild() {
         queue.clear()
-        queue.addAll(repo.cardsFor(category, filter).map { it.id })
+        queue.addAll(repo.cardsFor(null, filter).map { it.id })
         index = 0
         resetCard()
     }
@@ -87,8 +84,9 @@ class DeckState(private val repo: ContentRepo, private val deepByDefault: () -> 
         queue.add(at, queue[index])
     }
 
+    /** Shows card [id], opening its own module when it belongs to another one. */
     fun jumpTo(id: String) {
-        if (queue.indexOf(id) < 0) setPath(null)
+        if (queue.indexOf(id) < 0) repo.byId[id]?.let { setPath(it.path) }
         val i = queue.indexOf(id)
         if (i >= 0) {
             index = i

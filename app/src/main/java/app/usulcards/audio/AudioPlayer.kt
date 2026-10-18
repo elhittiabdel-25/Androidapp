@@ -44,6 +44,10 @@ class AudioPlayer private constructor(private val app: Context) {
     var owner by mutableStateOf<String?>(null)
         private set
 
+    /** True only while sound is actually coming out (false when paused or between sessions). */
+    var audible by mutableStateOf(false)
+        private set
+
     val exo: ExoPlayer = ExoPlayer.Builder(app)
         .setAudioAttributes(
             AudioAttributes.Builder().setUsage(C.USAGE_MEDIA).setContentType(C.AUDIO_CONTENT_TYPE_SPEECH).build(),
@@ -67,6 +71,10 @@ class AudioPlayer private constructor(private val app: Context) {
 
             override fun onPlaybackStateChanged(playbackState: Int) {
                 if (playbackState == Player.STATE_ENDED && isPlaying) finished()
+            }
+
+            override fun onIsPlayingChanged(playing: Boolean) {
+                audible = playing
             }
 
             override fun onPlayerError(error: PlaybackException) {
@@ -129,6 +137,7 @@ class AudioPlayer private constructor(private val app: Context) {
         onAdvance = null
         lastQueued = null
         isPlaying = false
+        audible = false
         currentKey = null
         owner = null
         if (exo.mediaItemCount > 0 || exo.playbackState != Player.STATE_IDLE) {

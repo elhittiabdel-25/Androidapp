@@ -44,6 +44,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.SpanStyle
@@ -67,6 +68,7 @@ fun CardView(
     player: AudioPlayer,
     deepOpen: Boolean,
     flipped: Boolean,
+    follow: FollowState?,
     onToggleDeep: () -> Unit,
     onListen: () -> Unit,
     onSave: () -> Unit,
@@ -104,6 +106,7 @@ fun CardView(
                 text = shown("title", card.title),
                 style = TextStyle(fontFamily = Fonts.kufi, fontWeight = FontWeight.Medium, fontSize = 23.sp, lineHeight = 36.sp, color = pal.ink),
                 modifier = Modifier
+                    .onGloballyPositioned { follow?.place(card.id, "title", it.positionInRoot().y) }
                     .clip(RoundedCornerShape(6.dp))
                     .background(if (playingKey == "title") pal.highlight else Color.Transparent),
             )
@@ -113,15 +116,22 @@ fun CardView(
                 key(card.id) { SceneHost(card, scene, player, progress.showDiacritics) }
             }
 
-            // Face: one span per sentence so the sentence being read is highlighted.
+            // Face: one span per sentence so the sentence being read is highlighted (and found on screen).
+            val starts = ArrayList<Int>(card.faceSentences.size)
             val face = buildAnnotatedString {
                 card.faceSentences.forEachIndexed { i, s ->
                     if (i > 0) append(" ")
+                    starts.add(length)
                     val bg = if (playingKey == "face-$i") pal.highlight else Color.Transparent
                     withStyle(SpanStyle(background = bg)) { append(shown("face:$i", s)) }
                 }
             }
-            Text(face, style = TextStyle(fontFamily = Fonts.naskh, fontSize = 19.sp, lineHeight = 36.sp, color = pal.ink))
+            Text(
+                face,
+                style = TextStyle(fontFamily = Fonts.naskh, fontSize = 19.sp, lineHeight = 36.sp, color = pal.ink),
+                onTextLayout = { follow?.faceText(card.id, it, starts) },
+                modifier = Modifier.onGloballyPositioned { follow?.placeFace(card.id, it.positionInRoot().y) },
+            )
 
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                 ActionButton(if (deepOpen) "إخفاء التفاصيل" else "تعمّق", filled = true, onClick = onToggleDeep)
@@ -134,7 +144,7 @@ fun CardView(
                 enter = expandVertically(tween(320)) + fadeIn(tween(320)),
                 exit = shrinkVertically(tween(220)) + fadeOut(tween(160)),
             ) {
-                DeepLayer(card, repo, playingKey, { t: String, p: String -> shown(t, p) }, onRelated, onPlayVerse)
+                DeepLayer(card, repo, playingKey, follow, { t: String, p: String -> shown(t, p) }, onRelated, onPlayVerse)
             }
 
             QuizFlip(card, flipped, onFlip, onGrade)
@@ -150,6 +160,7 @@ private fun DeepLayer(
     card: Card,
     repo: ContentRepo,
     playingKey: String?,
+    follow: FollowState?,
     shown: (String, String) -> String,
     onRelated: (String) -> Unit,
     onPlayVerse: (List<String>, String) -> Unit,
@@ -161,7 +172,10 @@ private fun DeepLayer(
         var section = 0
         Section("شرح أعمق", section++) {
             card.deeper.forEachIndexed { i, d ->
-                Row(verticalAlignment = Alignment.Top) {
+                Row(
+                    verticalAlignment = Alignment.Top,
+                    modifier = Modifier.onGloballyPositioned { follow?.place(card.id, "deep-$i", it.positionInRoot().y) },
+                ) {
                     Text("•", color = pal.accent, fontSize = 18.sp, modifier = Modifier.padding(top = 4.dp))
                     Spacer(Modifier.width(8.dp))
                     Text(
@@ -183,6 +197,7 @@ private fun DeepLayer(
                     Column(
                         Modifier
                             .fillMaxWidth()
+                            .onGloballyPositioned { follow?.place(card.id, "ev-$i", it.positionInRoot().y) }
                             .clip(RoundedCornerShape(12.dp))
                             .background(if (active) pal.highlight else pal.goldSoft)
                             .padding(horizontal = 14.dp, vertical = 10.dp),
@@ -205,7 +220,7 @@ private fun DeepLayer(
                     }
                 } else {
                     val h = hadithIndex++
-                    Row {
+                    Row(Modifier.onGloballyPositioned { follow?.place(card.id, "ev-$i", it.positionInRoot().y) }) {
                         Box(Modifier.width(3.dp).height(64.dp).background(pal.gold))
                         Spacer(Modifier.width(10.dp))
                         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {

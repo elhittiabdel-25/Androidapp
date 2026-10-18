@@ -32,6 +32,12 @@ class ProgressStore(ctx: Context) {
     /** Every card opens with its «تعمّق» layer already expanded (off: closed until tapped). */
     var deepByDefault by mutableStateOf(prefs.getBoolean("deepByDefault", false))
         private set
+    /** The screen stays on while the voice reads, so the reader can follow along hands-free. */
+    var keepScreenOn by mutableStateOf(prefs.getBoolean("keepScreenOn", true))
+        private set
+    /** The page scrolls by itself to the sentence being read. */
+    var followReading by mutableStateOf(prefs.getBoolean("followReading", true))
+        private set
 
     val dailyGoal = 5
 
@@ -96,5 +102,22 @@ class ProgressStore(ctx: Context) {
     fun updateDeepByDefault(v: Boolean) {
         deepByDefault = v
         prefs.edit().putBoolean("deepByDefault", v).apply()
+    }
+
+    fun updateKeepScreenOn(v: Boolean) {
+        keepScreenOn = v
+        prefs.edit().putBoolean("keepScreenOn", v).apply()
+    }
+
+    fun updateFollowReading(v: Boolean) {
+        followReading = v
+        prefs.edit().putBoolean("followReading", v).apply()
+    }
+
+    /** The card last opened in a module, so the module reopens where the reader left it. */
+    fun lastCardIn(module: String): String? = prefs.getString("last:$module", null)
+
+    fun rememberCard(module: String, id: String) {
+        if (prefs.getString("last:$module", null) != id) prefs.edit().putString("last:$module", id).apply()
     }
 }
