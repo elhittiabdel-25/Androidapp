@@ -272,8 +272,10 @@ private fun DeepLayer(
             Section("بطاقات مرتبطة", section++) {
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     related.forEach { r ->
+                        // a card stays a surprise until its module has been opened
+                        val opened = r.path == card.path || r.id in progress.learned || progress.lastCardIn(r.path) != null
                         Text(
-                            r.title, color = pal.accent, fontSize = 14.sp, fontFamily = Fonts.ui,
+                            if (opened) r.title else "🔒 بطاقة من مسار «${r.path}»", color = pal.accent, fontSize = 14.sp, fontFamily = Fonts.ui,
                             modifier = Modifier.clip(RoundedCornerShape(8.dp)).background(pal.accentSoft).clickable { onRelated(r.id) }
                                 .padding(horizontal = 10.dp, vertical = 6.dp),
                         )

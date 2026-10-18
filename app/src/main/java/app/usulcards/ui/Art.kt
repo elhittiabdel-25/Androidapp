@@ -162,7 +162,7 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "charm", "wall", "many", "raise", "level", "cloud", "roll", "shrink", "quake", "truth", "nocall", "adorn", "shoot", "guide", "credit", "rain", "challenge", "breath" -> 1600
     "nights", "grain", "sun" -> 3200
     "descend", "recite", "keep", "write", "follow", "false", "first", "cup" -> 1400
-    "will", "equal", "sever" -> 2000
+    "will", "equal", "sever", "drain" -> 2000
     "create" -> 2400
     "untie", "return" -> 2200
     else -> 1000

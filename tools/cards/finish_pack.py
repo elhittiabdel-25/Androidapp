@@ -47,7 +47,7 @@ ART_KINDS = {
     "night": {"book", "cloud", "nights", "towers", "roll", "shrink", "note", "layers", "quake", "calm", "truth", "nocall",
               "adorn", "shoot", "guide", "credit", "rain", "descend", "recite", "keep", "write", "will", "create"},
     "grain": {"grain", "challenge", "breath"},
-    "vessels": {"cup", "equal", "first"},
+    "vessels": {"cup", "equal", "first", "drain", "seal"},
     "cave": {"cave", "sun", "follow", "false"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}

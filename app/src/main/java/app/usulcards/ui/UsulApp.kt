@@ -23,6 +23,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -71,6 +73,7 @@ fun UsulApp(repo: ContentRepo, progress: ProgressStore, player: AudioPlayer) {
             var tab by rememberSaveable { mutableIntStateOf(0) }
             var inModule by remember { mutableStateOf(false) }
             var showAbout by remember { mutableStateOf(false) }
+            var openCats by rememberSaveable { mutableStateOf("") }     // categories opened on the home screen
 
             // the voice reads and the reader follows: the screen must not go dark meanwhile
             KeepScreenOn(player.audible && progress.keepScreenOn)
@@ -124,7 +127,7 @@ fun UsulApp(repo: ContentRepo, progress: ProgressStore, player: AudioPlayer) {
                     ) { inner ->
                         Box(Modifier.padding(inner)) {
                             when (tab) {
-                                0 -> HomeScreen(repo, progress, onAbout = { showAbout = true }) { path -> openModule(path) }
+                                0 -> HomeScreen(repo, progress, openCats, { openCats = it }, onAbout = { showAbout = true }) { path -> openModule(path) }
                                 else -> SavedScreen(repo, progress) { id -> openCard(id) }
                             }
                         }
@@ -138,7 +141,14 @@ fun UsulApp(repo: ContentRepo, progress: ProgressStore, player: AudioPlayer) {
 
 /** The sections, each with its modules and the reader's progress in them (no card titles: they stay a surprise). */
 @Composable
-private fun HomeScreen(repo: ContentRepo, progress: ProgressStore, onAbout: () -> Unit, onOpen: (path: String) -> Unit) {
+private fun HomeScreen(
+    repo: ContentRepo,
+    progress: ProgressStore,
+    openCats: String,
+    onOpenCats: (String) -> Unit,
+    onAbout: () -> Unit,
+    onOpen: (path: String) -> Unit,
+) {
     val pal = LocalPalette.current
     LazyColumn(
         Modifier.fillMaxSize().padding(horizontal = 16.dp),
@@ -149,13 +159,15 @@ private fun HomeScreen(repo: ContentRepo, progress: ProgressStore, onAbout: () -
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text("الأقسام", fontFamily = Fonts.kufi, fontWeight = FontWeight.Bold, fontSize = 24.sp, color = pal.ink)
                 Text(
-                    "اختر مسارًا لتبدأ بطاقاته، وتقدّمك يُحفظ في كل مسار.",
+                    "افتح قسمًا لترى مساراته، ثم اختر مسارًا لتبدأ بطاقاته.",
                     fontFamily = Fonts.ui, fontSize = 13.sp, lineHeight = 20.sp, color = pal.muted,
                 )
             }
         }
         itemsIndexed(repo.categories, key = { _, c -> c.id }) { i, cat ->
             val (fg, bg) = categoryTone(pal, cat.id, i)
+            // a category shows its modules only once it is opened
+            val expanded = cat.id in openCats.split(',')
             val catCards = repo.cardsFor(cat.id, null)
             val done = catCards.count { it.id in progress.learned }
             Column(
@@ -166,7 +178,12 @@ private fun HomeScreen(repo: ContentRepo, progress: ProgressStore, onAbout: () -
                     .border(1.dp, pal.line, RoundedCornerShape(16.dp)),
             ) {
                 Row(
-                    Modifier.fillMaxWidth().background(bg).padding(14.dp),
+                    Modifier.fillMaxWidth().background(bg)
+                        .clickable {
+                            val ids = openCats.split(',').filter { it.isNotEmpty() && it != cat.id }
+                            onOpenCats((if (expanded) ids else ids + cat.id).joinToString(","))
+                        }
+                        .padding(14.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
@@ -180,10 +197,16 @@ private fun HomeScreen(repo: ContentRepo, progress: ProgressStore, onAbout: () -
                         }
                     }
                     CountRing(done, catCards.size, fg)
+                    Icon(
+                        if (expanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
+                        contentDescription = if (expanded) "أغلق القسم" else "افتح القسم", tint = pal.muted,
+                    )
                 }
-                cat.paths.filter { it in repo.paths }.forEachIndexed { k, p ->
-                    if (k > 0) Box(Modifier.fillMaxWidth().padding(horizontal = 14.dp).height(1.dp).background(pal.line))
-                    ModuleRow(p, repo.cardsFor(null, p), progress, fg) { onOpen(p) }
+                if (expanded) {
+                    cat.paths.filter { it in repo.paths }.forEachIndexed { k, p ->
+                        if (k > 0) Box(Modifier.fillMaxWidth().padding(horizontal = 14.dp).height(1.dp).background(pal.line))
+                        ModuleRow(p, repo.cardsFor(null, p), progress, fg) { onOpen(p) }
+                    }
                 }
             }
         }

@@ -273,7 +273,7 @@ internal fun DrawScope.nightScene(a: ArtCtx) {
             drawLine(ArtInk.Ivory.copy(alpha = 0.6f * (1f - seg(nocall, 0.6f, 1f) * 0.6f)), base + Offset(0f, -h * 0.07f), top, 1.2f * dp, StrokeCap.Round, PathEffect.dashPathEffect(floatArrayOf(3f * dp, 4f * dp)))
             nightCross(top, 6f * dp, seg(nocall, 0.5f, 0.9f))
         }
-        tagAt(a.tag("nocall"), Offset(w * 0.5f, ground + (h - ground) / 2), seg(nocall, 0.3f, 1f), back = NightBack, ink = ArtInk.Ember)
+        tagAt(a.tag("nocall"), Offset(w * 0.5f, h * 0.46f), seg(nocall, 0.3f, 1f), back = NightBack, ink = ArtInk.Ember)
     }
     // rain credited to a star (struck out), and rain by Allah's favour
     val credit = a.b("credit")
@@ -299,7 +299,7 @@ internal fun DrawScope.nightScene(a: ArtCtx) {
             drawLine(ArtInk.Jade.copy(alpha = 0.9f), Offset(x, ground), Offset(x - 3f * dp, ground - 9f * dp * q), 1.6f * dp, StrokeCap.Round)
             drawLine(ArtInk.Jade.copy(alpha = 0.9f), Offset(x, ground), Offset(x + 3f * dp, ground - 7f * dp * q), 1.6f * dp, StrokeCap.Round)
         }
-        tagAt(a.tag("rain"), Offset(w * 0.62f, ground - h * 0.2f), seg(a.b("rain"), 0.3f, 1f), back = NightBack, ink = ArtInk.Jade)
+        tagAt(a.tag("rain"), Offset(w * 0.62f, h * 0.5f), seg(a.b("rain"), 0.3f, 1f), back = NightBack, ink = ArtInk.Jade)
     }
     // creation: new stars, and life along the land
     val create = a.b("create")
@@ -322,7 +322,7 @@ internal fun DrawScope.nightScene(a: ArtCtx) {
     }
     if (a.count("adorn") > 0) tagAt(a.tag("adorn"), Offset(w * 0.5f, h * 0.08f), seg(a.b("adorn"), 0.3f, 1f), back = NightBack, ink = ArtInk.Gold)
     for (k in 0 until a.count("note")) {
-        tagAt(a.tag("note", k), Offset(w * 0.5f, h * (0.22f + 0.09f * k)), seg(a.b("note", k), 0.3f, 1f), back = NightBack, ink = ArtInk.Ember)
+        tagAt(a.tag("note", k), Offset(w * 0.5f, h * (0.2f + 0.08f * k)), seg(a.b("note", k), 0.3f, 1f), back = NightBack, ink = ArtInk.Ember)
     }
 }
 
@@ -462,6 +462,17 @@ internal fun DrawScope.vesselsScene(a: ArtCtx) {
         var level = a.valueAt(i).coerceIn(0.05f, 1f) * easeOut(seg(a.beatAt(i), 0.2f, 1f))
         var tone = ArtInk.Gold
         var strike = 0f
+        var drain = 0f
+        var sealed = 0f
+        for (e in 0 until a.size) {
+            if (a.sideAt(e) != k) continue
+            if (a.kindAt(e) == "drain") drain = max(drain, a.beatAt(e))
+            if (a.kindAt(e) == "seal") sealed = max(sealed, easeOut(a.beatAt(e)))
+        }
+        if (drain > 0f) {
+            level = mix(level, 0.06f, easeInOut(drain))
+            tone = lerp(ArtInk.Gold, Color(0xFF7C7A86), easeOut(drain))
+        }
         for (e in 0 until a.size) {
             if (a.kindAt(e) != "equal" || a.sideAt(e) != k) continue
             val q = a.beatAt(e)
@@ -483,11 +494,28 @@ internal fun DrawScope.vesselsScene(a: ArtCtx) {
         drawPath(jar, VesselInk.Glass.copy(alpha = 0.65f * p), style = Stroke(1.3f * dp))
         drawLine(VesselInk.Glass.copy(alpha = 0.35f * p), Offset(body.left + cw * 0.2f, body.top + ch * 0.1f), Offset(body.left + cw * 0.2f, body.bottom - ch * 0.15f), 2f * dp, StrokeCap.Round)
         if (strike > 0f) nightCross(body.center + Offset(0f, -ch * 0.2f), cw * 0.45f, strike)
-        tagAt(a.tagOf(i), Offset(x, shelf + (h - shelf) / 2 + h * 0.02f), seg(a.beatAt(i), 0.3f, 1f), back = NightBack, ink = if (k == 0) ArtInk.Gold else ArtInk.Ivory)
-        for (e in 0 until a.size) {
-            if (a.kindAt(e) == "equal" && a.sideAt(e) == k) tagAt(a.tagOf(e), Offset(x, shelf - ch - h * 0.07f), seg(a.beatAt(e), 0.3f, 1f), back = NightBack, ink = ArtInk.Ember)
+        // what leaks away
+        if (drain > 0f && drain < 1f) {
+            for (m in 0 until 3) {
+                val q = fract(t * 1.2f + m / 3f)
+                drawCircle(Color(0xFF9A98A6).copy(alpha = 0.8f * (1f - q)), radius = 1.8f * dp, center = Offset(x + (m - 1) * 4f * dp, shelf + q * h * 0.12f))
+            }
         }
-        if (k == 0) tagAt(a.tag("first"), Offset(x, shelf - ch - h * 0.07f), seg(a.b("first"), 0.3f, 1f), back = NightBack, ink = ArtInk.Gold)
+        // a sealed vessel: a gold lid with a star, kept safe
+        if (sealed > 0f) {
+            drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.35f * sealed), Color.Transparent), center = body.center, radius = cw * 1.8f), radius = cw * 1.8f, center = body.center)
+            val lidY = body.top - (1f - sealed) * h * 0.08f
+            drawRoundRect(ArtInk.Brass.copy(alpha = sealed), topLeft = Offset(body.left - 3f * dp, lidY - 7f * dp), size = Size(cw + 6f * dp, 9f * dp), cornerRadius = CornerRadius(3f * dp, 3f * dp))
+            drawPath(starPath(Offset(x, lidY - 2.5f * dp), 5f * dp), ArtInk.Gold.copy(alpha = sealed))
+        }
+        tagAt(a.tagOf(i), Offset(x, shelf - ch - h * 0.07f), seg(a.beatAt(i), 0.3f, 1f), back = NightBack, ink = if (k == 0) ArtInk.Gold else ArtInk.Ivory)
+        for (e in 0 until a.size) {
+            val kind = a.kindAt(e)
+            if ((kind == "equal" || kind == "drain" || kind == "seal") && a.sideAt(e) == k) {
+                tagAt(a.tagOf(e), Offset(x, shelf - ch - h * 0.155f - (if (k % 2 == 1) h * 0.075f else 0f)), seg(a.beatAt(e), 0.3f, 1f), back = NightBack, ink = if (kind == "seal") ArtInk.Gold else ArtInk.Ember)
+            }
+        }
+        if (k == 0) tagAt(a.tag("first"), Offset(x, shelf - ch - h * 0.155f), seg(a.b("first"), 0.3f, 1f), back = NightBack, ink = ArtInk.Gold)
     }
 }
 

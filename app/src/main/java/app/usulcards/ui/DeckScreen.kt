@@ -99,6 +99,8 @@ fun ModuleScreen(
     LaunchedEffect(readingKey, card.id) {
         val key = readingKey ?: return@LaunchedEffect
         if (!progress.followReading) return@LaunchedEffect
+        // the title and the first paragraph stay in place, with the illustration beside them in view
+        if (key == "title" || key.startsWith("face")) return@LaunchedEffect
         delay(150)   // a layer that is opening has its final place by now
         if (follow.readerIsScrolling()) return@LaunchedEffect
         val y = follow.topOf(card.id, key) ?: return@LaunchedEffect

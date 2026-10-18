@@ -235,7 +235,7 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
                 drawPath(path, ArtInk.Ember.copy(alpha = 1f - 0.65f * b.cut), style = Stroke(1.6f * dp, cap = StrokeCap.Round))
             }
         }
-        if (b.tag >= 0) tagAt(a.tagOf(b.tag), q(0.5f) + Offset(0f, -h * 0.08f), seg(a.beatAt(b.tag), 0.3f, 1f), back = Color(0xE6101426), ink = if (b.cut > 0f) ArtInk.Ember else ArtInk.Gold)
+        if (b.tag >= 0) tagAt(a.tagOf(b.tag), q(0.5f) + Offset(0f, if (b.cut > 0f) h * 0.1f else -h * 0.08f), seg(a.beatAt(b.tag), 0.3f, 1f), back = Color(0xE6101426), ink = if (b.cut > 0f) ArtInk.Ember else ArtInk.Gold)
     }
 
     for (k in 0 until n) {
@@ -430,19 +430,28 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
         if (v < 2f) tagAt(a.tagOf(i), Offset(tx, ty), seg(p, 0f, 0.3f), back = Color(0xD9101426), ink = if (v >= 1f) ArtInk.Ember else ArtInk.Ivory)
     }
 
-    // tags: names on the sill, the latest word over each lantern
+    // tags: names on the sill (or above the lamp when `side` is 1), the latest word over each lantern
     lampNo = 0
+    var namesAbove = false
     for (i in 0 until a.size) {
         if (a.kindAt(i) != "lamp") continue
         val k = lampNo++
-        if (k < n) tagAt(a.tagOf(i), Offset(xs[k], sill + (h - sill) * 0.5f), seg(a.beatAt(i), 0.2f, 0.8f), back = Color(0xE6101426))
+        if (k >= n) continue
+        if (a.sideAt(i) == 1) {
+            namesAbove = true
+            val lift = if (n >= 5 && k % 2 == 1) h * 0.09f else 0f
+            tagAt(a.tagOf(i), Offset(xs[k], ringY - h * 0.08f - lift), seg(a.beatAt(i), 0.2f, 0.8f), back = Color(0xE6101426), ink = ArtInk.Gold)
+        } else {
+            tagAt(a.tagOf(i), Offset(xs[k], sill + (h - sill) * 0.5f), seg(a.beatAt(i), 0.2f, 0.8f), back = Color(0xE6101426))
+        }
     }
+    val wordY = ringY - h * (if (namesAbove) (if (n >= 5) 0.27f else 0.18f) else 0.1f)
     for (k in 0 until n) {
         val i = topTag[k]
-        if (i >= 0) tagAt(a.tagOf(i), Offset(xs[k], ringY - h * 0.1f), seg(a.beatAt(i), 0.2f, 0.8f), back = Color(0xE6101426), ink = toneInk(a.kindAt(i), a.valueAt(i)))
+        if (i >= 0) tagAt(a.tagOf(i), Offset(xs[k], wordY), seg(a.beatAt(i), 0.2f, 0.8f), back = Color(0xE6101426), ink = toneInk(a.kindAt(i), a.valueAt(i)))
     }
     if (centerTag >= 0) {
-        tagAt(a.tagOf(centerTag), Offset(xs.average().toFloat(), ringY - h * (if (topTag.any { it >= 0 }) 0.22f else 0.12f)), seg(a.beatAt(centerTag), 0.2f, 0.8f), back = Color(0xE6101426), ink = toneInk(a.kindAt(centerTag), a.valueAt(centerTag)))
+        tagAt(a.tagOf(centerTag), Offset(xs.average().toFloat(), max(h * 0.07f, wordY - h * (if (topTag.any { it >= 0 } || namesAbove) 0.12f else 0.02f))), seg(a.beatAt(centerTag), 0.2f, 0.8f), back = Color(0xE6101426), ink = toneInk(a.kindAt(centerTag), a.valueAt(centerTag)))
     }
 }
 
@@ -944,7 +953,7 @@ internal fun DrawScope.ridgeScene(a: ArtCtx) {
     }
 
     for (m in 0 until stones) {
-        tagAt(a.tag("stone", m), Offset(vx, mix(h * 0.9f, h * 0.64f, m / max(1f, stones - 1f))), seg(a.b("stone", m), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
+        tagAt(a.tag("stone", m), Offset(vx, h * (0.16f + 0.08f * m)), seg(a.b("stone", m), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
     }
 
     // the traveller keeps to the middle
@@ -1090,10 +1099,10 @@ internal fun DrawScope.treeScene(a: ArtCtx) {
     }
     if (hold > 0f) {
         drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.4f * hold), Color.Transparent), center = base, radius = w * 0.14f), radius = w * 0.14f, center = base)
-        tagAt(a.tag("hold"), base + Offset(-w * 0.2f, h * 0.06f), seg(a.b("hold"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
+        tagAt(a.tag("hold"), Offset(w * 0.8f, h * 0.44f), seg(a.b("hold"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
     }
     val calm = easeOut(a.b("calm"))
-    if (calm > 0f) tagAt(a.tag("calm"), Offset(w * 0.8f, h * 0.3f), seg(a.b("calm"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Jade)
+    if (calm > 0f) tagAt(a.tag("calm"), Offset(w * 0.8f, h * 0.32f), seg(a.b("calm"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Jade)
     // dry leaves falling away
     val shed = a.b("shed")
     if (shed > 0f) {
@@ -1136,25 +1145,24 @@ private object StreamInk {
 }
 
 /**
- * Streams run down from the hills into one basin of light (for Allah alone). Beats: basin, stream (one stream
- * per tag part, "a|b|c"), divert (the `side`-th stream, 0 = the last one so far, turns aside into a dark pool),
- * curse (a mark over the dark pool), block (a gate shuts across a branch).
+ * Streams of light rise from the land and go up out of sight, to Allah alone (nothing is drawn where they go).
+ * Beats: basin (the sky above them opens in light), stream (one stream per tag part, "a|b|c"), divert (the
+ * `side`-th stream, 0 = the last one so far, bends back down into a dark pool on the ground), curse (a mark over
+ * the dark pool), block (a gate shuts a branch that would turn aside), near (help asked of someone alive and
+ * present, in what he can do: a short channel between two wells on the land).
  */
 internal fun DrawScope.streamsScene(a: ArtCtx) {
     val w = size.width
     val h = size.height
     val dp = density
     val t = a.t
-    drawRect(Brush.verticalGradient(listOf(StreamInk.SkyTop, StreamInk.SkyLow), endY = h * 0.4f), size = Size(w, h * 0.4f))
-    // mountains with springs
-    drawPath(Path().apply {
-        moveTo(0f, h * 0.42f)
-        lineTo(w * 0.16f, h * 0.16f); lineTo(w * 0.3f, h * 0.32f); lineTo(w * 0.46f, h * 0.1f); lineTo(w * 0.62f, h * 0.3f)
-        lineTo(w * 0.78f, h * 0.14f); lineTo(w, h * 0.36f); lineTo(w, h * 0.46f); lineTo(0f, h * 0.46f); close()
-    }, StreamInk.Mount)
-    drawRect(StreamInk.Ground, topLeft = Offset(0f, h * 0.44f), size = Size(w, h * 0.56f))
+    val land = h * 0.84f
+    drawRect(Brush.verticalGradient(listOf(StreamInk.SkyTop, StreamInk.SkyLow), endY = land), size = Size(w, land))
+    for (s in TWINKLES) drawCircle(ArtInk.Ivory.copy(alpha = 0.4f * (0.5f + 0.5f * sin(t * 1.4f + s.p))), radius = s.r * 0.8f * dp, center = Offset(s.x * w, s.y * land * 0.7f))
+    hills(StreamInk.Mount, land - h * 0.03f, h * 0.02f, 0.012f, 0.029f, 0.4f)
+    drawRect(StreamInk.Ground, topLeft = Offset(0f, land), size = Size(w, h - land))
 
-    // every stream, in order: (start x on the mountain line, tag, appear progress, item index)
+    // every stream, in order: (start x on the land, appear progress, item index, tag part)
     data class Stream(val x: Float, val p: Float, val item: Int, val part: Int)
     val streams = ArrayList<Stream>()
     for (i in 0 until a.size) {
@@ -1162,7 +1170,7 @@ internal fun DrawScope.streamsScene(a: ArtCtx) {
         for (part in 0 until max(1, a.parts(i))) streams += Stream(0f, a.beatAt(i), i, part)
     }
     val count = streams.size
-    val placed = streams.mapIndexed { k, s -> s.copy(x = w * (0.9f - 0.8f * (if (count == 1) 0.5f else k / (count - 1f)))) }
+    val placed = streams.mapIndexed { k, s -> s.copy(x = w * (0.86f - 0.72f * (if (count == 1) 0.5f else k / (count - 1f)))) }
     // which streams are turned aside (side = how many from the newest: 0 = the newest when it happens)
     val diverted = FloatArray(count)
     var turnedX = 0f
@@ -1177,70 +1185,68 @@ internal fun DrawScope.streamsScene(a: ArtCtx) {
             turnedN++
         }
     }
-    val basin = Offset(w * 0.56f, h * 0.86f)
     // the dark pool lies on the side of the streams that are turned aside
-    val pool = if (turnedN > 0 && turnedX / turnedN > w * 0.5f) Offset(w * 0.88f, h * 0.88f) else Offset(w * 0.12f, h * 0.88f)
-    val bIn = easeOut(a.b("basin"))
-    // the dark pool, once a stream is turned aside
+    val pool = if (turnedN > 0 && turnedX / turnedN > w * 0.5f) Offset(w * 0.9f, h * 0.92f) else Offset(w * 0.1f, h * 0.92f)
     val anyDivert = (0 until a.count("divert")).maxOfOrNull { a.b("divert", it) } ?: 0f
     if (anyDivert > 0f) {
-        drawOval(StreamInk.Dark.copy(alpha = easeOut(anyDivert)), topLeft = pool + Offset(-w * 0.09f, -h * 0.035f), size = Size(w * 0.18f, h * 0.07f))
+        drawOval(StreamInk.Dark.copy(alpha = easeOut(anyDivert)), topLeft = pool + Offset(-w * 0.08f, -h * 0.035f), size = Size(w * 0.16f, h * 0.07f))
     }
-    // the basin of light
+    // the sky opening in light above them
+    val bIn = easeOut(a.b("basin"))
     if (bIn > 0f) {
-        drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.45f * bIn), Color.Transparent), center = basin, radius = w * 0.22f), radius = w * 0.22f, center = basin)
-        drawOval(lerp(StreamInk.Water, ArtInk.Gold, 0.35f).copy(alpha = bIn), topLeft = basin + Offset(-w * 0.13f, -h * 0.045f), size = Size(w * 0.26f, h * 0.09f))
-        drawOval(ArtInk.Ivory.copy(alpha = 0.5f * bIn), topLeft = basin + Offset(-w * 0.13f, -h * 0.045f), size = Size(w * 0.26f, h * 0.09f), style = Stroke(1.2f * dp))
-        tagAt(a.tag("basin"), basin + Offset(0f, h * 0.1f), seg(a.b("basin"), 0.2f, 0.9f), back = Color(0xE6101426), ink = ArtInk.Gold)
+        drawRect(Brush.verticalGradient(listOf(ArtInk.Gold.copy(alpha = 0.5f * bIn), Color.Transparent), startY = 0f, endY = h * 0.3f), size = Size(w, h * 0.3f))
+        tagAt(a.tag("basin"), Offset(w * 0.5f, h * 0.07f), seg(a.b("basin"), 0.2f, 0.9f), back = Color(0xE6101426), ink = ArtInk.Gold)
     }
 
-    var branchFrom = Offset(w * 0.36f, h * 0.62f)
+    var branchFrom = Offset(w * 0.5f, h * 0.6f)
     for ((k, s) in placed.withIndex()) {
         val p = easeOut(seg(s.p, 0f, 0.8f))
         if (p <= 0f) continue
-        val start = Offset(s.x, h * 0.42f)
+        val start = Offset(s.x, land + h * 0.03f)
         val dv = diverted[k]
-        val end = Offset(mix(basin.x + (s.x - w * 0.5f) * 0.3f, pool.x + w * 0.04f, dv), mix(basin.y - h * 0.02f, pool.y - h * 0.01f, dv))
-        val c1 = start + Offset(0f, h * 0.2f)
-        val c2 = end + Offset(0f, -h * 0.18f)
-        if (dv < 0.5f) branchFrom = cubic(start, c1, c2, end, 0.5f)
-        val col = lerp(StreamInk.Water, StreamInk.Dark, dv)
-        drawPath(cubicPart(start, c1, c2, end, 0f, p), col.copy(alpha = 0.35f), style = Stroke(5f * dp, cap = StrokeCap.Round))
-        drawPath(cubicPart(start, c1, c2, end, 0f, p), col, style = Stroke(1.8f * dp, cap = StrokeCap.Round, pathEffect = PathEffect.dashPathEffect(floatArrayOf(5f * dp, 4f * dp), -t * 26f * dp)))
-        drawCircle(ArtInk.Ivory.copy(alpha = 0.8f * p), radius = 2.2f * dp, center = start)
-        tagAt(a.tagOf(s.item, s.part), start + Offset(0f, -h * (0.06f + 0.08f * (k % 2))), seg(s.p, 0.3f, 1f), back = Color(0xE6101426), ink = if (dv > 0.5f) ArtInk.Ember else ArtInk.Ivory)
+        val upEnd = Offset(w * 0.5f + (s.x - w * 0.5f) * 0.35f, -h * 0.02f)
+        val end = Offset(mix(upEnd.x, pool.x + (if (pool.x > w * 0.5f) -w * 0.03f else w * 0.03f), dv), mix(upEnd.y, pool.y - h * 0.02f, dv))
+        val c1 = start + Offset(0f, -h * 0.35f)
+        val c2 = Offset(mix(upEnd.x, pool.x, dv), mix(upEnd.y + h * 0.3f, h * 0.3f, dv))
+        if (dv < 0.5f) branchFrom = cubic(start, c1, c2, end, 0.45f)
+        val col = lerp(lerp(StreamInk.Water, ArtInk.Gold, 0.35f), StreamInk.Dark, dv)
+        drawPath(cubicPart(start, c1, c2, end, 0f, p), col.copy(alpha = 0.3f), style = Stroke(5f * dp, cap = StrokeCap.Round))
+        drawPath(cubicPart(start, c1, c2, end, 0f, p), col, style = Stroke(1.8f * dp, cap = StrokeCap.Round, pathEffect = PathEffect.dashPathEffect(floatArrayOf(5f * dp, 4f * dp), t * 26f * dp)))
+        drawCircle(ArtInk.Ivory.copy(alpha = 0.8f * p), radius = 2.4f * dp, center = start)
+        tagAt(a.tagOf(s.item, s.part), start + Offset(0f, h * (0.045f + 0.06f * (k % 2))), seg(s.p, 0.3f, 1f), back = Color(0xE6101426), ink = if (dv > 0.5f) ArtInk.Ember else ArtInk.Ivory)
     }
     for (k in 0 until a.count("divert")) {
-        tagAt(a.tag("divert", k), pool + Offset(if (pool.x > w * 0.5f) -w * 0.02f else w * 0.02f, -h * 0.1f - k * h * 0.09f), seg(a.b("divert", k), 0.4f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
+        tagAt(a.tag("divert", k), pool + Offset(0f, -h * 0.13f - k * h * 0.09f), seg(a.b("divert", k), 0.4f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
     }
     val curse = easeOut(a.b("curse"))
     if (curse > 0f) {
         crossAt(pool, 9f * dp, curse)
         val tl = a.tag("curse")
-        val cx = max(pool.x, (tl?.size?.width ?: 0) / 2f + 6f * dp)
-        tagAt(tl, Offset(cx, h * 0.955f), seg(a.b("curse"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
+        val half = (tl?.size?.width ?: 0) / 2f + 8f * dp
+        val cx = if (pool.x > w * 0.5f) min(w * 0.75f, w - half) else max(w * 0.25f, half)
+        tagAt(tl, Offset(cx, h * 0.3f), seg(a.b("curse"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
     }
     // help asked of someone alive and present, in what he can do: a short channel between two wells
     val near = easeOut(a.b("near"))
     if (near > 0f) {
-        val w1 = Offset(w * 0.95f, h * 0.8f)
-        val w2 = Offset(w * 0.85f, h * 0.92f)
+        val w1 = Offset(w * 0.95f, h * 0.89f)
+        val w2 = Offset(w * 0.83f, h * 0.95f)
         for (c in listOf(w1, w2)) {
-            drawOval(StreamInk.Water.copy(alpha = 0.25f * near), topLeft = c + Offset(-w * 0.04f, -h * 0.025f), size = Size(w * 0.08f, h * 0.05f))
-            drawOval(ArtInk.Jade.copy(alpha = near), topLeft = c + Offset(-w * 0.04f, -h * 0.025f), size = Size(w * 0.08f, h * 0.05f), style = Stroke(1.2f * dp))
+            drawOval(StreamInk.Water.copy(alpha = 0.25f * near), topLeft = c + Offset(-w * 0.035f, -h * 0.022f), size = Size(w * 0.07f, h * 0.044f))
+            drawOval(ArtInk.Jade.copy(alpha = near), topLeft = c + Offset(-w * 0.035f, -h * 0.022f), size = Size(w * 0.07f, h * 0.044f), style = Stroke(1.2f * dp))
         }
         drawLine(ArtInk.Jade.copy(alpha = near), w1, Offset(mix(w1.x, w2.x, near), mix(w1.y, w2.y, near)), 1.8f * dp, StrokeCap.Round, PathEffect.dashPathEffect(floatArrayOf(5f * dp, 4f * dp), -t * 26f * dp))
-        tagAt(a.tag("near"), Offset(w * 0.86f, h * 0.7f), seg(a.b("near"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Jade)
+        tagAt(a.tag("near"), Offset(w * 0.86f, h * 0.76f), seg(a.b("near"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Jade)
     }
     val block = easeOut(a.b("block"))
     if (block > 0f) {
         // a short branch toward the pool, shut by a gate
         val from = branchFrom
-        val to = Offset(pool.x + w * 0.08f, pool.y - h * 0.08f)
+        val to = Offset(mix(branchFrom.x, pool.x, 0.6f), mix(branchFrom.y, pool.y, 0.6f))
         drawLine(StreamInk.Water.copy(alpha = 0.6f), from, Offset(mix(from.x, to.x, 0.5f), mix(from.y, to.y, 0.5f)), 1.8f * dp, StrokeCap.Round)
         val g = Offset(mix(from.x, to.x, 0.55f), mix(from.y, to.y, 0.55f))
         drawLine(ArtInk.Brass.copy(alpha = block), g + Offset(-8f * dp, -6f * dp), g + Offset(8f * dp, 6f * dp), 3f * dp, StrokeCap.Round)
         val tl = a.tag("block")
-        tagAt(tl, g + Offset(12f * dp + (tl?.size?.width ?: 0) / 2f, -4f * dp), seg(a.b("block"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
+        tagAt(tl, g + Offset(0f, -h * 0.08f), seg(a.b("block"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
     }
 }

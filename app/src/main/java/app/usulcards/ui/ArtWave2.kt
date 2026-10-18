@@ -588,8 +588,8 @@ internal fun DrawScope.gateScene(a: ArtCtx) {
             if (p > 0f) drawLine(ArtInk.Gold.copy(alpha = 0.6f * seg(a.b("seal", k), 0.3f, 1f)), c, Offset(tc.x - halfTag(tl), tc.y), 1f * dp)
             tagAt(tl, tc, seg(a.b("seal", k), 0.3f, 1f), back = TagBack, ink = ArtInk.Gold)
         }
-        tagAt(a.tag("gate"), Offset(gateX, ground + (h - ground) / 2), seg(a.b("gate"), 0.3f, 1f), back = TagBack, ink = ArtInk.Gold)
-        tagAt(a.tag("open"), Offset(gateX, cy - r - h * 0.08f), seg(a.b("open"), 0.3f, 1f), back = TagBack, ink = ArtInk.Jade)
+        tagAt(a.tag("gate"), Offset(max(gateX, halfTag(a.tag("gate")) + 4f * dp), h * 0.1f), seg(a.b("gate"), 0.3f, 1f), back = TagBack, ink = ArtInk.Gold)
+        tagAt(a.tag("open"), Offset(max(gateX, halfTag(a.tag("open")) + 4f * dp), cy - r - h * 0.07f), seg(a.b("open"), 0.3f, 1f), back = TagBack, ink = ArtInk.Jade)
     }
 
     // a side gate that never opens
