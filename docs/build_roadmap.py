@@ -74,10 +74,12 @@ for wave, when, title, what in WAVES:
     wave_rows.append((wave, when, title, what, len(items) if wave != "1.0" else 7, cards, cum, cum_mb))
 
 def size_chip(mb):
-    if mb <= 150:
-        return '<span class="chip ok">one download</span>'
+    # Play Console size limits (checked Oct 2026): the base module may be up to 500 MB compressed;
+    # above 200 MB, people on mobile data see a skippable notice suggesting Wi-Fi.
     if mb <= 200:
-        return '<span class="chip warn">near the 200 MB line</span>'
+        return '<span class="chip ok">one download</span>'
+    if mb <= 500:
+        return '<span class="chip warn">one download, Wi-Fi notice</span>'
     return '<span class="chip pad">asset packs</span>'
 
 wave_html = "".join(
@@ -198,7 +200,7 @@ page = f"""<title>Re-Iman 78-Book Roadmap</title>
     <ul>
       <li><b>Voice in Opus.</b> Measured on today's 324 clips: <b>8.6 MB in Opus 24 kbps against 16.4 MB in MP3</b>. New batches are voiced straight to Opus (Android plays it natively); today's clips stay as they are until then.</li>
       <li><b>Recitations stay as published</b> (64 kbps, about 0.15 MB per verse), because their licence allows redistribution only at the published bitrate. Verses shared between cards are stored once.</li>
-      <li><b>Google Play's 200 MB rule.</b> An app larger than 200 MB must put the extra in <b>asset packs</b> (Play Asset Delivery; installs can go up to 4 GB). The plan crosses that line {cross_text}. From then on, each topic's audio becomes its own pack, and the app's code and texts stay in the base.</li>
+      <li><b>Google Play's size limits.</b> The app's main download can be up to <b>500 MB</b> (compressed). Above 200 MB, people on mobile data see a notice suggesting Wi-Fi, which they can skip. The plan passes 200 MB {cross_text} and ends near {wave_rows[-1][7]:.0f} MB, so all 78 books fit in one download. Asset packs (Play Asset Delivery) stay in reserve: needed only above 500 MB, or to keep the first download under 200 MB.</li>
       <li><b>Texts are small.</b> Today's 46 cards take 242 KB; 700 cards come to about 4 MB.</li>
     </ul>
   </section>
