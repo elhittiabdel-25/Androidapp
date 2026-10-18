@@ -14,6 +14,7 @@ jobs:
           mkdir -p sources/raw
           UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
           : > sources/raw/log.txt
+          # list.txt: "name url" lines (direct file links)
           while read -r name url; do
             [ -z "$name" ] && continue
             if curl -fsSL --retry 3 -A "$UA" -o "sources/raw/$name" "$url"; then
@@ -22,7 +23,24 @@ jobs:
               echo "FAILED $name" >> sources/raw/log.txt
             fi
           done < sources/list.txt
+          # batch*.txt: one library content id per line; the file link is read from the book's page
+          for list in sources/batch*.txt; do
+            [ -f "$list" ] || continue
+            while read -r id; do
+              [ -z "$id" ] && continue
+              url=$(curl -fsSL --retry 3 -A "$UA" "https://islamcontent.com/ar/content/$id" | grep -o "https://islamcontent.com/storage/contents/$id/[^\"' <>]*" | head -1)
+              if [ -z "$url" ]; then echo "NOLINK $id" >> sources/raw/log.txt; continue; fi
+              ext="${url##*.}"
+              if curl -fsSL --retry 3 -A "$UA" -o "sources/raw/$id.$ext" "$url"; then
+                echo "ok $id.$ext $(stat -c %s sources/raw/$id.$ext) $url" >> sources/raw/log.txt
+              else
+                echo "FAILED $id $url" >> sources/raw/log.txt
+              fi
+              sleep 1
+            done < "$list"
+          done
           cat sources/raw/log.txt
+
       - name: Commit the files to this branch
         run: |
           git config user.name "github-actions"
