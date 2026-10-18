@@ -183,9 +183,59 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
                 }
             }
         }
-        if ((kind != "gust" || a.valueAt(i) >= 2f) && a.parts(i) > 0) {
+        if ((kind != "gust" || a.valueAt(i) >= 2f) && kind != "bond" && kind != "sever" && a.parts(i) > 0) {
             if (tg in 0 until n) topTag[tg] = i else centerTag = i
         }
+    }
+
+    // bonds of light between lamps (side: from, value: to); a severed bond breaks and its halves fall away
+    class Bond(val from: Int, val to: Int) {
+        var p = 0f
+        var cut = 0f
+        var tag = -1
+    }
+    val bonds = ArrayList<Bond>()
+    for (i in 0 until a.size) {
+        val kind = a.kindAt(i)
+        if (kind != "bond" && kind != "sever") continue
+        val f = a.sideAt(i).coerceIn(0, n - 1)
+        val to = a.valueAt(i).toInt().coerceIn(0, n - 1)
+        val b = bonds.firstOrNull { it.from == f && it.to == to } ?: Bond(f, to).also { bonds += it }
+        val p = a.beatAt(i)
+        if (kind == "bond") b.p = max(b.p, p) else {
+            b.p = max(b.p, seg(p, 0f, 0.4f))
+            b.cut = max(b.cut, seg(p, 0.45f, 1f))
+        }
+        if (p > 0f && a.parts(i) > 0) b.tag = i
+    }
+    for (b in bonds) {
+        if (b.p <= 0f || appear[b.from] <= 0f) continue
+        val p0 = Offset(xs[b.from], bodyY)
+        val p2 = Offset(xs[b.to], bodyY)
+        val ctrl = Offset((p0.x + p2.x) / 2, bodyY - h * 0.42f)
+        fun q(u: Float) = Offset((1 - u) * (1 - u) * p0.x + 2 * (1 - u) * u * ctrl.x + u * u * p2.x, (1 - u) * (1 - u) * p0.y + 2 * (1 - u) * u * ctrl.y + u * u * p2.y)
+        if (b.cut <= 0f) {
+            val reveal = easeOut(b.p)
+            val path = Path()
+            for (k in 0..24) {
+                val c = q(reveal * k / 24f)
+                if (k == 0) path.moveTo(c.x, c.y) else path.lineTo(c.x, c.y)
+            }
+            drawPath(path, ArtInk.Gold.copy(alpha = 0.25f), style = Stroke(6f * dp, cap = StrokeCap.Round))
+            drawPath(path, ArtInk.Gold, style = Stroke(1.6f * dp, cap = StrokeCap.Round))
+        } else {
+            for (half in 0..1) {
+                val path = Path()
+                for (k in 0..12) {
+                    val u = if (half == 0) 0.5f * k / 12f else 1f - 0.5f * k / 12f
+                    val c = q(u)
+                    val drop = (0.5f - kotlin.math.abs(u - 0.5f)) * 2f * b.cut * h * 0.3f
+                    if (k == 0) path.moveTo(c.x, c.y + drop) else path.lineTo(c.x, c.y + drop)
+                }
+                drawPath(path, ArtInk.Ember.copy(alpha = 1f - 0.65f * b.cut), style = Stroke(1.6f * dp, cap = StrokeCap.Round))
+            }
+        }
+        if (b.tag >= 0) tagAt(a.tagOf(b.tag), q(0.5f) + Offset(0f, -h * 0.08f), seg(a.beatAt(b.tag), 0.3f, 1f), back = Color(0xE6101426), ink = if (b.cut > 0f) ArtInk.Ember else ArtInk.Gold)
     }
 
     for (k in 0 until n) {
@@ -1104,8 +1154,32 @@ internal fun DrawScope.streamsScene(a: ArtCtx) {
     }, StreamInk.Mount)
     drawRect(StreamInk.Ground, topLeft = Offset(0f, h * 0.44f), size = Size(w, h * 0.56f))
 
+    // every stream, in order: (start x on the mountain line, tag, appear progress, item index)
+    data class Stream(val x: Float, val p: Float, val item: Int, val part: Int)
+    val streams = ArrayList<Stream>()
+    for (i in 0 until a.size) {
+        if (a.kindAt(i) != "stream") continue
+        for (part in 0 until max(1, a.parts(i))) streams += Stream(0f, a.beatAt(i), i, part)
+    }
+    val count = streams.size
+    val placed = streams.mapIndexed { k, s -> s.copy(x = w * (0.9f - 0.8f * (if (count == 1) 0.5f else k / (count - 1f)))) }
+    // which streams are turned aside (side = how many from the newest: 0 = the newest when it happens)
+    val diverted = FloatArray(count)
+    var turnedX = 0f
+    var turnedN = 0
+    var seen = 0
+    for (i in 0 until a.size) {
+        if (a.kindAt(i) == "stream") seen += max(1, a.parts(i))
+        if (a.kindAt(i) == "divert" && count > 0) {
+            val target = (seen - 1 - max(0, a.sideAt(i))).coerceIn(0, count - 1)
+            diverted[target] = max(diverted[target], easeOut(a.beatAt(i)))
+            turnedX += placed[target].x
+            turnedN++
+        }
+    }
     val basin = Offset(w * 0.56f, h * 0.86f)
-    val pool = Offset(w * 0.12f, h * 0.88f)
+    // the dark pool lies on the side of the streams that are turned aside
+    val pool = if (turnedN > 0 && turnedX / turnedN > w * 0.5f) Offset(w * 0.88f, h * 0.88f) else Offset(w * 0.12f, h * 0.88f)
     val bIn = easeOut(a.b("basin"))
     // the dark pool, once a stream is turned aside
     val anyDivert = (0 until a.count("divert")).maxOfOrNull { a.b("divert", it) } ?: 0f
@@ -1120,27 +1194,6 @@ internal fun DrawScope.streamsScene(a: ArtCtx) {
         tagAt(a.tag("basin"), basin + Offset(0f, h * 0.1f), seg(a.b("basin"), 0.2f, 0.9f), back = Color(0xE6101426), ink = ArtInk.Gold)
     }
 
-    // every stream, in order: (start x on the mountain line, tag, appear progress, item index)
-    data class Stream(val x: Float, val p: Float, val item: Int, val part: Int)
-    val streams = ArrayList<Stream>()
-    for (i in 0 until a.size) {
-        if (a.kindAt(i) != "stream") continue
-        for (part in 0 until max(1, a.parts(i))) streams += Stream(0f, a.beatAt(i), i, part)
-    }
-    val count = streams.size
-    val placed = streams.mapIndexed { k, s -> s.copy(x = w * (0.9f - 0.8f * (if (count == 1) 0.5f else k / (count - 1f)))) }
-    // which streams are turned aside (side = how many from the newest: 0 = the newest when it happens)
-    val diverted = FloatArray(count)
-    var seen = 0
-    var dIdx = 0
-    for (i in 0 until a.size) {
-        if (a.kindAt(i) == "stream") seen += max(1, a.parts(i))
-        if (a.kindAt(i) == "divert") {
-            val target = (seen - 1 - max(0, a.sideAt(i))).coerceIn(0, max(0, count - 1))
-            if (count > 0) diverted[target] = max(diverted[target], easeOut(a.beatAt(i)))
-            dIdx++
-        }
-    }
     var branchFrom = Offset(w * 0.36f, h * 0.62f)
     for ((k, s) in placed.withIndex()) {
         val p = easeOut(seg(s.p, 0f, 0.8f))
@@ -1158,7 +1211,7 @@ internal fun DrawScope.streamsScene(a: ArtCtx) {
         tagAt(a.tagOf(s.item, s.part), start + Offset(0f, -h * (0.06f + 0.08f * (k % 2))), seg(s.p, 0.3f, 1f), back = Color(0xE6101426), ink = if (dv > 0.5f) ArtInk.Ember else ArtInk.Ivory)
     }
     for (k in 0 until a.count("divert")) {
-        tagAt(a.tag("divert", k), pool + Offset(w * 0.02f, -h * 0.1f - k * h * 0.09f), seg(a.b("divert", k), 0.4f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
+        tagAt(a.tag("divert", k), pool + Offset(if (pool.x > w * 0.5f) -w * 0.02f else w * 0.02f, -h * 0.1f - k * h * 0.09f), seg(a.b("divert", k), 0.4f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
     }
     val curse = easeOut(a.b("curse"))
     if (curse > 0f) {

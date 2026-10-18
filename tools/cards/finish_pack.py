@@ -31,7 +31,7 @@ ART = {
 }
 ART_KINDS = {
     "lantern": {"lamp", "gust", "glass", "dome", "grow", "dim", "ember", "out", "shatter", "say", "gaze", "hidden",
-                "return", "charm", "bind", "untie", "many"},
+                "return", "charm", "bind", "untie", "many", "bond", "sever"},
     "trail": {"origin", "up", "lamp", "mark", "good", "bad", "follow", "follow2", "hole", "stray", "idols", "keep",
               "omen", "turn", "word", "goal", "lands", "open", "stuck", "walk", "show", "door", "swap"},
     "ridge": {"stone", "pit", "lean", "walk"},
@@ -45,8 +45,10 @@ ART_KINDS = {
                "steps", "copy", "takbir"},
     "hourglass": {"glass", "gold"},
     "night": {"book", "cloud", "nights", "towers", "roll", "shrink", "note", "layers", "quake", "calm", "truth", "nocall",
-              "adorn", "shoot", "guide", "credit", "rain"},
+              "adorn", "shoot", "guide", "credit", "rain", "descend", "recite", "keep", "write", "will", "create"},
     "grain": {"grain", "challenge", "breath"},
+    "vessels": {"cup", "equal", "first"},
+    "cave": {"cave", "sun", "follow", "false"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

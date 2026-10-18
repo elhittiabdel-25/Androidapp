@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.lerp
 import kotlin.math.PI
@@ -129,10 +130,73 @@ internal fun DrawScope.nightScene(a: ArtCtx) {
                 close()
             }
             drawPath(page, lerp(Color(0xFF55506A), NightInk.Page, 0.3f + 0.7f * lit).copy(alpha = book))
-            for (k in 0 until 3) drawLine(Color(0xFF8C7A5A).copy(alpha = 0.6f * book), Offset(bc.x + sd * 6f * dp, bc.y - 6f * dp + k * 4.5f * dp), Offset(bc.x + sd * 23f * dp, bc.y - 9f * dp + k * 4.5f * dp), 0.8f * dp)
+            // lines written on the pages: with the book, or later with its own beat
+            val written = if (a.count("write") > 0) easeOut(a.b("write")) else easeOut(seg(a.b("book"), 0.3f, 1f))
+            for (k in 0 until 3) {
+                val f = (written * 3f - k).coerceIn(0f, 1f)
+                if (f <= 0f) continue
+                val x0 = bc.x + sd * 6f * dp
+                val x1 = bc.x + sd * 23f * dp
+                drawLine(lerp(Color(0xFF8C7A5A), ArtInk.Gold, 0.4f).copy(alpha = 0.8f * book), Offset(x0, bc.y - 6f * dp + k * 4.5f * dp), Offset(mix(x0, x1, f), bc.y - 6f * dp + k * 4.5f * dp - 3f * dp * f), 0.9f * dp)
+            }
         }
         tagAt(a.tag("book"), bc + Offset(0f, h * 0.13f), seg(a.b("book"), 0.3f, 1f) * (1f - cover), back = NightBack, ink = ArtInk.Gold)
     }
+    // sent down: light comes down onto the book from above
+    val descend = easeOut(a.b("descend"))
+    if (descend > 0f) {
+        val end = mix(0f, bc.y - 12f * dp, descend)
+        val beam = Path().apply {
+            moveTo(bc.x - 4f * dp, 0f)
+            lineTo(bc.x + 4f * dp, 0f)
+            lineTo(bc.x + 22f * dp, end)
+            lineTo(bc.x - 22f * dp, end)
+            close()
+        }
+        drawPath(beam, Brush.verticalGradient(listOf(ArtInk.Gold.copy(alpha = 0.1f), ArtInk.Gold.copy(alpha = 0.45f)), startY = 0f, endY = max(1f, end)))
+        tagAt(a.tag("descend"), Offset(w * 0.78f, h * 0.1f), seg(a.b("descend"), 0.3f, 1f), back = NightBack, ink = ArtInk.Gold)
+    }
+    // recited: the sound of it spreads
+    val recite = easeOut(a.b("recite"))
+    if (recite > 0f) {
+        for (k in 0 until 4) {
+            val q = fract(t * 0.5f + k / 4f)
+            drawArc(ArtInk.Ivory.copy(alpha = 0.5f * recite * (1f - q)), 150f, 60f, false, topLeft = bc + Offset(-(30f + 90f * q) * dp, -(30f + 90f * q) * dp), size = Size((60f + 180f * q) * dp, (60f + 180f * q) * dp), style = Stroke(1.4f * dp))
+            drawArc(ArtInk.Ivory.copy(alpha = 0.5f * recite * (1f - q)), -30f, 60f, false, topLeft = bc + Offset(-(30f + 90f * q) * dp, -(30f + 90f * q) * dp), size = Size((60f + 180f * q) * dp, (60f + 180f * q) * dp), style = Stroke(1.4f * dp))
+        }
+        tagAt(a.tag("recite"), Offset(w * 0.18f, h * 0.22f), seg(a.b("recite"), 0.3f, 1f), back = NightBack, ink = ArtInk.Ivory)
+    }
+    // kept: small lights leave the book and stay, glowing, along the land
+    val keep = a.b("keep")
+    if (keep > 0f) {
+        for (k in 0 until 9) {
+            val dest = Offset(w * (0.1f + 0.1f * k), ground - h * 0.06f)
+            val q = easeInOut(seg(keep, k * 0.05f, k * 0.05f + 0.55f))
+            if (q <= 0f) continue
+            val c = Offset(mix(bc.x, dest.x, q), mix(bc.y, dest.y, q) - bump(q) * h * 0.08f)
+            drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.6f), Color.Transparent), center = c, radius = 9f * dp), radius = 9f * dp, center = c)
+            drawCircle(ArtInk.Ivory, radius = 2f * dp, center = c)
+        }
+        tagAt(a.tag("keep"), Offset(w * 0.5f, ground - h * 0.17f), seg(keep, 0.3f, 1f), back = NightBack, ink = ArtInk.Gold)
+    }
+    if (a.count("write") > 0) tagAt(a.tag("write"), Offset(w * 0.8f, h * 0.24f), seg(a.b("write"), 0.3f, 1f), back = NightBack, ink = ArtInk.Gold)
+    // what He wills comes to be, what He does not will does not
+    val will = a.b("will")
+    if (will > 0f) {
+        val yes = Offset(w * 0.7f, h * 0.55f)
+        val no = Offset(w * 0.3f, h * 0.55f)
+        val q = easeOut(seg(will, 0f, 0.3f))
+        val become = easeOut(seg(will, 0.35f, 0.9f))
+        drawCircle(ArtInk.Ivory.copy(alpha = 0.6f * q * (1f - become)), radius = 14f * dp, center = yes, style = Stroke(1.3f * dp, pathEffect = PathEffect.dashPathEffect(floatArrayOf(3f * dp, 3f * dp))))
+        if (become > 0f) {
+            drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.6f * become), Color.Transparent), center = yes, radius = 30f * dp), radius = 30f * dp, center = yes)
+            drawPath(starPath(yes, 12f * dp * become), ArtInk.Gold)
+        }
+        drawCircle(ArtInk.Ivory.copy(alpha = 0.6f * q * (1f - become)), radius = 14f * dp, center = no, style = Stroke(1.3f * dp, pathEffect = PathEffect.dashPathEffect(floatArrayOf(3f * dp, 3f * dp))))
+        tagAt(a.tag("will", 0, 0), yes + Offset(0f, h * 0.1f), seg(will, 0.4f, 1f), back = NightBack, ink = ArtInk.Gold)
+        tagAt(a.tag("will", 0, 1), no + Offset(0f, h * 0.1f), seg(will, 0.6f, 1f), back = NightBack, ink = ArtInk.Ivory)
+    }
+
     if (cloud > 0f) {
         val cx = mix(-w * 0.2f, bc.x, cover)
         for ((dx, dy, r) in listOf(Triple(-0.07f, 0.01f, 0.07f), Triple(0f, -0.025f, 0.09f), Triple(0.075f, 0.01f, 0.07f), Triple(0.03f, 0.035f, 0.06f))) {
@@ -209,7 +273,7 @@ internal fun DrawScope.nightScene(a: ArtCtx) {
             drawLine(ArtInk.Ivory.copy(alpha = 0.6f * (1f - seg(nocall, 0.6f, 1f) * 0.6f)), base + Offset(0f, -h * 0.07f), top, 1.2f * dp, StrokeCap.Round, PathEffect.dashPathEffect(floatArrayOf(3f * dp, 4f * dp)))
             nightCross(top, 6f * dp, seg(nocall, 0.5f, 0.9f))
         }
-        tagAt(a.tag("nocall"), Offset(w * 0.5f, ground - h * 0.42f), seg(nocall, 0.3f, 1f), back = NightBack, ink = ArtInk.Ember)
+        tagAt(a.tag("nocall"), Offset(w * 0.5f, ground + (h - ground) / 2), seg(nocall, 0.3f, 1f), back = NightBack, ink = ArtInk.Ember)
     }
     // rain credited to a star (struck out), and rain by Allah's favour
     val credit = a.b("credit")
@@ -236,6 +300,25 @@ internal fun DrawScope.nightScene(a: ArtCtx) {
             drawLine(ArtInk.Jade.copy(alpha = 0.9f), Offset(x, ground), Offset(x + 3f * dp, ground - 7f * dp * q), 1.6f * dp, StrokeCap.Round)
         }
         tagAt(a.tag("rain"), Offset(w * 0.62f, ground - h * 0.2f), seg(a.b("rain"), 0.3f, 1f), back = NightBack, ink = ArtInk.Jade)
+    }
+    // creation: new stars, and life along the land
+    val create = a.b("create")
+    if (create > 0f) {
+        for (m in 0 until 12) {
+            val q = easeOut(seg(create, m * 0.04f, m * 0.04f + 0.4f))
+            if (q <= 0f) continue
+            val c = Offset(w * fract(m * 0.381f + 0.07f), h * (0.08f + 0.5f * fract(m * 0.613f)))
+            drawPath(starPath(c, 4f * dp * q), ArtInk.Ivory.copy(alpha = 0.9f))
+        }
+        for (k in 0 until 16) {
+            val x = w * (0.03f + 0.062f * k)
+            val q = seg(create, 0.3f + 0.025f * k, 0.9f)
+            if (q <= 0f) continue
+            drawLine(ArtInk.Jade, Offset(x, ground), Offset(x - 3f * dp, ground - 10f * dp * q), 1.6f * dp, StrokeCap.Round)
+            drawLine(ArtInk.Jade, Offset(x, ground), Offset(x + 3f * dp, ground - 8f * dp * q), 1.6f * dp, StrokeCap.Round)
+            if (k % 3 == 0 && q > 0.8f) drawCircle(ArtInk.Gold, radius = 2f * dp, center = Offset(x - 3f * dp, ground - 10f * dp * q))
+        }
+        tagAt(a.tag("create"), Offset(w * 0.5f, ground - h * 0.13f), seg(create, 0.3f, 1f), back = NightBack, ink = ArtInk.Jade)
     }
     if (a.count("adorn") > 0) tagAt(a.tag("adorn"), Offset(w * 0.5f, h * 0.08f), seg(a.b("adorn"), 0.3f, 1f), back = NightBack, ink = ArtInk.Gold)
     for (k in 0 until a.count("note")) {
@@ -338,5 +421,171 @@ internal fun DrawScope.grainScene(a: ArtCtx) {
             drawLine(ArtInk.Ivory.copy(alpha = 0.5f * (1f - q) * (1f - seg(breath, 0.7f, 1f))), Offset(w * 0.02f + q * w * 0.12f, y), Offset(w * 0.08f + q * w * 0.12f, y), 1.4f * dp, StrokeCap.Round)
         }
         tagAt(a.tag("breath"), Offset(ex, ground + h * 0.15f), seg(breath, 0.3f, 1f), back = NightBack, ink = ArtInk.Ember)
+    }
+}
+
+// ───────────── vessels of love, in their order ─────────────
+
+private object VesselInk {
+    val BgTop = Color(0xFF1B1E3C)
+    val BgLow = Color(0xFF453652)
+    val Shelf = Color(0xFF5A3E2A)
+    val ShelfLight = Color(0xFF7A5638)
+    val Glass = Color(0xFFE8F0F8)
+}
+
+/**
+ * Glass vessels on a shelf, filled with light to the measure of a love. Beats: cup ×n (`value` 0..1: how full,
+ * the first on the right), equal (`side`: that vessel is filled up to equal the first: struck out), first (the
+ * first vessel shines above all).
+ */
+internal fun DrawScope.vesselsScene(a: ArtCtx) {
+    val w = size.width
+    val h = size.height
+    val dp = density
+    val t = a.t
+    drawRect(Brush.verticalGradient(listOf(VesselInk.BgTop, VesselInk.BgLow)))
+    for (s in TWINKLES) drawCircle(ArtInk.Ivory.copy(alpha = 0.25f * (0.5f + 0.5f * sin(t * 1.3f + s.p))), radius = s.r * 0.7f * dp, center = Offset(s.x * w, s.y * h * 0.6f))
+    val shelf = h * 0.8f
+    drawRect(VesselInk.Shelf, topLeft = Offset(0f, shelf), size = Size(w, h * 0.035f))
+    drawLine(VesselInk.ShelfLight, Offset(0f, shelf), Offset(w, shelf), 1.4f * dp)
+
+    val cups = (0 until a.size).filter { a.kindAt(it) == "cup" }
+    val n = max(1, cups.size)
+    val cw = w * 0.085f
+    val ch = h * 0.42f
+    val first = easeOut(a.b("first"))
+    for ((k, i) in cups.withIndex()) {
+        val p = easeOut(a.beatAt(i))
+        if (p <= 0f) continue
+        val x = if (n == 1) w * 0.5f else w * (0.82f - 0.64f * k / (n - 1f))
+        var level = a.valueAt(i).coerceIn(0.05f, 1f) * easeOut(seg(a.beatAt(i), 0.2f, 1f))
+        var tone = ArtInk.Gold
+        var strike = 0f
+        for (e in 0 until a.size) {
+            if (a.kindAt(e) != "equal" || a.sideAt(e) != k) continue
+            val q = a.beatAt(e)
+            level = mix(level, cups.firstOrNull()?.let { a.valueAt(it) } ?: 1f, easeInOut(seg(q, 0f, 0.5f)))
+            tone = lerp(ArtInk.Gold, ArtInk.Ember, seg(q, 0f, 0.5f))
+            strike = seg(q, 0.5f, 0.9f)
+        }
+        val body = Rect(x - cw / 2, shelf - ch, x + cw / 2, shelf)
+        if (k == 0 && first > 0f) {
+            drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.45f * first), Color.Transparent), center = body.center, radius = cw * 2.4f), radius = cw * 2.4f, center = body.center)
+        }
+        val jar = Path().apply { addRoundRect(androidx.compose.ui.geometry.RoundRect(body, CornerRadius(cw * 0.35f, cw * 0.35f))) }
+        clipPath(jar) {
+            val top = shelf - ch * level * p
+            drawRect(Brush.verticalGradient(listOf(tone.copy(alpha = 0.95f), lerp(tone, Color(0xFF8A5A20), 0.4f)), startY = top, endY = shelf), topLeft = Offset(body.left, top), size = Size(cw, shelf - top))
+            drawLine(ArtInk.Ivory.copy(alpha = 0.7f), Offset(body.left, top), Offset(body.right, top + 2f * dp * sin(t * 2f + k)), 1.2f * dp)
+        }
+        drawPath(jar, VesselInk.Glass.copy(alpha = 0.08f * p))
+        drawPath(jar, VesselInk.Glass.copy(alpha = 0.65f * p), style = Stroke(1.3f * dp))
+        drawLine(VesselInk.Glass.copy(alpha = 0.35f * p), Offset(body.left + cw * 0.2f, body.top + ch * 0.1f), Offset(body.left + cw * 0.2f, body.bottom - ch * 0.15f), 2f * dp, StrokeCap.Round)
+        if (strike > 0f) nightCross(body.center + Offset(0f, -ch * 0.2f), cw * 0.45f, strike)
+        tagAt(a.tagOf(i), Offset(x, shelf + (h - shelf) / 2 + h * 0.02f), seg(a.beatAt(i), 0.3f, 1f), back = NightBack, ink = if (k == 0) ArtInk.Gold else ArtInk.Ivory)
+        for (e in 0 until a.size) {
+            if (a.kindAt(e) == "equal" && a.sideAt(e) == k) tagAt(a.tagOf(e), Offset(x, shelf - ch - h * 0.07f), seg(a.beatAt(e), 0.3f, 1f), back = NightBack, ink = ArtInk.Ember)
+        }
+        if (k == 0) tagAt(a.tag("first"), Offset(x, shelf - ch - h * 0.07f), seg(a.b("first"), 0.3f, 1f), back = NightBack, ink = ArtInk.Gold)
+    }
+}
+
+// ───────────── a cave the sun turns away from ─────────────
+
+private object CaveInk {
+    val SkyTop = Color(0xFF5E93C8)
+    val SkyLow = Color(0xFFF2DDB2)
+    val Ground = Color(0xFF6E5A44)
+    val Rock = Color(0xFF7A6650)
+    val RockDark = Color(0xFF5A4A3A)
+    val Mouth = Color(0xFF1C1612)
+    val Sun = Color(0xFFFFE9A8)
+}
+
+/**
+ * Day over a hill with a cave. Beats: cave (the cave, quiet inside), sun (the sun crosses the sky and its rays
+ * turn away from the cave: what Allah does for His friends beyond the usual), follow (lit steps lead into the
+ * cave behind a lamp: those who follow their prophets' guidance), false (a showy spark over a crooked path,
+ * struck out: no honour for one who breaks the law).
+ */
+internal fun DrawScope.caveScene(a: ArtCtx) {
+    val w = size.width
+    val h = size.height
+    val dp = density
+    val t = a.t
+    val ground = h * 0.82f
+    drawRect(Brush.verticalGradient(listOf(CaveInk.SkyTop, CaveInk.SkyLow), endY = ground), size = Size(w, ground))
+    val sun = a.b("sun")
+    val mouth = Offset(w * 0.76f, ground - h * 0.02f)
+    // the sun's way across the sky
+    val su = 0.15f + 0.7f * easeInOut(sun)
+    val sp = cubic(Offset(w * 0.02f, h * 0.55f), Offset(w * 0.25f, h * 0.02f), Offset(w * 0.75f, h * 0.02f), Offset(w * 0.98f, h * 0.5f), su)
+    drawCircle(Brush.radialGradient(listOf(CaveInk.Sun.copy(alpha = 0.8f), Color.Transparent), center = sp, radius = w * 0.1f), radius = w * 0.1f, center = sp)
+    drawCircle(CaveInk.Sun, radius = w * 0.035f, center = sp)
+    // the hill and its cave
+    val hill = Path().apply {
+        moveTo(w * 0.48f, ground)
+        cubicTo(w * 0.56f, ground - h * 0.42f, w * 0.9f, ground - h * 0.5f, w * 1.05f, ground - h * 0.3f)
+        lineTo(w * 1.05f, ground)
+        close()
+    }
+    drawPath(hill, CaveInk.Rock)
+    drawPath(hill, CaveInk.RockDark, style = Stroke(1.4f * dp))
+    val caveA = if (a.count("cave") > 0) easeOut(a.b("cave")) else 1f
+    val calm = 0.25f + 0.5f * seg(sun, 0.4f, 1f)
+    drawPath(horseshoe(mouth.x, mouth.y - h * 0.12f, w * 0.05f, w * 0.042f, mouth.y), CaveInk.Mouth.copy(alpha = caveA))
+    drawCircle(Brush.radialGradient(listOf(Color(0xFF9FD2E8).copy(alpha = calm * caveA * 0.5f), Color.Transparent), center = mouth + Offset(0f, -h * 0.08f), radius = w * 0.05f), radius = w * 0.05f, center = mouth + Offset(0f, -h * 0.08f))
+    // rays: those that would enter the cave bend away from it
+    if (sun > 0f) {
+        val ra = easeOut(seg(sun, 0f, 0.3f))
+        for (k in 0 until 8) {
+            val target = Offset(w * (0.1f + 0.12f * k), ground - (if (k >= 5) h * 0.18f else 0f))
+            val dx = target.x - mouth.x
+            val near = (1f - kotlin.math.abs(dx) / (w * 0.22f)).coerceIn(0f, 1f)
+            val ctrl = Offset(mix(sp.x, target.x, 0.5f) + (if (dx >= 0f) 1f else -1f) * near * w * 0.25f, mix(sp.y, target.y, 0.5f))
+            val end = Offset(target.x + (if (dx >= 0f) 1f else -1f) * near * w * 0.12f, target.y - near * h * 0.12f)
+            val path = Path().apply {
+                moveTo(sp.x, sp.y)
+                quadraticBezierTo(ctrl.x, ctrl.y, end.x, end.y)
+            }
+            drawPath(path, CaveInk.Sun.copy(alpha = 0.35f * ra), style = Stroke(2f * dp, cap = StrokeCap.Round))
+        }
+        tagAt(a.tag("sun"), mouth + Offset(0f, -h * 0.3f), seg(sun, 0.4f, 1f), back = NightBack, ink = ArtInk.Gold)
+    }
+    drawRect(CaveInk.Ground, topLeft = Offset(0f, ground), size = Size(w, h - ground))
+    tagAt(a.tag("cave"), mouth + Offset(-w * 0.02f, h * 0.1f), seg(a.b("cave"), 0.3f, 1f), back = NightBack, ink = ArtInk.Ivory)
+    // lit steps behind a lamp, into the cave
+    val follow = easeOut(a.b("follow"))
+    if (follow > 0f) {
+        val lampP = Offset(w * 0.3f, ground + h * 0.02f)
+        drawLine(Color(0xFF3A2A1E), lampP, lampP + Offset(0f, -h * 0.2f), 2.4f * dp)
+        lantern(lampP + Offset(0f, -h * 0.2f - 0.4f * w * 0.02f), w * 0.02f, follow, 0.05f * sin(t * 9f))
+        for (k in 0 until 10) {
+            val f = k / 9f
+            if (f > follow) continue
+            val c = Offset(mix(w * 0.3f, mouth.x - w * 0.02f, f), ground + h * 0.06f - f * h * 0.05f + (if (k % 2 == 0) 2.5f else -2.5f) * dp)
+            drawOval(ArtInk.Ivory.copy(alpha = 0.85f), topLeft = c - Offset(3.5f * dp, 1.6f * dp), size = Size(7f * dp, 3.2f * dp))
+        }
+        tagAt(a.tag("follow"), Offset(w * 0.42f, ground - h * 0.3f), seg(a.b("follow"), 0.3f, 1f), back = NightBack, ink = ArtInk.Gold)
+    }
+    // a showy spark over a crooked path, struck out
+    val fake = a.b("false")
+    if (fake > 0f) {
+        val q = easeOut(seg(fake, 0f, 0.4f))
+        val c = Offset(w * 0.12f, ground - h * 0.32f)
+        val path = Path().apply {
+            moveTo(w * 0.02f, ground + h * 0.12f)
+            lineTo(w * 0.08f, ground + h * 0.04f)
+            lineTo(w * 0.04f, ground - h * 0.04f)
+            lineTo(w * 0.12f, ground - h * 0.12f)
+        }
+        drawPath(path, ArtInk.Ember.copy(alpha = 0.6f * q), style = Stroke(1.4f * dp, pathEffect = PathEffect.dashPathEffect(floatArrayOf(4f * dp, 4f * dp))))
+        for (m in 0 until 8) {
+            val ang = (m * 45f + t * 90f) * PI.toFloat() / 180f
+            drawLine(lerp(ArtInk.Ember, ArtInk.Gold, 0.4f).copy(alpha = q), c, c + Offset(cos(ang), sin(ang)) * (10f + 6f * sin(t * 8f + m)) * dp, 1.6f * dp, StrokeCap.Round)
+        }
+        nightCross(c, 14f * dp, seg(fake, 0.5f, 0.9f))
+        tagAt(a.tag("false"), c + Offset(w * 0.06f, -h * 0.12f), seg(fake, 0.3f, 1f), back = NightBack, ink = ArtInk.Ember)
     }
 }

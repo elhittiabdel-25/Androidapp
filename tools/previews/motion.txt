@@ -1,5 +1,5 @@
 # Scenes rendered frame by frame as animations by the Scene previews workflow (one id per line).
-kahana
-azamat-allah
-musawwirin
-sayyid
+mahabba
+karamat
+wala-bara
+quran-kalam
