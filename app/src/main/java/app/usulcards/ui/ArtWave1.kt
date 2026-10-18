@@ -244,7 +244,7 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
                 drawPath(path, ArtInk.Ember.copy(alpha = 1f - 0.65f * b.cut), style = Stroke(1.6f * dp, cap = StrokeCap.Round))
             }
         }
-        if (b.tag >= 0) tagAt(a.tagOf(b.tag), q(0.5f) + Offset(0f, if (b.cut > 0f) -h * 0.04f else -h * 0.11f), seg(a.beatAt(b.tag), 0.3f, 1f), back = Color(0xE6101426), ink = if (b.cut > 0f) ArtInk.Ember else ArtInk.Gold)
+        if (b.tag >= 0) tagAt(a.tagOf(b.tag), q(0.5f) + Offset(0f, if (b.cut > 0f) -h * 0.03f else -h * 0.15f), seg(a.beatAt(b.tag), 0.3f, 1f), back = Color(0xE6101426), ink = if (b.cut > 0f) ArtInk.Ember else ArtInk.Gold)
     }
 
     for (k in 0 until n) {
