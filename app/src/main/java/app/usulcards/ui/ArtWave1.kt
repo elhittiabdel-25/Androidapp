@@ -206,6 +206,27 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
                 }
                 drawPath(tri, ArtInk.Ivory.copy(alpha = 0.8f * (1f - seg(shatter[k], 0.5f, 1f))))
             }
+            // the cracks stay, and a few shards lie on the sill
+            val cr = seg(shatter[k], 0.2f, 0.5f)
+            val crack = Path().apply {
+                moveTo(xs[k] - 0.55f * s, bodyY - 0.95f * s)
+                lineTo(xs[k] - 0.05f * s, bodyY - 0.35f * s)
+                lineTo(xs[k] - 0.35f * s, bodyY + 0.15f * s)
+                lineTo(xs[k] + 0.4f * s, bodyY + 0.85f * s)
+                moveTo(xs[k] - 0.05f * s, bodyY - 0.35f * s)
+                lineTo(xs[k] + 0.5f * s, bodyY - 0.6f * s)
+            }
+            drawPath(crack, ArtInk.Ivory.copy(alpha = 0.85f * cr), style = Stroke(1.3f * dp, cap = StrokeCap.Round))
+            for (m in 0 until 5) {
+                val c = Offset(xs[k] + (m - 2f) * 0.75f * s + (m % 2) * 0.2f * s, sill - 1.2f * dp)
+                val tri = Path().apply {
+                    moveTo(c.x - 2.4f * dp, c.y)
+                    lineTo(c.x + (m % 3 - 1) * 1.2f * dp, c.y - 2.6f * dp)
+                    lineTo(c.x + 2.2f * dp, c.y)
+                    close()
+                }
+                drawPath(tri, ArtInk.Ivory.copy(alpha = 0.55f * seg(shatter[k], 0.55f, 0.9f)))
+            }
             val f = bump(seg(shatter[k], 0f, 0.35f))
             drawCircle(Brush.radialGradient(listOf(ArtInk.Ivory.copy(alpha = 0.8f * f), Color.Transparent), center = Offset(xs[k], bodyY), radius = 3f * s), radius = 3f * s, center = Offset(xs[k], bodyY))
         }
@@ -217,7 +238,7 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
     for (i in 0 until a.size) {
         if (a.kindAt(i) != "gust") continue
         val p = a.beatAt(i)
-        val fromLeft = if (many) g % 2 == 0 else true
+        val fromLeft = many && g % 2 == 1
         val row = if (many) g / 2 else g
         g++
         if (p <= 0f) continue
@@ -317,8 +338,8 @@ internal fun DrawScope.trailScene(a: ArtCtx) {
     // sky: dusk, or night on the right and day on the left when the trail crosses two lands
     if (hasLands) {
         drawRect(Brush.verticalGradient(listOf(TrailInk.NightTop, TrailInk.NightLow), endY = horizon), size = Size(w, horizon))
-        val dayW = w * (0.15f + 0.37f * lands)
-        drawRect(Brush.verticalGradient(listOf(TrailInk.DayTop, TrailInk.DayLow), endY = horizon), size = Size(dayW, horizon), alpha = 0.25f + 0.75f * lands)
+        val dayW = w * 0.52f * lands
+        drawRect(Brush.verticalGradient(listOf(TrailInk.DayTop, TrailInk.DayLow), endY = horizon), size = Size(dayW, horizon))
         drawRect(Brush.horizontalGradient(listOf(TrailInk.DayLow.copy(alpha = 0.5f * lands), Color.Transparent), startX = dayW, endX = dayW + 26f * dp), topLeft = Offset(dayW, 0f), size = Size(26f * dp, horizon))
         for (s in TWINKLES) {
             if (s.x < 0.55f) continue
@@ -527,7 +548,7 @@ internal fun DrawScope.trailScene(a: ArtCtx) {
             drawRoundRect(TrailInk.Stone, topLeft = Offset(sp.x - 5f * dp, sp.y - sh), size = Size(10f * dp, sh), cornerRadius = CornerRadius(5f * dp, 5f * dp))
         }
         if (stray > 0f) steps(pt(0.45f), pt(0.5f) + Offset(0f, h * 0.06f), st + Offset(w * 0.06f, -h * 0.12f), st + Offset(0f, -h * 0.03f), stray, ArtInk.Ember, t)
-        tagAt(a.tag("stray"), st + Offset(w * 0.2f, -h * 0.13f), seg(a.b("stray"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
+        tagAt(a.tag("stray"), st + Offset(w * 0.15f, h * 0.015f), seg(a.b("stray"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
         tagAt(a.tag("idols"), st + Offset(-w * 0.18f, -h * 0.1f), seg(a.b("idols"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
     }
     // a lantern carried on to the end of a lit road
@@ -667,7 +688,7 @@ internal fun DrawScope.ridgeScene(a: ArtCtx) {
             drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.6f * p), Color.Transparent), center = c, radius = r * 4f), radius = r * 4f, center = c)
             drawCircle(ArtInk.Gold.copy(alpha = p), radius = r, center = c)
         }
-        tagAt(a.tag("stone", m), Offset(vx + (if (m % 2 == 0) 1f else -1f) * w * 0.17f, mix(h * 0.86f, h * 0.62f, m / max(1f, stones - 1f))), seg(a.b("stone", m), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
+        tagAt(a.tag("stone", m), Offset(vx, mix(h * 0.9f, h * 0.64f, m / max(1f, stones - 1f))), seg(a.b("stone", m), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
     }
 
     // pitfalls on each side: the edge crumbles where the error lies
@@ -689,7 +710,18 @@ internal fun DrawScope.ridgeScene(a: ArtCtx) {
                 val c = e + Offset(side * (4f + 6f * k) * dp, q * h * 0.25f)
                 drawCircle(Color(0xFF8A84A0).copy(alpha = 0.7f * easeOut(p) * (1f - q)), radius = 1.6f * dp, center = c)
             }
-            drawLine(ArtInk.Ember.copy(alpha = 0.8f * easeOut(p)), edge(u - 0.05f, side), edge(u + 0.05f, side), 2.2f * dp, StrokeCap.Round)
+            val q = easeOut(p)
+            val a0 = edge(u - 0.06f, side)
+            val a1 = edge(u + 0.06f, side)
+            val inner = Offset(mix(e.x, vx, 0.45f * q), e.y + 2f * dp)
+            val bite = Path().apply {
+                moveTo(a0.x, a0.y)
+                quadraticBezierTo(mix(a0.x, inner.x, 0.8f), mix(a0.y, inner.y, 0.4f), inner.x, inner.y)
+                quadraticBezierTo(mix(a1.x, inner.x, 0.8f), mix(a1.y, inner.y, 0.4f), a1.x, a1.y)
+                close()
+            }
+            drawPath(bite, Color(0xFF15131F).copy(alpha = q))
+            drawPath(bite, ArtInk.Ember.copy(alpha = 0.85f * q), style = Stroke(1.6f * dp, cap = StrokeCap.Round))
         } else {
             // a side trail leaving the path, with steps going over the edge
             val start = Offset(vx, edge(u, 0f).y)
@@ -788,14 +820,24 @@ internal fun DrawScope.treeScene(a: ArtCtx) {
     val bend = storm * (0.08f + 0.03f * sin(t * 3.1f)) * w
     val trunkH = (if (hasRoots) h * 0.3f else h * 0.42f) * (0.35f + 0.65f * trunkIn)
     val top = base + Offset(bend, -trunkH)
+    val girth = 0.45f + 0.55f * crown
     val trunk = Path().apply {
-        moveTo(base.x - 5f * dp, base.y)
-        cubicTo(base.x - 4f * dp, base.y - trunkH * 0.5f, top.x - 3f * dp - bend * 0.3f, top.y + trunkH * 0.3f, top.x - 2f * dp, top.y)
-        lineTo(top.x + 2f * dp, top.y)
-        cubicTo(top.x + 3f * dp - bend * 0.3f, top.y + trunkH * 0.3f, base.x + 4f * dp, base.y - trunkH * 0.5f, base.x + 5f * dp, base.y)
+        moveTo(base.x - 8f * dp * girth, base.y)
+        cubicTo(base.x - 5f * dp * girth, base.y - trunkH * 0.5f, top.x - 4f * dp * girth - bend * 0.3f, top.y + trunkH * 0.3f, top.x - 2.5f * dp * girth, top.y)
+        lineTo(top.x + 2.5f * dp * girth, top.y)
+        cubicTo(top.x + 4f * dp * girth - bend * 0.3f, top.y + trunkH * 0.3f, base.x + 5f * dp * girth, base.y - trunkH * 0.5f, base.x + 8f * dp * girth, base.y)
         close()
     }
     drawPath(trunk, TreeInk.Bark)
+    if (crown < 1f) {
+        val leafA = 1f - crown
+        for (sd in listOf(-1f, 1f)) {
+            val c = top + Offset(sd * 7f * dp, -3f * dp)
+            withTransform({ rotate(sd * -28f, c) }) {
+                drawOval(TreeInk.Leaf.copy(alpha = leafA), topLeft = c - Offset(8f * dp, 3.6f * dp), size = Size(16f * dp, 7.2f * dp))
+            }
+        }
+    }
     if (crown > 0f) {
         val r = trunkH * 0.62f * (0.3f + 0.7f * crown)
         val blobs = listOf(Offset(0f, -0.15f) to 1f, Offset(-0.55f, 0.15f) to 0.75f, Offset(0.55f, 0.12f) to 0.78f, Offset(-0.25f, -0.55f) to 0.7f, Offset(0.3f, -0.5f) to 0.72f)
@@ -936,6 +978,7 @@ internal fun DrawScope.streamsScene(a: ArtCtx) {
             dIdx++
         }
     }
+    var branchFrom = Offset(w * 0.36f, h * 0.62f)
     for ((k, s) in placed.withIndex()) {
         val p = easeOut(seg(s.p, 0f, 0.8f))
         if (p <= 0f) continue
@@ -944,6 +987,7 @@ internal fun DrawScope.streamsScene(a: ArtCtx) {
         val end = Offset(mix(basin.x + (s.x - w * 0.5f) * 0.3f, pool.x + w * 0.04f, dv), mix(basin.y - h * 0.02f, pool.y - h * 0.01f, dv))
         val c1 = start + Offset(0f, h * 0.2f)
         val c2 = end + Offset(0f, -h * 0.18f)
+        if (dv < 0.5f) branchFrom = cubic(start, c1, c2, end, 0.5f)
         val col = lerp(StreamInk.Water, StreamInk.Dark, dv)
         drawPath(cubicPart(start, c1, c2, end, 0f, p), col.copy(alpha = 0.35f), style = Stroke(5f * dp, cap = StrokeCap.Round))
         drawPath(cubicPart(start, c1, c2, end, 0f, p), col, style = Stroke(1.8f * dp, cap = StrokeCap.Round, pathEffect = PathEffect.dashPathEffect(floatArrayOf(5f * dp, 4f * dp), -t * 26f * dp)))
@@ -956,16 +1000,19 @@ internal fun DrawScope.streamsScene(a: ArtCtx) {
     val curse = easeOut(a.b("curse"))
     if (curse > 0f) {
         crossAt(pool, 9f * dp, curse)
-        tagAt(a.tag("curse"), pool + Offset(w * 0.1f, h * 0.02f), seg(a.b("curse"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
+        val tl = a.tag("curse")
+        val cx = max(pool.x, (tl?.size?.width ?: 0) / 2f + 6f * dp)
+        tagAt(tl, Offset(cx, h * 0.955f), seg(a.b("curse"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
     }
     val block = easeOut(a.b("block"))
     if (block > 0f) {
         // a short branch toward the pool, shut by a gate
-        val from = Offset(w * 0.36f, h * 0.62f)
-        val to = Offset(w * 0.22f, h * 0.76f)
+        val from = branchFrom
+        val to = Offset(pool.x + w * 0.08f, pool.y - h * 0.08f)
         drawLine(StreamInk.Water.copy(alpha = 0.6f), from, Offset(mix(from.x, to.x, 0.5f), mix(from.y, to.y, 0.5f)), 1.8f * dp, StrokeCap.Round)
         val g = Offset(mix(from.x, to.x, 0.55f), mix(from.y, to.y, 0.55f))
         drawLine(ArtInk.Brass.copy(alpha = block), g + Offset(-8f * dp, -6f * dp), g + Offset(8f * dp, 6f * dp), 3f * dp, StrokeCap.Round)
-        tagAt(a.tag("block"), g + Offset(-w * 0.04f, h * 0.1f), seg(a.b("block"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
+        val tl = a.tag("block")
+        tagAt(tl, g + Offset(12f * dp + (tl?.size?.width ?: 0) / 2f, -4f * dp), seg(a.b("block"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
     }
 }
