@@ -9,7 +9,10 @@ An offline Android app of knowledge cards built from books in the
 - Audio: every sentence is read aloud with an Arabic voice and highlighted while it plays;
   Quran verses play a real recitation (Mishary Alafasy, via AlQuran.cloud), never a synthetic voice.
 - A light animation on every card, timed to the voice; cards grouped in categories and paths.
+- Listening goes on with the screen locked (media session with lock-screen controls); continuous
+  listening moves from card to card. A setting opens every card's «تعمّق» layer by default.
 - Daily goal, streak, points, learning paths, saved cards, spaced repetition ("show me again later").
+- No network access and no data collected: everything ships inside the app.
 
 ## Builds and releases
 Every push to `main` builds the app (GitHub Actions) and attaches two files to a GitHub release:
@@ -25,8 +28,13 @@ Before each Play upload, raise `versionName` in `app/build.gradle.kts`; `version
 
 ## Layout
 - `app/` — the Android app (Kotlin, Jetpack Compose).
-- `app/src/main/assets/content/cards.json` — the cards; `assets/audio/` — one clip per sentence.
-- `tools/` — the content pipeline (card sources, vowelled speech text, Arabic voice preparation).
+- `app/src/main/assets/content/cards.json` — the cards; `assets/audio/` — one clip per sentence
+  (Opus 24 kbps for new clips, MP3 for the first ones).
+- `tools/` — the content pipeline: `cards_src.py`, `tools/cards/cards_batch2.py`, `cards_batch3.py` (the
+  cards, fully vowelled) → `build_cards.py` → `tools/tts/build_content.py` (voice) → `finish_pack.py`.
+  `verify_batch3.py` checks every quoted phrase against the book texts before anything is built.
+  The Speech check workflow transcribes new clips with Whisper; `tools/tts/best_take.py` re-voices the
+  flagged ones as the best of several takes.
 - `tools/fetch_quran.py` — run by the build: verse recitations and Uthmani text (AlQuran.cloud / Tanzil).
 - `tools/cards/finish_pack.py` — adds categories and card animations to the content pack.
 - `docs/` — privacy policy page and store graphics.

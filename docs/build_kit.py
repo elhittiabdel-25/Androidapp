@@ -64,6 +64,10 @@ CONTENT_FORMS = [
     ("Government app", "Applications gouvernementales", "No."),
     ("Financial features", "Fonctionnalités financières", "My app doesn't provide any financial features."),
     ("Health apps", "Applications de santé", "My app does not have any health features."),
+    ("Foreground service permissions", "Autorisations de service de premier plan",
+     "Declare Media playback (FOREGROUND_SERVICE_MEDIA_PLAYBACK): the app goes on reading the cards aloud when the screen is locked, "
+     "only after the user taps «استمع». Video link: record your phone's screen while you tap «استمع» with «استماع متواصل» on, lock the phone, "
+     "and show the reading going on with the lock-screen controls; upload it to YouTube as Unlisted and paste the link."),
 ]
 
 RIGHTS = [

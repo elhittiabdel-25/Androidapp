@@ -5,7 +5,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.environ.get("BOOKS_CSV", os.path.join(HERE, "books78.csv"))
 rows = [r for r in csv.DictReader(open(SRC, encoding="utf-8-sig")) if not r["status"].startswith("open")]
 
-IN_APP = {"113931", "113912", "15382", "90307", "90367", "90453"}   # plus 8391 (al-Fawzan's sharh of al-Qawaid), not in the list
+IN_APP = {"113931", "113912", "15382", "90307", "90367", "90453",                    # v1.0; plus 8391 (al-Fawzan's sharh of al-Qawaid), not in the list
+          "15892", "4873", "4865", "15714", "107145", "116093", "5646"}               # batch 3 (v1.1, part 1)
+STARTED = {"628"}                                                                    # partly in the app; the rest comes with the Manhaj cards
+CARDS_NOW = 65
 
 # Planned category and release wave for each book; card estimates are rough (short treatise ~6, long book ~10-25, only key ideas)
 PLAN = {
@@ -95,7 +98,8 @@ for topic_en, topic_ar in TOPIC.items():
     for r in items:
         cat, wave, est = PLAN[r["content_id"]]
         status = {"original in library": "the book itself", "commentary/abridgment of target": "commentary", "replacement (target not in library)": "replacement"}[r["status"]]
-        inapp = '<span class="chip ok">in the app</span>' if r["content_id"] in IN_APP else f'<span class="chip wave">v{wave}</span>'
+        inapp = ('<span class="chip ok">in the app</span>' if r["content_id"] in IN_APP else
+                 '<span class="chip warn">partly in the app</span>' if r["content_id"] in STARTED else f'<span class="chip wave">v{wave}</span>')
         trs.append(f'<tr><td dir="rtl" lang="ar" class="ar">{html.escape(r["title"])}<div class="dim">{html.escape(r["author"])}</div></td>'
                    f'<td dir="rtl" lang="ar" class="ar">{html.escape(cat)}</td><td>{status}{" · large" if r["large"].strip() else ""}</td>'
                    f'<td class="n">~{est}</td><td>{inapp}</td></tr>')
@@ -179,12 +183,12 @@ page = f"""<title>Re-Iman 78-Book Roadmap</title>
 <main><div class="wrap">
   <section>
     <h2>Where we are, where we're going</h2>
-    <p>Version 1.0 has 46 cards from 7 books. The goal is the 78 books matched in the library: about {wave_rows[-1][6]} cards across four topics. Cards keep the same standard as today: one idea each, full tashkeel, evidence with book and page, voice, recitation and an animation.</p>
+    <p>Version 1.0 has 46 cards from 7 books. Version 1.1 is under way: {CARDS_NOW} cards from 15 books so far. The goal is the 78 books matched in the library: about {wave_rows[-1][6]} cards across four topics. Cards keep the same standard as today: one idea each, full tashkeel, evidence with book and page, voice, recitation and an animation.</p>
     <div class="stats">
       <div class="stat"><b>{len(rows)}</b><span>books in the plan</span></div>
-      <div class="stat"><b>6 + 1</b><span>already in the app (+ al-Fawzan's sharh)</span></div>
+      <div class="stat"><b>{len(IN_APP | STARTED)} + 1</b><span>already in the app (+ al-Fawzan's sharh)</span></div>
       <div class="stat"><b>~{wave_rows[-1][6]}</b><span>cards at v2.0</span></div>
-      <div class="stat"><b>~{round((wave_rows[-1][6] - 46) / 35)}</b><span>batches of ~35 cards</span></div>
+      <div class="stat"><b>~{round((wave_rows[-1][6] - CARDS_NOW) / 35)}</b><span>batches of ~35 cards to go</span></div>
     </div>
   </section>
 
@@ -206,11 +210,12 @@ page = f"""<title>Re-Iman 78-Book Roadmap</title>
   </section>
 
   <section>
-    <h2>First step, done today</h2>
+    <h2>Progress</h2>
     <ul>
-      <li>The full list of 78 books is rebuilt and mapped to categories, release waves and card estimates (below).</li>
-      <li>The download workflow now finds each book's file on its library page. The 18 remaining Aqeedah books for <b>v1.1</b> are downloaded (18 of 18, about 69 MB) and stored with the other sources.</li>
-      <li>Next session: write batch 3 (Aqeedah), voiced straight to Opus, with the same checks as before: text against the book, tashkeel, pronunciation, animation.</li>
+      <li>The full list of 78 books is mapped to categories, release waves and card estimates (below).</li>
+      <li>The 18 remaining Aqeedah books for <b>v1.1</b> are downloaded, and their scanned pages are turned into text, so every quote can be checked against the book.</li>
+      <li><b>Batch 3 is in the app (v1.1, part 1):</b> 19 new cards from Kitab al-Tawhid and 8 more books, voiced in Opus, with two new paths (<span class="ar" lang="ar">براهين التوحيد</span>, <span class="ar" lang="ar">نواقض الإسلام</span>). These books also add 61 page references to earlier cards. Checked: text against the book, tashkeel, pronunciation, animation.</li>
+      <li>Next: <b>v1.1, part 2</b>: the 5 Iman books and the 6 Manhaj books (including the rest of A'lam al-Sunna). Their text is ready.</li>
     </ul>
   </section>
 
