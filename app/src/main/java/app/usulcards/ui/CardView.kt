@@ -79,7 +79,8 @@ fun CardView(
     val pal = LocalPalette.current
     val learned = card.id in progress.learned
     val saved = card.id in progress.saved
-    val playingKey = player.currentKey
+    // highlight only this card's own voice (in continuous listening the next card may already be speaking)
+    val playingKey = player.currentKey.takeIf { player.owner == null || player.owner == card.id }
     fun shown(target: String, plain: String) = if (progress.showDiacritics) card.diac[target] ?: plain else plain
 
     Box(modifier) {

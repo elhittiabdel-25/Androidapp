@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import app.usulcards.audio.AudioPlayer
+import app.usulcards.audio.NextCard
 import app.usulcards.audio.PlayItem
 import app.usulcards.data.Card
 import app.usulcards.data.ContentRepo
@@ -70,6 +71,16 @@ class DeckState(private val repo: ContentRepo, private val deepByDefault: () -> 
         resetCard()
     }
 
+    fun goTo(i: Int) {
+        if (i !in queue.indices) return
+        index = i
+        resetCard()
+    }
+
+    /** Position of the first [id] after the current card (the queue can hold a card twice). */
+    fun indexAfter(id: String, from: Int = index): Int? =
+        (from + 1 until queue.size).firstOrNull { queue[it] == id }
+
     /** "Show me again later": the card comes back three cards from now. */
     fun requeue() {
         val at = minOf(index + 4, queue.size)
@@ -84,6 +95,12 @@ class DeckState(private val repo: ContentRepo, private val deepByDefault: () -> 
             resetCard()
         }
     }
+}
+
+/** Whether the app is on screen (set by MainActivity): card animations only run when it is. */
+object UiVisibility {
+    @Volatile
+    var visible = true
 }
 
 /** Card navigation with its fly-out/rise-in animation, and the listen queue (including continuous mode). */
@@ -126,9 +143,42 @@ class DeckController(
         if (player.isPlaying) player.stop() else listen(card)
     }
 
+    /**
+     * Reads [card]. In continuous listening the player queues each next card itself before the current
+     * one ends (so the voice goes on with the screen locked), and tells us when it moves on: the deck then
+     * follows, with the card animation if the app is on screen.
+     */
     fun listen(card: Card) {
-        player.play(playlist(card, deck.deepOpen), progress.speed, card.id) {
-            if (progress.continuous && deck.canGo(1)) navigate(1, autoPlay = true)
+        player.play(
+            playlist(card, deck.deepOpen), progress.speed, card.id, card.title,
+            next = { last -> if (progress.continuous) nextAfter(last) else null },
+            onAdvance = { id -> follow(id) },
+        ) {}
+    }
+
+    /** The card after [id] in the deck, with the clips it will play (its «تعمّق» as a new card opens). */
+    private fun nextAfter(id: String): NextCard? {
+        val at = if (deck.queue.getOrNull(deck.index) == id) deck.index else deck.indexAfter(id) ?: return null
+        val nextId = deck.queue.getOrNull(at + 1) ?: return null
+        val c = repo.byId[nextId] ?: return null
+        return NextCard(c.id, c.title, playlist(c, progress.deepByDefault))
+    }
+
+    /** The voice reached card [id]: show it. */
+    private fun follow(id: String) {
+        val target = deck.indexAfter(id) ?: return
+        if (!UiVisibility.visible || busy) {
+            deck.goTo(target)
+            return
+        }
+        busy = true
+        scope.launch {
+            offsetX.animateTo(1600f, tween(240))
+            deck.goTo(target)
+            offsetX.snapTo(0f)
+            enter.snapTo(0f)
+            busy = false
+            enter.animateTo(1f, tween(380, easing = FastOutSlowInEasing))
         }
     }
 
