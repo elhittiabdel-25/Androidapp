@@ -67,10 +67,10 @@ SAY = {
 
 LAYOUTS = {
     "land": dict(W=1920, H=1080, sw=456, sh=914, bezel=14, prad=66, px=358, py=69,
-                 panel=(960, 120, 780, 840), align="right", ar=72, en=32, num=176, brand=(None, 62, 180),
+                 panel=(960, 120, 780, 840), align="right", ar=64, en=32, num=176, brand=(None, 62, 180),
                  logo=270, word=150, tag=68, pill_ar=40, pill_en=22, bg="72% 36%", stars=110),
     "port": dict(W=1080, H=1920, sw=600, sh=1203, bezel=16, prad=84, px=224, py=604,
-                 panel=(70, 150, 940, 430), align="center", ar=68, en=31, num=136, brand=("c", 58, None),
+                 panel=(70, 150, 940, 430), align="center", ar=60, en=31, num=136, brand=("c", 58, None),
                  logo=320, word=150, tag=72, pill_ar=40, pill_en=22, bg="50% 30%", stars=150),
 }
 
@@ -159,8 +159,8 @@ def build(name, L):
 
     says = "\n".join(say_block(key, L["ar"], L["en"]) for key in ["hook", "swap", "a1", "a2", "b", "c"])
     say_d = f'''<div class="say" id="say-d">
-  <p class="ar big"><span class="num" id="n81">٠</span> <span>بطاقة</span></p>
-  <p class="ar l1">من <span class="num sm" id="n20">٠</span> كتابًا في العقيدة</p>
+  <p class="ar big"><span class="num" id="n81">0</span> <span>بطاقة</span></p>
+  <p class="ar l1">من <span class="num sm" id="n20">0</span> كتابًا في العقيدة</p>
   <p class="ar l2">بأدلتها ومصادرها</p>
   <p class="en">81 cards from 20 books of aqeedah, with their proofs and sources.</p>
 </div>'''
@@ -176,10 +176,8 @@ def build(name, L):
 <title>Re-Iman promo ({name})</title>
 <script src="assets/gsap.min.js"></script>
 <style>
-@font-face {{ font-family: "Kufi"; src: url("assets/fonts/kufi_bold.ttf") format("truetype"); font-weight: 700; }}
 @font-face {{ font-family: "Plex"; src: url("assets/fonts/plex_regular.ttf") format("truetype"); font-weight: 400; }}
 @font-face {{ font-family: "Plex"; src: url("assets/fonts/plex_semibold.ttf") format("truetype"); font-weight: 600; }}
-@font-face {{ font-family: "Naskh"; src: url("assets/fonts/naskh_bold.ttf") format("truetype"); font-weight: 700; }}
 html, body {{ margin: 0; background: #101217; }}
 #root {{ position: relative; width: 100%; height: 100%; overflow: hidden; color: #fff; font-family: "Plex", sans-serif; }}
 .layer {{ position: absolute; inset: 0; }}
@@ -227,21 +225,21 @@ html, body {{ margin: 0; background: #101217; }}
 .say {{ position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center;
   align-items: {"flex-end" if align == "right" else "center"}; gap: 14px; }}
 .say p {{ margin: 0; opacity: 0; }}
-.ar {{ text-wrap: balance; direction: rtl; text-align: {align}; font: 700 {L["ar"]}px/1.38 "Kufi", sans-serif; color: #F7F3EA; max-width: {plw}px; }}
+.ar {{ text-wrap: balance; direction: rtl; text-align: {align}; font: 600 {L["ar"]}px/1.45 "Plex", sans-serif; color: #F7F3EA; max-width: {plw}px; }}
 .en {{ text-wrap: balance; direction: ltr; text-align: {align}; font: 400 {L["en"]}px/1.4 "Plex", sans-serif; color: #C8D2EC; max-width: {plw}px; margin-top: 12px !important; }}
 #say-hook .ar {{ color: #E9EBEF; font-size: {L["ar"] + 14}px; }}
 #say-hook .en {{ color: #A9AEB9; }}
 .ar.big {{ font-size: {L["ar"] + 10}px; display: flex; align-items: baseline; gap: 22px; direction: rtl; }}
-.num {{ display: inline-block; color: #E5B54B; font: 700 {L["num"]}px/1 "Kufi", sans-serif; font-variant-numeric: tabular-nums; min-width: {int(L["num"] * 1.05)}px; text-align: center; }}
+.num {{ display: inline-block; color: #E5B54B; font: 600 {L["num"]}px/1 "Plex", sans-serif; font-variant-numeric: tabular-nums; min-width: {int(L["num"] * 1.05)}px; text-align: center; }}
 .num.sm {{ font-size: {L["ar"] + 6}px; min-width: {int((L["ar"] + 6) * 1.1)}px; }}
 
 #end {{ position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; }}
 #end .word {{ font: 600 {L["word"]}px/1 "Plex", sans-serif; letter-spacing: -2px; direction: ltr; opacity: 0; margin-top: 10px; }}
-#end .tag {{ font: 700 {L["tag"]}px/1.4 "Naskh", serif; direction: rtl; color: #F7F3EA; opacity: 0; }}
+#end .tag {{ font: 600 {L["tag"]}px/1.5 "Plex", sans-serif; direction: rtl; color: #F7F3EA; opacity: 0; }}
 #pills {{ display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; margin-top: 18px; direction: rtl; max-width: {W - 80}px; }}
 .pill {{ display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 30px; border-radius: 999px;
   background: rgba(255,255,255,.1); border: 1.5px solid rgba(255,255,255,.28); opacity: 0; }}
-.pa {{ font: 700 {L["pill_ar"]}px/1.2 "Kufi", sans-serif; direction: rtl; }}
+.pa {{ font: 600 {L["pill_ar"]}px/1.3 "Plex", sans-serif; direction: rtl; }}
 .pe {{ font: 400 {L["pill_en"]}px/1.2 "Plex", sans-serif; color: #C8D2EC; direction: ltr; }}
 </style>
 </head>
@@ -350,14 +348,12 @@ html, body {{ margin: 0; background: #101217; }}
   ["a1", "a2", "b", "c"].forEach((key) => {{ sayIn(key, SAY[key][0]); sayOut(key, SAY[key][1]); }});
 
   // ---- numbers ----
-  const AR = "٠١٢٣٤٥٦٧٨٩";
-  const toAr = (n) => String(n).replace(/[0-9]/g, (d) => AR[+d]);
   sayIn("d", SAY.d[0]);
   const c81 = {{ v: 0 }}, c20 = {{ v: 0 }};
   const e81 = document.getElementById("n81"), e20 = document.getElementById("n20");
-  tl.to(c81, {{ v: 81, duration: 1.25, ease: "power2.out", onUpdate: () => {{ e81.textContent = toAr(Math.round(c81.v)); }} }}, SAY.d[0] + 0.1);
+  tl.to(c81, {{ v: 81, duration: 1.25, ease: "power2.out", onUpdate: () => {{ e81.textContent = Math.round(c81.v); }} }}, SAY.d[0] + 0.1);
   tl.fromTo("#n81", {{ scale: 0.6 }}, {{ scale: 1, duration: 1.25, ease: "power2.out" }}, SAY.d[0] + 0.1);
-  tl.to(c20, {{ v: 20, duration: 1.0, ease: "power2.out", onUpdate: () => {{ e20.textContent = toAr(Math.round(c20.v)); }} }}, SAY.d[0] + 0.45);
+  tl.to(c20, {{ v: 20, duration: 1.0, ease: "power2.out", onUpdate: () => {{ e20.textContent = Math.round(c20.v); }} }}, SAY.d[0] + 0.45);
   sayOut("d", SAY.d[1]);
 
   // ---- end card ----
