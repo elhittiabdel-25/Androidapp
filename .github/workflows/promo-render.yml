@@ -5,6 +5,9 @@ on:
   push:
     branches: [promo]
 
+permissions:
+  contents: write
+
 jobs:
   render:
     runs-on: ubuntu-latest
@@ -52,8 +55,11 @@ jobs:
       - name: Probe
         if: always()
         run: for f in out/*.mp4; do ffprobe -v error -show_entries format=duration:stream=codec_name,width,height -of compact "$f"; done || true
-      - uses: actions/upload-artifact@v4
+      - name: Publish to the promo-video pre-release
         if: always()
-        with:
-          name: promo-out
-          path: out
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tar czf reports.tar.gz -C out --exclude='*.mp4' .
+          gh release view promo-video >/dev/null 2>&1 || gh release create promo-video --prerelease --target promo --title "Promo video (renders)" --notes "HyperFrames renders of the Re-Iman promo. Rebuilt on every push to the promo branch."
+          gh release upload promo-video reports.tar.gz out/*.mp4 --clobber
