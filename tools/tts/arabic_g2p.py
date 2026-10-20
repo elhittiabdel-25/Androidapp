@@ -499,6 +499,7 @@ def phonemize(text, espeak=None, waqf_at_pauses=True):
                     clause_start(w)
                 else:
                     link(ws[k - 1], w)
+        tafkhim(ws)
         if waqf_at_pauses or not punct or punct in SENTENCE_END:
             waqf(ws[-1])
         cur += " ".join(render(w) for w in ws if w.toks) + PAUSE.get(punct, "")
@@ -508,6 +509,29 @@ def phonemize(text, espeak=None, waqf_at_pauses=True):
     if cur.strip():
         sentences.append(cur.strip())
     return sentences
+
+
+def tafkhim(ws):
+    """The lam of the Name of Allah is heavy (مُغَلَّظَة) unless a kasra comes right before it: «اللَّهُ أَكْبَرُ»,
+    «قَالَ اللَّهُ», «عَبْدُ اللَّهِ», «وَاللَّهِ» are heavy, «بِسْمِ اللَّهِ», «لِلَّهِ», «بِاللَّهِ» are light. The voice
+    knows the heavy sound as the darkened long a it says after ص ض ط ظ ("a.ː"), so that vowel is darkened.
+    Runs after the words are linked, so the vowel before the lam is the one actually said."""
+    flat = [x for w in ws for x in w.toks]
+    for w in ws:
+        if not ALLAH.match(bare(w.text)):
+            continue
+        t = w.toks
+        for j in range(1, len(t) - 1):
+            x = t[j]
+            if not (x["t"] == "V" and x["s"] == "a" and x["long"] and t[j - 1]["t"] == "C" and t[j - 1]["s"] == "l"
+                    and t[j + 1]["t"] == "C" and t[j + 1]["s"] == "h"):
+                continue
+            k = next(i for i, y in enumerate(flat) if y is t[j - 1]) - 1
+            while k >= 0 and flat[k]["t"] != "V":
+                k -= 1
+            if k < 0 or flat[k]["s"] != "i":
+                x["dark"] = True
+            break
 
 
 def espeak_stress(clauses, espeak):
