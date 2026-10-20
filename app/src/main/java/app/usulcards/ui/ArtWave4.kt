@@ -124,7 +124,7 @@ internal fun DrawScope.penLine(pts: List<Offset>, p: Float, color: Color, width:
 }
 
 /** A small arrow head at [tip] pointing along [dir] (a unit-ish direction). */
-private fun DrawScope.arrowHead(tip: Offset, dir: Offset, len: Float, color: Color, width: Float, alpha: Float = 1f) {
+internal fun DrawScope.arrowHead(tip: Offset, dir: Offset, len: Float, color: Color, width: Float, alpha: Float = 1f) {
     val d = dir.getDistance().takeIf { it > 0f } ?: return
     val u = dir / d
     val n = Offset(-u.y, u.x)
@@ -133,13 +133,13 @@ private fun DrawScope.arrowHead(tip: Offset, dir: Offset, len: Float, color: Col
 }
 
 /** A cross mark (✗). */
-private fun DrawScope.crossMark(c: Offset, r: Float, color: Color, width: Float, alpha: Float = 1f) {
+internal fun DrawScope.crossMark(c: Offset, r: Float, color: Color, width: Float, alpha: Float = 1f) {
     drawLine(color, c + Offset(-r, -r), c + Offset(r, r), width, cap = StrokeCap.Round, alpha = alpha)
     drawLine(color, c + Offset(-r, r), c + Offset(r, -r), width, cap = StrokeCap.Round, alpha = alpha)
 }
 
 /** A check mark (✓). */
-private fun DrawScope.checkMark(c: Offset, r: Float, color: Color, width: Float, alpha: Float = 1f) {
+internal fun DrawScope.checkMark(c: Offset, r: Float, color: Color, width: Float, alpha: Float = 1f) {
     val p = Path().apply {
         moveTo(c.x - r, c.y)
         lineTo(c.x - r * 0.3f, c.y + r * 0.7f)

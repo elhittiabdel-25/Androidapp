@@ -144,6 +144,14 @@ internal fun ArtFrame(scene: Scene, beats: () -> List<Float>, time: () -> Float,
                 "deeds" -> deedsScene(a)
                 "camp" -> campScene(a)
                 "gifts" -> giftsScene(a)
+                "amulet" -> amuletScene(a)
+                "knots" -> knotsScene(a)
+                "lights" -> lightsScene(a)
+                "ranks" -> ranksScene(a)
+                "pillars" -> pillarsScene(a)
+                "neon" -> neonScene(a)
+                "oath" -> oathScene(a)
+                "kin" -> kinScene(a)
                 else -> drawRect(pal.line)
             }
         }
@@ -192,6 +200,15 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "arrive", "thank" -> 2600
     "quiet", "khafi", "camp", "tabuk", "other", "self" -> 2000
     "joke" -> 2400
+    "rank", "node" -> 1200
+    "lit" -> 1400
+    "pure", "ijma", "slaves", "swear" -> 1800
+    "pair", "knotted", "unlike", "foe", "hate" -> 2000
+    "pardon" -> 2200
+    "snip", "same", "veil", "allowed", "topple", "plea", "kin" -> 2400
+    "hang", "page", "stones", "fake", "reward", "tasbih", "love" -> 2600
+    "cure", "branch", "banned" -> 3000
+    "burn" -> 3200
     else -> 1000
 }
 

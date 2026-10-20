@@ -60,6 +60,14 @@ ART_KINDS = {
     "deeds": {"pray", "eyes", "khafi", "returned", "left"},
     "camp": {"camp", "kufr", "joke", "tabuk"},
     "gifts": {"other", "self", "deny", "thank"},
+    "amulet": {"hang", "snip", "page", "pure"},
+    "knots": {"stones", "pair", "knotted", "fake", "cure"},
+    "lights": {"same", "unlike", "lit", "burn"},
+    "ranks": {"rank", "veil", "reward"},
+    "pillars": {"node", "branch"},
+    "neon": {"ijma", "banned", "slaves", "allowed"},
+    "oath": {"swear", "pardon", "topple", "plea", "tasbih"},
+    "kin": {"self", "foe", "kin", "love", "hate"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

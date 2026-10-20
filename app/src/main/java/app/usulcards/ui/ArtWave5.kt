@@ -380,10 +380,9 @@ internal fun DrawScope.deedsScene(a: ArtCtx) {
         // adorned for the eyes: gilt corners and glitter
         val adorn = easeOut(seg(gaze, 0.4f, 1f))
         if (adorn > 0f) {
-            for (k in 0 until 4) {
-                val corner = c + Offset(if (k % 2 == 0) -s / 2 else s / 2, if (k < 2) -s / 2 else s / 2)
-                drawCircle(Mono.Line, radius = 2.4f * dp * adorn, center = corner, alpha = fade * adorn)
-            }
+            val pad = s * 0.18f * adorn
+            drawRoundRect(Mono.Line, topLeft = c - Offset(s / 2 + pad, s / 2 + pad), size = Size(s + 2 * pad, s + 2 * pad),
+                cornerRadius = CornerRadius(s * 0.24f), alpha = fade * adorn, style = Stroke(1.4f * dp))
             for (k in 0 until 6) {
                 val f = fract(t * 0.8f + k / 6f)
                 val p = c + Offset(cos(k * 1.05f + t) * s * (0.7f + 0.5f * f), sin(k * 1.05f + t) * s * (0.7f + 0.5f * f))
@@ -409,7 +408,8 @@ internal fun DrawScope.deedsScene(a: ArtCtx) {
             tagAt(a.tag("khafi"), Offset(w * 0.4f, min(c.y, to.y) - h * 0.1f), seg(khafi, 0.3f, 0.8f) * (1f - seg(back, 0f, 0.4f)), back = Mono.Back, ink = Mono.Ember)
         }
         if (back > 0f) tagAt(a.tag("returned"), Offset(archX - w * 0.2f, ground - h * 0.1f), seg(back, 0.5f, 1f) * (1f - seg(left, 0f, 0.4f)), back = Mono.Back, ink = Mono.Ember)
-        if (left > 0f) tagAt(a.tag("left"), Offset(archX - w * 0.18f, ground - h * 0.12f), seg(left, 0.3f, 0.8f), back = Mono.Back, ink = Mono.Ember)
+        // His words in the hadith qudsi: high in the picture, never by the ground
+        if (left > 0f) tagAt(a.tag("left"), Offset(w * 0.4f, h * 0.13f), seg(left, 0.3f, 0.8f), back = Mono.Back, ink = Mono.Ember)
     }
 }
 
@@ -480,12 +480,12 @@ internal fun DrawScope.campScene(a: ArtCtx) {
             drawCircle(Mono.Warm, radius = 1.2f * dp, center = Offset(fx + sin(k * 2.4f + t) * w * 0.02f * spread, ground - h * 0.06f - f * h * 0.25f),
                 alpha = fire * (1f - f) * 0.9f)
         }
-        // the travellers around it; the one on the right laughs
+        // the travellers on either side of it (never behind it: that would read as a figure in the fire); the one on the right laughs
         val tall = h * 0.27f
         sitting(Offset(fx - w * 0.16f, ground), tall, Mono.Line, fire, 1f)
         val laugh = seg(camp, 0.5f, 1f) * (1f - seg(kufr, 0.2f, 0.5f))
         sitting(Offset(fx + w * 0.17f, ground), tall, Mono.Line, fire, -1f, bob = sin(t * 16f) * tall * 0.025f * laugh)
-        sitting(Offset(fx + w * 0.02f, ground - h * 0.025f), tall * 0.9f, Mono.Dim, fire * 0.8f, -1f)
+        sitting(Offset(fx - w * 0.29f, ground), tall * 0.9f, Mono.Dim, fire * 0.8f, 1f)
     }
 
     // «it was only a joke» — no excuse
@@ -552,9 +552,9 @@ internal fun DrawScope.giftsScene(a: ArtCtx) {
             }
         }
     }
-    // what each one says
-    monoBubble(a.tag("other"), Offset(xs[0] - w * 0.02f, ground - tall * 1.55f), Offset(xs[0], ground - tall * 1.2f), seg(other, 0.2f, 0.5f) * (1f - 0.5f * seg(deny, 0f, 0.4f)))
-    monoBubble(a.tag("self"), Offset(xs[1], ground - tall * 1.55f), Offset(xs[1], ground - tall * 1.2f), seg(self, 0.2f, 0.5f) * (1f - 0.5f * seg(deny, 0f, 0.4f)))
+    // what each one says (the first two sayings are examples of the two errors; they go before the story's two are named)
+    monoBubble(a.tag("other"), Offset(xs[0] - w * 0.02f, ground - tall * 1.55f), Offset(xs[0], ground - tall * 1.2f), seg(other, 0.2f, 0.5f) * (1f - seg(deny, 0f, 0.3f)))
+    monoBubble(a.tag("self"), Offset(xs[1], ground - tall * 1.55f), Offset(xs[1], ground - tall * 1.2f), seg(self, 0.2f, 0.5f) * (1f - seg(deny, 0f, 0.3f)))
     monoBubble(a.tag("thank", 0, 1), Offset(xs[2] + w * 0.05f, ground - tall * 1.55f), Offset(xs[2], ground - tall * 1.2f), seg(thank, 0.25f, 0.55f), ink = Mono.Warm, edge = Mono.Warm)
     // who they were
     for (k in 0 until 2) tagAt(a.tag("deny", 0, k), Offset(xs[k], ground + h * 0.065f), seg(deny, 0.2f, 0.6f), back = Mono.Back, ink = Mono.Dim)
