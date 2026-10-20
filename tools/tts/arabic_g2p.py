@@ -41,7 +41,8 @@ PAUSE = {"،": ", ", ",": ", ", "؛": "; ", ";": "; ", ":": ": ", ".": ".", "؟"
 SENTENCE_END = {".", "؟", "?", "!"}
 WASL_NOUNS = {"ابن", "ابنة", "ابنت", "اسم", "امرؤ", "امرئ", "امرأ", "امرأة", "اثنان", "اثنين", "اثنتان", "اثنتين"}
 PLURAL_MIM = re.compile("(هم|هما|كم|كما|تم|تما)$")
-DOUBLED_GLIDE = "long+glide"     # how يّ / وّ are written: "training" (iː / uː, as the voice learned), "jj", "long+glide"
+DOUBLED_GLIDE = "long+glide"
+TAFKHIM = True                   # the heavy lam of the Name of Allah (see tafkhim); off only to compare     # how يّ / وّ are written: "training" (iː / uː, as the voice learned), "jj", "long+glide"
 
 # words written without the small alif they are read with: (bare stem pattern, index of the letter that gets it)
 DAGGER_WORDS = [
@@ -413,8 +414,10 @@ def render_tok(x):
     if x["t"] == "C":
         s = x["s"]
         if x.get("gem"):
+            if x.get("ph1"):
+                return s + "ˤ" + s
             return s + "ː" if s in STOPS and not x.get("art") else s + s
-        return s
+        return s + "ˤ" if x.get("ph") else s
     s = x.get("st", "") + x["s"] + ("." if x.get("dark") else "") + ("ː" if x["long"] else "")
     return s
 
@@ -499,7 +502,8 @@ def phonemize(text, espeak=None, waqf_at_pauses=True):
                     clause_start(w)
                 else:
                     link(ws[k - 1], w)
-        tafkhim(ws)
+        if TAFKHIM:
+            tafkhim(ws)
         if waqf_at_pauses or not punct or punct in SENTENCE_END:
             waqf(ws[-1])
         cur += " ".join(render(w) for w in ws if w.toks) + PAUSE.get(punct, "")
@@ -526,11 +530,20 @@ def tafkhim(ws):
             if not (x["t"] == "V" and x["s"] == "a" and x["long"] and t[j - 1]["t"] == "C" and t[j - 1]["s"] == "l"
                     and t[j + 1]["t"] == "C" and t[j + 1]["s"] == "h"):
                 continue
-            k = next(i for i, y in enumerate(flat) if y is t[j - 1]) - 1
+            lam = next(i for i, y in enumerate(flat) if y is t[j - 1])
+            k = lam - 1
             while k >= 0 and flat[k]["t"] != "V":
                 k -= 1
             if k < 0 or flat[k]["s"] != "i":
                 x["dark"] = True
+                if k >= 0 and flat[k]["s"] == "a":
+                    flat[k]["dark"] = True           # the fatha that leads into the heavy lam takes its colour
+                # and the first of the two lams is said heavy ("lˤ"): kept in the word ("ʔa.lˤla.ːh"), or at
+                # the end of the word before it when the two are split by the linking ("qaːla.lˤ la.ːh")
+                if t[j - 1]["gem"]:
+                    t[j - 1]["ph1"] = True
+                elif lam > 0 and flat[lam - 1]["t"] == "C" and flat[lam - 1]["s"] == "l":
+                    flat[lam - 1]["ph"] = True
             break
 
 
