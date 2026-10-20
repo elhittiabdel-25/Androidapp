@@ -38,7 +38,8 @@ def main(tools, out, shard=0, count=1):
     torch.set_num_threads(os.cpu_count() or 4)
     from silma_tts.api import SilmaTTS
     os.makedirs(out, exist_ok=True)
-    clips = CLIPS[shard::count]
+    clips = [c for c in os.environ.get("TRIAL_CLIPS", "").split(",") if c] or CLIPS
+    clips = clips[shard::count]
     t0 = time.time()
     speech = json.load(open(os.path.join(HERE, "speech.json"), encoding="utf-8"))
     ref_kareem = os.path.join(out, "ref-kareem.wav")
@@ -48,6 +49,10 @@ def main(tools, out, shard=0, count=1):
         "silma-voice": (str(files("silma_tts").joinpath("infer/ref_audio_samples/ar.ref.24k.wav")),
                         "ويدقق النظر في القرآن الكريم وسائر الكتب السماوية ويتبع مسالك الرسل العظام عليهم الصلاة والسلام."),
     }
+    if os.environ.get("TRIAL_VOICE") == "my-voice":
+        # the app owner's own voice, recorded for this purpose, reading this sentence
+        refs = {"my-voice": (os.path.join(HERE, "voices", "my-voice.wav"),
+                             "أعظم ما أمر الله به التوحيد، وهو إفراد الله بالعبادة، وأعظم ما نهى عنه الشرك.")}
     tts = SilmaTTS(enable_normalizer=False, force_tashkeel=False)
     print(f"model loaded in {time.time() - t0:.0f}s", flush=True)
     rows, wavs = [], []
