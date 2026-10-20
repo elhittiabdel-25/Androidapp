@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
@@ -116,46 +117,52 @@ internal fun ArtFrame(scene: Scene, beats: () -> List<Float>, time: () -> Float,
         scene.sides.map { tm.measure(txt(it.first), style) }
     }
     Column(Modifier.fillMaxWidth()) {
-        Canvas(Modifier.fillMaxWidth().aspectRatio(ART_ASPECT)) {
-            val a = ArtCtx(scene.items.map { it.kind }, beats(), time(), tags, extras, scene.items.map { it.side }, scene.items.map { it.value }, pal == DarkPalette)
-            when (scene.layout) {
-                "key" -> keyScene(a)
-                "rope" -> ropeScene(a)
-                "ship" -> shipScene(a)
-                "lantern" -> lanternScene(a)
-                "trail" -> trailScene(a)
-                "ridge" -> ridgeScene(a)
-                "tree" -> treeScene(a)
-                "streams" -> streamsScene(a)
-                "building" -> buildingScene(a)
-                "gate" -> gateScene(a)
-                "shrine" -> shrineScene(a)
-                "hourglass" -> hourglassScene(a)
-                "night" -> nightScene(a)
-                "grain" -> grainScene(a)
-                "vessels" -> vesselsScene(a)
-                "cave" -> caveScene(a)
-                "chart" -> chartScene(a)
-                "circuit" -> circuitScene(a)
-                "verdict" -> verdictScene(a)
-                "board" -> boardScene(a)
-                "watch" -> watchScene(a)
-                "crowd" -> crowdScene(a)
-                "deeds" -> deedsScene(a)
-                "camp" -> campScene(a)
-                "gifts" -> giftsScene(a)
-                "amulet" -> amuletScene(a)
-                "knots" -> knotsScene(a)
-                "lights" -> lightsScene(a)
-                "ranks" -> ranksScene(a)
-                "pillars" -> pillarsScene(a)
-                "neon" -> neonScene(a)
-                "oath" -> oathScene(a)
-                "kin" -> kinScene(a)
-                else -> drawRect(pal.line)
-            }
+        Canvas(Modifier.fillMaxWidth().aspectRatio(ART_ASPECT).clipToBounds()) {
+            val bs = beats()
+            val a = ArtCtx(scene.items.map { it.kind }, bs, time(), tags, extras, scene.items.map { it.side }, scene.items.map { it.value }, pal == DarkPalette)
+            throughCamera(scene.layout, cameraProgress(bs), a.t) { drawLayout(scene.layout, a, pal.line) }
+            drawAir(scene.layout, a.t, a.dark)
         }
         Box(Modifier.fillMaxWidth().background(pal.bg)) { SceneCaption(scene, shown, txt) }
+    }
+}
+
+private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
+    when (layout) {
+        "key" -> keyScene(a)
+        "rope" -> ropeScene(a)
+        "ship" -> shipScene(a)
+        "lantern" -> lanternScene(a)
+        "trail" -> trailScene(a)
+        "ridge" -> ridgeScene(a)
+        "tree" -> treeScene(a)
+        "streams" -> streamsScene(a)
+        "building" -> buildingScene(a)
+        "gate" -> gateScene(a)
+        "shrine" -> shrineScene(a)
+        "hourglass" -> hourglassScene(a)
+        "night" -> nightScene(a)
+        "grain" -> grainScene(a)
+        "vessels" -> vesselsScene(a)
+        "cave" -> caveScene(a)
+        "chart" -> chartScene(a)
+        "circuit" -> circuitScene(a)
+        "verdict" -> verdictScene(a)
+        "board" -> boardScene(a)
+        "watch" -> watchScene(a)
+        "crowd" -> crowdScene(a)
+        "deeds" -> deedsScene(a)
+        "camp" -> campScene(a)
+        "gifts" -> giftsScene(a)
+        "amulet" -> amuletScene(a)
+        "knots" -> knotsScene(a)
+        "lights" -> lightsScene(a)
+        "ranks" -> ranksScene(a)
+        "pillars" -> pillarsScene(a)
+        "neon" -> neonScene(a)
+        "oath" -> oathScene(a)
+        "kin" -> kinScene(a)
+        else -> drawRect(fallback)
     }
 }
 
@@ -289,8 +296,11 @@ internal fun DrawScope.tagAt(tl: TextLayoutResult?, c: Offset, alpha: Float, bac
     val padY = 2.5f * density
     val w = tl.size.width + 2 * padX
     val h = tl.size.height + 2 * padY
-    val x = (c.x - w / 2).coerceIn(2f * density, max(2f * density, size.width - w - 2f * density))
-    val y = (c.y - h / 2).coerceIn(2f * density, max(2f * density, size.height - h - 2f * density))
+    // keep the tag inside what the camera shows, not just inside the picture
+    val v = Cinema.cam.visible(size.width, size.height)
+    val m = 2f * density
+    val x = (c.x - w / 2).coerceIn(v[0] + m, max(v[0] + m, v[2] - w - m))
+    val y = (c.y - h / 2).coerceIn(v[1] + m, max(v[1] + m, v[3] - h - m))
     val a = alpha.coerceIn(0f, 1f)
     drawRoundRect(back, topLeft = Offset(x, y), size = Size(w, h), cornerRadius = CornerRadius(h / 2, h / 2), alpha = a)
     drawText(tl, color = ink, topLeft = Offset(x + padX, y + padY), alpha = a)
