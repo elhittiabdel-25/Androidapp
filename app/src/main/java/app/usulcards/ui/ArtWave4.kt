@@ -154,28 +154,39 @@ private fun DrawScope.checkMark(c: Offset, r: Float, color: Color, width: Float,
  */
 internal fun DrawScope.figure(foot: Offset, tall: Float, color: Color, alpha: Float = 1f, walk: Float = 0f, lean: Float = 0f, arms: Float = 0f, stride: Float = 1f) {
     if (alpha <= 0.01f) return
-    val sw = max(1.4f * density, tall * 0.055f)
-    val hip = foot - Offset(0f, tall * 0.46f)
+    val sw = max(1.7f * density, tall * 0.065f)
+    val hip = foot - Offset(0f, tall * 0.45f)
     val up = Offset(-sin(lean), -cos(lean))
-    val shoulder = hip + up * (tall * 0.33f)
-    val head = shoulder + up * (tall * 0.13f)
-    val swing = sin(walk) * tall * 0.13f * stride
-    // legs
-    drawLine(color, hip, foot + Offset(swing, 0f), sw, cap = StrokeCap.Round, alpha = alpha)
-    drawLine(color, hip, foot + Offset(-swing, 0f), sw, cap = StrokeCap.Round, alpha = alpha)
+    val shoulder = hip + up * (tall * 0.31f)
+    val head = shoulder + up * (tall * 0.15f)
+    val swing = sin(walk) * tall * 0.14f * stride
+    val stance = tall * 0.075f
+    // legs: apart when standing, swinging when walking
+    drawLine(color, hip, foot + Offset(-stance + swing, 0f), sw, cap = StrokeCap.Round, alpha = alpha)
+    drawLine(color, hip, foot + Offset(stance - swing, 0f), sw, cap = StrokeCap.Round, alpha = alpha)
     // body and head (a plain disc: no face)
     drawLine(color, hip, shoulder, sw, cap = StrokeCap.Round, alpha = alpha)
-    drawCircle(color, radius = tall * 0.085f, center = head, alpha = alpha)
+    drawCircle(color, radius = tall * 0.1f, center = head, alpha = alpha)
     // arms
-    val reach = tall * 0.27f
-    val a1 = when {
-        arms > 0f -> Offset(-reach * arms, -reach * 0.15f * arms) + Offset(0f, reach * (1f - arms))
-        arms < 0f -> Offset(reach * 0.55f * -arms, reach * 0.35f) + Offset(0f, reach * 0.4f * (1f + arms))
-        else -> Offset(-swing * 0.8f, reach)
+    val reach = tall * 0.28f
+    val hand1: Offset
+    val hand2: Offset
+    when {
+        arms > 0f -> {           // reaching forward (to the left), as when speaking to someone
+            hand1 = shoulder + Offset(-reach * (0.35f + 0.65f * arms), reach * (0.85f - 0.75f * arms))
+            hand2 = shoulder + Offset(tall * 0.1f, reach * 0.95f)
+        }
+        arms < 0f -> {           // pulled back, resisting
+            hand1 = shoulder + Offset(reach * 0.75f * -arms, reach * 0.55f)
+            hand2 = shoulder + Offset(reach * 0.55f * -arms, reach * 0.8f)
+        }
+        else -> {
+            hand1 = shoulder + Offset(-tall * 0.11f - swing * 0.7f, reach)
+            hand2 = shoulder + Offset(tall * 0.11f + swing * 0.7f, reach)
+        }
     }
-    val a2 = if (arms == 0f) Offset(swing * 0.8f, reach) else a1 + Offset(tall * 0.05f, tall * 0.03f)
-    drawLine(color, shoulder, shoulder + a1, sw * 0.9f, cap = StrokeCap.Round, alpha = alpha)
-    drawLine(color, shoulder, shoulder + a2, sw * 0.9f, cap = StrokeCap.Round, alpha = alpha)
+    drawLine(color, shoulder, hand1, sw * 0.9f, cap = StrokeCap.Round, alpha = alpha)
+    drawLine(color, shoulder, hand2, sw * 0.9f, cap = StrokeCap.Round, alpha = alpha)
 }
 
 /** A glowing dot (a badge of light), dimmed by [lit] (0..1). */
@@ -265,7 +276,7 @@ internal fun DrawScope.chartScene(a: ArtCtx) {
         }
     }
     note(a.tag("gain"), Offset(px(0.12f), py(0.55f) - h * 0.1f), seg(gain, 0.5f, 1f), pp, ink = pp.good)
-    note(a.tag("loss"), Offset(px(0.29f), py(0.47f) + h * 0.09f), seg(loss, 0.4f, 1f), pp, ink = pp.bad)
+    note(a.tag("loss"), Offset(px(0.3f), py(0.46f) + h * 0.11f), seg(loss, 0.4f, 1f), pp, ink = pp.bad)
     // each sin named as the pen reaches it, then gone (the cross marks stay)
     for ((m, i) in CHART_DIPS.withIndex()) {
         val on = seg(upto, i - 0.4f, i.toFloat())
@@ -278,9 +289,10 @@ internal fun DrawScope.chartScene(a: ArtCtx) {
         val from = pts[n - 1]
         val to = Offset(px(0.92f), py(-0.25f))
         val dash = PathEffect.dashPathEffect(floatArrayOf(5f * dp, 3.5f * dp), 0f)
-        penLine(listOf(from, to), easeIn(seg(cross, 0f, 0.6f)), pp.bad, 2f * dp, dash = dash)
-        if (cross > 0.6f) crossMark(to, 4f * dp, pp.bad, 2f * dp, seg(cross, 0.6f, 0.8f))
-        note(a.tag("cross"), Offset(to.x + w * 0.15f, to.y - h * 0.02f), seg(cross, 0.55f, 1f), pp, ink = pp.bad)
+        val dim = 1f - 0.65f * seg(seed, 0f, 0.3f)
+        penLine(listOf(from, to), easeIn(seg(cross, 0f, 0.6f)), pp.bad, 2f * dp, alpha = dim, dash = dash)
+        if (cross > 0.6f) crossMark(to, 4f * dp, pp.bad, 2f * dp, seg(cross, 0.6f, 0.8f) * dim)
+        note(a.tag("cross"), Offset(to.x + w * 0.15f, to.y - h * 0.02f), seg(cross, 0.55f, 1f) * (1f - seg(seed, 0f, 0.3f)), pp, ink = pp.bad)
     }
 
     // a mustard seed of faith, still above the line, and lifted
@@ -293,7 +305,7 @@ internal fun DrawScope.chartScene(a: ArtCtx) {
             val f = fract(t * 0.35f + m * 0.25f)
             drawCircle(pp.amber, radius = 1.2f * dp, center = c + Offset(sin(m * 2.1f + t) * 4f * dp, -f * h * 0.22f), alpha = glow * (1f - f) * 0.8f)
         }
-        note(a.tag("seed"), Offset(c.x + w * 0.13f, c.y - h * 0.15f), seg(seed, 0.3f, 0.9f), pp, ink = pp.amber)
+        note(a.tag("seed"), Offset(c.x + w * 0.2f, c.y + h * 0.1f), seg(seed, 0.3f, 0.9f), pp, ink = pp.amber)
     }
 }
 
@@ -345,41 +357,41 @@ internal fun DrawScope.circuitScene(a: ArtCtx) {
     }
 
     // the breakers, each where its name is read
-    val gap = w * 0.05f
+    val gap = w * 0.06f
     for (k in 0 until nB) {
         val p = a.b("breaker", k)
         if (p <= 0f) continue
         val c = Offset(bx(k), by(k))
         val ap = seg(p, 0f, 0.3f)
-        // cut the wire under it
-        drawRect(pp.bg, topLeft = Offset(c.x - gap / 2, c.y - 2.5f * dp), size = Size(gap, 5f * dp), alpha = ap)
+        // its housing, over the wire
+        val hw = gap * 1.55f
+        val hh = h * 0.1f
+        val housing = Offset(c.x - hw / 2, c.y - hh * 0.62f)
+        drawRoundRect(pp.card, topLeft = housing, size = Size(hw, hh), cornerRadius = CornerRadius(4f * dp), alpha = ap)
+        val guarded = easeOut(seg(guard, 0.3f, 0.9f))
+        drawRoundRect(lerpColor(pp.ink, pp.good, guarded), topLeft = housing, size = Size(hw, hh), cornerRadius = CornerRadius(4f * dp),
+            alpha = ap * (0.7f + 0.3f * guarded), style = Stroke((1.1f + 0.6f * guarded) * dp))
         // the current comes from the right on the first row, from the left on the second
         val hinge = if (k < 5) c + Offset(gap / 2, 0f) else c - Offset(gap / 2, 0f)
         val far = if (k < 5) c - Offset(gap / 2, 0f) else c + Offset(gap / 2, 0f)
         val lift = if (k == tripAt) open else 0f
-        val ang = (4f + 40f * lift) * PI.toFloat() / 180f
+        val ang = (9f + 36f * lift) * PI.toFloat() / 180f
         val dir = if (k < 5) -1f else 1f
         val lever = hinge + Offset(dir * gap * cos(ang), -gap * sin(ang))
         val col = if (lift > 0.3f) pp.bad else pp.ink
-        drawCircle(pp.ink, radius = 2.2f * dp, center = hinge, alpha = ap)
-        drawCircle(pp.ink, radius = 2.2f * dp, center = far, alpha = ap)
-        drawLine(col, hinge, lever, 1.8f * dp, cap = StrokeCap.Round, alpha = ap)
-        // a small cap over each breaker once they are guarded
-        if (guard > 0f) {
-            val cover = Path().apply {
-                moveTo(c.x - gap * 0.75f, c.y - 1f * dp)
-                quadraticBezierTo(c.x, c.y - gap * 1.25f, c.x + gap * 0.75f, c.y - 1f * dp)
-            }
-            drawPath(cover, pp.good, alpha = easeOut(seg(guard, 0.3f, 0.9f)), style = Stroke(1.5f * dp, cap = StrokeCap.Round))
-        }
+        drawLine(pp.ink, Offset(housing.x, c.y), Offset(far.x, c.y), 1.4f * dp, alpha = ap)
+        drawLine(pp.ink, Offset(hinge.x, c.y), Offset(housing.x + hw, c.y), 1.4f * dp, alpha = ap)
+        drawCircle(pp.ink, radius = 2.6f * dp, center = hinge, alpha = ap)
+        drawCircle(pp.ink, radius = 2.6f * dp, center = far, alpha = ap)
+        drawLine(col, hinge, lever, 2.2f * dp, cap = StrokeCap.Round, alpha = ap)
         // its name while it is new
         val next = if (k + 1 < nB) a.b("breaker", k + 1) else seg(trip, 0f, 0.2f)
-        note(a.tag("breaker", k), c + Offset(0f, h * 0.085f), seg(p, 0.2f, 0.5f) * (1f - seg(next, 0f, 0.35f)), pp)
+        note(a.tag("breaker", k), c + Offset(0f, h * 0.1f), seg(p, 0.2f, 0.5f) * (1f - seg(next, 0f, 0.35f)), pp)
     }
     // the tripped one, named again
     if (trip > 0f && tripAt < nB) {
         val c = Offset(bx(tripAt), by(tripAt))
-        note(a.tag("trip"), c + Offset(0f, h * 0.085f), seg(trip, 0.2f, 0.5f) * (1f - seg(guard, 0f, 0.3f)), pp, ink = pp.bad)
+        note(a.tag("trip"), c + Offset(0f, h * 0.1f), seg(trip, 0.2f, 0.5f) * (1f - seg(guard, 0f, 0.3f)), pp, ink = pp.bad)
     }
 
     // the word the current lights
@@ -439,15 +451,25 @@ internal fun DrawScope.verdictScene(a: ArtCtx) {
             val foot = Offset(x, ground)
             figure(foot, tall, pp.ink, alpha = act1 * seg(p, 0f, 0.12f), walk = if (walking) stepPhase else 0f,
                 lean = if (forced) -0.28f * seg(p, 0.05f, 0.3f) else 0f, arms = if (forced) -1f else 0f)
-            // the chain that drags the one forced
+            // the force that pushes the one forced: a heavy block arrow at his back, with motion lines
             if (forced) {
-                val hand = foot - Offset(0f, tall * 0.56f) + Offset(tall * 0.12f, 0f)
-                val from = Offset(0f, hand.y - h * 0.02f)
-                val links = 9
-                for (m in 0 until links) {
-                    val c = from + (hand - from) * ((m + 0.5f) / links)
-                    drawOval(pp.ink, topLeft = c - Offset(3.2f * dp, 1.8f * dp), size = Size(6.4f * dp, 3.6f * dp),
-                        alpha = act1 * seg(p, 0f, 0.15f), style = Stroke(1.1f * dp))
+                val al = act1 * seg(p, 0f, 0.15f) * (1f - 0.6f * seg(p, 0.85f, 1f))
+                val bx = x + tall * 0.42f
+                val by = ground - tall * 0.5f
+                val arrow = Path().apply {
+                    moveTo(bx, by)
+                    lineTo(bx + tall * 0.28f, by - tall * 0.22f)
+                    lineTo(bx + tall * 0.28f, by - tall * 0.1f)
+                    lineTo(bx + tall * 0.7f, by - tall * 0.1f)
+                    lineTo(bx + tall * 0.7f, by + tall * 0.1f)
+                    lineTo(bx + tall * 0.28f, by + tall * 0.1f)
+                    lineTo(bx + tall * 0.28f, by + tall * 0.22f)
+                    close()
+                }
+                drawPath(arrow, pp.bad, alpha = al * 0.85f)
+                for (m in 0 until 3) {
+                    val yy = by + (m - 1) * tall * 0.16f
+                    drawLine(pp.bad, Offset(bx + tall * 0.8f, yy), Offset(bx + tall * (1.05f + 0.1f * m), yy), 1.2f * dp, cap = StrokeCap.Round, alpha = al * 0.7f)
                 }
             }
             // the light of Islam over each one: out for those who cross by choice, kept for the one forced
@@ -545,31 +567,13 @@ internal fun DrawScope.boardScene(a: ArtCtx) {
     val centre = Offset(w * 0.5f, h * 0.5f)
     val cw = w * 0.3f
     val ch = h * 0.17f
-    val spots = listOf(Offset(w * 0.79f, h * 0.27f), Offset(w * 0.21f, h * 0.27f), Offset(w * 0.79f, h * 0.74f), Offset(w * 0.21f, h * 0.74f))
+    val spots = listOf(Offset(w * 0.83f, h * 0.25f), Offset(w * 0.17f, h * 0.25f), Offset(w * 0.83f, h * 0.76f), Offset(w * 0.17f, h * 0.76f))
     val tilt = floatArrayOf(-3f, 2.5f, 2f, -2.5f)
-    val nw = w * 0.27f
-    val nh = h * 0.36f
+    val nw = w * 0.24f
+    val nh = h * 0.34f
 
-    // threads first, under the cards
     var linked = 0f
-    for (k in 0 until n) {
-        val i = a.nth("pin", k)
-        val p = a.beatAt(i)
-        if (p <= 0f) continue
-        val s = a.sideAt(i).coerceIn(0, 3)
-        val pinAt = spots[s] - Offset(0f, nh * 0.42f)
-        val thread = seg(p, 0.45f, 1f)
-        linked += thread
-        val target = centre + Offset(if (spots[s].x > centre.x) cw * 0.3f else -cw * 0.3f, -ch * 0.35f)
-        val sag = Offset((pinAt.x + target.x) / 2f, max(pinAt.y, target.y) + h * 0.05f)
-        val pts = List(16) { m ->
-            val u = m / 15f
-            val q1 = pinAt + (sag - pinAt) * u
-            val q2 = sag + (target - sag) * u
-            q1 + (q2 - q1) * u
-        }
-        penLine(pts, easeOut(thread), pp.bad, 1.3f * dp, alpha = seg(p, 0.45f, 0.6f))
-    }
+    for (k in 0 until n) linked += seg(a.beatAt(a.nth("pin", k)), 0.45f, 1f)
 
     // the conclusion in the middle, brighter with each proof tied to it
     if (core > 0f) {
@@ -610,7 +614,32 @@ internal fun DrawScope.boardScene(a: ArtCtx) {
         drawCircle(pp.bad, radius = 3.4f * dp, center = pinAt, alpha = al)
         drawCircle(Color.White, radius = 1.1f * dp, center = pinAt - Offset(1f * dp, 1f * dp), alpha = al * 0.7f)
     }
+    // red threads from each note's pin to the conclusion's pins, on top of everything
+    for (k in 0 until n) {
+        val i = a.nth("pin", k)
+        val p = a.beatAt(i)
+        val thread = seg(p, 0.45f, 1f)
+        if (thread <= 0f) continue
+        val s2 = a.sideAt(i).coerceIn(0, 3)
+        val from = spots[s2] - Offset(0f, nh * 0.42f)
+        val upper = spots[s2].y < centre.y
+        val to = centre + Offset(0f, if (upper) -ch * 0.5f else ch * 0.5f)
+        val mid = Offset((from.x + to.x) / 2f, (from.y + to.y) / 2f + h * 0.06f)
+        val pts = List(16) { m ->
+            val u = m / 15f
+            val q1 = from + (mid - from) * u
+            val q2 = mid + (to - mid) * u
+            q1 + (q2 - q1) * u
+        }
+        penLine(pts, easeOut(thread), pp.bad, 1.4f * dp, alpha = seg(p, 0.45f, 0.6f))
+    }
+    if (core > 0f) {
+        for (yy in floatArrayOf(-ch * 0.5f, ch * 0.5f)) {
+            if (linked > 0f) drawCircle(pp.bad, radius = 3f * dp, center = centre + Offset(0f, yy), alpha = min(1f, linked))
+        }
+    }
 }
+
 
 /** The small drawing on each proof's note: coins pushed away, a seal, a route that came true, a page with a line marked. */
 private fun DrawScope.proofIcon(kind: Int, c: Offset, r: Float, pp: Paper, alpha: Float, t: Float) {
