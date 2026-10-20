@@ -760,7 +760,7 @@ private fun DrawScope.nightMore(a: ArtCtx, ground: Float) {
         if (a.b("ascend") <= 0f) {
             val u = q
             val head = Offset((1 - u) * (1 - u) * from.x + 2 * (1 - u) * u * mid.x + u * u * to.x, (1 - u) * (1 - u) * (from.y - h * 0.06f) + 2 * (1 - u) * u * mid.y + u * u * (to.y - h * 0.09f))
-            sirajMunir(head, 3.2f * dp, easeOut(seg(jr, 0f, 0.15f)), t)
+            sirajMunir(head, 4.5f * dp, easeOut(seg(jr, 0f, 0.15f)), t)
         }
         tagAt(a.tag("journey"), Offset(w * 0.51f, ground - h * 0.4f), seg(jr, 0.3f, 1f), back = NightBack, ink = ArtInk.Gold)
     }
@@ -778,7 +778,7 @@ private fun DrawScope.nightMore(a: ArtCtx, ground: Float) {
             drawLine(ArtInk.Gold.copy(alpha = 0.18f), Offset(base.x - w * 0.07f, y), Offset(base.x + w * 0.07f, y), 5f * dp, StrokeCap.Round)
             drawLine(ArtInk.Ivory.copy(alpha = 0.7f), Offset(base.x - w * 0.06f, y), Offset(base.x + w * 0.06f, y), 1.2f * dp, StrokeCap.Round)
         }
-        sirajMunir(Offset(base.x, max(top, h * 0.1f)), 3.2f * dp, 1f, t)
+        sirajMunir(Offset(base.x, max(top, h * 0.12f)), 4.5f * dp, 1f, t)
         tagAt(a.tag("ascend"), Offset(w * 0.32f, h * 0.2f), seg(asc, 0.3f, 1f), back = NightBack, ink = ArtInk.Gold)
     }
     // fifty become five
