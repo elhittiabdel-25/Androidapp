@@ -3,6 +3,7 @@ package app.usulcards.ui
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.Spring
@@ -26,13 +27,19 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -47,6 +54,9 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -58,6 +68,7 @@ import app.usulcards.audio.AudioPlayer
 import app.usulcards.data.Card
 import app.usulcards.data.ContentRepo
 import app.usulcards.data.ProgressStore
+import app.usulcards.data.Quiz
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -77,6 +88,10 @@ fun CardView(
     onRelated: (String) -> Unit,
     onPlayVerse: (files: List<String>, key: String) -> Unit,
     modifier: Modifier = Modifier,
+    quizKey: Int = 0,
+    hasNext: Boolean = true,
+    onAnswer: (right: Boolean, at: Offset) -> Unit = { _, _ -> },
+    onNext: (right: Boolean) -> Unit = {},
 ) {
     val pal = LocalPalette.current
     val learned = card.id in progress.learned
@@ -147,7 +162,11 @@ fun CardView(
                 DeepLayer(card, repo, progress, playingKey, follow, { t: String, p: String -> shown(t, p) }, onRelated, onPlayVerse)
             }
 
-            QuizFlip(card, flipped, onFlip, onGrade)
+            if (card.quiz.choices.size >= 2) {
+                QuizChoice(card.id, card.quiz, quizKey, hasNext, onAnswer = onAnswer, onNext = onNext)
+            } else {
+                QuizFlip(card, flipped, onFlip, onGrade)
+            }
         }
 
         if (learned) Stamp(card.id, Modifier.align(Alignment.TopEnd).padding(14.dp))
@@ -353,6 +372,123 @@ private fun QuizFlip(card: Card, flipped: Boolean, onFlip: () -> Unit, onGrade: 
                     ActionButton("أعدها لاحقًا", onClick = { onGrade(false, okCenter) })
                 }
             }
+        }
+    }
+}
+
+/** How one answer of the quiz looks: not answered yet, the right one, the one picked wrongly, or another one. */
+internal enum class ChoiceState { Open, Right, Wrong, Other }
+
+/**
+ * The quiz at the bottom of the card: the question and its answers in a shuffled order (stable for this visit of
+ * the card, [quizKey]). The answer picked is checked at once: the right one turns green, a wrong pick amber with the
+ * right one shown in green; then the explanation and «التالية». [initialPick] is for previews only.
+ */
+@Composable
+internal fun QuizChoice(
+    cardId: String,
+    quiz: Quiz,
+    quizKey: Int,
+    hasNext: Boolean,
+    initialPick: Int = -1,
+    onAnswer: (right: Boolean, at: Offset) -> Unit,
+    onNext: (right: Boolean) -> Unit,
+) {
+    val pal = LocalPalette.current
+    val order = remember(cardId, quizKey) { quiz.choices.indices.shuffled(kotlin.random.Random(cardId.hashCode() * 31 + quizKey)) }
+    var picked by remember(cardId, quizKey) { mutableIntStateOf(initialPick) }   // index into quiz.choices; 0 is the right one
+    val answered = picked >= 0
+    val right = picked == 0
+    Column(
+        Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(pal.bg).padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        Text("اختبر نفسك", color = pal.muted, fontSize = 13.sp, fontWeight = FontWeight.SemiBold, fontFamily = Fonts.ui)
+        Text(quiz.q, style = TextStyle(fontFamily = Fonts.naskh, fontSize = 17.sp, lineHeight = 32.sp, color = pal.ink))
+        order.forEach { i ->
+            key(i) {
+                var center by remember { mutableStateOf(Offset.Zero) }
+                val state = when {
+                    !answered -> ChoiceState.Open
+                    i == 0 -> ChoiceState.Right
+                    i == picked -> ChoiceState.Wrong
+                    else -> ChoiceState.Other
+                }
+                Choice(quiz.choices[i], state, Modifier.onGloballyPositioned { center = it.boundsInRoot().center }) {
+                    if (picked < 0) {
+                        picked = i
+                        onAnswer(i == 0, center)
+                    }
+                }
+            }
+        }
+        AnimatedVisibility(
+            visible = answered,
+            enter = expandVertically(tween(260)) + fadeIn(tween(260)),
+            exit = shrinkVertically(tween(160)) + fadeOut(tween(120)),
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Text(
+                    if (right) "أحسنت" else "الجواب الصحيح بالأخضر",
+                    color = if (right) pal.ok else pal.warn, fontSize = 13.sp, fontWeight = FontWeight.SemiBold, fontFamily = Fonts.ui,
+                )
+                Text(quiz.a, style = TextStyle(fontFamily = Fonts.naskh, fontSize = 16.sp, lineHeight = 30.sp, color = pal.ink))
+                if (!right || hasNext) {
+                    ActionButton("التالية", filled = true, color = if (right) pal.ok else pal.accent, onClick = { onNext(right) })
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun Choice(text: String, state: ChoiceState, modifier: Modifier, onClick: () -> Unit) {
+    val pal = LocalPalette.current
+    val bg by animateColorAsState(
+        when (state) {
+            ChoiceState.Right -> pal.okSoft
+            ChoiceState.Wrong -> pal.warnSoft
+            else -> pal.surface
+        },
+        tween(220), label = "choiceBg",
+    )
+    val edge by animateColorAsState(
+        when (state) {
+            ChoiceState.Right -> pal.ok
+            ChoiceState.Wrong -> pal.warn
+            else -> pal.line
+        },
+        tween(220), label = "choiceEdge",
+    )
+    val said = when (state) {
+        ChoiceState.Right -> "الجواب الصحيح"
+        ChoiceState.Wrong -> "اخترته، وهو غير صحيح"
+        else -> ""
+    }
+    Row(
+        modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(bg)
+            .border(if (state == ChoiceState.Right || state == ChoiceState.Wrong) 1.5.dp else 1.dp, edge, RoundedCornerShape(12.dp))
+            .clickable(enabled = state == ChoiceState.Open, role = Role.Button, onClick = onClick)
+            .semantics { if (said.isNotEmpty()) stateDescription = said }
+            .padding(horizontal = 14.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        Text(
+            text,
+            style = TextStyle(
+                fontFamily = Fonts.naskh, fontSize = 16.sp, lineHeight = 28.sp,
+                color = if (state == ChoiceState.Other) pal.muted else pal.ink,
+            ),
+            modifier = Modifier.weight(1f),
+        )
+        when (state) {
+            ChoiceState.Right -> Icon(Icons.Filled.Check, contentDescription = null, tint = pal.ok, modifier = Modifier.size(20.dp))
+            ChoiceState.Wrong -> Icon(Icons.Filled.Close, contentDescription = null, tint = pal.warn, modifier = Modifier.size(20.dp))
+            else -> {}
         }
     }
 }

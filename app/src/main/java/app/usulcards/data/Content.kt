@@ -18,7 +18,9 @@ data class Evidence(
 data class SourceRef(val book: String, val pages: String)
 data class Flag(val level: String, val text: String)
 data class AudioSeg(val key: String, val target: String, val layer: String, val file: String)
-data class Quiz(val q: String, val a: String)
+/** The card's quiz: question [q], explanation [a], and [choices] with the right answer first (shown shuffled).
+ *  With no choices the card falls back to the older self-graded flip. */
+data class Quiz(val q: String, val a: String, val choices: List<String> = emptyList())
 
 /**
  * One element of a card animation. It appears when the card's audio reaches clip [at]
@@ -174,7 +176,7 @@ class ContentRepo(
                 sources = o.getJSONArray("sources").objects().map { SourceRef(it.getString("book"), it.getString("pages")) },
                 related = o.getJSONArray("related").strings(),
                 verify = (o.optJSONArray("verify") ?: JSONArray()).objects().map { Flag(it.getString("level"), it.getString("text")) },
-                quiz = Quiz(quiz.getString("q"), quiz.getString("a")),
+                quiz = Quiz(quiz.getString("q"), quiz.getString("a"), (quiz.optJSONArray("choices") ?: JSONArray()).strings()),
                 audio = (o.optJSONArray("audio") ?: JSONArray()).objects().map {
                     AudioSeg(it.getString("key"), it.getString("target"), it.getString("layer"), it.getString("file"))
                 },

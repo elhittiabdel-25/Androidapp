@@ -44,7 +44,7 @@ jobs:
         run: |
           python3 tools/previews/enable_paparazzi.py
           python3 tools/previews/gen_preview_data.py app/src/main/assets/content/cards.json app/src/test/java/app/usulcards/PreviewData.kt "${{ github.event.inputs.motion }}"
-          cp tools/previews/ArtPreviewTest.kt app/src/test/java/app/usulcards/
+          cp tools/previews/ArtPreviewTest.kt tools/previews/QuizPreviewTest.kt app/src/test/java/app/usulcards/
 
       - name: Render the scenes
         run: |

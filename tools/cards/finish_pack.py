@@ -1,5 +1,5 @@
 """Finish the app's content pack (run after tools/tts/build_content.py): add the module categories from
-categories.py and the card animations from scenes.py.
+categories.py, the card animations from scenes.py and the quizzes from quiz_choices.py.
 
     python3 tools/cards/finish_pack.py [path/to/cards.json]     (default: the app's assets, edited in place)
 
@@ -17,6 +17,7 @@ sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(HERE, "..", "tts"))
 from scenes import SCENES                      # noqa: E402
 from categories import CATEGORIES              # noqa: E402
+from quiz_choices import QUIZ                  # noqa: E402
 from build_content import spoken, letters      # noqa: E402
 
 MARKS = "ًٌٍَُِّْٰ"
@@ -269,6 +270,22 @@ def build(path):
                     err(cid, f"stars scene lacks a {k} item")
         c["scene"] = scene
         done += 1
+    # the quiz: one question, the right answer first then two wrong ones (the app shuffles them), and the explanation
+    for c in pack["cards"]:
+        entry = QUIZ.get(c["id"])
+        if entry is None:
+            err(c["id"], "no quiz in quiz_choices.py")
+            continue
+        q, right, wrong, explain = entry
+        choices = [right] + list(wrong)
+        if len(wrong) != 2 or len(set(choices)) != 3 or not all(x.strip() for x in choices + [q, explain]):
+            err(c["id"], "a quiz needs a question, three different answers and an explanation")
+        if max(len(x) for x in choices) > 60:
+            notes.append(f"{c['id']}: a quiz answer is longer than 60 letters")
+        c["quiz"] = {"q": q, "a": explain, "choices": choices}
+    for k in QUIZ:
+        if k not in cards:
+            err(k, "quiz for a card that does not exist")
     used = [c["path"] for c in pack["cards"]]
     listed = [p for cat in CATEGORIES for p in cat["paths"]]
     for p in sorted(set(used)):

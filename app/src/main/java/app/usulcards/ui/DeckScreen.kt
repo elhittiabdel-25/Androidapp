@@ -213,6 +213,27 @@ fun ModuleScreen(
                         },
                         onRelated = { id -> player.stop(); deck.jumpTo(id) },
                         onPlayVerse = { files, key -> ctl.playVerse(files, key) },
+                        quizKey = deck.index,
+                        hasNext = deck.canGo(1),
+                        // the quiz: a right answer marks the card learned at once; «التالية» then moves on,
+                        // and after a wrong answer the card comes back three cards later
+                        onAnswer = { right, at ->
+                            if (right && progress.markLearned(card.id)) {
+                                confetti.burst(at, listOf(pal.ok, pal.gold, pal.accent))
+                                if (moduleCards.all { it.id in progress.learned }) {
+                                    scope.launch { snackbar.showSnackbar("أتممت مسار «$module»") }
+                                } else if (progress.dailyCount == progress.dailyGoal) {
+                                    scope.launch { snackbar.showSnackbar("أحسنت! أتممت هدف اليوم") }
+                                }
+                            }
+                        },
+                        onNext = { right ->
+                            if (!right) {
+                                deck.requeue()
+                                scope.launch { snackbar.showSnackbar("ستعود هذه البطاقة بعد ثلاث بطاقات") }
+                            }
+                            ctl.navigate(1)
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .graphicsLayer {
