@@ -41,10 +41,22 @@ internal val TWINKLES: List<Twinkle> = run {
 
 /** Night sky with twinkling stars down to [starsTo] of the height. */
 internal fun DrawScope.nightSky(t: Float, top: Color, bottom: Color, starsTo: Float, starAlpha: Float = 1f) {
-    drawRect(Brush.verticalGradient(listOf(top, bottom)))
+    val w = size.width
+    val h = size.height
+    drawRect(Brush.verticalGradient(0f to top, 0.65f to lerp(top, bottom, 0.6f), 1f to bottom))
+    // depth: the band of the galaxy and the far stars
+    withTransform({ rotate(-17f, Offset(w * 0.5f, h * starsTo * 0.45f)) }) {
+        drawRect(
+            Brush.verticalGradient(0f to Color.Transparent, 0.5f to ArtInk.Ivory.copy(alpha = 0.06f * starAlpha), 1f to Color.Transparent, startY = h * starsTo * 0.3f, endY = h * starsTo * 0.6f),
+            topLeft = Offset(-w * 0.2f, h * starsTo * 0.3f), size = Size(w * 1.4f, h * starsTo * 0.3f),
+        )
+    }
+    for (s in DEEP_STARS) drawCircle(ArtInk.Ivory.copy(alpha = (0.1f + 0.18f * (0.5f + 0.5f * sin(t * 0.7f + s.p))) * starAlpha), s.r * density, Offset(s.x * w, s.y * h * starsTo))
     for (s in TWINKLES) {
         val a = (0.3f + 0.7f * (0.5f + 0.5f * sin(t * 1.5f + s.p))) * starAlpha
-        drawCircle(ArtInk.Ivory.copy(alpha = a.coerceIn(0f, 1f)), radius = s.r * density, center = Offset(s.x * size.width, s.y * size.height * starsTo))
+        val c = Offset(s.x * w, s.y * h * starsTo)
+        drawCircle(ArtInk.Ivory.copy(alpha = a.coerceIn(0f, 1f)), radius = s.r * density, center = c)
+        if (s.r > 1.3f) glint(c, s.r * density * 4.5f * a, ArtInk.Ivory, 0.6f * a)
     }
 }
 
@@ -525,14 +537,24 @@ internal fun DrawScope.trailScene(a: ArtCtx) {
         softGlow(sun, w * 0.14f, Color(0xFFFFF0C2), 0.8f * lands)
         drawCircle(Color(0xFFFFE9A8).copy(alpha = lands), radius = w * 0.04f, center = sun)
     } else {
-        drawRect(Brush.verticalGradient(listOf(TrailInk.SkyTop, TrailInk.SkyLow), endY = horizon), size = Size(w, horizon))
+        // dusk: the sun just gone, its glow on the horizon at the far end of the way, the first stars above
+        drawRect(Brush.verticalGradient(0f to Color(0xFF141C44), 0.45f to TrailInk.SkyTop, 0.78f to Color(0xFF8A5E7E), 1f to TrailInk.SkyLow, endY = horizon), size = Size(w, horizon))
+        for (st in TWINKLES) {
+            if (st.y > 0.5f) continue
+            drawCircle(ArtInk.Ivory.copy(alpha = 0.4f * (0.5f + 0.5f * sin(t * 1.3f + st.p)) * (1f - st.y * 1.8f)), st.r * 0.8f * dp, Offset(st.x * w, st.y * horizon))
+        }
+        val dusk = Offset(w * 0.12f, horizon)
+        softGlow(dusk, w * 0.4f, Color(0xFFFFC890), 0.55f)
+        lightShafts(dusk, -PI.toFloat() / 2f, PI.toFloat() * 0.9f, h * 0.7f, Color(0xFFFFD9A8), 0.5f, t, 7)
     }
+    farHills(TrailInk.Hills, if (hasLands) TrailInk.NightLow else Color(0xFF8A5E7E), horizon - h * 0.06f, h * 0.03f, 2.1f)
     hills(TrailInk.Hills, horizon - h * 0.02f, h * 0.03f, 0.013f, 0.031f, 0.8f)
     if (hasLands) {
         drawRect(TrailInk.LandNight, topLeft = Offset(0f, horizon), size = Size(w, h - horizon))
         drawRect(lerp(TrailInk.LandNight, TrailInk.LandDay, lands), topLeft = Offset(0f, horizon), size = Size(w * 0.5f, h - horizon))
     } else {
-        drawRect(TrailInk.Land, topLeft = Offset(0f, horizon), size = Size(w, h - horizon))
+        drawRect(Brush.verticalGradient(listOf(Color(0xFF3A3352), Color(0xFF1C1A2E)), startY = horizon, endY = h), topLeft = Offset(0f, horizon), size = Size(w, h - horizon))
+        drawLine(Color(0xFFFFD0A0).copy(alpha = 0.3f), Offset(0f, horizon), Offset(w, horizon), 1f * dp)
     }
 
     // the trail: u = 0 at the right, 1 at the left
@@ -860,7 +882,12 @@ internal fun DrawScope.ridgeScene(a: ArtCtx) {
     val dp = density
     val t = a.t
     val horizon = h * 0.34f
-    drawRect(Brush.verticalGradient(listOf(RidgeInk.SkyTop, RidgeInk.SkyLow), endY = horizon), size = Size(w, horizon))
+    drawRect(Brush.verticalGradient(0f to RidgeInk.SkyTop, 0.7f to lerp(RidgeInk.SkyTop, RidgeInk.SkyLow, 0.6f), 1f to RidgeInk.SkyLow, endY = horizon), size = Size(w, horizon))
+    // the light at the far end of the ridge: where the straight way leads
+    val far = Offset(w * 0.5f, horizon)
+    softGlow(far, w * 0.3f, Color(0xFFFFD9A0), 0.6f)
+    lightShafts(far, -PI.toFloat() / 2f, PI.toFloat() * 0.95f, h * 0.45f, Color(0xFFFFE3B5), 0.6f, t, 9)
+    farHills(Color(0xFF3A2F58), RidgeInk.SkyLow, horizon - h * 0.03f, h * 0.02f, 2.6f)
     hills(Color(0xFF3A2F58), horizon, h * 0.025f, 0.012f, 0.03f, 1.1f)
     // the ravines fill the ground; the ridge rises in the middle
     drawRect(Brush.verticalGradient(listOf(RidgeInk.Wall, RidgeInk.Deep), startY = horizon, endY = h), topLeft = Offset(0f, horizon), size = Size(w, h - horizon))
@@ -1213,10 +1240,12 @@ internal fun DrawScope.streamsScene(a: ArtCtx) {
     val dp = density
     val t = a.t
     val land = h * 0.84f
-    drawRect(Brush.verticalGradient(listOf(StreamInk.SkyTop, StreamInk.SkyLow), endY = land), size = Size(w, land))
-    for (s in TWINKLES) drawCircle(ArtInk.Ivory.copy(alpha = 0.4f * (0.5f + 0.5f * sin(t * 1.4f + s.p))), radius = s.r * 0.8f * dp, center = Offset(s.x * w, s.y * land * 0.7f))
+    deepSky(t, land, Color(0xFF141E44), StreamInk.SkyLow, glow = Color(0xFFC79AB4), starAlpha = 0.85f)
+    // the sky opens in light above, where the streams go
+    lightShafts(Offset(w * 0.5f, -h * 0.12f), PI.toFloat() / 2f, 1.3f, h * 0.9f, ArtInk.Ivory, 0.55f, t, 9)
+    farHills(StreamInk.Mount, StreamInk.SkyLow, land - h * 0.07f, h * 0.03f, 1.2f)
     hills(StreamInk.Mount, land - h * 0.03f, h * 0.02f, 0.012f, 0.029f, 0.4f)
-    drawRect(StreamInk.Ground, topLeft = Offset(0f, land), size = Size(w, h - land))
+    drawRect(Brush.verticalGradient(listOf(StreamInk.Ground, Color(0xFF171829)), startY = land, endY = h), topLeft = Offset(0f, land), size = Size(w, h - land))
 
     // every stream, in order: (start x on the land, appear progress, item index, tag part)
     data class Stream(val x: Float, val p: Float, val item: Int, val part: Int)

@@ -198,8 +198,6 @@ private fun DrawScope.badge(c: Offset, r: Float, pp: Paper, lit: Float, alpha: F
     drawCircle(lerpColor(pp.faint, pp.amber, lit), radius = r, center = c, alpha = alpha)
 }
 
-private fun lerpColor(a: Color, b: Color, f: Float): Color = androidx.compose.ui.graphics.lerp(a, b, f.coerceIn(0f, 1f))
-
 // ───────────── the chart: faith rises with obedience and falls with sins ─────────────
 
 /** (time, level) pairs; time runs from the right (0) to the left (1), level 0 is the line nothing but kufr crosses. */
