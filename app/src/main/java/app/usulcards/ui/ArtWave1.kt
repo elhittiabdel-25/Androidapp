@@ -254,7 +254,7 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
         if (dome[k] > 0f) {
             val r = 3.9f * s
             clipRect(bottom = sill) {
-                drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.32f * dome[k]), Color.Transparent), center = Offset(xs[k], sill), radius = r * 1.3f), radius = r * 1.3f, center = Offset(xs[k], sill))
+                softGlow(Offset(xs[k], sill), r * 1.3f, ArtInk.Gold, 0.32f * dome[k])
                 drawCircle(ArtInk.Gold.copy(alpha = 0.6f * dome[k]), radius = r, center = Offset(xs[k], sill), style = Stroke(1.4f * dp))
             }
         }
@@ -285,7 +285,7 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
         // a hidden ember inside the flame
         if (hidden[k] > 0f) {
             val pulse = 0.6f + 0.4f * sin(t * 5f)
-            drawCircle(Brush.radialGradient(listOf(ArtInk.Ember.copy(alpha = 0.9f * hidden[k] * pulse), Color.Transparent), center = lc + Offset(0f, 0.25f * s), radius = 0.9f * s), radius = 0.9f * s, center = lc + Offset(0f, 0.25f * s))
+            softGlow(lc + Offset(0f, 0.25f * s), 0.9f * s, ArtInk.Ember, 0.9f * hidden[k] * pulse)
         }
         // its light rises, and is given back
         if (ret[k] > 0f && ret[k] < 1f) {
@@ -293,7 +293,7 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
             val y = if (q < 0.55f) mix(bodyY, h * 0.08f, easeOut(q / 0.55f)) else mix(h * 0.08f, bodyY, easeInOut((q - 0.55f) / 0.45f))
             val col = if (q < 0.55f) ArtInk.Gold else ArtInk.Ember
             val c = Offset(xs[k], y)
-            drawCircle(Brush.radialGradient(listOf(col.copy(alpha = 0.7f), Color.Transparent), center = c, radius = 14f * dp), radius = 14f * dp, center = c)
+            softGlow(c, 14f * dp, col, 0.7f)
             drawCircle(ArtInk.Ivory, radius = 3f * dp, center = c)
         }
         // amulets hung on it: struck out
@@ -382,7 +382,7 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
                 drawPath(tri, ArtInk.Ivory.copy(alpha = 0.55f * seg(shatter[k], 0.55f, 0.9f)))
             }
             val f = bump(seg(shatter[k], 0f, 0.35f))
-            drawCircle(Brush.radialGradient(listOf(ArtInk.Ivory.copy(alpha = 0.8f * f), Color.Transparent), center = Offset(xs[k], bodyY), radius = 3f * s), radius = 3f * s, center = Offset(xs[k], bodyY))
+            softGlow(Offset(xs[k], bodyY), 3f * s, ArtInk.Ivory, 0.8f * f)
         }
     }
 
@@ -394,7 +394,7 @@ internal fun DrawScope.lanternScene(a: ArtCtx) {
             val x = w * (0.05f + 0.9f * fract(m * 0.618f + 0.11f))
             val y = sill - h * (0.035f + 0.02f * (m % 3))
             val c = Offset(x, y)
-            drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.5f * q), Color.Transparent), center = c, radius = 8f * dp), radius = 8f * dp, center = c)
+            softGlow(c, 8f * dp, ArtInk.Gold, 0.5f * q)
             drawCircle(ArtInk.Ivory.copy(alpha = q * (0.75f + 0.25f * sin(t * 3f + m))), radius = 1.8f * dp, center = c)
         }
     }
@@ -522,7 +522,7 @@ internal fun DrawScope.trailScene(a: ArtCtx) {
             drawCircle(ArtInk.Ivory.copy(alpha = 0.6f * (0.5f + 0.5f * sin(t * 1.5f + s.p))), radius = s.r * dp, center = Offset(s.x * w, s.y * horizon * 0.9f))
         }
         val sun = Offset(w * 0.16f, h * 0.18f)
-        drawCircle(Brush.radialGradient(listOf(Color(0xFFFFF0C2).copy(alpha = 0.8f * lands), Color.Transparent), center = sun, radius = w * 0.14f), radius = w * 0.14f, center = sun)
+        softGlow(sun, w * 0.14f, Color(0xFFFFF0C2), 0.8f * lands)
         drawCircle(Color(0xFFFFE9A8).copy(alpha = lands), radius = w * 0.04f, center = sun)
     } else {
         drawRect(Brush.verticalGradient(listOf(TrailInk.SkyTop, TrailInk.SkyLow), endY = horizon), size = Size(w, horizon))
@@ -564,10 +564,10 @@ internal fun DrawScope.trailScene(a: ArtCtx) {
         val bad = easeOut(a.b("bad"))
         // garden gate
         val gr = h * 0.12f
-        drawCircle(Brush.radialGradient(listOf(ArtInk.Jade.copy(alpha = 0.25f + 0.45f * good), Color.Transparent), center = gardenP, radius = gr * 2.2f), radius = gr * 2.2f, center = gardenP)
+        softGlow(gardenP, gr * 2.2f, ArtInk.Jade, 0.25f + 0.45f * good)
         drawPath(horseshoe(gardenP.x, gardenP.y - gr * 0.55f, gr * 0.5f, gr * 0.42f, gardenP.y + gr * 0.2f), lerp(Color(0xFF2E4A3C), ArtInk.Jade, 0.3f + 0.6f * good))
         // fire gate
-        drawCircle(Brush.radialGradient(listOf(ArtInk.Ember.copy(alpha = 0.15f + 0.45f * bad), Color.Transparent), center = fireP, radius = gr * 2f), radius = gr * 2f, center = fireP)
+        softGlow(fireP, gr * 2f, ArtInk.Ember, 0.15f + 0.45f * bad)
         drawPath(horseshoe(fireP.x, fireP.y - gr * 0.55f, gr * 0.5f, gr * 0.42f, fireP.y + gr * 0.2f), lerp(Color(0xFF3A1E18), ArtInk.Ember, 0.25f + 0.55f * bad))
         if (good > 0f) steps(forkP, up1, up2, gardenP, good, ArtInk.Ivory, t)
         if (bad > 0f) steps(forkP, dn1, dn2, fireP, bad, ArtInk.Ember, t)
@@ -579,7 +579,7 @@ internal fun DrawScope.trailScene(a: ArtCtx) {
     val origin = a.b("origin")
     if (origin > 0f) {
         val o = pt(0f)
-        drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.7f * origin), Color.Transparent), center = o, radius = 16f * dp), radius = 16f * dp, center = o)
+        softGlow(o, 16f * dp, ArtInk.Gold, 0.7f * origin)
         drawCircle(ArtInk.Ivory.copy(alpha = origin), radius = 3f * dp, center = o)
         tagAt(a.tag("origin"), o + Offset(-6f * dp, h * 0.11f), seg(origin, 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
     }
@@ -653,7 +653,7 @@ internal fun DrawScope.trailScene(a: ArtCtx) {
         drawRoundRect(Color(0xFF3A2A1E), topLeft = g + Offset(-12f * dp, -26f * dp), size = Size(24f * dp, 26f * dp), cornerRadius = CornerRadius(3f * dp, 3f * dp))
         drawPath(Path().apply { moveTo(g.x - 15f * dp, g.y - 25f * dp); lineTo(g.x, g.y - 36f * dp); lineTo(g.x + 15f * dp, g.y - 25f * dp); close() }, Color(0xFF4A3424))
         drawRoundRect(lerp(Color(0xFF1C140E), ArtInk.Gold, 0.3f + 0.7f * lit), topLeft = g + Offset(-4f * dp, -15f * dp), size = Size(8f * dp, 15f * dp), cornerRadius = CornerRadius(4f * dp, 4f * dp))
-        if (lit > 0f) drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.4f * lit), Color.Transparent), center = g + Offset(0f, -10f * dp), radius = 30f * dp), radius = 30f * dp, center = g + Offset(0f, -10f * dp))
+        if (lit > 0f) softGlow(g + Offset(0f, -10f * dp), 30f * dp, ArtInk.Gold, 0.4f * lit)
         tagAt(a.tag("goal"), g + Offset(w * 0.06f, -h * 0.25f), seg(a.b("goal"), 0.2f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
     }
 
@@ -767,7 +767,7 @@ internal fun DrawScope.trailScene(a: ArtCtx) {
         for (k in 0 until 3) {
             val sp = st + Offset((k - 1) * w * 0.05f, 0f)
             val sh = h * (0.08f + 0.01f * k)
-            if (idols > 0f) drawCircle(Brush.radialGradient(listOf(ArtInk.Ember.copy(alpha = 0.5f * idols), Color.Transparent), center = sp - Offset(0f, sh), radius = 14f * dp), radius = 14f * dp, center = sp - Offset(0f, sh))
+            if (idols > 0f) softGlow(sp - Offset(0f, sh), 14f * dp, ArtInk.Ember, 0.5f * idols)
             drawRoundRect(TrailInk.Stone, topLeft = Offset(sp.x - 5f * dp, sp.y - sh), size = Size(10f * dp, sh), cornerRadius = CornerRadius(5f * dp, 5f * dp))
         }
         if (stray > 0f) steps(pt(0.45f), pt(0.5f) + Offset(0f, h * 0.06f), st + Offset(w * 0.06f, -h * 0.12f), st + Offset(0f, -h * 0.03f), stray, ArtInk.Ember, t)
@@ -908,7 +908,7 @@ internal fun DrawScope.ridgeScene(a: ArtCtx) {
             val u = 0.1f + 0.2f * k + 0.05f * m
             val c = Offset(vx, edge(u, 0f).y)
             val r = mix(4f, 1.2f, u) * dp
-            drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.6f * p), Color.Transparent), center = c, radius = r * 4f), radius = r * 4f, center = c)
+            softGlow(c, r * 4f, ArtInk.Gold, 0.6f * p)
             drawCircle(ArtInk.Gold.copy(alpha = p), radius = r, center = c)
         }
     }
@@ -980,8 +980,9 @@ internal fun DrawScope.ridgeScene(a: ArtCtx) {
 // ───────────── the tree ─────────────
 
 private object TreeInk {
-    val SkyTop = Color(0xFF2B4C7E)
-    val SkyLow = Color(0xFFF0C890)
+    val SkyTop = Color(0xFF1C2B52)
+    val SkyMid = Color(0xFF6A4C78)
+    val SkyLow = Color(0xFFF2B47A)
     val StormTop = Color(0xFF151B28)
     val StormLow = Color(0xFF3D4656)
     val Hill = Color(0xFF3F6B45)
@@ -1008,12 +1009,22 @@ internal fun DrawScope.treeScene(a: ArtCtx) {
     val hasRoots = a.count("root") > 0
     val storm = easeInOut(seg(a.b("storm"), 0f, 0.7f)) * (1f - easeInOut(a.b("calm")))
     val ground = if (hasRoots) h * 0.58f else h * 0.78f
-    drawRect(Brush.verticalGradient(listOf(lerp(TreeInk.SkyTop, TreeInk.StormTop, storm), lerp(TreeInk.SkyLow, TreeInk.StormLow, storm)), endY = ground), size = Size(w, ground))
-    if (storm < 1f) {
-        val sun = Offset(w * 0.82f, h * 0.18f)
-        drawCircle(Brush.radialGradient(listOf(Color(0xFFFFEFC0).copy(alpha = 0.7f * (1f - storm)), Color.Transparent), center = sun, radius = w * 0.14f), radius = w * 0.14f, center = sun)
-        drawCircle(Color(0xFFFFE9A8).copy(alpha = 1f - storm), radius = w * 0.035f, center = sun)
+    // golden hour: a low sun behind the hill, its light fanning up through the sky
+    val skyMid = lerp(TreeInk.SkyMid, TreeInk.StormLow, storm)
+    drawRect(Brush.verticalGradient(0f to lerp(TreeInk.SkyTop, TreeInk.StormTop, storm), 0.55f to skyMid, 1f to lerp(TreeInk.SkyLow, TreeInk.StormLow, storm), endY = ground), size = Size(w, ground))
+    val clear = 1f - storm
+    val sun = Offset(w * 0.8f, ground - h * 0.1f)
+    if (clear > 0f) {
+        lightShafts(sun, -PI.toFloat() / 2f, PI.toFloat() * 1.2f, w * 0.75f, Color(0xFFFFE2A8), 0.9f * clear, t, 9)
+        bloom(sun, w * 0.03f, Color(0xFFFFD58A), 0.95f * clear)
     }
+    for (k in 0 until 3) {
+        // long thin clouds lit from below
+        val cy = h * (0.12f + 0.09f * k)
+        val cx = w * fract(0.15f + 0.37f * k + t * 0.004f * (k + 1)) * 1.4f - w * 0.2f
+        drawOval(Brush.horizontalGradient(listOf(Color.Transparent, lerp(Color(0xFFF6C99A), Color(0xFF2A3245), storm).copy(alpha = 0.35f), Color.Transparent), cx - w * 0.2f, cx + w * 0.2f), topLeft = Offset(cx - w * 0.2f, cy), size = Size(w * 0.4f, h * 0.018f))
+    }
+    farHills(lerp(TreeInk.Hill, TreeInk.HillStorm, storm), skyMid, ground - h * 0.06f, h * 0.03f, 2.4f)
     // hill and soil
     val hillTop = ground - h * 0.03f
     drawPath(Path().apply {
@@ -1022,7 +1033,11 @@ internal fun DrawScope.treeScene(a: ArtCtx) {
         lineTo(w, h)
         lineTo(0f, h)
         close()
-    }, lerp(TreeInk.Hill, TreeInk.HillStorm, storm))
+    }, Brush.verticalGradient(listOf(lerp(Color(0xFF557A4A), TreeInk.HillStorm, storm), lerp(Color(0xFF1F3325), Color(0xFF111A14), storm)), startY = hillTop - h * 0.02f, endY = h))
+    drawPath(Path().apply {
+        moveTo(0f, ground + h * 0.02f)
+        cubicTo(w * 0.3f, hillTop - h * 0.02f, w * 0.7f, hillTop - h * 0.02f, w, ground + h * 0.02f)
+    }, Color(0xFFFFD58A).copy(alpha = 0.45f * clear), style = Stroke(1.4f * dp))
     val base = Offset(w * 0.5f, hillTop + h * 0.005f)
     if (hasRoots) {
         drawRect(Brush.verticalGradient(listOf(TreeInk.Soil, TreeInk.SoilDeep), startY = ground + h * 0.02f, endY = h), topLeft = Offset(0f, ground + h * 0.02f), size = Size(w, h - ground))
@@ -1072,11 +1087,26 @@ internal fun DrawScope.treeScene(a: ArtCtx) {
     if (crown > 0f) {
         val r = trunkH * 0.62f * (0.3f + 0.7f * crown)
         val blobs = listOf(Offset(0f, -0.15f) to 1f, Offset(-0.55f, 0.15f) to 0.75f, Offset(0.55f, 0.12f) to 0.78f, Offset(-0.25f, -0.55f) to 0.7f, Offset(0.3f, -0.5f) to 0.72f)
+        val deep = lerp(Color(0xFF24493A), Color(0xFF16261D), storm)
+        val mid = lerp(TreeInk.Leaf, Color(0xFF2E5A3A), storm * 0.6f)
+        // the shadowed mass, small clusters along its edge, then the leaves the low sun catches
         for ((o, sz) in blobs) {
             val c = top + Offset(o.x * r + bend * 0.4f, o.y * r)
-            val sway = sin(t * 2f + o.x * 3f) * storm * 3f * dp
-            drawCircle(lerp(TreeInk.Leaf, Color(0xFF2E5A3A), storm * 0.5f).copy(alpha = crown), radius = r * 0.62f * sz, center = c + Offset(sway, 0f))
-            drawCircle(TreeInk.LeafLight.copy(alpha = 0.35f * crown * (1f - storm)), radius = r * 0.3f * sz, center = c + Offset(-r * 0.15f * sz + sway, -r * 0.15f * sz))
+            val sway = (sin(t * 2f + o.x * 3f) * storm * 3f + sin(t * 0.9f + o.y * 4f) * 0.6f) * dp
+            drawCircle(deep.copy(alpha = crown), radius = r * 0.64f * sz, center = c + Offset(sway, r * 0.04f))
+        }
+        for (m in 0 until 16) {
+            val ang = m / 16f * 2f * PI.toFloat()
+            val rr = r * (0.78f + 0.12f * fract(sin(m * 5.1f) * 77.3f))
+            val c = top + Offset(cos(ang) * rr * 1.05f + bend * 0.4f + sin(t * 1.2f + m) * (0.5f + 2f * storm) * dp, sin(ang) * rr * 0.72f - r * 0.12f)
+            drawCircle(deep.copy(alpha = crown), radius = r * 0.2f, center = c)
+            drawCircle(mid.copy(alpha = crown * 0.9f), radius = r * 0.15f, center = c + Offset(r * 0.03f, -r * 0.04f))
+        }
+        for ((o, sz) in blobs) {
+            val c = top + Offset(o.x * r + bend * 0.4f, o.y * r)
+            val sway = (sin(t * 2f + o.x * 3f) * storm * 3f + sin(t * 0.9f + o.y * 4f) * 0.6f) * dp
+            drawCircle(mid.copy(alpha = crown), radius = r * 0.5f * sz, center = c + Offset(sway + r * 0.06f, -r * 0.06f))
+            drawCircle(Brush.radialGradient(listOf(Color(0xFFFFD58A).copy(alpha = 0.42f * crown * clear), Color.Transparent), c + Offset(r * 0.3f * sz, -r * 0.2f * sz), r * 0.45f * sz), radius = r * 0.45f * sz, center = c + Offset(r * 0.3f * sz + sway, -r * 0.2f * sz))
         }
         tagAt(a.tag("crown"), top + Offset(0f, -r * 1.05f), seg(a.b("crown"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Jade)
     }
@@ -1089,7 +1119,7 @@ internal fun DrawScope.treeScene(a: ArtCtx) {
         if (p <= 0f) continue
         val ang = (200f + (if (fruits >= 3) 40f else 70f) * k) * PI.toFloat() / 180f
         val c = top + Offset(cos(ang) * trunkH * 0.45f, sin(ang) * trunkH * 0.3f + trunkH * 0.12f)
-        drawCircle(ArtInk.Gold.copy(alpha = p), radius = 4f * dp * p, center = c)
+        bloom(c, 3.2f * dp * p, ArtInk.Gold, p * (0.85f + 0.15f * sin(t * 2.2f + k)))
         if (fruits >= 3) {
             val tl = a.tag("fruit", k)
             val tc = Offset(w * 0.84f, h * (0.16f + 0.1f * k))
@@ -1101,7 +1131,15 @@ internal fun DrawScope.treeScene(a: ArtCtx) {
         }
     }
 
-    // storm: wind streaks and rain; the roots hold
+    // storm: a flash of lightning when it breaks, wind streaks and rain; the roots hold
+    val flash = bump(seg(a.b("storm"), 0.08f, 0.3f))
+    if (flash > 0f) {
+        val bolt = Path().apply {
+            moveTo(w * 0.24f, 0f); lineTo(w * 0.27f, h * 0.12f); lineTo(w * 0.23f, h * 0.14f); lineTo(w * 0.29f, h * 0.3f)
+        }
+        drawPath(bolt, Color(0xFFE8F0FF).copy(alpha = flash), style = Stroke(1.6f * dp, cap = StrokeCap.Round, join = StrokeJoin.Round))
+        drawRect(Color(0xFFDCE6FF).copy(alpha = 0.28f * flash))
+    }
     if (storm > 0f) {
         for (m in 0 until (40 * storm).toInt()) {
             val x0 = fract(m * 0.618f) * w * 1.1f
@@ -1116,7 +1154,7 @@ internal fun DrawScope.treeScene(a: ArtCtx) {
         tagAt(a.tag("storm"), Offset(w * 0.2f, h * 0.1f), seg(a.b("storm"), 0.2f, 0.9f), back = Color(0xE6101426), ink = ArtInk.Ember)
     }
     if (hold > 0f) {
-        drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.4f * hold), Color.Transparent), center = base, radius = w * 0.14f), radius = w * 0.14f, center = base)
+        softGlow(base, w * 0.14f, ArtInk.Gold, 0.4f * hold)
         tagAt(a.tag("hold"), Offset(w * 0.8f, h * 0.44f), seg(a.b("hold"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
     }
     val calm = easeOut(a.b("calm"))

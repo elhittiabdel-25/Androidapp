@@ -362,7 +362,7 @@ internal fun DrawScope.lantern(ring: Offset, s: Float, glow: Float, flicker: Flo
     val bodyC = Offset(x, y0 + 2.9f * s)
     if (light > 0.01f) {
         val r = s * (4.5f + 3.5f * light)
-        drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.42f * min(1f, light)), Color.Transparent), center = bodyC, radius = r), radius = r, center = bodyC)
+        softGlow(bodyC, r, ArtInk.Gold, 0.42f * min(1f, light))
     }
     // ring and dome cap
     drawCircle(ArtInk.Brass, radius = 0.38f * s, center = Offset(x, y0), style = Stroke(0.16f * s))
@@ -458,7 +458,7 @@ private fun DrawScope.keyScene(a: ArtCtx) {
     val frame = horseshoe(cx, cy, r * 1.22f, j * 1.22f, floorY)
     if (light > 0f) {
         val g = r * (2.2f + 1.2f * light)
-        drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.45f * light), Color.Transparent), center = Offset(cx, cy + r * 0.6f), radius = g), radius = g, center = Offset(cx, cy + r * 0.6f))
+        softGlow(Offset(cx, cy + r * 0.6f), g, ArtInk.Gold, 0.45f * light)
     }
     drawPath(frame, KeyInk.Stone)
     drawPath(frame, KeyInk.StoneEdge.copy(alpha = 0.7f), style = Stroke(1.2f * dp))
@@ -525,7 +525,7 @@ private fun DrawScope.keyScene(a: ArtCtx) {
     }
     if (turn > 0f && turn < 1f || seg(open, 0.42f, 0.5f) in 0.01f..0.99f) {
         val f = bump(seg(open, 0.36f, 0.5f))
-        drawCircle(Brush.radialGradient(listOf(ArtInk.Ivory.copy(alpha = 0.9f * f), Color.Transparent), center = keyhole, radius = 14f * dp), radius = 14f * dp, center = keyhole)
+        softGlow(keyhole, 14f * dp, ArtInk.Ivory, 0.9f * f)
     }
 
     // tags: the word over the shaft, one tag per tooth in two staggered rows (lines first, tags over them)
@@ -606,7 +606,7 @@ private fun DrawScope.drawKey(
         val glint = 1f - seg(teeth[i], 0.45f, 1f)
         if (glint > 0f && teeth[i] > 0.15f) {
             val c = Offset(toothX[i], top + bh)
-            drawCircle(Brush.radialGradient(listOf(ArtInk.Ivory.copy(alpha = 0.9f * glint * alpha), Color.Transparent), center = c, radius = tw * 1.6f), radius = tw * 1.6f, center = c)
+            softGlow(c, tw * 1.6f, ArtInk.Ivory, 0.9f * glint * alpha)
         }
     }
     // shaft, collar and bit end
@@ -660,7 +660,7 @@ private fun DrawScope.ropeScene(a: ArtCtx) {
     // dusk sky, sun, hills
     drawRect(Brush.verticalGradient(0f to DuskInk.Top, 0.5f to DuskInk.Mid, 0.8f to DuskInk.Low, 1f to DuskInk.Horizon))
     val sun = Offset(w * 0.18f, h * 0.6f)
-    drawCircle(Brush.radialGradient(listOf(DuskInk.Sun.copy(alpha = 0.6f), Color.Transparent), center = sun, radius = w * 0.26f), radius = w * 0.26f, center = sun)
+    softGlow(sun, w * 0.26f, DuskInk.Sun, 0.6f)
     drawCircle(DuskInk.Sun, radius = w * 0.045f, center = sun)
     hills(DuskInk.FarHills, h * 0.6f, h * 0.035f, 0.011f, 0.023f, 1.7f)
     hills(DuskInk.NearHills, h * 0.67f, h * 0.03f, 0.017f, 0.041f, 0.4f)
@@ -668,7 +668,7 @@ private fun DrawScope.ropeScene(a: ArtCtx) {
     // light from above for the firm rope
     val anchorG = Offset(w * 0.6f, -h * 0.02f)
     if (hold > 0f) {
-        drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.55f * hold), Color.Transparent), center = anchorG, radius = w * 0.24f), radius = w * 0.24f, center = anchorG)
+        softGlow(anchorG, w * 0.24f, ArtInk.Gold, 0.55f * hold)
     }
 
     // the chasm between two cliffs
@@ -838,7 +838,7 @@ private fun DrawScope.shipScene(a: ArtCtx) {
     if (lord > 0f && s < 1f) {
         val c = Offset(w * 0.6f, horizon)
         val r = w * (0.2f + 0.25f * lord)
-        drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.5f * lord * (1f - s)), Color.Transparent), center = c, radius = r), radius = r, center = c)
+        softGlow(c, r, ArtInk.Gold, 0.5f * lord * (1f - s))
         drawCircle(Color(0xFFFFE2AC).copy(alpha = (0.5f + 0.5f * lord) * (1f - s)), radius = w * 0.045f, center = c)
     }
     // storm clouds roll in
@@ -886,7 +886,7 @@ private fun DrawScope.shipScene(a: ArtCtx) {
         val sw = w * 0.022f
         val sh = h * (0.07f + 0.012f * (n % 2))
         if (shore > 0f) {
-            drawCircle(Brush.radialGradient(listOf(ArtInk.Ember.copy(alpha = 0.55f * shore), Color.Transparent), center = st - Offset(0f, sh), radius = sw * 2.6f), radius = sw * 2.6f, center = st - Offset(0f, sh))
+            softGlow(st - Offset(0f, sh), sw * 2.6f, ArtInk.Ember, 0.55f * shore)
         }
         drawRoundRect(SeaInk.Stone, topLeft = Offset(st.x - sw / 2, st.y - sh), size = Size(sw, sh + 2f * dp), cornerRadius = CornerRadius(sw / 2, sw / 2))
         // the later ones: lordship claimed for them, rays to the sky

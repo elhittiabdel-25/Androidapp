@@ -173,3 +173,78 @@ internal fun cameraProgress(beats: List<Float>): Float {
     return s / max(1, beats.size)
 }
 
+
+// ───────────── sky and depth, shared by the night scenes ─────────────
+
+/** Faint far stars that give the sky depth (fixed positions, from a seed). */
+internal val DEEP_STARS: List<Twinkle> = run {
+    var seed = 97L
+    fun rnd(): Float {
+        seed = (seed * 16807L) % 2147483647L
+        return seed / 2147483647f
+    }
+    List(150) { Twinkle(rnd(), rnd(), 0.35f + rnd() * 0.5f, rnd() * 6.3f) }
+}
+
+/** A four-pointed glint over a bright star or a polished edge. */
+internal fun DrawScope.glint(c: Offset, r: Float, color: Color, alpha: Float) {
+    if (alpha <= 0.01f || r <= 0f) return
+    val a = alpha.coerceIn(0f, 1f)
+    val th = 0.9f * density
+    drawLine(Brush.horizontalGradient(listOf(Color.Transparent, color.copy(alpha = a), Color.Transparent), c.x - r, c.x + r), Offset(c.x - r, c.y), Offset(c.x + r, c.y), th)
+    drawLine(Brush.verticalGradient(listOf(Color.Transparent, color.copy(alpha = a), Color.Transparent), c.y - r, c.y + r), Offset(c.x, c.y - r), Offset(c.x, c.y + r), th)
+    drawCircle(Brush.radialGradient(listOf(color.copy(alpha = 0.5f * a), Color.Transparent), c, r * 0.45f), r * 0.45f, c)
+}
+
+/**
+ * A deep night sky down to [horizon] (px): the gradient, a glow along the horizon, the band of the galaxy,
+ * far stars, the twinkling stars and glints on the brightest. [shine] makes the stars brighter (an adornment).
+ */
+internal fun DrawScope.deepSky(t: Float, horizon: Float, top: Color, low: Color, glow: Color = Color(0xFF6E5A9A), starAlpha: Float = 1f, shine: Float = 0f, twinkles: Boolean = true) {
+    val w = size.width
+    val dp = density
+    drawRect(Brush.verticalGradient(0f to top, 0.6f to lerpColor(top, low, 0.55f), 1f to low, endY = horizon), size = Size(w, horizon))
+    // the glow along the horizon
+    drawOval(
+        Brush.radialGradient(listOf(glow.copy(alpha = 0.38f), Color.Transparent), Offset(w * 0.5f, horizon), w * 0.6f),
+        topLeft = Offset(-w * 0.1f, horizon - w * 0.22f), size = Size(w * 1.2f, w * 0.44f),
+    )
+    // the galaxy: a soft band across the sky, dense with faint stars
+    withTransform({ rotate(-17f, Offset(w * 0.5f, horizon * 0.42f)) }) {
+        drawRect(
+            Brush.verticalGradient(0f to Color.Transparent, 0.5f to ArtInk.Ivory.copy(alpha = 0.07f * starAlpha), 1f to Color.Transparent, startY = horizon * 0.30f, endY = horizon * 0.56f),
+            topLeft = Offset(-w * 0.2f, horizon * 0.30f), size = Size(w * 1.4f, horizon * 0.26f),
+        )
+    }
+    for (s in DEEP_STARS) {
+        val y = s.y * horizon * 0.95f
+        drawCircle(ArtInk.Ivory.copy(alpha = (0.12f + 0.2f * (0.5f + 0.5f * sin(t * 0.7f + s.p))) * starAlpha), s.r * dp, Offset(s.x * w, y))
+    }
+    if (twinkles) for (s in TWINKLES) {
+        val y = s.y * horizon * 0.8f
+        val tw = 0.5f + 0.5f * sin(t * (1.3f + 1.4f * shine) + s.p)
+        val a = (0.35f + 0.5f * tw) * (0.75f + 0.25f * shine) * starAlpha
+        val c = Offset(s.x * w, y)
+        drawCircle(ArtInk.Ivory.copy(alpha = a.coerceIn(0f, 1f)), s.r * dp * (1f + 0.4f * shine), c)
+        if (s.r > 1.3f) glint(c, s.r * dp * (4f + 3f * shine) * (0.6f + 0.4f * tw), ArtInk.Ivory, a * (0.5f + 0.5f * shine))
+    }
+}
+
+/** A far range of hills in the haze behind the near ones: lighter, softer, slower. */
+internal fun DrawScope.farHills(near: Color, sky: Color, base: Float, amp: Float, ph: Float) {
+    hills(lerpColor(near, sky, 0.45f), base, amp, 0.008f, 0.021f, ph)
+    drawRect(
+        Brush.verticalGradient(listOf(sky.copy(alpha = 0.35f), Color.Transparent), startY = base - amp, endY = base + amp * 2f),
+        topLeft = Offset(0f, base - amp), size = Size(size.width, amp * 3f),
+    )
+}
+
+internal fun lerpColor(a: Color, b: Color, f: Float): Color = androidx.compose.ui.graphics.lerp(a, b, f.coerceIn(0f, 1f))
+
+/** A soft light: a bright shoulder around the centre and a wide, faint halo (light that carries in the air). */
+internal fun DrawScope.softGlow(c: Offset, r: Float, color: Color, alpha: Float) {
+    if (alpha <= 0.005f || r <= 0f) return
+    val a = alpha.coerceIn(0f, 1f)
+    drawCircle(Brush.radialGradient(listOf(color.copy(alpha = a * 0.26f), Color.Transparent), c, r * 2.4f), r * 2.4f, c)
+    drawCircle(Brush.radialGradient(0f to color.copy(alpha = a), 0.35f to color.copy(alpha = a * 0.45f), 1f to Color.Transparent, center = c, radius = r), r, c)
+}

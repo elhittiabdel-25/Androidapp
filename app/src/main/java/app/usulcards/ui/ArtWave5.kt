@@ -73,7 +73,7 @@ private fun DrawScope.stoneArch(cx: Float, floor: Float, width: Float, height: F
     val spring = floor - (height - width / 2f)
     if (glow > 0.01f) {
         val c = Offset(cx, mix(spring, floor, 0.5f))
-        drawCircle(Brush.radialGradient(listOf(Mono.Warm.copy(alpha = 0.32f * glow * alpha), Color.Transparent), center = c, radius = width * 1.1f), radius = width * 1.1f, center = c)
+        softGlow(c, width * 1.1f, Mono.Warm, 0.32f * glow * alpha)
         val open = Path().apply {
             moveTo(cx - r + band / 2, floor)
             lineTo(cx - r + band / 2, spring)
@@ -375,7 +375,7 @@ internal fun DrawScope.deedsScene(a: ArtCtx) {
         val s = h * 0.075f
         val fade = 1f - 0.85f * easeOut(left)
         val dim = 1f - 0.55f * fall
-        drawCircle(Brush.radialGradient(listOf(Mono.Warm.copy(alpha = 0.4f * dim * fade), Color.Transparent), center = c, radius = s * 2.2f), radius = s * 2.2f, center = c)
+        softGlow(c, s * 2.2f, Mono.Warm, 0.4f * dim * fade)
         drawRoundRect(lerp2(Mono.Dim, Mono.Warm, dim), topLeft = c - Offset(s / 2, s / 2), size = Size(s, s), cornerRadius = CornerRadius(s * 0.18f), alpha = fade)
         // adorned for the eyes: gilt corners and glitter
         val adorn = easeOut(seg(gaze, 0.4f, 1f))
@@ -460,7 +460,7 @@ internal fun DrawScope.campScene(a: ArtCtx) {
     val fire = seg(camp, 0f, 0.4f)
     if (fire > 0f) {
         val fc = Offset(fx, ground - h * 0.03f)
-        drawCircle(Brush.radialGradient(listOf(Mono.Warm.copy(alpha = 0.35f * fire), Color.Transparent), center = fc, radius = w * 0.22f), radius = w * 0.22f, center = fc)
+        softGlow(fc, w * 0.22f, Mono.Warm, 0.35f * fire)
         for (k in 0 until 3) {
             val fl = 0.75f + 0.25f * sin(t * (6f + k) + k)
             val flame = Path().apply {

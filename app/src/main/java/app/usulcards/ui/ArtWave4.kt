@@ -193,7 +193,7 @@ internal fun DrawScope.figure(foot: Offset, tall: Float, color: Color, alpha: Fl
 private fun DrawScope.badge(c: Offset, r: Float, pp: Paper, lit: Float, alpha: Float) {
     if (alpha <= 0.01f) return
     if (lit > 0.02f) {
-        drawCircle(Brush.radialGradient(listOf(pp.amber.copy(alpha = 0.45f * lit * alpha), Color.Transparent), center = c, radius = r * 3.2f), radius = r * 3.2f, center = c)
+        softGlow(c, r * 3.2f, pp.amber, 0.45f * lit * alpha)
     }
     drawCircle(lerpColor(pp.faint, pp.amber, lit), radius = r, center = c, alpha = alpha)
 }
@@ -299,7 +299,7 @@ internal fun DrawScope.chartScene(a: ArtCtx) {
     if (seed > 0f) {
         val c = Offset(px(0.975f), py(0f) - 3f * dp)
         val glow = easeOut(seg(seed, 0f, 0.5f)) * (0.8f + 0.2f * sin(t * 2.6f))
-        drawCircle(Brush.radialGradient(listOf(pp.amber.copy(alpha = 0.6f * glow), Color.Transparent), center = c, radius = 14f * dp), radius = 14f * dp, center = c)
+        softGlow(c, 14f * dp, pp.amber, 0.6f * glow)
         drawOval(pp.amber, topLeft = c - Offset(2.6f * dp, 2f * dp), size = Size(5.2f * dp, 4f * dp), alpha = min(1f, glow * 1.4f))
         for (m in 0 until 4) {
             val f = fract(t * 0.35f + m * 0.25f)
@@ -399,7 +399,7 @@ internal fun DrawScope.circuitScene(a: ArtCtx) {
     val tl = a.tag("power")
     val boxA = seg(power, 0.2f, 0.6f)
     if (lit > 0.02f) {
-        drawCircle(Brush.radialGradient(listOf(pp.amber.copy(alpha = 0.35f * lit), Color.Transparent), center = word, radius = boxW * 0.8f), radius = boxW * 0.8f, center = word)
+        softGlow(word, boxW * 0.8f, pp.amber, 0.35f * lit)
     }
     drawRoundRect(pp.card, topLeft = word - Offset(boxW / 2, boxH / 2), size = Size(boxW, boxH), cornerRadius = CornerRadius(8f * dp), alpha = boxA)
     drawRoundRect(lerpColor(pp.ink, pp.amber, lit), topLeft = word - Offset(boxW / 2, boxH / 2), size = Size(boxW, boxH), cornerRadius = CornerRadius(8f * dp), alpha = boxA, style = Stroke(1.4f * dp))

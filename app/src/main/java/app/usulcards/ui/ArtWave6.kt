@@ -68,7 +68,7 @@ private fun DrawScope.stillLife(table: Float, spot: Offset, light: Float) {
     }
     drawLine(Still.Edge, Offset(0f, table), Offset(w, table), 1.4f * dp)
     val r = w * 0.45f
-    drawCircle(Brush.radialGradient(listOf(Still.Light.copy(alpha = 0.22f * light), Color.Transparent), center = spot, radius = r), radius = r, center = spot)
+    softGlow(spot, r, Still.Light, 0.22f * light)
     // the pool of light on the table
     val pool = Offset(spot.x, table + (h - table) * 0.35f)
     drawOval(Brush.radialGradient(listOf(Still.Light.copy(alpha = 0.18f * light), Color.Transparent), center = pool, radius = w * 0.3f),
@@ -81,7 +81,7 @@ private fun DrawScope.openBook(c: Offset, bw: Float, p: Float, glow: Float, alph
     val dp = density
     val bh = bw * 0.42f
     if (glow > 0.01f) {
-        drawCircle(Brush.radialGradient(listOf(Still.Light.copy(alpha = 0.35f * glow * alpha), Color.Transparent), center = c, radius = bw * 1.1f), radius = bw * 1.1f, center = c)
+        softGlow(c, bw * 1.1f, Still.Light, 0.35f * glow * alpha)
     }
     for (side in intArrayOf(-1, 1)) {
         val page = Path().apply {
@@ -217,7 +217,7 @@ internal fun DrawScope.knotsScene(a: ArtCtx) {
             tops.add(c - Offset(0f, r * 0.8f))
             val hot = if (k < 2) easeOut(seg(pair, 0f, 0.5f)) else 0f
             if (hot > 0f) {
-                drawCircle(Brush.radialGradient(listOf(Still.Bad.copy(alpha = 0.4f * hot * act1), Color.Transparent), center = c, radius = r * 2.6f), radius = r * 2.6f, center = c)
+                softGlow(c, r * 2.6f, Still.Bad, 0.4f * hot * act1)
             }
             val stone = Path().apply {
                 for (m in 0 until 9) {
@@ -371,7 +371,7 @@ internal fun DrawScope.lightsScene(a: ArtCtx) {
         val s = mix(0.5f, STRENGTH[k], grow)
         // the plain point it starts as
         val dotR = h * 0.022f * (0.7f + 0.6f * s)
-        drawCircle(Brush.radialGradient(listOf(Sky.Gold.copy(alpha = 0.4f * appear * s), Color.Transparent), center = c, radius = dotR * 4f), radius = dotR * 4f, center = c)
+        softGlow(c, dotR * 4f, Sky.Gold, 0.4f * appear * s)
         drawCircle(Sky.Pale, radius = dotR * (1f - lit), center = c, alpha = appear)
         if (lit > 0f) lightOf(k, c, h * 0.07f, lit, t)
         tagAt(if (i >= 0) a.tagOf(i) else null, Offset(c.x, h * (if (k % 2 == 0) 0.74f else 0.86f)), seg(beat, 0.3f, 0.8f), back = Sky.Back, ink = Sky.Pale)
@@ -387,7 +387,7 @@ private fun DrawScope.lightOf(kind: Int, c: Offset, u: Float, p: Float, t: Float
     when (kind) {
         0 -> {
             val r = u * 0.75f * p
-            drawCircle(Brush.radialGradient(listOf(gold.copy(alpha = 0.6f * p), Color.Transparent), center = c, radius = r * 3.2f), radius = r * 3.2f, center = c)
+            softGlow(c, r * 3.2f, gold, 0.6f * p)
             for (m in 0 until 12) {
                 val ang = m * PI.toFloat() / 6f + t * 0.15f
                 val dir = Offset(cos(ang), sin(ang))
@@ -397,7 +397,7 @@ private fun DrawScope.lightOf(kind: Int, c: Offset, u: Float, p: Float, t: Float
         }
         1 -> {
             val r = u * 0.65f * p
-            drawCircle(Brush.radialGradient(listOf(Sky.Pale.copy(alpha = 0.5f * p), Color.Transparent), center = c, radius = r * 2.6f), radius = r * 2.6f, center = c)
+            softGlow(c, r * 2.6f, Sky.Pale, 0.5f * p)
             val star = Path().apply {
                 for (m in 0 until 8) {
                     val ang = m * PI.toFloat() / 4f - PI.toFloat() / 2f
@@ -412,7 +412,7 @@ private fun DrawScope.lightOf(kind: Int, c: Offset, u: Float, p: Float, t: Float
         2 -> {
             val fl = 0.85f + 0.15f * sin(t * 7f)
             drawLine(Color(0xFF8A6A43), c + Offset(0f, u * 0.1f), c + Offset(u * 0.12f, u * 1.1f), 3f * dp, cap = StrokeCap.Round, alpha = p)
-            drawCircle(Brush.radialGradient(listOf(gold.copy(alpha = 0.45f * p), Color.Transparent), center = c, radius = u * 1.8f), radius = u * 1.8f, center = c)
+            softGlow(c, u * 1.8f, gold, 0.45f * p)
             flame(c, u * 0.45f * p, u * 1.1f * p * fl, gold, p)
         }
         else -> {
@@ -563,7 +563,7 @@ internal fun DrawScope.pillarsScene(a: ArtCtx) {
     }
     val all = if (n == 6) easeOut(seg(a.beatAt(a.nth("node", 5)), 0.5f, 1f)) else 0f
     if (all > 0f) {
-        drawCircle(Brush.radialGradient(listOf(Sky.Gold.copy(alpha = 0.3f * all), Color.Transparent), center = c, radius = r * 0.9f), radius = r * 0.9f, center = c)
+        softGlow(c, r * 0.9f, Sky.Gold, 0.3f * all)
     }
     for (k in 0 until n) {
         val i = a.nth("node", k)
@@ -571,7 +571,7 @@ internal fun DrawScope.pillarsScene(a: ArtCtx) {
         if (p <= 0f) continue
         val q = at(k)
         val al = easeOut(seg(p, 0f, 0.4f))
-        drawCircle(Brush.radialGradient(listOf(Sky.Gold.copy(alpha = 0.5f * al), Color.Transparent), center = q, radius = h * 0.06f), radius = h * 0.06f, center = q)
+        softGlow(q, h * 0.06f, Sky.Gold, 0.5f * al)
         drawCircle(Sky.Pale, radius = h * 0.016f, center = q, alpha = al)
         val out = (q - c) / (q - c).getDistance()
         tagAt(a.tagOf(i), q + Offset(out.x * w * 0.09f, out.y * h * 0.1f), seg(p, 0.3f, 0.8f), back = Sky.Back, ink = Sky.Pale)

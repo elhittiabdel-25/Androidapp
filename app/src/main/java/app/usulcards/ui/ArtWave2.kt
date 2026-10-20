@@ -100,10 +100,19 @@ internal fun DrawScope.buildingScene(a: ArtCtx) {
     val dp = density
     val t = a.t
     val ground = h * 0.84f
-    drawRect(Brush.verticalGradient(listOf(BuildInk.SkyTop, BuildInk.SkyLow), endY = ground), size = Size(w, ground))
+    // dawn behind the building: the first stars fading above, the light rising behind it
+    drawRect(Brush.verticalGradient(0f to Color(0xFF15204A), 0.45f to BuildInk.SkyTop, 0.8f to Color(0xFF9A6E86), 1f to BuildInk.SkyLow, endY = ground), size = Size(w, ground))
+    for (st in TWINKLES) {
+        if (st.y > 0.45f) continue
+        drawCircle(ArtInk.Ivory.copy(alpha = 0.35f * (0.5f + 0.5f * sin(t * 1.2f + st.p)) * (1f - st.y * 2f)), st.r * 0.8f * dp, Offset(st.x * w, st.y * ground))
+    }
+    val dawn = Offset(w * 0.5f, ground - h * 0.03f)
+    lightShafts(dawn, -PI.toFloat() / 2f, PI.toFloat() * 1.1f, h * 0.95f, Color(0xFFFFE0B0), 0.75f, t, 9)
+    softGlow(dawn, w * 0.32f, Color(0xFFFFC98C), 0.5f)
+    farHills(BuildInk.Hills, Color(0xFF9A6E86), ground - h * 0.1f, h * 0.03f, 0.9f)
     hills(BuildInk.Hills, ground - h * 0.05f, h * 0.025f, 0.011f, 0.027f, 1.7f)
-    drawRect(BuildInk.Ground, topLeft = Offset(0f, ground), size = Size(w, h - ground))
-    drawLine(BuildInk.GroundEdge, Offset(0f, ground), Offset(w, ground), 1.2f * dp)
+    drawRect(Brush.verticalGradient(listOf(BuildInk.Ground, Color(0xFF1E1B30)), startY = ground, endY = h), topLeft = Offset(0f, ground), size = Size(w, h - ground))
+    drawLine(Color(0xFFFFD9A8).copy(alpha = 0.35f), Offset(0f, ground), Offset(w, ground), 1.2f * dp)
 
     val two = (0 until a.size).any { a.sideAt(it) >= 0 }
     val sites = if (two) listOf(Site(w * 0.69f, w * 0.27f), Site(w * 0.29f, w * 0.27f)) else listOf(Site(w * 0.5f, w * 0.38f))
@@ -181,7 +190,7 @@ internal fun DrawScope.buildingScene(a: ArtCtx) {
         if (s.glow > 0f) {
             val g = easeOut(s.glow) * (1f - fall)
             val c = Offset(cx, ground - fH / 2)
-            drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.55f * g), Color.Transparent), center = c, radius = bw * 0.75f), radius = bw * 0.75f, center = c)
+            softGlow(c, bw * 0.75f, ArtInk.Gold, 0.55f * g)
         }
         // something set after it and below it: lower, and lit in jade
         if (s.lower > 0f) {
@@ -252,7 +261,7 @@ internal fun DrawScope.buildingScene(a: ArtCtx) {
                         val q = easeOut(s.brick)
                         val from = Offset(hole.left, h * 0.05f)
                         val tl = Offset(mix(from.x, hole.left, q), mix(from.y, hole.top, q))
-                        drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.6f * q), Color.Transparent), center = Offset(tl.x + hole.width / 2, tl.y + hole.height / 2), radius = hole.width * 1.6f), radius = hole.width * 1.6f, center = Offset(tl.x + hole.width / 2, tl.y + hole.height / 2))
+                        softGlow(Offset(tl.x + hole.width / 2, tl.y + hole.height / 2), hole.width * 1.6f, ArtInk.Gold, 0.6f * q)
                         drawRect(ArtInk.Gold, tl, hole.size)
                     }
                     continue
@@ -371,12 +380,9 @@ internal fun DrawScope.buildingScene(a: ArtCtx) {
             val ls = w * 0.016f
             val ring = Offset(cx, roofTop - 5.3f * ls)
             val c = ring + Offset(0f, 2.9f * ls)
-            for (m in 0 until 10) {
-                val ang = (m * 36f + t * 6f) * PI.toFloat() / 180f
-                val r0 = 4f * ls
-                val r1 = r0 + w * 0.22f * seg(q, 0.3f, 1f)
-                drawLine(ArtInk.Gold.copy(alpha = 0.22f * q), c + Offset(cos(ang) * r0, sin(ang) * r0), c + Offset(cos(ang) * r1, sin(ang) * r1), 2f * dp, StrokeCap.Round)
-            }
+            // the call goes out: light carried far in every direction
+            lightShafts(c, 0f, 2f * PI.toFloat(), w * 0.4f * (0.4f + 0.6f * seg(q, 0.2f, 1f)), ArtInk.Gold, q, t, 14)
+            bloom(c, 4f * ls, ArtInk.Gold, 0.7f * q)
             lantern(ring, ls, q, 0.05f * sin(t * 9f))
             tagAt(a.tag("light"), ring + Offset(0f, -h * 0.07f), seg(s.light, 0.3f, 1f), back = TagBack, ink = ArtInk.Gold)
         }
@@ -450,7 +456,7 @@ internal fun DrawScope.gateScene(a: ArtCtx) {
     val t = a.t
     val ground = h * 0.8f
     val pathY = ground - h * 0.035f
-    drawRect(Brush.verticalGradient(listOf(GateInk.SkyTop, GateInk.SkyMid, GateInk.Dawn), endY = ground), size = Size(w, ground))
+    deepSky(t, ground, GateInk.SkyTop, GateInk.Dawn, glow = Color(0xFFB08AA0), twinkles = false)
     val trumpet = easeOut(a.b("trumpet"))
     for (s in TWINKLES) {
         val shake = trumpet * 1.5f * dp * sin(t * 30f + s.p * 5f)
@@ -476,7 +482,7 @@ internal fun DrawScope.gateScene(a: ArtCtx) {
         val mid = (bridgeL + bridgeR) / 2
         val half = (bridgeR - bridgeL) / 2 * chasm
         drawRect(GateInk.Chasm, topLeft = Offset(mid - half, ground - 1f), size = Size(2 * half, h - ground + 1f))
-        drawCircle(Brush.radialGradient(listOf(ArtInk.Ember.copy(alpha = 0.45f * chasm), Color.Transparent), center = Offset(mid, h * 1.02f), radius = half * 1.2f), radius = half * 1.2f, center = Offset(mid, h * 1.02f))
+        softGlow(Offset(mid, h * 1.02f), half * 1.2f, ArtInk.Ember, 0.45f * chasm)
     }
     fun bridgeY(x: Float): Float {
         val f = ((x - bridgeL) / (bridgeR - bridgeL)).coerceIn(0f, 1f)
@@ -517,7 +523,7 @@ internal fun DrawScope.gateScene(a: ArtCtx) {
             if (q > 0f && rise < 1f) {
                 val c = Offset(mx, mix(ground, pathY - h * 0.03f, q))
                 drawLine(ArtInk.Gold.copy(alpha = 0.35f * (1f - seg(rise, 0.7f, 1f))), Offset(mx, ground), c, 2f * dp, StrokeCap.Round)
-                drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.7f), Color.Transparent), center = c, radius = 9f * dp), radius = 9f * dp, center = c)
+                softGlow(c, 9f * dp, ArtInk.Gold, 0.7f)
                 drawCircle(ArtInk.Ivory, radius = 2.2f * dp, center = c)
             }
         }
@@ -576,7 +582,9 @@ internal fun DrawScope.gateScene(a: ArtCtx) {
     if (gateA > 0f) {
         val frame = horseshoe(gateX, cy, r + w * 0.014f, j + w * 0.014f, ground)
         val opening = horseshoe(gateX, cy, r, j, ground)
-        drawCircle(Brush.radialGradient(listOf(GateInk.Light.copy(alpha = 0.55f * open * gateA), Color.Transparent), center = Offset(gateX, cy + r * 0.4f), radius = w * 0.2f), radius = w * 0.2f, center = Offset(gateX, cy + r * 0.4f))
+        softGlow(Offset(gateX, cy + r * 0.4f), w * 0.2f, GateInk.Light, 0.55f * open * gateA)
+        // light pours out of the open gate across the land
+        lightShafts(Offset(gateX, cy + r * 0.2f), 0.12f, 1.1f, w * 0.7f, GateInk.Light, open * gateA, t, 8)
         drawPath(frame, GateInk.Frame.copy(alpha = gateA))
         drawPath(frame, GateInk.FrameDark.copy(alpha = gateA), style = Stroke(1.2f * dp))
         drawPath(opening, lerp(Color(0xFF14101C), GateInk.Light, open).copy(alpha = gateA))
@@ -601,7 +609,7 @@ internal fun DrawScope.gateScene(a: ArtCtx) {
             val c = Offset(gateX + (if (k % 2 == 0) 1f else -1f) * j * 0.5f * (1f - 0.85f * open), cy + r * 0.25f + (k / 2) * h * 0.06f)
             drawCircle(GateInk.FrameDark.copy(alpha = gateA), radius = 5.5f * dp, center = c, style = Stroke(1.4f * dp))
             if (p > 0f) {
-                drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.7f * p), Color.Transparent), center = c, radius = 16f * dp), radius = 16f * dp, center = c)
+                softGlow(c, 16f * dp, ArtInk.Gold, 0.7f * p)
                 drawPath(starPath(c, 5f * dp * p), ArtInk.Gold.copy(alpha = p))
             }
             val tl = a.tag("seal", k)
@@ -658,7 +666,7 @@ internal fun DrawScope.gateScene(a: ArtCtx) {
         }
         if (alpha <= 0.01f) continue
         val c = Offset(x, y)
-        drawCircle(Brush.radialGradient(listOf(col.copy(alpha = 0.6f * alpha), Color.Transparent), center = c, radius = 9f * dp), radius = 9f * dp, center = c)
+        softGlow(c, 9f * dp, col, 0.6f * alpha)
         drawCircle((if (col == ArtInk.Ember) ArtInk.Ember else ArtInk.Ivory).copy(alpha = alpha), radius = 2.1f * dp, center = c)
     }
     if (a.count("lights") > 0) tagAt(a.tag("lights"), Offset(w * 0.86f, ground + (h - ground) / 2), seg(a.b("lights"), 0.3f, 1f), back = TagBack, ink = ArtInk.Gold)
@@ -691,7 +699,7 @@ internal fun DrawScope.gateScene(a: ArtCtx) {
             val s = fract(t * 0.1f + m / 8f)
             if (s > reveal) continue
             val c = cubic(p0, p1, p2, p3, s)
-            drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.75f), Color.Transparent), center = c, radius = 11f * dp), radius = 11f * dp, center = c)
+            softGlow(c, 11f * dp, ArtInk.Gold, 0.75f)
             drawCircle(ArtInk.Ivory, radius = 2.4f * dp, center = c)
         }
         tagAt(a.tag("pass"), cubic(p0, p1, p2, p3, 0.5f) + Offset(0f, -h * 0.1f), seg(ps, 0.4f, 1f), back = TagBack, ink = ArtInk.Gold)
@@ -707,7 +715,7 @@ private fun DrawScope.scrollAt(c: Offset, deg: Float, col: Color, alpha: Float) 
     if (alpha <= 0f) return
     val dp = density
     withTransform({ rotate(deg, c) }) {
-        drawCircle(Brush.radialGradient(listOf(col.copy(alpha = 0.5f * alpha), Color.Transparent), center = c, radius = 26f * dp), radius = 26f * dp, center = c)
+        softGlow(c, 26f * dp, col, 0.5f * alpha)
         drawRect(GateInk.Paper.copy(alpha = alpha), topLeft = c + Offset(-14f * dp, -8f * dp), size = Size(28f * dp, 16f * dp))
         for (k in 0 until 3) drawLine(Color(0xFF8C7A5A).copy(alpha = 0.7f * alpha), c + Offset(-9f * dp, (-4f + 4f * k) * dp), c + Offset(9f * dp, (-4f + 4f * k) * dp), 0.8f * dp)
         for (sd in listOf(-1f, 1f)) drawRoundRect(GateInk.Frame.copy(alpha = alpha), topLeft = c + Offset(sd * 15f * dp - 2.5f * dp, -10f * dp), size = Size(5f * dp, 20f * dp), cornerRadius = CornerRadius(2.5f * dp, 2.5f * dp))
@@ -790,7 +798,7 @@ private fun DrawScope.shrineLamps(a: ArtCtx, ground: Float, strip: Float) {
     if (a.count("forget") > 0) {
         val c = Offset(w * 0.12f, h * 0.24f)
         val lit = 1f - 0.85f * forget
-        drawCircle(Brush.radialGradient(listOf(ArtInk.Gold.copy(alpha = 0.5f * lit), Color.Transparent), center = c, radius = w * 0.09f), radius = w * 0.09f, center = c)
+        softGlow(c, w * 0.09f, ArtInk.Gold, 0.5f * lit)
         for (sd in listOf(-1f, 1f)) {
             val page = Path().apply {
                 moveTo(c.x, c.y + 6f * dp)
@@ -819,7 +827,7 @@ private fun DrawScope.shrineLamps(a: ArtCtx, ground: Float, strip: Float) {
         // worship around the stones
         if (idol > 0f) {
             val c = Offset(x, ground - pedH - h * 0.1f)
-            drawCircle(Brush.radialGradient(listOf(ArtInk.Ember.copy(alpha = 0.45f * idol), Color.Transparent), center = c, radius = w * 0.06f), radius = w * 0.06f, center = c)
+            softGlow(c, w * 0.06f, ArtInk.Ember, 0.45f * idol)
             for (m in 0 until 2) {
                 val ang = t * 1.6f + m * PI.toFloat() + k
                 val o = c + Offset(cos(ang) * w * 0.04f, sin(ang) * h * 0.025f + h * 0.06f)
@@ -834,7 +842,7 @@ private fun DrawScope.shrineLamps(a: ArtCtx, ground: Float, strip: Float) {
             if (excess > 0f && out < 1f) {
                 val c = ring + Offset(0f, 2.9f * s)
                 val rr = s * (7f + 5f * excess)
-                drawCircle(Brush.radialGradient(listOf(lerp(ArtInk.Gold, ArtInk.Ember, 0.5f).copy(alpha = 0.4f * excess * (1f - out)), Color.Transparent), center = c, radius = rr), radius = rr, center = c)
+                softGlow(c, rr, lerp(ArtInk.Gold, ArtInk.Ember, 0.5f), 0.4f * excess * (1f - out))
             }
             drawContextAlpha(lampAlpha) { lantern(ring, s, glow, 0.06f * sin(t * 9f + k)) }
         }
@@ -922,7 +930,7 @@ private fun DrawScope.shrineGrave(a: ArtCtx, ground: Float) {
     val idolGlow = easeOut(seg(idol, 0f, 0.4f)) * (1f - easeOut(seg(idol, 0.5f, 0.9f)))
     if (idolGlow > 0f) {
         val c = Offset(stoneX, ground - h * 0.08f)
-        drawCircle(Brush.radialGradient(listOf(ArtInk.Ember.copy(alpha = 0.55f * idolGlow), Color.Transparent), center = c, radius = w * 0.09f), radius = w * 0.09f, center = c)
+        softGlow(c, w * 0.09f, ArtInk.Ember, 0.55f * idolGlow)
     }
     drawArc(ShrineInk.Mound, 180f, 180f, true, topLeft = Offset(cx - w * 0.12f, ground - h * 0.06f), size = Size(w * 0.24f, h * 0.12f))
     drawArc(ShrineInk.MoundLight, 200f, 60f, false, topLeft = Offset(cx - w * 0.12f, ground - h * 0.06f), size = Size(w * 0.24f, h * 0.12f), style = Stroke(1.2f * dp))
@@ -1019,7 +1027,7 @@ private fun DrawScope.shrineTree(a: ArtCtx, ground: Float, strip: Float) {
     val aura = easeOut(seg(shirk, 0f, 0.5f))
     if (aura > 0f) {
         for (c in listOf(treeBase + Offset(0f, -h * 0.2f), rockC + Offset(0f, -h * 0.04f))) {
-            drawCircle(Brush.radialGradient(listOf(ArtInk.Ember.copy(alpha = 0.4f * aura), Color.Transparent), center = c, radius = w * 0.14f), radius = w * 0.14f, center = c)
+            softGlow(c, w * 0.14f, ArtInk.Ember, 0.4f * aura)
         }
     }
     // footprints of those before, coming to it
@@ -1210,7 +1218,7 @@ private fun DrawScope.shrineGraves(a: ArtCtx) {
         val col = if (k == 0) lerp(Color(0xFF120C08), Color(0xFF2E5A3A), q) else lerp(Color(0xFF120C08), Color(0xFF4A1A10), q)
         drawRoundRect(col, r.topLeft, r.size, CornerRadius(chamberW * 0.2f, chamberW * 0.2f))
         if (k == 0 && q > 0f) {
-            drawCircle(Brush.radialGradient(listOf(Color(0xFF9FE0B0).copy(alpha = 0.55f * q), Color.Transparent), center = r.center, radius = chamberW), radius = chamberW, center = r.center)
+            softGlow(r.center, chamberW, Color(0xFF9FE0B0), 0.55f * q)
             for (m in 0 until 7) {
                 val fx = r.left + r.width * (0.1f + 0.13f * m)
                 val fy = r.bottom - h * 0.02f
