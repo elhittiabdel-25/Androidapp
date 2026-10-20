@@ -351,7 +351,11 @@ internal fun DrawScope.grainScene(a: ArtCtx) {
     val dp = density
     val t = a.t
     val ground = h * 0.72f
-    drawRect(Brush.verticalGradient(listOf(GrainInk.SkyTop, GrainInk.SkyLow), endY = ground), size = Size(w, ground))
+    drawRect(Brush.verticalGradient(0f to GrainInk.SkyTop, 0.7f to lerp(GrainInk.SkyTop, GrainInk.SkyLow, 0.6f), 1f to GrainInk.SkyLow, endY = ground), size = Size(w, ground))
+    // morning light from behind the real grain
+    val dawn = Offset(w * 0.78f, ground)
+    softGlow(dawn, w * 0.35f, Color(0xFFFFE0A8), 0.45f)
+    lightShafts(dawn, -PI.toFloat() / 2f, PI.toFloat() * 0.9f, h * 0.7f, Color(0xFFFFE6B8), 0.5f, t, 8)
     drawRect(Brush.verticalGradient(listOf(GrainInk.Soil, GrainInk.SoilDark), startY = ground, endY = h), topLeft = Offset(0f, ground), size = Size(w, h - ground))
     drawLine(Color(0xFF6A4E38), Offset(0f, ground), Offset(w, ground), 1.2f * dp)
 
@@ -444,8 +448,7 @@ internal fun DrawScope.vesselsScene(a: ArtCtx) {
     val h = size.height
     val dp = density
     val t = a.t
-    drawRect(Brush.verticalGradient(listOf(VesselInk.BgTop, VesselInk.BgLow)))
-    for (s in TWINKLES) drawCircle(ArtInk.Ivory.copy(alpha = 0.25f * (0.5f + 0.5f * sin(t * 1.3f + s.p))), radius = s.r * 0.7f * dp, center = Offset(s.x * w, s.y * h * 0.6f))
+    deepSky(t, h * 0.8f, VesselInk.BgTop, VesselInk.BgLow, starAlpha = 0.6f)
     val shelf = h * 0.8f
     drawRect(VesselInk.Shelf, topLeft = Offset(0f, shelf), size = Size(w, h * 0.035f))
     drawLine(VesselInk.ShelfLight, Offset(0f, shelf), Offset(w, shelf), 1.4f * dp)
@@ -550,7 +553,8 @@ internal fun DrawScope.caveScene(a: ArtCtx) {
     val su = 0.15f + 0.7f * easeInOut(sun)
     val sp = cubic(Offset(w * 0.02f, h * 0.55f), Offset(w * 0.25f, h * 0.02f), Offset(w * 0.75f, h * 0.02f), Offset(w * 0.98f, h * 0.5f), su)
     softGlow(sp, w * 0.1f, CaveInk.Sun, 0.8f)
-    drawCircle(CaveInk.Sun, radius = w * 0.035f, center = sp)
+    lightShafts(sp, PI.toFloat() / 2f, PI.toFloat() * 1.6f, w * 0.5f, CaveInk.Sun, 0.55f, t, 10)
+    bloom(sp, w * 0.03f, CaveInk.Sun, 0.9f)
     // the hill and its cave
     val hill = Path().apply {
         moveTo(w * 0.48f, ground)

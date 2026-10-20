@@ -1114,26 +1114,27 @@ internal fun DrawScope.treeScene(a: ArtCtx) {
     if (crown > 0f) {
         val r = trunkH * 0.62f * (0.3f + 0.7f * crown)
         val blobs = listOf(Offset(0f, -0.15f) to 1f, Offset(-0.55f, 0.15f) to 0.75f, Offset(0.55f, 0.12f) to 0.78f, Offset(-0.25f, -0.55f) to 0.7f, Offset(0.3f, -0.5f) to 0.72f)
-        val deep = lerp(Color(0xFF24493A), Color(0xFF16261D), storm)
-        val mid = lerp(TreeInk.Leaf, Color(0xFF2E5A3A), storm * 0.6f)
+        val deep = lerp(Color(0xFF1B3529), Color(0xFF111D17), storm)
+        val mid = lerp(Color(0xFF34684A), Color(0xFF243F2E), storm * 0.7f)
         // the shadowed mass, small clusters along its edge, then the leaves the low sun catches
         for ((o, sz) in blobs) {
             val c = top + Offset(o.x * r + bend * 0.4f, o.y * r)
             val sway = (sin(t * 2f + o.x * 3f) * storm * 3f + sin(t * 0.9f + o.y * 4f) * 0.6f) * dp
             drawCircle(deep.copy(alpha = crown), radius = r * 0.64f * sz, center = c + Offset(sway, r * 0.04f))
         }
-        for (m in 0 until 16) {
-            val ang = m / 16f * 2f * PI.toFloat()
-            val rr = r * (0.78f + 0.12f * fract(sin(m * 5.1f) * 77.3f))
-            val c = top + Offset(cos(ang) * rr * 1.05f + bend * 0.4f + sin(t * 1.2f + m) * (0.5f + 2f * storm) * dp, sin(ang) * rr * 0.72f - r * 0.12f)
-            drawCircle(deep.copy(alpha = crown), radius = r * 0.2f, center = c)
-            drawCircle(mid.copy(alpha = crown * 0.9f), radius = r * 0.15f, center = c + Offset(r * 0.03f, -r * 0.04f))
+        for (m in 0 until 9) {
+            val ang = (m / 9f + 0.05f) * 2f * PI.toFloat()
+            val rr = r * (0.62f + 0.1f * fract(sin(m * 5.1f) * 77.3f))
+            val c = top + Offset(cos(ang) * rr * 1.05f + bend * 0.4f + sin(t * 1.2f + m) * (0.5f + 2f * storm) * dp, sin(ang) * rr * 0.7f - r * 0.12f)
+            drawCircle(deep.copy(alpha = crown), radius = r * (0.26f + 0.06f * fract(m * 0.37f)), center = c)
         }
         for ((o, sz) in blobs) {
             val c = top + Offset(o.x * r + bend * 0.4f, o.y * r)
             val sway = (sin(t * 2f + o.x * 3f) * storm * 3f + sin(t * 0.9f + o.y * 4f) * 0.6f) * dp
-            drawCircle(mid.copy(alpha = crown), radius = r * 0.5f * sz, center = c + Offset(sway + r * 0.06f, -r * 0.06f))
-            drawCircle(Brush.radialGradient(listOf(Color(0xFFFFD58A).copy(alpha = 0.42f * crown * clear), Color.Transparent), c + Offset(r * 0.3f * sz, -r * 0.2f * sz), r * 0.45f * sz), radius = r * 0.45f * sz, center = c + Offset(r * 0.3f * sz + sway, -r * 0.2f * sz))
+            drawCircle(mid.copy(alpha = crown * 0.85f), radius = r * 0.44f * sz, center = c + Offset(sway + r * 0.1f, -r * 0.08f))
+            // the low sun on the right catches the leaves on that side
+            val rim = c + Offset(r * 0.32f * sz + sway, -r * 0.16f * sz)
+            drawCircle(Brush.radialGradient(listOf(Color(0xFFFFC86E).copy(alpha = 0.5f * crown * clear), Color.Transparent), rim, r * 0.36f * sz), radius = r * 0.36f * sz, center = rim)
         }
         tagAt(a.tag("crown"), top + Offset(0f, -r * 1.05f), seg(a.b("crown"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Jade)
     }

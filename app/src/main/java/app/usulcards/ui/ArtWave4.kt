@@ -44,6 +44,8 @@ internal class Paper(dark: Boolean) {
 /** Graph paper with the notebook's margin line on the right, where an Arabic page starts. */
 internal fun DrawScope.paperSheet(pp: Paper) {
     drawRect(pp.bg)
+    // a desk lamp off to the upper right: a warm pool of light on the page
+    drawRect(Brush.radialGradient(listOf(pp.amber.copy(alpha = if (pp.ink.red > 0.5f) 0.16f else 0.12f), Color.Transparent), center = Offset(size.width * 0.78f, size.height * 0.12f), radius = size.width * 0.75f))
     val step = 13f * density
     val sw = 0.6f * density
     var x = (size.width % step) / 2f

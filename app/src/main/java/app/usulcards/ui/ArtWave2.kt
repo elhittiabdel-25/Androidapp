@@ -1094,10 +1094,7 @@ internal fun DrawScope.hourglassScene(a: ArtCtx) {
     val h = size.height
     val dp = density
     val t = a.t
-    drawRect(Brush.verticalGradient(listOf(GlassInk.BgTop, GlassInk.BgLow)))
-    for (s in TWINKLES) {
-        drawCircle(ArtInk.Ivory.copy(alpha = 0.35f * (0.5f + 0.5f * sin(t * 1.3f + s.p))), radius = s.r * 0.8f * dp, center = Offset(s.x * w, s.y * h * 0.8f))
-    }
+    deepSky(t, h * 0.9f, GlassInk.BgTop, GlassInk.BgLow, starAlpha = 0.8f)
     val sill = h * 0.9f
     drawRect(GlassInk.Sill, topLeft = Offset(0f, sill), size = Size(w, h - sill))
 

@@ -210,4 +210,5 @@ class ContentRepo(
 private fun JSONArray.objects(): List<JSONObject> = (0 until length()).map { getJSONObject(it) }
 private fun JSONArray.strings(): List<String> = (0 until length()).map { getString(it) }
 
-fun arabicDigits(n: Int): String = n.toString().map { c -> if (c in '0'..'9') '٠' + (c - '0') else c }.joinToString("")
+/** Numbers are shown with Western digits (0-9) everywhere in the app, Arabic text included. */
+fun arabicDigits(n: Int): String = n.toString()

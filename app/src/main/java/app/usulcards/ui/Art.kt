@@ -478,6 +478,14 @@ private fun DrawScope.keyScene(a: ArtCtx) {
     drawRect(KeyInk.Floor, topLeft = Offset(0f, floorY), size = Size(w, h - floorY))
     val bandH = h * 0.055f
     drawRect(KeyInk.Band, topLeft = Offset(0f, floorY), size = Size(w, bandH))
+    // the open door throws its light across the floor and into the room
+    if (light > 0f) {
+        val spill = Path().apply {
+            moveTo(cx - j * 0.9f, floorY); lineTo(cx + j * 0.9f, floorY); lineTo(cx + w * 0.55f, h); lineTo(cx - j * 0.4f, h); close()
+        }
+        drawPath(spill, Brush.verticalGradient(listOf(ArtInk.Gold.copy(alpha = 0.42f * light), Color.Transparent), startY = floorY, endY = h))
+        lightShafts(Offset(cx, cy + r * 0.3f), 0.05f, 0.9f, w * 0.75f, ArtInk.BrassLight, 0.8f * light, t, 8)
+    }
     var sx = w * 0.035f
     var k = 0
     while (sx < w) {
@@ -661,7 +669,12 @@ private fun DrawScope.ropeScene(a: ArtCtx) {
     drawRect(Brush.verticalGradient(0f to DuskInk.Top, 0.5f to DuskInk.Mid, 0.8f to DuskInk.Low, 1f to DuskInk.Horizon))
     val sun = Offset(w * 0.18f, h * 0.6f)
     softGlow(sun, w * 0.26f, DuskInk.Sun, 0.6f)
-    drawCircle(DuskInk.Sun, radius = w * 0.045f, center = sun)
+    lightShafts(sun, -PI.toFloat() / 2f, PI.toFloat() * 1.1f, w * 0.7f, DuskInk.Sun, 0.65f, t, 9)
+    bloom(sun, w * 0.04f, DuskInk.Sun, 0.9f)
+    for (st in TWINKLES) {
+        if (st.y > 0.35f) continue
+        drawCircle(ArtInk.Ivory.copy(alpha = 0.4f * (0.5f + 0.5f * sin(t * 1.3f + st.p)) * (1f - st.y * 2.6f)), st.r * 0.8f * dp, Offset(st.x * w, st.y * h))
+    }
     hills(DuskInk.FarHills, h * 0.6f, h * 0.035f, 0.011f, 0.023f, 1.7f)
     hills(DuskInk.NearHills, h * 0.67f, h * 0.03f, 0.017f, 0.041f, 0.4f)
 
@@ -669,6 +682,7 @@ private fun DrawScope.ropeScene(a: ArtCtx) {
     val anchorG = Offset(w * 0.6f, -h * 0.02f)
     if (hold > 0f) {
         softGlow(anchorG, w * 0.24f, ArtInk.Gold, 0.55f * hold)
+        lightShafts(anchorG, PI.toFloat() / 2f, 0.7f, h * 0.8f, ArtInk.Gold, 0.8f * hold, t, 7)
     }
 
     // the chasm between two cliffs
@@ -839,7 +853,8 @@ private fun DrawScope.shipScene(a: ArtCtx) {
         val c = Offset(w * 0.6f, horizon)
         val r = w * (0.2f + 0.25f * lord)
         softGlow(c, r, ArtInk.Gold, 0.5f * lord * (1f - s))
-        drawCircle(Color(0xFFFFE2AC).copy(alpha = (0.5f + 0.5f * lord) * (1f - s)), radius = w * 0.045f, center = c)
+        lightShafts(c, -PI.toFloat() / 2f, PI.toFloat() * 1.1f, w * 0.6f, Color(0xFFFFE2AC), lord * (1f - s), t, 9)
+        bloom(c, w * 0.04f, Color(0xFFFFE2AC), (0.5f + 0.5f * lord) * (1f - s))
     }
     // storm clouds roll in
     if (s > 0f) {
