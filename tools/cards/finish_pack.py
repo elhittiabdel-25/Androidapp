@@ -51,6 +51,10 @@ ART_KINDS = {
     "grain": {"grain", "challenge", "breath"},
     "vessels": {"cup", "equal", "first", "drain", "seal"},
     "cave": {"cave", "sun", "follow", "false"},
+    "chart": {"axis", "gain", "loss", "floor", "sins", "cross", "seed"},
+    "circuit": {"power", "breaker", "trip", "guard"},
+    "verdict": {"walker", "forced", "void", "less", "will", "echo"},
+    "board": {"core", "pin"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

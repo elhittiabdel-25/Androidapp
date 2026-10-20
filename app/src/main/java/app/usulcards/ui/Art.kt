@@ -117,7 +117,7 @@ internal fun ArtFrame(scene: Scene, beats: () -> List<Float>, time: () -> Float,
     }
     Column(Modifier.fillMaxWidth()) {
         Canvas(Modifier.fillMaxWidth().aspectRatio(ART_ASPECT)) {
-            val a = ArtCtx(scene.items.map { it.kind }, beats(), time(), tags, extras, scene.items.map { it.side }, scene.items.map { it.value })
+            val a = ArtCtx(scene.items.map { it.kind }, beats(), time(), tags, extras, scene.items.map { it.side }, scene.items.map { it.value }, pal == DarkPalette)
             when (scene.layout) {
                 "key" -> keyScene(a)
                 "rope" -> ropeScene(a)
@@ -135,6 +135,10 @@ internal fun ArtFrame(scene: Scene, beats: () -> List<Float>, time: () -> Float,
                 "grain" -> grainScene(a)
                 "vessels" -> vesselsScene(a)
                 "cave" -> caveScene(a)
+                "chart" -> chartScene(a)
+                "circuit" -> circuitScene(a)
+                "verdict" -> verdictScene(a)
+                "board" -> boardScene(a)
                 else -> drawRect(pal.line)
             }
         }
@@ -167,6 +171,15 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "fifty" -> 3600
     "ring", "name", "reject", "smoke", "sunwest", "sink", "brick", "ask" -> 1400
     "untie", "return" -> 2200
+    "axis", "core" -> 1200
+    "gain", "trip", "guard" -> 1800
+    "loss", "floor", "power" -> 1500
+    "sins", "echo" -> 3200
+    "cross" -> 1600
+    "seed", "pin", "void", "less" -> 2000
+    "breaker" -> 1100
+    "walker" -> 2400
+    "forced" -> 2600
     else -> 1000
 }
 
@@ -197,6 +210,8 @@ internal class ArtCtx(
     val extras: List<TextLayoutResult>,
     private val sides: List<Int> = emptyList(),
     private val values: List<Float> = emptyList(),
+    /** The app is in its dark theme (the notebook scenes follow it; the others are night scenes either way). */
+    val dark: Boolean = true,
 ) {
     /** Items by position, for scenes whose beats act on a target (`side`) with a strength (`value`). */
     val size: Int get() = kinds.size
