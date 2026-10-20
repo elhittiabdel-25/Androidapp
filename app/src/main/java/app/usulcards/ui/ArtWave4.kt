@@ -122,6 +122,8 @@ private fun polyPath(pts: List<Offset>, d: Float): Path {
 internal fun DrawScope.penLine(pts: List<Offset>, p: Float, color: Color, width: Float, alpha: Float = 1f, dash: PathEffect? = null) {
     if (p <= 0f || pts.size < 2 || alpha <= 0.01f) return
     val path = polyPath(pts, polyLength(pts) * p.coerceIn(0f, 1f))
+    // on the dark page the ink glows faintly, like light drawn on the night
+    if (Cinema.darkFrame && dash == null) drawPath(path, color, alpha = 0.16f * alpha.coerceIn(0f, 1f), style = Stroke(width * 4f, cap = StrokeCap.Round, join = StrokeJoin.Round))
     drawPath(path, color, alpha = alpha.coerceIn(0f, 1f), style = Stroke(width, cap = StrokeCap.Round, join = StrokeJoin.Round, pathEffect = dash))
 }
 

@@ -120,6 +120,7 @@ internal fun ArtFrame(scene: Scene, beats: () -> List<Float>, time: () -> Float,
         Canvas(Modifier.fillMaxWidth().aspectRatio(ART_ASPECT).clipToBounds()) {
             val bs = beats()
             val a = ArtCtx(scene.items.map { it.kind }, bs, time(), tags, extras, scene.items.map { it.side }, scene.items.map { it.value }, pal == DarkPalette)
+            Cinema.darkFrame = a.dark
             throughCamera(scene.layout, cameraProgress(bs), a.t) { drawLayout(scene.layout, a, pal.line) }
             drawAir(scene.layout, a.t, a.dark)
         }
@@ -300,9 +301,13 @@ internal fun DrawScope.tagAt(tl: TextLayoutResult?, c: Offset, alpha: Float, bac
     val v = Cinema.cam.visible(size.width, size.height)
     val m = 2f * density
     val x = (c.x - w / 2).coerceIn(v[0] + m, max(v[0] + m, v[2] - w - m))
-    val y = (c.y - h / 2).coerceIn(v[1] + m, max(v[1] + m, v[3] - h - m))
     val a = alpha.coerceIn(0f, 1f)
+    // tags rise into place as they appear
+    val y = (c.y - h / 2).coerceIn(v[1] + m, max(v[1] + m, v[3] - h - m)) + (1f - easeOut(a)) * 6f * density
     drawRoundRect(back, topLeft = Offset(x, y), size = Size(w, h), cornerRadius = CornerRadius(h / 2, h / 2), alpha = a)
+    // a fine rim in the tag's own colour, like glass catching the light
+    val rim = if (ink == Color.Unspecified) ArtInk.Ivory else ink
+    drawRoundRect(rim, topLeft = Offset(x, y), size = Size(w, h), cornerRadius = CornerRadius(h / 2, h / 2), alpha = a * 0.22f, style = Stroke(0.8f * density))
     drawText(tl, color = ink, topLeft = Offset(x + padX, y + padY), alpha = a)
 }
 

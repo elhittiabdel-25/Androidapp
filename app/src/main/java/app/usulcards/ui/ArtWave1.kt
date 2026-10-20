@@ -1101,7 +1101,7 @@ internal fun DrawScope.treeScene(a: ArtCtx) {
         cubicTo(top.x + 4f * dp * girth - bend * 0.3f, top.y + trunkH * 0.3f, base.x + 5f * dp * girth, base.y - trunkH * 0.5f, base.x + 8f * dp * girth, base.y)
         close()
     }
-    drawPath(trunk, TreeInk.Bark)
+    drawPath(trunk, Brush.horizontalGradient(listOf(Color(0xFF2E1E14), TreeInk.Bark, Color(0xFF8A5E3A)), startX = base.x - 9f * dp, endX = base.x + 9f * dp))
     if (crown < 1f) {
         val leafA = 1f - crown
         for (sd in listOf(-1f, 1f)) {
@@ -1131,7 +1131,8 @@ internal fun DrawScope.treeScene(a: ArtCtx) {
         for ((o, sz) in blobs) {
             val c = top + Offset(o.x * r + bend * 0.4f, o.y * r)
             val sway = (sin(t * 2f + o.x * 3f) * storm * 3f + sin(t * 0.9f + o.y * 4f) * 0.6f) * dp
-            drawCircle(mid.copy(alpha = crown * 0.85f), radius = r * 0.44f * sz, center = c + Offset(sway + r * 0.1f, -r * 0.08f))
+            val mc = c + Offset(sway + r * 0.1f, -r * 0.1f)
+            drawCircle(Brush.radialGradient(listOf(mid.copy(alpha = crown * 0.95f), mid.copy(alpha = crown * 0.5f), Color.Transparent), mc, r * 0.5f * sz), radius = r * 0.5f * sz, center = mc)
             // the low sun on the right catches the leaves on that side
             val rim = c + Offset(r * 0.32f * sz + sway, -r * 0.16f * sz)
             drawCircle(Brush.radialGradient(listOf(Color(0xFFFFC86E).copy(alpha = 0.5f * crown * clear), Color.Transparent), rim, r * 0.36f * sz), radius = r * 0.36f * sz, center = rim)

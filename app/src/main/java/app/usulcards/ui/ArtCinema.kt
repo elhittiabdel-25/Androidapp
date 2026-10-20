@@ -39,10 +39,14 @@ internal class Camera(var zoom: Float = 1f, var px: Float = 0f, var py: Float = 
 internal object Cinema {
     /** Layouts drawn on the notebook page: they follow the app theme, move less and get no dust. */
     val paper = setOf("chart", "circuit", "verdict", "board", "oath", "kin")
+    /** Scenes whose drawing fills the frame edge to edge: the camera barely moves. */
+    val tight = setOf("hourglass")
     /** Scenes where dust would read wrong (rain, a storm at sea). */
     val noDust = setOf("ship")
     /** The camera of the frame being drawn (drawing happens on one thread, one frame at a time). */
     val cam = Camera()
+    /** The frame being drawn is in the dark theme: pen lines on the notebook glow a little. */
+    var darkFrame = true
     private var grainBitmap: ImageBitmap? = null
 
     /** A small tile of film grain, made once from a fixed seed so every run looks the same. */
@@ -65,14 +69,18 @@ internal object Cinema {
 internal fun DrawScope.throughCamera(layout: String, progress: Float, t: Float, block: DrawScope.() -> Unit) {
     val w = size.width
     val h = size.height
-    val paper = layout in Cinema.paper
+    val paper = layout in Cinema.paper || layout in Cinema.tight
     val p = easeInOut(progress.coerceIn(0f, 1f))
     val breathe = 0.5f + 0.5f * sin(t * 0.33f)
-    val zoom = if (paper) 1f + 0.018f * p else 1.016f + 0.034f * p + 0.006f * breathe
+    val zoom = when {
+        layout in Cinema.tight -> 1f + 0.008f * p
+        paper -> 1f + 0.018f * p
+        else -> 1.016f + 0.034f * p + 0.006f * breathe
+    }
     val dx = if (paper) 0f else w * 0.0032f * sin(t * 0.21f + 1.3f)
     val dy = if (paper) 0f else h * 0.0032f * cos(t * 0.17f)
     val c = Cinema.cam
-    c.zoom = zoom; c.px = w * 0.5f; c.py = h * 0.46f; c.dx = dx; c.dy = dy
+    c.zoom = zoom; c.px = w * 0.5f; c.py = if (paper) h * 0.5f else h * 0.46f; c.dx = dx; c.dy = dy
     withTransform({
         translate(dx, dy)
         scale(zoom, zoom, pivot = Offset(c.px, c.py))
