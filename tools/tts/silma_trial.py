@@ -5,9 +5,11 @@ it speaks in the voice of a short reference clip. Two references are tried: a cl
 keep the app's voice) and the sample voice shipped with SILMA. Every clip is scored with the same Whisper-small
 check as the app's clips, and kept as MP3 for listening.
 
-    python3 tools/tts/silma_trial.py TOOLS_DIR OUT_DIR
+    python3 tools/tts/silma_trial.py TOOLS_DIR OUT_DIR [SHARD COUNT]
+
+With SHARD and COUNT, only every COUNT-th clip starting at SHARD is voiced (one share per parallel machine).
 """
-import json, os, subprocess, sys
+import json, os, subprocess, sys, time
 from importlib.resources import files
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -31,9 +33,13 @@ def sh(*a):
     subprocess.run(list(a), check=True)
 
 
-def main(tools, out):
+def main(tools, out, shard=0, count=1):
+    import torch
+    torch.set_num_threads(os.cpu_count() or 4)
     from silma_tts.api import SilmaTTS
     os.makedirs(out, exist_ok=True)
+    clips = CLIPS[shard::count]
+    t0 = time.time()
     speech = json.load(open(os.path.join(HERE, "speech.json"), encoding="utf-8"))
     ref_kareem = os.path.join(out, "ref-kareem.wav")
     sh("ffmpeg", "-y", "-loglevel", "error", "-i", os.path.join(ASSETS, "audio/malaika/face-2.ogg"), "-ar", "24000", "-ac", "1", ref_kareem)
@@ -43,8 +49,9 @@ def main(tools, out):
                         "ويدقق النظر في القرآن الكريم وسائر الكتب السماوية ويتبع مسالك الرسل العظام عليهم الصلاة والسلام."),
     }
     tts = SilmaTTS(enable_normalizer=False, force_tashkeel=False)
+    print(f"model loaded in {time.time() - t0:.0f}s", flush=True)
     rows, wavs = [], []
-    for clip in CLIPS:
+    for clip in clips:
         cid, key = clip.split(":")
         text = spoken(raw_text(speech[cid], key))
         row = {"clip": clip, "text": text, "plain": letters(text), "files": {}}
@@ -56,11 +63,14 @@ def main(tools, out):
         wavs.append(cur + ".16k.wav")
         for name, (rf, rt) in refs.items():
             base = os.path.join(out, f"{cid}__{key}__silma-{name}")
+            t1 = time.time()
             tts.infer(ref_file=rf, ref_text=rt, gen_text=apply_waqf(text), nfe_step=32, seed=7,
                       normalize_numbers=False, force_tashkeel=False, file_wave=base + ".wav", remove_silence=False)
             sh("ffmpeg", "-y", "-loglevel", "error", "-i", base + ".wav", "-ar", "16000", "-ac", "1", base + ".16k.wav")
             sh("ffmpeg", "-y", "-loglevel", "error", "-i", base + ".wav", "-c:a", "libmp3lame", "-q:a", "4", base + ".mp3")
             row["files"][f"silma-{name}"] = base
+            row.setdefault("seconds", {})[name] = round(time.time() - t1, 1)
+            print(f"  {clip} {name}: {time.time() - t1:.0f}s", flush=True)
             wavs.append(base + ".16k.wav")
         rows.append(row)
         print("voiced", clip, flush=True)
@@ -74,14 +84,14 @@ def main(tools, out):
             row["wer"][v] = round(wer(row["plain"], h), 3)
             row.setdefault("heard", {})[v] = h
             row["files"][v] = os.path.basename(base) + ".mp3"
-    json.dump(rows, open(os.path.join(out, "trial.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    json.dump(rows, open(os.path.join(out, f"trial-{shard}.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     names = list(rows[0]["wer"])
     lines = ["mean WER: " + ", ".join(f"{v} {sum(r['wer'][v] for r in rows) / len(rows):.3f}" for v in names)]
     for r in rows:
         lines.append(f"{r['clip']}: " + ", ".join(f"{v} {r['wer'][v]}" for v in names))
-    open(os.path.join(out, "trial.txt"), "w", encoding="utf-8").write("\n".join(lines) + "\n")
+    open(os.path.join(out, f"trial-{shard}.txt"), "w", encoding="utf-8").write("\n".join(lines) + "\n")
     print("\n".join(lines))
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+    main(sys.argv[1], sys.argv[2], *(int(x) for x in sys.argv[3:5]))

@@ -12,7 +12,11 @@ permissions:
 jobs:
   trial:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8]
     defaults:
       run:
         shell: bash
@@ -41,7 +45,7 @@ jobs:
             | tar xj --exclude='*/small-encoder.onnx' --exclude='*/small-decoder.onnx'
 
       - name: Voice and score
-        run: python3 tools/tts/silma_trial.py "$RUNNER_TEMP/tools" "$RUNNER_TEMP/out" 2>&1 | tee "$RUNNER_TEMP/trial.log"
+        run: python3 tools/tts/silma_trial.py "$RUNNER_TEMP/tools" "$RUNNER_TEMP/out" ${{ matrix.shard }} 9 2>&1 | tee "$RUNNER_TEMP/trial.log"
 
       - name: Publish
         if: always()
@@ -49,8 +53,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           cd "$RUNNER_TEMP"
-          mkdir -p pub && cp out/*.mp3 out/trial.* pub/ 2>/dev/null || true
-          tail -200 trial.log > pub/trial.log
-          (cd pub && zip -q ../voice-trial.zip *)
-          gh release view voice-trial -R "$GITHUB_REPOSITORY" >/dev/null 2>&1 || gh release create voice-trial -R "$GITHUB_REPOSITORY" --prerelease --target voice-trial --title "Voice trial" --notes "Kareem now vs SILMA TTS on the same sentences."
-          gh release upload voice-trial -R "$GITHUB_REPOSITORY" voice-trial.zip pub/trial.txt pub/trial.log --clobber
+          n=${{ matrix.shard }}
+          mkdir -p pub && cp out/*.mp3 out/trial-* pub/ 2>/dev/null || true
+          grep -v "it/s\]\|s/it\]" trial.log | tail -300 > pub/trial-$n.log
+          (cd pub && zip -q ../voice-trial-$n.zip *)
+          gh release view voice-trial -R "$GITHUB_REPOSITORY" >/dev/null 2>&1 || gh release create voice-trial -R "$GITHUB_REPOSITORY" --prerelease --target voice-trial --title "Voice trial" --notes "Kareem now vs SILMA TTS on the same sentences." || true
+          gh release upload voice-trial -R "$GITHUB_REPOSITORY" voice-trial-$n.zip --clobber
