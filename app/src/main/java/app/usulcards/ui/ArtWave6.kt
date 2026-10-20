@@ -148,15 +148,15 @@ internal fun DrawScope.amuletScene(a: ArtCtx) {
         val tip = rest + drop
         val al = appear * (1f - fall)
         when (k) {
-            0 -> drawCircle(ArtInk.Brass, radius = h * 0.04f, center = tip + Offset(0f, h * 0.04f), alpha = al, style = Stroke(3f * dp))
+            0 -> drawCircle(ArtInk.Brass, radius = h * 0.05f, center = tip + Offset(0f, h * 0.05f), alpha = al, style = Stroke(3.5f * dp))
             1 -> {
-                val pts = List(9) { m -> tip + Offset(sin(m * 1.3f + t * 2f) * 2.5f * dp, m * h * 0.012f) }
-                for (m in 1 until pts.size) drawLine(Color(0xFFB0402B), pts[m - 1], pts[m], 2f * dp, cap = StrokeCap.Round, alpha = al)
-                for (m in intArrayOf(2, 5, 8)) drawCircle(Color(0xFFB0402B), radius = 2.6f * dp, center = pts[m], alpha = al)
+                val pts = List(10) { m -> tip + Offset(sin(m * 1.3f + t * 2f) * 3f * dp, m * h * 0.012f) }
+                for (m in 1 until pts.size) drawLine(Color(0xFFB0402B), pts[m - 1], pts[m], 2.4f * dp, cap = StrokeCap.Round, alpha = al)
+                for (m in intArrayOf(2, 5, 8)) drawCircle(Color(0xFFB0402B), radius = 3.2f * dp, center = pts[m], alpha = al)
             }
             else -> {
-                val pc = tip + Offset(0f, h * 0.05f)
-                val pw = h * 0.07f
+                val pc = tip + Offset(0f, h * 0.06f)
+                val pw = h * 0.085f
                 drawRoundRect(Still.Leather, topLeft = pc - Offset(pw / 2, pw * 0.6f), size = Size(pw, pw * 1.2f), cornerRadius = CornerRadius(pw * 0.2f), alpha = al)
                 drawRoundRect(Still.Thread, topLeft = pc - Offset(pw / 2 - 2f * dp, pw * 0.6f - 2f * dp), size = Size(pw - 4f * dp, pw * 1.2f - 4f * dp),
                     cornerRadius = CornerRadius(pw * 0.15f), alpha = al * 0.7f,
@@ -172,8 +172,8 @@ internal fun DrawScope.amuletScene(a: ArtCtx) {
         val s1 = Offset(w * 0.42f, h * 0.27f)
         drawLine(Still.Light, s0, s0 + (s1 - s0) * easeOut(seg(snip, 0f, 0.3f)), 2.2f * dp, cap = StrokeCap.Round, alpha = 1f - seg(snip, 0.4f, 0.7f))
         val gone = 1f - seg(page, 0f, 0.3f)
-        tagAt(a.tag("snip", 0, 0), Offset(w * 0.69f, h * 0.5f), seg(snip, 0.3f, 0.7f) * gone, back = Still.Back, ink = Still.Bad)
-        tagAt(a.tag("snip", 0, 1), Offset(w * 0.5f, h * 0.045f), seg(snip, 0.5f, 1f) * gone, back = Still.Back, ink = Still.Thread)
+        tagAt(a.tag("snip", 0, 0), Offset(w * 0.69f, h * 0.52f), seg(snip, 0.3f, 0.7f) * gone, back = Still.Back, ink = Still.Bad)
+        tagAt(a.tag("snip", 0, 1), Offset(w * 0.5f, h * 0.36f), seg(snip, 0.5f, 1f) * gone, back = Still.Back, ink = Still.Thread)
     }
     // the page of ruqya
     if (page > 0f) {
@@ -262,13 +262,8 @@ internal fun DrawScope.knotsScene(a: ArtCtx) {
         for (k in 0 until n) {
             val x = mix(w * 0.95f, w * 0.05f, (k + 1f) / (n + 1f))
             // the light reaches each knot in turn, from the right
-            val r = h * 0.035f * (1f - seg(loose, k / n.toFloat(), (k + 1f) / n))
-            if (r > 0.5f) {
-                val edge = lerpC(Still.Thread, Still.Bad, hot)
-                drawCircle(Color(0xFF2A1A12), radius = r, center = Offset(x, y), alpha = act2)
-                drawCircle(edge, radius = r, center = Offset(x, y), alpha = act2 * 0.85f, style = Stroke(1.6f * dp))
-                drawLine(edge, Offset(x - r, y - r * 0.6f), Offset(x + r, y + r * 0.6f), 1.2f * dp, alpha = act2 * 0.85f)
-            }
+            val r = h * 0.04f * (1f - seg(loose, k / n.toFloat(), (k + 1f) / n))
+            if (r > 0.5f) knot(Offset(x, y), r, lerpC(Still.Thread, Still.Bad, hot), act2)
         }
         tagAt(a.tag("knotted"), Offset(w * 0.5f, h * 0.14f), act2 * seg(rope, 0.4f, 0.9f) * (1f - seg(fake, 0f, 0.3f)), back = Still.Back, ink = Still.Thread)
         // the false cure: more magic — smoke round the knots, which only burn hotter; rejected
@@ -293,6 +288,21 @@ internal fun DrawScope.knotsScene(a: ArtCtx) {
             tagAt(a.tag("cure", 0, 0), Offset(w * 0.68f, y + h * 0.13f), seg(cure, 0.2f, 0.6f), back = Still.Back, ink = Still.Light)
             tagAt(a.tag("cure", 0, 1), Offset(w * 0.72f, h * 0.14f), seg(cure, 0.6f, 1f), back = Still.Back, ink = Still.Ok)
         }
+    }
+}
+
+/** A knot on the rope: a bulge of coiled turns (no ring with a slash: that reads as a "no" sign). */
+private fun DrawScope.knot(c: Offset, r: Float, edge: Color, alpha: Float) {
+    val dp = density
+    drawOval(Color(0xFF8C7A5E), topLeft = c - Offset(r * 1.1f, r * 0.75f), size = Size(r * 2.2f, r * 1.5f), alpha = alpha)
+    drawOval(Color(0xFF2A1A12), topLeft = c - Offset(r * 1.1f, r * 0.75f), size = Size(r * 2.2f, r * 1.5f), alpha = alpha * 0.8f, style = Stroke(1f * dp))
+    for (m in -1..1) {
+        val x0 = c.x + m * r * 0.6f + r * 0.15f
+        val turn = Path().apply {
+            moveTo(x0, c.y - r * 0.72f)
+            quadraticBezierTo(x0 + r * 0.35f, c.y, x0 - r * 0.3f, c.y + r * 0.72f)
+        }
+        drawPath(turn, edge, alpha = alpha, style = Stroke(1.8f * dp, cap = StrokeCap.Round))
     }
 }
 
@@ -403,23 +413,26 @@ private fun DrawScope.lightOf(kind: Int, c: Offset, u: Float, p: Float, t: Float
             val fl = 0.85f + 0.15f * sin(t * 7f)
             drawLine(Color(0xFF8A6A43), c + Offset(0f, u * 0.1f), c + Offset(u * 0.12f, u * 1.1f), 3f * dp, cap = StrokeCap.Round, alpha = p)
             drawCircle(Brush.radialGradient(listOf(gold.copy(alpha = 0.45f * p), Color.Transparent), center = c, radius = u * 1.8f), radius = u * 1.8f, center = c)
-            flame(c, u * 0.42f * p, u * 0.95f * p * fl, gold, p)
+            flame(c, u * 0.45f * p, u * 1.1f * p * fl, gold, p)
         }
         else -> {
             val weak = kind == 4
+            val v = u * 1.35f
             val flick = if (weak) 0.6f + 0.4f * sin(t * 11f) * sin(t * 3.7f) else 0.92f + 0.08f * sin(t * 5f)
             val dish = Path().apply {
-                moveTo(c.x - u * 0.55f, c.y + u * 0.35f)
-                quadraticBezierTo(c.x, c.y + u * 0.75f, c.x + u * 0.55f, c.y + u * 0.35f)
-                lineTo(c.x + u * 0.75f, c.y + u * 0.3f)
+                moveTo(c.x - v * 0.55f, c.y + v * 0.35f)
+                quadraticBezierTo(c.x, c.y + v * 0.75f, c.x + v * 0.55f, c.y + v * 0.35f)
+                lineTo(c.x + v * 0.75f, c.y + v * 0.3f)
                 close()
             }
             drawPath(dish, Color(0xFFB98A55), alpha = p)
-            val fs = if (weak) 0.28f else 0.42f
-            val halo = u * (if (weak) 0.8f else 1.4f)
-            drawCircle(Brush.radialGradient(listOf(gold.copy(alpha = (if (weak) 0.25f else 0.4f) * p * flick), Color.Transparent), center = c, radius = halo),
-                radius = halo, center = c)
-            flame(c + Offset(u * 0.45f, u * 0.25f), u * fs * 0.45f, u * fs * 1.2f * flick, gold, p)
+            val base = c + Offset(v * 0.45f, v * 0.25f)
+            val tall = v * (if (weak) 0.35f else 0.6f) * flick
+            val halo = v * (if (weak) 0.6f else 1.2f)
+            val mid = base - Offset(0f, tall * 0.5f)
+            drawCircle(Brush.radialGradient(listOf(gold.copy(alpha = (if (weak) 0.18f else 0.38f) * p * flick), Color.Transparent), center = mid, radius = halo),
+                radius = halo, center = mid)
+            flame(base, v * (if (weak) 0.1f else 0.17f), tall, gold, p)
         }
     }
 }
@@ -625,8 +638,8 @@ internal fun DrawScope.neonScene(a: ArtCtx) {
 
 private fun DrawScope.neonWord(tl: TextLayoutResult, c: Offset, scale: Float, color: Color, glow: Float) {
     if (glow <= 0.01f) return
-    val rw = tl.size.width * scale * 0.75f
-    drawOval(Brush.radialGradient(listOf(color.copy(alpha = 0.35f * glow), Color.Transparent), center = c, radius = rw),
+    val rw = tl.size.width * scale * 0.62f
+    drawOval(Brush.radialGradient(listOf(color.copy(alpha = 0.28f * glow), Color.Transparent), center = c, radius = rw),
         topLeft = c - Offset(rw, rw * 0.45f), size = Size(rw * 2f, rw * 0.9f))
     // the glass tube: a soft, wider copy under the bright line
     bigText(tl, c, scale * 1.04f, color, glow * 0.4f)
@@ -728,8 +741,8 @@ internal fun DrawScope.kinScene(a: ArtCtx) {
     drawRect(pp.bg)
     // parchment: soft fibres and a vignette instead of a grid
     for (k in 0 until 40) {
-        val y = fract(k * 0.618f) * h
-        val x = fract(k * 0.382f + 0.1f) * w
+        val x = fract(k * 0.7548777f + 0.13f) * w
+        val y = fract(k * 0.5698403f + 0.29f) * h
         drawLine(pp.faint, Offset(x, y), Offset(x + w * 0.06f, y + h * 0.005f), 0.6f * dp, alpha = 0.18f)
     }
     drawRect(Brush.radialGradient(listOf(Color.Transparent, pp.faint.copy(alpha = 0.25f)), center = Offset(w / 2, h / 2), radius = w * 0.75f))
