@@ -1,0 +1,56 @@
+name: Voice trial
+
+# Voices a few cards with SILMA TTS next to the current Kareem clips and scores both with Whisper.
+# The clips and the scores go to the "voice-trial" pre-release.
+on:
+  push:
+    branches: [voice-trial]
+
+permissions:
+  contents: write
+
+jobs:
+  trial:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+
+      - name: Install SILMA TTS (CPU)
+        run: |
+          pip install --quiet torch==2.8.0 torchaudio==2.8.0 torchvision==0.23.0 --index-url https://download.pytorch.org/whl/cpu
+          pip install --quiet torchcodec==0.7.0
+          pip install --quiet "git+https://github.com/SILMA-AI/silma-tts.git"
+          python -c "import silma_tts, torch; print('silma ok, torch', torch.__version__)"
+
+      - name: Download Whisper-small for the check
+        run: |
+          mkdir -p "$RUNNER_TEMP/tools" && cd "$RUNNER_TEMP/tools"
+          curl -sL https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.20/sherpa-onnx-v1.12.20-linux-x64-static.tar.bz2 | tar xj
+          curl -sL https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-whisper-small.tar.bz2 \
+            | tar xj --exclude='*/small-encoder.onnx' --exclude='*/small-decoder.onnx'
+
+      - name: Voice and score
+        run: python3 tools/tts/silma_trial.py "$RUNNER_TEMP/tools" "$RUNNER_TEMP/out" 2>&1 | tee "$RUNNER_TEMP/trial.log"
+
+      - name: Publish
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd "$RUNNER_TEMP"
+          mkdir -p pub && cp out/*.mp3 out/trial.* pub/ 2>/dev/null || true
+          tail -200 trial.log > pub/trial.log
+          (cd pub && zip -q ../voice-trial.zip *)
+          gh release view voice-trial -R "$GITHUB_REPOSITORY" >/dev/null 2>&1 || gh release create voice-trial -R "$GITHUB_REPOSITORY" --prerelease --target voice-trial --title "Voice trial" --notes "Kareem now vs SILMA TTS on the same sentences."
+          gh release upload voice-trial -R "$GITHUB_REPOSITORY" voice-trial.zip pub/trial.txt pub/trial.log --clobber
