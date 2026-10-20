@@ -1,7 +1,7 @@
-"""Merge the first 16 cards with batches 2, 3 and 4 into cards.json (screen text) and speech.json (vowelled speech).
+"""Merge the first 16 cards with batches 2 to 5 into cards.json (screen text) and speech.json (vowelled speech).
 
 The batch files are the source of truth: their speech entries are rewritten on every run; sources found in
-later books are merged into the earlier cards (MERGE_SOURCES of batch 2, MERGE_SOURCES3 and MERGE_SOURCES4 after).
+later books are merged into the earlier cards (MERGE_SOURCES of batch 2, then MERGE_SOURCES3, 4 and 5).
 """
 import json, re, sys, copy, os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -11,6 +11,7 @@ from cards_src import CARDS as OLD, BOOKS as OLD_BOOKS
 from cards_batch2 import NEW, BOOKS2, MERGE_SOURCES
 from cards_batch3 import NEW3, BOOKS3, MERGE_SOURCES3
 from cards_batch4 import NEW4, BOOKS4, MERGE_SOURCES4
+from cards_batch5 import NEW5, BOOKS5, MERGE_SOURCES5
 H = re.compile(r'[ً-ْٰـ]')
 def shown(s): return re.sub(r'\{[^}]*\}', '', re.sub(r'\[([^|\]]*)\|([^\]]*)\]', r'\1', s))
 def plain(s): return H.sub('', shown(s))
@@ -28,7 +29,7 @@ def add_sources(card, extra):
         if not any(s["book"] == b for s in card["sources"]):      # one entry per book
             card["sources"].append({"book": b, "pages": p})
 cards, speech = [], json.load(open(os.path.join(HERE, '..', 'tts', 'speech.json'), encoding='utf-8'))
-books = dict(OLD_BOOKS); books.update(BOOKS2); books.update(BOOKS3); books.update(BOOKS4)
+books = dict(OLD_BOOKS); books.update(BOOKS2); books.update(BOOKS3); books.update(BOOKS4); books.update(BOOKS5)
 for c in OLD:                                   # first 16 cards: same text and audio, extra sources merged in
     c = copy.deepcopy(c)
     for e in c["evidence"]:
@@ -36,8 +37,9 @@ for c in OLD:                                   # first 16 cards: same text and 
     add_sources(c, MERGE_SOURCES.get(c["id"], []))
     add_sources(c, MERGE_SOURCES3.get(c["id"], []))
     add_sources(c, MERGE_SOURCES4.get(c["id"], []))
+    add_sources(c, MERGE_SOURCES5.get(c["id"], []))
     cards.append(c)
-for c in NEW + NEW3 + NEW4:
+for c in NEW + NEW3 + NEW4 + NEW5:
     ev = [quran_ev(q) if isinstance(q, str) else quran_ev(*q) for q in c["quran"]]
     ev += [{"kind": "hadith", "text": plain(t), "takhrij": tk} for t, tk in c["hadith"]]
     out = {"id": c["id"], "type": c["type"], "topic": c["topic"], "path": c["path"], "order": c["order"],
@@ -48,6 +50,7 @@ for c in NEW + NEW3 + NEW4:
            **({"verify": [{"level": l, "text": t} for l, t in c["verify"]]} if c.get("verify") else {})}
     add_sources(out, MERGE_SOURCES3.get(c["id"], []))
     add_sources(out, MERGE_SOURCES4.get(c["id"], []))
+    add_sources(out, MERGE_SOURCES5.get(c["id"], []))
     cards.append(out)
     speech[c["id"]] = {"title": c["title"], "face": c["face"], "deeper": c["deeper"], "hadith": [t for t, _ in c["hadith"]]}
 json.dump({"books": books, "cards": cards}, open(os.path.join(HERE, 'cards.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
