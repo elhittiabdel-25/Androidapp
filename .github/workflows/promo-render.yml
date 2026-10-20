@@ -1,0 +1,59 @@
+name: promo-render
+# Renders the Re-Iman promo (HyperFrames) on every push to the promo branch.
+# Outputs (MP4s, check reports, snapshots) are uploaded as the "promo-out" artifact.
+on:
+  push:
+    branches: [promo]
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install FFmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - name: Usage
+        run: npx -y hyperframes@latest usage --json || true
+      - name: Scaffold both cuts
+        run: |
+          set -x
+          mkdir -p work out
+          for v in land port; do
+            npx -y hyperframes@latest init work/$v --non-interactive --example=blank
+            cp video/$v/index.html work/$v/index.html
+            rm -rf work/$v/assets && cp -r video/assets work/$v/assets
+            ls -la work/$v
+          done
+      - name: Doctor
+        working-directory: work/land
+        run: npx -y hyperframes@latest doctor --json | tee ../../out/doctor.json || true
+      - name: Check
+        run: |
+          for v in land port; do
+            (cd work/$v && npx -y hyperframes@latest check --json > ../../out/check-$v.json 2> ../../out/check-$v.log) || echo "check $v reported findings"
+          done
+      - name: Snapshots
+        run: |
+          (cd work/land && npx -y hyperframes@latest snapshot --at 1.2,2.9,5.9,12,26,34.2,38.6,48.5 --output ../../out/snaps-land) || true
+          (cd work/port && npx -y hyperframes@latest snapshot --at 1.2,5.9,12,34.2,38.6,48.5 --output ../../out/snaps-port) || true
+      - name: Render 16:9
+        working-directory: work/land
+        run: npx -y hyperframes@latest render --quality delivery --output ../../out/reiman-promo-16x9.mp4 2>&1 | tee ../../out/render-land.log
+      - name: Render 9:16
+        working-directory: work/port
+        run: npx -y hyperframes@latest render --quality delivery --output ../../out/reiman-promo-9x16.mp4 2>&1 | tee ../../out/render-port.log
+      - name: Probe
+        if: always()
+        run: for f in out/*.mp4; do ffprobe -v error -show_entries format=duration:stream=codec_name,width,height -of compact "$f"; done || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: promo-out
+          path: out

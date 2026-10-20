@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Re-Iman promo (port)</title>
+<script src="assets/gsap.min.js"></script>
+<style>
+@font-face { font-family: "Kufi"; src: url("assets/fonts/kufi_bold.ttf") format("truetype"); font-weight: 700; }
+@font-face { font-family: "Plex"; src: url("assets/fonts/plex_regular.ttf") format("truetype"); font-weight: 400; }
+@font-face { font-family: "Plex"; src: url("assets/fonts/plex_semibold.ttf") format("truetype"); font-weight: 600; }
+@font-face { font-family: "Naskh"; src: url("assets/fonts/naskh_bold.ttf") format("truetype"); font-weight: 700; }
+html, body { margin: 0; background: #101217; }
+#root { position: relative; width: 100%; height: 100%; overflow: hidden; color: #fff; font-family: "Plex", sans-serif; }
+.layer { position: absolute; inset: 0; }
+#bg-grey { background: radial-gradient(circle at 50% 30%, #2a2d35 0%, #191b21 45%, #0e0f13 100%); }
+#bg-blue { opacity: 0; background: radial-gradient(circle at 50% 30%, #3560cc 0%, #23439A 40%, #132863 100%); }
+.stars { position: absolute; inset: 0; display: block; }
+
+#phone-float { position: absolute; left: 224px; top: 604px; width: 632px; height: 1235px; }
+#phone { width: 100%; height: 100%; box-sizing: border-box; padding: 16px; border-radius: 84px;
+  background: #06080c; box-shadow: 0 52px 118px rgba(0,0,0,.5), inset 0 0 0 2px #2b3346; }
+#screen { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 68px; background: #0D121A; }
+.vw { position: absolute; inset: 0; opacity: 0; }
+.vw video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+
+#feed-wrap { position: absolute; inset: 0; background: #15171c; }
+#feed { position: absolute; left: 18.4px; right: 18.4px; top: 92.1px; }
+#topbar { position: absolute; left: 0; right: 0; top: 0; height: 76.3px; background: #15171c; display: flex; align-items: center;
+  justify-content: space-between; padding: 0 23.7px; box-sizing: border-box; border-bottom: 1px solid #262931; }
+#topbar .bar { width: 144.7px; height: 21.1px; }
+#topbar .ic { width: 34.2px; height: 34.2px; }
+.post { background: #1f2228; display: flex; flex-direction: column; }
+.who { display: flex; align-items: center; }
+.names { display: flex; flex-direction: column; }
+.av { border-radius: 50%; flex: none; }
+.bar { background: #3a3e48; border-radius: 99px; }
+.bar.dim { background: #2e3139; }
+.media { position: relative; border-radius: 18.4px; overflow: hidden; }
+.blob { position: absolute; border-radius: 50%; background: rgba(255,255,255,.18); }
+.play { position: absolute; inset: 0; margin: auto; border-radius: 50%; background: rgba(0,0,0,.35); }
+.acts { display: flex; align-items: center; }
+.heart { background: #e0566b; border-radius: 30%; }
+.ic { border: 3px solid #4a4f5b; border-radius: 50%; box-sizing: border-box; }
+#touch { position: absolute; left: 58%; top: 68%; width: 84px; height: 84px; border-radius: 50%;
+  background: rgba(255,255,255,.55); box-shadow: 0 0 0 8px rgba(255,255,255,.18); opacity: 0; }
+#dim { position: absolute; inset: 0; background: #070910; opacity: 0; }
+#mark-wrap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.logo { display: block; overflow: visible; }
+
+#brand { position: absolute; display: flex; align-items: center; gap: 16px; opacity: 0; left:0;right:0;top:58px;justify-content:center; }
+#brand .tile { display: block; }
+#brand .bn { font: 600 40px/1 "Plex", sans-serif; letter-spacing: -0.5px; direction: ltr; }
+.re { color: #E5B54B; }
+
+#panel { position: absolute; left: 70px; top: 150px; width: 940px; height: 430px; }
+.say { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center;
+  align-items: center; gap: 14px; }
+.say p { margin: 0; opacity: 0; }
+.ar { text-wrap: balance; direction: rtl; text-align: center; font: 700 68px/1.38 "Kufi", sans-serif; color: #F7F3EA; max-width: 940px; }
+.en { text-wrap: balance; direction: ltr; text-align: center; font: 400 31px/1.4 "Plex", sans-serif; color: #C8D2EC; max-width: 940px; margin-top: 12px !important; }
+#say-hook .ar { color: #E9EBEF; font-size: 82px; }
+#say-hook .en { color: #A9AEB9; }
+.ar.big { font-size: 78px; display: flex; align-items: baseline; gap: 22px; direction: rtl; }
+.num { display: inline-block; color: #E5B54B; font: 700 136px/1 "Kufi", sans-serif; font-variant-numeric: tabular-nums; min-width: 142px; text-align: center; }
+.num.sm { font-size: 74px; min-width: 81px; }
+
+#end { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; }
+#end .word { font: 600 150px/1 "Plex", sans-serif; letter-spacing: -2px; direction: ltr; opacity: 0; margin-top: 10px; }
+#end .tag { font: 700 72px/1.4 "Naskh", serif; direction: rtl; color: #F7F3EA; opacity: 0; }
+#pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; margin-top: 18px; direction: rtl; max-width: 1000px; }
+.pill { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 30px; border-radius: 999px;
+  background: rgba(255,255,255,.1); border: 1.5px solid rgba(255,255,255,.28); opacity: 0; }
+.pa { font: 700 40px/1.2 "Kufi", sans-serif; direction: rtl; }
+.pe { font: 400 22px/1.2 "Plex", sans-serif; color: #C8D2EC; direction: ltr; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="reiman-promo" data-start="0" data-width="1080" data-height="1920" data-duration="50.8">
+  <div class="layer" id="bg-grey"></div>
+  <div class="layer" id="bg-blue"><svg class="stars" viewBox="0 0 1080 1920" width="1080" height="1920" xmlns="http://www.w3.org/2000/svg"><circle cx="350" cy="290" r="1.8" fill="#fff" opacity="0.15"/><circle cx="579" cy="702" r="0.9" fill="#fff" opacity="0.34"/><circle cx="40" cy="833" r="0.9" fill="#fff" opacity="0.16"/><circle cx="458" cy="1588" r="1.0" fill="#fff" opacity="0.22"/><circle cx="678" cy="1820" r="1.7" fill="#fff" opacity="0.29"/><circle cx="1054" cy="89" r="2.1" fill="#fff" opacity="0.24"/><circle cx="156" cy="226" r="1.3" fill="#fff" opacity="0.47"/><circle cx="195" cy="1117" r="1.8" fill="#fff" opacity="0.28"/><circle cx="592" cy="121" r="0.9" fill="#fff" opacity="0.21"/><circle cx="735" cy="821" r="1.3" fill="#fff" opacity="0.37"/><circle cx="489" cy="576" r="2.0" fill="#fff" opacity="0.42"/><circle cx="264" cy="1103" r="1.6" fill="#fff" opacity="0.50"/><circle cx="788" cy="553" r="2.3" fill="#fff" opacity="0.17"/><circle cx="452" cy="1454" r="1.0" fill="#fff" opacity="0.33"/><circle cx="42" cy="1283" r="1.9" fill="#fff" opacity="0.37"/><circle cx="946" cy="602" r="1.8" fill="#fff" opacity="0.38"/><circle cx="626" cy="876" r="2.1" fill="#fff" opacity="0.53"/><circle cx="512" cy="1275" r="0.9" fill="#fff" opacity="0.42"/><circle cx="699" cy="1907" r="2.0" fill="#fff" opacity="0.24"/><circle cx="417" cy="1284" r="0.8" fill="#fff" opacity="0.32"/><circle cx="181" cy="225" r="0.9" fill="#fff" opacity="0.45"/><circle cx="140" cy="475" r="1.4" fill="#fff" opacity="0.49"/><circle cx="87" cy="862" r="1.6" fill="#fff" opacity="0.50"/><circle cx="885" cy="1659" r="1.2" fill="#fff" opacity="0.30"/><circle cx="387" cy="1698" r="2.2" fill="#fff" opacity="0.18"/><circle cx="190" cy="445" r="1.2" fill="#fff" opacity="0.33"/><circle cx="636" cy="504" r="0.8" fill="#fff" opacity="0.30"/><circle cx="399" cy="1087" r="2.2" fill="#fff" opacity="0.42"/><circle cx="557" cy="1186" r="1.8" fill="#fff" opacity="0.14"/><circle cx="971" cy="1498" r="2.1" fill="#fff" opacity="0.46"/><circle cx="424" cy="766" r="1.0" fill="#fff" opacity="0.39"/><circle cx="67" cy="129" r="1.1" fill="#fff" opacity="0.19"/><circle cx="367" cy="101" r="0.8" fill="#fff" opacity="0.19"/><circle cx="110" cy="698" r="0.8" fill="#fff" opacity="0.50"/><circle cx="663" cy="285" r="1.2" fill="#fff" opacity="0.27"/><circle cx="393" cy="236" r="2.1" fill="#fff" opacity="0.55"/><circle cx="503" cy="929" r="0.9" fill="#fff" opacity="0.16"/><circle cx="370" cy="508" r="2.0" fill="#fff" opacity="0.19"/><circle cx="25" cy="1826" r="1.6" fill="#fff" opacity="0.18"/><circle cx="587" cy="52" r="1.6" fill="#fff" opacity="0.54"/><circle cx="932" cy="1337" r="1.2" fill="#fff" opacity="0.28"/><circle cx="180" cy="1482" r="1.6" fill="#fff" opacity="0.45"/><circle cx="356" cy="428" r="2.0" fill="#fff" opacity="0.54"/><circle cx="921" cy="1548" r="2.0" fill="#fff" opacity="0.44"/><circle cx="245" cy="994" r="1.3" fill="#fff" opacity="0.13"/><circle cx="30" cy="536" r="1.2" fill="#fff" opacity="0.42"/><circle cx="1033" cy="859" r="2.2" fill="#fff" opacity="0.54"/><circle cx="1031" cy="700" r="1.1" fill="#fff" opacity="0.22"/><circle cx="212" cy="392" r="1.7" fill="#fff" opacity="0.51"/><circle cx="908" cy="921" r="1.8" fill="#fff" opacity="0.46"/><circle cx="92" cy="1268" r="2.2" fill="#fff" opacity="0.46"/><circle cx="810" cy="918" r="1.1" fill="#fff" opacity="0.46"/><circle cx="359" cy="1538" r="2.3" fill="#fff" opacity="0.29"/><circle cx="433" cy="1818" r="1.9" fill="#fff" opacity="0.19"/><circle cx="137" cy="290" r="2.2" fill="#fff" opacity="0.47"/><circle cx="158" cy="1587" r="2.3" fill="#fff" opacity="0.40"/><circle cx="378" cy="1053" r="1.0" fill="#fff" opacity="0.13"/><circle cx="1049" cy="1247" r="1.6" fill="#fff" opacity="0.52"/><circle cx="469" cy="1674" r="2.0" fill="#fff" opacity="0.21"/><circle cx="272" cy="562" r="1.2" fill="#fff" opacity="0.37"/><circle cx="280" cy="805" r="1.0" fill="#fff" opacity="0.51"/><circle cx="382" cy="880" r="1.7" fill="#fff" opacity="0.51"/><circle cx="454" cy="1762" r="1.6" fill="#fff" opacity="0.35"/><circle cx="565" cy="36" r="1.5" fill="#fff" opacity="0.20"/><circle cx="4" cy="1534" r="1.1" fill="#fff" opacity="0.32"/><circle cx="783" cy="1068" r="1.3" fill="#fff" opacity="0.34"/><circle cx="600" cy="1506" r="1.0" fill="#fff" opacity="0.36"/><circle cx="268" cy="532" r="2.0" fill="#fff" opacity="0.34"/><circle cx="607" cy="1459" r="2.2" fill="#fff" opacity="0.31"/><circle cx="662" cy="971" r="1.6" fill="#fff" opacity="0.42"/><circle cx="489" cy="1024" r="1.5" fill="#fff" opacity="0.52"/><circle cx="755" cy="1683" r="2.2" fill="#fff" opacity="0.23"/><circle cx="604" cy="1811" r="2.1" fill="#fff" opacity="0.18"/><circle cx="131" cy="849" r="0.9" fill="#fff" opacity="0.22"/><circle cx="79" cy="1285" r="2.0" fill="#fff" opacity="0.51"/><circle cx="167" cy="1375" r="1.8" fill="#fff" opacity="0.18"/><circle cx="953" cy="1858" r="1.1" fill="#fff" opacity="0.53"/><circle cx="430" cy="936" r="2.3" fill="#fff" opacity="0.48"/><circle cx="174" cy="829" r="1.6" fill="#fff" opacity="0.27"/><circle cx="211" cy="612" r="1.9" fill="#fff" opacity="0.13"/><circle cx="598" cy="846" r="0.8" fill="#fff" opacity="0.26"/><circle cx="674" cy="984" r="0.9" fill="#fff" opacity="0.54"/><circle cx="851" cy="1866" r="1.0" fill="#fff" opacity="0.23"/><circle cx="43" cy="1496" r="1.2" fill="#fff" opacity="0.18"/><circle cx="456" cy="1750" r="2.0" fill="#fff" opacity="0.23"/><circle cx="161" cy="1765" r="1.7" fill="#fff" opacity="0.42"/><circle cx="97" cy="110" r="1.8" fill="#fff" opacity="0.30"/><circle cx="78" cy="1802" r="1.8" fill="#fff" opacity="0.46"/><circle cx="90" cy="1644" r="0.9" fill="#fff" opacity="0.49"/><circle cx="490" cy="651" r="1.6" fill="#fff" opacity="0.52"/><circle cx="289" cy="248" r="1.6" fill="#fff" opacity="0.22"/><circle cx="118" cy="310" r="0.9" fill="#fff" opacity="0.21"/><circle cx="337" cy="586" r="1.9" fill="#fff" opacity="0.24"/><circle cx="540" cy="342" r="1.3" fill="#fff" opacity="0.13"/><circle cx="270" cy="29" r="1.9" fill="#fff" opacity="0.36"/><circle cx="205" cy="912" r="2.2" fill="#fff" opacity="0.17"/><circle cx="884" cy="830" r="1.5" fill="#fff" opacity="0.48"/><circle cx="425" cy="973" r="1.8" fill="#fff" opacity="0.54"/><circle cx="370" cy="1598" r="1.9" fill="#fff" opacity="0.39"/><circle cx="437" cy="667" r="0.9" fill="#fff" opacity="0.18"/><circle cx="76" cy="1423" r="1.2" fill="#fff" opacity="0.19"/><circle cx="91" cy="1615" r="2.1" fill="#fff" opacity="0.41"/><circle cx="304" cy="465" r="1.2" fill="#fff" opacity="0.32"/><circle cx="170" cy="856" r="1.2" fill="#fff" opacity="0.53"/><circle cx="1050" cy="1050" r="1.2" fill="#fff" opacity="0.54"/><circle cx="334" cy="685" r="0.8" fill="#fff" opacity="0.28"/><circle cx="513" cy="965" r="1.1" fill="#fff" opacity="0.34"/><circle cx="5" cy="507" r="0.9" fill="#fff" opacity="0.29"/><circle cx="45" cy="43" r="1.3" fill="#fff" opacity="0.22"/><circle cx="632" cy="1016" r="1.9" fill="#fff" opacity="0.40"/><circle cx="773" cy="1688" r="1.4" fill="#fff" opacity="0.26"/><circle cx="1064" cy="287" r="1.9" fill="#fff" opacity="0.40"/><circle cx="47" cy="1604" r="2.1" fill="#fff" opacity="0.39"/><circle cx="793" cy="1559" r="1.0" fill="#fff" opacity="0.35"/><circle cx="545" cy="1603" r="2.0" fill="#fff" opacity="0.48"/><circle cx="631" cy="1714" r="1.8" fill="#fff" opacity="0.42"/><circle cx="248" cy="60" r="1.0" fill="#fff" opacity="0.28"/><circle cx="113" cy="1605" r="1.6" fill="#fff" opacity="0.39"/><circle cx="676" cy="1307" r="1.5" fill="#fff" opacity="0.12"/><circle cx="862" cy="1437" r="1.6" fill="#fff" opacity="0.35"/><circle cx="712" cy="127" r="1.9" fill="#fff" opacity="0.23"/><circle cx="80" cy="510" r="1.9" fill="#fff" opacity="0.21"/><circle cx="799" cy="1873" r="1.5" fill="#fff" opacity="0.28"/><circle cx="517" cy="1313" r="2.0" fill="#fff" opacity="0.39"/><circle cx="694" cy="149" r="1.0" fill="#fff" opacity="0.23"/><circle cx="803" cy="584" r="1.7" fill="#fff" opacity="0.13"/><circle cx="66" cy="516" r="1.8" fill="#fff" opacity="0.42"/><circle cx="730" cy="558" r="1.6" fill="#fff" opacity="0.32"/><circle cx="504" cy="228" r="2.1" fill="#fff" opacity="0.21"/><circle cx="1056" cy="1798" r="0.8" fill="#fff" opacity="0.32"/><circle cx="885" cy="1859" r="1.5" fill="#fff" opacity="0.24"/><circle cx="227" cy="1816" r="1.1" fill="#fff" opacity="0.37"/><circle cx="153" cy="1006" r="2.2" fill="#fff" opacity="0.18"/><circle cx="886" cy="977" r="2.1" fill="#fff" opacity="0.42"/><circle cx="250" cy="1724" r="1.5" fill="#fff" opacity="0.13"/><circle cx="4" cy="944" r="1.5" fill="#fff" opacity="0.25"/><circle cx="152" cy="660" r="1.3" fill="#fff" opacity="0.48"/><circle cx="2" cy="1441" r="2.1" fill="#fff" opacity="0.17"/><circle cx="1001" cy="1369" r="2.2" fill="#fff" opacity="0.24"/><circle cx="402" cy="754" r="2.3" fill="#fff" opacity="0.37"/><circle cx="390" cy="822" r="1.2" fill="#fff" opacity="0.14"/><circle cx="110" cy="1603" r="1.2" fill="#fff" opacity="0.52"/><circle cx="269" cy="510" r="1.6" fill="#fff" opacity="0.20"/><circle cx="403" cy="1836" r="2.1" fill="#fff" opacity="0.47"/><circle cx="681" cy="1754" r="2.2" fill="#fff" opacity="0.36"/><circle cx="777" cy="95" r="1.9" fill="#fff" opacity="0.31"/><circle cx="813" cy="1237" r="1.2" fill="#fff" opacity="0.14"/><circle cx="1001" cy="244" r="1.5" fill="#fff" opacity="0.27"/><circle cx="322" cy="1419" r="2.3" fill="#fff" opacity="0.23"/><circle cx="708" cy="578" r="1.6" fill="#fff" opacity="0.29"/></svg></div>
+
+  <div id="phone-float"><div id="phone"><div id="screen">
+    <div id="feed-wrap">
+      <div id="feed">
+<div class="post" style="padding:18.4px;border-radius:28.9px;margin-bottom:18.4px;gap:15.8px">
+  <div class="who" style="gap:15.8px"><div class="av" style="width:57.9px;height:57.9px;background:linear-gradient(135deg,#d8706e,#7d4a92)"></div>
+    <div class="names" style="gap:9.2px"><div class="bar" style="width:157.9px;height:15.8px"></div><div class="bar dim" style="width:105.3px;height:13.2px"></div></div></div>
+  <div class="bar" style="width:60%;height:15.8px"></div><div class="media" style="height:328.9px;background:linear-gradient(135deg,#7d4a92,#d8706e)"><div class="blob" style="width:157.9px;height:157.9px;left:52.6px;top:39.5px"></div></div>
+  <div class="acts" style="gap:28.9px;height:39.5px"><div class="heart" style="width:34.2px;height:34.2px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="bar dim" style="width:92.1px;height:13.2px;margin-inline-start:auto"></div></div>
+</div>
+<div class="post" style="padding:18.4px;border-radius:28.9px;margin-bottom:18.4px;gap:15.8px">
+  <div class="who" style="gap:15.8px"><div class="av" style="width:57.9px;height:57.9px;background:linear-gradient(135deg,#76c7aa,#24788a)"></div>
+    <div class="names" style="gap:9.2px"><div class="bar" style="width:169.7px;height:15.8px"></div><div class="bar dim" style="width:105.3px;height:13.2px"></div></div></div>
+  <div class="bar" style="width:67%;height:15.8px"></div><div class="media" style="height:328.9px;background:linear-gradient(135deg,#24788a,#76c7aa)"><div class="play" style="width:73.7px;height:73.7px"></div><div class="blob" style="width:157.9px;height:157.9px;left:101.3px;top:69.7px"></div></div>
+  <div class="acts" style="gap:28.9px;height:39.5px"><div class="heart" style="width:34.2px;height:34.2px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="bar dim" style="width:92.1px;height:13.2px;margin-inline-start:auto"></div></div>
+</div>
+<div class="post" style="padding:18.4px;border-radius:28.9px;margin-bottom:18.4px;gap:15.8px">
+  <div class="who" style="gap:15.8px"><div class="av" style="width:57.9px;height:57.9px;background:linear-gradient(135deg,#e6c36a,#c47f34)"></div>
+    <div class="names" style="gap:9.2px"><div class="bar" style="width:181.6px;height:15.8px"></div><div class="bar dim" style="width:105.3px;height:13.2px"></div></div></div>
+  <div class="bar" style="width:92%;height:18.4px"></div><div class="bar" style="width:78%;height:18.4px"></div><div class="bar" style="width:55%;height:18.4px"></div>
+  <div class="acts" style="gap:28.9px;height:39.5px"><div class="heart" style="width:34.2px;height:34.2px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="bar dim" style="width:92.1px;height:13.2px;margin-inline-start:auto"></div></div>
+</div>
+<div class="post" style="padding:18.4px;border-radius:28.9px;margin-bottom:18.4px;gap:15.8px">
+  <div class="who" style="gap:15.8px"><div class="av" style="width:57.9px;height:57.9px;background:linear-gradient(135deg,#9a72d6,#4b5bb0)"></div>
+    <div class="names" style="gap:9.2px"><div class="bar" style="width:193.4px;height:15.8px"></div><div class="bar dim" style="width:105.3px;height:13.2px"></div></div></div>
+  <div class="bar" style="width:81%;height:15.8px"></div><div class="media" style="height:328.9px;background:linear-gradient(135deg,#4b5bb0,#9a72d6)"><div class="blob" style="width:157.9px;height:157.9px;left:198.7px;top:130.3px"></div></div>
+  <div class="acts" style="gap:28.9px;height:39.5px"><div class="heart" style="width:34.2px;height:34.2px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="bar dim" style="width:92.1px;height:13.2px;margin-inline-start:auto"></div></div>
+</div>
+<div class="post" style="padding:18.4px;border-radius:28.9px;margin-bottom:18.4px;gap:15.8px">
+  <div class="who" style="gap:15.8px"><div class="av" style="width:57.9px;height:57.9px;background:linear-gradient(135deg,#e98d5b,#b0436a)"></div>
+    <div class="names" style="gap:9.2px"><div class="bar" style="width:205.3px;height:15.8px"></div><div class="bar dim" style="width:105.3px;height:13.2px"></div></div></div>
+  <div class="bar" style="width:60%;height:15.8px"></div><div class="media" style="height:328.9px;background:linear-gradient(135deg,#b0436a,#e98d5b)"><div class="play" style="width:73.7px;height:73.7px"></div><div class="blob" style="width:157.9px;height:157.9px;left:247.4px;top:39.5px"></div></div>
+  <div class="acts" style="gap:28.9px;height:39.5px"><div class="heart" style="width:34.2px;height:34.2px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="bar dim" style="width:92.1px;height:13.2px;margin-inline-start:auto"></div></div>
+</div>
+<div class="post" style="padding:18.4px;border-radius:28.9px;margin-bottom:18.4px;gap:15.8px">
+  <div class="who" style="gap:15.8px"><div class="av" style="width:57.9px;height:57.9px;background:linear-gradient(135deg,#a6cb5e,#3b8a5a)"></div>
+    <div class="names" style="gap:9.2px"><div class="bar" style="width:157.9px;height:15.8px"></div><div class="bar dim" style="width:105.3px;height:13.2px"></div></div></div>
+  <div class="bar" style="width:67%;height:15.8px"></div><div class="media" style="height:328.9px;background:linear-gradient(135deg,#3b8a5a,#a6cb5e)"><div class="blob" style="width:157.9px;height:157.9px;left:52.6px;top:69.7px"></div></div>
+  <div class="acts" style="gap:28.9px;height:39.5px"><div class="heart" style="width:34.2px;height:34.2px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="bar dim" style="width:92.1px;height:13.2px;margin-inline-start:auto"></div></div>
+</div>
+<div class="post" style="padding:18.4px;border-radius:28.9px;margin-bottom:18.4px;gap:15.8px">
+  <div class="who" style="gap:15.8px"><div class="av" style="width:57.9px;height:57.9px;background:linear-gradient(135deg,#e1a15b,#8a3b3b)"></div>
+    <div class="names" style="gap:9.2px"><div class="bar" style="width:169.7px;height:15.8px"></div><div class="bar dim" style="width:105.3px;height:13.2px"></div></div></div>
+  <div class="bar" style="width:92%;height:18.4px"></div><div class="bar" style="width:78%;height:18.4px"></div><div class="bar" style="width:55%;height:18.4px"></div>
+  <div class="acts" style="gap:28.9px;height:39.5px"><div class="heart" style="width:34.2px;height:34.2px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="bar dim" style="width:92.1px;height:13.2px;margin-inline-start:auto"></div></div>
+</div>
+<div class="post" style="padding:18.4px;border-radius:28.9px;margin-bottom:18.4px;gap:15.8px">
+  <div class="who" style="gap:15.8px"><div class="av" style="width:57.9px;height:57.9px;background:linear-gradient(135deg,#62c2d8,#2b5f9e)"></div>
+    <div class="names" style="gap:9.2px"><div class="bar" style="width:181.6px;height:15.8px"></div><div class="bar dim" style="width:105.3px;height:13.2px"></div></div></div>
+  <div class="bar" style="width:81%;height:15.8px"></div><div class="media" style="height:328.9px;background:linear-gradient(135deg,#2b5f9e,#62c2d8)"><div class="play" style="width:73.7px;height:73.7px"></div><div class="blob" style="width:157.9px;height:157.9px;left:150.0px;top:130.3px"></div></div>
+  <div class="acts" style="gap:28.9px;height:39.5px"><div class="heart" style="width:34.2px;height:34.2px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="bar dim" style="width:92.1px;height:13.2px;margin-inline-start:auto"></div></div>
+</div>
+<div class="post" style="padding:18.4px;border-radius:28.9px;margin-bottom:18.4px;gap:15.8px">
+  <div class="who" style="gap:15.8px"><div class="av" style="width:57.9px;height:57.9px;background:linear-gradient(135deg,#f08cb3,#9c4fa0)"></div>
+    <div class="names" style="gap:9.2px"><div class="bar" style="width:193.4px;height:15.8px"></div><div class="bar dim" style="width:105.3px;height:13.2px"></div></div></div>
+  <div class="bar" style="width:60%;height:15.8px"></div><div class="media" style="height:328.9px;background:linear-gradient(135deg,#9c4fa0,#f08cb3)"><div class="blob" style="width:157.9px;height:157.9px;left:198.7px;top:39.5px"></div></div>
+  <div class="acts" style="gap:28.9px;height:39.5px"><div class="heart" style="width:34.2px;height:34.2px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="bar dim" style="width:92.1px;height:13.2px;margin-inline-start:auto"></div></div>
+</div>
+<div class="post" style="padding:18.4px;border-radius:28.9px;margin-bottom:18.4px;gap:15.8px">
+  <div class="who" style="gap:15.8px"><div class="av" style="width:57.9px;height:57.9px;background:linear-gradient(135deg,#d6c35a,#5a7f2f)"></div>
+    <div class="names" style="gap:9.2px"><div class="bar" style="width:205.3px;height:15.8px"></div><div class="bar dim" style="width:105.3px;height:13.2px"></div></div></div>
+  <div class="bar" style="width:67%;height:15.8px"></div><div class="media" style="height:328.9px;background:linear-gradient(135deg,#5a7f2f,#d6c35a)"><div class="blob" style="width:157.9px;height:157.9px;left:247.4px;top:69.7px"></div></div>
+  <div class="acts" style="gap:28.9px;height:39.5px"><div class="heart" style="width:34.2px;height:34.2px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="bar dim" style="width:92.1px;height:13.2px;margin-inline-start:auto"></div></div>
+</div>
+<div class="post" style="padding:18.4px;border-radius:28.9px;margin-bottom:18.4px;gap:15.8px">
+  <div class="who" style="gap:15.8px"><div class="av" style="width:57.9px;height:57.9px;background:linear-gradient(135deg,#f1b06a,#a3483c)"></div>
+    <div class="names" style="gap:9.2px"><div class="bar" style="width:157.9px;height:15.8px"></div><div class="bar dim" style="width:105.3px;height:13.2px"></div></div></div>
+  <div class="bar" style="width:92%;height:18.4px"></div><div class="bar" style="width:78%;height:18.4px"></div><div class="bar" style="width:55%;height:18.4px"></div>
+  <div class="acts" style="gap:28.9px;height:39.5px"><div class="heart" style="width:34.2px;height:34.2px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="bar dim" style="width:92.1px;height:13.2px;margin-inline-start:auto"></div></div>
+</div>
+<div class="post" style="padding:18.4px;border-radius:28.9px;margin-bottom:18.4px;gap:15.8px">
+  <div class="who" style="gap:15.8px"><div class="av" style="width:57.9px;height:57.9px;background:linear-gradient(135deg,#5fd0c0,#3f4fa0)"></div>
+    <div class="names" style="gap:9.2px"><div class="bar" style="width:169.7px;height:15.8px"></div><div class="bar dim" style="width:105.3px;height:13.2px"></div></div></div>
+  <div class="bar" style="width:81%;height:15.8px"></div><div class="media" style="height:328.9px;background:linear-gradient(135deg,#3f4fa0,#5fd0c0)"><div class="blob" style="width:157.9px;height:157.9px;left:101.3px;top:130.3px"></div></div>
+  <div class="acts" style="gap:28.9px;height:39.5px"><div class="heart" style="width:34.2px;height:34.2px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="bar dim" style="width:92.1px;height:13.2px;margin-inline-start:auto"></div></div>
+</div>
+<div class="post" style="padding:18.4px;border-radius:28.9px;margin-bottom:18.4px;gap:15.8px">
+  <div class="who" style="gap:15.8px"><div class="av" style="width:57.9px;height:57.9px;background:linear-gradient(135deg,#e57a6a,#7b3f7f)"></div>
+    <div class="names" style="gap:9.2px"><div class="bar" style="width:181.6px;height:15.8px"></div><div class="bar dim" style="width:105.3px;height:13.2px"></div></div></div>
+  <div class="bar" style="width:60%;height:15.8px"></div><div class="media" style="height:328.9px;background:linear-gradient(135deg,#7b3f7f,#e57a6a)"><div class="blob" style="width:157.9px;height:157.9px;left:150.0px;top:39.5px"></div></div>
+  <div class="acts" style="gap:28.9px;height:39.5px"><div class="heart" style="width:34.2px;height:34.2px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="ic" style="width:31.6px;height:31.6px"></div><div class="bar dim" style="width:92.1px;height:13.2px;margin-inline-start:auto"></div></div>
+</div>
+      </div>
+      <div id="topbar"><div class="bar"></div><div class="ic"></div></div>
+      <div id="touch"></div>
+    </div>
+    <div id="dim"></div>
+    <div class="vw" id="vwA"><video id="vA" class="clip" src="assets/segA.mp4" data-start="7.6" data-duration="15.733" data-track-index="1" data-has-audio="true" data-volume="1" playsinline></video></div><div class="vw" id="vwB"><video id="vB" class="clip" src="assets/segB.mp4" data-start="23.1" data-duration="7.8" data-track-index="2" muted playsinline></video></div><div class="vw" id="vwC"><video id="vC" class="clip" src="assets/segC.mp4" data-start="30.65" data-duration="6.033" data-track-index="1" muted playsinline></video></div><div class="vw" id="vwD"><video id="vD" class="clip" src="assets/segD.mp4" data-start="36.45" data-duration="7.9" data-track-index="2" muted playsinline></video></div>
+    <div id="mark-wrap"><svg id="mk" class="logo " viewBox="24 20 60 60" width="381" height="381" xmlns="http://www.w3.org/2000/svg">
+  <path id="mk-arc" d="M73.745,42.6 A22.8,22.8 0 1,1 54,31.2" stroke="#E5B54B" stroke-width="4.32" stroke-linecap="round" fill="none"/>
+  <g id="mk-head-w"><path id="mk-head" d="M61.2,31.2 L52.8,24.96 L52.8,37.44 Z" fill="#E5B54B"/></g>
+  <g id="mk-star"><path d="M45.09,45.09 L62.91,45.09 L62.91,62.91 L45.09,62.91 Z" fill="#fff"/><path d="M54,41.4 L66.6,54 L54,66.6 L41.4,54 Z" fill="#fff"/></g>
+  <circle id="mk-dot" cx="54" cy="54" r="3.12" fill="#E5B54B"/>
+</svg></div>
+  </div></div></div>
+
+  <div id="brand"><svg class="tile" viewBox="12 12 84 84" width="72" height="72" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="tileg" x1="0" y1="0" x2="108" y2="108" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2F56BD"/><stop offset="1" stop-color="#172E6E"/></linearGradient></defs>
+  <rect x="12" y="12" width="84" height="84" rx="18" fill="url(#tileg)"/>
+  <path d="M73.745,42.6 A22.8,22.8 0 1,1 54,31.2" stroke="#E5B54B" stroke-width="4.32" stroke-linecap="round" fill="none"/>
+  <path d="M61.2,31.2 L52.8,24.96 L52.8,37.44 Z" fill="#E5B54B"/>
+  <path d="M45.09,45.09 L62.91,45.09 L62.91,62.91 L45.09,62.91 Z" fill="#fff"/><path d="M54,41.4 L66.6,54 L54,66.6 L41.4,54 Z" fill="#fff"/>
+  <circle cx="54" cy="54" r="3.12" fill="#E5B54B"/>
+</svg><span class="bn"><span class="re">Re</span>-Iman</span></div>
+
+  <div id="panel">
+<div class="say" id="say-hook"><p class="ar l0">كم دقيقة ضاعت اليوم</p><p class="ar l1">في التمرير؟</p><p class="en">How many minutes went to scrolling today?</p></div>
+<div class="say" id="say-swap"><p class="ar l0">نفس الحركة…</p><p class="ar l1">لكن ما يبقى هذه المرة</p><p class="ar l2">هو العلم بالله</p><p class="en">Same gesture. This time, what stays is knowledge of Allah.</p></div>
+<div class="say" id="say-a1"><p class="ar l0">كل جملة تُقرأ بصوت</p><p class="ar l1">وتُظلَّل وأنت تتابع</p><p class="en">Every sentence is read aloud and highlighted as you follow.</p></div>
+<div class="say" id="say-a2"><p class="ar l0">ورسمٌ يتحرك مع الصوت</p><p class="ar l1">يشرح الفكرة</p><p class="en">A drawing moves with the voice to explain the idea.</p></div>
+<div class="say" id="say-b"><p class="ar l0">أركان الإيمان تظهر</p><p class="ar l1">نجمةً بعد نجمة</p><p class="en">The pillars of faith appear, star by star.</p></div>
+<div class="say" id="say-c"><p class="ar l0">ثم اختبر فهمك</p><p class="en">Then test what you understood.</p></div>
+<div class="say" id="say-d">
+  <p class="ar big"><span class="num" id="n81">٠</span> <span>بطاقة</span></p>
+  <p class="ar l1">من <span class="num sm" id="n20">٠</span> كتابًا في العقيدة</p>
+  <p class="ar l2">بأدلتها ومصادرها</p>
+  <p class="en">81 cards from 20 books of aqeedah, with their proofs and sources.</p>
+</div>
+  </div>
+
+  <div id="end">
+    <svg id="el" class="logo " viewBox="24 20 60 60" width="320" height="320" xmlns="http://www.w3.org/2000/svg">
+  <path id="el-arc" d="M73.745,42.6 A22.8,22.8 0 1,1 54,31.2" stroke="#E5B54B" stroke-width="4.32" stroke-linecap="round" fill="none"/>
+  <g id="el-head-w"><path id="el-head" d="M61.2,31.2 L52.8,24.96 L52.8,37.44 Z" fill="#E5B54B"/></g>
+  <g id="el-star"><path d="M45.09,45.09 L62.91,45.09 L62.91,62.91 L45.09,62.91 Z" fill="#fff"/><path d="M54,41.4 L66.6,54 L54,66.6 L41.4,54 Z" fill="#fff"/></g>
+  <circle id="el-dot" cx="54" cy="54" r="3.12" fill="#E5B54B"/>
+</svg>
+    <div class="word" id="end-word"><span class="re">Re</span>-Iman</div>
+    <div class="tag" id="end-tag">جَدِّدْ إيمانَكَ</div>
+    <div id="pills"><div class="pill" id="pill0"><span class="pa">مجاني</span><span class="pe">Free</span></div><div class="pill" id="pill1"><span class="pa">بلا إعلانات</span><span class="pe">No ads</span></div><div class="pill" id="pill2"><span class="pa">يعمل دون إنترنت</span><span class="pe">Works offline</span></div></div>
+  </div>
+
+<audio id="sx-fl1" src="assets/sfx/whoosh-short.mp3" data-start="0.28" data-duration="0.574" data-track-index="5" data-volume="0.16"></audio>
+<audio id="sx-fl2" src="assets/sfx/whoosh-short.mp3" data-start="1.03" data-duration="0.574" data-track-index="6" data-volume="0.16"></audio>
+<audio id="sx-fl3" src="assets/sfx/whoosh-short.mp3" data-start="1.78" data-duration="0.574" data-track-index="7" data-volume="0.16"></audio>
+<audio id="sx-fl4" src="assets/sfx/whoosh-short.mp3" data-start="2.48" data-duration="0.574" data-track-index="5" data-volume="0.16"></audio>
+<audio id="sx-fl5" src="assets/sfx/whoosh-short.mp3" data-start="3.55" data-duration="0.574" data-track-index="6" data-volume="0.2"></audio>
+<audio id="sx-stop" src="assets/sfx/impact-bass-1.mp3" data-start="4.20" data-duration="2.115" data-track-index="7" data-volume="0.2"></audio>
+<audio id="sx-logo" src="assets/sfx/sparkle.mp3" data-start="5.00" data-duration="1.802" data-track-index="5" data-volume="0.22"></audio>
+<audio id="sx-toA" src="assets/sfx/whoosh-short.mp3" data-start="7.50" data-duration="0.574" data-track-index="6" data-volume="0.26"></audio>
+<audio id="sx-toB" src="assets/sfx/whoosh-short.mp3" data-start="23.05" data-duration="0.574" data-track-index="7" data-volume="0.24"></audio>
+<audio id="sx-toC" src="assets/sfx/whoosh-short.mp3" data-start="30.60" data-duration="0.574" data-track-index="5" data-volume="0.24"></audio>
+<audio id="sx-tap" src="assets/sfx/click-soft.mp3" data-start="33.90" data-duration="0.365" data-track-index="6" data-volume="0.5"></audio>
+<audio id="sx-right" src="assets/sfx/chime.mp3" data-start="34.07" data-duration="2.544" data-track-index="7" data-volume="0.4"></audio>
+<audio id="sx-toD" src="assets/sfx/whoosh-short.mp3" data-start="36.40" data-duration="0.574" data-track-index="5" data-volume="0.24"></audio>
+<audio id="sx-count" src="assets/sfx/pop.mp3" data-start="38.25" data-duration="0.72" data-track-index="6" data-volume="0.2"></audio>
+<audio id="sx-toEnd" src="assets/sfx/whoosh-short.mp3" data-start="44.30" data-duration="0.574" data-track-index="7" data-volume="0.26"></audio>
+<audio id="sx-end" src="assets/sfx/sparkle.mp3" data-start="45.25" data-duration="1.802" data-track-index="5" data-volume="0.22"></audio>
+<audio id="sx-word" src="assets/sfx/impact-bass-2.mp3" data-start="45.95" data-duration="2.592" data-track-index="6" data-volume="0.12"></audio>
+<audio id="sx-p1" src="assets/sfx/pop.mp3" data-start="47.05" data-duration="0.72" data-track-index="7" data-volume="0.16"></audio>
+<audio id="sx-p2" src="assets/sfx/pop.mp3" data-start="47.25" data-duration="0.72" data-track-index="5" data-volume="0.16"></audio>
+<audio id="sx-p3" src="assets/sfx/pop.mp3" data-start="47.45" data-duration="0.72" data-track-index="6" data-volume="0.16"></audio>
+</div>
+
+<script>
+(function () {
+  const K = 1.3158;
+  const SEG = { A: [7.6, 15.733], B: [23.1, 7.8], C: [30.65, 6.033], D: [36.45, 7.9] };
+  const SAY = { "hook": [0.35, 4.2], "swap": [5.15, 8.3], "a1": [8.7, 15.0], "a2": [15.4, 22.8], "b": [23.5, 30.3], "c": [31.0, 35.9], "d": [36.85, 44.25] };
+  const tl = gsap.timeline({ paused: true });
+
+  // ---- logo stroke setup (measured, not guessed) ----
+  ["mk", "el"].forEach((p) => {
+    const arc = document.getElementById(p + "-arc");
+    const len = arc.getTotalLength();
+    arc.style.strokeDasharray = len;
+    arc.style.strokeDashoffset = len;
+    arc.dataset.len = len;
+  });
+  function logoIn(p, t, sc) {
+    const arc = document.getElementById(p + "-arc");
+    tl.fromTo("#" + p, { scale: sc, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" }, t);
+    tl.fromTo(arc, { strokeDashoffset: +arc.dataset.len }, { strokeDashoffset: 0, duration: 0.95, ease: "power2.inOut" }, t + 0.05);
+    tl.fromTo("#" + p + "-star", { scale: 0, rotation: -90, svgOrigin: "54 54" }, { scale: 1, rotation: 0, duration: 0.7, ease: "back.out(1.6)" }, t + 0.45);
+    tl.fromTo("#" + p + "-head", { scale: 0, svgOrigin: "52.8 31.2" }, { scale: 1, duration: 0.35, ease: "back.out(2.2)" }, t + 0.95);
+    tl.fromTo("#" + p + "-dot", { scale: 0, svgOrigin: "54 54" }, { scale: 1, duration: 0.4, ease: "back.out(3)" }, t + 1.05);
+  }
+  function sayIn(key, t, gap) {
+    const lines = document.querySelectorAll("#say-" + key + " p");
+    lines.forEach((el, i) => {
+      tl.fromTo(el, { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, t + i * (gap || 0.32));
+    });
+  }
+  function sayOut(key, t) {
+    tl.to("#say-" + key + " p", { opacity: 0, y: -18, duration: 0.32, ease: "power2.in", stagger: 0.04 }, t);
+  }
+
+  // ---- 0–4.2s  hook: the endless feed ----
+  tl.fromTo("#phone", { scale: 0.965 }, { scale: 1, duration: 0.6, ease: "power2.out" }, 0);
+  let y = 0;
+  [0.3, 1.05, 1.8, 2.5].forEach((t, i) => {
+    y -= 560 * K;
+    tl.to("#feed", { y: y, duration: 0.6, ease: "power3.out" }, t);
+    tl.fromTo("#touch", { opacity: 0, y: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.08, ease: "none", immediateRender: i === 0 }, t - 0.08);
+    tl.to("#touch", { y: -250 * K, opacity: 0, duration: 0.32, ease: "power2.out" }, t);
+  });
+  tl.fromTo("#touch", { opacity: 0, y: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.08, ease: "none", immediateRender: false }, 3.2 - 0.08);
+  tl.to("#touch", { y: -300 * K, opacity: 0, duration: 0.4, ease: "power2.out" }, 3.2);
+  tl.to("#feed", { y: y - 1300 * K, duration: 1.0, ease: "power1.in" }, 3.2);
+  // hook line: two beats, then the English under it
+  sayIn("hook", SAY.hook[0], 0.6);
+  tl.to("#say-hook p", { opacity: 0, y: -14, duration: 0.25, ease: "power2.in" }, SAY.hook[1]);
+
+  // ---- 4.2–7.6s  the stop and the swap ----
+  tl.to("#phone", { x: 9 * K, duration: 0.045, ease: "none", yoyo: true, repeat: 5 }, 4.2);
+  tl.to("#dim", { opacity: 0.72, duration: 0.3, ease: "power2.out" }, 4.2);
+  tl.to("#bg-blue", { opacity: 1, duration: 1.3, ease: "power1.inOut" }, 4.2 + 0.2);
+  logoIn("mk", 4.2 + 0.35, 0.7);
+  sayIn("swap", SAY.swap[0], 0.5);
+  sayOut("swap", SAY.swap[1]);
+  tl.to("#mk", { scale: 0.82, opacity: 0, duration: 0.4, ease: "power2.in" }, 7.25);
+  tl.to(["#feed-wrap", "#dim"], { opacity: 0, duration: 0.3, ease: "none" }, 7.65);
+
+  // ---- the app itself: clips enter over the previous one ----
+  Object.keys(SEG).forEach((s) => {
+    tl.fromTo("#vw" + s, { opacity: 0, y: 30 * K }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, SEG[s][0]);
+  });
+  tl.to("#brand", { opacity: 1, duration: 0.5, ease: "power2.out" }, 7.9);
+  // phone breathes slowly while the app plays (16 half-cycles end back at rest)
+  tl.fromTo("#phone-float", { y: 0 }, { y: -8 * K, duration: 2.3, ease: "sine.inOut", yoyo: true, repeat: 15 }, SEG.A[0]);
+
+  ["a1", "a2", "b", "c"].forEach((key) => { sayIn(key, SAY[key][0]); sayOut(key, SAY[key][1]); });
+
+  // ---- numbers ----
+  const AR = "٠١٢٣٤٥٦٧٨٩";
+  const toAr = (n) => String(n).replace(/[0-9]/g, (d) => AR[+d]);
+  sayIn("d", SAY.d[0]);
+  const c81 = { v: 0 }, c20 = { v: 0 };
+  const e81 = document.getElementById("n81"), e20 = document.getElementById("n20");
+  tl.to(c81, { v: 81, duration: 1.25, ease: "power2.out", onUpdate: () => { e81.textContent = toAr(Math.round(c81.v)); } }, SAY.d[0] + 0.1);
+  tl.fromTo("#n81", { scale: 0.6 }, { scale: 1, duration: 1.25, ease: "power2.out" }, SAY.d[0] + 0.1);
+  tl.to(c20, { v: 20, duration: 1.0, ease: "power2.out", onUpdate: () => { e20.textContent = toAr(Math.round(c20.v)); } }, SAY.d[0] + 0.45);
+  sayOut("d", SAY.d[1]);
+
+  // ---- end card ----
+  tl.to("#phone", { y: 160 * K, opacity: 0, duration: 0.55, ease: "power2.in" }, 44.35);
+  tl.to("#brand", { opacity: 0, duration: 0.3, ease: "none" }, 44.35);
+  logoIn("el", 44.35 + 0.45, 0.6);
+  tl.fromTo("#end-word", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 45.9);
+  tl.fromTo("#end-tag", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 46.35);
+  [0, 1, 2].forEach((i) => {
+    tl.fromTo("#pill" + i, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2)" }, 47.0 + i * 0.2);
+  });
+
+  window.__timelines["reiman-promo"] = tl;
+})();
+</script>
+</body>
+</html>
