@@ -55,6 +55,11 @@ ART_KINDS = {
     "circuit": {"power", "breaker", "trip", "guard"},
     "verdict": {"walker", "forced", "void", "less", "will", "echo"},
     "board": {"core", "pin"},
+    "watch": {"fog", "shield", "wisp", "close"},
+    "crowd": {"march", "shout", "arrive", "quiet"},
+    "deeds": {"pray", "eyes", "khafi", "returned", "left"},
+    "camp": {"camp", "kufr", "joke", "tabuk"},
+    "gifts": {"other", "self", "deny", "thank"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

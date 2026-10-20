@@ -139,6 +139,11 @@ internal fun ArtFrame(scene: Scene, beats: () -> List<Float>, time: () -> Float,
                 "circuit" -> circuitScene(a)
                 "verdict" -> verdictScene(a)
                 "board" -> boardScene(a)
+                "watch" -> watchScene(a)
+                "crowd" -> crowdScene(a)
+                "deeds" -> deedsScene(a)
+                "camp" -> campScene(a)
+                "gifts" -> giftsScene(a)
                 else -> drawRect(pal.line)
             }
         }
@@ -180,6 +185,13 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "breaker" -> 1100
     "walker" -> 2400
     "forced" -> 2600
+    "fog", "pray", "eyes", "shout" -> 2400
+    "shield", "wisp", "returned", "deny" -> 2200
+    "close", "left", "kufr" -> 1800
+    "march" -> 3000
+    "arrive", "thank" -> 2600
+    "quiet", "khafi", "camp", "tabuk", "other", "self" -> 2000
+    "joke" -> 2400
     else -> 1000
 }
 
