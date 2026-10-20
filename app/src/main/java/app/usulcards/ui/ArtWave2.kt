@@ -263,6 +263,8 @@ internal fun DrawScope.buildingScene(a: ArtCtx) {
                         val tl = Offset(mix(from.x, hole.left, q), mix(from.y, hole.top, q))
                         softGlow(Offset(tl.x + hole.width / 2, tl.y + hole.height / 2), hole.width * 1.6f, ArtInk.Gold, 0.6f * q)
                         drawRect(ArtInk.Gold, tl, hole.size)
+                        // the last brick, the seal of the prophets ﷺ: once set, it spreads its light
+                        sirajMunir(Offset(tl.x + hole.width / 2, tl.y + hole.height / 2), hole.height * 0.35f, seg(s.brick, 0.75f, 1f), t)
                     }
                     continue
                 }

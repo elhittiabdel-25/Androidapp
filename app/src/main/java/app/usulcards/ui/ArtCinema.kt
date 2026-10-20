@@ -256,3 +256,23 @@ internal fun DrawScope.softGlow(c: Offset, r: Float, color: Color, alpha: Float)
     drawCircle(Brush.radialGradient(listOf(color.copy(alpha = a * 0.26f), Color.Transparent), c, r * 2.4f), r * 2.4f, c)
     drawCircle(Brush.radialGradient(0f to color.copy(alpha = a), 0.35f to color.copy(alpha = a * 0.45f), 1f to Color.Transparent, center = c, radius = r), r, c)
 }
+
+/**
+ * «وَسِرَاجًا مُنِيرًا» (al-Ahzab 33:46): how the Prophet ﷺ is shown — a lamp spreading light, never a body or an
+ * outline. A bright core, a wide warm halo, soft rays turning slowly and a few motes of light around it; it
+ * lights what is near it. [r] is the core radius, [strength] fades it in.
+ */
+internal fun DrawScope.sirajMunir(c: Offset, r: Float, strength: Float, t: Float) {
+    if (strength <= 0.01f) return
+    val s = strength.coerceIn(0f, 1f)
+    val warm = Color(0xFFFFE6B0)
+    drawCircle(Brush.radialGradient(listOf(warm.copy(alpha = 0.16f * s), Color.Transparent), c, r * 14f), r * 14f, c)
+    lightShafts(c, t * 0.08f, 2f * kotlin.math.PI.toFloat(), r * 11f, warm, 0.9f * s, t, 12)
+    bloom(c, r * 1.6f, warm, s)
+    for (k in 0 until 6) {
+        val ang = t * (0.25f + 0.05f * k) + k * 1.047f
+        val rr = r * (3.2f + 1.4f * sin(t * 0.6f + k))
+        val p = c + Offset(cos(ang) * rr, sin(ang) * rr * 0.8f)
+        drawCircle(warm.copy(alpha = 0.5f * s * (0.6f + 0.4f * sin(t * 1.7f + k))), r * 0.22f, p)
+    }
+}
