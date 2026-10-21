@@ -337,7 +337,7 @@ private fun DrawScope.atharLand(a: ArtCtx) {
     val lg = easeOut(seg(dl, 0f, 0.35f))
     if (lg > 0f) {
         lightShafts(lightC, PI.toFloat() * 0.62f, 0.9f, h * 0.5f, Color(0xFFFFE6B0), 0.8f * lg, t, 6)
-        sirajMunir(lightC, 4.8f * dp, lg, t)
+        sirajMunir(lightC, 4.8f * dp, lg, t, nameAt = lightC + Offset(-w * 0.21f, 0f))
     }
     for (k in 0 until 7) {
         val ang = 2f * PI.toFloat() * k / 7f - PI.toFloat() / 2f + 0.25f
@@ -824,7 +824,7 @@ private fun DrawScope.sabilWall(a: ArtCtx) {
         }
         val glintY = mix(y0, y1, fract(t * 0.6f))
         if (pb > 0.7f) glint(Offset(cx, glintY), 7f * dp, Color.White, 0.8f)
-        sirajMunir(Offset(cx, h * 0.07f), 4.6f * dp, easeOut(seg(pb, 0.55f, 0.85f)), t)
+        sirajMunir(Offset(cx, h * 0.07f), 4.6f * dp, easeOut(seg(pb, 0.55f, 0.85f)), t, nameAt = Offset(cx + w * 0.15f, h * 0.06f))
     }
 
     // the basin
@@ -926,9 +926,9 @@ private object ShoreC8 {
 /**
  * A shore at dusk. Beats: horizon (far on the horizon, larger than anything near, three labelled symbols appear in
  * turn: the grave with a light in it, the hair-thin bridge over embers, the basin ringed with cups like stars),
- * scoop (a man walks to the water with a small cup and scoops the sea; it overflows, again, and the waves come
- * higher), yield (he sets the cup down and stands still before the sea with open hands; the sea calms to a mirror
- * and the stars come out).
+ * scoop (a man walks to the water with a bowl and scoops the sea; the bowl overflows at once, and he stands with
+ * a hand on his head, question marks rising over it), yield (he sets the bowl down and sits on the sand, a hand on
+ * his chest; the sea calms to a mirror and the stars come out).
  */
 internal fun DrawScope.shoreScene(a: ArtCtx) {
     val w = size.width
@@ -1005,32 +1005,80 @@ private fun DrawScope.shoreView(a: ArtCtx) {
         tagAt(a.tag("horizon", 0, 2), c + Offset(0f, -h * 0.08f), basin, back = ShoreC8.Back)
     }
 
-    // the man with his small cup
+    // the man and his bowl: he scoops the sea, the bowl overflows at once, and he stands puzzled before the horizon;
+    // then he sets the bowl down and sits at peace with what he cannot measure
     val tall = h * 0.26f
-    val go = easeInOut(seg(sb, 0f, 0.25f))
+    val ink = ShoreC8.Ink
+    val sw = max(1.7f * dp, tall * 0.065f)
+    val go = easeInOut(seg(sb, 0f, 0.2f))
     val foot = Offset(mix(w * 0.72f, w * 0.62f, go), mix(h * 0.95f, shore + h * 0.06f, go))
-    val dips = if (sb > 0.25f && yb <= 0f) bump(fract(seg(sb, 0.25f, 1f) * 2f)) else 0f
-    val setDown = easeInOut(seg(yb, 0f, 0.3f))
-    val lean = 0.7f * dips * (1f - setDown) + 0.35f * bump(setDown)
-    val armsUp = if (yb > 0.3f) 0.25f * easeOut(seg(yb, 0.3f, 0.6f)) else 0.3f + 0.6f * dips
+    val dip = easeInOut(seg(sb, 0.2f, 0.34f))
+    val lifted = easeInOut(seg(sb, 0.4f, 0.54f))
+    val puzzled = easeInOut(seg(sb, 0.62f, 0.72f))
+    val sit = easeInOut(seg(yb, 0.15f, 0.45f))
     drawOval(Color.Black, topLeft = foot - Offset(tall * 0.2f, tall * 0.03f), size = Size(tall * 0.4f, tall * 0.06f), alpha = 0.2f)
-    // yield: he sets the cup down and sits on the sand before the sea, at peace with what he cannot measure
-    val sit = easeInOut(seg(yb, 0.3f, 0.55f))
-    figure(foot, tall, ShoreC8.Ink, alpha = 1f - sit, walk = if (sb in 0.01f..0.25f) t * 6f else 0f, lean = lean, arms = armsUp)
+    // where his forward hand is, as the figure draws it
+    val lean = 1.15f * dip * (1f - lifted)
+    val arms = lifted
+    val hip = foot - Offset(0f, tall * 0.45f)
+    val sh = hip + Offset(-sin(lean), -cos(lean)) * (tall * 0.31f)
+    val armLen = tall * 0.28f
+    val hand = if (sb <= 0f) foot + Offset(-tall * 0.11f, -tall * 0.48f) else sh + Offset(-armLen * (0.35f + 0.65f * arms), armLen * (0.85f - 0.75f * arms))
+    val side = foot + Offset(tall * 0.16f, -tall * 0.2f)          // the bowl lowered at his side
+    val sand = foot + Offset(-tall * 0.34f, tall * 0.02f)          // the bowl set down on the sand
+    val bowl = (hand + (side - hand) * puzzled).let { it + (sand - it) * sit }
+    if (puzzled < 0.5f) {
+        figure(foot, tall, ink, alpha = 1f - sit, walk = if (sb in 0.01f..0.2f) t * 6f else 0f, lean = lean, arms = arms)
+    } else if (sit < 1f) {
+        // puzzled: one hand on his head, the bowl hanging at his side, his head tilted
+        val a = 1f - sit
+        val shoulder = hip + Offset(0f, -tall * 0.31f)
+        val head = shoulder + Offset(-tall * 0.03f, -tall * 0.15f)
+        drawLine(ink, hip, foot + Offset(-tall * 0.075f, 0f), sw, StrokeCap.Round, alpha = a)
+        drawLine(ink, hip, foot + Offset(tall * 0.075f, 0f), sw, StrokeCap.Round, alpha = a)
+        drawLine(ink, hip, shoulder, sw, StrokeCap.Round, alpha = a)
+        drawCircle(ink, tall * 0.1f, head, alpha = a)
+        val elbow = shoulder + Offset(-tall * 0.2f, -tall * 0.04f)
+        drawLine(ink, shoulder, elbow, sw * 0.9f, StrokeCap.Round, alpha = a)
+        drawLine(ink, elbow, head + Offset(-tall * 0.07f, -tall * 0.06f), sw * 0.9f, StrokeCap.Round, alpha = a)
+        drawLine(ink, shoulder, side + Offset(0f, -tall * 0.03f), sw * 0.9f, StrokeCap.Round, alpha = a)
+        // question marks rise over his head, one after another
+        for (k in 0 until 3) {
+            val q = seg(sb, 0.7f + 0.08f * k, 0.86f + 0.08f * k) * a
+            if (q <= 0f) continue
+            val qc = head + Offset((k - 1) * tall * 0.2f, -tall * (0.3f + 0.06f * k) - tall * 0.05f * sin(t * 2f + k))
+            val qr = tall * 0.055f
+            drawArc(Color(0xFFF4E3B0), 190f, 260f, false, topLeft = qc - Offset(qr, qr), size = Size(2 * qr, 2 * qr), alpha = q, style = Stroke(sw * 0.75f, cap = StrokeCap.Round))
+            drawLine(Color(0xFFF4E3B0), qc + Offset(0f, qr), qc + Offset(0f, qr * 1.6f), sw * 0.75f, StrokeCap.Round, alpha = q)
+            drawCircle(Color(0xFFF4E3B0), sw * 0.45f, qc + Offset(0f, qr * 2.4f), alpha = q)
+        }
+    }
     if (sit > 0f) {
-        w8Seated(foot, tall * 0.95f, ShoreC8.Ink, facing = -1f, alpha = sit)
-        // a hand on his chest
-        val chest = foot + Offset(tall * 0.03f, -tall * 0.36f)
-        drawLine(ShoreC8.Ink, chest + Offset(tall * 0.02f, -tall * 0.06f), chest + Offset(-tall * 0.08f, tall * 0.02f), max(1.7f * dp, tall * 0.06f), StrokeCap.Round, alpha = sit)
+        w8Seated(foot, tall * 0.95f, ink, facing = -1f, alpha = sit)
+        val chest = foot + Offset(tall * 0.03f, -tall * 0.36f)        // a hand on his chest
+        drawLine(ink, chest + Offset(tall * 0.02f, -tall * 0.06f), chest + Offset(-tall * 0.08f, tall * 0.02f), sw, StrokeCap.Round, alpha = sit)
         softGlow(chest, tall * 0.18f, ShoreC8.Bliss, 0.35f * sit * (0.8f + 0.2f * sin(t * 2f)))
     }
-    val hand = if (yb > 0.3f) foot + Offset(-tall * 0.28f, 0f) else foot + Offset(-tall * (0.3f + 0.25f * dips), -tall * (0.5f - 0.42f * dips))
-    val cup = if (yb > 0.3f) foot + Offset(-tall * 0.3f, -tall * 0.01f) else hand
-    drawPath(Path().apply { moveTo(cup.x - tall * 0.04f, cup.y - tall * 0.05f); lineTo(cup.x + tall * 0.04f, cup.y - tall * 0.05f); lineTo(cup.x + tall * 0.03f, cup.y); lineTo(cup.x - tall * 0.03f, cup.y); close() }, ShoreC8.Cup)
-    // it overflows: the sea does not go into the cup
-    if (dips > 0.3f) for (k in 0 until 6) {
-        val f = fract(t * 2.2f + k / 6f)
-        drawCircle(ShoreC8.Foam, 1.6f * dp, cup + Offset((k - 2.5f) * tall * 0.02f, -tall * 0.05f + f * tall * 0.3f), alpha = (1f - f) * 0.9f)
+    // the bowl: full from the moment it touches the sea, and spilling over its lips
+    val bw = tall * 0.13f
+    val bh = tall * 0.075f
+    val bc = bowl + Offset(0f, bh * 0.4f)
+    val full = seg(dip, 0.85f, 1f)
+    drawArc(ShoreC8.Cup, 0f, 180f, true, topLeft = Offset(bc.x - bw, bc.y - bh), size = Size(2 * bw, 2 * bh))
+    drawArc(Color(0xFF9A7A48), 0f, 180f, false, topLeft = Offset(bc.x - bw, bc.y - bh), size = Size(2 * bw, 2 * bh), style = Stroke(1.2f * dp))
+    if (full > 0f) {
+        drawOval(ShoreC8.Pool, topLeft = Offset(bc.x - bw, bc.y - bh * 0.25f), size = Size(2 * bw, bh * 0.5f), alpha = full)
+        val spill = full * (1f - sit) * (if (puzzled > 0f) 1f - 0.6f * puzzled else 1f)
+        if (spill > 0.05f && lifted > 0.2f) for (sd in listOf(-1f, 1f)) for (k in 0 until 7) {
+            val f = fract(t * 1.8f + k / 7f + (if (sd > 0f) 0.5f else 0f))
+            val lip = bc + Offset(sd * bw * 0.95f, 0f)
+            val drop = lip + Offset(sd * bw * 0.3f * f, (foot.y - lip.y) * f * f)
+            drawCircle(ShoreC8.Pool, (1.4f + 0.8f * (1f - f)) * dp, drop, alpha = spill * (1f - 0.5f * f))
+        }
+        if (spill > 0.05f && lifted > 0.2f) {          // where it lands, a splash on the sand
+            val r = (3f + 5f * fract(t * 1.8f)) * dp
+            drawOval(ShoreC8.Pool, topLeft = Offset(bc.x - r * 2f, foot.y - r * 0.3f), size = Size(r * 4f, r * 0.6f), alpha = 0.5f * spill * (1f - fract(t * 1.8f)), style = Stroke(1f * dp))
+        }
     }
     if (calm > 0f) {      // the still sea mirrors the light of the horizon
         drawRect(Brush.verticalGradient(listOf(ShoreC8.SkyLow.copy(alpha = 0.22f * calm), Color.Transparent), startY = horizon, endY = shore), topLeft = Offset(0f, horizon), size = Size(w, shore - horizon))

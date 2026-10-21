@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.drawscope.withTransform
+import androidx.compose.ui.text.TextLayoutResult
 import kotlin.math.cos
 import kotlin.math.floor
 import kotlin.math.hypot
@@ -49,6 +50,8 @@ internal object Cinema {
     val cam = Camera()
     /** The frame being drawn is in the dark theme: pen lines on the notebook glow a little. */
     var darkFrame = true
+    /** His ﷺ name, set under his light wherever it is drawn, so that it is never taken for the sun or a star. */
+    var prophetName: TextLayoutResult? = null
     private var grainBitmap: ImageBitmap? = null
 
     /** A small tile of film grain, made once from a fixed seed so every run looks the same. */
@@ -263,9 +266,11 @@ internal fun DrawScope.softGlow(c: Offset, r: Float, color: Color, alpha: Float)
 /**
  * «وَسِرَاجًا مُنِيرًا» (al-Ahzab 33:46): how the Prophet ﷺ is shown — a lamp spreading light, never a body or an
  * outline. A bright core, a wide warm halo, soft rays turning slowly and a few motes of light around it; it
- * lights what is near it. [r] is the core radius, [strength] fades it in.
+ * lights what is near it. [r] is the core radius, [strength] fades it in. His name goes with it (under the light,
+ * or at [nameAt]) so the light is never taken for the sun; [named] false only where his name is already written
+ * beside it.
  */
-internal fun DrawScope.sirajMunir(c: Offset, r: Float, strength: Float, t: Float) {
+internal fun DrawScope.sirajMunir(c: Offset, r: Float, strength: Float, t: Float, nameAt: Offset? = null, named: Boolean = true) {
     if (strength <= 0.01f) return
     val s = strength.coerceIn(0f, 1f)
     val warm = Color(0xFFFFE6B0)
@@ -278,4 +283,5 @@ internal fun DrawScope.sirajMunir(c: Offset, r: Float, strength: Float, t: Float
         val p = c + Offset(cos(ang) * rr, sin(ang) * rr * 0.8f)
         drawCircle(warm.copy(alpha = 0.5f * s * (0.6f + 0.4f * sin(t * 1.7f + k))), r * 0.22f, p)
     }
+    if (named) tagAt(Cinema.prophetName, nameAt ?: (c + Offset(0f, r * 7.5f)), s, back = Color(0xE6101426), ink = ArtInk.Gold)
 }

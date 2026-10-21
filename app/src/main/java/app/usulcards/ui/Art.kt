@@ -116,6 +116,9 @@ internal fun ArtFrame(scene: Scene, beats: () -> List<Float>, time: () -> Float,
             if (item.sub.isEmpty()) emptyList<TextLayoutResult>() else item.sub.split("|").map { tm.measure(txt(it.trim()), style) }
         }
     }
+    val prophetName = remember(showDiacritics) {
+        tm.measure(txt("رَسُولُ اللَّهِ ﷺ"), TextStyle(fontFamily = Fonts.ui, fontWeight = FontWeight.SemiBold, fontSize = 11.sp, color = ArtInk.Gold))
+    }
     val extras = remember(scene, showDiacritics) {
         val style = TextStyle(fontFamily = Fonts.ui, fontWeight = FontWeight.SemiBold, fontSize = 11.sp, color = ArtInk.Gold)
         scene.sides.map { tm.measure(txt(it.first), style) }
@@ -139,6 +142,7 @@ internal fun ArtFrame(scene: Scene, beats: () -> List<Float>, time: () -> Float,
             val bs = beats()
             val a = ArtCtx(scene.items.map { it.kind }, bs, time(), tags, extras, scene.items.map { it.side }, scene.items.map { it.value }, pal == DarkPalette, bigs)
             Cinema.darkFrame = a.dark
+            Cinema.prophetName = prophetName
             throughCamera(scene.layout, cameraProgress(bs), a.t) { drawLayout(scene.layout, a, pal.line) }
             drawAir(scene.layout, a.t, a.dark)
         }

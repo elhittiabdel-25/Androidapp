@@ -104,7 +104,7 @@ private fun DrawScope.rulerDesk(a: ArtCtx) {
     }
     val whole = easeOut(seg(so, 0.78f, 1f))
     if (whole > 0f) drawLine(DeskC8.Gold, Offset(rl, edge), Offset(rr, edge), 2.4f * dp, alpha = 0.9f * whole)
-    sirajMunir(Offset(rr + w * 0.035f, edge - h * 0.028f), 3.8f * dp, easeOut(seg(so, 0f, 0.2f)), t)
+    sirajMunir(Offset(rr + w * 0.035f, edge - h * 0.028f), 3.8f * dp, easeOut(seg(so, 0f, 0.2f)), t, nameAt = Offset(rr - w * 0.02f, edge - h * 0.13f))
 
     // sortout: three slips; from each, the line that runs true is kept and the one that leaves the edge struck out
     val slipFade = 1f - 0.8f * easeOut(seg(tr, 0f, 0.25f))
@@ -747,8 +747,10 @@ private object StreetC8 {
 
 /**
  * A street of an old town at night: a small mosque at the left end, a glare of lights at the right. Beats: against
- * (the crowd streams to the right toward the glare; one man walks the other way, toward the mosque), mend (the
- * crowd knocks over a jar and breaks a sapling; he kneels, and the pieces come back together), lonewindow (the
+ * (the crowd streams to the right toward the glare; one man walks the other way, toward the mosque; a careless
+ * passer-by snaps a young tree and shatters a water jar without looking down), mend (he kneels and sets the shards
+ * back together, their cracks filled with gold, then raises the tree, ties it to a stake, and it puts out a new
+ * leaf), lonewindow (the
  * crowd is gone; along the street the windows close one after another; his is the one still lit, in his own
  * street, a stranger there).
  */
@@ -757,7 +759,7 @@ internal fun DrawScope.streetScene(a: ArtCtx) {
     val h = size.height
     val shots = shotsFor(a, mapOf(
         "against" to Shot(Offset(w * 0.55f, h * 0.7f), 1.15f),
-        "mend" to Shot(Offset(w * 0.44f, h * 0.8f), 1.5f),
+        "mend" to Shot(Offset(w * 0.41f, h * 0.8f), 1.6f),
         "lonewindow" to Shot(Offset(w * 0.36f, h * 0.55f), 1.05f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.24f) { streetNight(a) }
@@ -807,42 +809,83 @@ private fun DrawScope.streetNight(a: ArtCtx) {
     drawRect(StreetC8.Ground, topLeft = Offset(0f, groundY), size = Size(w, h - groundY))
     for (k in 0 until 18) drawLine(Color(0xFF34304A), Offset(w * k / 18f, groundY + h * 0.06f), Offset(w * k / 18f + w * 0.03f, groundY + h * 0.06f), 0.8f * dp)
 
-    // the jar and the sapling the crowd knocks over
-    val jarP = Offset(w * 0.44f, h * 0.86f)
-    val plantP = Offset(w * 0.36f, h * 0.86f)
-    val knock = easeOut(seg(md, 0.02f, 0.2f))
-    val mendJar = easeInOut(seg(md, 0.4f, 0.72f))
-    val mendPlant = easeInOut(seg(md, 0.6f, 0.88f))
-    val broken = knock * (1f - mendJar)
-    withTransform({ scale(1.7f, 1.7f, pivot = jarP) }) {
-    for (k in 0 until 5) {
-        val ang = -PI.toFloat() * 0.5f + (k - 2) * 0.6f
-        val off = Offset(cos(ang) * w * 0.04f, -sin(ang) * h * 0.02f + h * 0.03f) * broken
-        withTransform({ rotate(broken * (k - 2) * 40f, jarP + off) }) {
-            drawPath(Path().apply {
-                val c = jarP + off
-                moveTo(c.x - w * 0.012f + k * w * 0.005f, c.y - h * 0.05f + k * h * 0.012f)
-                lineTo(c.x - w * 0.007f + k * w * 0.005f, c.y - h * 0.05f + k * h * 0.012f)
-                lineTo(c.x - w * 0.006f + k * w * 0.005f, c.y - h * 0.035f + k * h * 0.012f)
-                lineTo(c.x - w * 0.014f + k * w * 0.005f, c.y - h * 0.035f + k * h * 0.012f)
-                close()
-            }, StreetC8.Jar)
+    // the water jar and the young tree by the road; a careless passer-by breaks them as the crowd goes by
+    val jarP = Offset(w * 0.44f, h * 0.88f)
+    val plantP = Offset(w * 0.3f, h * 0.88f)
+    val snapP = easeOut(seg(ag, 0.62f, 0.72f))
+    val shatter = easeOut(seg(ag, 0.76f, 0.88f))
+    val fixJar = easeInOut(seg(md, 0.22f, 0.46f))
+    val seams = seg(md, 0.44f, 0.58f)
+    val raise = easeInOut(seg(md, 0.6f, 0.8f))
+    val leaf = easeOut(seg(md, 0.82f, 0.95f))
+    val broken = shatter * (1f - fixJar)
+    // the spilled water
+    if (shatter > 0f) drawOval(StreetC8.Water, topLeft = jarP + Offset(-w * 0.075f * shatter, -h * 0.01f), size = Size(w * 0.15f * shatter, h * 0.024f), alpha = 0.5f * (1f - fixJar))
+    // the jar: four shards of its body and its neck, flung apart, then set back
+    val jw = w * 0.034f
+    val jh = h * 0.12f
+    val c0 = jarP + Offset(0f, -jh * 0.5f)
+    fun ell(deg: Float) = c0 + Offset(cos(deg * PI.toFloat() / 180f) * jw, sin(deg * PI.toFloat() / 180f) * jh * 0.5f)
+    val mid = c0 + Offset(jw * 0.08f, jh * 0.04f)
+    val cracks = listOf(-90f, -5f, 95f, 190f)
+    val scatter = listOf(Offset(-w * 0.07f, 0f) to -95f, Offset(w * 0.065f, 0f) to 80f, Offset(w * 0.1f, 0f) to 130f, Offset(-w * 0.045f, 0f) to -140f)
+    for (k in 0 until 4) {
+        val a0 = cracks[k]
+        val a1 = if (k == 3) cracks[0] + 360f else cracks[k + 1]
+        val pts = ArrayList<Offset>()
+        pts.add(mid)
+        for (q in 0..8) pts.add(ell(mix(a0, a1, q / 8f)))
+        var cx = 0f
+        var cy = 0f
+        for (q in pts) { cx += q.x; cy += q.y }
+        val centroid = Offset(cx / pts.size, cy / pts.size)
+        val (off, rot) = scatter[k]
+        val o = Offset(off.x, jarP.y - h * 0.018f - centroid.y) * broken
+        withTransform({ translate(o.x, o.y); rotate(rot * broken, centroid) }) {
+            val shard = w8Poly(pts).apply { close() }
+            drawPath(shard, StreetC8.Jar)
+            if (broken > 0.05f) drawPath(shard, Color(0xFF6E4024), style = Stroke(1f * dp, join = StrokeJoin.Round))
         }
     }
-    if (broken < 0.5f) {
-        drawOval(StreetC8.Jar, topLeft = jarP - Offset(w * 0.018f, h * 0.06f), size = Size(w * 0.036f, h * 0.06f))
-        drawRect(StreetC8.Jar, topLeft = jarP - Offset(w * 0.007f, h * 0.075f), size = Size(w * 0.014f, h * 0.02f))
-        if (mendJar > 0.9f) glint(jarP + Offset(0f, -h * 0.075f), 6f * dp, StreetC8.Water, 0.9f)
+    val neckTop = c0 + Offset(0f, -jh * 0.5f - jh * 0.22f)
+    val neckO = Offset(-w * 0.02f, jarP.y - h * 0.015f - (neckTop.y + jh * 0.11f)) * broken
+    withTransform({ translate(neckO.x, neckO.y); rotate(70f * broken, neckTop + Offset(0f, jh * 0.11f)) }) {
+        drawRect(StreetC8.Jar, topLeft = neckTop - Offset(jw * 0.36f, 0f), size = Size(jw * 0.72f, jh * 0.26f))
+        drawRect(Color(0xFF8A5530), topLeft = neckTop - Offset(jw * 0.46f, 0f), size = Size(jw * 0.92f, jh * 0.05f))
     }
-    if (knock > 0f && mendJar < 1f) drawOval(StreetC8.Water, topLeft = jarP + Offset(-w * 0.04f, -h * 0.005f), size = Size(w * 0.08f * knock * (1f - mendJar), h * 0.012f), alpha = 0.6f)
-    if (mendJar > 0f && mendJar < 1f) for (k in 0 until 5) glint(jarP + Offset((k - 2) * w * 0.012f, -h * 0.04f), 5f * dp, StreetC8.Window, 0.6f * bump(mendJar))
+    // mended: the cracks stay, filled with gold, so it is plain that it was broken and is whole again
+    if (broken < 0.05f && seams > 0f) {
+        for ((k, d) in cracks.withIndex()) {
+            val e = ell(d)
+            val m1 = mid + (e - mid) * 0.5f + Offset(if (k % 2 == 0) jw * 0.12f else -jw * 0.12f, 0f)
+            drawPath(w8Poly(listOf(mid, m1, e)), ArtInk.Gold, alpha = seams, style = Stroke(1.6f * dp, join = StrokeJoin.Round))
+        }
+        drawLine(ArtInk.Gold, neckTop + Offset(-jw * 0.36f, jh * 0.24f), neckTop + Offset(jw * 0.36f, jh * 0.24f), 1.6f * dp, alpha = seams)
+        softGlow(c0, jw * 1.6f, ArtInk.Gold, 0.35f * bump(seams))
+        if (seams >= 1f) glint(neckTop + Offset(0f, -h * 0.01f), 6f * dp, StreetC8.Water, 0.8f)
     }
-    val bend = easeOut(seg(md, 0.08f, 0.25f)) * (1f - mendPlant)
-    withTransform({ scale(1.6f, 1.6f, pivot = plantP); rotate(-70f * bend, plantP) }) {
-        drawLine(StreetC8.Plant, plantP, plantP + Offset(0f, -h * 0.08f), 1.6f * dp, StrokeCap.Round)
-        for (k in 0 until 3) drawOval(StreetC8.Plant, topLeft = plantP + Offset(if (k % 2 == 0) -w * 0.012f else 0f, -h * (0.04f + 0.018f * k)), size = Size(w * 0.012f, h * 0.012f))
+    if (fixJar > 0f && fixJar < 1f) for (k in 0 until 5) glint(c0 + Offset((k - 2) * jw * 0.5f, -jh * 0.1f), 5f * dp, StreetC8.Window, 0.6f * bump(fixJar))
+    // the young tree: snapped and lying, then raised, tied to a stake, and putting out a new leaf
+    val ph = h * 0.16f
+    val breakAt = plantP + Offset(0f, -ph * 0.42f)
+    val snap = snapP * (1f - raise)
+    val stake = seg(md, 0.56f, 0.64f)
+    if (stake > 0f) {
+        drawLine(Color(0xFF8A6A48), plantP + Offset(w * 0.014f, h * 0.005f), plantP + Offset(w * 0.014f, -ph * 0.95f * stake), 2.2f * dp, StrokeCap.Round)
     }
-    if (mendPlant > 0.9f) glint(plantP + Offset(0f, -h * 0.14f), 6f * dp, StreetC8.Plant, 0.8f)
+    drawLine(StreetC8.Plant, plantP, breakAt, 2.8f * dp, StrokeCap.Round)
+    val top = plantP + Offset(0f, -ph)
+    withTransform({ rotate(-100f * snap, breakAt) }) {
+        drawLine(StreetC8.Plant, breakAt, top, 2.4f * dp, StrokeCap.Round)
+        for (k in 0 until 3) {
+            val at = breakAt + (top - breakAt) * (0.35f + 0.3f * k)
+            val sd = if (k % 2 == 0) -1f else 1f
+            drawOval(StreetC8.Plant, topLeft = at + Offset(if (sd < 0f) -w * 0.024f else 0f, -h * 0.012f), size = Size(w * 0.024f, h * 0.022f))
+        }
+        if (leaf > 0f) drawOval(Color(0xFF8FD07A), topLeft = top + Offset(-w * 0.01f * leaf, -h * 0.03f * leaf), size = Size(w * 0.02f * leaf, h * 0.03f * leaf))
+    }
+    if (raise >= 1f) drawLine(ArtInk.Gold, breakAt + Offset(-w * 0.004f, 0f), breakAt + Offset(w * 0.016f, 0f), 2f * dp, StrokeCap.Round)
+    if (leaf > 0.8f) glint(top + Offset(0f, -h * 0.02f), 6f * dp, Color(0xFF8FD07A), 0.8f)
 
     // the crowd streams right toward the glare
     val crowdIn = easeOut(seg(ag, 0f, 0.3f))
@@ -858,19 +901,28 @@ private fun DrawScope.streetNight(a: ArtCtx) {
             figure(Offset(x, y), s, StreetC8.Crowd, alpha = crowdIn * (1f - crowdOut) * 0.85f, walk = t * 7f + k, arms = 0.15f)
         }
     }
+    // the careless one who breaks them in passing, not even looking down
+    val cw0 = seg(ag, 0.45f, 1f)
+    val cw1 = seg(md, 0f, 0.35f)
+    if (cw0 > 0f && cw1 < 1f) {
+        val x = if (md > 0f) mix(w * 0.62f, w * 1.06f, cw1) else mix(w * 0.18f, w * 0.62f, cw0)
+        val f = Offset(x, h * 0.9f)
+        withTransform({ scale(-1f, 1f, pivot = f) }) { figure(f, tall * 0.92f, StreetC8.Crowd, alpha = 0.95f * seg(ag, 0.45f, 0.55f), walk = t * 7f, arms = 0.15f) }
+    }
     // the stranger, walking the other way; then he mends; then home
     if (ag > 0f) {
         val come = easeInOut(seg(ag, 0.05f, 1f))
-        val toJar = easeInOut(seg(md, 0.25f, 0.4f))
+        val toJar = easeInOut(seg(md, 0f, 0.18f))
+        val toPlant = easeInOut(seg(md, 0.5f, 0.57f))
         val toHome = easeInOut(seg(lw, 0.3f, 0.9f))
         val x = when {
-            lw > 0f -> mix(w * 0.5f, w * 0.32f, toHome)
-            md > 0f -> mix(w * 0.56f, w * 0.5f, toJar)
-            else -> mix(w * 0.85f, w * 0.55f, come)
+            lw > 0f -> mix(w * 0.37f, w * 0.32f, toHome)
+            md > 0f -> mix(mix(w * 0.56f, w * 0.5f, toJar), w * 0.37f, toPlant)
+            else -> mix(w * 0.85f, w * 0.56f, come)
         }
         val foot = Offset(x, groundY + h * 0.16f)
-        val kneel = easeOut(seg(md, 0.38f, 0.45f)) * (1f - easeOut(seg(md, 0.9f, 1f)))
-        val moving = (ag in 0.06f..0.99f && md <= 0f) || (md in 0.25f..0.4f) || (lw in 0.3f..0.9f)
+        val kneel = easeOut(seg(md, 0.16f, 0.22f)) * (1f - easeOut(seg(md, 0.48f, 0.51f))) + easeOut(seg(md, 0.56f, 0.6f)) * (1f - easeOut(seg(md, 0.9f, 1f)))
+        val moving = (ag in 0.06f..0.99f && md <= 0f) || (md in 0.01f..0.18f) || (md in 0.5f..0.57f) || (lw in 0.3f..0.9f)
         softGlow(foot + Offset(0f, -tall * 0.5f), tall * 0.5f, StreetC8.Rim, 0.35f)
         figure(foot, tall * (1f - 0.25f * kneel), StreetC8.Stranger, walk = if (moving) t * 5f else 0f, lean = 0.5f * kneel, arms = 0.2f + 0.7f * kneel)
     }

@@ -648,7 +648,7 @@ internal fun DrawScope.trailScene(a: ArtCtx) {
         }
         drawPath(cone, Brush.verticalGradient(listOf(Color(0xFFFFE6B0).copy(alpha = 0.3f * light), Color.Transparent), startY = c.y, endY = base.y + 8f * dp))
         if (small) bloom(c, 5f * dp, Color(0xFFFFE6B0), 0.8f * light)
-        sirajMunir(c, (if (small) 3.8f else 4.6f) * dp, light, t)
+        sirajMunir(c, (if (small) 3.8f else 4.6f) * dp, light, t, nameAt = c + Offset(0f, h * 0.085f), named = !small)
         tagAt(a.tag("light"), c + Offset(0f, -h * 0.12f), seg(a.b("light"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
     }
 

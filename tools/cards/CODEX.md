@@ -7,7 +7,7 @@ artifact. `variety.py` checks what can be checked at build time.
 | Who | Drawn as | Never |
 |---|---|---|
 | Allah ﷻ | nothing: only His names and verses, as words | any shape, light or symbol |
-| The Prophet ﷺ | bright warm golden light with soft rays (`sirajMunir`, beat `light`) | lantern, outline, body |
+| The Prophet ﷺ | bright warm golden light with soft rays (`sirajMunir`, beat `light`), always with «رَسُولُ اللَّهِ ﷺ» written beside it so it is never taken for the sun | lantern, outline, body, a light without his name |
 | Other prophets | the same warm light, smaller, name written under it (`light`, value 1) | lantern, figure |
 | Angels | cool white light; Jibril larger | wings, figure |
 | Closest companions (4 caliphs, the ten, Ahl al-Bayt, Mothers of the Believers) | name in calligraphy, in a roundel of its own colour | figure |
