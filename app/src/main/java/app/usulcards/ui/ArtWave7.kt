@@ -203,37 +203,40 @@ private fun DrawScope.camel(foot: Offset, s: Float, color: Color, walk: Float, a
     }
 }
 
-/** A row of handwriting from [right] to [left] at [y]: words of joined strokes with dots and tall letters; [p] writes it from the right. */
+/**
+ * A row of text drawn as plain ruled strokes, its words straight segments, written from the right as [p] goes.
+ * Scenes never imitate script: text is either such lines or a real, sourced quote (tools/cards/CODEX.md).
+ */
 private fun DrawScope.inkRow(right: Float, left: Float, y: Float, seed: Int, color: Color, width: Float, p: Float = 1f, alpha: Float = 1f) {
     if (p <= 0f || alpha <= 0.01f) return
     val end = right - (right - left) * p.coerceIn(0f, 1f)
-    val stroke = Stroke(width, cap = StrokeCap.Round, join = StrokeJoin.Round)
     var x = right
     var k = 0
     while (x > end + width) {
-        val len = (right - left) * (0.08f + 0.12f * rnd(seed * 31 + k, 12.9898f))
+        val len = (right - left) * (0.1f + 0.14f * rnd(seed * 31 + k, 12.9898f))
         val x2 = max(end, x - len)
-        val word = Path().apply {
-            moveTo(x, y)
-            var xx = x
-            var j = 0
-            while (xx > x2) {
-                val nx = max(x2, xx - width * (2.6f + 1.6f * rnd(seed * 7 + k * 13 + j, 4.1f)))
-                val up = width * (0.6f + 1.4f * rnd(seed * 5 + k * 11 + j, 9.7f))
-                cubicTo(xx - (xx - nx) * 0.25f, y - up, xx - (xx - nx) * 0.75f, y - up, nx, y)
-                xx = nx
-                j++
-            }
-        }
-        drawPath(word, color, alpha = alpha, style = stroke)
-        // a tall letter at the word's start, a tail at its end, the letters' dots
-        if (rnd(seed * 3 + k, 2.3f) > 0.45f) drawLine(color, Offset(x - width * 0.6f, y), Offset(x - width * 0.2f, y - width * 5f), width * 0.9f, StrokeCap.Round, alpha = alpha)
-        if (rnd(seed * 9 + k, 6.1f) > 0.5f) drawPath(Path().apply { moveTo(x2, y); cubicTo(x2 - width * 2f, y + width * 2.5f, x2 - width * 4f, y + width * 1.5f, x2 - width * 4.5f, y - width * 0.5f) }, color, alpha = alpha, style = stroke)
-        val dots = (rnd(seed * 17 + k, 78.233f) * 3f).toInt()
-        for (d in 0 until dots) drawCircle(color, width * 0.6f, Offset(x - (x - x2) * (0.3f + 0.25f * d), y + (if (d % 2 == 0) -width * 2.6f else width * 2.2f)), alpha = alpha)
-        x = x2 - (right - left) * 0.035f
+        drawLine(color, Offset(x, y), Offset(x2, y), width, StrokeCap.Round, alpha = alpha)
+        x = x2 - (right - left) * 0.03f
         k++
     }
+}
+
+/** A quote on a slip of paper at [c], at most [maxW] wide; its rim colour tells the Qur'an (gold) from a hadith (red). */
+private fun DrawScope.callout(c: Offset, tl: TextLayoutResult?, maxW: Float, alpha: Float, ink: Color, rim: Color) {
+    if (tl == null || alpha <= 0.01f) return
+    val a = alpha.coerceIn(0f, 1f)
+    val sc = min(0.62f, maxW / max(1f, tl.size.width.toFloat()))
+    val tw = tl.size.width * sc
+    val th = tl.size.height * sc
+    val padX = 7f * density
+    val padY = 3f * density
+    val tl0 = Offset(c.x - tw / 2f - padX, c.y - th / 2f - padY)
+    val sz = Size(tw + 2 * padX, th + 2 * padY)
+    val rise = (1f - easeOut(a)) * 8f * density
+    drawRoundRect(Color.Black, topLeft = tl0 + Offset(2f * density, 3f * density + rise), size = sz, cornerRadius = CornerRadius(6f * density), alpha = 0.3f * a)
+    drawRoundRect(Color(0xFFFBF4E2), topLeft = tl0 + Offset(0f, rise), size = sz, cornerRadius = CornerRadius(6f * density), alpha = a)
+    drawRoundRect(rim, topLeft = tl0 + Offset(0f, rise), size = sz, cornerRadius = CornerRadius(6f * density), alpha = a, style = Stroke(1.5f * density))
+    bigText(tl, c + Offset(0f, rise), sc, ink, a)
 }
 
 // ═════════════ 1. ink: a page of calligraphy (islam-sunna) ═════════════
@@ -472,20 +475,21 @@ private fun DrawScope.openPages(c: Offset, bw: Float, bh: Float, frame: Boolean,
 }
 
 /**
- * A reading desk at night under a lamp: an open mushaf on its folding stand, and below it a book of hadith.
- * Beats: sheet (the book of hadith slides into view), lens (a magnifier passes over a passage that is blurred; a
- * beam rises to it from a hadith and the passage becomes clear: the Sunna explains), match (a line in each lights
- * up, joined by a gold thread and an equals sign: the Sunna says what the Qur'an says), add (a new line is written
- * in the hadith book alone, with a plus sign). The two extra titles name the books.
+ * A reading desk at night under a lamp: an open mushaf on its folding stand, and below it a book of hadith; their
+ * lines are plain ruled strokes, and the real words appear where they matter. Beats: sheet (the book of hadith
+ * slides into view), lens (a magnifier over a blurred passage shows its words, tag part 0: a verse; the hadith that
+ * explains it, part 1, rises on a slip and lights the lens, and the passage clears), match (a verse and a hadith
+ * saying the same, parts 0 and 1, on slips joined by a gold thread with an equals sign), add (a ruling the hadith
+ * book alone has, part 0, is written with a plus sign). The two extra titles name the books.
  */
 internal fun DrawScope.lensScene(a: ArtCtx) {
     val w = size.width
     val h = size.height
     val shots = shotsFor(a, mapOf(
         "sheet" to Shot(Offset(w * 0.5f, h * 0.55f), 1f),
-        "lens" to Shot(Offset(w * 0.33f, h * 0.42f), 1.3f),
-        "match" to Shot(Offset(w * 0.7f, h * 0.5f), 1.2f),
-        "add" to Shot(Offset(w * 0.68f, h * 0.8f), 1.3f),
+        "lens" to Shot(Offset(w * 0.36f, h * 0.42f), 1.25f),
+        "match" to Shot(Offset(w * 0.66f, h * 0.42f), 1.05f),
+        "add" to Shot(Offset(w * 0.62f, h * 0.7f), 1.15f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f)) { lensDesk(a) }
 }
@@ -557,11 +561,14 @@ private fun DrawScope.lensDesk(a: ArtCtx) {
             drawLine(Desk.Red, Offset(r0, y), Offset(r0 - hw * 0.06f, y), 1.5f * dp, StrokeCap.Round)
             inkRow(r0 - hw * 0.08f, l0, y, 40 + k * 3 + side, Desk.Ink, 1.2f * dp)
         }
-        tagAt(a.extras.getOrNull(1), Offset(hc.x, hc.y - hh * 0.62f), seg(sbRaw, 0.3f, 1f), back = Color(0xE60B1913), ink = Desk.Gold)
+        tagAt(a.extras.getOrNull(1), Offset(hc.x, hc.y + hh * 0.6f), seg(sbRaw, 0.3f, 1f), back = Color(0xE60B1913), ink = Desk.Gold)
     }
 
+    val QuranInk = Color(0xFF1F3B2C)
+    val HadithInk = Color(0xFF3A2614)
     // match: the same ruling in both, joined by a gold thread
     val mb = a.b("match")
+    val ab = a.b("add")
     if (mb > 0f && sb > 0.5f) {
         val e = easeOut(mb)
         val y1 = mc.y - bh * 0.28f
@@ -583,6 +590,10 @@ private fun DrawScope.lensDesk(a: ArtCtx) {
             drawLine(Desk.Gold, c + Offset(-4f * dp, -2f * dp) * eq, c + Offset(4f * dp, -2f * dp) * eq, 1.8f * dp, StrokeCap.Round)
             drawLine(Desk.Gold, c + Offset(-4f * dp, 2f * dp) * eq, c + Offset(4f * dp, 2f * dp) * eq, 1.8f * dp, StrokeCap.Round)
         }
+        // the two quotes, on slips, until the next beat
+        val show = seg(mb, 0.15f, 0.4f) * (1f - seg(ab, 0f, 0.25f))
+        callout(Offset(w * 0.7f, h * 0.2f), a.big("match", 0, 0), w * 0.46f, show, QuranInk, Desk.Gold)
+        callout(Offset(w * 0.7f, h * 0.53f), a.big("match", 0, 1), w * 0.46f, seg(mb, 0.3f, 0.55f) * (1f - seg(ab, 0f, 0.25f)), HadithInk, Desk.Red)
     }
 
     // lens: the magnifier shows the blurred passage clearly, and the hadith it comes from
@@ -591,37 +602,45 @@ private fun DrawScope.lensDesk(a: ArtCtx) {
         val move = easeInOut(seg(lb, 0f, 0.5f))
         val target = Offset(mc.x - bw * 0.26f, mc.y - bh * 0.28f + 2 * bh * 0.14f)
         val c = Offset(mix(w * 1.12f, target.x, move), mix(h * 0.8f, target.y, move))
-        val r = w * 0.085f
+        val r = w * 0.13f
         val hand = Offset(0.62f, 0.78f)
         drawLine(Desk.WoodDark, c + hand * (r * 1.05f), c + hand * (r * 2.5f), 7f * dp, StrokeCap.Round)
         drawLine(Desk.Wood, c + hand * (r * 1.05f), c + hand * (r * 2.5f), 4.5f * dp, StrokeCap.Round)
         val disc = Path().apply { addOval(Rect(c.x - r, c.y - r, c.x + r, c.y + r)) }
         clipPath(disc) {
             drawRect(Desk.Page, topLeft = Offset(c.x - r, c.y - r), size = Size(2 * r, 2 * r))
-            for (k in -1..1) inkRow(c.x + r * 0.95f, c.x - r * 0.95f, c.y + k * r * 0.62f + r * 0.1f, 70 + k, Desk.Ink, 1.7f * dp)
+            // the verse's words, magnified
+            val verse = a.big("lens", 0, 0)
+            if (verse != null) {
+                bigText(verse, c, min(0.6f, r * 1.75f / max(1f, verse.size.width.toFloat())), Desk.Ink, 1f)
+            } else {
+                for (k in -1..1) inkRow(c.x + r * 0.95f, c.x - r * 0.95f, c.y + k * r * 0.5f, 70 + k, Desk.Ink, 2f * dp)
+            }
             drawRect(Brush.radialGradient(listOf(Color(0x22FFFFFF), Color(0x10A8D8FF)), c, r), topLeft = Offset(c.x - r, c.y - r), size = Size(2 * r, 2 * r))
         }
         drawCircle(Color.White, r * 0.28f, c - Offset(r * 0.4f, r * 0.42f), alpha = 0.18f)
         drawCircle(Desk.Brass, r, c, style = Stroke(3.2f * dp))
         drawCircle(Color(0xFF7A5A22), r + 1.6f * dp, c, style = Stroke(0.8f * dp))
-        // a hadith lights up, and its light rises into the lens: the explanation comes from the Sunna
+        // a hadith lights up, rises on a slip, and its light reaches the lens: the explanation comes from the Sunna
         val lit = easeOut(seg(lb, 0.5f, 0.6f))
-        val beam = easeInOut(seg(lb, 0.58f, 0.85f))
+        val beam = easeInOut(seg(lb, 0.68f, 0.88f))
+        val away = 1f - seg(mb, 0f, 0.25f)
         if (lit > 0f && sb > 0.5f) {
             val src = Offset(hc.x - hw * 0.25f, hrow(-1, 1))
             drawRect(Desk.Gold, topLeft = Offset(hc.x - hw * 0.44f, src.y - 4.5f * dp), size = Size(hw * 0.38f, 9f * dp), alpha = 0.32f * lit)
+            val slip = Offset(w * 0.36f, h * 0.53f)
             if (beam > 0f) {
                 val top = c + Offset(0f, r)
-                val end = src + (top - src) * beam
-                drawLine(Desk.Gold, src, end, 9f * dp, StrokeCap.Round, alpha = 0.22f)
-                drawLine(Desk.Gold, src, end, 1.8f * dp, StrokeCap.Round, PathEffect.dashPathEffect(floatArrayOf(5f * dp, 4f * dp), -t * 20f * dp))
-                softGlow(end, 10f * dp, Desk.Gold, 0.7f)
+                val end = slip + (top - slip) * beam
+                drawLine(Desk.Gold, slip, end, 9f * dp, StrokeCap.Round, alpha = 0.22f * away)
+                drawLine(Desk.Gold, slip, end, 1.8f * dp, StrokeCap.Round, PathEffect.dashPathEffect(floatArrayOf(5f * dp, 4f * dp), -t * 20f * dp), alpha = away)
+                softGlow(end, 10f * dp, Desk.Gold, 0.7f * away)
             }
+            callout(src + (slip - src) * easeOut(seg(lb, 0.55f, 0.72f)), a.big("lens", 0, 1), w * 0.6f, seg(lb, 0.55f, 0.68f) * away, HadithInk, Desk.Red)
         }
     }
 
     // add: a ruling written in the hadith book alone
-    val ab = a.b("add")
     if (ab > 0f && sb > 0.5f) {
         val y = hrow(1, rows - 1)
         val r0 = hc.x + hw * 0.44f
@@ -638,6 +657,7 @@ private fun DrawScope.lensDesk(a: ArtCtx) {
             drawLine(Desk.Gold, c + Offset(-4f * dp, 0f) * plus, c + Offset(4f * dp, 0f) * plus, 1.8f * dp, StrokeCap.Round)
             drawLine(Desk.Gold, c + Offset(0f, -4f * dp) * plus, c + Offset(0f, 4f * dp) * plus, 1.8f * dp, StrokeCap.Round)
         }
+        callout(Offset(w * 0.6f, h * 0.6f), a.big("add", 0, 0), w * 0.62f, seg(ab, 0.3f, 0.55f), HadithInk, Desk.Red)
     }
 }
 

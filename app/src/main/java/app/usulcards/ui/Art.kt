@@ -119,8 +119,13 @@ internal fun ArtFrame(scene: Scene, beats: () -> List<Float>, time: () -> Float,
     val bigs = remember(scene, showDiacritics) {
         if (scene.layout !in BIG_TEXT_LAYOUTS) emptyList<List<TextLayoutResult>>() else {
             val style = TextStyle(fontFamily = Fonts.naskh, fontWeight = FontWeight.Bold, fontSize = 24.sp, color = ArtInk.Ivory)
+            // a part in ornate brackets ﴿ ﴾ is a verse: it is set in the Qur'an's own font
+            val verse = TextStyle(fontFamily = Fonts.quran, fontSize = 24.sp, color = ArtInk.Ivory)
             scene.items.map { item ->
-                if (item.sub.isEmpty()) emptyList<TextLayoutResult>() else item.sub.split("|").map { tm.measure(txt(it.trim()), style) }
+                if (item.sub.isEmpty()) emptyList<TextLayoutResult>() else item.sub.split("|").map {
+                    val part = it.trim()
+                    tm.measure(txt(part), if (part.startsWith("﴿")) verse else style)
+                }
             }
         }
     }
@@ -317,7 +322,7 @@ internal class ArtCtx(
 }
 
 /** Scenes that write their tags large (see ArtCtx.big). */
-internal val BIG_TEXT_LAYOUTS = setOf("ink", "map")
+internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens")
 
 // ───────────── shared helpers ─────────────
 

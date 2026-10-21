@@ -25,6 +25,12 @@ artifact. `variety.py` checks what can be checked at build time.
 - Paradise (gardens, rivers beneath), Hell (fire, smoke): as the texts describe, never a full detailed picture.
 - Kaaba, mosque, mihrab: drawn as the buildings they are.
 
+## Text inside a scene
+- Never imitation script: a page, a scroll or a book shows its lines as plain ruled strokes.
+- Real words only where they carry the idea, and only real, sourced quotes: a verse in ornate brackets ﴿ ﴾ (set
+  in the Qur'an's font), a hadith as narrated; the sources go in the scene's note.
+- No label that repeats the caption under the picture; names (in roundels, on a book) and one or two key words.
+
 ## Variety
 Registers to rotate: night cinema (at most a third), dawn and daylight, ink and calligraphy, geometric pattern,
 map, story vignette, object close-up, nature in motion.
