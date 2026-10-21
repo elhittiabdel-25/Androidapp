@@ -37,7 +37,7 @@ ART_KINDS = {
     "trail": {"origin", "up", "lamp", "mark", "good", "bad", "follow", "follow2", "hole", "stray", "idols", "keep",
               "omen", "turn", "word", "goal", "lands", "open", "stuck", "walk", "show", "door", "swap", "light"},
     "ridge": {"stone", "pit", "lean", "walk"},
-    "tree": {"root", "trunk", "crown", "fruit", "storm", "hold", "calm", "shed", "bad"},
+    "tree": {"root", "trunk", "crown", "fruit", "storm", "hold", "calm", "shed", "bad", "wail"},
     "streams": {"basin", "stream", "divert", "curse", "block", "near"},
     "building": {"base", "pillars", "course", "roof", "glow", "light", "house", "rival", "fall", "crack", "lock",
                  "lower", "wall", "name", "raise", "word", "level", "palace", "brick"},
@@ -104,6 +104,9 @@ ART_KINDS = {
     "stage": {"marionette", "jitter", "selfmade", "sower", "praised"},
     "eden": {"blame", "decree", "repented", "twoways", "bothways"},
     "casket": {"pry", "sealed", "submit", "followsaid", "hush"},
+    "threads": {"pedestal", "putfirst", "beloved", "family"},
+    "carpet": {"backside", "despair", "turnover", "hamd"},
+    "bird": {"wingfear", "winghope", "headlove", "loveonly", "fearonly", "hopeonly", "soar"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

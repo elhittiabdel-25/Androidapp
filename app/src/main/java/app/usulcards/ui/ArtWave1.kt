@@ -1221,6 +1221,44 @@ internal fun DrawScope.treeScene(a: ArtCtx) {
         }
         tagAt(a.tag("shed"), Offset(w * 0.82f, ground - h * 0.24f), seg(shed, 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Ember)
     }
+    // the patient one sits by the trunk; the one who wails, strikes his cheeks and tears his collar is crossed out
+    if (a.count("wail") > 0) {
+        val tl = h * 0.24f
+        val sitA = easeOut(seg(a.b("hold"), 0f, 0.4f))
+        if (sitA > 0f) {
+            val seat = base + Offset(w * 0.09f, h * 0.01f)
+            softGlow(seat + Offset(0f, -tl * 0.3f), tl * 0.45f, ArtInk.Gold, 0.35f * sitA * (0.5f + 0.5f * calm))
+            w8Seated(seat, tl, Color(0xFF1E1A24), facing = -1f, alpha = sitA)
+        }
+        val wl = a.b("wail")
+        if (wl > 0f) {
+            val come = easeOut(seg(wl, 0f, 0.15f))
+            val foot = Offset(w * 0.2f, ground + h * 0.01f)
+            val ink = Color(0xFF1E1A24)
+            val sw = max(1.7f * dp, tl * 0.065f)
+            val beat = sin(t * 9f)
+            val hip = foot + Offset(0f, -tl * 0.45f)
+            val neck = hip + Offset(tl * 0.03f * beat, -tl * 0.31f)
+            val head = neck + Offset(0f, -tl * 0.15f) + Offset(0f, -tl * 0.02f * abs1(beat))
+            drawLine(ink.copy(alpha = come), hip, foot + Offset(-tl * 0.08f, 0f), sw, StrokeCap.Round)
+            drawLine(ink.copy(alpha = come), hip, foot + Offset(tl * 0.08f, 0f), sw, StrokeCap.Round)
+            drawLine(ink.copy(alpha = come), hip, neck, sw, StrokeCap.Round)
+            drawCircle(ink.copy(alpha = come), tl * 0.1f, head)
+            // his hands striking his cheeks
+            val hit = 0.5f + 0.5f * beat
+            drawLine(ink.copy(alpha = come), neck, head + Offset(-tl * (0.14f + 0.08f * hit), tl * 0.02f), sw * 0.9f, StrokeCap.Round)
+            drawLine(ink.copy(alpha = come), neck, head + Offset(tl * (0.14f + 0.08f * (1f - hit)), tl * 0.02f), sw * 0.9f, StrokeCap.Round)
+            // his collar torn open
+            drawPath(Path().apply { moveTo(neck.x - tl * 0.05f, neck.y + tl * 0.02f); lineTo(neck.x, neck.y + tl * 0.16f); lineTo(neck.x + tl * 0.05f, neck.y + tl * 0.02f) }, Color(0xFFE8D8C0).copy(alpha = come), style = Stroke(1.4f * dp, cap = StrokeCap.Round))
+            // his wailing
+            for (k in 0 until 3) {
+                val f = fract(t * 1.6f + k / 3f)
+                val rr = tl * (0.12f + 0.25f * f)
+                drawArc(ArtInk.Ivory.copy(alpha = 0.8f * come * (1f - f)), 220f, 100f, false, topLeft = head - Offset(rr, rr), size = Size(2 * rr, 2 * rr), style = Stroke(1.5f * dp, cap = StrokeCap.Round))
+            }
+            noSign11pub(neck + Offset(0f, tl * 0.05f), tl * 0.42f, easeOut(seg(wl, 0.45f, 0.7f)))
+        }
+    }
     // refused acts, listed and crossed out on the left
     for (k in 0 until a.count("bad")) {
         val p = a.b("bad", k)

@@ -28,7 +28,7 @@ import kotlin.math.sin
 // ───────────── shared ─────────────
 
 /** A faceless figure posed by its joints: [hip], [neck] (the top of the body), and hands and feet anywhere. */
-private fun DrawScope.posed14(hip: Offset, neck: Offset, handA: Offset, handB: Offset, footA: Offset, footB: Offset, tall: Float, color: Color, alpha: Float = 1f) {
+internal fun DrawScope.posed14(hip: Offset, neck: Offset, handA: Offset, handB: Offset, footA: Offset, footB: Offset, tall: Float, color: Color, alpha: Float = 1f) {
     if (alpha <= 0.01f) return
     val sw = max(1.7f * density, tall * 0.065f)
     drawLine(color, hip, footA, sw, StrokeCap.Round, alpha = alpha)
@@ -42,7 +42,7 @@ private fun DrawScope.posed14(hip: Offset, neck: Offset, handA: Offset, handB: O
 }
 
 /** A prophet other than him ﷺ: a smaller, whiter light, always with his name. */
-private fun DrawScope.nabiLight14(c: Offset, r: Float, strength: Float, t: Float, name: TextLayoutResult?, nameAt: Offset) {
+internal fun DrawScope.nabiLight14(c: Offset, r: Float, strength: Float, t: Float, name: TextLayoutResult?, nameAt: Offset) {
     if (strength <= 0.01f) return
     val s = strength.coerceIn(0f, 1.4f)
     val col = Color(0xFFFFF4DA)
@@ -53,7 +53,7 @@ private fun DrawScope.nabiLight14(c: Offset, r: Float, strength: Float, t: Float
 }
 
 /** A green tick that draws itself (0..1). */
-private fun DrawScope.tick14(c: Offset, r: Float, p: Float, color: Color = Color(0xFF2E9A55)) {
+internal fun DrawScope.tick14(c: Offset, r: Float, p: Float, color: Color = Color(0xFF2E9A55)) {
     if (p <= 0f) return
     val a = c + Offset(-r, 0f)
     val b = c + Offset(-r * 0.25f, r * 0.7f)
@@ -66,7 +66,7 @@ private fun DrawScope.tick14(c: Offset, r: Float, p: Float, color: Color = Color
 }
 
 /** A red cross that draws itself (0..1). */
-private fun DrawScope.cross14(c: Offset, r: Float, p: Float, color: Color = Color(0xFFD23C30)) {
+internal fun DrawScope.cross14(c: Offset, r: Float, p: Float, color: Color = Color(0xFFD23C30)) {
     if (p <= 0f) return
     val p1 = seg(p, 0f, 0.5f)
     val p2 = seg(p, 0.5f, 1f)
@@ -76,7 +76,7 @@ private fun DrawScope.cross14(c: Offset, r: Float, p: Float, color: Color = Colo
 }
 
 /** A scroll at [c], [open] 0..1 unrolled downwards, with ruled lines (never imitation script) and a red seal. */
-private fun DrawScope.scroll14(c: Offset, wd: Float, ht: Float, open: Float, alpha: Float) {
+internal fun DrawScope.scroll14(c: Offset, wd: Float, ht: Float, open: Float, alpha: Float) {
     if (alpha <= 0.01f) return
     val dp = density
     val o = easeOut(open)
@@ -737,7 +737,7 @@ private object CasketC14 {
 }
 
 /** A question mark drawn in strokes (no font), [s] high, at [c]. */
-private fun DrawScope.qMark14(c: Offset, s: Float, color: Color, alpha: Float) {
+internal fun DrawScope.qMark14(c: Offset, s: Float, color: Color, alpha: Float) {
     if (alpha <= 0.01f) return
     val sw = s * 0.16f
     drawArc(color, 180f, 270f, false, topLeft = c + Offset(-s * 0.25f, -s * 0.5f), size = Size(s * 0.5f, s * 0.45f), style = Stroke(sw, cap = StrokeCap.Round), alpha = alpha)
