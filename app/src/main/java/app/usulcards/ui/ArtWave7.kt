@@ -949,8 +949,8 @@ internal fun DrawScope.studyScene(a: ArtCtx) {
     val shots = shotsFor(a, mapOf(
         "doubt" to Shot(Offset(w * 0.34f, h * 0.32f), 1.25f),
         "tread" to Shot(Offset(w * 0.5f, h * 0.62f), 1f),
-        "guess" to Shot(Offset(w * 0.64f, h * 0.55f), 1.1f),
-        "derive" to Shot(Offset(w * 0.72f, h * 0.52f), 1.1f),
+        "guess" to Shot(Offset(w * 0.38f, h * 0.58f), 1.15f),
+        "derive" to Shot(Offset(w * 0.45f, h * 0.52f), 1.05f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.22f) { studyRoom(a) }
 }
@@ -1023,29 +1023,32 @@ private fun DrawScope.studyRoom(a: ArtCtx) {
         drawPath(starPath(Offset(w * 0.5f, h * 0.89f), w * 0.12f), Study.RugCream, alpha = 0.85f)
         drawPath(starPath(Offset(w * 0.5f, h * 0.89f), w * 0.07f), Study.RugBorder)
     }
-    // the book on its stand, glowing
-    val book = Offset(w * 0.72f, h * 0.6f)
-    val glow = 0.45f + 0.5f * walkTo
-    softGlow(book, w * 0.2f, Color(0xFFFFE6A8), glow)
-    for (side in intArrayOf(-1, 1)) {
-        drawLine(Study.WoodDark, book + Offset(side * w * 0.07f, h * 0.02f), book + Offset(-side * w * 0.05f, h * 0.2f), 4.5f * dp, StrokeCap.Round)
-        drawLine(Study.Wood, book + Offset(side * w * 0.07f, h * 0.02f), book + Offset(-side * w * 0.05f, h * 0.2f), 2.6f * dp, StrokeCap.Round)
-    }
-    for (side in intArrayOf(-1, 1)) {
-        drawPath(Path().apply {
-            moveTo(book.x, book.y - h * 0.02f); lineTo(book.x + side * w * 0.1f, book.y - h * 0.05f); lineTo(book.x + side * w * 0.1f, book.y + h * 0.04f); lineTo(book.x, book.y + h * 0.06f); close()
-        }, Study.Page)
-        for (k in 0 until 3) {
-            val y = book.y - h * 0.02f + k * h * 0.022f
-            drawLine(Study.Ink, Offset(book.x + side * w * 0.015f, y), Offset(book.x + side * w * 0.085f, y - h * 0.012f), 0.9f * dp, alpha = 0.6f)
+    // the book of the Sunna on its stand, glowing
+    val book = Offset(w * 0.72f, h * 0.58f)
+    val glow = 0.5f + 0.5f * walkTo
+    softGlow(book, w * 0.24f, Color(0xFFFFE6A8), glow)
+    withTransform({ scale(1.4f, 1.4f, pivot = book) }) {
+        for (side in intArrayOf(-1, 1)) {
+            drawLine(Study.WoodDark, book + Offset(side * w * 0.07f, h * 0.02f), book + Offset(-side * w * 0.05f, h * 0.16f), 4.5f * dp, StrokeCap.Round)
+            drawLine(Study.Wood, book + Offset(side * w * 0.07f, h * 0.02f), book + Offset(-side * w * 0.05f, h * 0.16f), 2.6f * dp, StrokeCap.Round)
+        }
+        for (side in intArrayOf(-1, 1)) {
+            drawPath(Path().apply {
+                moveTo(book.x, book.y - h * 0.02f); lineTo(book.x + side * w * 0.1f, book.y - h * 0.05f); lineTo(book.x + side * w * 0.1f, book.y + h * 0.04f); lineTo(book.x, book.y + h * 0.06f); close()
+            }, Study.Page)
+            for (k in 0 until 3) {
+                val y = book.y - h * 0.02f + k * h * 0.022f
+                drawLine(Study.Ink, Offset(book.x + side * w * 0.015f, y), Offset(book.x + side * w * 0.085f, y - h * 0.012f), 0.9f * dp, alpha = 0.6f)
+            }
         }
     }
+    tagAt(a.extras.getOrNull(0), book + Offset(0f, -h * 0.13f), 1f, back = Color(0xE62B303E), ink = Study.Gold)
 
     // the man: he faces the book (drawn mirrored), and walks to it when he follows
     val foot0 = Offset(w * 0.32f, h * 0.93f)
     val foot1 = Offset(w * 0.56f, h * 0.9f)
     val foot = foot0 + (foot1 - foot0) * walkTo
-    val tall = h * 0.42f
+    val tall = h * 0.36f
     val head = foot + Offset(0f, -tall * 0.96f)
     // tread: footprints of light from where he stands to the book
     if (tb > 0f) {
@@ -1096,10 +1099,10 @@ private fun DrawScope.studyRoom(a: ArtCtx) {
     // guess: a ruling stamped on the rice by his own idea: it cracks
     val gb = a.b("guess")
     val dvb = a.b("derive")
-    val bowl = Offset(w * 0.88f, h * 0.88f)
+    val bowl = Offset(w * 0.28f, h * 0.86f)
     if (gb > 0f) {
         riceBowl(bowl, w * 0.13f, easeOut(seg(gb, 0f, 0.2f)))
-        val bub = Offset(w * 0.4f, h * 0.24f)
+        val bub = Offset(w * 0.4f, h * 0.27f)
         val pop = seg(gb, 0.85f, 1f)
         thought(bub, w * 0.065f, head, seg(gb, 0.1f, 0.3f), pop) { al -> seal(bub, w * 0.03f, al) }
         val fly = easeInOut(seg(gb, 0.35f, 0.6f))
@@ -1112,14 +1115,13 @@ private fun DrawScope.studyRoom(a: ArtCtx) {
             val cracked = seg(gb, 0.62f, 0.75f)
             seal(p, w * 0.03f, 1f - 0.8f * seg(dvb, 0.3f, 0.5f), cracked)
             val x = easeOut(seg(gb, 0.72f, 0.85f)) * (1f - seg(dvb, 0.3f, 0.5f))
-            if (x > 0f) crossMark(bowl + Offset(w * 0.08f, -h * 0.1f), w * 0.022f * x, Study.Bad, 3f * dp)
+            if (x > 0f) crossMark(bowl + Offset(w * 0.1f, -h * 0.1f), w * 0.024f * x, Study.Bad, 3f * dp)
         }
     }
     // derive: from the book a page with wheat and its ruling, and a gold line carries it to the rice
     if (dvb > 0f) {
-        val card = Offset(w * 0.68f, h * 0.24f)
         val up = easeOut(seg(dvb, 0f, 0.3f))
-        val cc = card + Offset(0f, (1f - up) * h * 0.3f)
+        val cc = (book + Offset(0f, -h * 0.05f)) + (Offset(w * 0.5f, h * 0.22f) - (book + Offset(0f, -h * 0.05f))) * up
         drawRoundRect(Color.Black, topLeft = cc + Offset(-w * 0.09f + 3f * dp, -h * 0.13f + 4f * dp), size = Size(w * 0.18f, h * 0.24f), cornerRadius = CornerRadius(5f * dp), alpha = 0.2f * up)
         drawRoundRect(Study.Page, topLeft = cc + Offset(-w * 0.09f, -h * 0.13f), size = Size(w * 0.18f, h * 0.24f), cornerRadius = CornerRadius(5f * dp), alpha = up)
         drawRoundRect(Study.Gold, topLeft = cc + Offset(-w * 0.09f, -h * 0.13f), size = Size(w * 0.18f, h * 0.24f), cornerRadius = CornerRadius(5f * dp), alpha = up, style = Stroke(1.4f * dp))
@@ -1136,7 +1138,7 @@ private fun DrawScope.studyRoom(a: ArtCtx) {
             val done = easeOut(seg(dvb, 0.75f, 0.9f))
             if (done > 0f) {
                 softGlow(to, w * 0.1f, Color(0xFFFFE6A8), 0.6f * done)
-                checkMark(bowl + Offset(w * 0.08f, -h * 0.12f), w * 0.025f * done, Study.Good, 3f * dp)
+                checkMark(bowl + Offset(w * 0.1f, -h * 0.12f), w * 0.026f * done, Study.Good, 3f * dp)
                 tagAt(a.tag("derive", 0, 1), bowl + Offset(-w * 0.02f, h * 0.08f), done, back = Color(0xE62B303E))
             }
         }
@@ -1286,7 +1288,7 @@ private fun DrawScope.canyonLand(a: ArtCtx) {
     val trap = a.b("trapped")
     val rise = easeOut(seg(trap, 0.35f, 0.7f))
     fun half(u: Float) = mix(1.5f * dp, w * 0.105f, u) * deep
-    fun depth(u: Float) = (h * 0.13f * deep + h * 0.16f * rise) * u
+    fun depth(u: Float) = (h * 0.13f * deep + h * 0.24f * rise) * u
     fun farTop(u: Float) = mid(u) + nrm(u) * half(u)
     fun nearTop(u: Float) = mid(u) - nrm(u) * half(u)
     fun farFloor(u: Float) = mid(u) + nrm(u) * (half(u) * 0.35f) + Offset(0f, depth(u))
@@ -1342,7 +1344,7 @@ private fun DrawScope.canyonLand(a: ArtCtx) {
         // he tries to climb the wall twice, and slides back each time
         val climb = bump(seg(trap, 0.62f, 0.8f)) + 0.8f * bump(seg(trap, 0.82f, 0.98f))
         val c = base + (farFloor(u) + (farTop(u) - farFloor(u)) * 0.45f - base) * climb
-        val tall = h * mix(0.1f, 0.2f, u)
+        val tall = h * mix(0.12f, 0.24f, u)
         val walking = trap < 0.4f
         if (climb < 0.05f) drawLine(Color.Black, c, c + Offset(-tall * 1.1f, tall * 0.05f), tall * 0.07f, StrokeCap.Round, alpha = 0.2f)
         figure(c, tall, Dune.Ink, walk = if (walking) t * 6f else t * 9f * min(1f, climb * 3f), lean = if (walking) 0.08f else 0.3f * climb, arms = if (walking) 0f else 0.6f + 0.4f * climb)
@@ -1410,7 +1412,7 @@ internal fun DrawScope.mapScene(a: ArtCtx) {
     val ink = easeInOut(seg(a.b("old"), 0f, 0.75f))
     val shots = shotsFor(a, mapOf(
         "spiral" to Shot(Offset(w * 0.5f, h * 0.34f), 1.2f),
-        "old" to Shot(Offset(mix(w * 0.75f, w * 0.3f, ink), h * 0.52f), 1.2f),
+        "old" to Shot(Offset(mix(w * 0.7f, w * 0.35f, ink), h * 0.42f), 1.1f),
         "caliphs" to Shot(Offset(w * 0.5f, h * 0.62f), 1.05f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.18f) { mapSheet(a) }
@@ -1902,8 +1904,8 @@ private fun DrawScope.caravanNight(a: ArtCtx) {
     camel(camelFoot, h * 0.24f, Night.Camel, walkPh, 1f)
     camel(camelFoot + Offset(-0.8f * dp, -0.8f * dp), h * 0.24f, Night.Rim, walkPh, 0.14f)
     // the one at the front, who turns off into the dark on purpose
-    val darkEnd = Offset(w * 0.05f, h * 0.52f)
-    val leave = road(0.8f)
+    val darkEnd = Offset(w * 0.13f, h * 0.5f)
+    val leave = road(0.76f)
     val front = if (df <= 0f) leave else cubic(leave, leave + Offset(-w * 0.02f, -h * 0.07f), darkEnd + Offset(w * 0.07f, h * 0.03f), darkEnd, go)
     if (df > 0f) {
         drawPath(cubicPart(leave, leave + Offset(-w * 0.02f, -h * 0.07f), darkEnd + Offset(w * 0.07f, h * 0.03f), darkEnd, 0f, go), Night.Cold, alpha = 0.6f, style = Stroke(2f * dp, pathEffect = PathEffect.dashPathEffect(floatArrayOf(3f * dp, 3f * dp))))
