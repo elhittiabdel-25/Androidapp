@@ -239,6 +239,7 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "milla" -> millaScene(a)
         "booth" -> boothScene(a)
         "omenroad" -> omenroadScene(a)
+        "pitroad" -> pitroadScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -510,6 +511,10 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "turnhome" -> 5400
     "goodword" -> 2900
     "liked" -> 4600
+    // wave 19 (round 12: نواقض الإسلام)
+    "road10" -> 9000
+    "pitfall" -> 2600
+    "beware" -> 4000
     else -> 1000
 }
 

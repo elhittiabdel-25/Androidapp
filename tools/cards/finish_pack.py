@@ -113,6 +113,7 @@ ART_KINDS = {
     "milla": {"outmilla", "inmilla", "belie", "conceal", "haughty", "twoface"},
     "booth": {"fortune", "cutoff", "askonly", "unaccepted"},
     "omenroad": {"crowfly", "turnhome", "goodword", "liked"},
+    "pitroad": {"road10", "pitfall", "beware"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
