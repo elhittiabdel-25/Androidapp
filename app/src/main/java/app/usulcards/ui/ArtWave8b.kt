@@ -213,7 +213,7 @@ internal fun DrawScope.mosqueScene(a: ArtCtx) {
         "differ" to Shot(Offset(w * 0.5f, h * 0.7f), 1.35f),
         "clasp" to Shot(Offset(w * 0.5f, h * 0.68f), 1.35f),
         "behind" to Shot(Offset(w * 0.34f, h * 0.68f), 1.2f),
-        "leave" to Shot(Offset(w * 0.76f, h * 0.7f), 1.45f),
+        "leave" to Shot(Offset(w * 0.78f, h * 0.7f), 1.45f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.16f) { mosqueHall(a) }
 }
@@ -355,8 +355,8 @@ private fun DrawScope.mosqueHall(a: ArtCtx) {
         val point = easeOut(seg(lv, 0.15f, 0.38f))
         val wall = easeOut(seg(lv, 0.35f, 0.7f))
         val go = easeInOut(seg(lv, 0.62f, 1f))
-        val pL = Offset(w * 0.7f, h * 0.93f)
-        val pR = Offset(w * 0.88f + w * 0.14f * go, h * 0.93f)
+        val pL = Offset(w * 0.76f, h * 0.93f)
+        val pR = Offset(w * 0.93f + w * 0.12f * go, h * 0.93f)
         // the accuser faces right, his arm thrust out at the other
         withTransform({ scale(-1f, 1f, pivot = pL) }) { figure(pL, ft, MasjidC8.Ink, alpha = come, lean = 0.12f * point, arms = point) }
         val tip = pL + Offset(ft * 0.3f, -ft * 0.68f)
@@ -368,7 +368,7 @@ private fun DrawScope.mosqueHall(a: ArtCtx) {
         }
         // the wall between them, brick by brick
         if (wall > 0f) {
-            val wx = w * 0.79f
+            val wx = w * 0.845f
             val wh = ft * 1.2f * wall
             val ww = w * 0.035f
             drawRect(MasjidC8.Crack, topLeft = Offset(wx - ww / 2, pL.y - wh), size = Size(ww, wh))
@@ -506,11 +506,11 @@ private fun DrawScope.mazePage(a: ArtCtx) {
     }
     // the platform at the top: nothing there, only wind
     val topP = Offset(w * 0.34f, h * 0.31f)
-    if (built >= flights.size) drawRect(ParchC8.Ink, topLeft = Offset(topP.x - w * 0.06f, topP.y), size = Size(w * 0.12f, h * 0.012f), alpha = 0.7f)
+    if (built >= flights.size) drawRect(ParchC8.Ink, topLeft = Offset(topP.x - w * 0.09f, topP.y), size = Size(w * 0.2f, h * 0.012f), alpha = 0.7f)
     val climbU = easeInOut(seg(cb, 0.15f, 0.78f))
     if (cb > 0.1f) {
         val path = flights.flatMap { listOf(it.first, it.second) }
-        val foot = w8Along(path, climbU)
+        val foot = w8Along(path, climbU) + Offset(w * 0.1f * easeInOut(seg(rg, 0.3f, 0.6f)), 0f)
         val atTop = seg(cb, 0.78f, 1f)
         val wind = easeOut(atTop)
         for (k in 0 until 4) {
@@ -521,7 +521,9 @@ private fun DrawScope.mazePage(a: ArtCtx) {
         val ct = h * 0.17f
         val regretTurn = easeOut(seg(rg, 0.5f, 0.8f))
         if (regretTurn > 0.5f) withTransform({ scale(-1f, 1f, pivot = foot) }) {
-            figure(foot, ct, ParchC8.Ink, arms = 0.7f, lean = 0.1f)
+            figure(foot, ct, ParchC8.Ink, arms = 0.8f, lean = 0.12f)
+        } else if (rg > 0.3f) {
+            figure(foot, ct, ParchC8.Ink, walk = if (rg < 0.6f) t * 6f else 0f)
         } else {
             figure(foot, ct, ParchC8.Ink, walk = if (climbU in 0.01f..0.99f) t * 9f else 0f, arms = -0.8f * wind, lean = -0.08f * wind)
         }
@@ -532,16 +534,19 @@ private fun DrawScope.mazePage(a: ArtCtx) {
     // regret: the two books at the top, named, close
     if (rg > 0f) {
         for (k in 0 until 2) {
-            val bc = topP + Offset(-w * 0.03f + w * 0.06f * k, -h * 0.03f)
+            val bc = Offset(w * (0.27f + 0.065f * k), topP.y - h * 0.016f)
             val shut = easeInOut(seg(rg, 0.15f + 0.1f * k, 0.45f + 0.1f * k))
-            val half = w * 0.022f
+            val half = w * 0.028f
+            val bh = h * 0.026f
             val col = ParchC8.Books[k + 1]
-            drawRect(col, topLeft = Offset(bc.x - half, bc.y - h * 0.008f), size = Size(half, h * 0.016f))
+            drawRect(col, topLeft = Offset(bc.x - half, bc.y - bh / 2), size = Size(half, bh))
             withTransform({ scale(1f - 2f * shut, 1f, pivot = Offset(bc.x, bc.y)) }) {
-                drawRect(if (shut < 0.5f) ParchC8.Paper else col, topLeft = Offset(bc.x, bc.y - h * 0.008f), size = Size(half, h * 0.016f))
+                drawRect(if (shut < 0.5f) ParchC8.Paper else col, topLeft = Offset(bc.x, bc.y - bh / 2), size = Size(half, bh))
+                if (shut < 0.5f) for (r in 0 until 3) drawLine(ParchC8.Sepia, Offset(bc.x + half * 0.15f, bc.y - bh * 0.25f + r * bh * 0.25f), Offset(bc.x + half * 0.85f, bc.y - bh * 0.25f + r * bh * 0.25f), 0.6f * dp)
             }
-            tagAt(a.tag("regret", 0, k), Offset(w * (0.24f + 0.2f * k), topP.y - h * 0.1f), seg(rg, 0.05f + 0.1f * k, 0.25f + 0.1f * k), back = ParchC8.Back, ink = Color(0xFFF2DDB0))
-            drawLine(ParchC8.Sepia, Offset(w * (0.24f + 0.2f * k), topP.y - h * 0.075f), bc + Offset(0f, -h * 0.012f), 0.7f * dp, alpha = 0.6f * seg(rg, 0.15f + 0.1f * k, 0.3f + 0.1f * k))
+            val tc = Offset(w * (0.19f + 0.16f * k), topP.y - h * 0.17f)
+            tagAt(a.tag("regret", 0, k), tc, seg(rg, 0.05f + 0.1f * k, 0.25f + 0.1f * k), back = ParchC8.Back, ink = Color(0xFFF2DDB0))
+            drawLine(ParchC8.Sepia, tc + Offset(0f, h * 0.03f), bc + Offset(0f, -bh * 0.6f), 0.8f * dp, alpha = 0.7f * seg(rg, 0.15f + 0.1f * k, 0.3f + 0.1f * k))
         }
         val spill = easeOut(seg(rg, 0.6f, 1f))
         drawRect(Brush.horizontalGradient(listOf(Color.Transparent, ParchC8.Cool.copy(alpha = 0.25f * spill)), startX = w * 0.3f, endX = w * 0.5f), topLeft = Offset(w * 0.3f, m), size = Size(w * 0.2f, h - 2 * m))
