@@ -337,7 +337,7 @@ private fun DrawScope.atharLand(a: ArtCtx) {
     val lg = easeOut(seg(dl, 0f, 0.35f))
     if (lg > 0f) {
         lightShafts(lightC, PI.toFloat() * 0.62f, 0.9f, h * 0.5f, Color(0xFFFFE6B0), 0.8f * lg, t, 6)
-        sirajMunir(lightC, 4.8f * dp, lg, t, nameAt = lightC + Offset(-w * 0.21f, 0f))
+        sirajMunir(lightC, 4.8f * dp, lg, t, nameAt = lightC + Offset(-w * 0.27f, 0f))
     }
     for (k in 0 until 7) {
         val ang = 2f * PI.toFloat() * k / 7f - PI.toFloat() / 2f + 0.25f
