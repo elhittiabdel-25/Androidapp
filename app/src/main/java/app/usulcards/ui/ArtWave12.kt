@@ -165,7 +165,7 @@ private fun DrawScope.saplingBench(a: ArtCtx) {
 
     val tall = h * 0.4f
     // the gardener: he waters it, sets the bell, steps back with open hands; then stands between the two
-    val gFoot = Offset(mix(w * 0.66f, w * 0.7f, easeOut(seg(cl, 0.6f, 0.9f))) - w * 0.1f * easeInOut(seg(ax, 0f, 0.3f)) * (1f - easeInOut(seg(pa, 0f, 0.3f))) , h * 0.98f)
+    val gFoot = Offset(mix(w * 0.66f, w * 0.7f, easeOut(seg(cl, 0.6f, 0.9f))) - w * 0.1f * easeInOut(seg(ax, 0f, 0.3f)) * (1f - easeInOut(seg(pa, 0f, 0.3f))) + w * 0.15f * easeInOut(seg(pa, 0f, 0.3f)), h * 0.98f)
     val open = easeOut(seg(cl, 0.6f, 0.9f))
     figure(gFoot, tall, SaplingC12.Ink, arms = if (cl in 0.1f..0.6f) 0.9f else 0.2f)
     if (open > 0f) for (sd in listOf(-1f, 1f)) drawLine(SaplingC12.Ink, gFoot + Offset(0f, -tall * 0.76f), gFoot + Offset(sd * tall * 0.2f, -tall * 0.62f), max(1.6f * dp, tall * 0.06f), StrokeCap.Round, alpha = open * (1f - seg(ax, 0f, 0.2f)))
@@ -200,6 +200,7 @@ private fun DrawScope.saplingBench(a: ArtCtx) {
         val brush = foot + Offset(-tall * 0.3f, -tall * 0.75f)
         drawLine(Color(0xFF6A4A2A), brush, brush + Offset(-w * 0.04f, -h * 0.02f), 1.8f * dp, StrokeCap.Round)
         drawCircle(SaplingC12.Paint, 3f * dp, brush + Offset(-w * 0.045f, -h * 0.022f))
+        noSign11pub(brush + Offset(-w * 0.03f, -h * 0.01f), w * 0.04f, easeOut(seg(pa, 0.65f, 0.85f)))
         drawRect(Color(0xFF7A7A82), topLeft = foot + Offset(-tall * 0.12f, -tall * 0.25f), size = Size(w * 0.03f, h * 0.04f))
     }
 }

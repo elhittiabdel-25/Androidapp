@@ -471,12 +471,44 @@ private fun DrawScope.damValley(a: ArtCtx) {
             val u = fract(t * 0.6f + k / 16f) * reach
             glint(w8Along(w8Smooth(path, 8), u) + Offset(0f, h * 0.03f * sin(k * 2f)), 4f * dp, Color.White, 0.6f)
         }
-        // people scattered by it
+        // it spreads over the valley floor: fields and houses under the water
+        val sheet = easeOut(seg(fl, 0.2f, 0.75f))
+        if (sheet > 0f) {
+            val top = mix(h * 1.02f, h * 0.72f, sheet)
+            val water = Path().apply {
+                moveTo(w * 0.36f, h)
+                lineTo(w * 0.36f, top + h * 0.05f)
+                for (k in 0..16) {
+                    val x = mix(w * 0.36f, w, k / 16f)
+                    lineTo(x, top + h * 0.012f * sin(k * 1.7f + t * 3f) - h * 0.04f * (k / 16f))
+                }
+                lineTo(w, h)
+                close()
+            }
+            drawPath(water, DamC11.Mud, alpha = 0.55f * sheet)
+            drawPath(water, DamC11.Water, alpha = 0.55f * sheet)
+            for (k in 0 until 10) {
+                val x = mix(w * 0.4f, w * 0.98f, fract(k * 0.137f + t * 0.05f))
+                drawLine(Color.White, Offset(x, top + h * 0.02f), Offset(x + w * 0.03f, top + h * 0.02f), 1.2f * dp, StrokeCap.Round, alpha = 0.6f * sheet)
+            }
+        }
+        // blocks of the burst wall carried down
+        for (k in 0 until 5) {
+            val u = (reach * (0.25f + 0.15f * k)).coerceAtMost(0.95f)
+            if (u <= 0.02f) continue
+            val pc = w8Along(w8Smooth(path, 8), u) + Offset(0f, -h * 0.02f * sin(k * 1.3f))
+            withTransform({ rotate(fl * 220f * (if (k % 2 == 0) 1f else -1f) + k * 30f, pc) }) {
+                drawRect(DamC11.Wall, topLeft = pc - Offset(w * 0.014f, h * 0.012f), size = Size(w * 0.028f, h * 0.024f))
+                drawRect(DamC11.WallDark, topLeft = pc - Offset(w * 0.014f, h * 0.012f), size = Size(w * 0.028f, h * 0.024f), style = Stroke(0.8f * dp))
+            }
+        }
+        // people scattered by it, running for the high ground
         for (k in 0 until 4) {
             val f = seg(fl, 0.4f + 0.08f * k, 1f)
             if (f <= 0f) continue
-            val foot = Offset(w * (0.6f + 0.1f * k) + w * 0.08f * f * (if (k % 2 == 0) 1f else -1f), h * (0.94f - 0.02f * k))
-            figure(foot, tall * 0.9f, DamC11.Ink, walk = t * 9f + k, lean = 0.3f * (if (k % 2 == 0) -1f else 1f), arms = -0.8f)
+            val foot = Offset(w * (0.62f + 0.09f * k) + w * 0.06f * f, h * (0.66f - 0.015f * k) - h * 0.04f * f)
+            figure(foot, tall * 0.9f, DamC11.Ink, walk = t * 11f + k, lean = -0.25f, arms = -0.9f)
+            for (sd in listOf(-1f, 1f)) drawLine(DamC11.Ink, foot + Offset(0f, -tall * 0.68f), foot + Offset(sd * tall * 0.14f, -tall * 1.02f), max(1.4f * dp, tall * 0.055f), StrokeCap.Round)
         }
     }
 }
@@ -551,24 +583,31 @@ private fun DrawScope.aerialCourt(a: ArtCtx) {
     }
     person(imam, w * 0.016f, AerialC11.Imam, 1f, bow)
     // the rows: six of twelve; each person has a place in the rows and a place in a broken knot
-    val cols = 12
-    val rows = 6
-    val r = w * 0.014f
+    val cols = 9
+    val rows = 4
+    val r = w * 0.021f
+    // the rows' carpets: they stay, and show the gaps when the rows break
+    val rugs = easeOut(seg(rb, 0f, 0.2f))
+    for (j in 0 until rows) {
+        val yy = h * (0.36f + 0.135f * j)
+        drawRect(Color(0xFF2E6A5A), topLeft = Offset(w * 0.15f, yy - h * 0.035f), size = Size(w * 0.7f, h * 0.085f), alpha = 0.55f * rugs)
+        drawLine(AerialC11.Gold, Offset(w * 0.15f, yy - h * 0.035f), Offset(w * 0.85f, yy - h * 0.035f), 1.2f * dp, alpha = rugs)
+    }
     val split = easeInOut(seg(sb, 0.1f, 0.7f)) * (1f - easeInOut(seg(gb, 0.05f, 0.8f)))
     for (j in 0 until rows) for (i in 0 until cols) {
         val n = j * cols + i
-        val target = Offset(w * (0.2f + 0.6f * i / (cols - 1f)), h * (0.32f + 0.1f * j))
+        val target = Offset(w * (0.2f + 0.6f * i / (cols - 1f)), h * (0.36f + 0.135f * j))
         // coming in from the gates
         val gate = Offset(w * (if (i < cols / 2) 0.2f else 0.8f), h * 1.02f)
         val arrive = easeInOut(seg(rb, 0.02f + 0.008f * (rows - j) * cols / 12f + 0.004f * i, 0.32f + 0.008f * (rows - j) * cols / 12f + 0.004f * i))
         var p = gate + (target - gate) * arrive
         // the knots they break into
         val knot = when {
-            i < 4 -> Offset(w * 0.18f, h * 0.62f)
-            i < 8 -> Offset(w * 0.5f, h * 0.7f)
+            i < 3 -> Offset(w * 0.18f, h * 0.62f)
+            i < 6 -> Offset(w * 0.5f, h * 0.7f)
             else -> Offset(w * 0.82f, h * 0.6f)
         }
-        val jitter = Offset((w8Rnd(n, 3.3f) - 0.5f) * w * 0.14f, (w8Rnd(n, 7.7f) - 0.5f) * h * 0.32f)
+        val jitter = Offset((w8Rnd(n, 3.3f) - 0.5f) * w * 0.16f, (w8Rnd(n, 7.7f) - 0.5f) * h * 0.34f)
         val inKnot = knot + jitter
         p += (inKnot - p) * split
         person(p, r, if (n % 3 == 0) AerialC11.Robe2 else AerialC11.Robe, seg(arrive, 0f, 0.05f).coerceAtLeast(if (rb > 0.3f) 1f else 0f), bow)
@@ -662,7 +701,7 @@ private fun DrawScope.soukStreet(a: ArtCtx) {
     val pivot = Offset(stall.x, stall.y - h * 0.24f)
     drawLine(SoukC11.Brass, Offset(stall.x, stall.y - h * 0.1f), pivot, 2f * dp)
     val fixed = easeOut(seg(th, 0.05f, 0.3f))
-    val tip = (if (ch > 0.2f) 0.25f else 0f) * (1f - fixed)
+    val tip = 0.6f * easeOut(seg(ch, 0.2f, 0.45f)) * (1f - fixed)
     val armL = pivot + Offset(-w * 0.08f, h * 0.06f * tip)
     val armR = pivot + Offset(w * 0.08f, -h * 0.06f * tip)
     drawLine(SoukC11.Brass, armL, armR, 2f * dp, StrokeCap.Round)
@@ -681,10 +720,19 @@ private fun DrawScope.soukStreet(a: ArtCtx) {
     val tall = h * 0.3f
     val mFoot = Offset(stall.x + w * 0.04f, stall.y - h * 0.02f)
     figure(mFoot, tall, SoukC11.Ink, arms = if (ch > 0.2f && fixed < 0.5f) 0.9f else 0.2f, lean = -0.05f)
-    if (ch > 0.2f && fixed < 0.5f) drawCircle(SoukC11.Fake, w * 0.012f, armL + Offset(0f, h * 0.05f), alpha = 0.8f * (0.6f + 0.4f * sin(t * 6f)), style = Stroke(1.6f * dp))
+    if (ch > 0.2f && fixed < 0.5f) {
+        // his thumb pressing the pan down, made plain
+        val pan = armL + Offset(0f, h * 0.05f)
+        drawLine(SoukC11.Ink, pan + Offset(w * 0.004f, -h * 0.05f), pan + Offset(0f, -h * 0.008f), 3.4f * dp, StrokeCap.Round)
+        drawCircle(SoukC11.Fake, w * 0.02f, pan, alpha = 0.9f * (0.6f + 0.4f * sin(t * 6f)), style = Stroke(1.8f * dp))
+        val bob = h * 0.01f * sin(t * 6f)
+        drawLine(SoukC11.Fake, pan + Offset(-w * 0.045f, -h * 0.09f + bob), pan + Offset(-w * 0.045f, -h * 0.03f + bob), 2f * dp, StrokeCap.Round)
+        arrowHead(pan + Offset(-w * 0.045f, -h * 0.03f + bob), Offset(0f, 1f), 6f * dp, SoukC11.Fake, 2f * dp)
+    }
     // the buyer, and the bag he gets
     val bFoot = Offset(w * 0.3f, h * 0.9f)
-    withTransform({ scale(-1f, 1f, pivot = bFoot) }) { figure(bFoot, tall, SoukC11.Ink, arms = 0.5f) }
+    // (he goes on his way before the youth runs up)
+    withTransform({ scale(-1f, 1f, pivot = bFoot) }) { figure(bFoot, tall, SoukC11.Ink, alpha = 1f - easeOut(seg(sh, 0f, 0.2f)), arms = 0.5f) }
     // three: hand, tongue, heart, picked out in turn
     val focus = seg(th, 0f, 1f) * 3f
     fun spot(c: Offset, k: Int) {
@@ -695,7 +743,12 @@ private fun DrawScope.soukStreet(a: ArtCtx) {
     val iFoot = Offset(w * 0.4f, h * 0.88f)
     val stop = easeOut(seg(sh, 0.3f, 0.5f))
     spot(iFoot + Offset(0f, -tall * 0.6f), 0)
-    withTransform({ scale(-1f, 1f, pivot = iFoot) }) { figure(iFoot, tall * 1.04f, Color(0xFF1E3A4A), arms = if (th in 0.01f..0.35f) 0.9f else 0.3f + 0.6f * stop) }
+    if (sh > 0.25f) {
+        // he turns to the youth and takes hold of his sword arm
+        figure(iFoot, tall * 1.04f, Color(0xFF1E3A4A), arms = 0.3f + 0.7f * stop)
+    } else {
+        withTransform({ scale(-1f, 1f, pivot = iFoot) }) { figure(iFoot, tall * 1.04f, Color(0xFF1E3A4A), arms = if (th in 0.01f..0.35f) 0.9f else 0.3f) }
+    }
     // the one who speaks: tongue
     val tFoot = Offset(w * 0.66f, h * 0.9f)
     spot(tFoot + Offset(0f, -tall * 0.6f), 1)
@@ -725,8 +778,13 @@ private fun DrawScope.soukStreet(a: ArtCtx) {
         withTransform({ scale(-1f, 1f, pivot = yFoot) }) { figure(yFoot, tall * 0.95f, SoukC11.Ink, walk = if (run < 1f) t * 9f else 0f, arms = 0.9f * (1f - back)) }
         val hilt = yFoot + Offset(tall * 0.28f, -tall * 0.72f + tall * 0.3f * back)
         val bladeEnd = hilt + Offset(tall * 0.45f * (1f - back), -tall * 0.15f * (1f - back) + tall * 0.35f * back)
-        drawLine(SoukC11.Blade, hilt, bladeEnd, 2f * dp, StrokeCap.Round, alpha = 1f - 0.6f * back)
-        drawLine(Color(0xFF6A4A2A), yFoot + Offset(tall * 0.05f, -tall * 0.4f), yFoot + Offset(tall * 0.12f, -tall * 0.05f), 3f * dp, StrokeCap.Round)
+        // the sheath at his hip, the bare blade, the hilt
+        drawLine(Color(0xFF6A4A2A), yFoot + Offset(tall * 0.05f, -tall * 0.42f), yFoot + Offset(tall * 0.2f, -tall * 0.02f), 4f * dp, StrokeCap.Round)
+        if (back < 0.95f) {
+            drawLine(SoukC11.Blade, hilt, bladeEnd, 3.2f * dp, StrokeCap.Round, alpha = 1f - back)
+            glint(bladeEnd, 10f * dp, Color.White, (1f - back) * (0.6f + 0.4f * sin(t * 5f)))
+        }
+        drawLine(Color(0xFF3A2A1A), hilt + Offset(-tall * 0.03f, -tall * 0.03f), hilt + Offset(tall * 0.03f, tall * 0.03f), 3f * dp, StrokeCap.Round)
     }
     // swords: up on the hill, a band marches on the palace with drawn swords
     if (sw > 0f) {
@@ -858,14 +916,19 @@ private fun DrawScope.bridgeGorge(a: ArtCtx) {
         if (kit == 1) for (b in 0 until 5) drawCircle(Color(0xFF6A4A2A), 1.2f * dp, foot + Offset(tall * 0.12f, -tall * (0.42f + 0.03f * b)), alpha = alpha)
         if (kit == 2) for (s in 0 until 3) drawCircle(BridgeC11.Stain, tall * 0.035f, foot + Offset(tall * 0.02f * s, -tall * (0.5f + 0.08f * s)), alpha = alpha)
         if (fall > 0f) {
-            // he hangs from the rope by his hands
-            drawLine(BridgeC11.Ink, foot + Offset(0f, -tall * 0.76f), gap + Offset(0f, -h * 0.005f), max(1.4f * dp, tall * 0.05f), StrokeCap.Round, alpha = alpha)
+            // he hangs from the rope by his hands, lit against the dark of the gorge
+            softGlow(foot + Offset(0f, -tall * 0.5f), tall * 0.7f, Color(0xFFFFC890), 0.45f * fall * alpha)
+            for (k in 0 until 3) {
+                val f = fract(t * 2.2f + k / 3f)
+                drawArc(BridgeC11.Call, 200f, 140f, false, topLeft = foot + Offset(-tall * 0.25f, -tall * (1.25f + 0.1f * f)), size = Size(tall * 0.5f, tall * 0.3f), style = Stroke(1.4f * dp, cap = StrokeCap.Round), alpha = alpha * fall * (1f - f))
+            }
+            drawLine(color, foot + Offset(0f, -tall * 0.76f), gap + Offset(0f, -h * 0.005f), max(1.4f * dp, tall * 0.05f), StrokeCap.Round, alpha = alpha)
         }
     }
     walker(0.02f, 0.98f, wn, BridgeC11.Ink, true, 0)
-    walker(0.02f, 0.98f, seg(bt, 0f, 0.7f), BridgeC11.White, true, 1)
-    walker(0.0f, 0.96f, seg(bt, 0.25f, 1f), BridgeC11.Ink, true, 2)
-    walker(0.02f, 0.9f, sl, BridgeC11.Ink, false, 0)
+    walker(0.02f, 1.0f, seg(bt, 0f, 0.7f), BridgeC11.White, true, 1)
+    walker(0.0f, 0.86f, seg(bt, 0.25f, 1f), Color(0xFF4A3A4A), true, 2)
+    walker(0.02f, 0.9f, sl, Color(0xFFB8A6C8), false, 0)
 }
 
 // ═════════════ 7. refuge: the house at night while strife fills the street (fitna) ═════════════
@@ -955,11 +1018,17 @@ private fun DrawScope.refugeTown(a: ArtCtx) {
         w8Seated(seat, wh * 0.85f, Color(0xFF3A2A1A), facing = 1f, alpha = seg(su, 0.4f, 0.8f))
     }
     val close = easeInOut(seg(su, 0.1f, 0.6f))
+    // seated: the slats tilt open, and he is seen sitting within, in the warm light
+    val louver = easeOut(seg(st, 0f, 0.4f))
     if (close > 0f) for (sd in listOf(-1f, 1f)) {
         val hinge = win + Offset(sd * ww / 2, 0f)
         val sw = ww / 2 * close
-        drawRect(RefugeC11.Shutter, topLeft = Offset(if (sd < 0f) hinge.x else hinge.x - sw, win.y - wh / 2), size = Size(sw, wh))
-        for (r in 0 until 5) drawLine(Color(0xFFFFCF7A), Offset(if (sd < 0f) hinge.x else hinge.x - sw, win.y - wh / 2 + wh * (0.15f + 0.17f * r)), Offset(if (sd < 0f) hinge.x + sw else hinge.x, win.y - wh / 2 + wh * (0.15f + 0.17f * r)), 1f * dp, alpha = 0.5f)
+        drawRect(RefugeC11.Shutter, topLeft = Offset(if (sd < 0f) hinge.x else hinge.x - sw, win.y - wh / 2), size = Size(sw, wh), alpha = 1f - 0.75f * louver)
+        for (r in 0 until 5) drawLine(Color(0xFFFFCF7A), Offset(if (sd < 0f) hinge.x else hinge.x - sw, win.y - wh / 2 + wh * (0.15f + 0.17f * r)), Offset(if (sd < 0f) hinge.x + sw else hinge.x, win.y - wh / 2 + wh * (0.15f + 0.17f * r)), 1f * dp, alpha = 0.5f * (1f - louver))
+    }
+    if (louver > 0f) {
+        w8Seated(win + Offset(0f, wh * 0.42f), wh * 0.85f, Color(0xFF3A2A1A), facing = 1f, alpha = louver)
+        for (r in 0 until 6) drawLine(RefugeC11.Shutter, Offset(win.x - ww / 2, win.y - wh / 2 + wh * (0.08f + 0.17f * r)), Offset(win.x + ww / 2, win.y - wh / 2 + wh * (0.08f + 0.17f * r)), 2.2f * dp, alpha = louver)
     }
     drawRect(Color(0xFF14101C), topLeft = win - Offset(ww / 2, wh / 2), size = Size(ww, wh), style = Stroke(2f * dp))
     drawRect(RefugeC11.Ground, topLeft = Offset(0f, ground), size = Size(w, h - ground))

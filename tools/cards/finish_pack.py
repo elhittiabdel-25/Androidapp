@@ -42,7 +42,7 @@ ART_KINDS = {
     "building": {"base", "pillars", "course", "roof", "glow", "light", "house", "rival", "fall", "crack", "lock",
                  "lower", "wall", "name", "raise", "word", "level", "palace", "brick"},
     "gate": {"trumpet", "rise", "lights", "filter", "scrolls", "scale", "bridge", "pass", "trait", "gate", "seal",
-             "shut", "open"},
+             "shut", "open", "noprice"},
     "shrine": {"lamp", "excess", "names", "out", "stone", "idol", "forget", "dome", "feast", "tree", "rock", "shirk",
                "steps", "copy", "takbir", "ask", "garden", "pit"},
     "hourglass": {"glass", "gold"},
@@ -99,7 +99,11 @@ ART_KINDS = {
     # round 6
     "shelfshop": {"shelves", "swaptags", "obeyfollow", "dais", "explained"}, "lawh": {"oath", "wawa", "thumma", "lawla"},
     "plaza": {"gust", "greet", "resolve", "askjanna", "give"}, "stall": {"oathsell", "dust", "alone", "fortress", "keepseal"},
-    "tent": {"praise", "reply", "whisper", "rank"},
+    "tent": {"praise", "reply", "whisper", "station"},
+    "astrolabe": {"ringgeneral", "ringcovenant", "ringlife", "ringyear", "ringday"},
+    "stage": {"marionette", "jitter", "selfmade", "sower", "praised"},
+    "eden": {"blame", "decree", "repented", "twoways", "bothways"},
+    "casket": {"pry", "sealed", "submit", "followsaid", "hush"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

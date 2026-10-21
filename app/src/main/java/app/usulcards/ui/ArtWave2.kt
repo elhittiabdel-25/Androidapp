@@ -533,13 +533,16 @@ internal fun DrawScope.gateScene(a: ArtCtx) {
     }
 
     // the balance in the middle (faint when the lights only pass it by)
-    val scaleA = if (a.count("scale") > 0) easeOut(a.b("scale")) else if (passing) 0.45f else 0f
+    val noPrice = a.count("noprice") > 0
+    val np = a.b("noprice")
+    val scaleA = if (a.count("scale") > 0) easeOut(a.b("scale")) else if (noPrice) easeOut(seg(np, 0f, 0.3f)) else if (passing) 0.45f else 0f
     if (scaleA > 0f) {
         val postTop = ground - h * 0.36f
         val col = GateInk.Frame.copy(alpha = scaleA)
         drawLine(col, Offset(scaleX, ground), Offset(scaleX, postTop), 2.4f * dp)
         drawRect(col, topLeft = Offset(scaleX - w * 0.03f, ground - h * 0.012f), size = Size(w * 0.06f, h * 0.012f))
-        val tilt = 7f * sin(t * 0.8f)
+        // not a price: the deeds in one pan cannot outweigh the garden in the other
+        val tilt = if (noPrice) 16f * easeInOut(seg(np, 0.15f, 0.5f)) + 1.5f * sin(t * 0.8f) else 7f * sin(t * 0.8f)
         val ang = tilt * PI.toFloat() / 180f
         val arm = w * 0.085f
         val l = Offset(scaleX - cos(ang) * arm, postTop - sin(ang) * arm)
@@ -552,6 +555,20 @@ internal fun DrawScope.gateScene(a: ArtCtx) {
             drawLine(col, e, pan + Offset(w * 0.03f, 0f), 1f * dp)
             drawArc(col, 0f, 180f, true, topLeft = pan + Offset(-w * 0.032f, -h * 0.03f), size = Size(w * 0.064f, h * 0.06f))
             drawCircle(ArtInk.Gold.copy(alpha = 0.8f * scaleA), radius = 2.4f * dp, center = pan + Offset(0f, h * 0.006f))
+        }
+        if (noPrice) {
+            val inL = seg(np, 0.05f, 0.3f)
+            val lp = l + Offset(0f, h * 0.15f - h * 0.02f)
+            for (m in 0 until 3) {
+                val c = lp + Offset((m - 1) * w * 0.014f, -h * 0.004f * (m % 2))
+                softGlow(c, 6f * dp, ArtInk.Gold, 0.6f * inL)
+                drawCircle(ArtInk.Ivory.copy(alpha = inL), radius = 1.8f * dp, center = c)
+            }
+            val rp = r + Offset(0f, h * 0.15f - h * 0.005f)
+            softGlow(rp + Offset(0f, -h * 0.03f), w * 0.05f, GateInk.Light, 0.7f * inL)
+            drawPath(horseshoe(rp.x, rp.y - h * 0.05f, w * 0.016f, w * 0.013f, rp.y), GateInk.Light.copy(alpha = inL))
+            drawPath(horseshoe(rp.x, rp.y - h * 0.05f, w * 0.016f, w * 0.013f, rp.y), GateInk.Frame.copy(alpha = inL), style = Stroke(1.2f * dp))
+            crossAtW2(Offset(scaleX, postTop + h * 0.1f), w * 0.1f, seg(np, 0.55f, 0.9f))
         }
         tagAt(a.tag("scale"), Offset(scaleX, postTop - h * 0.07f), seg(a.b("scale"), 0.3f, 1f), back = TagBack, ink = ArtInk.Gold)
     }

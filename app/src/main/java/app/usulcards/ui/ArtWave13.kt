@@ -172,8 +172,9 @@ private fun DrawScope.shopRoom(a: ArtCtx) {
     // explained: his light at the door with ʿAdī's name
     if (ex > 0f) {
         val lc = doorC + Offset(0f, -h * 0.34f)
-        sirajMunir(lc, 4.6f * dp, easeOut(seg(ex, 0f, 0.25f)), t, nameAt = lc + Offset(-w * 0.13f, -h * 0.02f))
-        nameRoundel(doorC + Offset(-w * 0.03f, -h * 0.12f), w * 0.04f, a.big("explained", 0, 0), Roundel.PlainFill, Roundel.PlainRim, easeOut(seg(ex, 0.15f, 0.35f)))
+        softGlow(lc, w * 0.12f, Color(0xFFFFC870), 0.6f * easeOut(seg(ex, 0f, 0.25f)))
+        sirajMunir(lc, 5.2f * dp, easeOut(seg(ex, 0f, 0.25f)), t, nameAt = lc + Offset(-w * 0.13f, -h * 0.02f))
+        nameRoundel(doorC + Offset(-w * 0.07f, -h * 0.13f), w * 0.065f, a.big("explained", 0, 0), Roundel.PlainFill, Roundel.PlainRim, easeOut(seg(ex, 0.15f, 0.35f)))
     }
 }
 
@@ -634,7 +635,7 @@ internal fun DrawScope.tentScene(a: ArtCtx) {
         "praise" to Shot(Offset(w * 0.4f, h * 0.5f), 1.25f),
         "reply" to Shot(Offset(w * 0.55f, h * 0.48f), 1.25f),
         "whisper" to Shot(Offset(w * 0.3f, h * 0.55f), 1.35f),
-        "rank" to Shot(Offset(w * 0.62f, h * 0.55f), 1.35f),
+        "station" to Shot(Offset(w * 0.62f, h * 0.55f), 1.35f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.12f) { tentMajlis(a) }
 }
@@ -647,7 +648,7 @@ private fun DrawScope.tentMajlis(a: ArtCtx) {
     val pr = a.b("praise")
     val rp = a.b("reply")
     val wh = a.b("whisper")
-    val rk = a.b("rank")
+    val rk = a.b("station")
     val ground = h * 0.8f
     drawRect(Brush.verticalGradient(listOf(TentC13.Sky, TentC13.SkyLow), endY = ground), size = Size(w, ground))
     drawRect(TentC13.Sand, topLeft = Offset(0f, ground), size = Size(w, h - ground))
@@ -671,11 +672,13 @@ private fun DrawScope.tentMajlis(a: ArtCtx) {
         val seatX = mix(w * 0.45f, w * 0.64f, easeInOut(seg(rk, 0f, 0.4f)))
         val back = easeInOut(seg(rk, 0.6f, 0.9f))
         val sx = mix(seatX, w * 0.45f, back)
-        drawRect(Color(0xFFB08A5A), topLeft = Offset(sx - w * 0.03f, ground - h * 0.12f - h * 0.02f * pushUp), size = Size(w * 0.06f, h * 0.12f), alpha = 1f - 0.6f * back)
+        val gone = 1f - easeOut(seg(rk, 0.88f, 1f))
+        drawRect(Color(0xFFB08A5A), topLeft = Offset(sx - w * 0.03f, ground - h * 0.12f - h * 0.02f * pushUp), size = Size(w * 0.06f, h * 0.12f), alpha = gone)
+        // the one who pushed it takes it back to where he came from
         val pf = Offset(sx - w * 0.06f, ground + h * 0.06f)
-        figure(pf, h * 0.3f, TentC13.Ink, arms = -0.8f * (1f - back), lean = 0.25f * (1f - back), alpha = 1f - 0.5f * back)
+        figure(pf, h * 0.3f, TentC13.Ink, walk = if (back in 0.01f..0.99f) t * 6f else 0f, arms = -0.8f, lean = 0.25f * (1f - back), alpha = gone)
         noSign11pub(Offset(sx, ground - h * 0.2f), w * 0.03f, seg(rk, 0.4f, 0.55f) * (1f - back))
-        tagAt(a.tag("rank"), lc + Offset(0f, -h * 0.14f), seg(rk, 0.5f, 0.8f), back = TentC13.Back, ink = ArtInk.Gold)
+        tagAt(a.tag("station"), lc + Offset(0f, -h * 0.14f), seg(rk, 0.5f, 0.8f), back = TentC13.Back, ink = ArtInk.Gold)
     }
     // the delegation: three who come in from the left
     val tall = h * 0.32f
@@ -709,5 +712,5 @@ private fun DrawScope.tentMajlis(a: ArtCtx) {
         }
     }
     callout(Offset(w * 0.3f, h * 0.2f), a.big("praise", 0, 0), w * 0.28f, seg(pr, 0.4f, 0.6f) * (1f - 0.7f * seg(rp, 0.3f, 0.6f)), ArtInk.Shade, Color(0xFFB0453A))
-    callout(Offset(w * 0.66f, h * 0.42f), a.big("reply", 0, 0), w * 0.42f, seg(rp, 0.1f, 0.3f) * (1f - 0.6f * seg(wh, 0.3f, 0.6f)), ArtInk.Shade, Color(0xFFB0453A))
+    callout(Offset(w * 0.66f, h * 0.42f), a.big("reply", 0, 0), w * 0.42f, seg(rp, 0.1f, 0.3f) * (1f - 0.6f * seg(wh, 0.3f, 0.6f)) * (1f - seg(rk, 0.3f, 0.6f)), ArtInk.Shade, Color(0xFFB0453A))
 }
