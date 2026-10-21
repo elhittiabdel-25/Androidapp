@@ -12,13 +12,13 @@ import collections, os, re, unicodedata
 
 MAX_USES = 6
 # where the brass lantern is drawn: every beat of these layouts ("*"), or these beats of them
-LANTERN = {"lantern": "*", "rope": "*", "ridge": "*", "trail": {"lamp", "keep", "stuck"}, "building": {"light"},
+LANTERN = {"lantern": "*", "ridge": "*", "trail": {"lamp", "keep", "stuck"}, "building": {"light"},
            "cave": {"follow"}}
 FIGURE_LAYOUTS = {"verdict", "crowd", "deeds", "gifts", "camp", "study", "canyon", "books", "caravan",
                   "athar", "sabil", "shore", "mosque", "maze", "field", "street",
                   "atelier", "heavens", "chamber", "scroll", "majlis", "lane", "hilltop", "wayside",
                   "flock", "deck", "dam", "aerial", "souk", "bridge", "refuge", "sapling", "return",
-                  "shelfshop", "plaza", "stall", "tent", "stage", "eden", "casket", "threads", "carpet", "globe", "plain", "river", "milla", "booth", "omenroad", "pitroad"}   # scenes drawn with faceless figures
+                  "shelfshop", "plaza", "stall", "tent", "stage", "eden", "casket", "threads", "carpet", "globe", "plain", "river", "milla", "booth", "omenroad", "pitroad", "mankind", "obey4", "triptych"}   # scenes drawn with faceless figures
 # a prophet named in a tag (a lantern may carry the companions' or the scholars' knowledge, never a prophet)
 PROPHET = re.compile(r"ﷺ|النبي|الرسول|رسول|نبي\b|محمد|المبعوث")       # one prophet (the guidance of "the prophets" may be a lantern)
 # people a lantern must not stand for: they are drawn as figures (or as their names in roundels)

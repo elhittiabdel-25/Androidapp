@@ -114,6 +114,9 @@ ART_KINDS = {
     "booth": {"fortune", "cutoff", "askonly", "unaccepted"},
     "omenroad": {"crowfly", "turnhome", "goodword", "liked"},
     "pitroad": {"road10", "pitfall", "beware"},
+    "mankind": {"created", "worshiponly", "sent", "obeyed", "disobeyed"},
+    "obey4": {"guide4", "obeycmd", "believe", "avoid", "asshown"},
+    "triptych": {"rububiyya", "rubopp", "uluhiyya", "ulopp", "asma", "asmopp"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

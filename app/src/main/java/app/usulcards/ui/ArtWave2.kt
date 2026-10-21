@@ -1158,13 +1158,32 @@ private object GlassInk {
 internal fun DrawScope.hourglassScene(a: ArtCtx) {
     val w = size.width
     val h = size.height
+    // the camera goes to each layer as it turns to gold
+    val topY = h * 0.1f
+    val botY = h * 0.84f
+    val capH = ((topY + botY) / 2 - topY) * 0.82f
+    val n = a.count("gold")
+    val bandFull = if (n > 0) (1f - 0.16f) / n else 0f
+    var g = 0
+    val shots = List(a.size) { i ->
+        if (a.kindAt(i) == "gold") {
+            val y = botY - capH * 0.16f - capH * bandFull * (g++ + 0.5f)
+            Shot(Offset(w * 0.5f, y), 1.35f)
+        } else null
+    }
+    followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.18f) { hourglassBody(a) }
+}
+
+private fun DrawScope.hourglassBody(a: ArtCtx) {
+    val w = size.width
+    val h = size.height
     val dp = density
     val t = a.t
     deepSky(t, h * 0.9f, GlassInk.BgTop, GlassInk.BgLow, starAlpha = 0.8f)
     val sill = h * 0.9f
     drawRect(GlassInk.Sill, topLeft = Offset(0f, sill), size = Size(w, h - sill))
 
-    val cx = w * 0.4f
+    val cx = w * 0.5f
     val topY = h * 0.1f
     val botY = h * 0.84f
     val neckY = (topY + botY) / 2
@@ -1244,15 +1263,15 @@ internal fun DrawScope.hourglassScene(a: ArtCtx) {
     }
     for (sd in listOf(-1f, 1f)) drawLine(GlassInk.Frame, Offset(cx + sd * bw * 1.18f, topY), Offset(cx + sd * bw * 1.18f, botY), 3f * dp)
 
-    // names of the gold layers, with a thread to each
+    // names of the gold layers, each beside its own layer, on alternate sides
     for (k in 0 until n) {
         val (yb, p) = bands[k]
         val tl = a.tag("gold", k)
-        val ty = botY - h * 0.06f - k * h * 0.09f
-        val tx = cx + bw * 1.5f + w * 0.03f + halfTag(tl)
+        val right = k % 2 == 0
+        val tx = if (right) cx + bw * 1.35f + w * 0.02f + halfTag(tl) else cx - bw * 1.35f - w * 0.02f - halfTag(tl)
         val al = seg(p, 0.3f, 1f)
-        if (al > 0f) drawLine(ArtInk.Gold.copy(alpha = 0.6f * al), Offset(cx + bw * 0.6f, yb), Offset(tx - halfTag(tl), ty), 1f * dp)
-        tagAt(tl, Offset(tx, ty), al, back = TagBack, ink = ArtInk.Gold)
+        if (al > 0f) drawLine(ArtInk.Gold.copy(alpha = 0.6f * al), Offset(cx + (if (right) 1f else -1f) * bw * 0.6f, yb), Offset(tx + (if (right) -1f else 1f) * halfTag(tl), yb), 1f * dp)
+        tagAt(tl, Offset(tx, yb), al, back = TagBack, ink = ArtInk.Gold)
     }
     tagAt(a.tag("glass"), Offset(cx + bw * 1.5f + w * 0.03f + halfTag(a.tag("glass")), topY + h * 0.08f), seg(a.b("glass"), 0.3f, 1f), back = TagBack, ink = ArtInk.Ivory)
 }

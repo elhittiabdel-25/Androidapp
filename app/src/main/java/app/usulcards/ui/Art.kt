@@ -240,6 +240,9 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "booth" -> boothScene(a)
         "omenroad" -> omenroadScene(a)
         "pitroad" -> pitroadScene(a)
+        "mankind" -> mankindScene(a)
+        "obey4" -> obey4Scene(a)
+        "triptych" -> triptychScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -515,6 +518,23 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "road10" -> 9000
     "pitfall" -> 2600
     "beware" -> 4000
+    // wave 20 (round 13: أساسيات التوحيد)
+    "created" -> 2100
+    "worshiponly" -> 1500
+    "sent" -> 4000
+    "obeyed" -> 2200
+    "disobeyed" -> 2600
+    "guide4" -> 1000
+    "obeycmd" -> 1700
+    "believe" -> 2000
+    "avoid" -> 2700
+    "asshown" -> 3300
+    "rububiyya" -> 6000
+    "rubopp" -> 5000
+    "uluhiyya" -> 6000
+    "ulopp" -> 1800
+    "asma" -> 7000
+    "asmopp" -> 2200
     else -> 1000
 }
 
@@ -582,7 +602,7 @@ internal class ArtCtx(
 }
 
 /** Scenes that write their tags large (see ArtCtx.big). */
-internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent", "omenroad")
+internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent", "omenroad", "triptych")
 
 // ───────────── shared helpers ─────────────
 
@@ -991,10 +1011,7 @@ private fun DrawScope.ropeScene(a: ArtCtx) {
 
     // light from above for the firm rope
     val anchorG = Offset(w * 0.6f, -h * 0.02f)
-    if (hold > 0f) {
-        softGlow(anchorG, w * 0.24f, ArtInk.Gold, 0.55f * hold)
-        lightShafts(anchorG, PI.toFloat() / 2f, 0.7f, h * 0.8f, ArtInk.Gold, 0.8f * hold, t, 7)
-    }
+
 
     // the chasm between two cliffs
     val left = Path().apply {
@@ -1062,9 +1079,11 @@ private fun DrawScope.ropeScene(a: ArtCtx) {
         }
     }
 
-    // the lantern itself
-    val flick = (0.14f * sin(t * 9f) + 0.09f * sin(t * 13.7f)) * (0.25f + unsteady)
-    lantern(ring, s, mix(0.35f, 1f, hold), flick)
+    // the heart that hangs on them: unsteady, then steady and lit once it holds the firm one
+    val hc = ring + Offset(0f, s * 1.9f)
+    softGlow(hc, s * 3.2f, Color(0xFFFFD27A), mix(0.2f, 0.85f, hold))
+    drawLine(lerp(ArtInk.Ivory, ArtInk.Gold, hold), ring, hc + Offset(0f, -s * 0.6f), 1.4f * dp)
+    drawPath(w8Heart(hc, s * 1.35f), lerp(Color(0xFFB8A890), Color(0xFFFFD27A), hold))
 
     // tags: the firm handhold, then the meaning
     tagAt(a.tag("hold"), cubic(anchorG, g1, g2, ring, 0.58f) + Offset(44f * dp, 0f), seg(a.b("hold"), 0.3f, 0.9f), back = Color(0xCC3A2808), ink = ArtInk.Gold)
