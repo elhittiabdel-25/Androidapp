@@ -218,6 +218,8 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "souk" -> soukScene(a)
         "bridge" -> bridgeScene(a)
         "refuge" -> refugeScene(a)
+        "sapling" -> saplingScene(a)
+        "return" -> returnScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -379,6 +381,17 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "melee" -> 7000
     "shutters" -> 3200
     "seated" -> 4000
+    // wave 12 (round 5): «الحكم على أهل القبلة»
+    "rooted" -> 5000
+    "wilt" -> 5500
+    "cloche" -> 4000
+    "axe" -> 5000
+    "paint" -> 4000
+    "opendoor" -> 8000
+    "turnquit" -> 3600
+    "regretresolve" -> 5200
+    "westsun" -> 4500
+    "doorshut" -> 2500
     else -> 1000
 }
 

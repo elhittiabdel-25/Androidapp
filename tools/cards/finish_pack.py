@@ -94,6 +94,8 @@ ART_KINDS = {
     "dam": {"picks", "repent", "incline", "breach", "flood"}, "aerial": {"rows", "scatter", "regroup"},
     "souk": {"cheat", "three", "sheathe", "swords"}, "bridge": {"warn", "both", "silent", "unravel"},
     "refuge": {"strife", "stayin", "banners", "melee", "shutters", "seated"},
+    # round 5
+    "sapling": {"rooted", "wilt", "cloche", "axe", "paint"}, "return": {"opendoor", "turnquit", "regretresolve", "westsun", "doorshut"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
