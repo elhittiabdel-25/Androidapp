@@ -16,14 +16,15 @@ LANTERN = {"lantern": "*", "rope": "*", "ridge": "*", "trail": {"lamp", "keep", 
            "cave": {"follow"}}
 FIGURE_LAYOUTS = {"verdict", "crowd", "deeds", "gifts", "camp", "study", "canyon", "books", "caravan",
                   "athar", "sabil", "shore", "mosque", "maze", "field", "street",
-                  "atelier", "heavens", "chamber", "scroll", "majlis", "lane", "hilltop", "wayside"}   # scenes drawn with faceless figures
+                  "atelier", "heavens", "chamber", "scroll", "majlis", "lane", "hilltop", "wayside",
+                  "flock", "deck", "dam", "aerial", "souk", "bridge", "refuge"}   # scenes drawn with faceless figures
 # a prophet named in a tag (a lantern may carry the companions' or the scholars' knowledge, never a prophet)
 PROPHET = re.compile(r"ﷺ|النبي|الرسول|رسول|نبي\b|محمد|المبعوث")       # one prophet (the guidance of "the prophets" may be a lantern)
 # people a lantern must not stand for: they are drawn as figures (or as their names in roundels)
 PEOPLE = re.compile(r"الغرباء|غرباء|المستضعف|معذور|عصابة|طائفة|ولاة|ولي الأمر|الأمير|السلطان|الحاكم|الإمام|"
                     r"رجل|امرأة|النساء|الرجال|الصالحين|المتبعون|المتبعين|أتباع|أولياء")
 # broke a rule before the codex; each leaves this list when its scene is redrawn (review of 2026-10-21)
-PENDING = {"hijra", "dawa-tawhid", "sunan-umam", "khatm-nubuwwa", "samaa-taa", "qawaid-arba"}
+PENDING = {"hijra", "dawa-tawhid", "sunan-umam", "khatm-nubuwwa", "qawaid-arba"}
 # a figure must never be one of these; ʿAlī is left out (عَلِيّ and عَلَيَّ look alike without harakat)
 NAMED = re.compile(r"ﷺ|النبي\b|محمد|أبو بكر|أبي بكر|\bعمر\b|عثمان|بلال|الصحابي|جبريل|ملك الموت")
 

@@ -89,6 +89,11 @@ ART_KINDS = {
     # round 3
     "majlis": {"quarrel", "tawqif", "flint", "refer", "settle"}, "lane": {"knock", "teach", "debater", "tug"},
     "hilltop": {"mindfog", "doubtspark", "revealed", "creation"}, "wayside": {"sinner", "unharmed", "zealot", "getup", "sound"},
+    # round 4
+    "flock": {"fold", "unloop", "astray", "gather", "mercy"}, "deck": {"heave", "badorder", "refuse", "carryon", "pledge"},
+    "dam": {"picks", "repent", "incline", "breach", "flood"}, "aerial": {"rows", "scatter", "regroup"},
+    "souk": {"cheat", "three", "sheathe", "swords"}, "bridge": {"warn", "both", "silent", "unravel"},
+    "refuge": {"strife", "stayin", "banners", "melee", "shutters", "seated"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

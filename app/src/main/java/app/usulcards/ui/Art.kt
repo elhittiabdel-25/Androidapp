@@ -211,6 +211,13 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "lane" -> laneScene(a)
         "hilltop" -> hilltopScene(a)
         "wayside" -> waysideScene(a)
+        "flock" -> flockScene(a)
+        "deck" -> deckScene(a)
+        "dam" -> damScene(a)
+        "aerial" -> aerialScene(a)
+        "souk" -> soukScene(a)
+        "bridge" -> bridgeScene(a)
+        "refuge" -> refugeScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -339,6 +346,39 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "zealot" -> 5500
     "getup" -> 5500
     "sound" -> 4500
+    // wave 11 (round 4): «الجماعة وولاة الأمر»
+    "fold" -> 2400
+    "unloop" -> 5500
+    "astray" -> 2200
+    "gather" -> 4500
+    "mercy" -> 4500
+    "heave" -> 4000
+    "badorder" -> 4000
+    "refuse" -> 2400
+    "carryon" -> 5500
+    "pledge" -> 3500
+    "picks" -> 6000
+    "repent" -> 5000
+    "incline" -> 3000
+    "breach" -> 6000
+    "flood" -> 6500
+    "rows" -> 7000
+    "scatter" -> 6000
+    "regroup" -> 2800
+    "cheat" -> 5500
+    "three" -> 3000
+    "sheathe" -> 4000
+    "swords" -> 6000
+    "warn" -> 3500
+    "both" -> 4500
+    "silent" -> 6500
+    "unravel" -> 3000
+    "strife" -> 2000
+    "stayin" -> 4200
+    "banners" -> 2200
+    "melee" -> 7000
+    "shutters" -> 3200
+    "seated" -> 4000
     else -> 1000
 }
 
