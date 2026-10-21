@@ -148,19 +148,35 @@ private fun DrawScope.camel(foot: Offset, s: Float, color: Color, walk: Float, a
     }
 }
 
-/** A row of "words" (ink dashes) from [right] to [left] at [y]; [p] writes it from the right. */
+/** A row of handwriting from [right] to [left] at [y]: words of joined strokes with dots and tall letters; [p] writes it from the right. */
 private fun DrawScope.inkRow(right: Float, left: Float, y: Float, seed: Int, color: Color, width: Float, p: Float = 1f, alpha: Float = 1f) {
     if (p <= 0f || alpha <= 0.01f) return
     val end = right - (right - left) * p.coerceIn(0f, 1f)
+    val stroke = Stroke(width, cap = StrokeCap.Round, join = StrokeJoin.Round)
     var x = right
     var k = 0
-    while (x > end) {
-        val len = (right - left) * (0.07f + 0.12f * rnd(seed * 31 + k, 12.9898f))
+    while (x > end + width) {
+        val len = (right - left) * (0.08f + 0.12f * rnd(seed * 31 + k, 12.9898f))
         val x2 = max(end, x - len)
-        drawLine(color, Offset(x, y), Offset(x2, y), width, StrokeCap.Round, alpha = alpha)
-        // a dot or two above or below, like the letters' dots
-        if (rnd(seed * 17 + k, 78.233f) > 0.55f) drawCircle(color, width * 0.55f, Offset((x + x2) / 2f, y - width * 2.2f), alpha = alpha)
-        x = x2 - (right - left) * 0.025f
+        val word = Path().apply {
+            moveTo(x, y)
+            var xx = x
+            var j = 0
+            while (xx > x2) {
+                val nx = max(x2, xx - width * (2.6f + 1.6f * rnd(seed * 7 + k * 13 + j, 4.1f)))
+                val up = width * (0.6f + 1.4f * rnd(seed * 5 + k * 11 + j, 9.7f))
+                cubicTo(xx - (xx - nx) * 0.25f, y - up, xx - (xx - nx) * 0.75f, y - up, nx, y)
+                xx = nx
+                j++
+            }
+        }
+        drawPath(word, color, alpha = alpha, style = stroke)
+        // a tall letter at the word's start, a tail at its end, the letters' dots
+        if (rnd(seed * 3 + k, 2.3f) > 0.45f) drawLine(color, Offset(x - width * 0.6f, y), Offset(x - width * 0.2f, y - width * 5f), width * 0.9f, StrokeCap.Round, alpha = alpha)
+        if (rnd(seed * 9 + k, 6.1f) > 0.5f) drawPath(Path().apply { moveTo(x2, y); cubicTo(x2 - width * 2f, y + width * 2.5f, x2 - width * 4f, y + width * 1.5f, x2 - width * 4.5f, y - width * 0.5f) }, color, alpha = alpha, style = stroke)
+        val dots = (rnd(seed * 17 + k, 78.233f) * 3f).toInt()
+        for (d in 0 until dots) drawCircle(color, width * 0.6f, Offset(x - (x - x2) * (0.3f + 0.25f * d), y + (if (d % 2 == 0) -width * 2.6f else width * 2.2f)), alpha = alpha)
+        x = x2 - (right - left) * 0.035f
         k++
     }
 }
@@ -255,12 +271,14 @@ internal fun DrawScope.inkScene(a: ArtCtx) {
             val wd = words[k]
             val side = if (k == 0) 1f else -1f
             val foot = Offset(wd.c.x, wd.c.y - wd.th * 0.55f)
-            val path = cubicPart(foot, foot + Offset(0f, -h * 0.2f), apex + Offset(side * w * 0.15f, h * 0.02f), apex, 0f, q)
+            val path = cubicPart(foot, foot + Offset(0f, -h * 0.17f), apex + Offset(side * w * 0.07f, h * 0.1f), apex, 0f, q)
+            val inner = cubicPart(foot + Offset(-side * w * 0.025f, 0f), foot + Offset(-side * w * 0.025f, -h * 0.15f), apex + Offset(side * w * 0.05f, h * 0.13f), apex + Offset(0f, h * 0.045f), 0f, q)
             val alpha = if (k == 1) fade else 1f
             withTransform({ rotate(if (k == 0) tilt else 0f, pivotOf(k)) }) {
                 drawPath(path, InkPage.Gold, alpha = 0.25f * alpha, style = Stroke(7f * dp, cap = StrokeCap.Round))
                 drawPath(path, InkPage.Lapis, alpha = 0.5f * alpha, style = Stroke(3f * dp, cap = StrokeCap.Round))
                 drawPath(path, InkPage.GoldLight, alpha = alpha, style = Stroke(1.4f * dp, cap = StrokeCap.Round))
+                drawPath(inner, InkPage.Gold, alpha = 0.7f * alpha, style = Stroke(0.9f * dp, cap = StrokeCap.Round))
             }
         }
         val key = easeOut(seg(lb, 0.48f, 0.62f))
@@ -395,9 +413,9 @@ internal fun DrawScope.lensScene(a: ArtCtx) {
     drawRect(Brush.radialGradient(listOf(Color(0x55FFD9A0), Color(0x14FFD9A0), Color.Transparent), center = Offset(w * 0.82f, h * 0.02f), radius = w * 0.85f))
 
     // the rahl: the folding wooden stand of the mushaf
-    val mc = Offset(w * 0.5f, h * 0.27f)
+    val mc = Offset(w * 0.5f, h * 0.3f)
     val bw = w * 0.6f
-    val bh = h * 0.36f
+    val bh = h * 0.32f
     for (side in intArrayOf(-1, 1)) {
         drawLine(Desk.WoodDark, Offset(mc.x + side * bw * 0.36f, mc.y + bh * 0.42f), Offset(mc.x - side * bw * 0.12f, mc.y + bh * 0.75f), 5f * dp, StrokeCap.Round)
         drawLine(Desk.Wood, Offset(mc.x + side * bw * 0.36f, mc.y + bh * 0.42f), Offset(mc.x - side * bw * 0.12f, mc.y + bh * 0.75f), 3f * dp, StrokeCap.Round)
@@ -416,7 +434,7 @@ internal fun DrawScope.lensScene(a: ArtCtx) {
     }
     // a small gilt rosette at the head of the right page
     drawPath(starPath(Offset(mc.x + bw * 0.26f, mc.y - bh * 0.44f), 3.5f * dp), Desk.Gold)
-    tagAt(a.extras.getOrNull(0), Offset(mc.x, h * 0.045f), 1f, back = Color(0xE60B1913), ink = Desk.Gold)
+    tagAt(a.extras.getOrNull(0), Offset(mc.x, h * 0.075f), 1f, back = Color(0xE60B1913), ink = Desk.Gold)
 
     // the book of hadith slides up onto the desk
     val sbRaw = a.b("sheet")
@@ -484,7 +502,7 @@ internal fun DrawScope.lensScene(a: ArtCtx) {
             drawLine(Desk.Gold, from, from + (to - from) * link, 1.4f * dp, StrokeCap.Round, PathEffect.dashPathEffect(floatArrayOf(4f * dp, 3f * dp), t * 12f * dp))
             if (link >= 1f) drawRect(Desk.Gold, topLeft = Offset(hc.x - hw * 0.44f, to.y - 4f * dp), size = Size(hw * 0.38f, 8f * dp), alpha = 0.28f)
         }
-        tagAt(a.tag("lens"), Offset(c.x + r * 0.2f, c.y - r * 1.45f), seg(lb, 0.45f, 1f), back = Desk.Back, ink = Desk.Ink)
+        tagAt(a.tag("lens"), Offset(c.x - r * 0.2f, c.y + r * 1.55f), seg(lb, 0.45f, 1f), back = Desk.Back, ink = Desk.Ink)
     }
 
     // add: a ruling written in the hadith book alone
@@ -503,7 +521,7 @@ internal fun DrawScope.lensScene(a: ArtCtx) {
 
 private object Tile {
     val Wall = Color(0xFFEADCC2)
-    val WallLow = Color(0xFFD2BE98)
+    val WallLow = Color(0xFFD7C4A0)
     val Stucco = Color(0xFFDCCBAA)
     val StuccoShade = Color(0xFFBFA77E)
     val Grout = Color(0xFF123A3E)
@@ -513,18 +531,32 @@ private object Tile {
     val Blue = Color(0xFF2C4E8C)
     val Clay = Color(0xFFB4532C)
     val Frame = Color(0xFF6B4527)
+    val FloorA = Color(0xFFB5643C)
+    val FloorB = Color(0xFFE9DFCB)
     val Pencil = Color(0xFF6E6252)
+    val Iron = Color(0xFF4A4A50)
     val Bad = Color(0xFFB4492A)
     val Good = Color(0xFF2E7D57)
     val Back = Color(0xF2EADCC2)
     val Ink = Color(0xFF2A2116)
 }
 
+/** A polygon piece of [sides] around [c]. */
+private fun polyPiece(c: Offset, r: Float, sides: Int, turn: Float = 0f): Path = Path().apply {
+    for (v in 0 until sides) {
+        val ang = v * 2f * PI.toFloat() / sides + turn
+        val q = c + Offset(cos(ang), sin(ang)) * r
+        if (v == 0) moveTo(q.x, q.y) else lineTo(q.x, q.y)
+    }
+    close()
+}
+
 /**
- * A zellige panel on a courtyard wall in the sun, its centre piece missing. Beats: liken ×n (a piece from another
- * pattern is held up as "like it" and crossed out), fit (the true piece drops in and the whole pattern lights),
- * freehand (below the panel, a piece cut by guesswork is pushed into a new cell: it does not fit, crossed out),
- * extend (the panel's own lines run on into a new cell and a piece cut along them fits: ticked).
+ * A zellige panel on a courtyard wall in the sun, its centre piece missing; a tiled floor, the craftsman's tools.
+ * Beats: liken ×n (on the right, a piece from another pattern is held up as "like it" and crossed out), fit (the
+ * true piece drops in and the whole pattern lights), freehand (under the panel, a piece cut by guesswork is pushed
+ * into a new cell: it does not fit, crossed out), extend (the panel's own lines run on into a new cell and a
+ * piece cut along them fits: ticked).
  */
 internal fun DrawScope.zelligeScene(a: ArtCtx) {
     val w = size.width
@@ -532,22 +564,36 @@ internal fun DrawScope.zelligeScene(a: ArtCtx) {
     val dp = density
     val t = a.t
     drawRect(Brush.verticalGradient(listOf(Tile.Wall, Tile.WallLow)))
-    // sunlight falling across the wall, and the shadow of an arch
-    drawRect(Brush.linearGradient(listOf(Color(0x40FFF6DA), Color.Transparent), start = Offset(0f, 0f), end = Offset(w * 0.7f, h)))
-    // the carved stucco band above the panel: a row of small arches
-    val band = h * 0.075f
-    drawRect(Tile.Stucco, topLeft = Offset(0f, h * 0.0f), size = Size(w, band))
-    var x0 = w * 0.02f
+    drawRect(Brush.linearGradient(listOf(Color(0x46FFF6DA), Color.Transparent), start = Offset(0f, 0f), end = Offset(w * 0.8f, h)))
+    // the carved stucco band at the top: a row of small arches
+    val band = h * 0.07f
+    drawRect(Tile.Stucco, size = Size(w, band))
+    var x0 = w * 0.01f
     while (x0 < w) {
-        drawPath(horseshoe(x0 + w * 0.025f, band * 0.45f, w * 0.018f, w * 0.014f, band * 0.92f), Tile.StuccoShade)
-        x0 += w * 0.05f
+        drawPath(horseshoe(x0 + w * 0.022f, band * 0.45f, w * 0.016f, w * 0.012f, band * 0.92f), Tile.StuccoShade)
+        x0 += w * 0.045f
     }
     drawLine(Tile.StuccoShade, Offset(0f, band), Offset(w, band), 1.2f * dp)
+    // the tiled floor, seen at a slant
+    val floorY = h * 0.84f
+    drawRect(Tile.FloorB, topLeft = Offset(0f, floorY), size = Size(w, h - floorY))
+    for (row in 0 until 3) {
+        val y0 = floorY + (h - floorY) * row / 3f
+        val y1 = floorY + (h - floorY) * (row + 1) / 3f
+        val n = 10 + row * 2
+        for (k in 0 until n) {
+            if ((k + row) % 2 != 0) continue
+            val xa0 = w * k / n.toFloat()
+            val xa1 = w * (k + 1) / n.toFloat()
+            drawPath(Path().apply { moveTo(xa0, y0); lineTo(xa1, y0); lineTo(xa1, y1); lineTo(xa0, y1); close() }, Tile.FloorA, alpha = 0.85f)
+        }
+    }
+    drawRect(Brush.verticalGradient(listOf(Color(0x33000000), Color.Transparent), startY = floorY, endY = floorY + h * 0.05f), topLeft = Offset(0f, floorY), size = Size(w, h * 0.05f))
 
     val cols = 5
     val rowsN = 3
-    val s = w * 0.104f
-    val left = w * 0.5f - s * cols / 2f
+    val s = w * 0.11f
+    val left = w * 0.05f
     val top = h * 0.11f
     val pw = s * cols
     val ph = s * rowsN
@@ -557,39 +603,32 @@ internal fun DrawScope.zelligeScene(a: ArtCtx) {
     val slot = cell(slotI, slotJ)
     val fitRaw = a.b("fit")
     val lit = easeOut(seg(fitRaw, 0.55f, 1f))
-    // the wooden frame and the panel
-    drawRect(Color.Black.copy(alpha = 0.2f), topLeft = Offset(left - 4f * dp, top - 1f * dp), size = Size(pw + 10f * dp, ph + 10f * dp))
+    drawRect(Color.Black.copy(alpha = 0.22f), topLeft = Offset(left - 2f * dp, top + 2f * dp), size = Size(pw + 12f * dp, ph + 12f * dp))
     drawRect(Tile.Frame, topLeft = Offset(left - 6f * dp, top - 6f * dp), size = Size(pw + 12f * dp, ph + 12f * dp))
     drawRect(Tile.Gold, topLeft = Offset(left - 2.5f * dp, top - 2.5f * dp), size = Size(pw + 5f * dp, ph + 5f * dp), style = Stroke(0.8f * dp), alpha = 0.8f)
     drawRect(Tile.Grout, topLeft = Offset(left, top), size = Size(pw, ph))
     val colors = listOf(Tile.Gold, Tile.Green, Tile.White, Tile.Blue)
     for (i in 0 until cols) for (j in 0 until rowsN) {
-        val c = cell(i, j)
         if (i == slotI && j == slotJ) continue
+        val c = cell(i, j)
         val col = colors[(i + 2 * j) % colors.size]
         drawPath(starPath(c, s * 0.46f), col)
         drawPath(starPath(c, s * 0.22f), if (col == Tile.White) Tile.Clay else Tile.White, alpha = 0.85f)
         drawPath(starPath(c, s * 0.46f), Color.White, alpha = 0.18f + 0.5f * lit * (0.5f + 0.5f * sin(t * 3f + i + j)), style = Stroke(0.9f * dp))
     }
-    // the small pieces where four stars meet
     for (i in 1 until cols) for (j in 1 until rowsN) {
-        val c = Offset(left + s * i, top + s * j)
-        drawPath(Path().apply {
-            moveTo(c.x, c.y - s * 0.17f); lineTo(c.x + s * 0.17f, c.y); lineTo(c.x, c.y + s * 0.17f); lineTo(c.x - s * 0.17f, c.y); close()
-        }, Tile.Clay)
+        drawPath(polyPiece(Offset(left + s * i, top + s * j), s * 0.17f, 4, PI.toFloat() / 4f), Tile.Clay)
     }
-    // glaze: a slow sheen across the panel
     clipRect(left, top, left + pw, top + ph) {
         val sx = left + fract(t * 0.07f) * pw * 2f - pw * 0.5f
         drawRect(Brush.linearGradient(listOf(Color.Transparent, Color(0x30FFFFFF), Color.Transparent), start = Offset(sx - s, top), end = Offset(sx + s, top + ph)), topLeft = Offset(left, top), size = Size(pw, ph))
     }
-    // the empty slot until the true piece drops in
     val drop = easeOut(seg(fitRaw, 0f, 0.55f))
     if (drop < 1f) {
         drawPath(starPath(slot, s * 0.46f), Tile.White, alpha = 0.7f, style = Stroke(1.2f * dp, pathEffect = PathEffect.dashPathEffect(floatArrayOf(3f * dp, 3f * dp))))
     }
     if (fitRaw > 0f) {
-        val p = slot + Offset(0f, -(1f - drop) * h * 0.45f)
+        val p = slot + Offset(0f, -(1f - drop) * h * 0.4f)
         val sc = 1f + 0.18f * (1f - drop)
         if (drop < 1f) drawPath(starPath(p + Offset(3f * dp, 5f * dp), s * 0.46f * sc), Color.Black, alpha = 0.25f)
         drawPath(starPath(p, s * 0.46f * sc), Tile.Gold)
@@ -599,57 +638,50 @@ internal fun DrawScope.zelligeScene(a: ArtCtx) {
             softGlow(slot, s * 1.6f, Color(0xFFFFE6A8), 0.5f * lit)
             drawCircle(Tile.Gold, s * (0.5f + 1.6f * seg(fitRaw, 0.55f, 1f)), slot, alpha = 0.6f * (1f - seg(fitRaw, 0.55f, 1f)), style = Stroke(1.5f * dp))
         }
-        tagAt(a.tag("fit"), Offset(w * 0.5f, top + ph + h * 0.035f), seg(fitRaw, 0.5f, 1f), back = Tile.Back, ink = Tile.Ink)
+        tagAt(a.tag("fit"), Offset(left + pw / 2f, band * 0.5f), seg(fitRaw, 0.5f, 1f), back = Tile.Back, ink = Tile.Ink)
     }
-    // liken: pieces from other patterns, held up as "like it", and crossed out
+    // liken: on the right, pieces from other patterns held up as "like it", and crossed out
     for (k in 0 until a.count("liken")) {
         val lb = a.b("liken", k)
         if (lb <= 0f) continue
-        val right = k % 2 == 0
-        val home = Offset(if (right) w * 0.9f else w * 0.1f, h * 0.36f)
+        val home = Offset(w * 0.82f, h * (0.22f + 0.27f * k))
         val inn = easeOut(seg(lb, 0f, 0.35f))
-        val c = home + Offset((if (right) 1f else -1f) * (1f - inn) * w * 0.15f, 0f)
-        val sides = if (k % 2 == 0) 6 else 4
-        val poly = Path().apply {
-            for (v in 0 until sides) {
-                val ang = v * 2f * PI.toFloat() / sides + (if (sides == 4) PI.toFloat() / 4f else 0f)
-                val q = c + Offset(cos(ang), sin(ang)) * (s * 0.42f)
-                if (v == 0) moveTo(q.x, q.y) else lineTo(q.x, q.y)
-            }
-            close()
+        val c = home + Offset((1f - inn) * w * 0.22f, 0f)
+        val fadeOut = 1f - 0.5f * seg(lb, 0.75f, 1f)
+        val piece = if (k % 2 == 0) polyPiece(c, s * 0.42f, 6) else polyPiece(c, s * 0.4f, 5, -PI.toFloat() / 2f)
+        drawPath(piece, Color.Black, alpha = 0.18f * fadeOut)
+        withTransform({ translate(-2f * dp, -2f * dp) }) {
+            drawPath(piece, if (k % 2 == 0) Tile.Blue else Tile.Clay, alpha = fadeOut)
+            drawPath(piece, Tile.White, alpha = 0.6f * fadeOut, style = Stroke(1f * dp))
         }
-        val fadeOut = 1f - 0.55f * seg(lb, 0.75f, 1f)
-        drawPath(poly, if (sides == 6) Tile.Blue else Tile.Clay, alpha = fadeOut)
-        drawPath(poly, Tile.White, alpha = 0.6f * fadeOut, style = Stroke(1f * dp))
         val cmp = seg(lb, 0.25f, 0.5f)
         if (cmp > 0f) {
-            val toward = Offset(if (right) left + pw + 4f * dp else left - 4f * dp, slot.y)
-            drawLine(Tile.Pencil, c + (toward - c) * 0.3f, c + (toward - c) * (0.3f + 0.6f * cmp), 1f * dp, StrokeCap.Round, PathEffect.dashPathEffect(floatArrayOf(3f * dp, 3f * dp)), alpha = 0.8f * fadeOut)
+            val to = Offset(left + pw + 8f * dp, slot.y)
+            drawLine(Tile.Pencil, c + (to - c) * 0.25f, c + (to - c) * (0.25f + 0.65f * cmp), 1f * dp, StrokeCap.Round, PathEffect.dashPathEffect(floatArrayOf(3f * dp, 3f * dp)), alpha = 0.8f * fadeOut)
         }
         val x = easeOut(seg(lb, 0.5f, 0.68f))
-        if (x > 0f) crossMark(c, s * 0.38f * x, Tile.Bad, 3f * dp)
-        tagAt(a.tag("liken", k), home + Offset(0f, s * 0.75f), seg(lb, 0.35f, 1f), back = Tile.Back, ink = Tile.Ink)
+        if (x > 0f) crossMark(c + Offset(-2f * dp, -2f * dp), s * 0.38f * x, Tile.Bad, 3f * dp)
+        tagAt(a.tag("liken", k), home + Offset(0f, s * 0.72f), seg(lb, 0.35f, 1f), back = Tile.Back, ink = Tile.Ink)
     }
-    // below the panel: two new cells where the pattern would go on
-    val newY = top + ph + s * 0.95f
-    val freeC = Offset(left + s * 3.5f, newY)
-    val extC = Offset(left + s * 1.5f, newY)
-    val anyNew = a.b("freehand") > 0f || a.b("extend") > 0f
-    if (anyNew) {
+    // under the panel: two new cells where the pattern would go on
+    val newY = top + ph + s * 0.62f
+    val freeC = Offset(left + s * 4.5f, newY)
+    val extC = Offset(left + s * 0.5f, newY)
+    if (a.b("freehand") > 0f || a.b("extend") > 0f) {
         for (c in listOf(freeC, extC)) {
-            drawRect(Tile.Grout, topLeft = Offset(c.x - s / 2f, c.y - s / 2f), size = Size(s, s), alpha = 0.85f)
-            drawRect(Tile.Frame, topLeft = Offset(c.x - s / 2f, c.y - s / 2f), size = Size(s, s), alpha = 0.6f, style = Stroke(1.2f * dp))
+            drawRect(Tile.Grout, topLeft = Offset(c.x - s / 2f, c.y - s / 2f), size = Size(s, s), alpha = 0.9f)
+            drawRect(Tile.Frame, topLeft = Offset(c.x - s / 2f, c.y - s / 2f), size = Size(s, s), alpha = 0.7f, style = Stroke(1.4f * dp))
         }
     }
     val fb = a.b("freehand")
     if (fb > 0f) {
         val inn = easeOut(seg(fb, 0f, 0.4f))
         val shake = sin(t * 38f) * 2.2f * dp * bump(seg(fb, 0.4f, 0.7f))
-        val c = freeC + Offset(shake + (1f - inn) * w * 0.25f, 0f)
+        val c = freeC + Offset(shake + (1f - inn) * w * 0.25f, -s * 0.12f * (1f - inn))
         val blob = Path().apply {
             for (v in 0..24) {
                 val ang = v * 2f * PI.toFloat() / 24f
-                val rr = s * (0.42f + 0.1f * sin(ang * 3f + 1.3f) + 0.06f * sin(ang * 5f))
+                val rr = s * (0.44f + 0.11f * sin(ang * 3f + 1.3f) + 0.06f * sin(ang * 5f))
                 val q = c + Offset(cos(ang), sin(ang)) * rr
                 if (v == 0) moveTo(q.x, q.y) else lineTo(q.x, q.y)
             }
@@ -660,16 +692,15 @@ internal fun DrawScope.zelligeScene(a: ArtCtx) {
         drawPath(blob, Tile.Bad, alpha = 0.8f * grey, style = Stroke(1.4f * dp))
         val x = easeOut(seg(fb, 0.7f, 0.85f))
         if (x > 0f) crossMark(c, s * 0.34f * x, Tile.Bad, 3f * dp)
-        tagAt(a.tag("freehand"), Offset(freeC.x + s * 0.4f, h * 0.95f), seg(fb, 0.4f, 1f), back = Tile.Back, ink = Tile.Ink)
+        tagAt(a.tag("freehand"), Offset(freeC.x + s * 0.2f, h * 0.92f), seg(fb, 0.4f, 1f), back = Tile.Back, ink = Tile.Ink)
     }
     val eb = a.b("extend")
     if (eb > 0f) {
-        // the panel's lines run on, in pencil, into the new cell
         val guide = seg(eb, 0f, 0.45f)
         val dash = PathEffect.dashPathEffect(floatArrayOf(3f * dp, 2.5f * dp))
         for (dx in listOf(-0.5f, 0f, 0.5f)) {
             val from = Offset(extC.x + dx * s, top + ph)
-            drawLine(Tile.Pencil, from, from + Offset(0f, s * guide), 0.9f * dp, StrokeCap.Round, dash)
+            drawLine(Tile.Pencil, from, from + Offset(0f, (newY + s / 2f - from.y) * guide), 0.9f * dp, StrokeCap.Round, dash)
         }
         drawPath(starPath(extC, s * 0.46f), Tile.Pencil, alpha = guide, style = Stroke(1f * dp, pathEffect = dash))
         val fill = easeOut(seg(eb, 0.45f, 0.8f))
@@ -679,9 +710,14 @@ internal fun DrawScope.zelligeScene(a: ArtCtx) {
             softGlow(extC, s, Color(0xFFFFE6A8), 0.35f * fill)
         }
         val tick = easeOut(seg(eb, 0.8f, 0.95f))
-        if (tick > 0f) checkMark(extC + Offset(s * 0.62f, -s * 0.3f), s * 0.18f * tick, Tile.Good, 2.6f * dp)
-        tagAt(a.tag("extend"), Offset(extC.x - s * 0.4f, h * 0.95f), seg(eb, 0.4f, 1f), back = Tile.Back, ink = Tile.Ink)
+        if (tick > 0f) checkMark(extC + Offset(s * 0.7f, -s * 0.25f), s * 0.2f * tick, Tile.Good, 2.8f * dp)
+        tagAt(a.tag("extend"), Offset(extC.x + s * 0.3f, h * 0.92f), seg(eb, 0.4f, 1f), back = Tile.Back, ink = Tile.Ink)
     }
+    // the craftsman's hammer and a few cut pieces, by the wall on the right
+    val tool = Offset(w * 0.86f, floorY - 2f * dp)
+    drawLine(Color(0xFF8A6238), tool, tool + Offset(-w * 0.07f, -h * 0.02f), 2.6f * dp, StrokeCap.Round)
+    drawRoundRect(Tile.Iron, topLeft = tool + Offset(-w * 0.085f, -h * 0.045f), size = Size(w * 0.02f, h * 0.05f), cornerRadius = CornerRadius(1.5f * dp))
+    for (k in 0 until 3) drawPath(polyPiece(tool + Offset(w * (0.03f + 0.025f * k), -3f * dp), s * 0.1f, 4, k * 0.5f), colors[k])
 }
 
 // ═════════════ 4. canyon: a desert at dawn (bida-sighar) ═════════════
@@ -697,12 +733,16 @@ private object Dune {
     val Far = Color(0xFFC88A5C)
     val Sand = Color(0xFFD7A66C)
     val SandLow = Color(0xFFB07D4F)
+    val SandLight = Color(0xFFE8BF85)
     val Ripple = Color(0xFFB98552)
     val Road = Color(0xFFF0DCB0)
     val Stone = Color(0xFF8E7356)
-    val Wall = Color(0xFF8A5536)
-    val WallDark = Color(0xFF5E3523)
-    val Floor = Color(0xFFC6905E)
+    val Face = Color(0xFFC77B4A)
+    val FaceDark = Color(0xFF8A4A2C)
+    val Strata = Color(0xFF7A3E24)
+    val Gap = Color(0xFF2E1A14)
+    val Floor = Color(0xFF9E6640)
+    val Lip = Color(0xFFF0C894)
     val Ink = Color(0xFF2B2230)
     val Post = Color(0xFF5A3A24)
     val Banner = Color(0xFF9C3B22)
@@ -711,9 +751,9 @@ private object Dune {
 
 /**
  * A desert road at dawn, and a faint track leaving it. Beats: side (a thin track branches off), deepen (it cuts
- * down into a gully that widens as it goes), mimic (a signpost just like the road's own stands at its mouth),
- * trapped (a walker goes down it and the walls rise until there is no way up), pave (the gully is paved and hung
- * with banners: a religion people follow), bury (sand drifts over the same length of the true road).
+ * down into a canyon that widens and deepens as it goes), mimic (a signpost just like the road's own stands at
+ * its mouth), trapped (a walker goes down into it and its walls rise until there is no way up), pave (its floor is
+ * paved and hung with banners: a religion people follow), bury (sand drifts over the same length of the true road).
  */
 internal fun DrawScope.canyonScene(a: ArtCtx) {
     val w = size.width
@@ -722,7 +762,6 @@ internal fun DrawScope.canyonScene(a: ArtCtx) {
     val t = a.t
     val horizon = h * 0.42f
     drawRect(Brush.verticalGradient(0f to Dune.SkyTop, 0.55f to Dune.SkyMid, 1f to Dune.SkyLow, endY = horizon), size = Size(w, horizon))
-    // the last stars fading in the west (the left)
     for (s in TWINKLES) {
         if (s.x > 0.45f || s.y > 0.4f) continue
         drawCircle(ArtInk.Ivory, s.r * 0.8f * dp, Offset(s.x * w, s.y * horizon), alpha = 0.35f * (0.5f + 0.5f * sin(t + s.p)))
@@ -731,129 +770,128 @@ internal fun DrawScope.canyonScene(a: ArtCtx) {
     softGlow(sun, w * 0.35f, Dune.Sun, 0.75f)
     lightShafts(sun, -PI.toFloat() / 2f, PI.toFloat() * 0.8f, h * 0.6f, Dune.Sun, 0.6f, t, 9)
     drawCircle(Dune.Sun, w * 0.055f, sun)
-    // clouds lit from below
     for (k in 0 until 4) {
         val cx = w * (0.15f + 0.22f * k) + w * 0.01f * sin(t * 0.1f + k)
         val cy = h * (0.1f + 0.05f * (k % 2))
         drawOval(Dune.Cloud, topLeft = Offset(cx - w * 0.07f, cy), size = Size(w * 0.14f, h * 0.022f), alpha = 0.55f)
         drawOval(Dune.Cloud, topLeft = Offset(cx - w * 0.04f, cy - h * 0.012f), size = Size(w * 0.08f, h * 0.02f), alpha = 0.45f)
     }
-    // two birds far off
     for (k in 0 until 2) {
         val b = Offset(w * (0.36f + 0.06f * k) - fract(t * 0.01f) * w * 0.1f, h * (0.2f + 0.03f * k))
         val f = 2.5f * dp * (1f + 0.4f * sin(t * 6f + k))
         drawLine(Dune.Ink, b, b + Offset(-4f * dp, -f), 0.9f * dp, StrokeCap.Round, alpha = 0.7f)
         drawLine(Dune.Ink, b, b + Offset(4f * dp, -f), 0.9f * dp, StrokeCap.Round, alpha = 0.7f)
     }
-    // mesas on the horizon
     for ((k, mx) in listOf(0.12f, 0.3f, 0.62f).withIndex()) {
         val mw = w * (0.12f + 0.04f * k)
         val mh = h * (0.06f + 0.02f * (k % 2))
-        val p = Path().apply {
-            moveTo(w * mx - mw / 2f, horizon)
-            lineTo(w * mx - mw * 0.35f, horizon - mh)
-            lineTo(w * mx + mw * 0.3f, horizon - mh)
-            lineTo(w * mx + mw / 2f, horizon)
-            close()
-        }
-        drawPath(p, Dune.Mesa)
+        drawPath(Path().apply {
+            moveTo(w * mx - mw / 2f, horizon); lineTo(w * mx - mw * 0.35f, horizon - mh); lineTo(w * mx + mw * 0.3f, horizon - mh); lineTo(w * mx + mw / 2f, horizon); close()
+        }, Dune.Mesa)
         drawRect(Dune.MesaShade, topLeft = Offset(w * mx + mw * 0.1f, horizon - mh), size = Size(mw * 0.2f, mh))
     }
     hills(Dune.Far, horizon + h * 0.01f, h * 0.025f, 0.02f, 0.045f, 0.7f)
-    drawRect(Brush.verticalGradient(listOf(Dune.Sand, Dune.SandLow), startY = horizon + h * 0.03f, endY = h), topLeft = Offset(0f, horizon + h * 0.03f), size = Size(w, h - horizon))
+    val groundBrush = Brush.verticalGradient(listOf(Dune.Sand, Dune.SandLow), startY = horizon + h * 0.03f, endY = h)
+    drawRect(groundBrush, topLeft = Offset(0f, horizon + h * 0.03f), size = Size(w, h - horizon))
     hills(Dune.Sand, horizon + h * 0.05f, h * 0.02f, 0.03f, 0.07f, 2.1f)
-    for (k in 0 until 14) {     // ripples in the sand
-        val y = horizon + h * (0.1f + 0.04f * k)
+    for (k in 0 until 16) {
+        val y = horizon + h * (0.1f + 0.036f * k)
         val x = rnd(k, 12.9898f) * w
         drawLine(Dune.Ripple, Offset(x - w * 0.12f, y), Offset(x + w * 0.12f, y + h * 0.006f), 0.8f * dp, StrokeCap.Round, alpha = 0.45f)
     }
 
-    // the road, right to left
+    // the true road, right to left, edged with stones
     fun road(u: Float) = Offset(mix(w * 1.02f, -w * 0.02f, u), mix(h * 0.565f, h * 0.505f, u) + h * 0.01f * sin(u * 5f))
-    val roadPts = List(41) { road(it / 40f) }
-    val roadPath = polyPathOf(roadPts)
+    val roadPath = polyPathOf(List(41) { road(it / 40f) })
     drawPath(roadPath, Dune.Stone, alpha = 0.5f, style = Stroke(13f * dp, cap = StrokeCap.Round))
     drawPath(roadPath, Dune.Road, style = Stroke(10f * dp, cap = StrokeCap.Round))
     drawPath(roadPath, Dune.Stone, alpha = 0.35f, style = Stroke(1f * dp, pathEffect = PathEffect.dashPathEffect(floatArrayOf(6f * dp, 7f * dp))))
-    // bury: sand drifting over the same length of the true road
-    val bu = easeOut(a.b("bury"))
+    // bury: a dune drifts over the same length of the true road
+    val buRaw = a.b("bury")
+    val bu = easeOut(buRaw)
     if (bu > 0f) {
-        val from = 0.3f
-        val to = from + 0.45f * bu
+        val from = 0.33f
+        val to = from + 0.42f * bu
         val top = ArrayList<Offset>()
         val bot = ArrayList<Offset>()
-        for (k in 0..24) {
-            val u = mix(from, to, k / 24f)
-            val c = road(u)
-            val hump = h * 0.022f * (0.6f + 0.4f * sin(k * 1.3f)) * min(1f, bump(k / 24f) * 2f)
-            top.add(c + Offset(0f, -hump - 5f * dp))
-            bot.add(c + Offset(0f, 7f * dp))
+        for (k in 0..28) {
+            val f = k / 28f
+            val c = road(mix(from, to, f))
+            val env = min(1f, bump(f) * 1.6f)
+            top.add(c + Offset(0f, -(h * 0.05f * (0.75f + 0.25f * sin(k * 1.1f)) * env) - 6f * dp * env))
+            bot.add(c + Offset(0f, 9f * dp))
         }
         val mound = Path().apply {
             top.forEachIndexed { i, p -> if (i == 0) moveTo(p.x, p.y) else lineTo(p.x, p.y) }
             for (p in bot.asReversed()) lineTo(p.x, p.y)
             close()
         }
-        drawPath(mound, Dune.Sand)
+        drawPath(mound, Brush.verticalGradient(listOf(Dune.SandLight, Dune.Sand), startY = road(from).y - h * 0.06f, endY = road(from).y + 9f * dp))
+        for (r in 1..3) drawPath(polyPathOf(top.map { it + Offset(0f, r * 3.5f * dp) }), Dune.Ripple, alpha = 0.5f, style = Stroke(0.8f * dp))
         drawPath(polyPathOf(top), Dune.SandLow, style = Stroke(1f * dp))
-        for (k in 0 until 6) {   // wind carrying the sand
-            val y = road(from).y - h * (0.03f + 0.02f * k)
+        for (k in 0 until 7) {
+            val y = road(from).y - h * (0.03f + 0.018f * k)
             val x = fract(t * 0.3f + k * 0.17f) * w
-            drawLine(Dune.Road, Offset(x, y), Offset(x - w * 0.08f, y + h * 0.004f), 0.8f * dp, StrokeCap.Round, alpha = 0.5f * bu)
+            drawLine(Dune.Road, Offset(x, y), Offset(x - w * 0.08f, y + h * 0.004f), 0.8f * dp, StrokeCap.Round, alpha = 0.55f * bu)
         }
-        tagAt(a.tag("bury"), road(from + 0.22f) + Offset(0f, -h * 0.1f), seg(a.b("bury"), 0.4f, 1f), back = Dune.Back)
+        tagAt(a.tag("bury"), road(from + 0.21f) + Offset(0f, -h * 0.13f), seg(buRaw, 0.4f, 1f), back = Dune.Back)
     }
 
-    // the side track: from the fork down to the foreground
+    // the side track, and the canyon it becomes
     val f0 = road(0.27f)
-    val c1 = Offset(w * 0.62f, h * 0.63f)
-    val c2 = Offset(w * 0.42f, h * 0.8f)
-    val end = Offset(w * 0.12f, h * 1.02f)
+    val c1 = Offset(w * 0.56f, h * 0.6f)
+    val c2 = Offset(w * 0.7f, h * 0.84f)
+    val end = Offset(w * 0.2f, h * 1.06f)
+    fun mid(u: Float) = cubic(f0, c1, c2, end, u)
+    fun nrm(u: Float): Offset {
+        val d = mid(min(1f, u + 0.01f)) - mid(max(0f, u - 0.01f))
+        val l = max(0.001f, d.getDistance())
+        return Offset(-d.y / l, d.x / l)
+    }
     val sideB = a.b("side")
     val deep = easeOut(a.b("deepen"))
     val trap = a.b("trapped")
-    val wallBoost = easeOut(seg(trap, 0.35f, 0.8f))
+    val rise = easeOut(seg(trap, 0.35f, 0.8f))
+    fun half(u: Float) = mix(1.5f * dp, w * 0.105f, u) * deep
+    fun depth(u: Float) = (h * 0.13f * deep + h * 0.1f * rise) * u
+    fun farTop(u: Float) = mid(u) + nrm(u) * half(u)
+    fun nearTop(u: Float) = mid(u) - nrm(u) * half(u)
+    fun farFloor(u: Float) = mid(u) + nrm(u) * (half(u) * 0.35f) + Offset(0f, depth(u))
+    fun floorMid(u: Float) = (farFloor(u) + nearTop(u)) * 0.5f
+    val sp = easeOut(seg(sideB, 0f, 0.8f))
     if (sideB > 0f) {
-        val sp = easeOut(seg(sideB, 0f, 0.8f))
         if (deep > 0f) {
-            val n = 30
-            val l = ArrayList<Offset>()
-            val r = ArrayList<Offset>()
-            val wall = ArrayList<Offset>()
-            for (k in 0..n) {
-                val u = k / n.toFloat() * sp
-                val c = cubic(f0, c1, c2, end, u)
-                val d = cubic(f0, c1, c2, end, min(1f, u + 0.01f)) - cubic(f0, c1, c2, end, max(0f, u - 0.01f))
-                val len = max(0.001f, d.getDistance())
-                val nrm = Offset(-d.y / len, d.x / len)
-                val half = mix(1.5f * dp, w * 0.07f, u) * deep
-                l.add(c + nrm * half)
-                r.add(c - nrm * half)
-                wall.add(c - nrm * half + Offset(0f, -(h * 0.06f * u * deep + h * 0.07f * wallBoost * u)))
-            }
-            // the far wall, rising above the floor, with its layers of rock
-            val wallPath = Path().apply {
-                r.forEachIndexed { i, p -> if (i == 0) moveTo(p.x, p.y) else lineTo(p.x, p.y) }
-                for (p in wall.asReversed()) lineTo(p.x, p.y)
+            val us = List(31) { it / 30f * sp }
+            // the gap's darkness, then the far wall's sunlit face with its layers, then the floor
+            val gap = Path().apply {
+                us.forEachIndexed { i, u -> val p = farTop(u); if (i == 0) moveTo(p.x, p.y) else lineTo(p.x, p.y) }
+                for (u in us.asReversed()) { val p = nearTop(u); lineTo(p.x, p.y) }
                 close()
             }
-            drawPath(wallPath, Brush.verticalGradient(listOf(Dune.Wall, Dune.WallDark), startY = h * 0.5f, endY = h))
-            for (k in 1..3) {
-                val strata = r.indices.map { i -> lerp2(r[i], wall[i], k / 4f) }
-                drawPath(polyPathOf(strata), Dune.WallDark, alpha = 0.5f, style = Stroke(0.7f * dp))
+            drawPath(gap, Dune.Gap)
+            val face = Path().apply {
+                us.forEachIndexed { i, u -> val p = farTop(u); if (i == 0) moveTo(p.x, p.y) else lineTo(p.x, p.y) }
+                for (u in us.asReversed()) { val p = farFloor(u); lineTo(p.x, p.y) }
+                close()
+            }
+            drawPath(face, Brush.verticalGradient(listOf(Dune.Face, Dune.FaceDark), startY = h * 0.55f, endY = h))
+            for (k in 1..4) {
+                drawPath(polyPathOf(us.map { u -> lerp2(farTop(u), farFloor(u), k / 5f) + Offset(0f, 1.5f * dp * sin(u * 30f + k)) }), Dune.Strata, alpha = 0.45f, style = Stroke(0.8f * dp))
             }
             val floor = Path().apply {
-                l.forEachIndexed { i, p -> if (i == 0) moveTo(p.x, p.y) else lineTo(p.x, p.y) }
-                for (p in r.asReversed()) lineTo(p.x, p.y)
+                us.forEachIndexed { i, u -> val p = farFloor(u); if (i == 0) moveTo(p.x, p.y) else lineTo(p.x, p.y) }
+                for (u in us.asReversed()) { val p = nearTop(u); lineTo(p.x, p.y) }
                 close()
             }
-            drawPath(floor, Dune.Floor)
-            // the near wall: its lip, in shadow
-            drawPath(polyPathOf(l), Dune.WallDark, style = Stroke((1.5f + 3f * deep + 3f * wallBoost) * dp, cap = StrokeCap.Round))
-            tagAt(a.tag("deepen"), cubic(f0, c1, c2, end, 0.6f) + Offset(w * 0.16f, 0f), seg(a.b("deepen"), 0.4f, 1f), back = Dune.Back)
+            drawPath(floor, Brush.verticalGradient(listOf(Dune.Floor, Dune.Gap), startY = h * 0.6f, endY = h * 1.05f))
+            // the sunlit lips of both rims
+            drawPath(polyPathOf(us.map { farTop(it) }), Dune.Lip, style = Stroke(1.6f * dp, cap = StrokeCap.Round))
+            drawPath(polyPathOf(us.map { nearTop(it) }), Dune.SandLow, style = Stroke((1.5f + 2.5f * deep) * dp, cap = StrokeCap.Round))
+            tagAt(a.tag("deepen"), mid(0.62f) + Offset(w * 0.25f, h * 0.02f), seg(a.b("deepen"), 0.4f, 1f), back = Dune.Back)
+        } else {
+            drawPath(cubicPart(f0, c1, c2, end, 0f, sp), Dune.Road, alpha = 0.9f, style = Stroke(1.6f * dp, cap = StrokeCap.Round, pathEffect = PathEffect.dashPathEffect(floatArrayOf(4f * dp, 3f * dp))))
         }
-        drawPath(cubicPart(f0, c1, c2, end, 0f, sp), Dune.Road, alpha = 0.9f, style = Stroke(1.6f * dp, cap = StrokeCap.Round, pathEffect = PathEffect.dashPathEffect(floatArrayOf(4f * dp, 3f * dp))))
-        tagAt(a.tag("side"), cubic(f0, c1, c2, end, 0.18f) + Offset(w * 0.13f, h * 0.02f), seg(sideB, 0.35f, 1f), back = Dune.Back)
+        tagAt(a.tag("side"), Offset(w * 0.86f, h * 0.66f), seg(sideB, 0.35f, 1f), back = Dune.Back)
     }
     // the road's own signpost, and its twin at the mouth of the track
     fun post(foot: Offset, alpha: Float) {
@@ -866,29 +904,31 @@ internal fun DrawScope.canyonScene(a: ArtCtx) {
         drawLine(Dune.Road, top + Offset(-w * 0.038f, h * 0.02f), top + Offset(-w * 0.008f, h * 0.02f), 1f * dp, alpha = alpha * 0.8f)
     }
     post(road(0.16f) + Offset(0f, -6f * dp), 1f)
-    val mim = easeOut(a.b("mimic"))
+    val mimRaw = a.b("mimic")
+    val mim = easeOut(mimRaw)
     if (mim > 0f) {
-        val foot = cubic(f0, c1, c2, end, 0.1f) + Offset(w * 0.02f, 0f)
+        val foot = nearTop(0.07f) + Offset(w * 0.025f, 2f * dp)
         post(foot, mim)
-        val g = bump(seg(a.b("mimic"), 0.3f, 1f))
+        val g = bump(seg(mimRaw, 0.3f, 1f))
         glint(foot + Offset(-w * 0.03f, -h * 0.1f), 8f * dp * g, Dune.Sun, g)
-        tagAt(a.tag("mimic"), foot + Offset(w * 0.06f, -h * 0.17f), seg(a.b("mimic"), 0.35f, 1f), back = Dune.Back)
+        tagAt(a.tag("mimic"), Offset(w * 0.58f, h * 0.44f), seg(mimRaw, 0.35f, 1f), back = Dune.Back)
     }
-    // pave: the gully made into a road people follow, with banners
+    // pave: the canyon's floor made into a road people follow, hung with banners
     val pv = a.b("pave")
     if (pv > 0f && deep > 0f) {
         for (k in 0 until 9) {
             val u = 0.15f + k * 0.095f
+            if (u > sp) break
             val p = easeOut(seg(pv, k * 0.06f, k * 0.06f + 0.4f))
             if (p <= 0f) continue
-            val c = cubic(f0, c1, c2, end, u)
-            val half = mix(1.5f * dp, w * 0.07f, u) * deep * 0.85f
-            drawLine(Dune.Road, c + Offset(-half, half * 0.3f), c + Offset(half, -half * 0.3f), 1.5f * dp, alpha = 0.7f * p)
+            val f = farFloor(u)
+            val n = nearTop(u)
+            drawLine(Dune.Road, f + (n - f) * 0.15f, f + (n - f) * 0.85f, 1.6f * dp, alpha = 0.75f * p)
         }
-        for ((k, u) in listOf(0.4f, 0.62f, 0.84f).withIndex()) {
+        for ((k, u) in listOf(0.42f, 0.64f, 0.86f).withIndex()) {
             val p = easeOut(seg(pv, 0.3f + k * 0.15f, 0.6f + k * 0.15f))
             if (p <= 0f) continue
-            val c = cubic(f0, c1, c2, end, u)
+            val c = floorMid(u)
             val tall = h * mix(0.1f, 0.2f, u) * p
             drawLine(Dune.Post, c, c + Offset(0f, -tall), 1.8f * dp, StrokeCap.Round)
             val wave = sin(t * 4f + k) * 2f * dp
@@ -896,22 +936,20 @@ internal fun DrawScope.canyonScene(a: ArtCtx) {
                 moveTo(c.x, c.y - tall); lineTo(c.x - w * 0.05f, c.y - tall + h * 0.015f + wave); lineTo(c.x, c.y - tall + h * 0.035f); close()
             }, Dune.Banner, alpha = p)
         }
-        tagAt(a.tag("pave"), cubic(f0, c1, c2, end, 0.86f) + Offset(w * 0.14f, -h * 0.06f), seg(pv, 0.4f, 1f), back = Dune.Back)
+        tagAt(a.tag("pave"), Offset(w * 0.18f, h * 0.83f), seg(pv, 0.4f, 1f), back = Dune.Back)
     }
-    // trapped: a walker goes down the track and cannot climb out
+    // trapped: a walker goes down into the canyon and cannot climb out
     if (trap > 0f) {
-        val u = mix(0.12f, 0.58f, easeInOut(seg(trap, 0f, 0.6f)))
-        val c = cubic(f0, c1, c2, end, u)
-        val tall = h * mix(0.1f, 0.19f, u)
+        val u = mix(0.12f, 0.56f, easeInOut(seg(trap, 0f, 0.6f)))
+        val c = floorMid(u)
+        val tall = h * mix(0.1f, 0.2f, u)
         val walking = trap < 0.6f
-        // a long shadow toward the west
-        drawLine(Color.Black, c, c + Offset(-tall * 1.3f, tall * 0.08f), tall * 0.07f, StrokeCap.Round, alpha = 0.18f)
-        figure(c, tall, Dune.Ink, walk = if (walking) t * 6f else 0f, lean = if (walking) 0.08f else -0.22f * seg(trap, 0.65f, 0.85f), arms = if (walking) 0f else -0.6f * seg(trap, 0.7f, 0.9f))
-        tagAt(a.tag("trapped"), c + Offset(w * 0.15f, -tall * 0.9f), seg(trap, 0.5f, 1f), back = Dune.Back)
+        drawLine(Color.Black, c, c + Offset(-tall * 1.1f, tall * 0.05f), tall * 0.07f, StrokeCap.Round, alpha = 0.2f)
+        figure(c, tall, Dune.Ink, walk = if (walking) t * 6f else 0f, lean = if (walking) 0.08f else -0.24f * seg(trap, 0.65f, 0.85f), arms = if (walking) 0f else 0.9f * seg(trap, 0.7f, 0.9f))
+        tagAt(a.tag("trapped"), Offset(w * 0.3f, h * 0.7f), seg(trap, 0.5f, 1f), back = Dune.Back)
     }
-    // shrubs in the foreground
-    for ((k, sx) in listOf(0.88f, 0.64f).withIndex()) {
-        val b = Offset(w * sx, h * (0.93f + 0.03f * k))
+    for ((k, sx) in listOf(0.9f, 0.08f).withIndex()) {
+        val b = Offset(w * sx, h * (0.95f - 0.25f * k))
         for (j in 0 until 5) {
             val ang = -PI.toFloat() / 2f + (j - 2) * 0.35f
             drawLine(Color(0xFF5E5A34), b, b + Offset(cos(ang), sin(ang)) * (h * 0.05f), 1.4f * dp, StrokeCap.Round)
@@ -1018,11 +1056,17 @@ internal fun DrawScope.mapScene(a: ArtCtx) {
     val route = smooth(listOf(Offset(w * 0.88f, h * 0.6f), Offset(w * 0.72f, h * 0.52f), Offset(w * 0.55f, h * 0.6f), Offset(w * 0.38f, h * 0.53f), Offset(w * 0.22f, h * 0.57f), Offset(w * 0.1f, h * 0.48f)))
     drawPath(polyPathOf(route), MapInk.Ink, alpha = 0.35f, style = Stroke(1f * dp, pathEffect = PathEffect.dashPathEffect(floatArrayOf(4f * dp, 4f * dp))))
     // towns along the way: a dome and a minaret
-    for (u in listOf(0.0f, 0.36f, 0.64f, 1f)) {
-        val c = alongPoly(route, u) + Offset(0f, -h * 0.035f)
-        drawArc(MapInk.Ink, 180f, 180f, true, topLeft = c - Offset(5f * dp, 5f * dp), size = Size(10f * dp, 10f * dp))
-        drawRect(MapInk.Ink, topLeft = c + Offset(-5f * dp, 0f), size = Size(10f * dp, 4f * dp))
-        drawRect(MapInk.Ink, topLeft = c + Offset(6f * dp, -8f * dp), size = Size(2.2f * dp, 12f * dp))
+    for ((k, u) in listOf(0.0f, 0.36f, 0.64f, 1f).withIndex()) {
+        val c = alongPoly(route, u) + Offset(0f, -h * 0.05f)
+        val s = 1f + 0.25f * (k % 2)
+        // a walled town: houses, a dome, a minaret
+        drawRect(MapInk.MountLight, topLeft = c + Offset(-9f * dp * s, -1f * dp), size = Size(18f * dp * s, 7f * dp))
+        drawRect(MapInk.Ink, topLeft = c + Offset(-9f * dp * s, -1f * dp), size = Size(18f * dp * s, 7f * dp), style = Stroke(0.8f * dp))
+        for (b in 0 until 4) drawRect(MapInk.Ink, topLeft = c + Offset((-9f + b * 5f) * dp * s, -3f * dp), size = Size(2.2f * dp, 2f * dp))
+        drawArc(MapInk.Gold, 180f, 180f, true, topLeft = c + Offset(-4f * dp, -6f * dp), size = Size(8f * dp, 8f * dp))
+        drawArc(MapInk.Ink, 180f, 180f, false, topLeft = c + Offset(-4f * dp, -6f * dp), size = Size(8f * dp, 8f * dp), style = Stroke(0.8f * dp))
+        drawRect(MapInk.Ink, topLeft = c + Offset(5f * dp * s, -11f * dp), size = Size(2.4f * dp, 11f * dp))
+        drawPath(Path().apply { moveTo(c.x + 4.6f * dp * s, c.y - 11f * dp); lineTo(c.x + 6.2f * dp * s, c.y - 14f * dp); lineTo(c.x + 7.8f * dp * s, c.y - 11f * dp); close() }, MapInk.Ink)
     }
     // spiral: the red side tracks of going too deep and making it hard
     val spB = a.b("spiral")
@@ -1137,11 +1181,13 @@ private object Court {
     val Dado = Color(0xFF2E6E5A)
     val Ground = Color(0xFFDCC9A3)
     val GroundLow = Color(0xFFC3AB80)
-    val Path = Color(0xFFF2E6C9)
+    val Way = Color(0xFFF4EAD0)
+    val WayEdge = Color(0xFFCDB68C)
     val Ink = Color(0xFF2B303E)
     val Light = Color(0xFFFFF0C4)
-    val Rock = Color(0xFF6F5E4C)
-    val Pit = Color(0xFF2C2620)
+    val Rock = Color(0xFF8A7058)
+    val RockDark = Color(0xFF5C4838)
+    val Pit = Color(0xFF231E1A)
     val Palm = Color(0xFF3E6B4A)
     val Trunk = Color(0xFF7A5B3A)
     val Back = Color(0xE62B303E)
@@ -1149,140 +1195,184 @@ private object Court {
 
 private val BOOK_COLOURS = listOf(Color(0xFF8C2F2A), Color(0xFF2F5E8C), Color(0xFF3E7A4E), Color(0xFF8C6A2F), Color(0xFF5E3E7A))
 
+/** A way drawn in perspective: wide at its first point, narrow at its last. */
+private fun DrawScope.wayBand(pts: List<Offset>, near: Float, far: Float, fill: Color, edge: Color) {
+    val l = ArrayList<Offset>()
+    val r = ArrayList<Offset>()
+    for (i in pts.indices) {
+        val d = pts[min(pts.size - 1, i + 1)] - pts[max(0, i - 1)]
+        val len = max(0.001f, d.getDistance())
+        val n = Offset(-d.y / len, d.x / len)
+        val half = mix(near, far, i / (pts.size - 1f)) / 2f
+        l.add(pts[i] + n * half)
+        r.add(pts[i] - n * half)
+    }
+    val band = Path().apply {
+        l.forEachIndexed { i, p -> if (i == 0) moveTo(p.x, p.y) else lineTo(p.x, p.y) }
+        for (p in r.asReversed()) lineTo(p.x, p.y)
+        close()
+    }
+    drawPath(band, fill)
+    drawPath(polyPathOf(l), edge, style = Stroke(1f * density))
+    drawPath(polyPathOf(r), edge, style = Stroke(1f * density))
+}
+
 /**
- * A madrasa courtyard in the morning: an arcade, a palm, a lit doorway on the right and a broken edge on the left.
- * Beats: pile (a man's stack of books grows and grows), single (another, with one small book, walks the lit way
- * on the footprints before him), stack (the first walks off toward the edge, his stack teetering, books falling),
- * learner (a child at the meeting of the ways looks at both and follows the footprints).
+ * A madrasa courtyard in the morning: an arcade, a minaret, a palm, a lit doorway on the right and a broken edge
+ * over a drop on the left. Beats: pile (a man's stack of books grows and grows), single (another, with one small
+ * book, walks toward the lit door on the footprints before him), stack (the first walks off toward the edge, his
+ * stack teetering, a book falling into the drop), learner (a child where the ways meet looks at both, then
+ * follows the footprints).
  */
 internal fun DrawScope.booksScene(a: ArtCtx) {
     val w = size.width
     val h = size.height
     val dp = density
     val t = a.t
-    val horizon = h * 0.5f
+    val horizon = h * 0.44f
     drawRect(Brush.verticalGradient(listOf(Court.SkyTop, Court.SkyLow), endY = horizon), size = Size(w, horizon))
-    // a minaret far off
-    val mx = w * 0.2f
-    drawRect(Court.StoneShade, topLeft = Offset(mx - w * 0.018f, horizon - h * 0.36f), size = Size(w * 0.036f, h * 0.36f))
-    drawRect(Court.Stone, topLeft = Offset(mx - w * 0.024f, horizon - h * 0.37f), size = Size(w * 0.048f, h * 0.02f))
-    drawRect(Court.StoneShade, topLeft = Offset(mx - w * 0.012f, horizon - h * 0.43f), size = Size(w * 0.024f, h * 0.06f))
-    drawCircle(Court.Arch, 2f * dp, Offset(mx, horizon - h * 0.445f))
+    lightShafts(Offset(w * 0.95f, -h * 0.05f), PI.toFloat() * 0.7f, 0.5f, h * 1.1f, Court.Light, 0.5f, t, 5)
+    // a minaret beyond the arcade
+    val mx = w * 0.3f
+    drawRect(Court.StoneShade, topLeft = Offset(mx - w * 0.022f, horizon - h * 0.4f), size = Size(w * 0.044f, h * 0.4f))
+    drawRect(Court.Stone, topLeft = Offset(mx - w * 0.03f, horizon - h * 0.41f), size = Size(w * 0.06f, h * 0.022f))
+    drawPath(horseshoe(mx, horizon - h * 0.355f, w * 0.009f, w * 0.007f, horizon - h * 0.33f), Court.Arch)
+    drawRect(Court.StoneShade, topLeft = Offset(mx - w * 0.014f, horizon - h * 0.47f), size = Size(w * 0.028f, h * 0.06f))
+    drawPath(Path().apply { moveTo(mx - w * 0.016f, horizon - h * 0.47f); lineTo(mx, horizon - h * 0.51f); lineTo(mx + w * 0.016f, horizon - h * 0.47f); close() }, Court.Dado)
     // the arcade along the back of the courtyard, with a band of zellige under it
-    drawRect(Court.Stone, topLeft = Offset(0f, horizon - h * 0.22f), size = Size(w, h * 0.22f))
+    val arcTop = horizon - h * 0.25f
+    drawRect(Court.Stone, topLeft = Offset(0f, arcTop), size = Size(w, h * 0.25f))
+    drawLine(Court.StoneShade, Offset(0f, arcTop + h * 0.02f), Offset(w, arcTop + h * 0.02f), 1f * dp)
     var ax = w * 0.06f
-    while (ax < w) {
-        drawPath(horseshoe(ax, horizon - h * 0.13f, w * 0.042f, w * 0.034f, horizon - h * 0.035f), Court.StoneShade)
-        drawPath(horseshoe(ax, horizon - h * 0.13f, w * 0.042f, w * 0.034f, horizon - h * 0.035f), Court.Arch, style = Stroke(1f * dp))
-        ax += w * 0.11f
+    while (ax < w * 0.78f) {
+        drawPath(horseshoe(ax, horizon - h * 0.14f, w * 0.045f, w * 0.036f, horizon - h * 0.04f), Court.StoneShade)
+        drawPath(horseshoe(ax, horizon - h * 0.14f, w * 0.045f, w * 0.036f, horizon - h * 0.04f), Court.Arch, style = Stroke(1f * dp))
+        ax += w * 0.115f
     }
-    drawRect(Court.Dado, topLeft = Offset(0f, horizon - h * 0.035f), size = Size(w, h * 0.035f))
-    var zx = 0f
+    drawRect(Court.Dado, topLeft = Offset(0f, horizon - h * 0.04f), size = Size(w, h * 0.04f))
+    var zx = w * 0.01f
     while (zx < w) {
-        drawPath(starPath(Offset(zx, horizon - h * 0.0175f), h * 0.012f), Court.Stone, alpha = 0.8f)
+        drawPath(starPath(Offset(zx, horizon - h * 0.02f), h * 0.013f), Court.Stone, alpha = 0.85f)
         zx += w * 0.04f
     }
-    // the ground, paved in the courtyard
-    drawRect(Brush.verticalGradient(listOf(Court.Ground, Court.GroundLow), startY = horizon, endY = h), topLeft = Offset(0f, horizon), size = Size(w, h - horizon))
-    for (k in 0 until 7) {
-        val y = horizon + (h - horizon) * (k / 7f).let { it * it }
-        drawLine(Court.StoneShade, Offset(0f, y), Offset(w, y), 0.6f * dp, alpha = 0.5f)
-    }
-    // the broken edge on the left
-    drawPath(Path().apply {
-        moveTo(0f, h * 0.56f); lineTo(w * 0.07f, h * 0.58f); lineTo(w * 0.1f, h * 0.68f); lineTo(w * 0.06f, h * 0.8f); lineTo(w * 0.09f, h); lineTo(0f, h); close()
-    }, Court.Pit)
-    for (k in 0 until 4) drawCircle(Court.Rock, (3f + 2f * k) * dp * 0.6f, Offset(w * (0.1f + 0.012f * k), h * (0.62f + 0.07f * k)))
     // the lit doorway on the right
-    val door = Offset(w * 0.86f, horizon - h * 0.035f)
-    softGlow(door + Offset(0f, -h * 0.07f), w * 0.16f, Court.Light, 0.55f + 0.25f * easeOut(a.b("single")))
-    drawPath(horseshoe(door.x, door.y - h * 0.13f, w * 0.05f, w * 0.04f, door.y), Court.Light)
-    drawPath(horseshoe(door.x, door.y - h * 0.13f, w * 0.05f, w * 0.04f, door.y), Court.Arch, style = Stroke(1.8f * dp))
+    val door = Offset(w * 0.87f, horizon - h * 0.04f)
+    val single = easeOut(a.b("single"))
+    softGlow(door + Offset(0f, -h * 0.08f), w * 0.2f, Court.Light, 0.55f + 0.3f * single)
+    drawPath(horseshoe(door.x, door.y - h * 0.15f, w * 0.06f, w * 0.048f, door.y), Court.Light)
+    drawPath(horseshoe(door.x, door.y - h * 0.15f, w * 0.06f, w * 0.048f, door.y), Court.Arch, style = Stroke(2f * dp))
+    drawPath(horseshoe(door.x, door.y - h * 0.15f, w * 0.072f, w * 0.06f, door.y), Court.Dado, style = Stroke(1.2f * dp))
+    // the courtyard's paving, in perspective
+    drawRect(Brush.verticalGradient(listOf(Court.Ground, Court.GroundLow), startY = horizon, endY = h), topLeft = Offset(0f, horizon), size = Size(w, h - horizon))
+    val vp = Offset(w * 0.5f, horizon - h * 0.2f)
+    for (k in -6..6) {
+        val bottom = Offset(w * 0.5f + k * w * 0.16f, h)
+        val topP = vp + (bottom - vp) * ((horizon - vp.y) / (h - vp.y))
+        drawLine(Court.StoneShade, topP, bottom, 0.6f * dp, alpha = 0.55f)
+    }
+    for (k in 1..6) {
+        val y = horizon + (h - horizon) * (k / 6f).let { it * it }
+        drawLine(Court.StoneShade, Offset(0f, y), Offset(w, y), 0.6f * dp, alpha = 0.55f)
+    }
+    // the broken edge on the left, and the drop beneath it
+    val edge = listOf(Offset(0f, horizon + h * 0.08f), Offset(w * 0.1f, horizon + h * 0.11f), Offset(w * 0.16f, horizon + h * 0.2f), Offset(w * 0.12f, horizon + h * 0.32f), Offset(w * 0.17f, h * 1.01f))
+    val drop = Path().apply {
+        edge.forEachIndexed { i, p -> if (i == 0) moveTo(p.x, p.y) else lineTo(p.x, p.y) }
+        lineTo(0f, h)
+        close()
+    }
+    drawPath(drop, Brush.horizontalGradient(listOf(Court.Pit, Color(0xFF3A3028)), startX = 0f, endX = w * 0.17f))
+    drawPath(polyPathOf(edge.map { it + Offset(-w * 0.018f, h * 0.012f) }), Court.RockDark, style = Stroke(5f * dp, join = StrokeJoin.Round))
+    drawPath(polyPathOf(edge), Court.Rock, style = Stroke(2.5f * dp, join = StrokeJoin.Round))
+    for (k in 0 until 5) drawCircle(Court.Rock, (2f + 1.5f * k) * dp * 0.7f, Offset(w * (0.04f + 0.02f * k), h * (0.62f + 0.07f * k)), alpha = 0.7f)
     // a palm by the door
     val palm = Offset(w * 0.7f, horizon + h * 0.02f)
-    drawLine(Court.Trunk, palm, palm + Offset(-w * 0.01f, -h * 0.3f), 3.5f * dp, StrokeCap.Round)
-    val crown = palm + Offset(-w * 0.01f, -h * 0.3f)
-    for (k in 0 until 7) {
-        val ang = -PI.toFloat() + k * PI.toFloat() / 6f + 0.04f * sin(t * 0.8f + k)
-        val tip = crown + Offset(cos(ang) * w * 0.07f, sin(ang) * h * 0.05f + h * 0.04f)
-        drawPath(cubicPart(crown, crown + Offset(cos(ang) * w * 0.04f, -h * 0.03f), tip, tip, 0f, 1f), Court.Palm, style = Stroke(2.6f * dp, cap = StrokeCap.Round))
+    drawLine(Court.Trunk, palm, palm + Offset(-w * 0.01f, -h * 0.32f), 3.8f * dp, StrokeCap.Round)
+    for (k in 1..5) drawLine(Color(0xFF5E4428), palm + Offset(-w * 0.002f * k, -h * 0.055f * k), palm + Offset(-w * 0.002f * k + 3f * dp, -h * 0.055f * k - 2f * dp), 1f * dp)
+    val crown = palm + Offset(-w * 0.01f, -h * 0.32f)
+    for (k in 0 until 8) {
+        val ang = -PI.toFloat() + k * PI.toFloat() / 7f + 0.04f * sin(t * 0.8f + k)
+        val tip = crown + Offset(cos(ang) * w * 0.08f, sin(ang) * h * 0.05f + h * 0.05f)
+        drawPath(cubicPart(crown, crown + Offset(cos(ang) * w * 0.045f, -h * 0.035f), tip, tip, 0f, 1f), Court.Palm, style = Stroke(2.8f * dp, cap = StrokeCap.Round))
     }
 
     // the two ways from where the child stands
-    val j = Offset(w * 0.5f, h * 0.97f)
-    val rightWay = smooth(listOf(j, Offset(w * 0.6f, h * 0.8f), Offset(w * 0.76f, h * 0.62f), door))
-    val leftWay = smooth(listOf(j, Offset(w * 0.4f, h * 0.82f), Offset(w * 0.24f, h * 0.68f), Offset(w * 0.08f, h * 0.6f)))
-    drawPath(polyPathOf(rightWay), Court.Path, style = Stroke(14f * dp, cap = StrokeCap.Round))
-    drawPath(polyPathOf(leftWay), Court.Path, alpha = 0.8f, style = Stroke(14f * dp, cap = StrokeCap.Round))
+    val j = Offset(w * 0.5f, h * 1.02f)
+    val rightWay = smooth(listOf(j, Offset(w * 0.62f, h * 0.8f), Offset(w * 0.78f, h * 0.6f), door), 12)
+    val leftWay = smooth(listOf(j, Offset(w * 0.38f, h * 0.8f), Offset(w * 0.24f, h * 0.66f), Offset(w * 0.15f, horizon + h * 0.19f)), 12)
+    wayBand(leftWay, w * 0.2f, w * 0.05f, Court.Way, Court.WayEdge)
+    wayBand(rightWay, w * 0.2f, w * 0.05f, Court.Way, Court.WayEdge)
+    fun tallOn(foot: Offset) = h * mix(0.1f, 0.36f, ((foot.y - horizon) / (h - horizon)).coerceIn(0f, 1f))
 
-    // pile: a man with more and more books
+    // single: the footprints of those before, and a man with one small book
+    val sbRaw = a.b("single")
+    if (sbRaw > 0f) {
+        val prints = easeOut(seg(sbRaw, 0f, 0.6f))
+        for (k in 0 until 16) {
+            val u = 0.24f + k * 0.045f
+            if (u > 0.24f + 0.72f * prints) break
+            val c = alongPoly(rightWay, u)
+            val s = tallOn(c) * 0.03f
+            drawOval(Court.Arch, topLeft = c + Offset((if (k % 2 == 0) -1.5f else 0.5f) * s - s, -s * 0.5f), size = Size(s * 2f, s), alpha = 0.5f)
+        }
+        val go = easeInOut(seg(sbRaw, 0.25f, 1f))
+        val foot = alongPoly(rightWay, mix(0.2f, 0.42f, go))
+        val tall = tallOn(foot)
+        val appear = seg(sbRaw, 0f, 0.15f)
+        drawLine(Color.Black, foot, foot + Offset(-tall * 0.8f, tall * 0.05f), tall * 0.06f, StrokeCap.Round, alpha = 0.15f * appear)
+        figure(foot, tall, Court.Ink, alpha = appear, walk = if (go in 0.01f..0.99f) t * 6f else 0f, arms = 0.4f)
+        val bk = foot + Offset(-tall * 0.2f, -tall * 0.56f)
+        softGlow(bk, tall * 0.3f, Court.Light, 0.8f * appear)
+        drawRect(Court.Dado, topLeft = bk - Offset(tall * 0.08f, tall * 0.05f), size = Size(tall * 0.16f, tall * 0.1f), alpha = appear)
+        drawRect(Color(0xFFD9A445), topLeft = bk - Offset(tall * 0.08f, tall * 0.05f), size = Size(tall * 0.16f, tall * 0.1f), alpha = appear, style = Stroke(0.9f * dp))
+        tagAt(a.tag("single"), Offset(foot.x + w * 0.06f, foot.y - tall * 1.25f), seg(sbRaw, 0.3f, 1f), back = Court.Back)
+    }
+    // pile: a man with more and more books; stack: he walks off toward the edge
     val pb = a.b("pile")
     val kb = a.b("stack")
     if (pb > 0f) {
         val walkOff = easeInOut(seg(kb, 0f, 0.75f))
-        val foot = alongPoly(leftWay, mix(0.3f, 0.72f, walkOff))
-        val tall = h * mix(0.22f, 0.17f, walkOff)
+        val foot = alongPoly(leftWay, mix(0.2f, 0.78f, walkOff))
+        val tall = tallOn(foot)
         val appear = seg(pb, 0f, 0.15f)
         val walking = kb > 0f && kb < 0.75f
-        drawLine(Color.Black, foot, foot + Offset(-tall * 0.9f, tall * 0.05f), tall * 0.06f, StrokeCap.Round, alpha = 0.15f * appear)
+        drawLine(Color.Black, foot, foot + Offset(-tall * 0.8f, tall * 0.05f), tall * 0.06f, StrokeCap.Round, alpha = 0.15f * appear)
         figure(foot, tall, Court.Ink, alpha = appear, walk = if (walking) t * 6f else 0f, arms = 0.55f)
-        val books = (easeOut(seg(pb, 0.1f, 0.9f)) * 10f).toInt()
-        val sway = sin(t * 3.2f) * 7f * seg(kb, 0.1f, 0.6f)
-        val baseB = foot + Offset(-tall * 0.22f, -tall * 0.55f)
+        val books = (easeOut(seg(pb, 0.1f, 0.9f)) * 11f).toInt()
+        val sway = sin(t * 3.2f) * 8f * seg(kb, 0.1f, 0.6f)
+        val baseB = foot + Offset(-tall * 0.22f, -tall * 0.52f)
+        val bh = tall * 0.06f
         withTransform({ rotate(sway, baseB) }) {
             for (k in 0 until books) {
-                if (kb > 0.55f && k == books - 1) continue     // the top book has fallen
-                val bw = tall * (0.34f + 0.06f * rnd(k, 3.3f))
-                val bh = tall * 0.065f
-                val off = (rnd(k, 7.7f) - 0.5f) * tall * 0.06f
+                if (kb > 0.55f && k == books - 1) continue
+                val bw = tall * (0.32f + 0.08f * rnd(k, 3.3f))
+                val off = (rnd(k, 7.7f) - 0.5f) * tall * 0.07f
                 drawRect(BOOK_COLOURS[k % BOOK_COLOURS.size], topLeft = Offset(baseB.x - bw / 2f + off, baseB.y - (k + 1) * bh), size = Size(bw, bh * 0.92f), alpha = appear)
-                drawLine(Court.Path, Offset(baseB.x - bw / 2f + off + 2f * dp, baseB.y - (k + 0.5f) * bh), Offset(baseB.x + bw / 2f + off - 2f * dp, baseB.y - (k + 0.5f) * bh), 0.6f * dp, alpha = 0.6f * appear)
+                drawLine(Court.Way, Offset(baseB.x - bw / 2f + off + 2f * dp, baseB.y - (k + 0.5f) * bh), Offset(baseB.x + bw / 2f + off - 2f * dp, baseB.y - (k + 0.5f) * bh), 0.7f * dp, alpha = 0.6f * appear)
             }
         }
         if (kb > 0.55f && books > 0) {
             val f = easeInOut(seg(kb, 0.55f, 0.95f))
-            val from = baseB + Offset(0f, -books * tall * 0.065f)
-            val to = Offset(w * 0.06f, h * 0.9f)
-            val p = from + (to - from) * f + Offset(0f, -h * 0.1f * bump(f))
-            withTransform({ rotate(f * 220f, p) }) {
-                drawRect(BOOK_COLOURS[(books - 1) % BOOK_COLOURS.size], topLeft = p - Offset(tall * 0.17f, tall * 0.03f), size = Size(tall * 0.34f, tall * 0.06f), alpha = 1f - 0.6f * f)
+            val from = baseB + Offset(0f, -books * bh)
+            val to = Offset(w * 0.06f, h * 0.95f)
+            val p = from + (to - from) * f + Offset(0f, -h * 0.08f * bump(f))
+            withTransform({ rotate(f * 240f, p) }) {
+                drawRect(BOOK_COLOURS[(books - 1) % BOOK_COLOURS.size], topLeft = p - Offset(tall * 0.16f, tall * 0.03f), size = Size(tall * 0.32f, tall * 0.06f), alpha = 1f - 0.6f * f)
             }
         }
-        val top = baseB + Offset(0f, -books * tall * 0.065f - h * 0.06f)
-        tagAt(a.tag("pile"), Offset(top.x + w * 0.05f, max(h * 0.08f, top.y)), seg(pb, 0.3f, 1f), back = Court.Back)
-        if (kb > 0f) tagAt(a.tag("stack"), foot + Offset(w * 0.1f, h * 0.05f), seg(kb, 0.3f, 1f), back = Court.Back)
+        val topY = baseB.y - books * bh
+        tagAt(a.tag("pile"), Offset(foot.x - w * 0.02f, max(h * 0.07f, topY - h * 0.06f)), seg(pb, 0.3f, 1f), back = Court.Back)
+        if (kb > 0f) tagAt(a.tag("stack"), Offset(foot.x + w * 0.16f, foot.y - tall * 0.3f), seg(kb, 0.3f, 1f), back = Court.Back)
     }
-    // single: one small book, and the footprints of those before him
-    val sb = a.b("single")
-    if (sb > 0f) {
-        val prints = easeOut(seg(sb, 0f, 0.6f))
-        for (k in 0 until 14) {
-            val u = 0.2f + k * 0.055f
-            if (u > 0.2f + 0.77f * prints) break
-            val c = alongPoly(rightWay, u) + Offset(if (k % 2 == 0) -2.5f * dp else 2.5f * dp, 0f)
-            drawOval(Court.Arch, topLeft = c - Offset(1.6f * dp, 1f * dp), size = Size(3.2f * dp, 2f * dp), alpha = 0.55f)
-        }
-        val go = easeInOut(seg(sb, 0.25f, 1f))
-        val foot = alongPoly(rightWay, mix(0.25f, 0.5f, go))
-        val tall = h * mix(0.21f, 0.16f, go)
-        val appear = seg(sb, 0f, 0.15f)
-        drawLine(Color.Black, foot, foot + Offset(-tall * 0.9f, tall * 0.05f), tall * 0.06f, StrokeCap.Round, alpha = 0.15f * appear)
-        figure(foot, tall, Court.Ink, alpha = appear, walk = if (go in 0.01f..0.99f) t * 6f else 0f, arms = 0.4f)
-        val bk = foot + Offset(-tall * 0.2f, -tall * 0.55f)
-        softGlow(bk, tall * 0.25f, Court.Light, 0.7f * appear)
-        drawRect(Color(0xFF2E6E5A), topLeft = bk - Offset(tall * 0.08f, tall * 0.05f), size = Size(tall * 0.16f, tall * 0.1f), alpha = appear)
-        drawRect(Color(0xFFD9A445), topLeft = bk - Offset(tall * 0.08f, tall * 0.05f), size = Size(tall * 0.16f, tall * 0.1f), alpha = appear, style = Stroke(0.8f * dp))
-        tagAt(a.tag("single"), foot + Offset(-w * 0.02f, -tall * 1.25f), seg(sb, 0.3f, 1f), back = Court.Back)
-    }
-    // learner: a child at the meeting of the ways
+    // learner: a child where the ways meet
     val lb = a.b("learner")
     if (lb > 0f) {
-        val look = 0.18f * easeInOut(seg(lb, 0.1f, 0.3f)) * (1f - easeInOut(seg(lb, 0.35f, 0.55f))) - 0.18f * easeInOut(seg(lb, 0.35f, 0.55f)) * (1f - easeInOut(seg(lb, 0.6f, 0.7f)))
+        val look = 0.2f * easeInOut(seg(lb, 0.1f, 0.3f)) * (1f - easeInOut(seg(lb, 0.35f, 0.55f))) - 0.2f * easeInOut(seg(lb, 0.35f, 0.55f)) * (1f - easeInOut(seg(lb, 0.6f, 0.7f)))
         val go = easeInOut(seg(lb, 0.65f, 1f))
-        val foot = alongPoly(rightWay, 0.03f + 0.17f * go)
-        val tall = h * 0.13f
+        val foot = alongPoly(rightWay, 0.02f + 0.12f * go)
+        val tall = tallOn(foot) * 0.62f
         figure(foot, tall, Court.Ink, alpha = seg(lb, 0f, 0.12f), walk = if (go in 0.01f..0.99f) t * 7f else 0f, lean = look, stride = 0.8f)
-        tagAt(a.tag("learner"), foot + Offset(0f, -tall * 1.6f), seg(lb, 0.3f, 1f), back = Court.Back)
+        tagAt(a.tag("learner"), foot + Offset(0f, -tall * 1.45f), seg(lb, 0.3f, 1f), back = Court.Back)
     }
 }
 
@@ -1291,113 +1381,131 @@ internal fun DrawScope.booksScene(a: ArtCtx) {
 private object Night {
     val Top = Color(0xFF060A1A)
     val Low = Color(0xFF1E2244)
-    val DuneFar = Color(0xFF141628)
-    val Dune = Color(0xFF1C1E33)
-    val Rim = Color(0xFF8C93B8)
-    val Road = Color(0xFF4A4560)
+    val DuneFar = Color(0xFF161830)
+    val Dune = Color(0xFF1E2036)
+    val DuneNear = Color(0xFF14152A)
+    val Rim = Color(0xFF9AA2C8)
+    val Road = Color(0xFF4E4964)
+    val RoadEdge = Color(0xFF6A6584)
     val Line = Color(0xFFEDEBE4)
-    val Dim = Color(0xFF9A9CB0)
+    val Dim = Color(0xFFA6A8BC)
+    val Camel = Color(0xFF3A3652)
     val Cold = Color(0xFF5A6AA8)
-    val Hollow = Color(0xFF09090F)
+    val Hollow = Color(0xFF07070C)
     val Warn = Color(0xFFF2B451)
     val Back = Color(0xE60E1015)
 }
 
 /**
- * A caravan crossing the desert at night under a guiding star, with a camel. Beats: fork (the two ways of leaving
- * the road are marked), slip (one walker slips into a hollow beside the road, meaning well), around (the others
- * do not follow him in: their steps go round it and one reaches out to help), defy (the one at the front turns
- * off into the dark on purpose, beckoning), warn (two start to drift after him; one raises a warning and they
- * come back).
+ * A caravan crossing the desert at night under a guiding star, walking to the left with its camel. Beats: fork
+ * (the two ways of leaving the road are marked), slip (one walker slips into a hollow beside the road, meaning
+ * well), around (those behind do not follow him in: their steps go round it, and one reaches out to him), defy
+ * (the one at the front turns off into the dark on purpose, beckoning), warn (two start to drift after him; the
+ * last raises a warning and they come back).
  */
 internal fun DrawScope.caravanScene(a: ArtCtx) {
     val w = size.width
     val h = size.height
     val dp = density
     val t = a.t
-    nightSky(t, Night.Top, Night.Low, 0.6f)
-    // the crescent and the guiding star
-    val moon = Offset(w * 0.84f, h * 0.15f)
-    softGlow(moon, w * 0.12f, Color(0xFFE9E2C8), 0.35f)
-    drawCircle(Color(0xFFF2EAD0), w * 0.035f, moon)
-    drawCircle(Night.Top, w * 0.031f, moon + Offset(w * 0.014f, -w * 0.006f))
-    val star = Offset(w * 0.1f, h * 0.12f)
-    glint(star, 14f * dp * (0.9f + 0.1f * sin(t * 2f)), Color(0xFFEAF2FF), 0.9f)
-    drawCircle(Color.White, 2f * dp, star)
-    // dunes with moonlit rims
-    hills(Night.DuneFar, h * 0.56f, h * 0.03f, 0.018f, 0.04f, 1.1f)
-    hills(Night.Dune, h * 0.64f, h * 0.025f, 0.025f, 0.06f, 2.7f)
-    drawRect(Night.Dune, topLeft = Offset(0f, h * 0.7f), size = Size(w, h * 0.3f))
-    // the road, and the stone cairns that mark it
+    nightSky(t, Night.Top, Night.Low, 0.62f)
+    val moon = Offset(w * 0.86f, h * 0.14f)
+    softGlow(moon, w * 0.14f, Color(0xFFE9E2C8), 0.4f)
+    drawCircle(Color(0xFFF2EAD0), w * 0.036f, moon)
+    drawCircle(Night.Top, w * 0.031f, moon + Offset(w * 0.015f, -w * 0.006f))
+    val star = Offset(w * 0.08f, h * 0.11f)
+    glint(star, 16f * dp * (0.9f + 0.1f * sin(t * 2f)), Color(0xFFEAF2FF), 0.95f)
+    drawCircle(Color.White, 2.2f * dp, star)
+    // dunes, their crests catching the moon
+    hills(Night.DuneFar, h * 0.55f, h * 0.035f, 0.018f, 0.04f, 1.1f)
+    hills(Night.Dune, h * 0.63f, h * 0.03f, 0.025f, 0.06f, 2.7f)
+    drawRect(Night.Dune, topLeft = Offset(0f, h * 0.68f), size = Size(w, h * 0.32f))
+    for (k in 0 until 3) {
+        val y = h * (0.555f + 0.08f * k)
+        val crest = polyPathOf(List(30) { i -> val x = w * i / 29f; Offset(x, y + h * (0.03f - 0.005f * k) * (sin((x / dp) * (0.018f + 0.007f * k) + 1.1f + k * 1.6f) * 0.6f + sin((x / dp) * (0.04f + 0.02f * k) + 2.3f * (1.1f + k * 1.6f)) * 0.4f)) })
+        drawPath(crest, Night.Rim, alpha = 0.18f - 0.04f * k, style = Stroke(1f * dp))
+    }
+    // the road, right to left, and its cairns
     fun road(u: Float) = Offset(mix(w * 1.02f, -w * 0.02f, u), h * 0.75f + h * 0.012f * sin(u * 4f))
-    val roadPts = List(41) { road(it / 40f) }
-    drawPath(polyPathOf(roadPts), Night.Road, style = Stroke(12f * dp, cap = StrokeCap.Round))
-    for (u in listOf(0.08f, 0.38f, 0.92f)) {
-        val c = road(u) + Offset(0f, -8f * dp)
-        drawCircle(Night.Dim, 3.2f * dp, c + Offset(0f, 2f * dp), alpha = 0.6f)
-        drawCircle(Night.Dim, 2.4f * dp, c + Offset(0.5f * dp, -2.5f * dp), alpha = 0.6f)
+    val roadPath = polyPathOf(List(41) { road(it / 40f) })
+    drawPath(roadPath, Night.RoadEdge, alpha = 0.6f, style = Stroke(15f * dp, cap = StrokeCap.Round))
+    drawPath(roadPath, Night.Road, style = Stroke(12f * dp, cap = StrokeCap.Round))
+    for (u in listOf(0.06f, 0.3f, 0.95f)) {
+        val c = road(u) + Offset(0f, -10f * dp)
+        drawCircle(Night.Dim, 3.4f * dp, c + Offset(0f, 2.5f * dp), alpha = 0.55f)
+        drawCircle(Night.Dim, 2.5f * dp, c + Offset(0.6f * dp, -2.5f * dp), alpha = 0.55f)
+        drawCircle(Night.Dim, 1.7f * dp, c + Offset(0f, -6f * dp), alpha = 0.55f)
     }
     // the hollow beside the road
-    val hollowC = road(0.5f) + Offset(0f, h * 0.12f)
-    drawOval(Night.Hollow, topLeft = hollowC - Offset(w * 0.07f, h * 0.035f), size = Size(w * 0.14f, h * 0.07f))
-    drawArc(Night.Rim, 200f, 140f, false, topLeft = hollowC - Offset(w * 0.07f, h * 0.035f), size = Size(w * 0.14f, h * 0.07f), alpha = 0.4f, style = Stroke(1f * dp))
+    val hollowC = road(0.54f) + Offset(0f, h * 0.13f)
+    val hw = w * 0.085f
+    val hh = h * 0.045f
+    drawOval(Brush.radialGradient(listOf(Night.Hollow, Color(0xFF15142A)), hollowC, hw), topLeft = hollowC - Offset(hw, hh), size = Size(2 * hw, 2 * hh))
+    drawArc(Night.Rim, 190f, 160f, false, topLeft = hollowC - Offset(hw, hh), size = Size(2 * hw, 2 * hh), alpha = 0.35f, style = Stroke(1.2f * dp))
+    for (k in 0 until 6) {
+        val ang = PI.toFloat() * (0.1f + 0.16f * k)
+        drawCircle(Night.Dim, (1.5f + rnd(k, 3.7f)) * dp, hollowC + Offset(cos(ang) * hw * 1.02f, sin(ang) * hh * 1.05f), alpha = 0.45f)
+    }
 
     val fb = a.b("fork")
     val sl = a.b("slip")
     val ar = a.b("around")
     val df = a.b("defy")
     val wn = a.b("warn")
-    // fork: the two ways off the road
-    val darkEnd = Offset(w * 0.1f, h * 0.52f)
+    val dash = PathEffect.dashPathEffect(floatArrayOf(3f * dp, 3f * dp))
+    val darkEnd = Offset(w * 0.04f, h * 0.53f)
+    val leave = road(0.8f)
+    fun offRoad(u: Float) = cubic(leave, leave + Offset(-w * 0.02f, -h * 0.07f), darkEnd + Offset(w * 0.07f, h * 0.03f), darkEnd, u)
     if (fb > 0f) {
         val f = easeOut(seg(fb, 0f, 0.7f))
-        val dash = PathEffect.dashPathEffect(floatArrayOf(3f * dp, 3f * dp))
-        drawPath(cubicPart(road(0.5f), road(0.5f) + Offset(0f, h * 0.05f), hollowC + Offset(w * 0.03f, -h * 0.04f), hollowC, 0f, f), Night.Dim, style = Stroke(1.2f * dp, pathEffect = dash))
-        drawPath(cubicPart(road(0.3f), road(0.3f) + Offset(-w * 0.02f, -h * 0.08f), darkEnd + Offset(w * 0.08f, h * 0.04f), darkEnd, 0f, f), Night.Dim, style = Stroke(1.2f * dp, pathEffect = dash))
-        tagAt(a.tag("fork"), Offset(w * 0.5f, h * 0.45f), seg(fb, 0.35f, 1f), back = Night.Back)
+        drawPath(cubicPart(road(0.52f), road(0.52f) + Offset(0f, h * 0.05f), hollowC + Offset(w * 0.03f, -h * 0.05f), hollowC, 0f, f), Night.Dim, style = Stroke(1.3f * dp, pathEffect = dash))
+        drawPath(cubicPart(leave, leave + Offset(-w * 0.02f, -h * 0.07f), darkEnd + Offset(w * 0.07f, h * 0.03f), darkEnd, 0f, f), Night.Dim, style = Stroke(1.3f * dp, pathEffect = dash))
+        tagAt(a.tag("fork"), Offset(w * 0.42f, h * 0.38f), seg(fb, 0.35f, 1f), back = Night.Back)
     }
-    // the caravan: who walks where
     val walkPh = t * 5f
-    // the camel, led by the second walker
-    camel(road(0.44f) + Offset(0f, -2f * dp), h * 0.2f, Color(0xFF0B0C14), walkPh, 1f)
-    camel(road(0.44f) + Offset(0f, -2f * dp), h * 0.2f, Night.Rim, walkPh, 0.12f)
-    // the walker who slips
-    val slipF = easeInOut(seg(sl, 0f, 0.6f))
-    val slipFoot = road(0.56f) + (hollowC - road(0.56f)) * slipF + Offset(0f, -h * 0.03f * bump(slipF))
-    figure(slipFoot, h * mix(0.15f, 0.11f, slipF), Night.Line, walk = if (sl <= 0f) walkPh else 0f, lean = 0.5f * slipF)
-    // the helper and the others behind: their steps go round the hollow
-    val helper = road(0.68f)
+    val tallN = h * 0.19f
+    // the warner at the back, and the one before him
+    val drift = easeOut(seg(wn, 0f, 0.35f)) * (1f - easeOut(seg(wn, 0.7f, 1f)))
+    val raise = easeOut(seg(wn, 0.35f, 0.6f))
+    val f4 = road(0.12f)
+    val f3 = road(0.25f)
+    figure(f3, tallN, Night.Line, walk = if (wn <= 0f) walkPh + 2f else 0f, lean = 0.32f * drift)
+    figure(f4, tallN, Night.Line, walk = if (wn <= 0f) walkPh + 3f else 0f, lean = 0.22f * drift * (1f - raise), arms = raise)
+    if (raise > 0f) {
+        val sign = f4 + Offset(-w * 0.05f, -tallN * 1.35f)
+        val pulse = 0.75f + 0.25f * sin(t * 6f)
+        softGlow(sign, 14f * dp, Night.Warn, 0.55f * raise * pulse)
+        drawPath(Path().apply { moveTo(sign.x, sign.y - 8f * dp); lineTo(sign.x + 8f * dp, sign.y + 6f * dp); lineTo(sign.x - 8f * dp, sign.y + 6f * dp); close() }, Night.Warn, alpha = raise, style = Stroke(1.7f * dp, join = StrokeJoin.Round))
+        drawLine(Night.Warn, sign + Offset(0f, -3f * dp), sign + Offset(0f, 1.8f * dp), 1.6f * dp, StrokeCap.Round, alpha = raise)
+        drawCircle(Night.Warn, 1f * dp, sign + Offset(0f, 4f * dp), alpha = raise)
+    }
+    // the helper: his steps go round the hollow, and he reaches out
     val reach = easeOut(seg(ar, 0.4f, 0.8f))
-    figure(helper, h * 0.15f, Night.Line, walk = if (ar <= 0f) walkPh + 1f else 0f, lean = 0.15f * reach, arms = reach)
+    val helper = road(0.42f)
     if (ar > 0f) {
         val g = easeOut(seg(ar, 0f, 0.6f))
-        val around = cubicPart(road(0.62f), road(0.55f) + Offset(0f, -h * 0.06f), road(0.45f) + Offset(0f, -h * 0.06f), road(0.38f), 0f, g)
-        drawPath(around, Night.Line, alpha = 0.55f, style = Stroke(1.2f * dp, pathEffect = PathEffect.dashPathEffect(floatArrayOf(2f * dp, 4f * dp))))
-        tagAt(a.tag("around"), road(0.72f) + Offset(0f, -h * 0.28f), seg(ar, 0.35f, 1f), back = Night.Back)
+        drawPath(cubicPart(road(0.43f), road(0.5f) + Offset(0f, -h * 0.06f), road(0.6f) + Offset(0f, -h * 0.06f), road(0.67f), 0f, g), Night.Line, alpha = 0.6f, style = Stroke(1.3f * dp, pathEffect = PathEffect.dashPathEffect(floatArrayOf(2f * dp, 4f * dp))))
+        tagAt(a.tag("around"), Offset(w * 0.68f, h * 0.48f), seg(ar, 0.35f, 1f), back = Night.Back)
     }
-    // two more at the back; the last one will warn
-    val drift = easeOut(seg(wn, 0f, 0.35f)) * (1f - easeOut(seg(wn, 0.7f, 1f)))
-    val f3 = road(0.8f)
-    val f4 = road(0.91f)
-    figure(f3, h * 0.15f, Night.Line, walk = if (wn <= 0f) walkPh + 2f else 0f, lean = 0.3f * drift)
-    val raise = easeOut(seg(wn, 0.35f, 0.6f))
-    figure(f4, h * 0.15f, Night.Line, walk = if (wn <= 0f) walkPh + 3f else 0f, arms = raise, lean = -0.1f * raise)
-    if (raise > 0f) {
-        val sign = f4 + Offset(-w * 0.04f, -h * 0.24f)
-        val pulse = 0.75f + 0.25f * sin(t * 6f)
-        softGlow(sign, 12f * dp, Night.Warn, 0.5f * raise * pulse)
-        drawPath(Path().apply { moveTo(sign.x, sign.y - 7f * dp); lineTo(sign.x + 7f * dp, sign.y + 5f * dp); lineTo(sign.x - 7f * dp, sign.y + 5f * dp); close() }, Night.Warn, alpha = raise, style = Stroke(1.6f * dp, join = StrokeJoin.Round))
-        drawLine(Night.Warn, sign + Offset(0f, -2.5f * dp), sign + Offset(0f, 1.5f * dp), 1.5f * dp, StrokeCap.Round, alpha = raise)
-        drawCircle(Night.Warn, 0.9f * dp, sign + Offset(0f, 3.4f * dp), alpha = raise)
-    }
+    figure(helper, tallN, Night.Line, walk = if (ar <= 0f) walkPh + 1f else 0f, lean = 0.18f * reach, arms = reach)
+    // the one who slips into the hollow
+    val slipF = easeInOut(seg(sl, 0f, 0.6f))
+    val start = road(0.5f)
+    val slipFoot = start + (hollowC - start) * slipF + Offset(0f, -h * 0.04f * bump(slipF))
+    figure(slipFoot, tallN * mix(1f, 0.7f, slipF), Night.Line, walk = if (sl <= 0f) walkPh else 0f, lean = 0.55f * slipF, arms = -0.5f * slipF)
+    if (sl > 0f) tagAt(a.tag("slip"), Offset(w * 0.64f, h * 0.94f), seg(sl, 0.35f, 1f), back = Night.Back)
+    // the camel, led on toward the front
+    val camelFoot = road(0.65f) + Offset(0f, -2f * dp)
+    camel(camelFoot, h * 0.24f, Night.Camel, walkPh, 1f)
+    camel(camelFoot + Offset(-0.8f * dp, -0.8f * dp), h * 0.24f, Night.Rim, walkPh, 0.14f)
     // the one at the front who turns off into the dark, beckoning
     val go = easeInOut(seg(df, 0f, 0.8f))
-    val front = if (df <= 0f) road(0.3f) else cubic(road(0.3f), road(0.3f) + Offset(-w * 0.02f, -h * 0.08f), darkEnd + Offset(w * 0.08f, h * 0.04f), darkEnd, go)
+    val front = if (df <= 0f) leave else offRoad(go)
     if (df > 0f) {
-        softGlow(front + Offset(0f, -h * 0.06f), w * 0.09f, Night.Cold, 0.35f * go)
-        tagAt(a.tag("defy"), front + Offset(w * 0.12f, -h * 0.2f), seg(df, 0.35f, 1f), back = Night.Back)
+        softGlow(front + Offset(0f, -tallN * 0.5f), w * 0.1f, Night.Cold, 0.4f * go)
+        tagAt(a.tag("defy"), Offset(w * 0.2f, h * 0.27f), seg(df, 0.35f, 1f), back = Night.Back)
     }
-    figure(front, h * mix(0.15f, 0.12f, go), Night.Line, walk = if (df <= 0f || go < 1f) walkPh + 0.5f else 0f, arms = if (df > 0f) 0.4f + 0.6f * (0.5f + 0.5f * sin(t * 3f)) * seg(df, 0.6f, 1f) else 0f)
-    if (wn > 0f) tagAt(a.tag("warn"), front + Offset(w * 0.12f, h * 0.05f), seg(wn, 0.3f, 1f), back = Night.Back, ink = Night.Warn)
-    if (sl > 0f) tagAt(a.tag("slip"), hollowC + Offset(w * 0.2f, h * 0.06f), seg(sl, 0.35f, 1f), back = Night.Back)
+    val beckon = if (df > 0f) (0.5f + 0.5f * sin(t * 3f)) * seg(df, 0.6f, 1f) else 0f
+    figure(front, tallN * mix(1f, 0.8f, go), Night.Line, walk = if (df <= 0f || go < 1f) walkPh + 0.5f else 0f, lean = -0.12f * beckon, arms = if (df > 0f) -0.2f - 0.8f * beckon else 0f)
+    if (wn > 0f) tagAt(a.tag("warn"), Offset(w * 0.24f, h * 0.62f), seg(wn, 0.3f, 1f), back = Night.Back, ink = Night.Warn)
 }
