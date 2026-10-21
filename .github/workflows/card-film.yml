@@ -47,6 +47,7 @@ jobs:
       - name: Prepare the film test
         run: |
           python3 tools/previews/enable_paparazzi.py
+          mkdir -p app/src/test/java/app/usulcards
           python3 tools/previews/gen_film_data.py app/src/main/assets/content/cards.json app/src/main/assets app/src/test/java/app/usulcards/FilmData.kt "$RUNNER_TEMP/plan.json" "${{ github.event.inputs.ids }}"
           cp tools/previews/CardFilmTest.kt app/src/test/java/app/usulcards/
 
