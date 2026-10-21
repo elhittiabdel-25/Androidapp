@@ -86,6 +86,9 @@ ART_KINDS = {
     # round 2
     "atelier": {"chisel", "steal", "unheard", "daughter", "nothing"}, "heavens": {"heights", "tremble", "stillness", "relay", "callup"},
     "chamber": {"bedside", "call", "sway", "verse", "padlock", "guideway"}, "scroll": {"towers", "furl", "crumble", "ruins"},
+    # round 3
+    "majlis": {"quarrel", "tawqif", "flint", "refer", "settle"}, "lane": {"knock", "teach", "debater", "tug"},
+    "hilltop": {"mindfog", "doubtspark", "revealed", "creation"}, "wayside": {"sinner", "unharmed", "zealot", "getup", "sound"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

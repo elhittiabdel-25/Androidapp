@@ -16,7 +16,7 @@ LANTERN = {"lantern": "*", "rope": "*", "ridge": "*", "trail": {"lamp", "keep", 
            "cave": {"follow"}}
 FIGURE_LAYOUTS = {"verdict", "crowd", "deeds", "gifts", "camp", "study", "canyon", "books", "caravan",
                   "athar", "sabil", "shore", "mosque", "maze", "field", "street",
-                  "atelier", "heavens", "chamber", "scroll"}   # scenes drawn with faceless figures
+                  "atelier", "heavens", "chamber", "scroll", "majlis", "lane", "hilltop", "wayside"}   # scenes drawn with faceless figures
 # a prophet named in a tag (a lantern may carry the companions' or the scholars' knowledge, never a prophet)
 PROPHET = re.compile(r"ﷺ|النبي|الرسول|رسول|نبي\b|محمد|المبعوث")       # one prophet (the guidance of "the prophets" may be a lantern)
 # people a lantern must not stand for: they are drawn as figures (or as their names in roundels)
