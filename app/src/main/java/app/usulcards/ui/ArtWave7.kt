@@ -489,7 +489,7 @@ internal fun DrawScope.lensScene(a: ArtCtx) {
         val disc = Path().apply { addOval(Rect(c.x - r, c.y - r, c.x + r, c.y + r)) }
         clipPath(disc) {
             drawRect(Desk.Page, topLeft = Offset(c.x - r, c.y - r), size = Size(2 * r, 2 * r))
-            for (k in -1..1) inkRow(c.x + r * 0.95f, c.x - r * 0.95f, c.y + k * r * 0.5f, 70 + k, Desk.Ink, 2.2f * dp)
+            for (k in -1..1) inkRow(c.x + r * 0.95f, c.x - r * 0.95f, c.y + k * r * 0.62f + r * 0.1f, 70 + k, Desk.Ink, 1.7f * dp)
             drawRect(Brush.radialGradient(listOf(Color(0x22FFFFFF), Color(0x10A8D8FF)), c, r), topLeft = Offset(c.x - r, c.y - r), size = Size(2 * r, 2 * r))
         }
         drawCircle(Color.White, r * 0.28f, c - Offset(r * 0.4f, r * 0.42f), alpha = 0.18f)
@@ -834,7 +834,7 @@ internal fun DrawScope.canyonScene(a: ArtCtx) {
             val x = fract(t * 0.3f + k * 0.17f) * w
             drawLine(Dune.Road, Offset(x, y), Offset(x - w * 0.08f, y + h * 0.004f), 0.8f * dp, StrokeCap.Round, alpha = 0.55f * bu)
         }
-        tagAt(a.tag("bury"), road(from + 0.21f) + Offset(0f, -h * 0.13f), seg(buRaw, 0.4f, 1f), back = Dune.Back)
+        tagAt(a.tag("bury"), Offset(w * 0.3f, h * 0.36f), seg(buRaw, 0.4f, 1f), back = Dune.Back)
     }
 
     // the side track, and the canyon it becomes
@@ -911,7 +911,7 @@ internal fun DrawScope.canyonScene(a: ArtCtx) {
         post(foot, mim)
         val g = bump(seg(mimRaw, 0.3f, 1f))
         glint(foot + Offset(-w * 0.03f, -h * 0.1f), 8f * dp * g, Dune.Sun, g)
-        tagAt(a.tag("mimic"), Offset(w * 0.58f, h * 0.44f), seg(mimRaw, 0.35f, 1f), back = Dune.Back)
+        tagAt(a.tag("mimic"), Offset(w * 0.72f, h * 0.44f), seg(mimRaw, 0.35f, 1f), back = Dune.Back)
     }
     // pave: the canyon's floor made into a road people follow, hung with banners
     val pv = a.b("pave")
@@ -1316,7 +1316,7 @@ internal fun DrawScope.booksScene(a: ArtCtx) {
             drawOval(Court.Arch, topLeft = c + Offset((if (k % 2 == 0) -1.5f else 0.5f) * s - s, -s * 0.5f), size = Size(s * 2f, s), alpha = 0.5f)
         }
         val go = easeInOut(seg(sbRaw, 0.25f, 1f))
-        val foot = alongPoly(rightWay, mix(0.2f, 0.42f, go))
+        val foot = alongPoly(rightWay, mix(0.1f, 0.34f, go))
         val tall = tallOn(foot)
         val appear = seg(sbRaw, 0f, 0.15f)
         drawLine(Color.Black, foot, foot + Offset(-tall * 0.8f, tall * 0.05f), tall * 0.06f, StrokeCap.Round, alpha = 0.15f * appear)
@@ -1325,14 +1325,14 @@ internal fun DrawScope.booksScene(a: ArtCtx) {
         softGlow(bk, tall * 0.3f, Court.Light, 0.8f * appear)
         drawRect(Court.Dado, topLeft = bk - Offset(tall * 0.08f, tall * 0.05f), size = Size(tall * 0.16f, tall * 0.1f), alpha = appear)
         drawRect(Color(0xFFD9A445), topLeft = bk - Offset(tall * 0.08f, tall * 0.05f), size = Size(tall * 0.16f, tall * 0.1f), alpha = appear, style = Stroke(0.9f * dp))
-        tagAt(a.tag("single"), Offset(foot.x + w * 0.06f, foot.y - tall * 1.25f), seg(sbRaw, 0.3f, 1f), back = Court.Back)
+        tagAt(a.tag("single"), Offset(foot.x + w * 0.16f, foot.y - tall * 1.15f), seg(sbRaw, 0.3f, 1f), back = Court.Back)
     }
     // pile: a man with more and more books; stack: he walks off toward the edge
     val pb = a.b("pile")
     val kb = a.b("stack")
     if (pb > 0f) {
         val walkOff = easeInOut(seg(kb, 0f, 0.75f))
-        val foot = alongPoly(leftWay, mix(0.2f, 0.78f, walkOff))
+        val foot = alongPoly(leftWay, mix(0.12f, 0.78f, walkOff))
         val tall = tallOn(foot)
         val appear = seg(pb, 0f, 0.15f)
         val walking = kb > 0f && kb < 0.75f
@@ -1361,7 +1361,7 @@ internal fun DrawScope.booksScene(a: ArtCtx) {
             }
         }
         val topY = baseB.y - books * bh
-        tagAt(a.tag("pile"), Offset(foot.x - w * 0.02f, max(h * 0.07f, topY - h * 0.06f)), seg(pb, 0.3f, 1f), back = Court.Back)
+        tagAt(a.tag("pile"), Offset(foot.x - w * 0.12f, max(h * 0.07f, topY - h * 0.06f)), seg(pb, 0.3f, 1f), back = Court.Back)
         if (kb > 0f) tagAt(a.tag("stack"), Offset(foot.x + w * 0.16f, foot.y - tall * 0.3f), seg(kb, 0.3f, 1f), back = Court.Back)
     }
     // learner: a child where the ways meet
@@ -1372,7 +1372,7 @@ internal fun DrawScope.booksScene(a: ArtCtx) {
         val foot = alongPoly(rightWay, 0.02f + 0.12f * go)
         val tall = tallOn(foot) * 0.62f
         figure(foot, tall, Court.Ink, alpha = seg(lb, 0f, 0.12f), walk = if (go in 0.01f..0.99f) t * 7f else 0f, lean = look, stride = 0.8f)
-        tagAt(a.tag("learner"), foot + Offset(0f, -tall * 1.45f), seg(lb, 0.3f, 1f), back = Court.Back)
+        tagAt(a.tag("learner"), foot + Offset(w * 0.2f, -tall * 0.75f), seg(lb, 0.3f, 1f), back = Court.Back)
     }
 }
 
