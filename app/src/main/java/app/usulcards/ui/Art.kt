@@ -58,8 +58,7 @@ import kotlin.math.sqrt
  * rope over a chasm, a ship in a storm — instead of animating its text. Everything is drawn in code (no image
  * files), so the app does not grow. Each scene item is a beat that plays when the voice reaches it; its `kind`
  * names its role in the scene, its `sub` is the short tag drawn in the picture ("a|b" for two tags), and its
- * `label` is the caption under the picture. Rules: no people or animals, no depiction of Allah, the angels or
- * the Throne.
+ * `label` is the caption under the picture. What may be drawn, and how: tools/cards/CODEX.md.
  */
 
 internal const val ART_ASPECT = 16f / 11f
@@ -116,10 +115,19 @@ internal fun ArtFrame(scene: Scene, beats: () -> List<Float>, time: () -> Float,
         val style = TextStyle(fontFamily = Fonts.ui, fontWeight = FontWeight.SemiBold, fontSize = 11.sp, color = ArtInk.Gold)
         scene.sides.map { tm.measure(txt(it.first), style) }
     }
+    // words written large in calligraphy (a page of ink, names in roundels), only for the scenes that draw them
+    val bigs = remember(scene, showDiacritics) {
+        if (scene.layout !in BIG_TEXT_LAYOUTS) emptyList<List<TextLayoutResult>>() else {
+            val style = TextStyle(fontFamily = Fonts.naskh, fontWeight = FontWeight.Bold, fontSize = 24.sp, color = ArtInk.Ivory)
+            scene.items.map { item ->
+                if (item.sub.isEmpty()) emptyList<TextLayoutResult>() else item.sub.split("|").map { tm.measure(txt(it.trim()), style) }
+            }
+        }
+    }
     Column(Modifier.fillMaxWidth()) {
         Canvas(Modifier.fillMaxWidth().aspectRatio(ART_ASPECT).clipToBounds()) {
             val bs = beats()
-            val a = ArtCtx(scene.items.map { it.kind }, bs, time(), tags, extras, scene.items.map { it.side }, scene.items.map { it.value }, pal == DarkPalette)
+            val a = ArtCtx(scene.items.map { it.kind }, bs, time(), tags, extras, scene.items.map { it.side }, scene.items.map { it.value }, pal == DarkPalette, bigs)
             Cinema.darkFrame = a.dark
             throughCamera(scene.layout, cameraProgress(bs), a.t) { drawLayout(scene.layout, a, pal.line) }
             drawAir(scene.layout, a.t, a.dark)
@@ -163,6 +171,13 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "neon" -> neonScene(a)
         "oath" -> oathScene(a)
         "kin" -> kinScene(a)
+        "ink" -> inkScene(a)
+        "lens" -> lensScene(a)
+        "zellige" -> zelligeScene(a)
+        "canyon" -> canyonScene(a)
+        "map" -> mapScene(a)
+        "books" -> booksScene(a)
+        "caravan" -> caravanScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -217,6 +232,14 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "hang", "page", "stones", "fake", "reward", "tasbih", "love" -> 2600
     "cure", "branch", "banned" -> 3000
     "burn" -> 3200
+    // wave 7
+    "inscribe" -> 3000
+    "lean" -> 3400
+    "base", "lens", "pave", "caliphs", "wide", "learner", "warn" -> 2600
+    "sheet", "span", "side", "mimic", "fork" -> 1800
+    "match", "add", "liken" -> 2000
+    "fit", "freehand", "old", "slip", "around", "defy", "pile", "single", "stack" -> 2400
+    "extend", "deepen", "trapped", "bury", "spiral" -> 2600
     else -> 1000
 }
 
@@ -249,6 +272,8 @@ internal class ArtCtx(
     private val values: List<Float> = emptyList(),
     /** The app is in its dark theme (the notebook scenes follow it; the others are night scenes either way). */
     val dark: Boolean = true,
+    /** The tags again, large in naskh, for the scenes in BIG_TEXT_LAYOUTS. */
+    private val bigs: List<List<TextLayoutResult>> = emptyList(),
 ) {
     /** Items by position, for scenes whose beats act on a target (`side`) with a strength (`value`). */
     val size: Int get() = kinds.size
@@ -276,7 +301,13 @@ internal class ArtCtx(
     fun tag(kind: String, n: Int = 0, part: Int = 0): TextLayoutResult? =
         index(kind, n).let { if (it < 0) null else tags.getOrNull(it)?.getOrNull(part) }
     fun count(kind: String): Int = kinds.count { it == kind }
+    /** The n-th [kind] item's tag in large calligraphy (falls back to the small tag). */
+    fun big(kind: String, n: Int = 0, part: Int = 0): TextLayoutResult? =
+        index(kind, n).let { if (it < 0) null else bigs.getOrNull(it)?.getOrNull(part) ?: tags.getOrNull(it)?.getOrNull(part) }
 }
+
+/** Scenes that write their tags large (see ArtCtx.big). */
+internal val BIG_TEXT_LAYOUTS = setOf("ink", "map")
 
 // ───────────── shared helpers ─────────────
 

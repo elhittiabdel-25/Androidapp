@@ -69,6 +69,13 @@ ART_KINDS = {
     "neon": {"ijma", "banned", "slaves", "allowed"},
     "oath": {"swear", "pardon", "topple", "plea", "tasbih"},
     "kin": {"self", "foe", "kin", "love", "hate"},
+    "ink": {"inscribe", "lean", "base"},
+    "lens": {"sheet", "match", "lens", "add"},
+    "zellige": {"liken", "fit", "freehand", "extend"},
+    "canyon": {"side", "deepen", "mimic", "trapped", "pave", "bury"},
+    "map": {"spiral", "old", "span", "caliphs", "wide"},
+    "books": {"pile", "single", "stack", "learner"},
+    "caravan": {"fork", "slip", "around", "defy", "warn"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

@@ -1,5 +1,9 @@
 # Scenes rendered frame by frame as animations by the Scene previews workflow (one id per line).
-isra-miraj
-khatm-nubuwwa
-iman-tafadul
-ibadah
+islam-sunna
+sunna-tufassir
+la-qiyas
+bida-sighar
+atiq
+ilm-ittiba
+zallat-tariq
+purpose

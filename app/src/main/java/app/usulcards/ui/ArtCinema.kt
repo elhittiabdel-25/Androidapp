@@ -41,6 +41,8 @@ internal object Cinema {
     val paper = setOf("chart", "circuit", "verdict", "board", "oath", "kin")
     /** Scenes whose drawing fills the frame edge to edge: the camera barely moves. */
     val tight = setOf("hourglass")
+    /** Scenes in daylight or on a lit page: the edges darken less. */
+    val day = setOf("ink", "zellige", "canyon", "map", "books")
     /** Scenes where dust would read wrong (rain, a storm at sea). */
     val noDust = setOf("ship")
     /** The camera of the frame being drawn (drawing happens on one thread, one frame at a time). */
@@ -97,6 +99,7 @@ internal fun DrawScope.drawAir(layout: String, t: Float, dark: Boolean) {
     val edge = when {
         paper && !dark -> 0.10f
         paper -> 0.30f
+        layout in Cinema.day -> 0.24f
         else -> 0.46f
     }
     drawRect(
