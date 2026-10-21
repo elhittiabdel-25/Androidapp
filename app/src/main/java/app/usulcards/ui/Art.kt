@@ -143,6 +143,7 @@ internal fun ArtFrame(scene: Scene, beats: () -> List<Float>, time: () -> Float,
             val a = ArtCtx(scene.items.map { it.kind }, bs, time(), tags, extras, scene.items.map { it.side }, scene.items.map { it.value }, pal == DarkPalette, bigs)
             Cinema.darkFrame = a.dark
             Cinema.prophetName = prophetName
+            Cinema.dayFrame = scene.layout in Cinema.day
             throughCamera(scene.layout, cameraProgress(bs), a.t) { drawLayout(scene.layout, a, pal.line) }
             drawAir(scene.layout, a.t, a.dark)
         }
@@ -236,6 +237,8 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "plain" -> plainScene(a)
         "river" -> riverScene(a)
         "milla" -> millaScene(a)
+        "booth" -> boothScene(a)
+        "omenroad" -> omenroadScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -498,6 +501,15 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "conceal" -> 1300
     "haughty" -> 2200
     "twoface" -> 1800
+    // wave 18 (round 11: السحر والكهانة والتنجيم)
+    "fortune" -> 4200
+    "cutoff" -> 5000
+    "askonly" -> 3300
+    "unaccepted" -> 4500
+    "crowfly" -> 3400
+    "turnhome" -> 5400
+    "goodword" -> 2900
+    "liked" -> 4600
     else -> 1000
 }
 
@@ -565,7 +577,7 @@ internal class ArtCtx(
 }
 
 /** Scenes that write their tags large (see ArtCtx.big). */
-internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent")
+internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent", "omenroad")
 
 // ───────────── shared helpers ─────────────
 

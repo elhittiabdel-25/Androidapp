@@ -111,6 +111,8 @@ ART_KINDS = {
     "plain": {"refine", "straightin", "noruqya", "nocautery", "noomen", "rely"},
     "river": {"torrent", "holdidol", "holdbanner", "holdcrown", "letgo", "firmhold", "twowords"},
     "milla": {"outmilla", "inmilla", "belie", "conceal", "haughty", "twoface"},
+    "booth": {"fortune", "cutoff", "askonly", "unaccepted"},
+    "omenroad": {"crowfly", "turnhome", "goodword", "liked"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

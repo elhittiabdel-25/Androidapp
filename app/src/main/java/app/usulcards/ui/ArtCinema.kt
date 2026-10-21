@@ -43,7 +43,7 @@ internal object Cinema {
     /** Scenes whose drawing fills the frame edge to edge: the camera barely moves. */
     val tight = setOf("hourglass")
     /** Scenes in daylight or on a lit page: the edges darken less. */
-    val day = setOf("ink", "zellige", "study", "canyon", "map", "books", "athar", "delta", "loom", "sabil", "ruler", "mosque", "maze", "field", "atelier", "scroll", "majlis", "lane", "wayside", "flock", "deck", "dam", "aerial", "souk", "sapling", "shelfshop", "lawh", "plaza", "tent", "astrolabe", "stage", "casket", "threads", "carpet", "bird", "globe", "plain", "river", "milla")
+    val day = setOf("ink", "zellige", "study", "canyon", "map", "books", "athar", "delta", "loom", "sabil", "ruler", "mosque", "maze", "field", "atelier", "scroll", "majlis", "lane", "wayside", "flock", "deck", "dam", "aerial", "souk", "sapling", "shelfshop", "lawh", "plaza", "tent", "astrolabe", "stage", "casket", "threads", "carpet", "bird", "globe", "plain", "river", "milla", "omenroad")
     /** Scenes where dust would read wrong (rain, a storm at sea). */
     val noDust = setOf("ship")
     /** The camera of the frame being drawn (drawing happens on one thread, one frame at a time). */
@@ -52,6 +52,8 @@ internal object Cinema {
     var darkFrame = true
     /** His ﷺ name, set under his light wherever it is drawn, so that it is never taken for the sun or a star. */
     var prophetName: TextLayoutResult? = null
+    /** The frame being drawn is a daylight scene: his ﷺ light gets a deeper halo so it shows against the light. */
+    var dayFrame = false
     private var grainBitmap: ImageBitmap? = null
 
     /** A small tile of film grain, made once from a fixed seed so every run looks the same. */
@@ -274,6 +276,11 @@ internal fun DrawScope.sirajMunir(c: Offset, r: Float, strength: Float, t: Float
     if (strength <= 0.01f) return
     val s = strength.coerceIn(0f, 1f)
     val warm = Color(0xFFFFE6B0)
+    if (Cinema.dayFrame) {
+        // by day a pale light vanishes into the sky: give it an amber halo and a deeper core
+        drawCircle(Brush.radialGradient(listOf(Color(0xFFFFA830).copy(alpha = 0.42f * s), Color.Transparent), c, r * 9f), r * 9f, c)
+        drawCircle(Color(0xFFFFB848), r * 1.25f, c, alpha = 0.9f * s)
+    }
     drawCircle(Brush.radialGradient(listOf(warm.copy(alpha = 0.16f * s), Color.Transparent), c, r * 14f), r * 14f, c)
     lightShafts(c, t * 0.08f, 2f * kotlin.math.PI.toFloat(), r * 11f, warm, 0.9f * s, t, 12)
     bloom(c, r * 1.6f, warm, s)
