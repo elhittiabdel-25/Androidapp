@@ -10,7 +10,7 @@ import collections, os, re, unicodedata
 
 MAX_USES = 6
 LANTERN_KINDS = {"lamp", "keep"}                           # beats drawn as a brass lantern
-FIGURE_LAYOUTS = {"verdict", "crowd", "deeds", "gifts", "camp", "canyon", "books", "caravan"}   # scenes drawn with faceless figures
+FIGURE_LAYOUTS = {"verdict", "crowd", "deeds", "gifts", "camp", "study", "canyon", "books", "caravan"}   # scenes drawn with faceless figures
 # a prophet named in a tag (a lantern may carry the companions' or the scholars' knowledge, never a prophet)
 PROPHET = re.compile(r"ﷺ|النبي|الرسول|رسول|نبي|الأنبياء|أنبياء|الرسل|محمد")
 # a figure must never be one of these; ʿAlī is left out (عَلِيّ and عَلَيَّ look alike without harakat)

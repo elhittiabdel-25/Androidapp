@@ -174,6 +174,7 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "ink" -> inkScene(a)
         "lens" -> lensScene(a)
         "zellige" -> zelligeScene(a)
+        "study" -> studyScene(a)
         "canyon" -> canyonScene(a)
         "map" -> mapScene(a)
         "books" -> booksScene(a)
@@ -234,12 +235,21 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "burn" -> 3200
     // wave 7
     "inscribe" -> 3000
-    "lean" -> 3400
-    "base", "lens", "pave", "caliphs", "wide", "learner", "warn" -> 2600
-    "sheet", "span", "side", "mimic", "fork" -> 1800
-    "match", "add", "liken" -> 2000
-    "fit", "freehand", "old", "slip", "around", "defy", "pile", "single", "stack" -> 2400
-    "extend", "deepen", "trapped", "bury", "spiral" -> 2600
+    "lean" -> 4600
+    "base", "caliphs", "pile", "single" -> 2800
+    "sheet" -> 1800
+    "lens" -> 3400
+    "match", "add", "liken" -> 2400
+    "fit", "freehand", "extend", "old", "slip" -> 2600
+    "around" -> 3000
+    "defy" -> 6000
+    "stack" -> 3600
+    "carve" -> 4200
+    "trapped" -> 4400
+    "bury", "derive" -> 3600
+    "spiral", "tread" -> 2800
+    "doubt" -> 3800
+    "guess" -> 3000
     else -> 1000
 }
 
