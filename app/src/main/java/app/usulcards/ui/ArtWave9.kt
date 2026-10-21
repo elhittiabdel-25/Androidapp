@@ -48,7 +48,7 @@ private object AtelierC9 {
     val Bowl = Color(0xFF9A6A3A)
     val Gold = Color(0xFFE9C25A)
     val Plum = Color(0xFF4E2A5C)
-    val Call = Color(0xFFFFF1C8)
+    val Call = Color(0xFF7A4A22)
 }
 
 /**
@@ -212,7 +212,7 @@ private fun DrawScope.atelierRoom(a: ArtCtx) {
             if (f <= 0f || f >= 1f) continue
             val c = mouth + (head - mouth) * easeOut(f)
             if (k < 2 || f < 0.7f) {
-                for (r in 0 until 3) drawArc(AtelierC9.Call, -40f, 80f, false, topLeft = c - Offset((6f + 5f * r) * dp, (6f + 5f * r) * dp), size = Size((12f + 10f * r) * dp, (12f + 10f * r) * dp), alpha = 0.9f * (1f - f * 0.5f), style = Stroke(1.6f * dp, cap = StrokeCap.Round))
+                for (r in 0 until 3) drawArc(AtelierC9.Call, -40f, 80f, false, topLeft = c - Offset((8f + 6f * r) * dp, (8f + 6f * r) * dp), size = Size((16f + 12f * r) * dp, (16f + 12f * r) * dp), alpha = 0.9f * (1f - f * 0.5f), style = Stroke(2.2f * dp, cap = StrokeCap.Round))
             }
             // on the stone: the rings break into dust, or the last one sinks in and nothing comes back
             if (f > 0.7f) {
@@ -226,8 +226,8 @@ private fun DrawScope.atelierRoom(a: ArtCtx) {
 
     // daughter: in the courtyard, his ﷺ light, Fatima's name in its roundel, and coins rising for her from his chest
     if (dg > 0f) {
-        val light = Offset(w * 0.88f, h * 0.36f)
-        sirajMunir(light, 4.6f * dp, easeOut(seg(dg, 0f, 0.2f)), t, nameAt = light + Offset(0f, -h * 0.13f))
+        val light = Offset(w * 0.9f, h * 0.42f)
+        sirajMunir(light, 4.6f * dp, easeOut(seg(dg, 0f, 0.2f)), t)
         val rc = Offset(w * 0.74f, h * 0.56f)
         nameRoundel(rc, w * 0.04f, a.big("daughter", 0, 1), AtelierC9.Plum, Roundel.Rim, easeOut(seg(dg, 0.1f, 0.3f)))
         val chest = Offset(w * 0.86f, h * 0.74f)
@@ -252,7 +252,7 @@ private fun DrawScope.atelierRoom(a: ArtCtx) {
             val q = from + (to - from) * f + Offset(0f, -h * 0.12f * bump(f))
             drawCircle(AtelierC9.Gold, w * 0.006f, q, alpha = (if (back > 0f) 1f - back else 1f) * seg(give, 0f, 0.2f))
         }
-        callout(Offset(w * 0.8f, h * 0.2f), a.big("daughter", 0, 0), w * 0.3f, seg(dg, 0.35f, 0.55f) * (1f - 0.6f * seg(nt, 0.3f, 0.7f)), ArtInk.Shade, Color(0xFFB0453A))
+        callout(Offset(w * 0.7f, h * 0.3f), a.big("daughter", 0, 0), w * 0.28f, seg(dg, 0.35f, 0.55f) * (1f - 0.6f * seg(nt, 0.3f, 0.7f)), ArtInk.Shade, Color(0xFFB0453A))
     }
 }
 
@@ -432,7 +432,7 @@ internal fun DrawScope.chamberScene(a: ArtCtx) {
         "call" to Shot(Offset(w * 0.52f, h * 0.48f), 1.3f),
         "sway" to Shot(Offset(w * 0.34f, h * 0.52f), 1.3f),
         "verse" to Shot(Offset(w * 0.46f, h * 0.36f), 1.12f),
-        "padlock" to Shot(Offset(w * 0.42f, h * 0.44f), 1.45f),
+        "padlock" to Shot(Offset(w * 0.45f, h * 0.4f), 1.3f),
         "guideway" to Shot(Offset(w * 0.82f, h * 0.5f), 1.55f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.16f) { chamberRoom(a) }
@@ -533,11 +533,11 @@ private fun DrawScope.chamberRoom(a: ArtCtx) {
     val grey = easeOut(seg(tn, 0.4f, 0.9f))
     val heartShow = easeOut(seg(bs, 0.1f, 0.35f))
     val shake = if (cl > 0.45f && tn <= 0f) sin(t * 18f) * 1.5f * dp else 0f
-    lockedHeart(hc + Offset(shake, 0f), w * 0.045f, grey, flicker, heartShow)
+    lockedHeart(hc + Offset(shake, 0f), w * 0.06f, grey, flicker, heartShow)
     // lock: the padlock under the verse, picked out in gold: only His guidance opens it
     if (lk > 0f) {
         val pulse = 0.5f + 0.5f * sin(t * 2.5f)
-        drawCircle(ArtInk.Gold, w * (0.055f + 0.01f * pulse), hc + Offset(0f, w * 0.006f), alpha = 0.7f * easeOut(seg(lk, 0f, 0.3f)), style = Stroke(1.6f * dp))
+        drawCircle(ArtInk.Gold, w * (0.075f + 0.01f * pulse), hc + Offset(0f, w * 0.008f), alpha = 0.7f * easeOut(seg(lk, 0f, 0.3f)), style = Stroke(1.6f * dp))
     }
     // call: his words go from the light to the heart
     if (words > 0f) {
@@ -576,7 +576,9 @@ private fun DrawScope.chamberRoom(a: ArtCtx) {
     }
     if (dim > 0f) drawRect(Color.Black, alpha = 0.25f * dim * (1f - 0.6f * easeOut(seg(sh, 0f, 0.4f))))
     // verse: what came down about it
-    callout(Offset(w * 0.47f, h * 0.15f), a.big("verse", 0, 0), w * 0.84f, easeOut(seg(vs, 0.05f, 0.3f)) * (1f - 0.7f * easeOut(seg(sh, 0f, 0.3f))), ArtInk.Shade, ArtInk.Gold)
+    val vAl = easeOut(seg(vs, 0.05f, 0.3f)) * (1f - 0.7f * easeOut(seg(sh, 0f, 0.3f)))
+    callout(Offset(w * 0.47f, h * 0.11f), a.big("verse", 0, 0), w * 0.52f, vAl, ArtInk.Shade, ArtInk.Gold)
+    callout(Offset(w * 0.47f, h * 0.23f), a.big("verse", 0, 1), w * 0.56f, easeOut(seg(vs, 0.2f, 0.45f)) * (1f - 0.7f * easeOut(seg(sh, 0f, 0.3f))), ArtInk.Shade, ArtInk.Gold)
     // show: his light sends its beam out of the window onto the road
     if (sh > 0f) {
         val beam = easeOut(seg(sh, 0f, 0.35f))
@@ -735,8 +737,8 @@ private fun DrawScope.scrollCity(a: ArtCtx) {
     if (id > 0f) {
         val come = easeOut(seg(id, 0f, 0.25f))
         for (k in 0 until 3) {
-            val c = Offset(w * (0.16f + 0.05f * k), ground + h * 0.08f)
-            val s = w * (0.022f - 0.003f * (k % 2))
+            val c = Offset(w * (0.12f + 0.065f * k), ground + h * 0.09f)
+            val s = w * (0.034f - 0.005f * (k % 2))
             drawRect(ScrollC9.Idol, topLeft = Offset(c.x - s * 0.5f, c.y - s * 1.4f), size = Size(s, s * 1.4f), alpha = come)
             drawCircle(ScrollC9.Idol, s * 0.38f, Offset(c.x, c.y - s * 1.7f), alpha = come)
         }
@@ -745,7 +747,7 @@ private fun DrawScope.scrollCity(a: ArtCtx) {
             val bow = bump(fract(seg(id, 0.2f, 1f) * 1.5f + k * 0.2f)).let { 0.4f + 0.6f * it }
             w8Worshipper(foot, h * 0.22f, ScrollC9.Ink, 0f, bow * come, come)
         }
-        callout(Offset(w * 0.3f, h * 0.46f), a.big("ruins", 0, 0), w * 0.5f, seg(id, 0.3f, 0.5f), ArtInk.Shade, ArtInk.Gold)
+        callout(Offset(w * 0.36f, h * 0.47f), a.big("ruins", 0, 0), w * 0.38f, seg(id, 0.3f, 0.5f), ArtInk.Shade, ArtInk.Gold)
     }
 }
 

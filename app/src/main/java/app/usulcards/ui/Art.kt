@@ -132,7 +132,7 @@ internal fun ArtFrame(scene: Scene, beats: () -> List<Float>, time: () -> Float,
             scene.items.map { item ->
                 if (item.sub.isEmpty()) emptyList<TextLayoutResult>() else item.sub.split("|").map {
                     val part = it.trim()
-                    tm.measure(txt(part), if (part.startsWith("﴿")) verse else style)
+                    tm.measure(txt(part), if (part.startsWith("﴿") || part.endsWith("﴾")) verse else style)
                 }
             }
         }
