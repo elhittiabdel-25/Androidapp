@@ -10,7 +10,7 @@ import java.time.LocalDate
 
 /** Learning progress kept on the phone: mastered cards, saved cards, points, daily goal and streak. */
 class ProgressStore(ctx: Context) {
-    private val prefs = ctx.getSharedPreferences("progress", Context.MODE_PRIVATE)
+    private val prefs = ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
     var learned by mutableStateOf(prefs.getStringSet("learned", emptySet())?.toSet() ?: emptySet())
         private set
@@ -39,7 +39,15 @@ class ProgressStore(ctx: Context) {
     var followReading by mutableStateOf(prefs.getBoolean("followReading", true))
         private set
 
-    val dailyGoal = 5
+    val dailyGoal = DAILY_GOAL
+
+    /** The daily reminder (see reminder/Reminders.kt): off until the reader turns it on, 20:30 by default. */
+    var reminderOn by mutableStateOf(prefs.getBoolean("reminderOn", false))
+        private set
+    var reminderHour by mutableIntStateOf(prefs.getInt("reminderHour", 20))
+        private set
+    var reminderMinute by mutableIntStateOf(prefs.getInt("reminderMinute", 30))
+        private set
 
     init {
         val today = LocalDate.now().toString()
@@ -114,10 +122,31 @@ class ProgressStore(ctx: Context) {
         prefs.edit().putBoolean("followReading", v).apply()
     }
 
+    fun updateReminder(on: Boolean) {
+        reminderOn = on
+        prefs.edit().putBoolean("reminderOn", on).apply()
+    }
+
+    fun updateReminderTime(hour: Int, minute: Int) {
+        reminderHour = hour
+        reminderMinute = minute
+        prefs.edit().putInt("reminderHour", hour).putInt("reminderMinute", minute).apply()
+    }
+
+    /** The module the reader was in last (the reminder points to its next card). */
+    fun lastModule(): String? = prefs.getString("lastModule", null)
+
     /** The card last opened in a module, so the module reopens where the reader left it. */
     fun lastCardIn(module: String): String? = prefs.getString("last:$module", null)
 
     fun rememberCard(module: String, id: String) {
-        if (prefs.getString("last:$module", null) != id) prefs.edit().putString("last:$module", id).apply()
+        if (prefs.getString("last:$module", null) != id || prefs.getString("lastModule", null) != module) {
+            prefs.edit().putString("last:$module", id).putString("lastModule", module).apply()
+        }
+    }
+
+    companion object {
+        const val PREFS = "progress"
+        const val DAILY_GOAL = 5
     }
 }

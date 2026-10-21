@@ -114,7 +114,7 @@ body.append(step(3, "Create the app", "Créer une application", f"""
 
 rows = "".join(f'<tr><td><b>{a}</b><div class="fr">{b}</div></td><td>{html.escape(c)}</td></tr>' for a, b, c in CONTENT_FORMS)
 body.append(step(4, "Fill in the app content forms", "Contenu de l'application", f"""
-<p>These answers match the app as built: no data collected, no ads, no internet access, no permissions shown to users.</p>
+<p>These answers match the app as built: no data collected, no ads, no internet access. The only permission users see is the notification prompt, and only when they turn on the optional daily reminder; Play needs no declaration for it.</p>
 <div class="scroll"><table class="grid"><thead><tr><th>Form</th><th>Answer</th></tr></thead><tbody>{rows}</tbody></table></div>"""))
 
 lang_blocks = []

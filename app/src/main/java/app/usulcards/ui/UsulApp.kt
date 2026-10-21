@@ -63,7 +63,10 @@ import app.usulcards.data.ProgressStore
  * module keeps its surprises; the saved cards are the reader's own list.
  */
 @Composable
-fun UsulApp(repo: ContentRepo, progress: ProgressStore, player: AudioPlayer) {
+fun UsulApp(
+    repo: ContentRepo, progress: ProgressStore, player: AudioPlayer,
+    openRequest: String? = null, onOpenHandled: () -> Unit = {},
+) {
     UsulTheme {
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
             val pal = LocalPalette.current
@@ -85,6 +88,14 @@ fun UsulApp(repo: ContentRepo, progress: ProgressStore, player: AudioPlayer) {
 
             fun openCard(id: String) {
                 repo.byId[id]?.let { openModule(it.path, id) }
+            }
+
+            // the daily reminder's notification opens the card it names
+            LaunchedEffect(openRequest) {
+                val id = openRequest ?: return@LaunchedEffect
+                showAbout = false
+                openCard(id)
+                onOpenHandled()
             }
 
             BackHandler(enabled = inModule && !showAbout) {
@@ -210,6 +221,7 @@ private fun HomeScreen(
                 }
             }
         }
+        item { ReminderCard(repo, progress) }
         item {
             Row(
                 Modifier
