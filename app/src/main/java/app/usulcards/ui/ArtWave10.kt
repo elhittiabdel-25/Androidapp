@@ -186,8 +186,8 @@ private fun DrawScope.majlisRoom(a: ArtCtx) {
     book10(bookA, h * 0.09f, MajlisC10.Quran)
     book10(bookB, h * 0.09f, MajlisC10.Sunna)
     val named = seg(tq, 0.25f, 0.45f) * (1f - 0.6f * seg(fl, 0f, 0.2f)) + (if (rf > 0.6f) seg(rf, 0.6f, 0.8f) else 0f)
-    tagAt(a.tag("tawqif", 0, 0), bookA + Offset(-w * 0.05f, -h * 0.1f), named.coerceIn(0f, 1f), back = MajlisC10.Back, ink = ArtInk.Ivory)
-    tagAt(a.tag("tawqif", 0, 1), bookB + Offset(w * 0.05f, -h * 0.1f), named.coerceIn(0f, 1f), back = MajlisC10.Back, ink = ArtInk.Ivory)
+    tagAt(a.tag("tawqif", 0, 0), bookA + Offset(-w * 0.07f, -h * 0.09f), named.coerceIn(0f, 1f), back = MajlisC10.Back, ink = ArtInk.Ivory)
+    tagAt(a.tag("tawqif", 0, 1), bookB + Offset(w * 0.07f, -h * 0.17f), named.coerceIn(0f, 1f), back = MajlisC10.Back, ink = ArtInk.Ivory)
     if (tq > 0f && rf < 0.15f) softGlow(lect + Offset(0f, -h * 0.17f), w * 0.08f, Color(0xFFFFF0C8), 0.5f * seg(tq, 0.2f, 0.5f))
 
     // the two who quarrel
@@ -347,7 +347,7 @@ private fun DrawScope.laneStreet(a: ArtCtx) {
     val oFoot = Offset(mix(dx, w * 0.54f, benchSit), roadTop + h * 0.02f)
     if (owner > 0f && tg <= 0.15f) {
         if (benchSit > 0.5f) {
-            w8Seated(Offset(w * 0.54f, roadTop - h * 0.05f), tall * 0.9f, LaneC10.Ink, facing = -1f, speak = 0.5f + 0.5f * sin(t * 3f))
+            w8Seated(Offset(w * 0.565f, roadTop - h * 0.05f), tall * 0.9f, LaneC10.Ink, facing = -1f, speak = 0.5f + 0.5f * sin(t * 3f))
         } else {
             val palm = easeOut(seg(db, 0.3f, 0.5f))
             figure(oFoot, tall, LaneC10.Ink, alpha = owner * (1f - seg(tg, 0f, 0.15f)), arms = 0.3f * (1f - palm) + palm, lean = -0.1f * palm)
@@ -364,7 +364,7 @@ private fun DrawScope.laneStreet(a: ArtCtx) {
         val sit = benchSit
         val vFoot = Offset(mix(w * 0.25f, dx - dw * 0.85f, come), roadTop + h * 0.04f)
         if (sit > 0.5f || (tc > 0f && db <= 0.1f)) {
-            val seat = Offset(w * 0.48f, roadTop - h * 0.05f)
+            val seat = Offset(w * 0.465f, roadTop - h * 0.05f)
             val nod = 0.5f + 0.5f * sin(t * 4f)
             w8Seated(seat, tall * 0.9f, LaneC10.Ink, facing = 1f, alpha = 1f - seg(db, 0.6f, 0.8f))
             openBook10(Offset(w * 0.51f, roadTop - h * 0.12f), w * 0.07f, seg(tc, 0.2f, 0.5f), alpha = 1f - seg(db, 0.6f, 0.8f))
@@ -374,7 +374,7 @@ private fun DrawScope.laneStreet(a: ArtCtx) {
             }
         } else if (sit <= 0.5f) {
             val knock = if (kn in 0.35f..0.5f) 0.5f + 0.5f * sin(t * 18f) else 0f
-            figure(vFoot, tall, LaneC10.Ink, walk = if (come in 0.01f..0.99f) t * 5f else 0f, lean = 0.12f, arms = if (kn > 0.35f) 0.8f + 0.2f * knock else 0.15f)
+            figure(vFoot, tall, LaneC10.Ink, alpha = 1f - seg(db, 0.05f, 0.25f), walk = if (come in 0.01f..0.99f) t * 5f else 0f, lean = 0.12f, arms = if (kn > 0.35f) 0.8f + 0.2f * knock else 0.15f)
             if (kn in 0.35f..0.5f) for (r in 0 until 2) {
                 val f = fract(t * 2f + r * 0.5f)
                 drawArc(LaneC10.DoorDark, -50f, 100f, false, topLeft = Offset(dx - dw * 0.45f - f * 12f * dp, h * 0.55f - f * 12f * dp), size = Size(f * 24f * dp, f * 24f * dp), alpha = 1f - f, style = Stroke(1.2f * dp))
@@ -395,14 +395,14 @@ private fun DrawScope.laneStreet(a: ArtCtx) {
         val come = easeOut(seg(tg, 0f, 0.15f))
         val pull = 0.5f + 0.5f * sin(t * 5f)
         val off = w8EaseIn(seg(tg, 0.55f, 0.85f))
-        val l = Offset(w * 0.12f, mix(roadTop + h * 0.06f, roadBot + h * 0.08f, off))
-        val r = Offset(w * 0.4f, mix(roadTop + h * 0.06f, roadBot + h * 0.08f, off))
+        val l = Offset(w * 0.17f, mix(roadTop + h * 0.06f, roadBot + h * 0.05f, off))
+        val r = Offset(w * 0.4f, mix(roadTop + h * 0.06f, roadBot + h * 0.05f, off))
         val sway = (pull - 0.5f) * w * 0.02f
         val al = come
         withTransform({ scale(-1f, 1f, pivot = l + Offset(sway, 0f)) }) {
-            figure(l + Offset(sway, 0f), tall, LaneC10.Ink, alpha = al, lean = -0.35f - 0.4f * off, arms = 0.9f)
+            figure(l + Offset(sway, 0f), tall, LaneC10.Ink, alpha = al, lean = -0.25f - 0.3f * off, arms = 0.9f)
         }
-        figure(r + Offset(sway, 0f), tall, LaneC10.Ink, alpha = al, lean = -0.35f - 0.4f * off, arms = 0.9f)
+        figure(r + Offset(sway, 0f), tall, LaneC10.Ink, alpha = al, lean = -0.25f - 0.3f * off, arms = 0.9f)
         val hl2 = l + Offset(sway + tall * 0.3f, -tall * 0.6f)
         val hr2 = r + Offset(sway - tall * 0.3f, -tall * 0.6f)
         drawPath(Path().apply { moveTo(hl2.x, hl2.y); quadraticBezierTo((hl2.x + hr2.x) / 2f, (hl2.y + hr2.y) / 2f + h * 0.01f, hr2.x, hr2.y) }, LaneC10.Rope, alpha = al, style = Stroke(2f * dp, cap = StrokeCap.Round))
@@ -623,7 +623,8 @@ private fun DrawScope.waysideRoad(a: ArtCtx) {
     val sSeat = Offset(w * 0.2f, h * 0.81f)
     if (sIn > 0f) {
         w8Seated(sSeat, tall, WaysideC10.Ink, facing = 1f, alpha = sIn)
-        for (k in 0 until 4) drawCircle(WaysideC10.Stain, tall * (0.035f + 0.01f * (k % 2)), sSeat + Offset(tall * (-0.04f + 0.04f * k), -tall * (0.12f + 0.06f * (k % 3))), alpha = 0.75f * sIn)
+        drawPath(Path().apply { moveTo(sSeat.x - tall * 0.08f, sSeat.y - tall * 0.36f); lineTo(sSeat.x + tall * 0.06f, sSeat.y - tall * 0.36f); lineTo(sSeat.x + tall * 0.26f, sSeat.y); lineTo(sSeat.x - tall * 0.14f, sSeat.y); close() }, Color(0xFFCFC2A8), alpha = sIn)
+        for (k in 0 until 5) drawCircle(WaysideC10.Stain, tall * (0.03f + 0.012f * (k % 2)), sSeat + Offset(tall * (-0.06f + 0.06f * k), -tall * (0.06f + 0.07f * (k % 3))), alpha = 0.85f * sIn)
         flask10(sSeat + Offset(-tall * 0.2f, 0f), tall * 0.24f, 0f, t, alpha = seg(uh, 0f, 0.3f) * sIn + (1f - seg(uh, 0f, 0.3f)) * 0f)
     }
     // the worshipper of desire on the mat: he prays and prays; his flask dark
@@ -634,6 +635,9 @@ private fun DrawScope.waysideRoad(a: ArtCtx) {
         val bow = if (turnTalk < 0.5f) bump(fract(t * 0.6f)) else 0f
         if (turnTalk < 0.5f) w8Worshipper(zFoot, tall, WaysideC10.Ink, 0f, bow, zIn)
         else figure(zFoot, tall, WaysideC10.Ink, alpha = zIn, arms = 0.6f + 0.3f * sin(t * 4f))
+        // his spotless white robe
+        val zb = if (turnTalk < 0.5f) 0.47f * bow else 0f
+        drawPath(Path().apply { moveTo(zFoot.x - tall * 0.06f + tall * 0.25f * -zb, zFoot.y - tall * 0.72f + tall * 0.3f * zb); lineTo(zFoot.x + tall * 0.06f, zFoot.y - tall * 0.5f); lineTo(zFoot.x + tall * 0.15f, zFoot.y); lineTo(zFoot.x - tall * 0.15f, zFoot.y); close() }, Color(0xFFF8F6F0), alpha = zIn)
         flask10(zFoot + Offset(tall * 0.32f, 0f), tall * 0.24f, 1f, t, alpha = zIn)
         // his words: dark rings rolling out toward the traveller, falling short once he goes
         if (turnTalk > 0.5f) for (k in 0 until 4) {

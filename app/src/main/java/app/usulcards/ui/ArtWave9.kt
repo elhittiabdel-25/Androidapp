@@ -226,9 +226,9 @@ private fun DrawScope.atelierRoom(a: ArtCtx) {
 
     // daughter: in the courtyard, his ﷺ light, Fatima's name in its roundel, and coins rising for her from his chest
     if (dg > 0f) {
-        val light = Offset(w * 0.9f, h * 0.42f)
+        val light = Offset(w * 0.9f, h * 0.36f)
         sirajMunir(light, 4.6f * dp, easeOut(seg(dg, 0f, 0.2f)), t)
-        val rc = Offset(w * 0.74f, h * 0.56f)
+        val rc = Offset(w * 0.7f, h * 0.62f)
         nameRoundel(rc, w * 0.04f, a.big("daughter", 0, 1), AtelierC9.Plum, Roundel.Rim, easeOut(seg(dg, 0.1f, 0.3f)))
         val chest = Offset(w * 0.86f, h * 0.74f)
         val lid = easeOut(seg(dg, 0.25f, 0.4f)) * (1f - easeOut(seg(nt, 0.2f, 0.5f)))
@@ -431,7 +431,7 @@ internal fun DrawScope.chamberScene(a: ArtCtx) {
         "bedside" to Shot(Offset(w * 0.46f, h * 0.56f), 1.15f),
         "call" to Shot(Offset(w * 0.52f, h * 0.48f), 1.3f),
         "sway" to Shot(Offset(w * 0.34f, h * 0.52f), 1.3f),
-        "verse" to Shot(Offset(w * 0.46f, h * 0.36f), 1.12f),
+        "verse" to Shot(Offset(w * 0.46f, h * 0.34f), 1.05f),
         "padlock" to Shot(Offset(w * 0.45f, h * 0.4f), 1.3f),
         "guideway" to Shot(Offset(w * 0.82f, h * 0.5f), 1.55f),
     ))
@@ -577,8 +577,8 @@ private fun DrawScope.chamberRoom(a: ArtCtx) {
     if (dim > 0f) drawRect(Color.Black, alpha = 0.25f * dim * (1f - 0.6f * easeOut(seg(sh, 0f, 0.4f))))
     // verse: what came down about it
     val vAl = easeOut(seg(vs, 0.05f, 0.3f)) * (1f - 0.7f * easeOut(seg(sh, 0f, 0.3f)))
-    callout(Offset(w * 0.47f, h * 0.11f), a.big("verse", 0, 0), w * 0.52f, vAl, ArtInk.Shade, ArtInk.Gold)
-    callout(Offset(w * 0.47f, h * 0.23f), a.big("verse", 0, 1), w * 0.56f, easeOut(seg(vs, 0.2f, 0.45f)) * (1f - 0.7f * easeOut(seg(sh, 0f, 0.3f))), ArtInk.Shade, ArtInk.Gold)
+    callout(Offset(w * 0.47f, h * 0.16f), a.big("verse", 0, 0), w * 0.52f, vAl, ArtInk.Shade, ArtInk.Gold)
+    callout(Offset(w * 0.47f, h * 0.29f), a.big("verse", 0, 1), w * 0.56f, easeOut(seg(vs, 0.2f, 0.45f)) * (1f - 0.7f * easeOut(seg(sh, 0f, 0.3f))), ArtInk.Shade, ArtInk.Gold)
     // show: his light sends its beam out of the window onto the road
     if (sh > 0f) {
         val beam = easeOut(seg(sh, 0f, 0.35f))
