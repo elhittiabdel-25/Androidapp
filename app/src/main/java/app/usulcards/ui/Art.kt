@@ -203,6 +203,10 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "maze" -> mazeScene(a)
         "field" -> fieldScene(a)
         "street" -> streetScene(a)
+        "atelier" -> atelierScene(a)
+        "heavens" -> heavensScene(a)
+        "chamber" -> chamberScene(a)
+        "scroll" -> scrollScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -291,6 +295,27 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "climb" -> 5400
     "sow" -> 7600
     "harvest", "winnow", "lonewindow" -> 3800
+    // wave 9 (round 2): «براهين التوحيد»
+    "chisel" -> 2400
+    "steal" -> 1800
+    "unheard" -> 3600
+    "daughter" -> 7000
+    "nothing" -> 2600
+    "heights" -> 5000
+    "tremble" -> 3200
+    "stillness" -> 3600
+    "relay" -> 2200
+    "callup" -> 3800
+    "bedside" -> 6000
+    "call" -> 5000
+    "sway" -> 6500
+    "verse" -> 3000
+    "padlock" -> 3200
+    "guideway" -> 5200
+    "towers" -> 2400
+    "furl" -> 6500
+    "crumble" -> 4200
+    "ruins" -> 4800
     else -> 1000
 }
 
@@ -358,7 +383,7 @@ internal class ArtCtx(
 }
 
 /** Scenes that write their tags large (see ArtCtx.big). */
-internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom")
+internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll")
 
 // ───────────── shared helpers ─────────────
 

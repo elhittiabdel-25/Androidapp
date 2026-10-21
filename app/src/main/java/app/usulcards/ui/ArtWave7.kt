@@ -222,7 +222,7 @@ private fun DrawScope.inkRow(right: Float, left: Float, y: Float, seed: Int, col
 }
 
 /** A quote on a slip of paper at [c], at most [maxW] wide; its rim colour tells the Qur'an (gold) from a hadith (red). */
-private fun DrawScope.callout(c: Offset, tl: TextLayoutResult?, maxW: Float, alpha: Float, ink: Color, rim: Color) {
+internal fun DrawScope.callout(c: Offset, tl: TextLayoutResult?, maxW: Float, alpha: Float, ink: Color, rim: Color) {
     if (tl == null || alpha <= 0.01f) return
     val a = alpha.coerceIn(0f, 1f)
     val sc = min(0.62f, maxW / max(1f, tl.size.width.toFloat()))

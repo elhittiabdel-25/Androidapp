@@ -1,10 +1,4 @@
-ahl-sunna
-iftiraq
-usul-bida
-khasais-aqida
-mahar-muhal
-manhaj-masum
-ikhtilaf-ijtihad
-bard-yaqin
-tawakkul-asbab
-ghuraba
+ajz-alihah
+khawf-malaika
+hidayat-tawfiq
+azamat-allah

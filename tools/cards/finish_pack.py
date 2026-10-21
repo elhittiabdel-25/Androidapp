@@ -83,6 +83,9 @@ ART_KINDS = {
     "ruler": {"sortout", "trace", "veer"}, "mosque": {"differ", "clasp", "behind", "leave"},
     "maze": {"coolwell", "climb", "regret"}, "field": {"sow", "harvest", "winnow"},
     "street": {"against", "mend", "lonewindow"},
+    # round 2
+    "atelier": {"chisel", "steal", "unheard", "daughter", "nothing"}, "heavens": {"heights", "tremble", "stillness", "relay", "callup"},
+    "chamber": {"bedside", "call", "sway", "verse", "padlock", "guideway"}, "scroll": {"towers", "furl", "crumble", "ruins"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
