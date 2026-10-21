@@ -40,8 +40,15 @@ def asr(audio, tag):
                         f"--whisper-decoder={W}/small-decoder.int8.onnx", f"--tokens={W}/small-tokens.txt",
                         "--whisper-language=ar", "--whisper-task=transcribe", "--num-threads=1", w16],
                        capture_output=True, text=True)
-    m = re.findall(r'"text"\s*:\s*"([^"]*)"', r.stdout + r.stderr)
-    return m[-1] if m else ""
+    for line in reversed((r.stdout + "\n" + r.stderr).splitlines()):    # the result line is JSON (as in speech_check)
+        line = line.strip()
+        if line.startswith("{") and '"text"' in line:
+            try:
+                return json.loads(line)["text"].strip()
+            except ValueError:
+                m = re.search(r'"text"\s*:\s*"([^"]*)"', line)
+                return m.group(1).strip() if m else ""
+    return ""
 
 
 def take(job):
