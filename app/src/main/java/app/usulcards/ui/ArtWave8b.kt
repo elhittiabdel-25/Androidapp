@@ -213,7 +213,7 @@ internal fun DrawScope.mosqueScene(a: ArtCtx) {
         "differ" to Shot(Offset(w * 0.5f, h * 0.7f), 1.35f),
         "clasp" to Shot(Offset(w * 0.5f, h * 0.68f), 1.35f),
         "behind" to Shot(Offset(w * 0.34f, h * 0.68f), 1.2f),
-        "leave" to Shot(Offset(w * 0.87f, h * 0.6f), 1.8f),
+        "leave" to Shot(Offset(w * 0.76f, h * 0.7f), 1.45f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.16f) { mosqueHall(a) }
 }
@@ -228,7 +228,23 @@ private fun DrawScope.viewBubble(c: Offset, r: Float, from: Offset, raise: Boole
     drawCircle(Color.Black, r * 1.02f, c + Offset(0f, r * 0.08f), alpha = 0.12f * alpha)
     drawCircle(MasjidC8.Bubble, r, c, alpha = alpha)
     drawCircle(MasjidC8.CarpetLine, r, c, alpha = alpha * 0.8f, style = Stroke(1.2f * density))
-    w8Worshipper(c + Offset(0f, r * 0.62f), r * 1.15f, MasjidC8.Ink, if (raise) 1f else 0f, 0f, alpha)
+    // a figure seen from the front: hands raised beside the head at the takbir, or folded on the chest
+    val ink = MasjidC8.Ink
+    val sw = max(1.6f * density, r * 0.09f)
+    val head = c + Offset(0f, -r * 0.5f)
+    val neck = c + Offset(0f, -r * 0.3f)
+    val hip = c + Offset(0f, r * 0.3f)
+    drawCircle(ink, r * 0.15f, head, alpha = alpha)
+    drawLine(ink, neck, hip, sw, StrokeCap.Round, alpha = alpha)
+    for (sd in listOf(-1f, 1f)) {
+        drawLine(ink, hip, hip + Offset(sd * r * 0.2f, r * 0.42f), sw, StrokeCap.Round, alpha = alpha)
+        val shoulder = neck + Offset(sd * r * 0.05f, r * 0.04f)
+        val elbow = shoulder + Offset(sd * r * 0.3f, r * (if (raise) 0.1f else 0.22f))
+        val hand = if (raise) head + Offset(sd * r * 0.3f, -r * 0.02f) else c + Offset(-sd * r * 0.06f, -r * 0.08f)
+        drawLine(ink, shoulder, elbow, sw * 0.9f, StrokeCap.Round, alpha = alpha)
+        drawLine(ink, elbow, hand, sw * 0.9f, StrokeCap.Round, alpha = alpha)
+        if (raise) drawCircle(ink, r * 0.06f, hand, alpha = alpha)
+    }
 }
 
 private fun DrawScope.mosqueHall(a: ArtCtx) {
@@ -307,8 +323,8 @@ private fun DrawScope.mosqueHall(a: ArtCtx) {
         }
         // their two views, still held
         val bubbles = seg(df, 0.15f, 0.35f) * (1f - 0.55f * seg(cl, 0.5f, 0.9f))
-        viewBubble(Offset(w * 0.3f, h * 0.48f), w * 0.055f, seatL + Offset(0f, -tall * 0.6f), aRaises, bubbles)
-        viewBubble(Offset(w * 0.7f, h * 0.48f), w * 0.055f, seatR + Offset(0f, -tall * 0.6f), !aRaises, seg(df, 0.35f, 0.55f) * (1f - 0.55f * seg(cl, 0.5f, 0.9f)))
+        viewBubble(Offset(w * 0.28f, h * 0.45f), w * 0.075f, seatL + Offset(0f, -tall * 0.6f), aRaises, bubbles)
+        viewBubble(Offset(w * 0.72f, h * 0.45f), w * 0.075f, seatR + Offset(0f, -tall * 0.6f), !aRaises, seg(df, 0.35f, 0.55f) * (1f - 0.55f * seg(cl, 0.5f, 0.9f)))
     } else {
         // behind: B leads before the mihrab, A prays behind him; each as he holds
         val imam = Offset(mix(w * 0.54f, w * 0.24f, goPray), h * 0.9f)
@@ -326,27 +342,49 @@ private fun DrawScope.mosqueHall(a: ArtCtx) {
             for (k in 0 until 3) {
                 val j = easeOut(seg(p, 0.2f + 0.12f * k, 0.35f + 0.12f * k))
                 if (j <= 0f) continue
-                w8Worshipper(Offset(w * (0.52f + 0.13f * k), h * 0.95f), tall * 1.06f, MasjidC8.Ink.copy(alpha = 0.85f), 0f, bow, j)
+                w8Worshipper(Offset(w * (0.5f + 0.09f * k), h * 0.95f), tall * 1.06f, MasjidC8.Ink.copy(alpha = 0.85f), 0f, bow, j)
             }
             softGlow(Offset(w * 0.09f, h * 0.45f), w * 0.12f, MasjidC8.Glow, 0.45f * seg(p, 0f, 0.3f))
         }
     }
-    // leave: out in the street, two others turn their backs and a wall goes up between them
+    // leave: by the door, two others who differ: one points at the other in anger, a wall goes up between them, and
+    // the other turns his back and walks out
     if (lv > 0f) {
-        val dc = Offset(w * 0.88f, floorY)
-        val ft = h * 0.13f
-        val turn = easeOut(seg(lv, 0.15f, 0.45f))
-        val wall = easeOut(seg(lv, 0.45f, 0.85f))
-        clipRect(w * 0.83f, h * 0.2f, w * 0.93f, floorY) {
-            drawRect(Color(0xFFE9C98C), topLeft = Offset(w * 0.83f, floorY - h * 0.03f), size = Size(w * 0.1f, h * 0.03f))
-            val l = dc + Offset(-w * 0.025f - w * 0.012f * turn, -h * 0.01f)
-            val r = dc + Offset(w * 0.025f + w * 0.012f * turn, -h * 0.01f)
-            withTransform({ scale(if (turn < 0.5f) -1f else 1f, 1f, pivot = l) }) { figure(l, ft, MasjidC8.Ink, arms = if (turn < 0.5f) 0.8f else -0.4f) }
-            withTransform({ scale(if (turn < 0.5f) 1f else -1f, 1f, pivot = r) }) { figure(r, ft, MasjidC8.Ink, arms = if (turn < 0.5f) 0.8f else -0.4f) }
-            if (wall > 0f) {
-                drawRect(MasjidC8.Crack, topLeft = Offset(dc.x - w * 0.005f, dc.y - h * 0.01f - ft * 1.2f * wall), size = Size(w * 0.01f, ft * 1.2f * wall))
-                for (k in 0 until (5 * wall).toInt()) drawLine(Color(0xFF3A1A12), Offset(dc.x - w * 0.005f, dc.y - h * 0.01f - k * ft * 0.22f), Offset(dc.x + w * 0.005f, dc.y - h * 0.01f - k * ft * 0.22f), 0.8f * dp)
+        val ft = tall * 0.95f
+        val come = easeOut(seg(lv, 0f, 0.18f))
+        val point = easeOut(seg(lv, 0.15f, 0.38f))
+        val wall = easeOut(seg(lv, 0.35f, 0.7f))
+        val go = easeInOut(seg(lv, 0.62f, 1f))
+        val pL = Offset(w * 0.7f, h * 0.93f)
+        val pR = Offset(w * 0.88f + w * 0.14f * go, h * 0.93f)
+        // the accuser faces right, his arm thrust out at the other
+        withTransform({ scale(-1f, 1f, pivot = pL) }) { figure(pL, ft, MasjidC8.Ink, alpha = come, lean = 0.12f * point, arms = point) }
+        val tip = pL + Offset(ft * 0.3f, -ft * 0.68f)
+        if (point > 0.3f) for (k in 0 until 3) {          // sharp marks of anger from his hand
+            val f = fract(t * 1.6f + k / 3f)
+            val o = tip + Offset(ft * (0.06f + 0.28f * f), -ft * 0.06f * (k - 1))
+            val zz = Path().apply { moveTo(o.x, o.y); lineTo(o.x + ft * 0.04f, o.y - ft * 0.04f); lineTo(o.x + ft * 0.08f, o.y); lineTo(o.x + ft * 0.12f, o.y - ft * 0.04f) }
+            drawPath(zz, Color(0xFFD0402E), alpha = point * (1f - f), style = Stroke(1.8f * dp, cap = StrokeCap.Round, join = StrokeJoin.Round))
+        }
+        // the wall between them, brick by brick
+        if (wall > 0f) {
+            val wx = w * 0.79f
+            val wh = ft * 1.2f * wall
+            val ww = w * 0.035f
+            drawRect(MasjidC8.Crack, topLeft = Offset(wx - ww / 2, pL.y - wh), size = Size(ww, wh))
+            var y = pL.y - h * 0.025f
+            var row = 0
+            while (y > pL.y - wh) {
+                drawLine(Color(0xFF3A1A12), Offset(wx - ww / 2, y), Offset(wx + ww / 2, y), 0.9f * dp)
+                val bx = wx + (if (row % 2 == 0) -ww * 0.15f else ww * 0.2f)
+                drawLine(Color(0xFF3A1A12), Offset(bx, y), Offset(bx, y + h * 0.025f), 0.9f * dp)
+                y -= h * 0.025f
+                row++
             }
+        }
+        // the other turns his back and goes out
+        withTransform({ scale(if (point > 0.5f) -1f else 1f, 1f, pivot = pR) }) {
+            figure(pR, ft, MasjidC8.Ink, alpha = come * (1f - seg(go, 0.75f, 1f)), walk = if (go in 0.01f..0.99f) t * 6f else 0f, arms = if (point > 0.5f) 0f else 0.3f)
         }
     }
 }
@@ -381,7 +419,7 @@ internal fun DrawScope.mazeScene(a: ArtCtx) {
     val shots = shotsFor(a, mapOf(
         "coolwell" to Shot(Offset(w * 0.76f, h * 0.66f), 1.35f),
         "climb" to Shot(Offset(w * 0.26f, h * 0.5f), 1.1f),
-        "regret" to Shot(Offset(w * 0.3f, h * 0.2f), 1.45f),
+        "regret" to Shot(Offset(w * 0.34f, h * 0.32f), 1.4f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.16f) { mazePage(a) }
 }
@@ -443,11 +481,11 @@ private fun DrawScope.mazePage(a: ArtCtx) {
 
     // the left half: a tower of stairs built of books
     val flights = listOf(
-        Offset(w * 0.08f, ground) to Offset(w * 0.4f, h * 0.74f),
-        Offset(w * 0.4f, h * 0.74f) to Offset(w * 0.1f, h * 0.58f),
-        Offset(w * 0.1f, h * 0.58f) to Offset(w * 0.4f, h * 0.43f),
-        Offset(w * 0.4f, h * 0.43f) to Offset(w * 0.12f, h * 0.29f),
-        Offset(w * 0.12f, h * 0.29f) to Offset(w * 0.34f, h * 0.17f),
+        Offset(w * 0.08f, ground) to Offset(w * 0.4f, h * 0.765f),
+        Offset(w * 0.4f, h * 0.765f) to Offset(w * 0.1f, h * 0.65f),
+        Offset(w * 0.1f, h * 0.65f) to Offset(w * 0.4f, h * 0.535f),
+        Offset(w * 0.4f, h * 0.535f) to Offset(w * 0.12f, h * 0.42f),
+        Offset(w * 0.12f, h * 0.42f) to Offset(w * 0.34f, h * 0.31f),
     )
     val built = easeOut(seg(cb, 0f, 0.3f)) * flights.size
     for ((k, f) in flights.withIndex()) {
@@ -467,7 +505,7 @@ private fun DrawScope.mazePage(a: ArtCtx) {
         drawLine(ParchC8.Ink, p0, p1, 0.9f * dp, alpha = 0.5f * b)
     }
     // the platform at the top: nothing there, only wind
-    val topP = Offset(w * 0.34f, h * 0.17f)
+    val topP = Offset(w * 0.34f, h * 0.31f)
     if (built >= flights.size) drawRect(ParchC8.Ink, topLeft = Offset(topP.x - w * 0.06f, topP.y), size = Size(w * 0.12f, h * 0.012f), alpha = 0.7f)
     val climbU = easeInOut(seg(cb, 0.15f, 0.78f))
     if (cb > 0.1f) {
@@ -502,7 +540,8 @@ private fun DrawScope.mazePage(a: ArtCtx) {
             withTransform({ scale(1f - 2f * shut, 1f, pivot = Offset(bc.x, bc.y)) }) {
                 drawRect(if (shut < 0.5f) ParchC8.Paper else col, topLeft = Offset(bc.x, bc.y - h * 0.008f), size = Size(half, h * 0.016f))
             }
-            tagAt(a.tag("regret", 0, k), bc + Offset(0f, -h * 0.06f - h * 0.05f * k), seg(rg, 0.05f + 0.1f * k, 0.25f + 0.1f * k), back = ParchC8.Back, ink = Color(0xFFF2DDB0))
+            tagAt(a.tag("regret", 0, k), Offset(w * (0.24f + 0.2f * k), topP.y - h * 0.1f), seg(rg, 0.05f + 0.1f * k, 0.25f + 0.1f * k), back = ParchC8.Back, ink = Color(0xFFF2DDB0))
+            drawLine(ParchC8.Sepia, Offset(w * (0.24f + 0.2f * k), topP.y - h * 0.075f), bc + Offset(0f, -h * 0.012f), 0.7f * dp, alpha = 0.6f * seg(rg, 0.15f + 0.1f * k, 0.3f + 0.1f * k))
         }
         val spill = easeOut(seg(rg, 0.6f, 1f))
         drawRect(Brush.horizontalGradient(listOf(Color.Transparent, ParchC8.Cool.copy(alpha = 0.25f * spill)), startX = w * 0.3f, endX = w * 0.5f), topLeft = Offset(w * 0.3f, m), size = Size(w * 0.2f, h - 2 * m))
@@ -543,8 +582,8 @@ internal fun DrawScope.fieldScene(a: ArtCtx) {
     val h = size.height
     val shots = shotsFor(a, mapOf(
         "sow" to Shot(Offset(w * 0.55f, h * 0.58f), 1.06f),
-        "harvest" to Shot(Offset(w * 0.5f, h * 0.62f), 1.35f),
-        "winnow" to Shot(Offset(w * 0.46f, h * 0.68f), 1.3f),
+        "harvest" to Shot(Offset(w * 0.5f, h * 0.6f), 1.3f),
+        "winnow" to Shot(Offset(w * 0.42f, h * 0.66f), 1.3f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.14f) { fieldLand(a) }
 }
@@ -630,8 +669,9 @@ private fun DrawScope.fieldLand(a: ArtCtx) {
         val hold = easeOut(seg(hv, 0.3f, 0.55f))
         val hand = foot + Offset(-tall * 0.3f, -tall * 0.5f)
         if (hold > 0f) {
-            for (k in 0 until 7) drawLine(FieldC8.WheatDark, hand + Offset(0f, tall * 0.08f), hand + Offset((k - 3) * tall * 0.03f, -tall * 0.25f), 1.3f * dp, alpha = hold)
-            for (k in 0 until 7) drawOval(FieldC8.Wheat, topLeft = hand + Offset((k - 3) * tall * 0.03f - tall * 0.015f, -tall * 0.3f), size = Size(tall * 0.03f, tall * 0.07f), alpha = hold)
+            for (k in 0 until 9) drawLine(FieldC8.WheatDark, hand + Offset(0f, tall * 0.1f), hand + Offset((k - 4) * tall * 0.04f, -tall * 0.34f), 1.8f * dp, alpha = hold)
+            for (k in 0 until 9) drawOval(FieldC8.Wheat, topLeft = hand + Offset((k - 4) * tall * 0.04f - tall * 0.02f, -tall * 0.42f), size = Size(tall * 0.04f, tall * 0.1f), alpha = hold)
+            drawLine(FieldC8.SoilDark, hand + Offset(-tall * 0.05f, tall * 0.02f), hand + Offset(tall * 0.05f, tall * 0.02f), 2.2f * dp, StrokeCap.Round, alpha = hold)
         }
         val heartIn = easeOut(seg(hv, 0.5f, 0.72f))
         if (heartIn > 0f) {
@@ -639,31 +679,41 @@ private fun DrawScope.fieldLand(a: ArtCtx) {
             drawLine(FieldC8.Heart, hc + Offset(0f, -tall * 0.05f), Offset(hc.x, -h * 0.05f), 1f * dp, alpha = 0.8f * heartIn)
             softGlow(hc, tall * 0.18f, FieldC8.Heart, 0.8f * heartIn)
             drawPath(w8Heart(hc, tall * 0.07f * heartIn), Color(0xFFFFF6DC))
-            tagAt(a.tag("harvest", 0, 0), hand + Offset(-tall * 0.25f, -tall * 0.35f), seg(hv, 0.6f, 0.78f), back = FieldC8.Back, ink = FieldC8.Wheat)
-            tagAt(a.tag("harvest", 0, 1), hc + Offset(tall * 0.45f, -tall * 0.15f), seg(hv, 0.72f, 0.9f), back = FieldC8.Back, ink = FieldC8.Heart)
+            tagAt(a.tag("harvest", 0, 0), hand + Offset(-tall * 0.12f, -tall * 0.56f), seg(hv, 0.6f, 0.78f), back = FieldC8.Back, ink = FieldC8.Wheat)
+            tagAt(a.tag("harvest", 0, 1), hc + Offset(tall * 0.62f, tall * 0.02f), seg(hv, 0.72f, 0.9f), back = FieldC8.Back, ink = FieldC8.Heart)
         }
     }
-    // winnow: grain up, chaff away on the wind, grain back into the heap
+    // winnow: he tosses the grain from a tray; the wind carries the chaff away and the grain falls into the heap
     if (wn > 0f) {
-        val f2 = Offset(w * 0.48f, h * 0.95f)
-        val heap = f2 + Offset(-tall * 0.45f, 0f)
-        val heapS = tall * (0.12f + 0.12f * seg(wn, 0.2f, 1f))
-        drawArc(FieldC8.WheatDark, 180f, 180f, true, topLeft = heap - Offset(heapS, heapS * 0.6f), size = Size(heapS * 2, heapS * 1.2f))
+        val f2 = Offset(w * 0.52f, h * 0.95f)
         val toss = bump(fract(seg(wn, 0f, 1f) * 3f))
-        figure(f2, tall, FieldC8.Ink, arms = 0.4f + 0.6f * toss, lean = 0.1f * toss)
-        val fork = f2 + Offset(-tall * 0.35f, -tall * (0.45f + 0.3f * toss))
-        drawLine(FieldC8.SoilDark, f2 + Offset(-tall * 0.15f, -tall * 0.35f), fork, 1.8f * dp, StrokeCap.Round)
-        for (k in 0 until 14) {
-            val f = fract(t * 0.9f + k / 14f)
-            val grain = heap + Offset((w8Rnd(k, 3.1f) - 0.5f) * tall * 0.3f, -tall * 0.7f * bump(f))
-            drawCircle(FieldC8.WheatDark, 1.5f * dp, grain, alpha = 0.9f * seg(wn, 0f, 0.1f))
-            val chaff = fork + Offset(-w * 0.5f * f, -h * 0.15f * f + h * 0.03f * sin(f * 9f + k))
-            drawOval(FieldC8.Chaff, topLeft = chaff, size = Size(3f * dp, 1.6f * dp), alpha = (1f - f) * 0.95f)
+        val tray = f2 + Offset(-tall * 0.42f, -tall * (0.55f + 0.18f * toss))
+        val heap = Offset(tray.x, f2.y)
+        val heapS = tall * (0.12f + 0.18f * seg(wn, 0.1f, 1f))
+        drawArc(FieldC8.WheatDark, 180f, 180f, true, topLeft = heap - Offset(heapS, heapS * 0.6f), size = Size(heapS * 2, heapS * 1.2f))
+        drawArc(FieldC8.Wheat, 200f, 140f, false, topLeft = heap - Offset(heapS * 0.8f, heapS * 0.5f), size = Size(heapS * 1.6f, heapS), style = Stroke(1.2f * dp))
+        figure(f2, tall, FieldC8.Ink, arms = 0.55f + 0.45f * toss, lean = 0.08f * toss)
+        // the tray in his hands
+        drawArc(FieldC8.SoilDark, 0f, 180f, true, topLeft = tray - Offset(tall * 0.17f, tall * 0.05f), size = Size(tall * 0.34f, tall * 0.11f))
+        drawLine(FieldC8.Wheat, tray + Offset(-tall * 0.15f, 0f), tray + Offset(tall * 0.15f, 0f), 2f * dp, StrokeCap.Round)
+        // the grain falls from the tray into the heap
+        for (k in 0 until 16) {
+            val f = fract(t * 1.1f + k / 16f)
+            val p = tray + (heap - tray) * f + Offset((w8Rnd(k, 3.1f) - 0.5f) * tall * 0.22f, -tall * 0.22f * bump(f))
+            drawCircle(FieldC8.WheatDark, 2f * dp, p, alpha = 0.95f * seg(wn, 0f, 0.1f))
         }
-        for (k in 0 until 5) {      // the wind
-            val y = h * (0.55f + 0.06f * k)
+        // the chaff, light and useless, goes off on the wind
+        for (k in 0 until 26) {
+            val f = fract(t * 0.7f + k / 26f)
+            val c = tray + Offset(-w * 0.65f * f, -h * 0.16f * f + h * 0.035f * sin(f * 9f + k))
+            withTransform({ rotate(f * 300f + k * 40f, c) }) {
+                drawOval(FieldC8.Chaff, topLeft = c - Offset(3f * dp, 1.3f * dp), size = Size(6f * dp, 2.6f * dp), alpha = (1f - f) * 0.95f)
+            }
+        }
+        for (k in 0 until 6) {      // the wind
+            val y = h * (0.5f + 0.06f * k)
             val x = fract(t * 0.6f + k * 0.21f) * w * 1.2f
-            drawLine(Color.White, Offset(w - x, y), Offset(w - x - w * 0.1f, y), 1f * dp, StrokeCap.Round, alpha = 0.6f)
+            drawLine(Color.White, Offset(w - x, y), Offset(w - x - w * 0.12f, y), 1.2f * dp, StrokeCap.Round, alpha = 0.6f)
         }
     }
 }
@@ -759,6 +809,7 @@ private fun DrawScope.streetNight(a: ArtCtx) {
     val mendJar = easeInOut(seg(md, 0.4f, 0.72f))
     val mendPlant = easeInOut(seg(md, 0.6f, 0.88f))
     val broken = knock * (1f - mendJar)
+    withTransform({ scale(1.7f, 1.7f, pivot = jarP) }) {
     for (k in 0 until 5) {
         val ang = -PI.toFloat() * 0.5f + (k - 2) * 0.6f
         val off = Offset(cos(ang) * w * 0.04f, -sin(ang) * h * 0.02f + h * 0.03f) * broken
@@ -779,12 +830,14 @@ private fun DrawScope.streetNight(a: ArtCtx) {
         if (mendJar > 0.9f) glint(jarP + Offset(0f, -h * 0.075f), 6f * dp, StreetC8.Water, 0.9f)
     }
     if (knock > 0f && mendJar < 1f) drawOval(StreetC8.Water, topLeft = jarP + Offset(-w * 0.04f, -h * 0.005f), size = Size(w * 0.08f * knock * (1f - mendJar), h * 0.012f), alpha = 0.6f)
+    if (mendJar > 0f && mendJar < 1f) for (k in 0 until 5) glint(jarP + Offset((k - 2) * w * 0.012f, -h * 0.04f), 5f * dp, StreetC8.Window, 0.6f * bump(mendJar))
+    }
     val bend = easeOut(seg(md, 0.08f, 0.25f)) * (1f - mendPlant)
-    withTransform({ rotate(-70f * bend, plantP) }) {
+    withTransform({ scale(1.6f, 1.6f, pivot = plantP); rotate(-70f * bend, plantP) }) {
         drawLine(StreetC8.Plant, plantP, plantP + Offset(0f, -h * 0.08f), 1.6f * dp, StrokeCap.Round)
         for (k in 0 until 3) drawOval(StreetC8.Plant, topLeft = plantP + Offset(if (k % 2 == 0) -w * 0.012f else 0f, -h * (0.04f + 0.018f * k)), size = Size(w * 0.012f, h * 0.012f))
     }
-    if (mendJar > 0f && mendJar < 1f) for (k in 0 until 5) glint(jarP + Offset((k - 2) * w * 0.012f, -h * 0.04f), 5f * dp, StreetC8.Window, 0.6f * bump(mendJar))
+    if (mendPlant > 0.9f) glint(plantP + Offset(0f, -h * 0.14f), 6f * dp, StreetC8.Plant, 0.8f)
 
     // the crowd streams right toward the glare
     val crowdIn = easeOut(seg(ag, 0f, 0.3f))
@@ -806,8 +859,8 @@ private fun DrawScope.streetNight(a: ArtCtx) {
         val toJar = easeInOut(seg(md, 0.25f, 0.4f))
         val toHome = easeInOut(seg(lw, 0.3f, 0.9f))
         val x = when {
-            lw > 0f -> mix(w * 0.47f, w * 0.32f, toHome)
-            md > 0f -> mix(w * 0.55f, w * 0.47f, toJar)
+            lw > 0f -> mix(w * 0.5f, w * 0.32f, toHome)
+            md > 0f -> mix(w * 0.56f, w * 0.5f, toJar)
             else -> mix(w * 0.85f, w * 0.55f, come)
         }
         val foot = Offset(x, groundY + h * 0.16f)

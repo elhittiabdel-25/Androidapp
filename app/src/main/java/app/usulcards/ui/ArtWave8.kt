@@ -212,9 +212,9 @@ internal fun DrawScope.atharScene(a: ArtCtx) {
     val w = size.width
     val h = size.height
     val shots = shotsFor(a, mapOf(
-        "dawnlight" to Shot(Offset(w * 0.84f, h * 0.58f), 1.45f),
+        "dawnlight" to Shot(Offset(w * 0.8f, h * 0.5f), 1.3f),
         "prints" to Shot(Offset(w * 0.68f, h * 0.74f), 1.3f),
-        "sidepath" to Shot(Offset(w * 0.48f, h * 0.8f), 1.35f),
+        "sidepath" to Shot(Offset(w * 0.44f, h * 0.74f), 1.35f),
         "eras" to Shot(Offset(w * 0.5f, h * 0.56f), 1f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.16f) { atharLand(a) }
@@ -307,13 +307,13 @@ private fun DrawScope.atharLand(a: ArtCtx) {
 
     // the crooked side track, into fog
     val junction = Offset(w * 0.5f, roadAt(w * 0.5f))
-    val side = w8Smooth(listOf(junction, Offset(w * 0.47f, h * 0.86f), Offset(w * 0.42f, h * 0.87f), Offset(w * 0.39f, h * 0.94f), Offset(w * 0.3f, h * 1.04f)), 8)
+    val side = w8Smooth(listOf(junction, Offset(w * 0.46f, h * 0.755f), Offset(w * 0.4f, h * 0.735f), Offset(w * 0.35f, h * 0.7f), Offset(w * 0.25f, h * 0.675f)), 8)
     val sideShow = easeOut(seg(sp, 0f, 0.4f))
     val refuse = easeOut(seg(sp, 0.55f, 0.85f))
     if (sideShow > 0f) {
         val end = side.last()
-        drawCircle(Brush.radialGradient(listOf(AtharC8.Fog.copy(alpha = (0.8f + 0.15f * refuse) * sideShow), Color.Transparent), end, w * 0.2f), w * 0.2f, end)
-        drawPath(w8Poly(w8Head(side, sideShow)), AtharC8.Grey, alpha = 0.35f * (1f - 0.5f * refuse), style = Stroke(h * 0.035f, cap = StrokeCap.Round, join = StrokeJoin.Round))
+        drawCircle(Brush.radialGradient(listOf(AtharC8.Fog.copy(alpha = (0.85f + 0.15f * refuse) * sideShow), Color.Transparent), end, w * 0.16f), w * 0.16f, end)
+        drawPath(w8Poly(w8Head(side, sideShow)), AtharC8.Grey, alpha = 0.6f * (1f - 0.4f * refuse), style = Stroke(h * 0.03f, cap = StrokeCap.Round, join = StrokeJoin.Round))
         for (k in 0 until 9) {
             val u = 0.06f + k * 0.1f
             if (u > sideShow) break
@@ -321,8 +321,8 @@ private fun DrawScope.atharLand(a: ArtCtx) {
             drawOval(AtharC8.Grey, topLeft = p - Offset(2.6f * dp, 1.2f * dp), size = Size(5.2f * dp, 2.4f * dp), alpha = 0.75f * (1f - 0.6f * refuse))
         }
         for (k in 0 until 4) {         // the fog curls up
-            val c = end + Offset(-w * 0.05f + k * w * 0.035f, -h * 0.04f * k - h * 0.02f * sin(t * 0.9f + k))
-            drawCircle(AtharC8.Fog, w * (0.05f - 0.007f * k), c, alpha = 0.5f * sideShow)
+            val c = end + Offset(-w * 0.04f + k * w * 0.028f, -h * 0.025f * k - h * 0.015f * sin(t * 0.9f + k))
+            drawCircle(AtharC8.Fog, w * (0.04f - 0.006f * k), c, alpha = 0.6f * sideShow)
         }
     }
     drawPath(w8Band(road) { h * 0.05f }, AtharC8.RoadEdge)
@@ -333,16 +333,16 @@ private fun DrawScope.atharLand(a: ArtCtx) {
     }
 
     // his light over the start of the road, his companions around him
-    val lightC = Offset(w * 0.88f, h * 0.44f)
+    val lightC = Offset(w * 0.84f, h * 0.33f)
     val lg = easeOut(seg(dl, 0f, 0.35f))
     if (lg > 0f) {
         lightShafts(lightC, PI.toFloat() * 0.62f, 0.9f, h * 0.5f, Color(0xFFFFE6B0), 0.8f * lg, t, 6)
         sirajMunir(lightC, 4.8f * dp, lg, t)
     }
     for (k in 0 until 7) {
-        val ang = PI.toFloat() * (0.06f + 0.88f * k / 6f)
-        val c = lightC + Offset(cos(ang) * w * 0.09f, sin(ang) * h * 0.12f + h * 0.03f)
-        w8Roundel(c, w * 0.016f, seg(dl, 0.3f + 0.06f * k, 0.5f + 0.06f * k))
+        val ang = 2f * PI.toFloat() * k / 7f - PI.toFloat() / 2f + 0.25f
+        val c = lightC + Offset(cos(ang) * w * 0.1f, sin(ang) * h * 0.115f)
+        w8Roundel(c, w * 0.022f, seg(dl, 0.3f + 0.06f * k, 0.5f + 0.06f * k))
     }
 
     // the walkers: each sets his feet in the footprints (they flash as he does)
@@ -423,7 +423,7 @@ internal fun DrawScope.deltaScene(a: ArtCtx) {
         "oneriver" to Shot(Offset(w * 0.64f, h * 0.34f), 1.2f),
         "fork" to Shot(Offset(w * 0.58f, h * 0.56f), 1.3f),
         "fray" to Shot(Offset(w * 0.36f, h * 0.64f), 1.15f),
-        "onekept" to Shot(Offset(w * 0.4f, h * 0.82f), 1.06f),
+        "onekept" to Shot(Offset(w * 0.5f, h * 0.5f), 1f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.14f) { deltaLand(a) }
 }
@@ -469,7 +469,7 @@ private fun DrawScope.deltaLand(a: ArtCtx) {
     drawPath(Path().apply { moveTo(cr.x, cr.y - w * 0.04f); lineTo(cr.x + w * 0.008f, cr.y); lineTo(cr.x, cr.y + w * 0.04f); lineTo(cr.x - w * 0.008f, cr.y); close() }, DeltaC8.Contour, alpha = 0.6f)
 
     val main = w8Smooth(listOf(Offset(w * 0.9f, -h * 0.03f), Offset(w * 0.8f, h * 0.12f), Offset(w * 0.66f, h * 0.28f), Offset(w * 0.56f, h * 0.44f), Offset(w * 0.47f, h * 0.58f), Offset(w * 0.42f, h * 0.66f)), 10)
-    val lower = w8Smooth(listOf(Offset(w * 0.42f, h * 0.66f), Offset(w * 0.36f, h * 0.78f), Offset(w * 0.28f, h * 0.9f), Offset(w * 0.22f, h * 1.04f)), 10)
+    val lower = w8Smooth(listOf(Offset(w * 0.42f, h * 0.66f), Offset(w * 0.36f, h * 0.73f), Offset(w * 0.28f, h * 0.79f), Offset(w * 0.2f, h * 0.84f)), 10)
     val flow = easeInOut(seg(ob, 0f, 0.45f))
     val mudIn = easeOut(seg(rb, 0f, 0.35f))
     val mudMix = easeOut(seg(rb, 0.25f, 0.6f))
@@ -480,20 +480,25 @@ private fun DrawScope.deltaLand(a: ArtCtx) {
 
     // fire and smoke where the channels end, and the garden where the one ends
     if (fire > 0f) {
-        for (k in 0 until 9) {
-            val x = if (k == 0) w * 0.04f else w * (0.33f + 0.065f * k)
-            val c = Offset(x, h * (0.97f - 0.02f * sin(t * 1.3f + k)))
-            drawCircle(Brush.radialGradient(listOf(DeltaC8.Smoke.copy(alpha = 0.75f * fire), Color.Transparent), c, w * 0.08f), w * 0.08f, c)
-            val fl = h * 0.05f * (0.7f + 0.3f * sin(t * 7f + k * 1.9f)) * fire
-            drawPath(Path().apply { moveTo(x - w * 0.012f, h * 1.0f); quadraticBezierTo(x - w * 0.006f, h - fl * 0.6f, x, h - fl); quadraticBezierTo(x + w * 0.006f, h - fl * 0.6f, x + w * 0.012f, h * 1.0f); close() }, DeltaC8.Ember, alpha = 0.9f * fire)
+        val base = h * 0.95f
+        drawRect(Brush.verticalGradient(listOf(Color.Transparent, DeltaC8.Smoke.copy(alpha = 0.85f * fire)), startY = h * 0.8f, endY = h), topLeft = Offset(w * 0.3f, h * 0.8f), size = Size(w * 0.7f, h * 0.2f))
+        for (k in 0 until 11) {
+            val x = w * (0.32f + 0.065f * k)
+            val c = Offset(x, h * (0.88f - 0.02f * sin(t * 1.3f + k)))
+            drawCircle(Brush.radialGradient(listOf(DeltaC8.Smoke.copy(alpha = 0.8f * fire), Color.Transparent), c, w * 0.08f), w * 0.08f, c)
+            val fl = h * 0.09f * (0.7f + 0.3f * sin(t * 7f + k * 1.9f)) * fire
+            drawPath(Path().apply { moveTo(x - w * 0.022f, base); quadraticBezierTo(x - w * 0.01f, base - fl * 0.6f, x, base - fl); quadraticBezierTo(x + w * 0.01f, base - fl * 0.6f, x + w * 0.022f, base); close() }, DeltaC8.Ember, alpha = 0.9f * fire)
+            drawPath(Path().apply { moveTo(x - w * 0.01f, base); quadraticBezierTo(x - w * 0.004f, base - fl * 0.35f, x, base - fl * 0.55f); quadraticBezierTo(x + w * 0.004f, base - fl * 0.35f, x + w * 0.01f, base); close() }, DeltaC8.Gold, alpha = 0.8f * fire)
         }
     }
     if (keep > 0f) {
-        val g = Offset(w * 0.2f, h * 0.98f)
-        drawOval(DeltaC8.Garden, topLeft = g - Offset(w * 0.1f * keep, h * 0.09f * keep), size = Size(w * 0.2f * keep, h * 0.18f * keep))
-        for (k in 0 until 9) {
-            val c = g + Offset((w8Rnd(k, 3.3f) - 0.5f) * w * 0.16f * keep, -w8Rnd(k, 7.1f) * h * 0.07f * keep)
-            drawCircle(DeltaC8.GardenLight, (2.5f + 1.5f * w8Rnd(k, 1.9f)) * dp * keep, c)
+        val g = Offset(w * 0.17f, h * 0.89f)
+        softGlow(g, w * 0.16f * keep, DeltaC8.Gold, 0.35f * keep)
+        drawOval(DeltaC8.Garden, topLeft = g - Offset(w * 0.12f * keep, h * 0.08f * keep), size = Size(w * 0.24f * keep, h * 0.16f * keep))
+        for (k in 0 until 14) {          // trees seen from above
+            val c = g + Offset((w8Rnd(k, 3.3f) - 0.5f) * w * 0.19f * keep, (w8Rnd(k, 7.1f) - 0.5f) * h * 0.12f * keep)
+            drawCircle(Color(0xFF2C5E36), (5f + 2.5f * w8Rnd(k, 1.9f)) * dp * keep, c + Offset(1.5f * dp, 1.5f * dp))
+            drawCircle(DeltaC8.GardenLight, (4.5f + 2.5f * w8Rnd(k, 1.9f)) * dp * keep, c)
         }
     }
 
@@ -524,7 +529,7 @@ private fun DrawScope.deltaLand(a: ArtCtx) {
         river8(thin, w * 0.008f, fk, lerpColor(DeltaC8.Water, DeltaC8.Mud, 0.3f), 1f, t, 0.05f)
         val end = thin.last()
         if (fk >= 1f) drawOval(lerpColor(DeltaC8.Water, DeltaC8.Mud, 0.45f), topLeft = end - Offset(w * 0.025f, h * 0.02f), size = Size(w * 0.05f, h * 0.04f), alpha = 0.8f)
-        tagAt(a.tag("fork"), Offset(w * 0.28f, h * 0.45f), seg(fb, 0.5f, 1f), back = DeltaC8.Back, ink = ArtInk.Gold)
+        tagAt(a.tag("fork"), Offset(w * 0.82f, h * 0.36f), seg(fb, 0.5f, 1f), back = DeltaC8.Back, ink = ArtInk.Gold)
     }
     val banks = easeOut(seg(fb, 0.35f, 0.9f))
     if (banks > 0f) for (k in 0 until 12) {
@@ -550,9 +555,9 @@ private fun DrawScope.deltaLand(a: ArtCtx) {
     }
     if (fan > 0f) {
         val s = Offset(w * 0.42f, h * 0.66f)
-        val ends = listOf(0.04f, 0.33f, 0.45f, 0.57f, 0.69f, 0.8f)
+        val ends = listOf(0.36f, 0.48f, 0.6f, 0.72f, 0.84f, 0.95f)
         for ((k, ex) in ends.withIndex()) {
-            val e = Offset(w * ex, h * 1.04f)
+            val e = Offset(w * ex, h * 0.9f)
             val wig = Offset((w8Rnd(k, 4.4f) - 0.5f) * w * 0.08f, 0f)
             val ch = w8Smooth(listOf(s, s + (e - s) * 0.35f + wig, s + (e - s) * 0.7f - wig, e), 8)
             val c = lerpColor(murky, DeltaC8.Smoke, 0.5f * fire)
@@ -594,7 +599,7 @@ internal fun DrawScope.loomScene(a: ArtCtx) {
     val shots = shotsFor(a, mapOf(
         "knots72" to Shot(Offset(w * 0.5f, h * 0.52f), 1.04f),
         "caliphs4" to Shot(Offset(w * 0.4f, h * 0.56f), 1.3f),
-        "ebb" to Shot(Offset(w * 0.6f, h * 0.5f), 1.3f),
+        "ebb" to Shot(Offset(w * 0.6f, h * 0.48f), 1.3f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.18f) { loomRoom(a) }
 }
@@ -670,7 +675,7 @@ private fun DrawScope.loomRoom(a: ArtCtx) {
     // ebb: a glass of light that rises and falls with deeds
     val show = seg(eb, 0f, 0.08f)
     if (show > 0f) {
-        val gx = w * 0.6f
+        val gx = w * 0.67f
         val top = h * 0.24f
         val bottom = h * 0.6f
         val gw = w * 0.07f
@@ -737,7 +742,7 @@ internal fun DrawScope.sabilScene(a: ArtCtx) {
     val w = size.width
     val h = size.height
     val shots = shotsFor(a, mapOf(
-        "spout" to Shot(Offset(w * 0.5f, h * 0.5f), 1.12f),
+        "spout" to Shot(Offset(w * 0.5f, h * 0.47f), 1.1f),
         "pipe" to Shot(Offset(w * 0.5f, h * 0.3f), 1.15f),
         "drink" to Shot(Offset(w * 0.5f, h * 0.7f), 1.15f),
     ))
@@ -845,7 +850,7 @@ private fun DrawScope.sabilWall(a: ArtCtx) {
 
     // the three spouts, each under its plaque, and the water from them
     for (k in 0 until 3) {
-        val x = w * (0.58f - 0.08f * k)
+        val x = w * (0.65f - 0.15f * k)
         val mouth = Offset(x, h * 0.57f)
         drawRoundRect(SabilC8.Bronze, topLeft = Offset(x - w * 0.012f, h * 0.54f), size = Size(w * 0.024f, h * 0.035f), cornerRadius = CornerRadius(3f * dp))
         val run = easeOut(seg(sb, 0.04f + 0.1f * k, 0.18f + 0.1f * k))
@@ -862,7 +867,7 @@ private fun DrawScope.sabilWall(a: ArtCtx) {
     // the cloud of desires: its muddy rain runs off the roof and away
     val cloud = easeOut(seg(sb, 0.5f, 0.66f))
     if (cloud > 0f) {
-        val cc = Offset(w * 0.24f, h * 0.045f)
+        val cc = Offset(w * 0.2f, h * 0.075f)
         for ((k, o) in listOf(Offset(-w * 0.05f, h * 0.01f), Offset(0f, -h * 0.01f), Offset(w * 0.05f, h * 0.012f), Offset(-w * 0.01f, h * 0.025f)).withIndex()) {
             drawCircle(SabilC8.Cloud, w * (0.04f + 0.006f * (k % 2)), cc + o, alpha = 0.92f * cloud)
         }
@@ -871,14 +876,14 @@ private fun DrawScope.sabilWall(a: ArtCtx) {
             val x0 = w * (0.2f + 0.008f * k)
             val roofY = h * 0.2f - (x0 - w * 0.2f) / (w * 0.06f) * h * 0.1f
             val p = when {
-                ph < 0.4f -> Offset(x0, mix(h * 0.07f, roofY.coerceAtLeast(h * 0.1f), ph / 0.4f))
+                ph < 0.4f -> Offset(x0, mix(h * 0.1f, roofY.coerceAtLeast(h * 0.1f), ph / 0.4f))
                 ph < 0.7f -> Offset(mix(x0, w * 0.2f, (ph - 0.4f) / 0.3f), mix(roofY.coerceAtLeast(h * 0.1f), h * 0.2f, (ph - 0.4f) / 0.3f))
                 else -> Offset(w * 0.19f, mix(h * 0.21f, floorY + h * 0.02f, (ph - 0.7f) / 0.3f))
             }
             drawCircle(SabilC8.Mud, 1.8f * dp, p, alpha = 0.9f * cloud)
         }
         drawLine(SabilC8.Mud, Offset(w * 0.19f, floorY + h * 0.03f), Offset(-w * 0.01f, floorY + h * 0.05f), 2.5f * dp, StrokeCap.Round, alpha = 0.7f * cloud)
-        tagAt(a.tag("spout", 0, 3), Offset(w * 0.1f, h * 0.13f), seg(sb, 0.62f, 0.8f), back = SabilC8.Back, ink = Color(0xFFD9B98A))
+        tagAt(a.tag("spout", 0, 3), Offset(w * 0.1f, h * 0.15f), seg(sb, 0.62f, 0.8f), back = SabilC8.Back, ink = Color(0xFFD9B98A))
     }
 
     // drink: a man with a book and a man without drink from the same basin
@@ -931,7 +936,7 @@ internal fun DrawScope.shoreScene(a: ArtCtx) {
     val shots = shotsFor(a, mapOf(
         "horizon" to Shot(Offset(w * 0.5f, h * 0.38f), 1.14f),
         "scoop" to Shot(Offset(w * 0.62f, h * 0.76f), 1.5f),
-        "yield" to Shot(Offset(w * 0.55f, h * 0.58f), 1.02f),
+        "yield" to Shot(Offset(w * 0.55f, h * 0.6f), 1.08f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.18f) { shoreView(a) }
 }
@@ -1009,9 +1014,18 @@ private fun DrawScope.shoreView(a: ArtCtx) {
     val lean = 0.7f * dips * (1f - setDown) + 0.35f * bump(setDown)
     val armsUp = if (yb > 0.3f) 0.25f * easeOut(seg(yb, 0.3f, 0.6f)) else 0.3f + 0.6f * dips
     drawOval(Color.Black, topLeft = foot - Offset(tall * 0.2f, tall * 0.03f), size = Size(tall * 0.4f, tall * 0.06f), alpha = 0.2f)
-    figure(foot, tall, ShoreC8.Ink, walk = if (sb in 0.01f..0.25f) t * 6f else 0f, lean = lean, arms = armsUp)
+    // yield: he sets the cup down and sits on the sand before the sea, at peace with what he cannot measure
+    val sit = easeInOut(seg(yb, 0.3f, 0.55f))
+    figure(foot, tall, ShoreC8.Ink, alpha = 1f - sit, walk = if (sb in 0.01f..0.25f) t * 6f else 0f, lean = lean, arms = armsUp)
+    if (sit > 0f) {
+        w8Seated(foot, tall * 0.95f, ShoreC8.Ink, facing = -1f, alpha = sit)
+        // a hand on his chest
+        val chest = foot + Offset(tall * 0.03f, -tall * 0.36f)
+        drawLine(ShoreC8.Ink, chest + Offset(tall * 0.02f, -tall * 0.06f), chest + Offset(-tall * 0.08f, tall * 0.02f), max(1.7f * dp, tall * 0.06f), StrokeCap.Round, alpha = sit)
+        softGlow(chest, tall * 0.18f, ShoreC8.Bliss, 0.35f * sit * (0.8f + 0.2f * sin(t * 2f)))
+    }
     val hand = if (yb > 0.3f) foot + Offset(-tall * 0.28f, 0f) else foot + Offset(-tall * (0.3f + 0.25f * dips), -tall * (0.5f - 0.42f * dips))
-    val cup = if (yb > 0.3f) foot + Offset(-tall * 0.22f, -tall * 0.04f) else hand
+    val cup = if (yb > 0.3f) foot + Offset(-tall * 0.3f, -tall * 0.01f) else hand
     drawPath(Path().apply { moveTo(cup.x - tall * 0.04f, cup.y - tall * 0.05f); lineTo(cup.x + tall * 0.04f, cup.y - tall * 0.05f); lineTo(cup.x + tall * 0.03f, cup.y); lineTo(cup.x - tall * 0.03f, cup.y); close() }, ShoreC8.Cup)
     // it overflows: the sea does not go into the cup
     if (dips > 0.3f) for (k in 0 until 6) {
