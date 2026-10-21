@@ -96,6 +96,10 @@ ART_KINDS = {
     "refuge": {"strife", "stayin", "banners", "melee", "shutters", "seated"},
     # round 5
     "sapling": {"rooted", "wilt", "cloche", "axe", "paint"}, "return": {"opendoor", "turnquit", "regretresolve", "westsun", "doorshut"},
+    # round 6
+    "shelfshop": {"shelves", "swaptags", "obeyfollow", "dais", "explained"}, "lawh": {"oath", "wawa", "thumma", "lawla"},
+    "plaza": {"gust", "greet", "resolve", "askjanna", "give"}, "stall": {"oathsell", "dust", "alone", "fortress", "keepseal"},
+    "tent": {"praise", "reply", "whisper", "rank"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

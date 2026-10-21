@@ -220,6 +220,11 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "refuge" -> refugeScene(a)
         "sapling" -> saplingScene(a)
         "return" -> returnScene(a)
+        "shelfshop" -> shelfshopScene(a)
+        "lawh" -> lawhScene(a)
+        "plaza" -> plazaScene(a)
+        "stall" -> stallScene(a)
+        "tent" -> tentScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -392,6 +397,30 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "regretresolve" -> 5200
     "westsun" -> 4500
     "doorshut" -> 2500
+    // wave 13 (round 6): «ألفاظ وأحكام تمس التوحيد»
+    "shelves" -> 3000
+    "swaptags" -> 4500
+    "obeyfollow" -> 3000
+    "dais" -> 4200
+    "explained" -> 4500
+    "oath" -> 2200
+    "wawa" -> 4500
+    "thumma" -> 3800
+    "lawla" -> 2600
+    "gust" -> 4500
+    "greet" -> 3000
+    "resolve" -> 3800
+    "askjanna" -> 3000
+    "give" -> 2800
+    "oathsell" -> 7000
+    "dust" -> 2200
+    "alone" -> 5000
+    "fortress" -> 7000
+    "keepseal" -> 4000
+    "praise" -> 2000
+    "reply" -> 3800
+    "whisper" -> 5500
+    "rank" -> 6500
     else -> 1000
 }
 
@@ -459,7 +488,7 @@ internal class ArtCtx(
 }
 
 /** Scenes that write their tags large (see ArtCtx.big). */
-internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop")
+internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent")
 
 // ───────────── shared helpers ─────────────
 
