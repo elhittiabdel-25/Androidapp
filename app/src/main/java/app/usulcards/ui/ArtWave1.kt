@@ -509,7 +509,8 @@ private object TrailInk {
 
 /**
  * A trail seen from the side, walked from right to left (the way Arabic reads). Beats: origin, up (a beam to
- * the sky), lamp (a lamp post lighting the way on), mark ×n (signposts), good / bad (the fork's two ends),
+ * the sky), lamp (a lamp post lighting the way on), light (the Prophet ﷺ as light above the way; value 1: a
+ * messenger, smaller), mark ×n (signposts), good / bad (the fork's two ends),
  * follow / follow2 (one set of steps, then another stepping exactly into it), hole, stray, idols, keep (a
  * lantern carried to the end on a lit road), omen, turn (steps turn back), word (a good word lights the way),
  * goal (the place it leads), lands (from a dark land to a lit one), open, stuck (one who cannot leave: excused).
@@ -630,6 +631,24 @@ internal fun DrawScope.trailScene(a: ArtCtx) {
         drawPath(cone, Brush.verticalGradient(listOf(ArtInk.Gold.copy(alpha = 0.35f * lamp), Color.Transparent), startY = top.y, endY = base.y + 6f * dp))
         lantern(top + Offset(0f, -0.4f * w * 0.022f), w * 0.022f, lamp, 0.05f * sin(t * 9f))
         tagAt(a.tag("lamp"), top + Offset(0f, -h * 0.09f), seg(a.b("lamp"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
+    }
+
+    // the Prophet ﷺ (value 0) or a messenger (value 1, smaller), shown only as light above the way, lighting it
+    val light = easeOut(a.b("light"))
+    if (light > 0f) {
+        val li = a.nth("light")
+        val small = a.valueAt(li) >= 1f
+        val base = pt(lampU)
+        val c = base + Offset(0f, -h * 0.3f)
+        val cone = Path().apply {
+            moveTo(c.x, c.y)
+            lineTo(c.x - w * 0.4f, base.y + 8f * dp)
+            lineTo(c.x + w * 0.08f, base.y + 8f * dp)
+            close()
+        }
+        drawPath(cone, Brush.verticalGradient(listOf(Color(0xFFFFE6B0).copy(alpha = 0.3f * light), Color.Transparent), startY = c.y, endY = base.y + 8f * dp))
+        sirajMunir(c, (if (small) 3f else 4.6f) * dp, light, t)
+        tagAt(a.tag("light"), c + Offset(0f, -h * 0.12f), seg(a.b("light"), 0.3f, 1f), back = Color(0xE6101426), ink = ArtInk.Gold)
     }
 
     // signposts along the way, and the walker reaching each

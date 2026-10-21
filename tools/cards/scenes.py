@@ -8,8 +8,7 @@ if it is not there); a label written WITH harakat is used as written and checked
 Scene types: steps (layout list / grid / stairs), sides, chain (tone danger / good), timeline, circles,
 meter, transform, moon, stars, and art: an illustration (layout = which one, see ART in finish_pack.py) in
 which each item is a beat whose `kind` names its role, whose `sub` is the tag drawn in the picture ("a|b" for
-two tags) and whose label is the caption. Rules: no people or animals, no depiction of Allah, the angels or
-the Throne.
+two tags) and whose label is the caption. What may be drawn, and how, is in CODEX.md (checked by variety.py).
 """
 
 
@@ -36,7 +35,7 @@ SCENES = {
     "purpose": S("art", [
         I("خلق الله الجن والإنس", None, "face-0", sub="الْجِنُّ وَالْإِنْسُ", kind="origin"),
         I("لعبادته وحده", "لعبادته", sub="لِعِبَادَتِهِ وَحْدَهُ", kind="up"),
-        I("أرسل إليهم رسولا", "أرسل", sub="رَسُولٌ", kind="lamp"),
+        I("أرسل إليهم رسولا", "أرسل", sub="رَسُولٌ", kind="light", value=1),
         I("من أطاعه دخل الجنة", "أطاعه", "face-1", sub="الْجَنَّةُ", kind="good"),
         I("من عصاه دخل النار", "عصاه", sub="النَّارُ", kind="bad"),
     ], layout="trail"),
@@ -84,7 +83,7 @@ SCENES = {
         I("الْإِحْسَانُ", "والإحسان", sub="لَهُ رُكْنٌ وَاحِدٌ"),
     ], title="مَرَاتِبُ الدِّينِ"),
     "rasul-meaning": S("art", [
-        I("أَرْبَعَةُ أُمُورٍ", None, "title", sub="هَدْيُهُ ﷺ", kind="lamp"),
+        I("أَرْبَعَةُ أُمُورٍ", None, "title", sub="هَدْيُهُ ﷺ", kind="light"),
         I("طاعته فيما أمر", "طاعته", "face-0", sub="طَاعَتُهُ", kind="mark"),
         I("تصديقه فيما أخبر", "وتصديقه", sub="تَصْدِيقُهُ", kind="mark"),
         I("اجتناب ما نهى عنه وزجر", "واجتناب", sub="اجْتِنَابُ نَهْيِهِ", kind="mark"),
@@ -625,7 +624,7 @@ SCENES = {
     ], layout="night"),
     # ───────── batch 5 ─────────
     "ahl-sunna": S("art", [
-        I("على مثل ما كان عليه النبي ﷺ وأصحابه", "مثل", "face-0", sub="النَّبِيُّ ﷺ وَأَصْحَابُهُ", kind="lamp"),
+        I("على مثل ما كان عليه النبي ﷺ وأصحابه", "مثل", "face-0", sub="النَّبِيُّ ﷺ وَأَصْحَابُهُ", kind="light"),
         I("الذين استقاموا على الاتباع", "استقاموا", sub="الِاتِّبَاعُ", kind="walk"),
         I("وجانبوا الابتداع", "وجانبوا", sub="الِابْتِدَاعُ", kind="stray"),
         I("ظاهرا وباطنا", "ظاهرا", "face-1", sub="ظَاهِرًا وَبَاطِنًا", kind="mark"),

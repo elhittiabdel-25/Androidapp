@@ -19,6 +19,7 @@ from scenes import SCENES                      # noqa: E402
 from categories import CATEGORIES              # noqa: E402
 from quiz_choices import QUIZ                  # noqa: E402
 from build_content import spoken, letters      # noqa: E402
+from variety import codex_errors, variety_report, STRICT   # noqa: E402
 
 MARKS = "ًٌٍَُِّْٰ"
 HARAKA = re.compile(f"[{MARKS}]")
@@ -34,7 +35,7 @@ ART_KINDS = {
     "lantern": {"lamp", "gust", "glass", "dome", "grow", "dim", "ember", "out", "shatter", "say", "gaze", "hidden",
                 "return", "charm", "bind", "untie", "many", "bond", "sever"},
     "trail": {"origin", "up", "lamp", "mark", "good", "bad", "follow", "follow2", "hole", "stray", "idols", "keep",
-              "omen", "turn", "word", "goal", "lands", "open", "stuck", "walk", "show", "door", "swap"},
+              "omen", "turn", "word", "goal", "lands", "open", "stuck", "walk", "show", "door", "swap", "light"},
     "ridge": {"stone", "pit", "lean", "walk"},
     "tree": {"root", "trunk", "crown", "fruit", "storm", "hold", "calm", "shed", "bad"},
     "streams": {"basin", "stream", "divert", "curse", "block", "near"},
@@ -208,6 +209,8 @@ def build(path):
         for v in diac.values():
             for w in words_with_marks(v):
                 vocab.setdefault(bare(w), set()).add(w)
+        for e in codex_errors(cid, spec):
+            err(cid, e)
         if spec["type"] not in TYPES:
             err(cid, f"unknown scene type {spec['type']}")
         items, last_at, last_pos, last_order = [], None, {}, (-1, -1.0)
@@ -311,6 +314,10 @@ def build(path):
     for p in set(listed) - set(used):
         err("categories", f"path «{p}» has no cards")
     pack["categories"] = CATEGORIES
+    problems, summary = variety_report(pack["cards"], SCENES)
+    print(summary)
+    for v in problems:
+        (err("variety", v) if STRICT else notes.append("variety: " + v))
     for n in notes:
         print("note:", n)
     if errors:
