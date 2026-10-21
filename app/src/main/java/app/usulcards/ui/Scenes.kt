@@ -107,7 +107,6 @@ private fun keyIndex(keys: List<String>, k: String?): Int {
     return if (i >= 0) i else keys.size + 1
 }
 
-@Composable
 /** One frame of a recorded card (tools/previews/CardFilmTest): the scene's beats and clock, set from outside. */
 internal class FilmFrame(val t: Float, val beats: List<Float>, val shown: Int)
 
