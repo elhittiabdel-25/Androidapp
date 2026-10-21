@@ -39,3 +39,11 @@ count, question and answer.
 Rules: a layout serves at most 6 cards; neighbouring cards in a path never share a layout, a register or an
 explanation shape; every path mixes at least 3 registers; the lantern only means knowledge or guidance carried
 by people (at most 6 cards) and never stands for a prophet.
+
+## Decisions after the scene review (2026-10-21)
+- Faceless figures stay, though the image-makers card (المصورون) warns against image-making. Scholars differ on
+  faceless figures; a headless version was tried and read as empty garments. If a scholar the app follows says
+  otherwise, the figures change in one place (`figure`, `sitting`, `praying`, `robed`, `camel`).
+- In الغلو في الصالحين the righteous men stay as lights going out: the light is the knowledge they carried.
+- The lantern check now reads every beat that draws a lantern (see `LANTERN` in variety.py), the sentence it is
+  drawn in, and the people its tag names. Cards still to be redrawn are listed in `PENDING`.

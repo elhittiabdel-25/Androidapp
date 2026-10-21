@@ -1,2 +1,10 @@
-# Scenes rendered frame by frame as animations by the Scene previews workflow (one id per line).
-sunna-tufassir
+ahl-sunna
+iftiraq
+usul-bida
+khasais-aqida
+mahar-muhal
+manhaj-masum
+ikhtilaf-ijtihad
+bard-yaqin
+tawakkul-asbab
+ghuraba

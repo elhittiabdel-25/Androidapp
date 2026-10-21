@@ -77,6 +77,12 @@ ART_KINDS = {
     "map": {"spiral", "old", "caliphs"},
     "books": {"pile", "single", "stack"},
     "caravan": {"slip", "around", "defy"},
+    # round 1 of the redraw
+    "athar": {"dawnlight", "prints", "sidepath", "eras"}, "delta": {"oneriver", "fork", "fray", "onekept"},
+    "loom": {"knots72", "caliphs4", "ebb"}, "sabil": {"spout", "pipe", "drink"}, "shore": {"horizon", "scoop", "yield"},
+    "ruler": {"sortout", "trace", "veer"}, "mosque": {"differ", "clasp", "behind", "leave"},
+    "maze": {"coolwell", "climb", "regret"}, "field": {"sow", "harvest", "winnow"},
+    "street": {"against", "mend", "lonewindow"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
@@ -183,7 +189,7 @@ def check_vowels(cid, text, vocab):
 
 
 def vowelled(cid, s, texts, vocab):
-    if not s:
+    if not s or not re.search("[ء-ي]", s):          # nothing to vowel (a number written in digits)
         return s
     if HARAKA.search(s):
         check_vowels(cid, s, vocab)
@@ -217,8 +223,8 @@ def build(path):
         for v in diac.values():
             for w in words_with_marks(v):
                 vocab.setdefault(bare(w), set()).add(w)
-        for e in codex_errors(cid, spec):
-            err(cid, e)
+        for e, pending in codex_errors(cid, spec, lambda at, cid=cid: speech_raw(speech[cid], at) if at in keys else ""):
+            (notes.append(f"{cid}: codex, to be redrawn: {e}") if pending else err(cid, e))
         if spec["type"] not in TYPES:
             err(cid, f"unknown scene type {spec['type']}")
         items, last_at, last_pos, last_order = [], None, {}, (-1, -1.0)

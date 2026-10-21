@@ -189,6 +189,16 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "map" -> mapScene(a)
         "books" -> booksScene(a)
         "caravan" -> caravanScene(a)
+        "athar" -> atharScene(a)
+        "delta" -> deltaScene(a)
+        "loom" -> loomScene(a)
+        "sabil" -> sabilScene(a)
+        "shore" -> shoreScene(a)
+        "ruler" -> rulerScene(a)
+        "mosque" -> mosqueScene(a)
+        "maze" -> mazeScene(a)
+        "field" -> fieldScene(a)
+        "street" -> streetScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -260,6 +270,23 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "spiral", "tread" -> 2800
     "doubt" -> 3800
     "guess" -> 3000
+    // wave 8 (round 1 of the redraw): each beat lasts about as long as the words it goes with
+    "dawnlight", "eras" -> 3600
+    "prints" -> 2400
+    "sidepath" -> 2600
+    "oneriver", "fray", "ebb", "veer", "coolwell", "sortout" -> 5000
+    "fork", "trace", "differ", "leave", "onekept" -> 4300
+    "knots72" -> 6000
+    "caliphs4" -> 7000
+    "spout" -> 5400
+    "pipe", "against" -> 3200
+    "drink", "behind", "mend", "regret" -> 4400
+    "horizon" -> 7600
+    "scoop" -> 5200
+    "yield", "clasp" -> 3000
+    "climb" -> 5400
+    "sow" -> 7600
+    "harvest", "winnow", "lonewindow" -> 3800
     else -> 1000
 }
 
@@ -327,7 +354,7 @@ internal class ArtCtx(
 }
 
 /** Scenes that write their tags large (see ArtCtx.big). */
-internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens")
+internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom")
 
 // ───────────── shared helpers ─────────────
 

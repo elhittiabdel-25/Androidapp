@@ -42,7 +42,7 @@ internal object Cinema {
     /** Scenes whose drawing fills the frame edge to edge: the camera barely moves. */
     val tight = setOf("hourglass")
     /** Scenes in daylight or on a lit page: the edges darken less. */
-    val day = setOf("ink", "zellige", "study", "canyon", "map", "books")
+    val day = setOf("ink", "zellige", "study", "canyon", "map", "books", "athar", "delta", "loom", "sabil", "ruler", "mosque", "maze", "field")
     /** Scenes where dust would read wrong (rain, a storm at sea). */
     val noDust = setOf("ship")
     /** The camera of the frame being drawn (drawing happens on one thread, one frame at a time). */
