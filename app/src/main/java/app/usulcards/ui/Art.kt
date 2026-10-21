@@ -80,6 +80,11 @@ internal object ArtInk {
 /** Live: each beat plays when its item is shown (when the voice reaches it); wind, water and light keep moving. */
 @Composable
 internal fun ArtScene(scene: Scene, shown: Int, showDiacritics: Boolean) {
+    val film = LocalFilm.current
+    if (film != null) {
+        ArtFrame(scene, { film.beats }, { film.t }, shown, showDiacritics)
+        return
+    }
     val context = LocalContext.current
     val still = remember { animationsOff(context) }
     val anims = remember(scene) { List(scene.items.size) { Animatable(0f) } }

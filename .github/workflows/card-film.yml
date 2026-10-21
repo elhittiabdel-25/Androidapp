@@ -1,0 +1,83 @@
+name: Card film
+
+# Records whole cards as they play on the phone, with their voice (Paparazzi frames + ffmpeg), and pushes
+# film-<id>.mp4 to the `film` branch, so a card can be reviewed end to end without a phone.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tools/previews/film.txt"
+      - "tools/previews/CardFilmTest.kt"
+      - "tools/previews/gen_film_data.py"
+      - "tools/previews/film_assemble.py"
+      - ".github/workflows/card-film.yml"
+  workflow_dispatch:
+    inputs:
+      ids:
+        description: "Card ids to record, comma-separated (default: tools/previews/film.txt)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: card-film
+  cancel-in-progress: true
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.14.3"
+
+      - name: Tools
+        run: |
+          which ffmpeg || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)
+
+      - name: Prepare the film test
+        run: |
+          python3 tools/previews/enable_paparazzi.py
+          python3 tools/previews/gen_film_data.py app/src/main/assets/content/cards.json app/src/main/assets app/src/test/java/app/usulcards/FilmData.kt "$RUNNER_TEMP/plan.json" "${{ github.event.inputs.ids }}"
+          cp tools/previews/CardFilmTest.kt app/src/test/java/app/usulcards/
+
+      - name: Record the cards
+        run: |
+          set -o pipefail
+          gradle :app:recordPaparazziDebug --no-daemon --stacktrace 2>&1 | tee "$RUNNER_TEMP/gradle.log"
+
+      - name: Films with sound
+        run: python3 tools/previews/film_assemble.py app/src/test/snapshots "$RUNNER_TEMP/plan.json" "$RUNNER_TEMP/out"
+
+      - name: Push to the film branch
+        run: |
+          cd "$RUNNER_TEMP/out"
+          echo "Recorded from ${GITHUB_SHA::7}" > README.md
+          git init -q -b film .
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A && git commit -qm "Card films of ${GITHUB_SHA::7}"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" film
+
+      - name: Push the errors to the film-logs branch
+        if: failure()
+        run: |
+          mkdir -p "$RUNNER_TEMP/log"
+          grep -E "^e: |error:|What went wrong|FAILED|Exception|Caused by" "$RUNNER_TEMP/gradle.log" | head -200 > "$RUNNER_TEMP/log/errors.txt" || true
+          tail -300 "$RUNNER_TEMP/gradle.log" > "$RUNNER_TEMP/log/tail.txt" || true
+          find app/build/test-results -name "*.xml" -exec cp {} "$RUNNER_TEMP/log/" \; 2>/dev/null || true
+          cd "$RUNNER_TEMP/log"
+          git init -q -b film-logs .
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A && git commit -qm "Film errors of ${GITHUB_SHA::7}"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" film-logs

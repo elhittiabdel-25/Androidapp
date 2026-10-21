@@ -127,7 +127,19 @@ class ContentRepo(
 
     companion object {
         fun load(ctx: Context): ContentRepo {
-            val root = JSONObject(ctx.assets.open("content/cards.json").bufferedReader(Charsets.UTF_8).use { it.readText() })
+            val pack = ctx.assets.open("content/cards.json").bufferedReader(Charsets.UTF_8).use { it.readText() }
+            val uthmani = try {
+                ctx.assets.open("quran/uthmani.json").bufferedReader(Charsets.UTF_8).use { it.readText() }
+            } catch (e: Exception) {
+                null
+            }
+            val recitations = (ctx.assets.list("quran") ?: emptyArray()).filter { it.endsWith(".mp3") }.map { "quran/$it" }.toSet()
+            return parse(pack, uthmani, recitations)
+        }
+
+        /** The pack from its JSON text (and the Uthmani verses' JSON, when there is one). */
+        fun parse(pack: String, uthmaniJson: String?, recitations: Set<String>): ContentRepo {
+            val root = JSONObject(pack)
             val booksJson = root.getJSONObject("books")
             val books = booksJson.keys().asSequence().associateWith { id ->
                 val b = booksJson.getJSONObject(id)
@@ -135,12 +147,11 @@ class ContentRepo(
             }
             val cards = root.getJSONArray("cards").objects().map { parseCard(it) }
             val uthmani = try {
-                val u = JSONObject(ctx.assets.open("quran/uthmani.json").bufferedReader(Charsets.UTF_8).use { it.readText() })
+                val u = JSONObject(uthmaniJson ?: "{}")
                 u.keys().asSequence().associateWith { u.getString(it) }
             } catch (e: Exception) {
                 emptyMap()
             }
-            val recitations = (ctx.assets.list("quran") ?: emptyArray()).filter { it.endsWith(".mp3") }.map { "quran/$it" }.toSet()
             val categories = (root.optJSONArray("categories") ?: JSONArray()).objects().map {
                 Category(it.getString("id"), it.getString("title"), it.optString("about", ""), it.optString("glyph", ""),
                     it.getJSONArray("paths").strings())

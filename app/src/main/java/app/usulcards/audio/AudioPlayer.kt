@@ -32,16 +32,16 @@ data class NextCard(val owner: String, val title: String, val items: List<PlayIt
  * card ends, so the voice never stops between cards (the app may be in the background at that moment).
  */
 @OptIn(UnstableApi::class)
-class AudioPlayer private constructor(private val app: Context) {
-    var currentKey by mutableStateOf<String?>(null)
+class AudioPlayer private constructor(private val app: Context) : PlaybackView {
+    override var currentKey by mutableStateOf<String?>(null)
         private set
 
     /** True while a listening session is on (playing, or paused from the lock screen). */
-    var isPlaying by mutableStateOf(false)
+    override var isPlaying by mutableStateOf(false)
         private set
 
     /** Id of the card whose audio is playing, so only that card's animation follows the voice. */
-    var owner by mutableStateOf<String?>(null)
+    override var owner by mutableStateOf<String?>(null)
         private set
 
     /** True only while sound is actually coming out (false when paused or between sessions). */
@@ -91,7 +91,7 @@ class AudioPlayer private constructor(private val app: Context) {
     }
 
     /** How far the current clip has played, from 0 to 1. */
-    fun positionFraction(): Float {
+    override fun positionFraction(): Float {
         val d = exo.duration
         if (d <= 0L || d == C.TIME_UNSET) return 0f
         return (exo.currentPosition.toFloat() / d).coerceIn(0f, 1f)

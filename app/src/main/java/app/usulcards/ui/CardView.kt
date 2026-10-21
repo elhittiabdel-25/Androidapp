@@ -64,7 +64,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.usulcards.audio.AudioPlayer
+import app.usulcards.audio.PlaybackView
 import app.usulcards.data.Card
 import app.usulcards.data.ContentRepo
 import app.usulcards.data.ProgressStore
@@ -76,7 +76,7 @@ fun CardView(
     card: Card,
     repo: ContentRepo,
     progress: ProgressStore,
-    player: AudioPlayer,
+    player: PlaybackView,
     deepOpen: Boolean,
     flipped: Boolean,
     follow: FollowState?,

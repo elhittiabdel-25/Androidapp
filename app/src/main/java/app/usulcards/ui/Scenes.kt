@@ -40,6 +40,7 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameNanos
@@ -73,7 +74,7 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.usulcards.audio.AudioPlayer
+import app.usulcards.audio.PlaybackView
 import app.usulcards.data.Card
 import app.usulcards.data.Scene
 import app.usulcards.data.SceneItem
@@ -107,7 +108,14 @@ private fun keyIndex(keys: List<String>, k: String?): Int {
 }
 
 @Composable
-fun SceneHost(card: Card, scene: Scene, player: AudioPlayer, showDiacritics: Boolean) {
+/** One frame of a recorded card (tools/previews/CardFilmTest): the scene's beats and clock, set from outside. */
+internal class FilmFrame(val t: Float, val beats: List<Float>, val shown: Int)
+
+/** Set only when a card is being recorded frame by frame; the app never sets it. */
+internal val LocalFilm = staticCompositionLocalOf<FilmFrame?> { null }
+
+@Composable
+fun SceneHost(card: Card, scene: Scene, player: PlaybackView, showDiacritics: Boolean) {
     val pal = LocalPalette.current
     val n = scene.items.size
     val keys = remember(card.id) { card.audio.map { it.key } }
@@ -117,7 +125,9 @@ fun SceneHost(card: Card, scene: Scene, player: AudioPlayer, showDiacritics: Boo
     var wasFollowing by remember(card.id) { mutableStateOf(false) }
     val following = player.isPlaying && player.owner == card.id
 
-    LaunchedEffect(card.id, replay, following) {
+    val film = LocalFilm.current
+    if (film != null) shown = film.shown
+    if (film == null) LaunchedEffect(card.id, replay, following) {
         if (following) {
             wasFollowing = true
             shown = 0
