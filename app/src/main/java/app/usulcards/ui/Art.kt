@@ -234,6 +234,8 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "bird" -> birdScene(a)
         "globe" -> globeScene(a)
         "plain" -> plainScene(a)
+        "river" -> riverScene(a)
+        "milla" -> millaScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -482,6 +484,20 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "noomen" -> 1500
     "rely" -> 2500
     "siraj" -> 6000
+    // wave 17 (round 10: ما يضاد التوحيد)
+    "torrent" -> 4800
+    "holdidol" -> 1000
+    "holdbanner" -> 1000
+    "holdcrown" -> 1200
+    "letgo" -> 1500
+    "firmhold" -> 1900
+    "twowords" -> 2500
+    "outmilla" -> 2600
+    "inmilla" -> 4200
+    "belie" -> 1900
+    "conceal" -> 1300
+    "haughty" -> 2200
+    "twoface" -> 1800
     else -> 1000
 }
 

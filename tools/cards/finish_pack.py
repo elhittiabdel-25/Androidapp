@@ -109,6 +109,8 @@ ART_KINDS = {
     "bird": {"wingfear", "winghope", "headlove", "loveonly", "fearonly", "hopeonly", "soar"},
     "globe": {"pureheart", "earthful", "forgiven", "unmixed", "safeway"},
     "plain": {"refine", "straightin", "noruqya", "nocautery", "noomen", "rely"},
+    "river": {"torrent", "holdidol", "holdbanner", "holdcrown", "letgo", "firmhold", "twowords"},
+    "milla": {"outmilla", "inmilla", "belie", "conceal", "haughty", "twoface"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

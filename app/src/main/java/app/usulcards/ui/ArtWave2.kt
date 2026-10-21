@@ -452,7 +452,15 @@ private fun DrawScope.buildingBody(a: ArtCtx) {
             tagAt(a.tag("rival"), Offset(rx, roofTop - h * 0.07f - s.cracks.size * h * 0.085f), seg(s.rival, 0.3f, 1f), back = TagBack, ink = ArtInk.Ember)
         }
         for ((k, i) in s.cracks.withIndex()) {
-            tagAt(a.tagOf(i), Offset(cx, roofTop - h * 0.07f - k * h * 0.085f), seg(a.beatAt(i), 0.3f, 1f), back = TagBack, ink = ArtInk.Ember)
+            if (k == 0) {
+                tagAt(a.tagOf(i), Offset(cx, roofTop - h * 0.07f), seg(a.beatAt(i), 0.3f, 1f), back = TagBack, ink = ArtInk.Ember)
+            } else {
+                // each further crack is named on the crack itself, while it is told
+                val next = s.cracks.getOrNull(k + 1)?.let { a.beatAt(it) } ?: 0f
+                val xs = listOf(0.28f, -0.22f, 0.05f, -0.38f, 0.38f)
+                val x0 = cx + bw * xs[k % xs.size]
+                tagAt(a.tagOf(i), Offset(x0, wallTop + bh * 0.2f + h * 0.03f), seg(a.beatAt(i), 0.2f, 0.5f) * (1f - seg(next, 0f, 0.3f)), back = TagBack, ink = ArtInk.Ember)
+            }
         }
         if (fall > 0f) tagAt(a.tag("fall"), Offset(cx, ground - h * 0.2f), seg(fall, 0.5f, 1f), back = TagBack, ink = ArtInk.Ember)
         for ((k, i) in s.names.withIndex()) {
