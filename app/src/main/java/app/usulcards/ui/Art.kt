@@ -232,6 +232,8 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "threads" -> threadsScene(a)
         "carpet" -> carpetScene(a)
         "bird" -> birdScene(a)
+        "globe" -> globeScene(a)
+        "plain" -> plainScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -467,6 +469,19 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "fearonly" -> 2800
     "hopeonly" -> 2600
     "soar" -> 4800
+    // wave 16 (round 9: فضل التوحيد وتحقيقه)
+    "pureheart" -> 5000
+    "earthful" -> 2100
+    "forgiven" -> 3000
+    "unmixed" -> 4800
+    "safeway" -> 2400
+    "refine" -> 4400
+    "straightin" -> 6000
+    "noruqya" -> 1400
+    "nocautery" -> 1300
+    "noomen" -> 1500
+    "rely" -> 2500
+    "siraj" -> 6000
     else -> 1000
 }
 

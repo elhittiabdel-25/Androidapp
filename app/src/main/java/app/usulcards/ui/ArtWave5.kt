@@ -181,6 +181,18 @@ private fun bigWord(scope: DrawScope, tl: TextLayoutResult?, c: Offset, scale: F
 internal fun DrawScope.watchScene(a: ArtCtx) {
     val w = size.width
     val h = size.height
+    val shots = shotsFor(a, mapOf(
+        "fog" to Shot(Offset(w * 0.5f, h * 0.55f), 1.02f),
+        "shield" to Shot(Offset(w * 0.45f, h * 0.6f), 1.12f),
+        "wisp" to Shot(Offset(w * 0.68f, h * 0.5f), 1.6f),
+        "close" to Shot(Offset(w * 0.55f, h * 0.52f), 1.6f),
+    ))
+    followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.22f) { watchHouse(a) }
+}
+
+private fun DrawScope.watchHouse(a: ArtCtx) {
+    val w = size.width
+    val h = size.height
     val dp = density
     val t = a.t
     val ground = h * 0.84f
@@ -250,7 +262,9 @@ internal fun DrawScope.watchScene(a: ArtCtx) {
         val oval = Rect(cx - bw * 0.95f * rr, ground - h * 0.06f, cx + bw * 0.95f * rr, ground + h * 0.06f)
         drawOval(Mono.Warm, topLeft = oval.topLeft, size = oval.size, alpha = 0.75f * seg(ring, 0f, 0.3f), style = Stroke(1.6f * dp))
         drawOval(Brush.radialGradient(listOf(Mono.Warm.copy(alpha = 0.18f), Color.Transparent), center = oval.center, radius = bw), topLeft = oval.topLeft, size = oval.size)
-        tagAt(a.tag("shield"), Offset(cx, top - roof - h * 0.12f), seg(ring, 0.4f, 1f) * (1f - seg(crack, 0f, 0.3f)), back = Mono.Back, ink = Mono.Warm)
+        // the du'a is Ibrahim's: a prophet's light with his name, beside the house
+        val il = Offset(cx - bw * 0.95f, top - roof * 0.5f)
+        nabiLight14(il, 3.2f * dp, easeOut(seg(ring, 0f, 0.35f)), t, a.tag("shield"), il + Offset(0f, -h * 0.08f))
     }
     // riya: a thin wisp toward the small window — then the window is shut
     if (crack > 0f) {
@@ -263,7 +277,8 @@ internal fun DrawScope.watchScene(a: ArtCtx) {
         }
         val shown = pts.take(max(2, (pts.size * reach).toInt()))
         for (m in 1 until shown.size) {
-            drawLine(Mono.Dim, shown[m - 1], shown[m], 2.4f * dp * (1f - m / 30f), cap = StrokeCap.Round, alpha = 0.8f * seg(crack, 0f, 0.2f) * (1f - cut))
+            drawLine(Mono.Dim, shown[m - 1], shown[m], 3.6f * dp * (1f - m / 30f), cap = StrokeCap.Round, alpha = 0.9f * seg(crack, 0f, 0.2f) * (1f - cut))
+            drawLine(Mono.Ember, shown[m - 1], shown[m], 1f * dp, cap = StrokeCap.Round, alpha = 0.6f * seg(crack, 0f, 0.2f) * (1f - cut))
         }
         tagAt(a.tag("wisp"), Offset(w * 0.84f, top - roof - h * 0.04f), seg(crack, 0.3f, 0.7f), back = Mono.Back, ink = Mono.Ember)
         if (shut > 0f) {

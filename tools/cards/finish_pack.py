@@ -40,7 +40,7 @@ ART_KINDS = {
     "tree": {"root", "trunk", "crown", "fruit", "storm", "hold", "calm", "shed", "bad", "wail"},
     "streams": {"basin", "stream", "divert", "curse", "block", "near"},
     "building": {"base", "pillars", "course", "roof", "glow", "light", "house", "rival", "fall", "crack", "lock",
-                 "lower", "wall", "name", "raise", "word", "level", "palace", "brick"},
+                 "lower", "wall", "name", "raise", "word", "level", "palace", "brick", "siraj"},
     "gate": {"trumpet", "rise", "lights", "filter", "scrolls", "scale", "bridge", "pass", "trait", "gate", "seal",
              "shut", "open", "noprice"},
     "shrine": {"lamp", "excess", "names", "out", "stone", "idol", "forget", "dome", "feast", "tree", "rock", "shirk",
@@ -107,6 +107,8 @@ ART_KINDS = {
     "threads": {"pedestal", "putfirst", "beloved", "family"},
     "carpet": {"backside", "despair", "turnover", "hamd"},
     "bird": {"wingfear", "winghope", "headlove", "loveonly", "fearonly", "hopeonly", "soar"},
+    "globe": {"pureheart", "earthful", "forgiven", "unmixed", "safeway"},
+    "plain": {"refine", "straightin", "noruqya", "nocautery", "noomen", "rely"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

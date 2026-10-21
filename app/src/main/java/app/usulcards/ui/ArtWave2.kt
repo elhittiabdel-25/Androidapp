@@ -97,6 +97,45 @@ private class Site(val cx: Float, val bw: Float) {
 internal fun DrawScope.buildingScene(a: ArtCtx) {
     val w = size.width
     val h = size.height
+    // the camera goes to each part as it is laid
+    val shots = shotsFor(a, mapOf(
+        "base" to Shot(Offset(w * 0.5f, h * 0.74f), 1.2f),
+        "pillars" to Shot(Offset(w * 0.5f, h * 0.6f), 1.1f),
+        "roof" to Shot(Offset(w * 0.5f, h * 0.5f), 1.1f),
+        "glow" to Shot(Offset(w * 0.5f, h * 0.72f), 1.25f),
+        "siraj" to Shot(Offset(w * 0.6f, h * 0.48f), 1.02f),
+    ))
+    followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.16f) {
+        buildingBody(a)
+        val sj = a.b("siraj")
+        if (sj > 0f) {
+            // his ﷺ way: his light, and those who follow him on it, seeing where they go
+            val dp = density
+            val t = a.t
+            val lc = Offset(w * 0.84f, h * 0.26f)
+            sirajMunir(lc, 4.4f * dp, easeOut(seg(sj, 0f, 0.25f)), t, nameAt = lc + Offset(0f, -h * 0.12f))
+            val p0 = lc + Offset(0f, h * 0.05f)
+            val p3 = Offset(w * 0.6f, h * 0.84f)
+            val c1 = p0 + Offset(-w * 0.02f, h * 0.25f)
+            val c2 = p3 + Offset(w * 0.12f, -h * 0.05f)
+            val way = easeOut(seg(sj, 0.15f, 0.5f))
+            drawPath(cubicPart(p0, c1, c2, p3, 0f, way), ArtInk.Gold.copy(alpha = 0.3f), style = Stroke(7f * dp, cap = StrokeCap.Round))
+            drawPath(cubicPart(p0, c1, c2, p3, 0f, way), ArtInk.Gold.copy(alpha = 0.85f), style = Stroke(1.4f * dp, cap = StrokeCap.Round, pathEffect = PathEffect.dashPathEffect(floatArrayOf(5f * dp, 4f * dp), -t * 18f * dp)))
+            val walk = seg(sj, 0.35f, 1f)
+            for (k in 0 until 4) {
+                val u = (walk * 0.9f - k * 0.12f).coerceIn(0f, 0.95f)
+                if (walk * 0.9f - k * 0.12f <= 0f) continue
+                val p = cubic(p0, c1, c2, p3, u)
+                val tl = h * mix(0.08f, 0.18f, u)
+                figure(p, tl, Color(0xFF1E1A2A), seg(walk * 0.9f - k * 0.12f, 0f, 0.1f), walk = t * 6f + k)
+            }
+        }
+    }
+}
+
+private fun DrawScope.buildingBody(a: ArtCtx) {
+    val w = size.width
+    val h = size.height
     val dp = density
     val t = a.t
     val ground = h * 0.84f
