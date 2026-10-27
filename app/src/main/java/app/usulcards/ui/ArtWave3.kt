@@ -618,7 +618,7 @@ internal fun DrawScope.caveScene(a: ArtCtx) {
             drawLine(lerp(ArtInk.Ember, ArtInk.Gold, 0.4f).copy(alpha = q), c, c + Offset(cos(ang), sin(ang)) * (10f + 6f * sin(t * 8f + m)) * dp, 1.6f * dp, StrokeCap.Round)
         }
         nightCross(c, 14f * dp, seg(fake, 0.5f, 0.9f))
-        tagAt(a.tag("false"), c + Offset(w * 0.06f, -h * 0.12f), seg(fake, 0.3f, 1f), back = NightBack, ink = ArtInk.Ember)
+        tagAt(a.tag("false"), Offset(w * 0.26f, ground - h * 0.44f), seg(fake, 0.3f, 1f), back = NightBack, ink = ArtInk.Ember)
     }
 }
 

@@ -263,6 +263,15 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "kitchen" -> kitchenScene(a)
         "karyotype" -> karyotypeScene(a)
         "anatomy" -> anatomyScene(a)
+        "heights" -> heightsScene(a)
+        "revelation" -> revelationScene(a)
+        "gaze" -> gazeScene(a)
+        "resurrection" -> resurrectionScene(a)
+        "nameswall" -> nameswallScene(a)
+        "register" -> registerScene(a)
+        "unseen" -> unseenScene(a)
+        "tensigns" -> tensignsScene(a)
+        "barzakh" -> barzakhScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -568,6 +577,17 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "wird", "twist", "bang", "blurorder", "made", "thrift", "planets", "readout", "infoblocks", "labfail", "prize", "target", "designer", "eyerow", "othercause", "pool", "glands", "graph" -> 4500
     "deny5", "bubbles", "pairs", "domino", "soldiers", "vast", "forgeiron", "trust", "letters", "helix", "livecell", "chasm", "waitdoor", "scramble", "baker", "loop", "beaks", "lineage", "shrinklist" -> 5000
     "race", "steps3", "satchel" -> 6000
+    // round 14: «الصفات واليوم الآخر»
+    "notmixed" -> 2500
+    "sealdoor", "denyknown", "tenring" -> 3000
+    "above", "mushaf", "byopinion", "known", "claim", "threeq", "rawda", "hufra" -> 3500
+    "reciters", "memorize", "infer", "horn", "arise", "onlyallah" -> 4000
+    "veiled", "emptied", "twoangels" -> 4500
+    "withall", "scrollsfly", "weigh", "husna", "tashbih", "fromtext", "awwal", "sinkings", "yemenfire" -> 5000
+    "sendown", "lookup", "sirat", "idolnames", "qadim" -> 6000
+    "moonwalk" -> 6500
+    "answers" -> 8500
+    "sixsigns" -> 9000
     else -> 1000
 }
 
@@ -635,7 +655,7 @@ internal class ArtCtx(
 }
 
 /** Scenes that write their tags large (see ArtCtx.big). */
-internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent", "omenroad", "triptych")
+internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent", "omenroad", "triptych", "heights", "revelation", "gaze", "nameswall", "register", "unseen")
 
 // ───────────── shared helpers ─────────────
 

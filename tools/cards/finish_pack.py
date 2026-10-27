@@ -140,6 +140,16 @@ ART_KINDS = {
     "kitchen": {"pool", "pantry", "twotrays", "beaks"},
     "karyotype": {"counts", "fuse", "potato", "lineage"},
     "anatomy": {"list180", "shrinklist", "glands", "graph"},
+    # round 14: «الصفات واليوم الآخر»
+    "heights": {"above", "withall", "notmixed", "moonwalk"},
+    "revelation": {"sendown", "reciters", "memorize", "mushaf"},
+    "gaze": {"lookup", "veiled", "infer"},
+    "resurrection": {"horn", "arise", "scrollsfly", "weigh", "sirat"},
+    "nameswall": {"husna", "idolnames", "tashbih", "emptied"},
+    "register": {"fromtext", "byopinion", "qadim", "awwal"},
+    "unseen": {"known", "sealdoor", "denyknown", "claim", "onlyallah"},
+    "tensigns": {"tenring", "sixsigns", "sinkings", "yemenfire"},
+    "barzakh": {"twoangels", "threeq", "answers", "rawda", "hufra"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
