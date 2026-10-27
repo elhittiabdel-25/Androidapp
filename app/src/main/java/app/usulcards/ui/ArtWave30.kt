@@ -106,7 +106,7 @@ private fun DrawScope.allegiancePlain(a: ArtCtx) {
         }
         drawPath(cord, AllyC30.Cord, style = Stroke(2.2f * dp, cap = StrokeCap.Round))
         if (drop > 0.95f) drawOval(AllyC30.Cord, Offset(end.x - w * 0.02f, end.y - h * 0.008f), Size(w * 0.04f, h * 0.016f), alpha = 0.6f)
-        val verse = seg(nb, 0.35f, 0.6f) * (1f - easeOut(seg(lh, 0f, 0.3f)))
+        val verse = seg(nb, 0.35f, 0.6f) * (1f - easeOut(seg(ek, 0f, 0.2f)))
         fitBig26(a.big("nobond", 0, 0), Offset(w * 0.5f, h * 0.14f), w * 0.86f, Color(0xFF4A2E1A), verse)
         fitBig26(a.big("nobond", 0, 1), Offset(w * 0.5f, h * 0.26f), w * 0.7f, Color(0xFF4A2E1A), verse)
         // the line of kinship: he is his own
@@ -405,7 +405,7 @@ private object HouseC30 {
 
 private fun houseRing30(w: Float, h: Float, k: Int): Offset {
     val ang = (225f + 90f * k) * PI.toFloat() / 180f
-    return Offset(w * 0.5f + cos(ang) * w * 0.17f, h * 0.42f + sin(ang) * h * 0.2f)
+    return Offset(w * 0.5f + cos(ang) * w * 0.2f, h * 0.42f + sin(ang) * h * 0.2f)
 }
 
 private fun motherRing30(w: Float, h: Float, k: Int): Offset {
@@ -456,7 +456,7 @@ private fun DrawScope.householdField(a: ArtCtx) {
     if (edge > 0f) drawOval(HouseC30.Ring, Offset(center.x - w * 0.45f, center.y - h * 0.38f), Size(w * 0.9f, h * 0.76f), alpha = 0.5f * edge, style = Stroke(1.4f * dp, pathEffect = dash30()))
     // his light, named
     val light = easeOut(seg(ho, 0f, 0.3f))
-    sirajMunir(center, w * 0.014f, light, t, nameAt = center + Offset(0f, h * 0.09f))
+    sirajMunir(center, w * 0.014f, light, t, nameAt = center + Offset(0f, -h * 0.1f))
     // the four of his house
     val four = easeOut(seg(ho, 0.25f, 0.6f))
     for (k in 0 until 4) {
@@ -477,7 +477,7 @@ private fun DrawScope.householdField(a: ArtCtx) {
     // one of his kin who has no share in this
     val lah = easeOut(seg(nl, 0f, 0.3f))
     if (lah > 0f) {
-        val c = Offset(w * 0.9f, h * 0.9f)
+        val c = Offset(w * 0.86f, h * 0.86f)
         nameRoundel(c, w * 0.045f, a.big("notlahab"), HouseC30.Out, Color(0xFF8A8A8A), lah, ink = Color(0xFFC8C8C8))
     }
     // excess: lifting one above him is struck down

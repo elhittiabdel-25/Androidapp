@@ -136,7 +136,7 @@ private fun DrawScope.twowingsDawn(a: ArtCtx) {
     if (tw > 0f) {
         val rise = easeInOut(seg(tw, 0.2f, 0.9f))
         val c = Offset(w * 0.5f, mix(h * 0.8f, h * 0.22f, rise))
-        val s = w * 0.07f
+        val s = w * 0.085f
         val o = easeOut(seg(tw, 0f, 0.2f))
         dove31(c, s, 0, 0, t * 6f, t, o)
         if (rise > 0.95f) softGlow(c, w * 0.08f, WingC31.Gold, 0.5f)
@@ -149,16 +149,16 @@ private fun DrawScope.twowingsDawn(a: ArtCtx) {
         val up = easeOut(seg(ns, 0.1f, 0.4f))
         val down = easeIn31(seg(ns, 0.5f, 0.85f))
         val c = Offset(w * 0.26f, h * 0.8f - h * 0.2f * up + h * 0.24f * down)
-        dove31(c, w * 0.055f, 1, 0, t * 9f, t, easeOut(seg(ns, 0f, 0.15f)), tilt = -40f * down + 8f * sin(t * 7f) * up * (1f - down))
-        tagAt(a.tag("nosincere"), Offset(w * 0.12f, h * 0.42f), seg(ns, 0.3f, 0.5f), back = WingC31.Back, ink = Color(0xFFFFB0A0))
+        dove31(c, w * 0.07f, 1, 0, t * 9f, t, easeOut(seg(ns, 0f, 0.15f)), tilt = -40f * down + 8f * sin(t * 7f) * up * (1f - down))
+        tagAt(a.tag("nosincere"), Offset(w * 0.26f, h * 0.48f), seg(ns, 0.3f, 0.5f), back = WingC31.Back, ink = Color(0xFFFFB0A0))
     }
     // without following: a patchwork wing of its own making
     if (nf > 0f) {
         val up = easeOut(seg(nf, 0.1f, 0.4f))
         val down = easeIn31(seg(nf, 0.5f, 0.85f))
         val c = Offset(w * 0.74f, h * 0.8f - h * 0.2f * up + h * 0.24f * down)
-        dove31(c, w * 0.055f, 0, 2, t * 9f, t, easeOut(seg(nf, 0f, 0.15f)), tilt = 40f * down + 8f * sin(t * 7f) * up * (1f - down))
-        tagAt(a.tag("nofollow"), Offset(w * 0.88f, h * 0.42f), seg(nf, 0.3f, 0.5f), back = WingC31.Back, ink = Color(0xFFFFB0A0))
+        dove31(c, w * 0.07f, 0, 2, t * 9f, t, easeOut(seg(nf, 0f, 0.15f)), tilt = 40f * down + 8f * sin(t * 7f) * up * (1f - down))
+        tagAt(a.tag("nofollow"), Offset(w * 0.74f, h * 0.48f), seg(nf, 0.3f, 0.5f), back = WingC31.Back, ink = Color(0xFFFFB0A0))
     }
 }
 

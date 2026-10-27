@@ -5,7 +5,7 @@ never stands for people (they are figures, or names in roundels); a named prophe
 tag in a scene drawn with figures. The checks read the tags, the captions and the sentence the lantern is drawn
 in, so a new scene still needs a person's eye: a figure must stand for anyone, never for someone named.
 Cards in PENDING broke a rule before the codex and are being redrawn: their breaks are notes until then.
-Variety (reported, and errors once VARIETY_STRICT=1): a layout serves at most MAX_USES cards; two neighbouring
+Variety (errors; VARIETY_STRICT=0 turns them into notes while a batch is being drawn): a layout serves at most MAX_USES cards; two neighbouring
 cards in a path never share a layout; the lantern is drawn in at most MAX_USES cards.
 """
 import collections, os, re, unicodedata
@@ -95,4 +95,4 @@ def variety_report(cards, scenes):
     return problems, summary
 
 
-STRICT = os.environ.get("VARIETY_STRICT") == "1"
+STRICT = os.environ.get("VARIETY_STRICT", "1") != "0"   # strict since 2026-10-27, when the last redraw round cleared every break

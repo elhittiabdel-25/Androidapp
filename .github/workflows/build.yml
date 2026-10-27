@@ -27,6 +27,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # The content pack must be the one finish_pack.py writes, and it fails on any break of the visual codex or of the
+      # variety rules (a layout in more than 6 cards, two neighbours sharing one, more than 6 lanterns).
+      - name: Check the card pack (codex and variety)
+        run: |
+          python3 tools/cards/finish_pack.py
+          git diff --exit-code --stat app/src/main/assets/content/cards.json
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
