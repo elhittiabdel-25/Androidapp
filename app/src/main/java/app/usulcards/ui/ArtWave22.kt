@@ -204,6 +204,13 @@ private fun DrawScope.cosmosBeginning(a: ArtCtx) {
         tagAt(a.tag("monolith"), Offset(w * 0.5f, top - h * 0.06f), seg(mo, 0.4f, 0.6f) * (1f - seg(no, 0f, 0.3f)), back = CosC22.Back, ink = ArtInk.Ivory)
     }
     if (dark > 0f) drawRect(Color.Black, alpha = dark)
+    // in the dark, a single point waits: the beginning
+    val seed = easeOut(seg(no, 0.55f, 0.95f)) * (1f - seg(bg, 0f, 0.1f))
+    if (seed > 0f) {
+        val c = Offset(w * 0.5f, h * 0.42f)
+        softGlow(c, w * (0.03f + 0.01f * sin(t * 3f)), Color(0xFFFFE8C0), 0.7f * seed)
+        drawCircle(Color.White, w * 0.006f, c, alpha = seed)
+    }
     // the beginning: a point, a ring, galaxies, time and space with it
     if (bg > 0f) {
         val c = Offset(w * 0.5f, h * 0.42f)
@@ -217,7 +224,7 @@ private fun DrawScope.cosmosBeginning(a: ArtCtx) {
             val r = w * (0.12f + 0.06f * (k % 3)) * easeOut(seg(bg, 0.15f + k * 0.04f, 0.7f + k * 0.04f))
             galaxy22(c + Offset(cos(ang) * r * 1.6f, sin(ang) * r * 0.8f), w * 0.04f, t * 0.2f + k, easeOut(seg(bg, 0.2f + k * 0.04f, 0.6f + k * 0.04f)))
         }
-        clock22(Offset(w * 0.15f, h * 0.22f), w * 0.045f, ArtInk.BrassLight, t * 0.2f, easeOut(seg(bg, 0.45f, 0.75f)))
+        clock22(Offset(w * 0.2f, h * 0.27f), w * 0.045f, ArtInk.BrassLight, t * 0.2f, easeOut(seg(bg, 0.45f, 0.75f)))
         grid22(Offset(w * 0.5f, h * 0.86f), w * 0.9f, h * 0.18f, CosC22.Field, easeOut(seg(bg, 0.45f, 0.9f)), 0.6f)
     }
     // the three ways the universe could have come about
@@ -229,9 +236,10 @@ private fun DrawScope.cosmosBeginning(a: ArtCtx) {
             val show = easeOut(seg(p, 0f, 0.3f)).coerceAtLeast(if (k == 0 && (n2 > 0f || n3 > 0f)) 1f else if (k == 1 && n3 > 0f) 1f else 0f)
             if (show <= 0f) continue
             drawRoundRect(Color(0xFF1A2040), c + Offset(-w * 0.12f, -h * 0.05f), Size(w * 0.24f, h * 0.1f), CornerRadius(h * 0.02f), alpha = 0.9f * show)
-            tagAt(a.tag(when (k) { 0 -> "fromnothing"; 1 -> "itself"; else -> "hascreator" }), c, show, back = Color.Transparent, ink = ArtInk.Ivory)
-            if (k < 2) cross21(c, h * 0.04f, CosC22.Red, seg(p, 0.4f, 0.9f).coerceAtLeast(if ((k == 0 && n2 > 0f) || n3 > 0f) 1f else 0f), 3f * dp)
+            val tl = a.tag(when (k) { 0 -> "fromnothing"; 1 -> "itself"; else -> "hascreator" })
+            if (k < 2) struckTag21(tl, c, show, seg(p, 0.4f, 0.9f).coerceAtLeast(if ((k == 0 && n2 > 0f) || n3 > 0f) 1f else 0f), CosC22.Red, back = Color.Transparent, ink = ArtInk.Ivory)
             else {
+                tagAt(tl, c, show, back = Color.Transparent, ink = ArtInk.Ivory)
                 softGlow(c, w * 0.12f, ArtInk.Gold, 0.5f * easeOut(seg(p, 0.3f, 0.8f)))
                 check21(c + Offset(w * 0.13f, 0f), h * 0.035f, CosC22.Green, seg(p, 0.3f, 0.7f), 3f * dp)
             }
@@ -521,8 +529,7 @@ private fun DrawScope.billiardRoom(a: ArtCtx) {
             drawCircle(ArtInk.BrassLight, w * 0.005f, c + Offset(cos(k * 0.8f), sin(k * 0.8f)) * (w * 0.06f + w * 0.08f * f), alpha = 0.6f * bump(f))
         }
         val tg = c + Offset(0f, h * 0.15f)
-        tagAt(a.tag("noclock"), tg, seg(nc, 0.2f, 0.4f) * (1f - seg(et, 0f, 0.3f)), back = BilC22.Back, ink = ArtInk.Ivory)
-        cross21(tg, h * 0.03f, BilC22.Red, seg(nc, 0.55f, 0.85f), 2.5f * dp)
+        struckTag21(a.tag("noclock"), tg, seg(nc, 0.2f, 0.4f) * (1f - seg(et, 0f, 0.3f)), seg(nc, 0.55f, 0.85f), BilC22.Red, back = BilC22.Back, ink = ArtInk.Ivory)
     }
     // the ball: dropped in, rolling along the law's dotted path
     if (bt > 0f) {
@@ -742,7 +749,7 @@ private fun DrawScope.dominoesRegress(a: ArtCtx) {
         if (q > 0f) qmark21(foot + Offset(0f, -tall * 1.3f), h * 0.05f * s, ArtInk.Ivory, q * al)
     }
     // the target, untouched
-    val target = Offset(w * 0.92f, h * 0.55f)
+    val target = Offset(w * 0.86f, h * 0.55f)
     val to = easeOut(seg(so, 0f, 0.3f))
     for (k in 0 until 3) drawCircle(if (k % 2 == 0) Color(0xFFE8E0D0) else DomC22.Red, w * (0.045f - 0.014f * k), target, alpha = to)
     if (nb > 0f) {

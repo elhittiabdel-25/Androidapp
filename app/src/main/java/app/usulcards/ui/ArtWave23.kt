@@ -58,9 +58,9 @@ internal fun DrawScope.panelsScene(a: ArtCtx) {
     val h = size.height
     val shots = shotsFor(a, mapOf(
         "frames" to Shot(Offset(w * 0.5f, h * 0.5f), 1f),
-        "made" to Shot(panelC23(w, h, 0), 1.9f),
-        "orchid" to Shot(panelC23(w, h, 1), 1.9f),
-        "care" to Shot(panelC23(w, h, 2), 1.9f),
+        "made" to Shot(panelC23(w, h, 0) - Offset(0f, h * 0.04f), 1.7f),
+        "orchid" to Shot(panelC23(w, h, 1) - Offset(0f, h * 0.04f), 1.7f),
+        "care" to Shot(panelC23(w, h, 2) - Offset(0f, h * 0.04f), 1.7f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.25f) { panelsWall(a) }
 }
@@ -85,7 +85,6 @@ private fun DrawScope.panelsWall(a: ArtCtx) {
         drawRect(PanC23.Sky, tl, Size(pw, ph * 0.6f), alpha = o)
         drawRect(PanC23.Land, tl + Offset(0f, ph * 0.6f), Size(pw, ph * 0.4f), alpha = o)
         drawRect(PanC23.Frame, tl - Offset(w * 0.01f, w * 0.01f), Size(pw + w * 0.02f, ph + w * 0.02f), alpha = o, style = Stroke(w * 0.012f))
-        tagAt(a.tag("frames", 0, k), c + Offset(0f, -ph / 2 - h * 0.07f), o, back = PanC23.Back, ink = ArtInk.BrassLight)
     }
     // 1. the house that went up: something made needs a maker
     if (md > 0f) {
@@ -141,7 +140,7 @@ private fun DrawScope.panelsWall(a: ArtCtx) {
     // 3. care: rain, wheat, bread before a man
     if (ca > 0f) {
         val c = panelC23(w, h, 2)
-        val cloud = c + Offset(0f, -ph * 0.32f)
+        val cloud = c + Offset(0f, -ph * 0.2f)
         val o = easeOut(seg(ca, 0f, 0.2f))
         for (k in 0 until 3) drawCircle(PanC23.Cloud, w * (0.03f + 0.008f * (k % 2)), cloud + Offset(w * (-0.035f + 0.035f * k), 0f), alpha = o)
         val rain = seg(ca, 0.1f, 0.6f)
@@ -166,6 +165,14 @@ private fun DrawScope.panelsWall(a: ArtCtx) {
             for (k in 0 until 3) drawOval(PanC23.Bread, Offset(basket.x - w * 0.02f + k * w * 0.013f, basket.y - h * 0.02f), Size(w * 0.016f, h * 0.018f), alpha = give)
             softGlow(basket, w * 0.04f, ArtInk.Gold, 0.4f * give)
         }
+    }
+    // the names over the windows, drawn last; while the camera is on one window the others' names step aside
+    val focus = when { ca > 0f -> 2; oc > 0f -> 1; md > 0f -> 0; else -> -1 }
+    val into = when (focus) { 2 -> ca; 1 -> oc; 0 -> md; else -> 0f }
+    for (k in 0 until 3) {
+        val o = easeOut(seg(fr, k * 0.15f, 0.35f + k * 0.15f))
+        val keep = if (focus < 0 || focus == k) 1f else 1f - seg(into, 0f, 0.12f)
+        tagAt(a.tag("frames", 0, k), panelC23(w, h, k) + Offset(0f, -ph / 2 - h * 0.06f), o * keep, back = PanC23.Back, ink = ArtInk.BrassLight)
     }
 }
 
@@ -470,7 +477,15 @@ private fun DrawScope.desertWorlds(a: ArtCtx) {
             val o = easeOut(seg(fo, 0.1f, 0.4f))
             drawOval(DesC23.Plate, Offset(plate.x - w * 0.08f, plate.y - h * 0.03f), Size(w * 0.16f, h * 0.06f), alpha = o)
             drawOval(Color(0xFFD8D0C4), Offset(plate.x - w * 0.05f, plate.y - h * 0.018f), Size(w * 0.1f, h * 0.036f), alpha = o)
-            qmark21(plate + Offset(0f, -h * 0.12f), h * 0.07f, Color(0xFF5A5060), seg(fo, 0.5f, 0.75f))
+            // the cooked dish that the plenty never makes: only its dashed outline flickers over the plate
+            val want = easeOut(seg(fo, 0.25f, 0.5f)) * (0.35f + 0.65f * (0.5f + 0.5f * sin(t * 16f)) * (1f - seg(fo, 0.7f, 1f)))
+            val dash = PathEffect.dashPathEffect(floatArrayOf(4f * dp, 4f * dp))
+            drawArc(Color(0xFF7A5A3A), 180f, 180f, false, Offset(plate.x - w * 0.05f, plate.y - h * 0.07f), Size(w * 0.1f, h * 0.1f), alpha = 0.7f * want, style = Stroke(2f * dp, pathEffect = dash))
+            for (m in 0 until 3) {
+                val x = plate.x + w * (-0.025f + 0.025f * m)
+                drawPath(Path().apply { moveTo(x, plate.y - h * 0.08f); quadraticTo(x + w * 0.01f, plate.y - h * 0.1f, x, plate.y - h * 0.12f) }, Color(0xFF7A5A3A), alpha = 0.5f * want, style = Stroke(1.5f * dp, pathEffect = dash))
+            }
+            qmark21(plate + Offset(w * 0.1f, -h * 0.12f), h * 0.07f, Color(0xFF5A5060), seg(fo, 0.5f, 0.75f))
         }
         2 -> {
             drawRect(Brush.verticalGradient(listOf(Color(0xFFF2D8A8), Color(0xFFF6EAD0))))
@@ -486,8 +501,7 @@ private fun DrawScope.desertWorlds(a: ArtCtx) {
             }
             // the chip that never forms
             val c = Offset(w * 0.5f, h * 0.55f)
-            val ghost = seg(sc, 0.15f, 0.9f)
-            val flick = (0.5f + 0.5f * sin(t * 18f)) * bump(ghost)
+            val flick = easeOut(seg(sc, 0.15f, 0.4f)) * (0.35f + 0.65f * (0.5f + 0.5f * sin(t * 18f)) * (1f - seg(sc, 0.7f, 1f)))
             val dash = PathEffect.dashPathEffect(floatArrayOf(4f * dp, 4f * dp))
             drawRoundRect(DesC23.Chip, c + Offset(-w * 0.06f, -h * 0.07f), Size(w * 0.12f, h * 0.14f), CornerRadius(w * 0.006f), alpha = 0.6f * flick, style = Stroke(2f * dp, pathEffect = dash))
             for (k in 0 until 5) for (side in listOf(-1f, 1f)) drawLine(DesC23.Chip, c + Offset(side * w * 0.06f, -h * 0.05f + k * h * 0.025f), c + Offset(side * w * 0.075f, -h * 0.05f + k * h * 0.025f), 1.5f * dp, alpha = 0.6f * flick)

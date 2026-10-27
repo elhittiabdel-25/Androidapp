@@ -289,7 +289,9 @@ private fun DrawScope.planksGorge(a: ArtCtx) {
         val x = if (side < 0f) 0f else w * 0.68f
         drawPath(Path().apply {
             moveTo(x, h * 0.45f); lineTo(x + w * 0.32f, h * 0.45f)
-            lineTo(x + w * (if (side < 0f) 0.29f else 0.04f), h); lineTo(x + (if (side < 0f) 0f else w * 0.32f), h); close()
+            // the far face of each cliff slopes down into the gorge
+            if (side < 0f) { lineTo(x + w * 0.29f, h); lineTo(x, h) } else { lineTo(x + w * 0.32f, h); lineTo(x + w * 0.04f, h) }
+            close()
         }, Brush.verticalGradient(listOf(PlankC24.Rock, PlankC24.RockDark), startY = h * 0.45f, endY = h))
     }
     // the man on the near (right) edge
@@ -328,7 +330,7 @@ private fun DrawScope.planksGorge(a: ArtCtx) {
                 for (m in 0 until 3) drawLine(Color(0xFF7AC8FF), Offset(x + w * 0.01f, y + h * (0.018f + 0.017f * m)), Offset(x + w * 0.06f, y + h * (0.018f + 0.017f * m)), 1.4f * dp, alpha = lit, pathEffect = PathEffect.dashPathEffect(floatArrayOf(3f * dp, 2f * dp)))
             }
         }
-        check21(man + Offset(-w * 0.05f, -h * 0.24f), h * 0.03f, Color(0xFF3A9A6A), seg(so, 0.4f, 0.8f), 3f * dp)
+        check21(man + Offset(-w * 0.08f, -h * 0.17f), h * 0.03f, Color(0xFF3A9A6A), seg(so, 0.4f, 0.8f), 3f * dp)
     }
 }
 
@@ -377,7 +379,7 @@ private fun DrawScope.labRoom(a: ArtCtx) {
     drawRect(LabC24.Door, Offset(door.x - w * 0.08f, door.y - h * 0.5f), Size(w * 0.16f, h * 0.5f))
     drawCircle(LabC24.Gold, w * 0.007f, door + Offset(w * 0.055f, -h * 0.24f))
     tagAt(a.tag("waitdoor"), door + Offset(0f, -h * 0.56f), seg(wd, 0.1f, 0.3f) * (1f - seg(lf, 0f, 0.3f)), back = LabC24.Back, ink = ArtInk.BrassLight)
-    val man = Offset(w * 0.12f, h * 0.88f)
+    val man = Offset(w * 0.15f, h * 0.88f)
     figure(man, h * 0.24f, LabC24.Ink, easeOut(seg(wd, 0f, 0.3f)).coerceAtLeast(if (lf > 0f) 1f else 0f), arms = -0.2f * sin(t))
     if (wd > 0f) {
         for (k in 0 until 6) {

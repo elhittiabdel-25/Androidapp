@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.withTransform
+import androidx.compose.ui.text.TextLayoutResult
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.max
@@ -48,6 +49,39 @@ internal fun DrawScope.cross21(c: Offset, r: Float, color: Color, p: Float, widt
     val b = seg(p, 0.5f, 1f)
     drawLine(color, c + Offset(-r, -r), c + Offset(-r + 2 * r * a, -r + 2 * r * a), width, StrokeCap.Round)
     if (b > 0f) drawLine(color, c + Offset(r, -r), c + Offset(r - 2 * r * b, -r + 2 * r * b), width, StrokeCap.Round)
+}
+
+/**
+ * A tag struck out: the tag itself, then a red line drawn across it from its right end (the way the words are read)
+ * and a small red disc with a cross where the line ends — the words stay readable under the strike. [strike] 0..1.
+ */
+internal fun DrawScope.struckTag21(tl: TextLayoutResult?, c: Offset, alpha: Float, strike: Float, red: Color, back: Color, ink: Color) {
+    tagAt(tl, c, alpha, back = back, ink = ink)
+    if (tl == null || alpha <= 0.01f || strike <= 0f) return
+    // the same box tagAt draws (kept inside what the camera shows)
+    val padX = 6f * density
+    val padY = 2.5f * density
+    val bw = tl.size.width + 2 * padX
+    val bh = tl.size.height + 2 * padY
+    val v = Cinema.cam.visible(size.width, size.height)
+    val m = 2f * density
+    val x = (c.x - bw / 2).coerceIn(v[0] + m, max(v[0] + m, v[2] - bw - m))
+    val a = alpha.coerceIn(0f, 1f)
+    val y = (c.y - bh / 2).coerceIn(v[1] + m, max(v[1] + m, v[3] - bh - m)) + (1f - easeOut(a)) * 6f * density
+    val cy = y + bh / 2
+    val from = x + bw - padX * 0.6f
+    val to = x + padX * 0.6f
+    val f = easeOut(seg(strike, 0f, 0.75f))
+    drawLine(red, Offset(from, cy), Offset(from + (to - from) * f, cy), max(2f * density, bh * 0.09f), StrokeCap.Round, alpha = 0.9f * a)
+    val d = easeOut(seg(strike, 0.7f, 1f))
+    if (d > 0f) {
+        val r = bh * 0.32f
+        val bc = Offset(x + r * 0.2f, y + r * 0.2f)
+        drawCircle(red, r * d, bc, alpha = a)
+        val q = r * 0.45f * d
+        drawLine(Color.White, bc + Offset(-q, -q), bc + Offset(q, q), r * 0.22f, StrokeCap.Round, alpha = a)
+        drawLine(Color.White, bc + Offset(q, -q), bc + Offset(-q, q), r * 0.22f, StrokeCap.Round, alpha = a)
+    }
 }
 
 /** A check mark at [c]; [p] draws it. */
@@ -155,7 +189,7 @@ internal fun DrawScope.locksScene(a: ArtCtx) {
     val h = size.height
     val shots = shotsFor(a, mapOf(
         "volumes" to Shot(Offset(w * 0.5f, h * 0.24f), 1.5f),
-        "arch" to Shot(Offset(w * 0.8f, h * 0.62f), 1.45f),
+        "arch" to Shot(Offset(w * 0.74f, h * 0.64f), 1.35f),
         "tenlocks" to Shot(Offset(w * 0.3f, h * 0.62f), 1.35f),
         "eleventh" to Shot(Offset(w * 0.6f, h * 0.62f), 1.5f),
         "masterkey" to Shot(Offset(w * 0.45f, h * 0.6f), 1.15f),
@@ -185,8 +219,8 @@ private fun DrawScope.locksWall(a: ArtCtx) {
     if (vo > 0.7f) glint(Offset(w * 0.57f, h * 0.17f), w * 0.03f, Color.White, bump(seg(vo, 0.7f, 1f)))
     // the arch: loose bricks that fly in and set
     if (ar > 0f) {
-        val c = Offset(w * 0.8f, h * 0.82f)
-        val r = w * 0.11f
+        val c = Offset(w * 0.78f, h * 0.8f)
+        val r = w * 0.1f
         val n = 9
         for (k in 0 until n) {
             val ang = PI.toFloat() * (1f - k / (n - 1f))
@@ -361,7 +395,7 @@ private fun DrawScope.roadsYaqin(a: ArtCtx, dawn: Offset) {
     val rib = easeOut(seg(wi, 0.5f, 0.75f))
     if (rib > 0f) {
         drawLine(Color(0xFF2E7A56), book + Offset(0f, h * 0.02f), book + Offset(w * 0.005f, h * 0.02f + h * 0.08f * rib), w * 0.006f, StrokeCap.Round)
-        tagAt(a.tag("wird"), book + Offset(-w * 0.1f, h * 0.12f), seg(wi, 0.6f, 0.8f), back = RoadC21.Back, ink = ArtInk.BrassLight)
+        tagAt(a.tag("wird"), book + Offset(-w * 0.1f, h * 0.12f), seg(wi, 0.6f, 0.8f) * (1f - seg(tf, 0f, 0.25f)), back = RoadC21.Back, ink = ArtInk.BrassLight)
     }
     // the tafsir, then next year's tafsir
     for ((k, p) in listOf(tf, ny).withIndex()) {
@@ -375,7 +409,7 @@ private fun DrawScope.roadsYaqin(a: ArtCtx, dawn: Offset) {
             if (f > dot) break
             drawCircle(ArtInk.Brass, w * 0.0025f, book + Offset(w * 0.03f, h * 0.025f) + (c - book - Offset(w * 0.03f, 0f)) * f)
         }
-        tagAt(a.tag(if (k == 0) "tafsir" else "nextyear"), c + Offset(0f, h * 0.1f), seg(p, 0.35f, 0.6f), back = RoadC21.Back, ink = ArtInk.BrassLight)
+        tagAt(a.tag(if (k == 0) "tafsir" else "nextyear"), c + Offset(0f, h * 0.1f), seg(p, 0.35f, 0.6f) * (1f - seg(if (k == 0) ny else st, 0f, 0.25f)), back = RoadC21.Back, ink = ArtInk.BrassLight)
     }
     if (ny > 0f) {
         // a calendar leaf turning over
@@ -516,10 +550,10 @@ internal fun DrawScope.forkScene(a: ArtCtx) {
     val h = size.height
     val shots = shotsFor(a, mapOf(
         "deny5" to Shot(Offset(w * 0.5f, h * 0.45f), 1.25f),
-        "atheist" to Shot(Offset(forkSpot21(w, h, 0).x - w * 0.05f, h * 0.65f), 1.6f),
+        "atheist" to Shot(Offset(forkSpot21(w, h, 0).x - w * 0.05f, h * 0.6f), 1.4f),
         "deist" to Shot(Offset(forkSpot21(w, h, 1).x, h * 0.55f), 1.4f),
-        "agnostic" to Shot(Offset(forkSpot21(w, h, 2).x, h * 0.66f), 1.6f),
-        "indifferent" to Shot(Offset(forkSpot21(w, h, 3).x + w * 0.04f, h * 0.68f), 1.6f),
+        "agnostic" to Shot(Offset(forkSpot21(w, h, 2).x, h * 0.6f), 1.4f),
+        "indifferent" to Shot(Offset(forkSpot21(w, h, 3).x + w * 0.04f, h * 0.62f), 1.4f),
         "allfour" to Shot(Offset(w * 0.5f, h * 0.6f), 1f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.55f), 1f), dim = 0.16f) { forkPlain(a) }
@@ -560,9 +594,8 @@ private fun DrawScope.forkPlain(a: ArtCtx) {
             val side = if (k % 2 == 0) -1f else 1f
             val c = Offset(post.x + side * w * 0.07f, y)
             drawRoundRect(ForkC21.Plaque, c + Offset(-w * 0.065f, -h * 0.028f), Size(w * 0.13f, h * 0.056f), CornerRadius(h * 0.01f), alpha = ps)
-            tagAt(a.tag("deny5", 0, k), c, ps, back = Color.Transparent, ink = Color(0xFF2A2018))
-            val x = seg(dn, 0.2f + k * 0.14f, 0.3f + k * 0.14f)
-            cross21(c, h * 0.025f, ForkC21.Red, x, 2.4f * dp)
+            val x = seg(dn, 0.2f + k * 0.14f, 0.3f + k * 0.14f).coerceAtLeast(if (at > 0f || de > 0f) 1f else 0f)
+            struckTag21(a.tag("deny5", 0, k), c, ps, x, ForkC21.Red, back = Color.Transparent, ink = Color(0xFF2A2018))
         }
     }
     val tall = h * 0.2f
@@ -658,7 +691,7 @@ internal fun DrawScope.centuriesScene(a: ArtCtx) {
             "ages" -> Shot(Offset(mix(w * 0.75f, w * 0.3f, pan), h * 0.58f), 1.45f)
             "twist" -> Shot(Offset(w * 0.3f, h * 0.5f), 1.6f)
             "trustlost" -> Shot(Offset(w * 0.28f, h * 0.58f), 1.4f)
-            "thinkers" -> Shot(Offset(w * 0.18f, h * 0.45f), 1.6f)
+            "thinkers" -> Shot(Offset(w * 0.27f, h * 0.4f), 1.5f)
             "newcoat" -> Shot(Offset(w * 0.12f, h * 0.55f), 1.6f)
             else -> null
         }
@@ -749,7 +782,11 @@ private fun DrawScope.centuriesRiver(a: ArtCtx) {
             val f = easeOut(seg(th, 0.1f + k * 0.2f, 0.3f + k * 0.2f))
             val c = lect + Offset(w * (-0.04f + 0.04f * k), -h * 0.06f)
             spine21(c, w * 0.032f, h * 0.13f, cols[k], 1, f)
-            tagAt(a.tag("thinkers", 0, k), c + Offset(0f, -h * (0.13f + 0.045f * k)), seg(th, 0.15f + k * 0.2f, 0.3f + k * 0.2f), back = CentC21.Back, ink = ArtInk.Ivory)
+            // the names in a column beside the lectern, each tied to its book by a fine line
+            val ta = seg(th, 0.15f + k * 0.2f, 0.3f + k * 0.2f) * (1f - seg(nc, 0f, 0.3f))
+            val tp = Offset(w * 0.4f, h * (0.21f + 0.12f * k))
+            drawLine(CentC21.Smoke, c + Offset(w * 0.016f, -h * 0.03f), tp + Offset(-w * 0.07f, 0f), 1f * dp, alpha = 0.7f * ta)
+            tagAt(a.tag("thinkers", 0, k), tp, ta, back = CentC21.Back, ink = ArtInk.Ivory)
             for (m in 0 until 3) {
                 val ff = fract(t * 0.4f + m / 3f + k * 0.2f)
                 drawCircle(CentC21.Smoke, w * (0.006f + 0.01f * ff), c + Offset(sin(ff * 6f + k) * w * 0.01f, -h * 0.08f - ff * h * 0.12f), alpha = 0.35f * f * (1f - ff))

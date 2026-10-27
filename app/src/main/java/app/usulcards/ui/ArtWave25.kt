@@ -101,12 +101,12 @@ private fun DrawScope.kunafaLand(a: ArtCtx) {
     if (er > 0f) {
         val fade = 1f - 0.6f * easeOut(seg(me, 0f, 0.3f))
         for (k in 0 until 5) {
-            val c = Offset(w * (0.85f - 0.175f * k), h * 0.28f)
+            val c = Offset(w * (0.82f - 0.16f * k), h * 0.28f)
             val f = easeOut(seg(er, k * 0.12f, 0.2f + k * 0.12f))
             eyeStage25(c, w * 0.04f, k, f * fade)
             if (k < 4) {
                 val ar = seg(er, 0.15f + k * 0.12f, 0.3f + k * 0.12f)
-                drawLine(KunC25.Ink, c + Offset(-w * 0.055f, 0f), c + Offset(-w * 0.055f - w * 0.06f * ar, 0f), 1.4f * dp, alpha = fade, pathEffect = PathEffect.dashPathEffect(floatArrayOf(4f * dp, 3f * dp)))
+                drawLine(KunC25.Ink, c + Offset(-w * 0.05f, 0f), c + Offset(-w * 0.05f - w * 0.06f * ar, 0f), 1.4f * dp, alpha = fade, pathEffect = PathEffect.dashPathEffect(floatArrayOf(4f * dp, 3f * dp)))
             }
         }
     }
@@ -121,7 +121,7 @@ private fun DrawScope.kunafaLand(a: ArtCtx) {
             drawCircle(KunC25.Rock, w * 0.012f, p)
             softGlow(p, w * 0.03f, KunC25.Lava, 0.7f)
         }
-        val cloud = bump(seg(me, 0.3f, 1.3f)).coerceAtLeast(if (me >= 1f) 0.4f else 0f)
+        val cloud = (if (me >= 1f) 0.8f else bump(seg(me, 0.3f, 1.3f))) * (1f - easeOut(seg(ra, 0f, 0.35f)))
         for (k in 0 until 8) {
             val ang = k * 0.8f
             drawCircle(KunC25.Flour, w * (0.02f + 0.01f * (k % 3)), strike + Offset(cos(ang) * w * 0.05f * seg(me, 0.3f, 0.8f), -h * 0.04f - sin(ang).let { it * it } * h * 0.05f), alpha = 0.7f * cloud)
@@ -131,7 +131,12 @@ private fun DrawScope.kunafaLand(a: ArtCtx) {
     val heap = easeOut(seg(me, 0.5f, 0.9f)).coerceAtLeast(if (ra > 0f) 1f else 0f)
     if (heap > 0f) {
         val dough = easeOut(seg(ra, 0.3f, 0.9f))
-        drawOval(lerpColor(KunC25.Flour, KunC25.Dough, dough), Offset(strike.x - w * 0.05f, strike.y - h * 0.035f), Size(w * 0.1f, h * 0.06f), alpha = heap)
+        drawOval(lerpColor(KunC25.Flour, KunC25.Dough, dough), Offset(strike.x - w * 0.05f, strike.y - h * 0.035f - h * 0.015f * dough), Size(w * 0.1f, h * 0.06f + h * 0.015f * dough), alpha = heap)
+        if (dough > 0f) {
+            // a kneaded lump: a fold and a sheen
+            drawArc(Color(0xFFB8925A), 200f, 140f, false, Offset(strike.x - w * 0.03f, strike.y - h * 0.035f), Size(w * 0.06f, h * 0.04f), alpha = heap * dough, style = Stroke(1.6f * dp, cap = StrokeCap.Round))
+            drawOval(Color.White, Offset(strike.x - w * 0.03f, strike.y - h * 0.04f), Size(w * 0.025f, h * 0.012f), alpha = 0.5f * heap * dough)
+        }
         if (ra in 0.01f..0.8f) for (k in 0 until 12) {
             val f = fract(t * 1.8f + k * 0.11f)
             val x = strike.x + w * (-0.06f + 0.011f * k)
@@ -222,7 +227,7 @@ private fun DrawScope.sieveRoom(a: ArtCtx) {
     val oc = a.b("othercause")
     drawRect(Brush.verticalGradient(listOf(Color(0xFF3A4A44), SieveC25.Board)))
     // the quoted card
-    val cardA = easeOut(seg(qc, 0f, 0.3f)) * (1f - 0.7f * easeOut(seg(lp, 0f, 0.3f)))
+    val cardA = easeOut(seg(qc, 0f, 0.3f)) * (1f - easeOut(seg(lp, 0f, 0.3f)))
     if (cardA > 0f) {
         val c = Offset(w * 0.5f, h * 0.4f)
         drawRoundRect(SieveC25.Card, c + Offset(-w * 0.17f, -h * 0.16f), Size(w * 0.34f, h * 0.32f), CornerRadius(w * 0.006f), alpha = cardA)
@@ -231,8 +236,8 @@ private fun DrawScope.sieveRoom(a: ArtCtx) {
         tagAt(a.tag("quotecard"), c + Offset(0f, -h * 0.09f), cardA, back = Color.Transparent, ink = Color(0xFF2A2430))
     }
     // the sieve and the circle of arrows
-    if (lp > 0f) {
-        val o = easeOut(seg(lp, 0f, 0.3f))
+    if (lp > 0f && oc < 0.3f) {
+        val o = easeOut(seg(lp, 0f, 0.3f)) * (1f - easeOut(seg(oc, 0f, 0.3f)))
         val s = Offset(w * 0.38f, h * 0.45f)
         drawOval(SieveC25.Sieve, Offset(s.x - w * 0.14f, s.y - h * 0.04f), Size(w * 0.28f, h * 0.08f), alpha = o, style = Stroke(4f * dp))
         for (k in 0 until 9) drawLine(SieveC25.Mesh, Offset(s.x - w * 0.12f + k * w * 0.03f, s.y - h * 0.03f), Offset(s.x - w * 0.12f + k * w * 0.03f, s.y + h * 0.03f), 1f * dp, alpha = o)
@@ -259,7 +264,6 @@ private fun DrawScope.sieveRoom(a: ArtCtx) {
     if (oc > 0f) {
         val c = Offset(w * 0.5f, h * 0.62f)
         val o = easeOut(seg(oc, 0f, 0.3f))
-        drawRect(SieveC25.Board, alpha = 0.6f * o)
         critter25(c, w * 0.035f, SieveC25.Critter, o)
         val causes = listOf(Offset(-w * 0.2f, -h * 0.18f), Offset(0f, -h * 0.3f), Offset(w * 0.2f, -h * 0.18f))
         for ((k, d) in causes.withIndex()) {
@@ -339,24 +343,33 @@ private fun DrawScope.kitchenRoom(a: ArtCtx) {
         drawRect(KitC25.Counter, Offset(w * 0.08f, top), Size(w * 0.84f, h * 0.34f), alpha = kit)
         drawRect(KitC25.Top, Offset(w * 0.06f, top - h * 0.02f), Size(w * 0.88f, h * 0.025f), alpha = kit)
         val items = seg(pa, 0f, 0.9f)
-        // flour sack
+        // flour sack, tied at the neck
         val s0 = easeOut(seg(items, 0f, 0.25f))
-        drawRoundRect(Color(0xFFF2EEE4), Offset(w * 0.14f, top - h * 0.16f), Size(w * 0.08f, h * 0.14f), CornerRadius(w * 0.02f), alpha = kit * s0)
+        drawRoundRect(Color(0xFFF2EEE4), Offset(w * 0.18f, top - h * 0.15f), Size(w * 0.08f, h * 0.13f), CornerRadius(w * 0.02f), alpha = kit * s0)
+        drawRoundRect(Color(0xFFB8A888), Offset(w * 0.18f, top - h * 0.15f), Size(w * 0.08f, h * 0.13f), CornerRadius(w * 0.02f), alpha = kit * s0, style = Stroke(1.2f * dp))
+        drawPath(Path().apply { moveTo(w * 0.2f, top - h * 0.15f); lineTo(w * 0.22f, top - h * 0.19f); lineTo(w * 0.24f, top - h * 0.15f); close() }, Color(0xFFE6E0D2), alpha = kit * s0)
+        drawLine(Color(0xFF8A6A48), Offset(w * 0.2f, top - h * 0.15f), Offset(w * 0.24f, top - h * 0.15f), 2f * dp, alpha = kit * s0)
         // sugar jar
         val s1 = easeOut(seg(items, 0.25f, 0.5f))
-        drawRoundRect(Color(0xFFDDEAF4), Offset(w * 0.26f, top - h * 0.13f), Size(w * 0.06f, h * 0.11f), CornerRadius(w * 0.008f), alpha = kit * s1)
-        drawRect(Color.White, Offset(w * 0.265f, top - h * 0.07f), Size(w * 0.05f, h * 0.045f), alpha = kit * s1)
+        drawRoundRect(Color(0xFFDDEAF4), Offset(w * 0.3f, top - h * 0.13f), Size(w * 0.06f, h * 0.11f), CornerRadius(w * 0.008f), alpha = kit * s1)
+        drawRect(Color.White, Offset(w * 0.305f, top - h * 0.07f), Size(w * 0.05f, h * 0.045f), alpha = kit * s1)
+        drawRoundRect(Color(0xFF8AA0B8), Offset(w * 0.3f, top - h * 0.13f), Size(w * 0.06f, h * 0.11f), CornerRadius(w * 0.008f), alpha = kit * s1, style = Stroke(1.2f * dp))
         // oil bottle
         val s2 = easeOut(seg(items, 0.5f, 0.75f))
-        drawRoundRect(Color(0xFFE8C84A), Offset(w * 0.36f, top - h * 0.15f), Size(w * 0.035f, h * 0.13f), CornerRadius(w * 0.008f), alpha = 0.85f * kit * s2)
-        // eggs
+        drawRoundRect(Color(0xFFE8C84A), Offset(w * 0.39f, top - h * 0.15f), Size(w * 0.035f, h * 0.13f), CornerRadius(w * 0.008f), alpha = 0.85f * kit * s2)
+        drawRect(Color(0xFF8A6A2A), Offset(w * 0.4f, top - h * 0.17f), Size(w * 0.015f, h * 0.025f), alpha = kit * s2)
+        // three brown eggs
         val s3 = easeOut(seg(items, 0.75f, 1f))
-        for (k in 0 until 3) drawOval(Color(0xFFF4E8D4), Offset(w * (0.43f + 0.03f * k), top - h * 0.05f), Size(w * 0.025f, h * 0.035f), alpha = kit * s3)
+        for (k in 0 until 3) {
+            val eo = Offset(w * (0.46f + 0.032f * k), top - h * 0.05f)
+            drawOval(Color(0xFFE2BC8E), eo, Size(w * 0.026f, h * 0.038f), alpha = kit * s3)
+            drawOval(Color(0xFF9A7A52), eo, Size(w * 0.026f, h * 0.038f), alpha = kit * s3, style = Stroke(1f * dp))
+        }
         // the two trays from the same things
         if (tt > 0f) {
             for (k in 0 until 2) {
                 val f = easeOut(seg(tt, 0.1f + k * 0.35f, 0.45f + k * 0.35f))
-                val c = Offset(w * (0.64f + 0.15f * k), top - h * 0.04f)
+                val c = Offset(w * (0.66f + 0.14f * k), top - h * 0.04f)
                 drawOval(Color(0xFF9A9AA4), Offset(c.x - w * 0.065f, c.y - h * 0.02f), Size(w * 0.13f, h * 0.04f), alpha = kit * f)
                 if (k == 0) {
                     drawRoundRect(Color(0xFFC88A4A), Offset(c.x - w * 0.05f, c.y - h * 0.08f), Size(w * 0.1f, h * 0.07f), CornerRadius(w * 0.015f), alpha = kit * f)
@@ -506,8 +519,10 @@ private fun DrawScope.karyotypeDesk(a: ArtCtx) {
         }
         // equal signs joining like counts
         val eq = seg(pt, 0.75f, 1f) * cards
-        drawLine(ArtInk.BrassLight, Offset(w * 0.7f, y - h * 0.2f), Offset(w * 0.78f, y - h * 0.2f), 2f * dp, alpha = eq)
-        drawLine(ArtInk.BrassLight, Offset(w * 0.22f, y - h * 0.2f), Offset(w * 0.3f, y - h * 0.2f), 2f * dp, alpha = eq)
+        // an equals sign in each gap between like counts
+        for (gx in listOf(w * 0.26f, w * 0.74f)) for (dy in listOf(-1f, 1f)) {
+            drawLine(ArtInk.BrassLight, Offset(gx - w * 0.022f, y + dy * h * 0.014f), Offset(gx + w * 0.022f, y + dy * h * 0.014f), 3f * dp, StrokeCap.Round, alpha = eq)
+        }
     }
     // the other story: one family line
     if (lin > 0f) {
