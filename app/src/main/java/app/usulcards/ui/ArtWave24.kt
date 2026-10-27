@@ -283,7 +283,7 @@ private fun DrawScope.planksGorge(a: ArtCtx) {
     val so = a.b("solid")
     val ib = a.b("infoblocks")
     drawRect(Brush.verticalGradient(listOf(PlankC24.Sky, PlankC24.SkyLow)))
-    drawRect(Brush.verticalGradient(listOf(Color(0xFF3A3028), Color(0xFF0E0A08)), startY = h * 0.45f, endY = h), Offset(w * 0.3f, h * 0.45f), Size(w * 0.4f, h * 0.55f))
+    drawRect(Brush.verticalGradient(listOf(Color(0xFF3A3028), Color(0xFF0E0A08)), startY = h * 0.45f, endY = h), Offset(w * 0.28f, h * 0.45f), Size(w * 0.44f, h * 0.55f))
     // the two cliffs
     for (side in listOf(-1f, 1f)) {
         val x = if (side < 0f) 0f else w * 0.68f

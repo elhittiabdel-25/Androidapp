@@ -192,7 +192,7 @@ private fun DrawScope.cosmosBeginning(a: ArtCtx) {
         val stone = Path().apply {
             moveTo(w * 0.42f, h * 0.78f); lineTo(w * 0.44f, top + h * 0.05f); lineTo(w * 0.5f, top); lineTo(w * 0.56f, top + h * 0.04f); lineTo(w * 0.58f, h * 0.78f); close()
         }
-        drawPath(stone, Brush.horizontalGradient(listOf(CosC22.StoneDark, CosC22.Stone, CosC22.StoneDark), w * 0.42f, w * 0.58f), alpha = before)
+        if (rise > 0.02f) drawPath(stone, Brush.horizontalGradient(listOf(CosC22.StoneDark, CosC22.Stone, CosC22.StoneDark), w * 0.42f, w * 0.58f), alpha = before * seg(rise, 0.02f, 0.15f))
         if (crack > 0f) {
             drawLine(Color.Black, Offset(w * 0.5f, top + h * 0.02f), Offset(w * 0.49f, top + h * 0.25f * crack), 2f * dp, alpha = before)
             drawLine(Color.Black, Offset(w * 0.49f, top + h * 0.15f), Offset(w * 0.53f, top + h * 0.35f * crack), 1.5f * dp, alpha = before)

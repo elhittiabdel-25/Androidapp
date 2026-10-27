@@ -478,12 +478,12 @@ private fun DrawScope.desertWorlds(a: ArtCtx) {
             drawOval(DesC23.Plate, Offset(plate.x - w * 0.08f, plate.y - h * 0.03f), Size(w * 0.16f, h * 0.06f), alpha = o)
             drawOval(Color(0xFFD8D0C4), Offset(plate.x - w * 0.05f, plate.y - h * 0.018f), Size(w * 0.1f, h * 0.036f), alpha = o)
             // the cooked dish that the plenty never makes: only its dashed outline flickers over the plate
-            val want = easeOut(seg(fo, 0.25f, 0.5f)) * (0.35f + 0.65f * (0.5f + 0.5f * sin(t * 16f)) * (1f - seg(fo, 0.7f, 1f)))
+            val want = easeOut(seg(fo, 0.25f, 0.5f)) * (0.6f + 0.4f * (0.5f + 0.5f * sin(t * 16f)) * (1f - seg(fo, 0.7f, 1f)))
             val dash = PathEffect.dashPathEffect(floatArrayOf(4f * dp, 4f * dp))
-            drawArc(Color(0xFF7A5A3A), 180f, 180f, false, Offset(plate.x - w * 0.05f, plate.y - h * 0.07f), Size(w * 0.1f, h * 0.1f), alpha = 0.7f * want, style = Stroke(2f * dp, pathEffect = dash))
+            drawArc(Color(0xFF4A3A2A), 180f, 180f, false, Offset(plate.x - w * 0.05f, plate.y - h * 0.07f), Size(w * 0.1f, h * 0.1f), alpha = 0.7f * want, style = Stroke(2f * dp, pathEffect = dash))
             for (m in 0 until 3) {
                 val x = plate.x + w * (-0.025f + 0.025f * m)
-                drawPath(Path().apply { moveTo(x, plate.y - h * 0.08f); quadraticTo(x + w * 0.01f, plate.y - h * 0.1f, x, plate.y - h * 0.12f) }, Color(0xFF7A5A3A), alpha = 0.5f * want, style = Stroke(1.5f * dp, pathEffect = dash))
+                drawPath(Path().apply { moveTo(x, plate.y - h * 0.08f); quadraticTo(x + w * 0.01f, plate.y - h * 0.1f, x, plate.y - h * 0.12f) }, Color(0xFF4A3A2A), alpha = 0.6f * want, style = Stroke(1.5f * dp, pathEffect = dash))
             }
             qmark21(plate + Offset(w * 0.1f, -h * 0.12f), h * 0.07f, Color(0xFF5A5060), seg(fo, 0.5f, 0.75f))
         }
