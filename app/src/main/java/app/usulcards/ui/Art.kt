@@ -243,6 +243,26 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "mankind" -> mankindScene(a)
         "obey4" -> obey4Scene(a)
         "triptych" -> triptychScene(a)
+        "locks" -> locksScene(a)
+        "roads" -> roadsScene(a)
+        "fork" -> forkScene(a)
+        "centuries" -> centuriesScene(a)
+        "cosmos" -> cosmosScene(a)
+        "billiard" -> billiardScene(a)
+        "dominoes" -> dominoesScene(a)
+        "panels" -> panelsScene(a)
+        "forge" -> forgeScene(a)
+        "scales" -> scalesScene(a)
+        "desert" -> desertScene(a)
+        "cell" -> cellScene(a)
+        "planks" -> planksScene(a)
+        "lab" -> labScene(a)
+        "screen" -> screenScene(a)
+        "kunafa" -> kunafaScene(a)
+        "sieve" -> sieveScene(a)
+        "kitchen" -> kitchenScene(a)
+        "karyotype" -> karyotypeScene(a)
+        "anatomy" -> anatomyScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -535,6 +555,19 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "ulopp" -> 1800
     "asma" -> 7000
     "asmopp" -> 2200
+    // «بصائر»، الجزء الأول
+    "itself" -> 1200
+    "whence" -> 1500
+    "atheist", "fromnothing" -> 1800
+    "tworoads", "noproduce" -> 2000
+    "tenlocks" -> 2200
+    "masterkey", "sincere", "allfour", "hascreator", "twoboxes", "cooling", "nobullet", "notmade" -> 2500
+    "volumes", "arch", "eleventh", "tafsir", "nextyear", "indifferent", "trustlost", "nothingness", "emptytable", "whomade", "solid", "rainmix", "fuse" -> 3000
+    "deist", "agnostic", "newcoat", "dice", "nodice", "energyfloor", "zerosum", "deadborn", "fuzzy", "steady", "regress", "frames", "balance", "nomatter", "inject", "insideonly", "quotecard", "counts", "list180" -> 3500
+    "calmheart", "ages", "thinkers", "monolith", "bubblestart", "notempty", "sealedbox", "insidebox", "formula", "noclock", "balltrace", "civ", "orchid", "care", "tiny", "forest", "sandchip", "gapsbridge", "meteor", "lavabake", "pantry", "twotrays", "potato" -> 4000
+    "wird", "twist", "bang", "blurorder", "made", "thrift", "planets", "readout", "infoblocks", "labfail", "prize", "target", "designer", "eyerow", "othercause", "pool", "glands", "graph" -> 4500
+    "deny5", "bubbles", "pairs", "domino", "soldiers", "vast", "forgeiron", "trust", "letters", "helix", "livecell", "chasm", "waitdoor", "scramble", "baker", "loop", "beaks", "lineage", "shrinklist" -> 5000
+    "race", "steps3", "satchel" -> 6000
     else -> 1000
 }
 

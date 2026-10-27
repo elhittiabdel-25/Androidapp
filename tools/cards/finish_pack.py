@@ -118,6 +118,28 @@ ART_KINDS = {
     "mankind": {"created", "worshiponly", "sent", "obeyed", "disobeyed"},
     "obey4": {"guide4", "obeycmd", "believe", "avoid", "asshown"},
     "triptych": {"rububiyya", "rubopp", "uluhiyya", "ulopp", "asma", "asmopp"},
+    # the books section: «بصائر»، الجزء الأول
+    "locks": {"volumes", "arch", "tenlocks", "eleventh", "masterkey"},
+    "roads": {"tworoads", "wird", "tafsir", "nextyear", "calmheart", "race", "sincere", "steps3", "satchel"},
+    "fork": {"deny5", "atheist", "deist", "agnostic", "indifferent", "allfour"},
+    "centuries": {"ages", "twist", "trustlost", "thinkers", "newcoat"},
+    "cosmos": {"monolith", "nothingness", "bang", "fromnothing", "itself", "hascreator", "bubbles", "bubblestart", "dice",
+               "nodice", "twoboxes", "notempty", "energyfloor", "pairs", "sealedbox", "insidebox", "zerosum", "cooling", "deadborn"},
+    "billiard": {"formula", "noclock", "emptytable", "balltrace", "noproduce"},
+    "dominoes": {"domino", "blurorder", "fuzzy", "steady", "civ", "whomade", "regress", "soldiers", "nobullet"},
+    "panels": {"frames", "made", "orchid", "care"},
+    "forge": {"thrift", "vast", "forgeiron"},
+    "scales": {"tiny", "balance", "trust"},
+    "desert": {"planets", "forest", "sandchip", "letters"},
+    "cell": {"helix", "readout", "nomatter", "whence", "livecell", "inject", "insideonly", "notmade"},
+    "planks": {"chasm", "gapsbridge", "solid", "infoblocks"},
+    "lab": {"waitdoor", "labfail", "prize"},
+    "screen": {"scramble", "target", "designer"},
+    "kunafa": {"eyerow", "meteor", "rainmix", "lavabake", "baker"},
+    "sieve": {"quotecard", "loop", "othercause"},
+    "kitchen": {"pool", "pantry", "twotrays", "beaks"},
+    "karyotype": {"counts", "fuse", "potato", "lineage"},
+    "anatomy": {"list180", "shrinklist", "glands", "graph"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

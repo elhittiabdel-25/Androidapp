@@ -411,7 +411,7 @@ fun NewBooksCallout(book: ShelfBook, onOpen: () -> Unit, onClose: () -> Unit, mo
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text("جديد: قسم الكتب", fontFamily = Fonts.ui, fontWeight = FontWeight.SemiBold, fontSize = 15.sp, color = gold)
                 Text(
-                    "أول كتبه «${book.title}» لـ${book.author}، في بطاقات مرتبة حسب أجزائه.",
+                    "أول كتبه «${book.title}»، تأليف ${book.author}، في بطاقات مرتبة حسب أجزائه.",
                     fontFamily = Fonts.ui, fontSize = 12.sp, lineHeight = 19.sp, color = pal.ink,
                 )
             }
