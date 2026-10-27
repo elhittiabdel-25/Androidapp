@@ -1,8 +1,4 @@
-iman-pillars
-deen-levels
-asma-sifat
-iman-increase
-qadar
-iman-musamma
-iman-tafadul
-malaika
+hijra
+dalail-nubuwwa
+khatm-nubuwwa
+isra-miraj

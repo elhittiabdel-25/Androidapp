@@ -287,6 +287,10 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "wholeman" -> wholemanScene(a)
         "heartlights" -> heartlightsScene(a)
         "threelives" -> threelivesScene(a)
+        "twolands" -> twolandsScene(a)
+        "proofscroll" -> proofscrollScene(a)
+        "lastbrick" -> lastbrickScene(a)
+        "nightjourney" -> nightjourneyScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -641,6 +645,18 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "samelight" -> 7750
     "branchout", "enter", "threeparts" -> 8500
     "stillfaith", "nodeeds", "ranks" -> 9000
+    // round 17: «معرفة النبي ﷺ»
+    "lotetop" -> 2250
+    "sealofall", "palacegap" -> 3500
+    "crossover", "lastone" -> 4750
+    "neverclosed", "excused" -> 5500
+    "ledprayer" -> 6250
+    "liars", "nightride" -> 7000
+    "reproach" -> 7750
+    "fewtomany" -> 8000
+    "saferider" -> 8250
+    "toall" -> 8750
+    "refusegold", "trusted", "sevenheavens", "fiftytofive" -> 9000
     else -> 1000
 }
 
@@ -708,7 +724,7 @@ internal class ArtCtx(
 }
 
 /** Scenes that write their tags large (see ArtCtx.big). */
-internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent", "omenroad", "triptych", "heights", "revelation", "gaze", "nameswall", "register", "unseen", "fourrules", "twoseals", "storm", "sixroots", "verseguard", "decree", "threelives")
+internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent", "omenroad", "triptych", "heights", "revelation", "gaze", "nameswall", "register", "unseen", "fourrules", "twoseals", "storm", "sixroots", "verseguard", "decree", "threelives", "twolands", "proofscroll")
 
 // ───────────── shared helpers ─────────────
 

@@ -167,6 +167,11 @@ ART_KINDS = {
     "wholeman": {"threeparts", "nodeeds", "tongueonly", "heartonly"},
     "heartlights": {"samelight", "unequal", "brightthree", "dimtwo", "burnaway"},
     "threelives": {"ranks", "jibril", "mikail", "israfil", "scribes"},
+    # round 17: «معرفة النبي ﷺ»
+    "twolands": {"crossover", "neverclosed", "excused"},
+    "proofscroll": {"refusegold", "trusted", "fewtomany", "reproach", "saferider"},
+    "lastbrick": {"sealofall", "liars", "palacegap", "lastone", "toall"},
+    "nightjourney": {"nightride", "ledprayer", "sevenheavens", "lotetop", "fiftytofive"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
