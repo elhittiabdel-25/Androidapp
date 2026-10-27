@@ -272,6 +272,13 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "unseen" -> unseenScene(a)
         "tensigns" -> tensignsScene(a)
         "barzakh" -> barzakhScene(a)
+        "fourrules" -> fourrulesScene(a)
+        "anwat" -> anwatScene(a)
+        "offering" -> offeringScene(a)
+        "storm" -> stormScene(a)
+        "twoseals" -> twosealsScene(a)
+        "plaingrave" -> plaingraveScene(a)
+        "footsteps" -> footstepsScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -588,6 +595,27 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "moonwalk" -> 6500
     "answers" -> 8500
     "sixsigns" -> 9000
+    // round 15: «الشرك ووسائله»
+    "refugeonly", "refused" -> 1800
+    "shrinecall", "permit" -> 2000
+    "pleased" -> 2250
+    "takbirsunan", "featherpair" -> 2500
+    "vowbreak", "nofeast" -> 3000
+    "bowidols" -> 3250
+    "sunanpath" -> 3750
+    "noidol", "joinpagans" -> 4000
+    "lotetree", "cursed" -> 4500
+    "twopaths" -> 4750
+    "rulethree", "vowkeep", "sealedgate" -> 5000
+    "oldprints" -> 5250
+    "rulefour", "ikhlasopen" -> 5500
+    "duasea" -> 5750
+    "ruletwo", "firmgroup" -> 6000
+    "ruleone" -> 6750
+    "askanwat" -> 7000
+    "nodome" -> 7250
+    "rulebook" -> 7750
+    "livinghelp" -> 9000
     else -> 1000
 }
 

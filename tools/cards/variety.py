@@ -21,14 +21,15 @@ FIGURE_LAYOUTS = {"verdict", "crowd", "deeds", "gifts", "camp", "study", "canyon
                   "shelfshop", "plaza", "stall", "tent", "stage", "eden", "casket", "threads", "carpet", "globe", "plain", "river", "milla", "booth", "omenroad", "pitroad", "mankind", "obey4", "triptych",
                   "roads", "fork", "centuries", "dominoes", "panels", "forge", "scales", "lab", "screen", "kunafa",
                   "kitchen", "karyotype", "anatomy", "planks",
-                  "heights", "revelation", "gaze", "resurrection", "register", "unseen", "barzakh", "nameswall"}   # scenes drawn with faceless figures
+                  "heights", "revelation", "gaze", "resurrection", "register", "unseen", "barzakh", "nameswall",
+                  "fourrules", "anwat", "offering", "storm", "twoseals", "plaingrave", "footsteps"}   # scenes drawn with faceless figures
 # a prophet named in a tag (a lantern may carry the companions' or the scholars' knowledge, never a prophet)
 PROPHET = re.compile(r"ﷺ|النبي|الرسول|رسول|نبي\b|محمد|المبعوث")       # one prophet (the guidance of "the prophets" may be a lantern)
 # people a lantern must not stand for: they are drawn as figures (or as their names in roundels)
 PEOPLE = re.compile(r"الغرباء|غرباء|المستضعف|معذور|عصابة|طائفة|ولاة|ولي الأمر|الأمير|السلطان|الحاكم|الإمام|"
                     r"رجل|امرأة|النساء|الرجال|الصالحين|المتبعون|المتبعين|أتباع|أولياء")
 # broke a rule before the codex; each leaves this list when its scene is redrawn (review of 2026-10-21)
-PENDING = {"hijra", "sunan-umam", "khatm-nubuwwa", "qawaid-arba"}
+PENDING = {"hijra", "khatm-nubuwwa"}
 # a figure must never be one of these; ʿAlī is left out (عَلِيّ and عَلَيَّ look alike without harakat)
 NAMED = re.compile(r"ﷺ|النبي\b|محمد|أبو بكر|أبي بكر|\bعمر\b|عثمان|بلال|الصحابي|جبريل|ملك الموت")
 

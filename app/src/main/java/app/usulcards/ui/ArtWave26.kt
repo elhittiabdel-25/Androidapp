@@ -33,7 +33,7 @@ import kotlin.math.sin
  */
 
 /** A verse or a name set large (a.big), scaled down so it never runs wider than [maxW]. */
-private fun DrawScope.fitBig26(tl: TextLayoutResult?, c: Offset, maxW: Float, color: Color, alpha: Float, glow: Color? = null) {
+internal fun DrawScope.fitBig26(tl: TextLayoutResult?, c: Offset, maxW: Float, color: Color, alpha: Float, glow: Color? = null) {
     if (tl == null || alpha <= 0.01f) return
     val sc = min(1f, maxW / max(1f, tl.size.width.toFloat()))
     if (glow != null) softGlow(c, tl.size.width * sc * 0.55f, glow, 0.35f * alpha)
@@ -41,7 +41,7 @@ private fun DrawScope.fitBig26(tl: TextLayoutResult?, c: Offset, maxW: Float, co
 }
 
 /** An angel as the codex draws it: a cool white light. */
-private fun DrawScope.angelLight26(c: Offset, r: Float, t: Float, alpha: Float) {
+internal fun DrawScope.angelLight26(c: Offset, r: Float, t: Float, alpha: Float) {
     if (alpha <= 0.01f) return
     softGlow(c, r * 4.5f, Color(0xFFCFE4FF), 0.55f * alpha)
     bloom(c, r * 1.2f, Color(0xFFEAF4FF), 0.9f * alpha)
@@ -49,7 +49,7 @@ private fun DrawScope.angelLight26(c: Offset, r: Float, t: Float, alpha: Float) 
 }
 
 /** A camel standing, facing left, its feet at [foot]. */
-private fun DrawScope.camel26(foot: Offset, s: Float, color: Color, alpha: Float, t: Float, walk: Float = 0f) {
+internal fun DrawScope.camel26(foot: Offset, s: Float, color: Color, alpha: Float, t: Float, walk: Float = 0f) {
     if (alpha <= 0.01f) return
     val body = foot + Offset(0f, -s * 0.62f)
     drawOval(color, Offset(body.x - s * 0.42f, body.y - s * 0.16f), Size(s * 0.84f, s * 0.32f), alpha = alpha)
@@ -65,7 +65,7 @@ private fun DrawScope.camel26(foot: Offset, s: Float, color: Color, alpha: Float
 }
 
 /** A sheep, facing left. */
-private fun DrawScope.sheep26(c: Offset, s: Float, color: Color, alpha: Float) {
+internal fun DrawScope.sheep26(c: Offset, s: Float, color: Color, alpha: Float) {
     if (alpha <= 0.01f) return
     drawOval(color, Offset(c.x - s * 0.5f, c.y - s * 0.3f), Size(s, s * 0.6f), alpha = alpha)
     drawOval(color, Offset(c.x - s * 0.72f, c.y - s * 0.32f), Size(s * 0.32f, s * 0.26f), alpha = alpha)
@@ -202,7 +202,7 @@ private object RevC26 {
     val Back = Color(0xE6201810)
 }
 
-private fun archPath26(cx: Float, top: Float, bottom: Float, hw: Float): Path = Path().apply {
+internal fun archPath26(cx: Float, top: Float, bottom: Float, hw: Float): Path = Path().apply {
     moveTo(cx - hw, bottom)
     lineTo(cx - hw, top + hw * 0.9f)
     quadraticTo(cx - hw, top, cx, top - hw * 0.25f)

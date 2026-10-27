@@ -150,6 +150,14 @@ ART_KINDS = {
     "unseen": {"known", "sealdoor", "denyknown", "claim", "onlyallah"},
     "tensigns": {"tenring", "sixsigns", "sinkings", "yemenfire"},
     "barzakh": {"twoangels", "threeq", "answers", "rawda", "hufra"},
+    # round 15: «الشرك ووسائله»
+    "fourrules": {"rulebook", "ruleone", "ruletwo", "rulethree", "rulefour"},
+    "anwat": {"lotetree", "sunanpath", "askanwat", "takbirsunan"},
+    "offering": {"twopaths", "cursed", "vowkeep", "vowbreak"},
+    "storm": {"duasea", "refugeonly", "shrinecall", "livinghelp"},
+    "twoseals": {"sealedgate", "permit", "pleased", "refused", "ikhlasopen"},
+    "plaingrave": {"nodome", "nofeast", "noidol"},
+    "footsteps": {"oldprints", "featherpair", "joinpagans", "bowidols", "firmgroup"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

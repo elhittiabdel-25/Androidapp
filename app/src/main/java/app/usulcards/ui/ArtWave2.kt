@@ -915,7 +915,7 @@ private fun DrawScope.shrineLamps(a: ArtCtx, ground: Float, strip: Float) {
         val names = a.nth("names")
         if (names >= 0) tagAt(a.tagOf(names, k), Offset(x, strip), seg(a.beatAt(names), 0.1f + 0.1f * k, 0.5f + 0.1f * k), back = TagBack, ink = ArtInk.Ivory)
     }
-    val early = 1f - out
+    val early = 1f - max(out, stone)
     tagAt(a.tag("lamp"), Offset(w * 0.5f, h * 0.36f), seg(a.b("lamp"), 0.3f, 1f) * early, back = TagBack, ink = ArtInk.Gold)
     tagAt(a.tag("excess"), Offset(w * 0.5f, h * 0.26f), seg(a.b("excess"), 0.3f, 1f) * early, back = TagBack, ink = ArtInk.Ember)
     tagAt(a.tag("out"), Offset(w * 0.5f, h * 0.36f), seg(a.b("out"), 0.3f, 1f) * (1f - stone), back = TagBack, ink = ArtInk.Ivory)
