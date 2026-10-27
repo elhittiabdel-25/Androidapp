@@ -208,7 +208,8 @@ private fun DrawScope.gatesShore(a: ArtCtx) {
     for ((k, x) in arches.withIndex()) {
         val f = maxOf(0.4f * easeOut(seg(g1, 0f, 0.3f)), easeOut(seg(gates[k], 0f, 0.3f)))
         drawPath(archPath26(x, road - h * 0.2f, road, w * 0.04f), GateC35.Arch, alpha = f, style = Stroke(4f * dp))
-        tagAt(a.tag(listOf("gateone", "gatetwo", "gatethree")[k], 0, 0), Offset(x, road - h * 0.3f), seg(gates[k], 0.3f, 0.6f), back = Back35, ink = ArtInk.BrassLight)
+        // each gate's test sits a step higher than the one before, so the three never cover one another
+        tagAt(a.tag(listOf("gateone", "gatetwo", "gatethree")[k], 0, 0), Offset(x, road - h * (0.3f + 0.09f * k)), seg(gates[k], 0.3f, 0.6f), back = Back35, ink = ArtInk.BrassLight)
     }
     // the readings that come, and those that turn back
     if (g1 > 0f) {

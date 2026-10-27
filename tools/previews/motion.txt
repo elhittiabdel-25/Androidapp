@@ -1,2 +1,4 @@
 bs-danyal
 bs-akhbar
+bs-sharr
+bs-taslim

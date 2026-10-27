@@ -55,7 +55,7 @@ internal fun DrawScope.brethrenScene(a: ArtCtx) {
         "twobranch" to Shot(Offset(w * 0.5f, h * 0.5f), 1.05f),
         "ishmaellight" to Shot(Offset(w * 0.72f, h * 0.35f), 1.35f),
         "likemusa" to Shot(Offset(w * 0.5f, h * 0.35f), 1.15f),
-        "falsefade" to Shot(Offset(w * 0.2f, h * 0.72f), 1.4f),
+        "falsefade" to Shot(Offset(w * 0.36f, h * 0.56f), 1.1f),
         "fulfilled" to Shot(Offset(w * 0.68f, h * 0.45f), 1.25f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.1f) { brethrenTree(a) }
@@ -109,7 +109,7 @@ private fun DrawScope.brethrenTree(a: ArtCtx) {
         drawLine(ArtInk.BrassLight, Offset(tipL.x + w * 0.05f, y), Offset(tipL.x + w * 0.05f + (tipR.x - tipL.x - w * 0.1f) * bridge, y), 1.5f * dp, alpha = 0.7f,
             pathEffect = PathEffect.dashPathEffect(floatArrayOf(4f * dp, 4f * dp)))
         for (k in 0 until 2) {
-            tagAt(a.tag("likemusa", 0, 1 + k), Offset(w * (0.42f + 0.16f * k), y + h * 0.07f), seg(lm, 0.55f + 0.15f * k, 0.8f + 0.15f * k), back = Back33, ink = ArtInk.Gold)
+            tagAt(a.tag("likemusa", 0, 1 + k), Offset(w * (0.38f + 0.14f * k), y + h * 0.07f), seg(lm, 0.55f + 0.15f * k, 0.8f + 0.15f * k), back = Back33, ink = ArtInk.Gold)
         }
     }
     // a false light: a candle that goes out
@@ -213,7 +213,7 @@ private fun DrawScope.threePeaks(a: ArtCtx) {
     // his light over the third
     if (pa > 0f) {
         val rise = easeOut(seg(pa, 0f, 0.6f))
-        sirajMunir(peaks[2] + Offset(0f, -h * 0.04f - h * 0.08f * rise), w * 0.013f, rise, t, nameAt = peaks[2] + Offset(w * 0.12f, -h * 0.12f))
+        sirajMunir(peaks[2] + Offset(0f, -h * 0.04f - h * 0.08f * rise), w * 0.013f, rise, t, nameAt = peaks[2] + Offset(w * 0.1f, h * 0.06f))
         tagAt(a.tag("paran"), peaks[2] + Offset(0f, h * 0.2f), seg(pa, 0.4f, 0.65f), back = Back33, ink = ArtInk.Gold)
     }
     // whose land each is
@@ -265,7 +265,7 @@ internal fun DrawScope.kedarScene(a: ArtCtx) {
     val shots = shotsFor(a, mapOf(
         "servant" to Shot(Offset(w * 0.5f, h * 0.35f), 1.3f),
         "quietstreet" to Shot(Offset(w * 0.5f, h * 0.72f), 1.35f),
-        "eyesopen" to Shot(Offset(w * 0.5f, h * 0.48f), 1.3f),
+        "eyesopen" to Shot(Offset(w * 0.46f, h * 0.44f), 1.3f),
         "kedarhomes" to Shot(Offset(w * 0.2f, h * 0.6f), 1.35f),
         "selasong" to Shot(Offset(w * 0.8f, h * 0.5f), 1.3f),
     ))
@@ -335,7 +335,7 @@ private fun DrawScope.kedarDusk(a: ArtCtx) {
     // eyes opening
     if (eo > 0f) {
         for (k in 0 until 5) {
-            val c = Offset(w * (0.3f + 0.1f * k), h * 0.48f)
+            val c = Offset(w * (0.22f + 0.1f * k), h * 0.38f)
             val f = easeOut(seg(eo, k * 0.08f, 0.25f + k * 0.08f)) * (1f - seg(kh, 0f, 0.3f))
             if (f <= 0f) continue
             val open = easeInOut(seg(eo, 0.3f + k * 0.08f, 0.6f + k * 0.08f))

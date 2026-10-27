@@ -264,7 +264,7 @@ internal fun DrawScope.conquestsScene(a: ArtCtx) {
         "quds" to Shot(Offset(w * 0.55f, h * 0.45f), 1.3f),
         "threelands" to Shot(Offset(w * 0.6f, h * 0.5f), 1.05f),
         "constantinople" to Shot(Offset(w * 0.3f, h * 0.25f), 1.35f),
-        "aman" to Shot(Offset(w * 0.28f, h * 0.62f), 1.4f),
+        "aman" to Shot(Offset(w * 0.32f, h * 0.58f), 1.2f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.1f) { conquestMap(a) }
 }
@@ -297,7 +297,7 @@ private fun DrawScope.conquestMap(a: ArtCtx) {
         drawArc(MapC37.Dome, 180f, 180f, true, Offset(quds.x - w * 0.02f, quds.y - h * 0.035f), Size(w * 0.04f, h * 0.05f))
         drawRect(MapC37.Wall, Offset(quds.x - w * 0.025f, quds.y - h * 0.01f), Size(w * 0.05f, h * 0.02f))
     }
-    tagAt(a.tag("quds"), quds + Offset(0f, -h * 0.09f), seg(qd, 0.55f, 0.8f), back = Back37, ink = ArtInk.Gold)
+    tagAt(a.tag("quds"), quds + Offset(-w * 0.1f, -h * 0.06f), seg(qd, 0.55f, 0.8f), back = Back37, ink = ArtInk.Gold)
     // Yemen, Sham, Iraq
     val lands = listOf(Offset(w * 0.7f, h * 0.94f), Offset(w * 0.6f, h * 0.33f), Offset(w * 0.86f, h * 0.42f))
     for ((k, p) in lands.withIndex()) {
@@ -318,8 +318,8 @@ private fun DrawScope.conquestMap(a: ArtCtx) {
         for (k in 0 until 3) drawArc(MapC37.Dome, 180f, 180f, true, Offset(kons.x - w * 0.045f + k * w * 0.032f, kons.y - h * 0.045f), Size(w * 0.026f, h * 0.05f), alpha = f)
         softGlow(kons, w * 0.06f, MapC37.Lit, 0.6f * f)
         drawCircle(MapC37.Dim, w * 0.03f, rome, alpha = 0.8f * f, style = Stroke(1.5f * dp, pathEffect = PathEffect.dashPathEffect(floatArrayOf(3f * dp, 3f * dp))))
-        tagAt(a.tag("constantinople", 0, 0), kons + Offset(0f, -h * 0.1f), seg(cn, 0.3f, 0.55f), back = Back37, ink = ArtInk.Gold)
-        tagAt(a.tag("constantinople", 0, 1), rome + Offset(w * 0.04f, h * 0.08f), seg(cn, 0.5f, 0.75f), back = Back37, ink = Color(0xFFD8D0C0))
+        tagAt(a.tag("constantinople", 0, 0), kons + Offset(0f, -h * 0.1f), seg(cn, 0.3f, 0.55f) * (1f - 0.7f * seg(am, 0f, 0.3f)), back = Back37, ink = ArtInk.Gold)
+        tagAt(a.tag("constantinople", 0, 1), rome + Offset(w * 0.04f, h * 0.08f), seg(cn, 0.5f, 0.75f) * (1f - 0.7f * seg(am, 0f, 0.3f)), back = Back37, ink = Color(0xFFD8D0C0))
     }
     // Egypt: the Nile, the desert, a man coming home to his church
     val nile = Path().apply { moveTo(w * 0.24f, h); cubicTo(w * 0.26f, h * 0.8f, w * 0.22f, h * 0.65f, w * 0.27f, h * 0.5f) }

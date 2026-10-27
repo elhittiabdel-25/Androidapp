@@ -14,6 +14,7 @@ from cards_batch4 import NEW4, BOOKS4, MERGE_SOURCES4
 from cards_batch5 import NEW5, BOOKS5, MERGE_SOURCES5
 from cards_batch6 import NEW6, BOOKS6
 from cards_batch7 import NEW7
+from cards_batch8 import NEW8
 H = re.compile(r'[ً-ْٰـ]')
 def shown(s): return re.sub(r'\{[^}]*\}', '', re.sub(r'\[([^|\]]*)\|([^\]]*)\]', r'\1', s))
 def plain(s): return H.sub('', shown(s))
@@ -41,7 +42,7 @@ for c in OLD:                                   # first 16 cards: same text and 
     add_sources(c, MERGE_SOURCES4.get(c["id"], []))
     add_sources(c, MERGE_SOURCES5.get(c["id"], []))
     cards.append(c)
-for c in NEW + NEW3 + NEW4 + NEW5 + NEW6 + NEW7:
+for c in NEW + NEW3 + NEW4 + NEW5 + NEW6 + NEW7 + NEW8:
     ev = [quran_ev(q) if isinstance(q, str) else quran_ev(*q) for q in c["quran"]]
     ev += [{"kind": "hadith", "text": plain(t), "takhrij": tk} for t, tk in c["hadith"]]
     out = {"id": c["id"], "type": c["type"], "topic": c["topic"], "path": c["path"], "order": c["order"],

@@ -328,6 +328,54 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "conquests" -> conquestsScene(a)
         "skyline" -> skylineScene(a)
         "greenarabia" -> greenarabiaScene(a)
+        "fogstones" -> fogstonesScene(a)
+        "sunproof" -> sunproofScene(a)
+        "postman" -> postmanScene(a)
+        "acidbase" -> acidbaseScene(a)
+        "clinic" -> clinicScene(a)
+        "popcorn" -> popcornScene(a)
+        "madroad" -> madroadScene(a)
+        "trialroad" -> trialroadScene(a)
+        "thermo" -> thermoScene(a)
+        "fourgates" -> fourgatesScene(a)
+        "examtrain" -> examtrainScene(a)
+        "lifeguard" -> lifeguardScene(a)
+        "howwhy" -> howwhyScene(a)
+        "twopaths" -> twopathsScene(a)
+        "teacherdesk" -> teacherdeskScene(a)
+        "steadyrevelation" -> steadyrevelationScene(a)
+        "isolatedbox" -> isolatedboxScene(a)
+        "stormcause" -> stormcauseScene(a)
+        "datedscrolls" -> datedscrollsScene(a)
+        "tworams" -> tworamsScene(a)
+        "dotsvoice" -> dotsvoiceScene(a)
+        "palimpsest" -> palimpsestScene(a)
+        "sevenstreams" -> sevenstreamsScene(a)
+        "stairsteps" -> stairstepsScene(a)
+        "sunbow" -> sunbowScene(a)
+        "caveboulder" -> caveboulderScene(a)
+        "wagesroom" -> wagesroomScene(a)
+        "justscale" -> justscaleScene(a)
+        "templesands" -> templesandsScene(a)
+        "twoladders" -> twoladdersScene(a)
+        "bridgegap" -> bridgegapScene(a)
+        "scrollrack" -> scrollrackScene(a)
+        "chainlinks" -> chainlinksScene(a)
+        "onemessenger" -> onemessengerScene(a)
+        "cloakfull" -> cloakfullScene(a)
+        "hundredswap" -> hundredswapScene(a)
+        "courtgate" -> courtgateScene(a)
+        "emptyhouse" -> emptyhouseScene(a)
+        "lamphouses" -> lamphousesScene(a)
+        "threeparts" -> threepartsScene(a)
+        "shieldtent" -> shieldtentScene(a)
+        "ledgerscale" -> ledgerscaleScene(a)
+        "fairhouses" -> fairhousesScene(a)
+        "truemeasure" -> truemeasureScene(a)
+        "brainset" -> brainsetScene(a)
+        "falsewaves" -> falsewavesScene(a)
+        "whymuslim" -> whymuslimScene(a)
+        "surrender" -> surrenderScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -716,6 +764,60 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "fourq", "ishmaellight", "fulfilled", "lastlit", "handover", "onelight", "daily", "heartrise", "rights", "secret", "sixmonths", "certain", "alarm" -> 3500
     "fearstorm", "grandeur", "ownsource", "fromabove", "spring", "muddy", "witness", "blindsix", "overview", "pullout", "parts", "plateglow", "cage", "plate", "cageopen", "embers", "twopoles", "safahill", "samethread", "witnessed", "impossible", "wonder", "align", "sunsea", "ringclose", "twobranch", "falsefade", "likemusa", "tin", "paran", "sinai", "seir", "names3", "quietstreet", "kedarhomes", "eyesopen", "servant", "selasong", "welling", "newkeepers", "cornerset", "rejected", "fillearth", "handless", "kingdoms", "unshackle", "sceptre", "linedark", "throne", "yathrib", "cell", "ezra", "strikethree", "striketwo", "strikeone", "overbook", "clean", "manyverses", "radiator", "sevenhorses", "beacon", "dukhan", "primalsea", "breathe", "moonfade", "waterlife", "innerwave", "curdle", "extract", "stages", "mixing", "sinks", "streak", "coccyx", "openquran", "offers", "returns", "fussilat", "dare", "pearls", "spears", "depth", "links", "topofhundred", "swapstone", "daybreak", "darkvale", "martyrs", "twobricks", "quds", "aman", "constantinople", "shepherds", "skyward", "foam", "markets", "belowzero", "goldpillars", "greening" -> 5000
     "sameday", "sparks", "converge", "pot", "pilgrims", "dayandnight", "flocks", "vineyard", "statue", "twelve", "gatethree", "gatetwo", "gateone", "fabric", "widen", "condense", "joints", "everyhouse", "dense", "hira", "fleet", "twocamps", "threelands", "buriedrivers" -> 7000
+    // batch 8 (2026-10-27): «بصائر»، الجزء الثالث
+    "exactscale" -> 1500
+    "morebubbles", "fruitprayer", "cloudangel", "erasedpage", "fewnine" -> 2750
+    "deadleaf", "fuelfire", "idolhorns", "restored" -> 3000
+    "heartsun", "mirage", "trialworld", "fishdry", "safewall", "standingfor" -> 3250
+    "ignorefade", "onlygod", "sunorbit" -> 3500
+    "threethermo", "foxhole", "movedots", "voicechain", "bothright", "mustardgrain", "materialscale", "marwantest", "twoconds" -> 3750
+    "twodoors", "threadlong", "doctorfree", "palmtrunk" -> 4000
+    "doubtsfall", "sarih", "rescue", "classify", "harmony", "spirit" -> 4250
+    "glassbox", "eyewitness", "leftlittle" -> 4500
+    "pillarhawa", "diploma", "orderlyworld", "qarawiyyin", "fourrakah", "coverveil" -> 4750
+    "fewfog", "dimheart", "roadshout", "nomodel", "onerakah" -> 5000
+    "braingears", "threequestions", "verseorder", "quarters", "justicecond" -> 5250
+    "hydra", "howtools", "tatarmosques", "twocopies", "olderbooks", "ownpurse", "ownbox" -> 5500
+    "seekpath", "claimscroll", "allbow", "rebuilt" -> 5750
+    "forward", "ransomram", "willthird", "praiseheart", "cloak", "plusminus" -> 6000
+    "dividedblessings", "needdua", "messengersfirst", "witnessgate", "springwater", "sharedship", "khatma" -> 6250
+    "willinside", "blank", "notisolated", "eastwest", "behindhill", "exemptions", "onlyone", "lifestages" -> 6500
+    "innocentwall", "prescription", "meccankahf", "inhearts", "bondvs" -> 6750
+    "reaction", "breaknorm", "twohorns", "serveother", "medinamarks", "selfsaw" -> 7000
+    "twoages", "mechanism", "goldaway", "samebook" -> 7250
+    "shouldnot", "fairscales", "forkroads", "onmount", "boulder", "failgrade", "tradeledger", "khadijaonly", "executor" -> 7500
+    "askingsky", "whysilent", "sevenbranches", "roadsign" -> 7750
+    "oneq", "fourways", "stepmore", "messengers", "qudsraised", "stilltrue", "statues", "fourwitness" -> 8000
+    "mediapile", "seizurewave", "missinglink", "filterpaper" -> 8250
+    "twentythousand" -> 8500
+    "syringe", "opendoors", "isnadchain", "dottedpapyrus", "nostatue", "longestciv", "muezzin", "swapped", "onlydoor" -> 8750
+    "threedoors", "citadel", "civculture", "envoys", "rooms" -> 9000
+    "threeorigins", "noexam", "equalnights" -> 9250
+    "threefogs", "farchurch", "danielram", "uhudlesson", "sahifa", "jahilidark" -> 9500
+    "threepillars", "freechoice", "shieldspend", "aboveref" -> 9750
+    "popthoughts", "shaqaiq", "stonesbow" -> 10000
+    "sumthermo", "forus", "whychain", "delayed", "fiveconditions", "threecures", "sunnabridge" -> 10250
+    "proofsealed", "seekrefuge", "ceilingall", "qubaturn", "eighthundred" -> 10500
+    "greatestway", "teacher", "wingsfaith", "courtfall", "tvset" -> 10750
+    "addict", "cutstrings", "mosquefind", "tilted", "penfield" -> 11000
+    "trainride" -> 11250
+    "twocompanions", "bilaldebt", "springmass", "innate" -> 11500
+    "amateur", "centuryanswer" -> 11750
+    "cellglow", "latescroll", "prophetsrow" -> 12000
+    "timeline629", "choosebranches", "graduated" -> 12250
+    "turnaway", "obligations", "tunecosmos" -> 12500
+    "amanah" -> 12750
+    "boilpot" -> 13000
+    "dustworks", "wisdoms", "manyproofs" -> 13500
+    "readybefore", "rootqara", "everyletter", "travel" -> 13750
+    "qiblaturn" -> 14000
+    "eclipse", "noask" -> 14500
+    "cradle" -> 14750
+    "scrollaway", "truthsame" -> 15000
+    "fourcamels" -> 15250
+    "steles" -> 15750
+    "jabirflask", "claim200", "fiftytwo", "closest" -> 16000
+    "explains", "consent" -> 20000
     else -> 1000
 }
 

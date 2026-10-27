@@ -393,8 +393,10 @@ private fun DrawScope.overseerHall(a: ArtCtx) {
         val c = scrolls[k]
         val ray = easeOut(seg(b, 0f, 0.3f))
         drawLine(OverC34.Ray, book + Offset(0f, h * 0.05f), book + Offset(0f, h * 0.05f) + (c + Offset(0f, -h * 0.12f) - book - Offset(0f, h * 0.05f)) * ray, 2f * dp, StrokeCap.Round, alpha = 0.7f * (1f - seg(b, 0.8f, 1f) * 0.5f))
-        struckTag21(a.tag(kinds[k], 0, 0), c + Offset(0f, h * 0.17f), seg(b, 0.15f, 0.4f), seg(b, 0.35f, 0.75f), OverC34.Red, Back34, ArtInk.Ivory)
-        if (k == 2) tagAt(a.tag("strikethree", 0, 1), c + Offset(0f, h * 0.26f), seg(b, 0.7f, 0.95f), back = Back34, ink = ArtInk.Gold)
+        // once the camera goes down to Ezra's town the three verdicts step back, so they do not crowd his tag
+        val away = 1f - seg(ez, 0f, 0.25f)
+        struckTag21(a.tag(kinds[k], 0, 0), c + Offset(0f, h * 0.17f), seg(b, 0.15f, 0.4f) * away, seg(b, 0.35f, 0.75f), OverC34.Red, Back34, ArtInk.Ivory)
+        if (k == 2) tagAt(a.tag("strikethree", 0, 1), c + Offset(0f, h * 0.285f), seg(b, 0.7f, 0.95f) * away, back = Back34, ink = ArtInk.Gold)
     }
     // Ezra's town: empty, then full a hundred years on
     if (ez > 0f) {
