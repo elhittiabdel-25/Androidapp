@@ -279,6 +279,14 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "twoseals" -> twosealsScene(a)
         "plaingrave" -> plaingraveScene(a)
         "footsteps" -> footstepsScene(a)
+        "sixroots" -> sixrootsScene(a)
+        "courts" -> courtsScene(a)
+        "verseguard" -> verseguardScene(a)
+        "heartjar" -> heartjarScene(a)
+        "decree" -> decreeScene(a)
+        "wholeman" -> wholemanScene(a)
+        "heartlights" -> heartlightsScene(a)
+        "threelives" -> threelivesScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -616,6 +624,23 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "nodome" -> 7250
     "rulebook" -> 7750
     "livinghelp" -> 9000
+    // round 16: «أركان الإيمان»
+    "sinkdrop", "lawfulcrack" -> 1800
+    "written", "allcreated" -> 2000
+    "nohow" -> 2250
+    "court5", "court6", "court1", "unequal" -> 2500
+    "nobend", "heartonly" -> 2750
+    "allknown" -> 3000
+    "mustard" -> 3250
+    "threeroots", "fillup", "jibril", "mikail" -> 3750
+    "dimtwo", "burnaway" -> 4000
+    "threemore", "willed", "tongueonly" -> 4500
+    "israfil" -> 5750
+    "brightthree" -> 6250
+    "affirmverse", "scribes" -> 7500
+    "samelight" -> 7750
+    "branchout", "enter", "threeparts" -> 8500
+    "stillfaith", "nodeeds", "ranks" -> 9000
     else -> 1000
 }
 
@@ -683,7 +708,7 @@ internal class ArtCtx(
 }
 
 /** Scenes that write their tags large (see ArtCtx.big). */
-internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent", "omenroad", "triptych", "heights", "revelation", "gaze", "nameswall", "register", "unseen")
+internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent", "omenroad", "triptych", "heights", "revelation", "gaze", "nameswall", "register", "unseen", "fourrules", "twoseals", "storm", "sixroots", "verseguard", "decree", "threelives")
 
 // ───────────── shared helpers ─────────────
 

@@ -112,10 +112,10 @@ internal fun DrawScope.fourrulesScene(a: ArtCtx) {
     val h = size.height
     val shots = shotsFor(a, mapOf(
         "rulebook" to Shot(Offset(w * 0.5f, h * 0.16f), 1.25f),
-        "ruleone" to Shot(panel27(w, h, 0).center, 1.25f),
-        "ruletwo" to Shot(panel27(w, h, 1).center, 1.25f),
-        "rulethree" to Shot(panel27(w, h, 2).center, 1.25f),
-        "rulefour" to Shot(panel27(w, h, 3).center, 1.25f),
+        "ruleone" to Shot(panel27(w, h, 0).center, 1.15f),
+        "ruletwo" to Shot(panel27(w, h, 1).center, 1.15f),
+        "rulethree" to Shot(panel27(w, h, 2).center, 1.15f),
+        "rulefour" to Shot(panel27(w, h, 3).center, 1.15f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.1f) { fourrulesDesk(a) }
 }
@@ -190,8 +190,8 @@ private fun DrawScope.ruleCloser27(a: ArtCtx, r: Rect, p: Float, o: Float, t: Fl
         val from = stone + Offset(0f, -r.height * 0.42f)
         drawLine(RulC27.Red, from, from + Offset(r.width * 0.05f, -r.height * 0.3f * up), 1.6f * dp, StrokeCap.Round, pathEffect = dash27())
     }
-    fitBig26(a.big("ruletwo", 0, 0), Offset(r.center.x, r.top + r.height * 0.13f), r.width * 0.9f, Color(0xFF6A4418), seg(p, 0.4f, 0.65f))
-    fitBig26(a.big("ruletwo", 0, 1), Offset(r.center.x, r.top + r.height * 0.27f), r.width * 0.6f, Color(0xFF6A4418), seg(p, 0.5f, 0.75f))
+    fitBig26(a.big("ruletwo", 0, 0), Offset(r.center.x, r.top + r.height * 0.13f), r.width * 0.78f, Color(0xFF6A4418), seg(p, 0.4f, 0.65f))
+    fitBig26(a.big("ruletwo", 0, 1), Offset(r.center.x, r.top + r.height * 0.27f), r.width * 0.5f, Color(0xFF6A4418), seg(p, 0.5f, 0.75f))
 }
 
 private fun DrawScope.ruleSame27(a: ArtCtx, r: Rect, p: Float, o: Float, t: Float) {
@@ -211,7 +211,7 @@ private fun DrawScope.ruleSame27(a: ArtCtx, r: Rect, p: Float, o: Float, t: Floa
             2 -> idol27(c, s * 0.8f, RulC27.Stone, f)
             else -> tree27(c, s, Color(0xFF6A4A2E), Color(0xFF4A8A4A), f)
         }
-        tagAt(a.tag("rulethree", 0, k), c + Offset(if (k % 2 == 0) -r.width * 0.2f else r.width * 0.2f, -s * 0.35f), seg(f, 0.5f, 1f), back = RulC27.Back, ink = ArtInk.Ivory)
+        tagAt(a.tag("rulethree", 0, k), c + Offset(0f, s * 0.3f), seg(f, 0.5f, 1f), back = RulC27.Back, ink = ArtInk.Ivory)
     }
     // one judgment for all four: red equals signs between them
     val eq = easeOut(seg(p, 0.6f, 0.85f))
@@ -345,7 +345,7 @@ private fun DrawScope.anwatRoad(a: ArtCtx) {
             drawOval(Color(0xFF8A6A4A), Offset(x, y), Size(w * 0.012f, h * 0.01f), alpha = 0.7f)
         }
         tagAt(a.tag("sunanpath"), Offset(w * 0.14f, h * 0.95f), seg(sp, 0.3f, 0.6f), back = AnwC27.Back, ink = Color(0xFFFFB0A0))
-        noSign11pub(base + Offset(0f, -h * 0.3f), w * 0.09f, easeOut(seg(sp, 0.5f, 0.8f)))
+        noSign11pub(base + Offset(w * 0.17f, -h * 0.4f), w * 0.045f, easeOut(seg(sp, 0.5f, 0.8f)))
     }
     // the column comes along the road; two stop and point
     if (ak > 0f) {
@@ -361,7 +361,7 @@ private fun DrawScope.anwatRoad(a: ArtCtx) {
             else figure(Offset(x, y), h * 0.16f, AnwC27.Ink, 1f, walk = if (walking) t * 5f + k else 0f)
             if (k == 3) camel26(Offset(x + w * 0.04f, y), h * 0.15f, Color(0xFF6A4A30), 1f, t, if (walking) t * 4f else 0f)
         }
-        tagAt(a.tag("askanwat"), Offset(head + w * 0.08f, h * 0.5f), seg(ak, 0.6f, 0.8f), back = AnwC27.Back, ink = ArtInk.Ivory)
+        tagAt(a.tag("askanwat"), Offset(head + w * 0.08f, h * 0.5f), seg(ak, 0.6f, 0.8f) * (1f - seg(tk, 0f, 0.2f)), back = AnwC27.Back, ink = ArtInk.Ivory)
     }
     // his ﷺ light at the head of the column
     if (tk > 0f) {
@@ -402,8 +402,8 @@ internal fun DrawScope.offeringScene(a: ArtCtx) {
     val shots = shotsFor(a, mapOf(
         "twopaths" to Shot(Offset(w * 0.5f, h * 0.5f), 1.05f),
         "cursed" to Shot(Offset(w * 0.3f, h * 0.5f), 1.25f),
-        "vowkeep" to Shot(Offset(w * 0.6f, h * 0.84f), 1.45f),
-        "vowbreak" to Shot(Offset(w * 0.4f, h * 0.84f), 1.45f),
+        "vowkeep" to Shot(Offset(w * 0.6f, h * 0.8f), 1.4f),
+        "vowbreak" to Shot(Offset(w * 0.4f, h * 0.8f), 1.4f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.1f) { offeringYard(a) }
 }
@@ -427,9 +427,9 @@ private fun DrawScope.offeringYard(a: ArtCtx) {
     drawPath(arch, OffC27.Arch, style = Stroke(3f * dp))
     tomb27(Offset(w * 0.15f, ground), w * 0.17f, OffC27.Tomb, OffC27.Dome, 1f)
     val dark = easeOut(seg(cu, 0.3f, 0.8f))
-    drawRect(Color.Black, Offset(0f, 0f), Size(w * 0.3f, h * 0.75f), alpha = 0.3f * dark)
-    tagAt(a.tag("twopaths", 0, 0), niche + Offset(0f, -h * 0.47f), seg(tp, 0.1f, 0.3f), back = OffC27.Back, ink = ArtInk.BrassLight)
-    tagAt(a.tag("twopaths", 0, 1), Offset(w * 0.15f, ground - h * 0.25f), seg(tp, 0.2f, 0.4f), back = OffC27.Back, ink = Color(0xFFFFB0A0))
+    drawRect(Brush.horizontalGradient(listOf(Color.Black.copy(alpha = 0.32f * dark), Color.Transparent), startX = 0f, endX = w * 0.42f), size = Size(w * 0.42f, h))
+    tagAt(a.tag("twopaths", 0, 0), niche + Offset(0f, -h * 0.47f), seg(tp, 0.1f, 0.3f) * (1f - seg(vk, 0f, 0.25f)), back = OffC27.Back, ink = ArtInk.BrassLight)
+    tagAt(a.tag("twopaths", 0, 1), Offset(w * 0.15f, ground - h * 0.25f), seg(tp, 0.2f, 0.4f) * (1f - seg(vk, 0f, 0.25f)), back = OffC27.Back, ink = Color(0xFFFFB0A0))
     // the two paths from the middle
     val mid = Offset(w * 0.5f, h * 0.7f)
     drawLine(Color(0xFFE6D2A6), mid, niche + Offset(0f, h * 0.04f), w * 0.03f, StrokeCap.Round, alpha = 0.8f)
@@ -447,9 +447,9 @@ private fun DrawScope.offeringYard(a: ArtCtx) {
         drawLine(Color(0xFF8A6A4A), Offset(x - w * 0.02f, y - h * 0.08f), Offset(x - w * 0.04f, y - h * 0.035f), 1.2f * dp)
     }
     noSign11pub(Offset(w * 0.24f, ground - h * 0.12f), w * 0.05f, easeOut(seg(tp, 0.6f, 0.85f)))
-    tagAt(a.tag("cursed"), Offset(w * 0.3f, h * 0.2f), seg(cu, 0.1f, 0.35f), back = OffC27.Back, ink = Color(0xFFFFB0A0))
+    tagAt(a.tag("cursed"), Offset(w * 0.32f, h * 0.14f), seg(cu, 0.1f, 0.35f) * (1f - seg(vk, 0f, 0.25f)), back = OffC27.Back, ink = Color(0xFFFFB0A0))
     // the vows, in front
-    val front = h * 0.97f
+    val front = h * 0.92f
     if (vk > 0f || vb > 0f) {
         drawRect(Color(0xFFBFA676), Offset(0f, h * 0.84f), Size(w, h * 0.16f), alpha = easeOut(seg(vk, 0f, 0.2f)).coerceAtLeast(if (vb > 0f) 1f else 0f))
         val man = Offset(w * 0.5f, front)
@@ -691,7 +691,7 @@ private fun DrawScope.twosealsPlain(a: ArtCtx) {
     tagAt(a.tag("permit"), seals[0] + Offset(w * 0.0f, -h * 0.1f), seg(pm, 0.3f, 0.55f) * (1f - seg(rf, 0f, 0.3f)), back = SeaC27.Back, ink = ArtInk.BrassLight)
     tagAt(a.tag("pleased"), seals[1] + Offset(0f, h * 0.1f), seg(pl, 0.3f, 0.55f) * (1f - seg(rf, 0f, 0.3f)), back = SeaC27.Back, ink = ArtInk.BrassLight)
     // the verse over the gate
-    fitBig26(a.big("sealedgate"), Offset(gx, h * 0.12f), w * 0.5f, Color(0xFF5A3A10), easeOut(seg(sg, 0.2f, 0.6f)))
+    fitBig26(a.big("sealedgate"), Offset(gx, h * 0.12f), w * 0.5f, Color(0xFF5A3A10), easeOut(seg(sg, 0.2f, 0.6f)) * (1f - seg(pm, 0f, 0.2f) + seg(a.b("ikhlasopen"), 0f, 0.3f)).coerceIn(0f, 1f))
     // those who bring their stones
     if (rf > 0f) {
         val o = easeOut(seg(rf, 0f, 0.2f)) * (1f - easeOut(seg(io, 0f, 0.3f)))
@@ -775,7 +775,7 @@ private fun DrawScope.plaingraveYard(a: ArtCtx) {
     val g = graves[4]
     val dash = dash27()
     // 1. a shrine raised over it: struck
-    val d1 = easeOut(seg(nd, 0f, 0.45f)) * (1f - easeOut(seg(nd, 0.8f, 1f)))
+    val d1 = easeOut(seg(nd, 0f, 0.45f)) * (1f - 0.65f * easeOut(seg(nd, 0.8f, 1f))) * (1f - seg(nf, 0f, 0.2f))
     if (d1 > 0f) {
         val ghost = Path().apply {
             moveTo(g.x - w * 0.14f, g.y); lineTo(g.x - w * 0.14f, g.y - h * 0.22f)
@@ -789,7 +789,7 @@ private fun DrawScope.plaingraveYard(a: ArtCtx) {
     val c1 = seg(nd, 0.45f, 0.75f)
     if (c1 > 0f && d1 > 0f) cross21(g + Offset(0f, -h * 0.25f), h * 0.1f, GraC27.Red, c1, 4f * dp)
     // 2. a festival around it: struck
-    val d2 = easeOut(seg(nf, 0f, 0.45f)) * (1f - easeOut(seg(nf, 0.8f, 1f)))
+    val d2 = easeOut(seg(nf, 0f, 0.45f)) * (1f - 0.65f * easeOut(seg(nf, 0.8f, 1f))) * (1f - seg(ni, 0f, 0.2f))
     if (d2 > 0f) {
         for (k in 0 until 8) {
             val ang = t * 0.8f + k * PI.toFloat() / 4f
@@ -805,7 +805,7 @@ private fun DrawScope.plaingraveYard(a: ArtCtx) {
     val c2 = seg(nf, 0.45f, 0.75f)
     if (c2 > 0f && d2 > 0f) cross21(g + Offset(0f, -h * 0.12f), h * 0.1f, GraC27.Red, c2, 4f * dp)
     // 3. a man bowing to it: struck
-    val d3 = easeOut(seg(ni, 0f, 0.4f)) * (1f - easeOut(seg(ni, 0.85f, 1f)))
+    val d3 = easeOut(seg(ni, 0f, 0.4f)) * (1f - 0.65f * easeOut(seg(ni, 0.85f, 1f)))
     if (d3 > 0f) {
         withTransform({ scale(-1f, 1f, pivot = g + Offset(w * 0.12f, 0f)) }) {
             w8Worshipper(g + Offset(w * 0.12f, 0f), h * 0.18f, GraC27.Ghost, 0f, easeOut(seg(ni, 0.1f, 0.4f)), 0.7f * d3)
@@ -815,7 +815,7 @@ private fun DrawScope.plaingraveYard(a: ArtCtx) {
     val c3 = seg(ni, 0.45f, 0.75f)
     if (c3 > 0f && d3 > 0f) cross21(g + Offset(-w * 0.12f, -h * 0.1f), h * 0.08f, GraC27.Red, c3, 4f * dp)
     // the three words struck out, kept at the top
-    val tagsAt = listOf(Offset(w * 0.78f, h * 0.18f), Offset(w * 0.5f, h * 0.18f), Offset(w * 0.22f, h * 0.18f))
+    val tagsAt = listOf(Offset(w * 0.5f, h * 0.27f), Offset(w * 0.5f, h * 0.42f), Offset(w * 0.76f, h * 0.58f))
     for ((k, p) in listOf(nd, nf, ni).withIndex()) {
         val kind = when (k) { 0 -> "nodome"; 1 -> "nofeast"; else -> "noidol" }
         struckTag21(a.tag(kind), tagsAt[k], seg(p, 0.15f, 0.4f), seg(p, 0.45f, 0.8f), GraC27.Red, back = GraC27.Back, ink = ArtInk.Ivory)

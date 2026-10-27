@@ -165,7 +165,7 @@ private fun DrawScope.heightsNight(a: ArtCtx) {
     // with them wherever they are: the verse over the land
     fitBig26(a.big("withall"), Offset(w * 0.5f, h * 0.47f), w * 0.7f, HeiC26.Gold, easeOut(seg(wa, 0.05f, 0.3f)) * (1f - easeOut(seg(mw, 0f, 0.3f))), glow = HeiC26.Gold)
     // not mixed with what He created
-    struckTag21(a.tag("notmixed"), Offset(w * 0.5f, h * 0.575f), easeOut(seg(nm, 0f, 0.25f)) * (1f - seg(mw, 0f, 0.25f)), seg(nm, 0.35f, 0.95f), HeiC26.Red, back = HeiC26.Back, ink = ArtInk.Ivory)
+    struckTag21(a.tag("notmixed"), Offset(w * 0.5f, h * 0.61f), easeOut(seg(nm, 0f, 0.25f)) * (1f - seg(mw, 0f, 0.25f)), seg(nm, 0.35f, 0.95f), HeiC26.Red, back = HeiC26.Back, ink = ArtInk.Ivory)
     // the card's example: the moon in the sky, and with the traveller
     if (mw > 0f) {
         val rise = easeOut(seg(mw, 0f, 0.3f))
@@ -179,7 +179,7 @@ private fun DrawScope.heightsNight(a: ArtCtx) {
         val tg = seg(mw, 0.3f, 0.5f)
         tagAt(a.tag("moonwalk", 0, 0), moon + Offset(-w * 0.13f, 0f), tg, back = HeiC26.Back, ink = ArtInk.Ivory)
         tagAt(a.tag("moonwalk", 0, 1), trav + Offset(0f, -tall * 1.45f), tg, back = HeiC26.Back, ink = ArtInk.Ivory)
-        fitBig26(a.big("moonwalk", 0, 2), Offset(w * 0.75f, h * 0.23f), w * 0.36f, HeiC26.Gold, seg(mw, 0.6f, 0.85f), glow = HeiC26.Gold)
+        fitBig26(a.big("moonwalk", 0, 2), Offset(w * 0.72f, h * 0.27f), w * 0.34f, HeiC26.Gold, seg(mw, 0.6f, 0.85f), glow = HeiC26.Gold)
     }
 }
 
@@ -406,8 +406,8 @@ private fun DrawScope.gazeTwoSides(a: ArtCtx) {
         softGlow(head, w * 0.03f, Color(0xFFFFF4D0), 0.8f * f * easeOut(seg(lu, 0.3f, 0.8f)).coerceAtLeast(if (ve > 0f) 1f else 0f))
         figure(foot, tall * (0.92f + 0.04f * (k % 3)), GazeC26.Ink, f, lean = -0.12f)
     }
-    fitBig26(a.big("lookup", 0, 0), Offset(w * 0.75f, h * 0.12f), w * 0.42f, GazeC26.Gold, seg(lu, 0.3f, 0.6f), glow = Color(0xFFFFF0B0))
-    fitBig26(a.big("lookup", 0, 1), Offset(w * 0.75f, h * 0.26f), w * 0.42f, GazeC26.Gold, seg(lu, 0.45f, 0.75f), glow = Color(0xFFFFF0B0))
+    fitBig26(a.big("lookup", 0, 0), Offset(w * 0.72f, h * 0.2f), w * 0.36f, GazeC26.Gold, seg(lu, 0.3f, 0.6f), glow = Color(0xFFFFF0B0))
+    fitBig26(a.big("lookup", 0, 1), Offset(w * 0.72f, h * 0.32f), w * 0.36f, GazeC26.Gold, seg(lu, 0.45f, 0.75f), glow = Color(0xFFFFF0B0))
     // the veiled: heads bowed, a heavy curtain comes down before them
     val vf = easeOut(seg(ve, 0f, 0.25f)).coerceAtLeast(if (inf > 0f) 1f else 0f)
     for (k in 0 until 4) figure(Offset(w * (0.1f + 0.08f * k), ground - h * 0.01f * (k % 2)), tall * 0.95f, Color(0xFF0E0C12), vf, lean = 0.3f)
@@ -417,8 +417,8 @@ private fun DrawScope.gazeTwoSides(a: ArtCtx) {
         drawRect(GazeC26.Curtain, Offset(w * 0.02f, 0f), Size(w * 0.45f, bottom))
         for (k in 0 until 9) drawLine(GazeC26.Fold, Offset(w * (0.04f + 0.05f * k), 0f), Offset(w * (0.04f + 0.05f * k) + sin(t * 0.8f + k) * w * 0.003f, bottom), 2.5f * dp)
         drawRect(Color(0xFF4A3A2A), Offset(w * 0.02f, bottom - h * 0.012f), Size(w * 0.45f, h * 0.012f))
-        fitBig26(a.big("veiled", 0, 0), Offset(w * 0.245f, bottom - h * 0.36f), w * 0.4f, GazeC26.Pale, seg(ve, 0.5f, 0.75f))
-        fitBig26(a.big("veiled", 0, 1), Offset(w * 0.245f, bottom - h * 0.2f), w * 0.4f, GazeC26.Pale, seg(ve, 0.6f, 0.85f))
+        fitBig26(a.big("veiled", 0, 0), Offset(w * 0.27f, bottom - h * 0.3f), w * 0.36f, GazeC26.Pale, seg(ve, 0.5f, 0.75f))
+        fitBig26(a.big("veiled", 0, 1), Offset(w * 0.27f, bottom - h * 0.16f), w * 0.36f, GazeC26.Pale, seg(ve, 0.6f, 0.85f))
     }
     // the inference: veiled in His wrath, so seen in His pleasure
     if (inf > 0f) {
@@ -542,7 +542,7 @@ private fun DrawScope.resurrectionLand(a: ArtCtx) {
             }
             if (land >= 1f) {
                 if (k == 0) softGlow(hand, w * 0.04f, ArtInk.Gold, 0.6f)
-                tagAt(a.tag("scrollsfly", 0, k), foot + Offset(0f, -tall * 1.5f - h * 0.03f * k), seg(sf, 0.55f + 0.25f * k, 0.7f + 0.25f * k), back = ResC26.Back, ink = if (k == 0) ArtInk.BrassLight else ArtInk.Ivory)
+                tagAt(a.tag("scrollsfly", 0, k), foot + Offset(if (k == 0) w * 0.05f else -w * 0.05f, -tall * 1.5f - h * 0.09f * k), seg(sf, 0.55f + 0.25f * k, 0.7f + 0.25f * k) * (1f - seg(wg, 0f, 0.3f)), back = ResC26.Back, ink = if (k == 0) ArtInk.BrassLight else ArtInk.Ivory)
             }
         }
     }
@@ -1086,7 +1086,13 @@ private fun DrawScope.tensignsChart(a: ArtCtx) {
             m < 9 -> a.tag("sinkings", 0, m - 6)
             else -> a.tag("yemenfire")
         }
-        tagAt(tl, c + Offset(0f, if (col % 2 == 1) -r * 1.55f else r * 1.55f), seg(fill, 0.4f, 1f), back = TenC26.Back, ink = ArtInk.Ivory)
+        // the names of a group step aside when the next group is named, so the frame stays readable
+        val keep = when {
+            m < 6 -> 1f - seg(sk, 0f, 0.15f)
+            m < 9 -> 1f - seg(yf, 0f, 0.15f)
+            else -> 1f
+        }
+        tagAt(tl, c + Offset(0f, if (col % 2 == 1) -r * 1.55f else r * 1.55f), seg(fill, 0.4f, 1f) * keep, back = TenC26.Back, ink = ArtInk.Ivory)
     }
 }
 

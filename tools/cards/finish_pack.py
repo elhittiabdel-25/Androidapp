@@ -158,6 +158,15 @@ ART_KINDS = {
     "twoseals": {"sealedgate", "permit", "pleased", "refused", "ikhlasopen"},
     "plaingrave": {"nodome", "nofeast", "noidol"},
     "footsteps": {"oldprints", "featherpair", "joinpagans", "bowidols", "firmgroup"},
+    # round 16: «أركان الإيمان»
+    "sixroots": {"threeroots", "threemore", "branchout"},
+    "courts": {"enter", "court5", "court6", "court1"},
+    "verseguard": {"affirmverse", "nobend", "nohow"},
+    "heartjar": {"fillup", "sinkdrop", "stillfaith", "lawfulcrack", "mustard"},
+    "decree": {"allknown", "written", "willed", "allcreated"},
+    "wholeman": {"threeparts", "nodeeds", "tongueonly", "heartonly"},
+    "heartlights": {"samelight", "unequal", "brightthree", "dimtwo", "burnaway"},
+    "threelives": {"ranks", "jibril", "mikail", "israfil", "scribes"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
