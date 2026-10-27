@@ -190,8 +190,8 @@ private fun DrawScope.ruleCloser27(a: ArtCtx, r: Rect, p: Float, o: Float, t: Fl
         val from = stone + Offset(0f, -r.height * 0.42f)
         drawLine(RulC27.Red, from, from + Offset(r.width * 0.05f, -r.height * 0.3f * up), 1.6f * dp, StrokeCap.Round, pathEffect = dash27())
     }
-    fitBig26(a.big("ruletwo", 0, 0), Offset(r.center.x, r.top + r.height * 0.13f), r.width * 0.78f, Color(0xFF6A4418), seg(p, 0.4f, 0.65f))
-    fitBig26(a.big("ruletwo", 0, 1), Offset(r.center.x, r.top + r.height * 0.27f), r.width * 0.5f, Color(0xFF6A4418), seg(p, 0.5f, 0.75f))
+    fitBig26(a.big("ruletwo", 0, 0), Offset(r.center.x, r.top + r.height * 0.13f), r.width * 0.68f, Color(0xFF6A4418), seg(p, 0.4f, 0.65f))
+    fitBig26(a.big("ruletwo", 0, 1), Offset(r.center.x, r.top + r.height * 0.27f), r.width * 0.44f, Color(0xFF6A4418), seg(p, 0.5f, 0.75f))
 }
 
 private fun DrawScope.ruleSame27(a: ArtCtx, r: Rect, p: Float, o: Float, t: Float) {
@@ -367,7 +367,7 @@ private fun DrawScope.anwatRoad(a: ArtCtx) {
     if (tk > 0f) {
         val c = Offset(w * 0.6f, h * 0.62f)
         sirajMunir(c, w * 0.011f, easeOut(seg(tk, 0f, 0.3f)), t, nameAt = c + Offset(0f, -h * 0.12f))
-        tagAt(a.tag("takbirsunan"), Offset(w * 0.66f, h * 0.36f), seg(tk, 0.3f, 0.55f), back = AnwC27.Back, ink = ArtInk.Gold)
+        tagAt(a.tag("takbirsunan"), Offset(w * 0.74f, h * 0.33f), seg(tk, 0.3f, 0.55f), back = AnwC27.Back, ink = ArtInk.Gold)
     }
 }
 

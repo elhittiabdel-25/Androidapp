@@ -73,7 +73,7 @@ private object SixC28 {
 
 private fun medal28(w: Float, h: Float, k: Int): Offset {
     val ang = (-90f + 60f * k) * PI.toFloat() / 180f
-    return Offset(w * 0.5f + cos(ang) * w * 0.3f, h * 0.47f + sin(ang) * h * 0.33f)
+    return Offset(w * 0.5f + cos(ang) * w * 0.3f, h * 0.5f + sin(ang) * h * 0.3f)
 }
 
 /**
@@ -104,8 +104,8 @@ private fun DrawScope.sixrootsPage(a: ArtCtx) {
     val br = a.b("branchout")
     drawRect(Brush.radialGradient(listOf(SixC28.Parch, SixC28.ParchLow), Offset(w * 0.5f, h * 0.45f), w * 0.75f))
     drawRect(SixC28.Gold, Offset(w * 0.025f, h * 0.03f), Size(w * 0.95f, h * 0.94f), alpha = 0.5f, style = Stroke(1.5f * dp))
-    val c = Offset(w * 0.5f, h * 0.47f)
-    val r = w * 0.072f
+    val c = Offset(w * 0.5f, h * 0.5f)
+    val r = w * 0.068f
     val shown = List(6) { k -> if (k < 3) easeOut(seg(r3, k * 0.25f, k * 0.25f + 0.35f)) else easeOut(seg(m3, (k - 3) * 0.25f, (k - 3) * 0.25f + 0.35f)) }
     // the branches: drawn under the medallions, from each one outward and inward
     if (br > 0f) {
@@ -352,7 +352,7 @@ private fun DrawScope.courtsPlan(a: ArtCtx) {
     tagAt(a.tag("enter", 0, 2), idol + Offset(w * 0.12f, -h * 0.1f), seg(en, 0.75f, 0.9f) * words, back = CourtC28.Back, ink = ArtInk.Ember)
     if (idolA > 0f) cross21(idol + Offset(0f, -h * 0.06f), w * 0.03f, Color(0xFFC0463A), seg(en, 0.78f, 0.95f), 2.5f * dp)
     // the numbers of the pillars
-    tagAt(a.tag("court5"), Offset(outer.right - w * 0.06f, outer.top + h * 0.05f), seg(c5, 0.6f, 0.8f), back = CourtC28.Back, ink = ArtInk.Gold)
+    tagAt(a.tag("court5"), Offset(outer.right - w * 0.06f, outer.top + h * 0.05f), seg(c5, 0.6f, 0.8f) * (1f - seg(c1, 0f, 0.2f)), back = CourtC28.Back, ink = ArtInk.Gold)
     tagAt(a.tag("court6"), Offset(middle.right - w * 0.05f, middle.top + h * 0.045f), seg(c6, 0.6f, 0.8f), back = CourtC28.Back, ink = ArtInk.Gold)
     tagAt(a.tag("court1"), Offset(inner.center.x, inner.top + h * 0.035f), seg(c1, 0.6f, 0.8f), back = CourtC28.Back, ink = ArtInk.Gold)
 }
@@ -747,8 +747,8 @@ private fun DrawScope.decreeField(a: ArtCtx) {
             drawLine(DecC28.Rule, Offset(x0, y), Offset(x0 - r.width * 0.8f * f, y), 1.6f * dp, StrokeCap.Round, alpha = tab)
         }
         val hd = seg(wr, 0.35f, 0.7f) * (1f - seg(wl, 0f, 0.3f))
-        fitBig26(a.big("written", 0, 0), Offset(r.center.x, r.bottom + h * 0.07f), w * 0.4f, Color(0xFFFFF4DA), hd)
-        fitBig26(a.big("written", 0, 1), Offset(r.center.x, r.bottom + h * 0.14f), w * 0.46f, Color(0xFFFFF4DA), hd)
+        fitBig26(a.big("written", 0, 0), Offset(w * 0.25f, r.bottom + h * 0.06f), w * 0.3f, Color(0xFFFFF4DA), hd)
+        fitBig26(a.big("written", 0, 1), Offset(w * 0.25f, r.bottom + h * 0.12f), w * 0.34f, Color(0xFFFFF4DA), hd)
     }
     // 3. willed: the first seed puts out root and shoot; the second stays still
     val sprout = easeOut(seg(wl, 0.1f, 0.7f))
@@ -896,14 +896,14 @@ private fun DrawScope.wholemanRoom(a: ArtCtx) {
         val f2 = Offset(w * 0.62f, floor)
         faithMan28(f2, h * 0.42f, 0f, ta, 0f, t, ta, dark = 0.6f)
         drawCircle(ManC28.Off, h * 0.42f * 0.03f, f2 + Offset(h * 0.42f * 0.02f, -h * 0.42f * 0.64f), alpha = ta, style = Stroke(1.2f * dp))
-        struckTag21(a.tag("tongueonly"), Offset(w * 0.6f, h * 0.38f), seg(to, 0.2f, 0.4f), seg(to, 0.5f, 0.85f), ManC28.Red, back = ManC28.Back, ink = ArtInk.Ivory)
+        struckTag21(a.tag("tongueonly"), Offset(w * 0.58f, h * 0.42f), seg(to, 0.2f, 0.4f), seg(to, 0.5f, 0.85f), ManC28.Red, back = ManC28.Back, ink = ArtInk.Ivory)
     }
     // the man who has only a knowing in his heart
     val ka = easeOut(seg(ho, 0.05f, 0.3f))
     if (ka > 0f) {
         val f3 = Offset(w * 0.86f, floor)
         faithMan28(f3, h * 0.42f, 0.35f * ka, 0f, 0f, t, ka, dark = 0.6f)
-        struckTag21(a.tag("heartonly"), Offset(w * 0.85f, h * 0.46f), seg(ho, 0.2f, 0.4f), seg(ho, 0.5f, 0.85f), ManC28.Red, back = ManC28.Back, ink = ArtInk.Ivory)
+        struckTag21(a.tag("heartonly"), Offset(w * 0.85f, h * 0.29f), seg(ho, 0.2f, 0.4f), seg(ho, 0.5f, 0.85f), ManC28.Red, back = ManC28.Back, ink = ArtInk.Ivory)
     }
 }
 
@@ -1020,7 +1020,7 @@ private fun DrawScope.heartlightsNight(a: ArtCtx) {
             val start = h * 0.04f
             val come = easeInOut(seg(bu, 0.05f + 0.04f * k, 0.6f + 0.04f * k))
             val y = mix(start, stop, come)
-            val burn = seg(bu, 0.55f + 0.04f * k, 0.85f + 0.04f * k)
+            val burn = seg(bu, 0.55f + 0.04f * k, 0.85f + 0.04f * k) * (0.35f + 0.65f * litS28[k])
             val cs = w * 0.035f * (1f - 0.85f * burn)
             val c = Offset(chest.x + sin(t * 0.7f + k) * w * 0.01f, y)
             for (m in 0 until 3) {
@@ -1135,17 +1135,17 @@ private fun DrawScope.threelivesLand(a: ArtCtx) {
         drawPath(trail, Color(0xFFDDEBFF), alpha = 0.5f * fadeAll, style = Stroke(1.8f * dp, cap = StrokeCap.Round))
         val u = down
         angelLight26(from * ((1 - u) * (1 - u)) + ctrl * (2 * u * (1 - u)) + to * (u * u), w * 0.016f, t, easeOut(seg(jb, 0f, 0.15f)) * fadeAll.coerceAtLeast(0.3f))
-        sirajMunir(cave + Offset(0f, -h * 0.005f), w * 0.01f, easeOut(seg(jb, 0.4f, 0.7f)), t, nameAt = cave + Offset(-w * 0.15f, -h * 0.06f))
+        sirajMunir(cave + Offset(0f, -h * 0.005f), w * 0.01f, easeOut(seg(jb, 0.4f, 0.7f)) * (1f - easeOut(seg(mk, 0f, 0.3f))), t, nameAt = cave + Offset(-w * 0.15f, -h * 0.06f))
         // the thread to a man's heart
         val man = Offset(w * 0.6f, h * 0.88f)
         val th = easeOut(seg(jb, 0.6f, 0.85f))
         val chest = man + Offset(0f, -h * 0.13f)
         if (th > 0f) drawLine(ArtInk.Gold, cave + Offset(-w * 0.01f, h * 0.03f), cave + Offset(-w * 0.01f, h * 0.03f) + (chest - cave - Offset(-w * 0.01f, h * 0.03f)) * th, 1.5f * dp, StrokeCap.Round, alpha = 0.85f * fadeAll)
-        figure(man, h * 0.2f, Color(0xFF0A0810), easeOut(seg(jb, 0.5f, 0.7f)))
+        figure(man, h * 0.2f, Color(0xFF0A0810), easeOut(seg(jb, 0.5f, 0.7f)) * fadeAll)
         val lit = easeOut(seg(jb, 0.8f, 1f))
         if (lit > 0f) {
-            softGlow(chest, w * 0.04f, Color(0xFFFFE6B0), 0.8f * lit)
-            drawCircle(Color(0xFFFFF4DA), w * 0.006f, chest, alpha = lit)
+            softGlow(chest, w * 0.04f, Color(0xFFFFE6B0), 0.8f * lit * fadeAll)
+            drawCircle(Color(0xFFFFF4DA), w * 0.006f, chest, alpha = lit * fadeAll)
         }
     }
     // 2. rain: life for the earth
@@ -1165,18 +1165,29 @@ private fun DrawScope.threelivesLand(a: ArtCtx) {
     // 3. the horn: life for the dead
     if (isr > 0f) {
         val o = easeOut(seg(isr, 0f, 0.2f)) * (1f - easeOut(seg(sc, 0f, 0.3f)))
-        val n = Offset(w * 0.42f, h * 0.12f)
+        // the horn: a slim curved horn, its narrow end up, its mouth turned down to the land
+        val n = Offset(w * 0.44f, h * 0.1f)
         val m = Offset(w * 0.56f, h * 0.24f)
         val dir = (m - n) / (m - n).getDistance()
-        val perp = Offset(-dir.y, dir.x)
+        val bend = Offset(w * 0.035f, -h * 0.02f)
         val horn = Path().apply {
-            moveTo(n.x + perp.x * w * 0.006f, n.y + perp.y * w * 0.006f)
-            lineTo(m.x + perp.x * w * 0.03f, m.y + perp.y * w * 0.03f)
-            lineTo(m.x - perp.x * w * 0.03f, m.y - perp.y * w * 0.03f)
-            lineTo(n.x - perp.x * w * 0.006f, n.y - perp.y * w * 0.006f)
+            val steps = 14
+            val left = mutableListOf<Offset>()
+            val right = mutableListOf<Offset>()
+            for (k in 0..steps) {
+                val u = k / steps.toFloat()
+                val p = n + (m - n) * u + bend * (4f * u * (1f - u))
+                val half = w * (0.004f + 0.024f * u * u)
+                val nn = Offset(-dir.y, dir.x)
+                left += p + nn * half
+                right += p - nn * half
+            }
+            moveTo(left[0].x, left[0].y)
+            for (q in left.drop(1)) lineTo(q.x, q.y)
+            for (q in right.reversed()) lineTo(q.x, q.y)
             close()
         }
-        drawPath(horn, LifeC28.Horn, alpha = o)
+        drawPath(horn, LifeC28.Horn, alpha = 0.9f * o)
         drawPath(horn, LifeC28.HornEdge, alpha = o, style = Stroke(1.2f * dp))
         angelLight26(n - dir * w * 0.02f, w * 0.012f, t, o)
         val blow = seg(isr, 0.2f, 0.9f)

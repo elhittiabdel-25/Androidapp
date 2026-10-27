@@ -128,7 +128,7 @@ private fun DrawScope.heightsNight(a: ArtCtx) {
         val c = Offset(w * 0.5f, h * 0.85f)
         drawArc(HeiC26.Layer, 200f, 140f, false, Offset(c.x - rx, c.y - ry), Size(rx * 2f, ry * 2f), alpha = f * (0.5f - 0.06f * k), style = Stroke((1.6f - 0.15f * k) * dp))
     }
-    fitBig26(a.big("above"), Offset(w * 0.5f, h * 0.1f), w * 0.55f, HeiC26.Gold, easeOut(seg(ab, 0.45f, 0.8f)), glow = HeiC26.Gold)
+    fitBig26(a.big("above"), Offset(w * 0.5f, h * 0.1f), w * 0.55f, HeiC26.Gold, easeOut(seg(ab, 0.45f, 0.8f)) * (1f - seg(mw, 0f, 0.3f)), glow = HeiC26.Gold)
     // the earth
     hills(HeiC26.DuneFar, horizon, h * 0.02f, 0.012f, 0.031f, 0.6f)
     drawRect(HeiC26.Water, Offset(w * 0.25f, h * 0.7f), Size(w * 0.24f, h * 0.06f), alpha = 0.9f)
