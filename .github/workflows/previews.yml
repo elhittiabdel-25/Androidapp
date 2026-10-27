@@ -8,6 +8,7 @@ on:
     paths:
       - "app/src/main/java/app/usulcards/ui/Art*.kt"
       - "app/src/main/java/app/usulcards/ui/Scenes.kt"
+      - "app/src/main/java/app/usulcards/ui/BooksScreen.kt"
       - "app/src/main/assets/content/cards.json"
       - "tools/previews/**"
       - ".github/workflows/previews.yml"
@@ -44,7 +45,7 @@ jobs:
         run: |
           python3 tools/previews/enable_paparazzi.py
           python3 tools/previews/gen_preview_data.py app/src/main/assets/content/cards.json app/src/test/java/app/usulcards/PreviewData.kt "${{ github.event.inputs.motion }}"
-          cp tools/previews/ArtPreviewTest.kt tools/previews/QuizPreviewTest.kt app/src/test/java/app/usulcards/
+          cp tools/previews/ArtPreviewTest.kt tools/previews/QuizPreviewTest.kt tools/previews/ShelfPreviewTest.kt app/src/test/java/app/usulcards/
 
       - name: Render the scenes
         run: |

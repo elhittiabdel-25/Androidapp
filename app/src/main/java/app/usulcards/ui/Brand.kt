@@ -116,6 +116,7 @@ fun categoryTone(p: Palette, id: String, index: Int): Pair<Color, Color> = when 
     "shirk" -> p.warn to p.warnSoft
     "iman" -> p.ok to p.okSoft
     "manhaj" -> p.gold to p.goldSoft
+    "book" -> p.gold to p.goldSoft
     else -> listOf(p.accent to p.accentSoft, p.gold to p.goldSoft, p.ok to p.okSoft, p.warn to p.warnSoft)[index % 4]
 }
 

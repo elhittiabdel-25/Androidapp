@@ -17,6 +17,7 @@ sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(HERE, "..", "tts"))
 from scenes import SCENES                      # noqa: E402
 from categories import CATEGORIES              # noqa: E402
+from shelf import SHELF                        # noqa: E402
 from quiz_choices import QUIZ                  # noqa: E402
 from build_content import spoken, letters      # noqa: E402
 from variety import codex_errors, variety_report, STRICT   # noqa: E402
@@ -355,13 +356,18 @@ def build(path):
         if k not in cards:
             err(k, "quiz for a card that does not exist")
     used = [c["path"] for c in pack["cards"]]
-    listed = [p for cat in CATEGORIES for p in cat["paths"]]
+    shelf = [b for b in SHELF if any(part["paths"] for part in b["parts"])]     # books with a ready part
+    listed = [p for cat in CATEGORIES for p in cat["paths"]] + [p for b in shelf for part in b["parts"] for p in part["paths"]]
     for p in sorted(set(used)):
         if listed.count(p) != 1:
-            err("categories", f"path «{p}» is in {listed.count(p)} categories (needs exactly one)")
+            err("categories", f"path «{p}» is in {listed.count(p)} categories or book parts (needs exactly one)")
     for p in set(listed) - set(used):
         err("categories", f"path «{p}» has no cards")
+    for b in shelf:
+        if b["book"] not in pack["books"]:
+            err("shelf", f"book {b['id']}: source {b['book']} is not in the pack's books")
     pack["categories"] = CATEGORIES
+    pack["shelf"] = shelf
     problems, summary = variety_report(pack["cards"], SCENES)
     print(summary)
     for v in problems:
@@ -372,7 +378,7 @@ def build(path):
         print("\n".join("ERROR " + e for e in errors))
         sys.exit(1)
     json.dump(pack, open(path, "w", encoding="utf-8"), ensure_ascii=False)
-    print(f"{len(CATEGORIES)} categories and {done} scenes written to {path}")
+    print(f"{len(CATEGORIES)} categories, {len(shelf)} books on the shelf and {done} scenes written to {path}")
 
 
 if __name__ == "__main__":

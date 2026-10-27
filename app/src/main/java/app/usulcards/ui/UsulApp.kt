@@ -9,6 +9,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -50,6 +51,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -77,6 +79,14 @@ fun UsulApp(
             var inModule by remember { mutableStateOf(false) }
             var showAbout by remember { mutableStateOf(false) }
             var openCats by rememberSaveable { mutableStateOf("") }     // categories opened on the home screen
+            var openBook by rememberSaveable { mutableStateOf("") }     // the book open in the books section
+            val hasBooks = repo.shelf.isNotEmpty()
+            val savedTab = if (hasBooks) 2 else 1
+            val shelfProgress = ShelfProgress(
+                cardCount = { p -> repo.cardsFor(null, p).size },
+                doneCount = { p -> repo.cardsFor(null, p).count { it.id in progress.learned } },
+                started = { p -> progress.lastCardIn(p) != null },
+            )
 
             // the voice reads and the reader follows: the screen must not go dark meanwhile
             KeepScreenOn(player.audible && progress.keepScreenOn)
@@ -101,6 +111,13 @@ fun UsulApp(
             BackHandler(enabled = inModule && !showAbout) {
                 player.stop()
                 inModule = false
+            }
+            BackHandler(enabled = !inModule && !showAbout && hasBooks && tab == 1 && openBook.isNotEmpty()) {
+                openBook = ""
+            }
+            // opening the books section once ends its "new" glow and callout
+            LaunchedEffect(tab) {
+                if (hasBooks && tab == 1) progress.markBooksSeen()
             }
 
             Box(Modifier.fillMaxSize().background(pal.bg)) {
@@ -128,8 +145,15 @@ fun UsulApp(
                                     icon = { Icon(Icons.Filled.Menu, contentDescription = null) },
                                     label = { Text("الأقسام", fontFamily = Fonts.ui) },
                                 )
+                                if (hasBooks) {
+                                    NavigationBarItem(
+                                        selected = tab == 1, onClick = { tab = 1 }, colors = itemColors,
+                                        icon = { BooksTabIcon(glow = !progress.booksSeen) },
+                                        label = { Text("الكتب", fontFamily = Fonts.ui) },
+                                    )
+                                }
                                 NavigationBarItem(
-                                    selected = tab == 1, onClick = { tab = 1 }, colors = itemColors,
+                                    selected = tab == savedTab, onClick = { tab = savedTab }, colors = itemColors,
                                     icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
                                     label = { Text("محفوظاتي", fontFamily = Fonts.ui) },
                                 )
@@ -137,9 +161,29 @@ fun UsulApp(
                         },
                     ) { inner ->
                         Box(Modifier.padding(inner)) {
-                            when (tab) {
-                                0 -> HomeScreen(repo, progress, openCats, { openCats = it }, onAbout = { showAbout = true }) { path -> openModule(path) }
+                            when {
+                                tab == 0 -> HomeScreen(
+                                    repo, progress, openCats, { openCats = it }, onAbout = { showAbout = true },
+                                    bottomRoom = if (hasBooks && !progress.booksSeen) 120.dp else 0.dp,
+                                ) { path -> openModule(path) }
+                                tab == 1 && hasBooks -> {
+                                    val book = repo.shelf.firstOrNull { it.id == openBook }
+                                    if (book == null) {
+                                        ShelfScreen(repo.shelf, shelfProgress) { openBook = it.id }
+                                    } else {
+                                        BookScreen(book, shelfProgress, onBack = { openBook = "" }) { path -> openModule(path) }
+                                    }
+                                }
                                 else -> SavedScreen(repo, progress) { id -> openCard(id) }
+                            }
+                            // while the books section is new, a glowing callout above the tab bar points at it
+                            if (tab == 0 && hasBooks && !progress.booksSeen) {
+                                NewBooksCallout(
+                                    repo.shelf.first(),
+                                    onOpen = { tab = 1 },
+                                    onClose = { progress.markBooksSeen() },
+                                    modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 6.dp),
+                                )
                             }
                         }
                     }
@@ -158,11 +202,13 @@ private fun HomeScreen(
     openCats: String,
     onOpenCats: (String) -> Unit,
     onAbout: () -> Unit,
+    bottomRoom: Dp = 0.dp,
     onOpen: (path: String) -> Unit,
 ) {
     val pal = LocalPalette.current
     LazyColumn(
         Modifier.fillMaxSize().padding(horizontal = 16.dp),
+        contentPadding = PaddingValues(bottom = bottomRoom),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         item { Box(Modifier.padding(top = 12.dp)) { Header(progress) } }
@@ -283,12 +329,17 @@ private fun Header(progress: ProgressStore) {
 /** A module: its name, how far the reader got, and where it reopens. */
 @Composable
 private fun ModuleRow(path: String, cards: List<Card>, progress: ProgressStore, color: Color, onClick: () -> Unit) {
+    ModuleRowView(path, cards.count { it.id in progress.learned }, cards.size, progress.lastCardIn(path) != null, color, onClick)
+}
+
+/** The row itself, from plain values (also used by the books section and its previews). */
+@Composable
+internal fun ModuleRowView(name: String, done: Int, total: Int, started: Boolean, color: Color, onClick: () -> Unit) {
     val pal = LocalPalette.current
-    val done = cards.count { it.id in progress.learned }
-    val frac = if (cards.isEmpty()) 0f else done.toFloat() / cards.size
+    val frac = if (total == 0) 0f else done.toFloat() / total
     val state = when {
-        cards.isNotEmpty() && done == cards.size -> "أتممته ✓"
-        done > 0 || progress.lastCardIn(path) != null -> "تابِع"
+        total > 0 && done == total -> "أتممته ✓"
+        done > 0 || started -> "تابِع"
         else -> "ابدأ"
     }
     Column(
@@ -296,8 +347,8 @@ private fun ModuleRow(path: String, cards: List<Card>, progress: ProgressStore, 
         verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-            Text(path, fontFamily = Fonts.ui, fontWeight = FontWeight.SemiBold, fontSize = 15.sp, color = pal.ink, modifier = Modifier.weight(1f))
-            Text("$done / ${cards.size}", fontFamily = Fonts.ui, fontSize = 12.sp, color = pal.muted)
+            Text(name, fontFamily = Fonts.ui, fontWeight = FontWeight.SemiBold, fontSize = 15.sp, color = pal.ink, modifier = Modifier.weight(1f))
+            Text("$done / $total", fontFamily = Fonts.ui, fontSize = 12.sp, color = pal.muted)
             Text(
                 state, fontFamily = Fonts.ui, fontWeight = FontWeight.SemiBold, fontSize = 12.sp, color = color,
                 modifier = Modifier.clip(RoundedCornerShape(50)).border(1.dp, color.copy(alpha = 0.35f), RoundedCornerShape(50))

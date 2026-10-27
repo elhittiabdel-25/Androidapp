@@ -85,7 +85,7 @@ fun ModuleScreen(
     val card = deck.current
     val module = deck.filter ?: card.path
     val cat = repo.categoryOf(module)
-    val tone = categoryTone(pal, cat?.id ?: "", cat?.let { repo.categories.indexOf(it) } ?: 0).first
+    val tone = categoryTone(pal, cat?.id ?: (if (repo.bookOf(module) != null) "book" else ""), cat?.let { repo.categories.indexOf(it) } ?: 0).first
     val moduleCards = repo.cardsFor(null, module)
 
     // A new card opens at its top (not at the scroll offset of the card before), and is remembered.
@@ -124,7 +124,7 @@ fun ModuleScreen(
     }
 
     Column(Modifier.fillMaxSize()) {
-        ModuleBar(module, cat?.title ?: "", moduleCards.count { it.id in progress.learned }, moduleCards.size, tone, onBack)
+        ModuleBar(module, repo.sectionTitleOf(module) ?: "", moduleCards.count { it.id in progress.learned }, moduleCards.size, tone, onBack)
         Box(
             Modifier
                 .weight(1f)

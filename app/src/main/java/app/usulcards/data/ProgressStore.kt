@@ -41,6 +41,10 @@ class ProgressStore(ctx: Context) {
 
     val dailyGoal = DAILY_GOAL
 
+    /** The reader opened the books section once: its "new" glow and banner stop. */
+    var booksSeen by mutableStateOf(prefs.getBoolean("booksSeen", false))
+        private set
+
     /** The daily reminder (see reminder/Reminders.kt): off until the reader turns it on, 20:30 by default. */
     var reminderOn by mutableStateOf(prefs.getBoolean("reminderOn", false))
         private set
@@ -120,6 +124,12 @@ class ProgressStore(ctx: Context) {
     fun updateFollowReading(v: Boolean) {
         followReading = v
         prefs.edit().putBoolean("followReading", v).apply()
+    }
+
+    fun markBooksSeen() {
+        if (booksSeen) return
+        booksSeen = true
+        prefs.edit().putBoolean("booksSeen", true).apply()
     }
 
     fun updateReminder(on: Boolean) {

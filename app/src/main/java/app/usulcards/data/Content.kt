@@ -39,6 +39,23 @@ data class SceneItem(
 /** A group of learning paths (modules) shown together; [glyph] picks its emblem. */
 data class Category(val id: String, val title: String, val about: String, val glyph: String, val paths: List<String>)
 
+/** One part of a book on the shelf: [title] ("الجزء الأول"), its [name], and the paths (chapters) that hold its
+ *  cards. A part with no paths yet is shown as coming soon. */
+data class BookPart(val title: String, val name: String, val paths: List<String>)
+
+/** A book of the books section: [book] is its id in [ContentRepo.books] (for sources); [cover] picks the drawn cover. */
+data class ShelfBook(
+    val id: String,
+    val book: String,
+    val title: String,
+    val subtitle: String,
+    val author: String,
+    val cover: String,
+    val parts: List<BookPart>,
+) {
+    val paths: List<String> get() = parts.flatMap { it.paths }
+}
+
 /** A light animation drawn above the card text; [type] picks the renderer. */
 data class Scene(
     val type: String,
@@ -89,16 +106,24 @@ class ContentRepo(
     val books: Map<String, Book>,
     val cards: List<Card>,
     val categories: List<Category>,
+    val shelf: List<ShelfBook>,
     private val uthmani: Map<String, String>,
     private val recitations: Set<String>,
 ) {
     val byId: Map<String, Card> = cards.associateBy { it.id }
 
-    /** Paths in category order, then any path that no category lists. */
+    /** Paths in category order, then the books' chapters, then any path that neither lists. */
     val paths: List<String> = run {
         val used = cards.map { it.path }.distinct()
-        categories.flatMap { it.paths }.filter { it in used } + used.filter { p -> categories.none { p in it.paths } }
+        val listed = categories.flatMap { it.paths } + shelf.flatMap { it.paths }
+        listed.filter { it in used }.distinct() + used.filter { it !in listed }
     }
+
+    /** The book whose chapters include [path], if any. */
+    fun bookOf(path: String): ShelfBook? = shelf.firstOrNull { path in it.paths }
+
+    /** What a card's path belongs to, for its label: the category's title or the book's. */
+    fun sectionTitleOf(path: String): String? = categoryOf(path)?.title ?: bookOf(path)?.title
 
     fun category(id: String?): Category? = categories.firstOrNull { it.id == id }
     fun categoryOf(path: String): Category? = categories.firstOrNull { path in it.paths }
@@ -159,7 +184,16 @@ class ContentRepo(
                 // older packs: one category per topic
                 cards.groupBy { it.topic }.map { (topic, cs) -> Category(topic, topic, "", "", cs.map { it.path }.distinct()) }
             }
-            return ContentRepo(books, cards, categories, uthmani, recitations)
+            val shelf = (root.optJSONArray("shelf") ?: JSONArray()).objects().map { b ->
+                ShelfBook(
+                    id = b.getString("id"), book = b.optString("book", ""), title = b.getString("title"),
+                    subtitle = b.optString("subtitle", ""), author = b.optString("author", ""), cover = b.optString("cover", ""),
+                    parts = b.getJSONArray("parts").objects().map {
+                        BookPart(it.getString("title"), it.optString("name", ""), (it.optJSONArray("paths") ?: JSONArray()).strings())
+                    },
+                )
+            }
+            return ContentRepo(books, cards, categories, shelf, uthmani, recitations)
         }
 
         private fun parseCard(o: JSONObject): Card {

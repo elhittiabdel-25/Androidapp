@@ -112,7 +112,7 @@ fun CardView(
         ) {
             FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 Pill(card.type, pal.accentSoft, pal.accent, bold = true)
-                Pill("${repo.categoryOf(card.path)?.title ?: card.topic} · ${card.path}", Color.Transparent, pal.muted, border = pal.line)
+                Pill("${repo.sectionTitleOf(card.path) ?: card.topic} · ${card.path}", Color.Transparent, pal.muted, border = pal.line)
                 if (card.books.size > 1) Pill("من كتابين", pal.okSoft, pal.ok)
                 if (card.needsReview) Pill("تحتاج مراجعتك", pal.warnSoft, pal.warn)
             }
