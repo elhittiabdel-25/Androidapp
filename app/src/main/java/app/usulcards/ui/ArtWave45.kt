@@ -74,7 +74,7 @@ private fun DrawScope.measureNight(a: ArtCtx) {
     val ground = h * 0.84f
     nightSky(t, MeasureC45.Sky, MeasureC45.SkyLow, ground, starAlpha = 0.6f)
     drawRect(MeasureC45.Ground, Offset(0f, ground), Size(w, h - ground))
-    val away = 1f - 0.75f * seg(ts, 0f, 0.4f)
+    val away = 1f - seg(ts, 0f, 0.4f)
     // a court that falls without a fixed measure
     if (cf > 0f) {
         val f = easeOut(seg(cf, 0f, 0.3f)) * away * (1f - 0.6f * seg(sb, 0f, 0.4f))
@@ -104,7 +104,7 @@ private fun DrawScope.measureNight(a: ArtCtx) {
     }
     // the same flame through the ages
     if (ts > 0f) {
-        val f = easeOut(seg(ts, 0f, 0.3f)) * (1f - 0.6f * seg(ss, 0f, 0.4f))
+        val f = easeOut(seg(ts, 0f, 0.3f)) * (1f - seg(ss, 0f, 0.4f))
         for (k in 0 until 3) {
             val g = easeOut(seg(ts, 0.1f + 0.2f * k, 0.35f + 0.2f * k))
             val foot = Offset(w * (0.2f + 0.3f * k), ground)
@@ -123,7 +123,7 @@ private fun DrawScope.measureNight(a: ArtCtx) {
     }
     // sawing off the branch one sits on
     if (ss > 0f) {
-        val f = easeOut(seg(ss, 0f, 0.3f)) * (1f - 0.7f * seg(ar, 0f, 0.4f))
+        val f = easeOut(seg(ss, 0f, 0.3f)) * (1f - seg(ar, 0f, 0.4f))
         val trunk = Offset(w * 0.18f, ground)
         drawLine(MeasureC45.Bark, trunk, trunk + Offset(0f, -h * 0.5f), w * 0.05f, alpha = f)
         drawCircle(MeasureC45.Leaf, w * 0.1f, trunk + Offset(0f, -h * 0.55f), alpha = f)
@@ -216,10 +216,10 @@ private fun DrawScope.brainLab(a: ArtCtx) {
     val floor = h * 0.84f
     drawRect(Brush.verticalGradient(listOf(BrainC45.Wall, BrainC45.WallLow), endY = floor), size = Size(w, floor))
     drawRect(BrainC45.Floor, Offset(0f, floor), Size(w, h - floor))
-    val away = 1f - 0.75f * seg(tv, 0f, 0.4f)
+    val away = 1f - seg(tv, 0f, 0.4f)
     // the brain carries out what it is given
     if (ex > 0f) {
-        val f = easeOut(seg(ex, 0f, 0.3f)) * away
+        val f = easeOut(seg(ex, 0f, 0.3f)) * away * (1f - seg(fp, 0f, 0.35f))
         val c = Offset(w * 0.3f, h * 0.38f)
         drawOval(BrainC45.Brain, Offset(c.x - w * 0.13f, c.y - h * 0.08f), Size(w * 0.26f, h * 0.16f), alpha = f)
         drawLine(BrainC45.BrainDark, c + Offset(0f, -h * 0.08f), c + Offset(0f, h * 0.08f), 2f * dp, alpha = f)
@@ -268,7 +268,7 @@ private fun DrawScope.brainLab(a: ArtCtx) {
     }
     // the set shows the programme; it does not make it
     if (tv > 0f) {
-        val f = easeOut(seg(tv, 0f, 0.3f)) * (1f - 0.6f * seg(sp, 0f, 0.4f))
+        val f = easeOut(seg(tv, 0f, 0.3f)) * (1f - seg(sp, 0f, 0.4f))
         val mast = Offset(w * 0.2f, floor)
         drawLine(Color(0xFF8A8A9A), mast, mast + Offset(0f, -h * 0.45f), 3f * dp, alpha = f)
         for (k in 0 until 4) {
@@ -347,7 +347,7 @@ private fun DrawScope.wavesNight(a: ArtCtx) {
     val ground = h * 0.86f
     nightSky(t, WaveC45.Sky, WaveC45.SkyLow, ground, starAlpha = 0.8f)
     drawRect(WaveC45.Ground, Offset(0f, ground), Size(w, h - ground))
-    val away = 1f - 0.75f * seg(tr, 0f, 0.4f)
+    val away = 1f - seg(tr, 0f, 0.4f)
     val dial = Offset(w * 0.2f, h * 0.62f)
     val planets = listOf(Offset(w * 0.55f, h * 0.18f), Offset(w * 0.75f, h * 0.3f), Offset(w * 0.88f, h * 0.14f))
     // a dial and waves sent to the planets
@@ -375,7 +375,7 @@ private fun DrawScope.wavesNight(a: ArtCtx) {
     }
     // a lawful cause, a natural cause, and an amulet
     if (tr > 0f) {
-        val f = easeOut(seg(tr, 0f, 0.3f)) * (1f - 0.7f * seg(sm, 0f, 0.4f))
+        val f = easeOut(seg(tr, 0f, 0.3f)) * (1f - seg(sm, 0f, 0.4f))
         val y = h * 0.68f
         for (k in 0 until 3) {
             val c = Offset(w * (0.22f + 0.28f * k), y)
@@ -399,7 +399,7 @@ private fun DrawScope.wavesNight(a: ArtCtx) {
     }
     // a block on a spring: mass and stiffness, nothing more
     if (sm > 0f) {
-        val f = easeOut(seg(sm, 0f, 0.3f)) * (1f - 0.7f * seg(pm, 0f, 0.4f))
+        val f = easeOut(seg(sm, 0f, 0.3f)) * (1f - seg(pm, 0f, 0.4f))
         val top = Offset(w * 0.3f, h * 0.14f)
         drawLine(WaveC45.Steel, top + Offset(-w * 0.08f, 0f), top + Offset(w * 0.08f, 0f), 4f * dp, alpha = f)
         val y = h * (0.42f + 0.06f * sin(t * 4f) * seg(sm, 0.15f, 0.35f))
@@ -485,7 +485,7 @@ private fun DrawScope.whyNight(a: ArtCtx) {
     val ground = h * 0.84f
     nightSky(t, WhyC45.Sky, WhyC45.SkyLow, ground, starAlpha = 0.6f)
     drawRect(WhyC45.Ground, Offset(0f, ground), Size(w, h - ground))
-    val away = 1f - 0.75f * seg(od, 0f, 0.4f)
+    val away = 1f - seg(od, 0f, 0.4f)
     // first: the seed leans to the light
     if (inn > 0f) {
         val f = easeOut(seg(inn, 0f, 0.3f)) * away
@@ -630,7 +630,7 @@ private fun DrawScope.bowNight(a: ArtCtx) {
     val ground = h * 0.84f
     nightSky(t, BowC45.Sky, BowC45.SkyLow, ground, starAlpha = 0.6f)
     drawRect(BowC45.Ground, Offset(0f, ground), Size(w, h - ground))
-    val away = 1f - 0.75f * seg(sb, 0f, 0.4f)
+    val away = 1f - seg(sb, 0f, 0.4f)
     // one religion: the prophets' lights in a row
     if (pr > 0f) {
         val f = easeOut(seg(pr, 0f, 0.3f)) * away
@@ -671,7 +671,7 @@ private fun DrawScope.bowNight(a: ArtCtx) {
     }
     // everything yields
     if (sb > 0f) {
-        val f = easeOut(seg(sb, 0f, 0.3f)) * (1f - 0.7f * seg(sh, 0f, 0.4f))
+        val f = easeOut(seg(sb, 0f, 0.3f)) * (1f - seg(sh, 0f, 0.4f))
         val bow = easeInOut(seg(sb, 0.3f, 0.7f))
         lightShafts(Offset(w * 0.5f, h * 0.02f), PI.toFloat() / 2f, 0.9f, h * 0.45f, Color(0xFFFFF0C8), 0.35f * f, t, rays = 7)
         drawPath(Path().apply { moveTo(w * 0.05f, ground); quadraticTo(w * 0.2f, ground - h * 0.3f, w * 0.38f, ground); close() }, BowC45.Hill, alpha = f)
@@ -684,7 +684,7 @@ private fun DrawScope.bowNight(a: ArtCtx) {
     }
     // the shared ship
     if (sh > 0f) {
-        val f = easeOut(seg(sh, 0f, 0.3f)) * (1f - 0.75f * seg(kh, 0f, 0.4f))
+        val f = easeOut(seg(sh, 0f, 0.3f)) * (1f - seg(kh, 0f, 0.4f))
         val sea = h * 0.7f
         drawRect(BowC45.Sea, Offset(0f, sea), Size(w, h - sea), alpha = f)
         val bob = h * 0.008f * sin(t * 1.5f)

@@ -315,8 +315,10 @@ private fun DrawScope.fourGates(a: ArtCtx) {
         }
         drawPath(archPath26(x, top, ground, hw), lerpColor(Color(0xFF2A2A3A), Color(0xFFFFF0C8), great), alpha = f * 0.85f)
         drawPath(archPath26(x, top, ground, hw), GatesC39.Gate, alpha = f, style = Stroke(4f * dp))
-        val dimOthers = if (k < 3) 1f - 0.5f * seg(gw, 0f, 0.5f) else 1f
-        tagAt(a.tag("fourways", 0, k), Offset(x, top - h * 0.06f - h * 0.04f * (k % 2)), seg(fw, 0.2f + 0.15f * k, 0.45f + 0.15f * k) * dimOthers, back = Back39, ink = if (k == 3) ArtInk.Gold else ArtInk.Ivory)
+        // the four names belong to the wide shot; once the camera moves in only «الرسل» comes back, over its gate
+        val wide = seg(fw, 0.2f + 0.15f * k, 0.45f + 0.15f * k) * (1f - seg(fx, 0f, 0.25f))
+        val back = if (k == 3) seg(gw, 0.25f, 0.55f) * (1f - seg(rb, 0f, 0.25f)) else 0f
+        tagAt(a.tag("fourways", 0, k), Offset(x, top - h * 0.06f - h * 0.04f * (k % 2)), maxOf(wide, back), back = Back39, ink = if (k == 3) ArtInk.Gold else ArtInk.Ivory)
     }
     // no atheists in the trenches
     if (fx > 0f) {

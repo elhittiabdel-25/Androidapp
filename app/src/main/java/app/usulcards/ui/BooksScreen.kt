@@ -207,7 +207,7 @@ private fun partsWord(n: Int) = when (n) {
 private fun cardsWord(n: Int) = when {
     n == 1 -> "بطاقة"
     n == 2 -> "بطاقتان"
-    n in 3..10 -> "بطاقات"
+    n % 100 in 3..10 -> "بطاقات"          // 3–10, 103–110, 203–210 …
     else -> "بطاقة"
 }
 

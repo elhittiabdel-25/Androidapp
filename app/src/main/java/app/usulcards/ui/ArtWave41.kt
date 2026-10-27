@@ -186,7 +186,7 @@ private fun DrawScope.hornsPlain(a: ArtCtx) {
             val c = Offset(x, ground - h * 0.01f)
             softGlow(c, w * 0.08f, HornC41.Sun, 0.6f * f)
             drawArc(HornC41.Sun, 180f, 180f, true, Offset(c.x - w * 0.045f, c.y - w * 0.045f), Size(w * 0.09f, w * 0.09f), alpha = f)
-            tagAt(a.tag("eastwest", 0, k), c + Offset(if (k == 0) w * 0.08f else -w * 0.08f, -h * 0.1f), seg(ew, 0.5f + 0.15f * k, 0.75f + 0.15f * k) * (1f - 0.6f * seg(th, 0f, 0.4f)), back = Back41, ink = ArtInk.Gold)
+            tagAt(a.tag("eastwest", 0, k), c + Offset(if (k == 0) w * 0.08f else -w * 0.08f, -h * 0.1f), seg(ew, 0.5f + 0.15f * k, 0.75f + 0.15f * k) * (1f - seg(th, 0f, 0.3f)), back = Back41, ink = ArtInk.Gold)
         }
         drawLine(Color(0xFFE8D2A0), Offset(w * 0.5f - w * 0.42f * road, ground + h * 0.05f), Offset(w * 0.5f + w * 0.42f * road, ground + h * 0.05f), 4f * dp, StrokeCap.Round, alpha = f)
     }
@@ -513,7 +513,7 @@ private fun DrawScope.streamsNight(a: ArtCtx) {
     }
     // two companions, two ways of reading, both as revealed
     if (tc > 0f) {
-        val f = easeOut(seg(tc, 0f, 0.4f)) * (1f - 0.6f * seg(cb, 0f, 0.4f))
+        val f = easeOut(seg(tc, 0f, 0.4f)) * (1f - seg(cb, 0f, 0.4f))
         for (k in 0 until 2) {
             val come = easeInOut(seg(tc, 0.1f + 0.15f * k, 0.6f + 0.15f * k))
             val from = Offset(if (k == 0) w * 0.08f else w * 0.92f, h * 0.32f)
@@ -594,7 +594,7 @@ private fun DrawScope.stairsDay(a: ArtCtx) {
     drawRect(StepC41.Ground, Offset(0f, ground), Size(w, h - ground))
     // the ransom
     if (rr > 0f) {
-        val f = easeOut(seg(rr, 0f, 0.3f)) * (1f - 0.6f * seg(gr, 0f, 0.4f))
+        val f = easeOut(seg(rr, 0f, 0.3f)) * (1f - seg(gr, 0f, 0.4f))
         val light = Offset(w * 0.16f, h * 0.42f)
         nabiLight14(light, w * 0.01f, f, t, a.tag("ransomram"), light + Offset(0f, -h * 0.1f))
         val ram = Offset(w * 0.3f, ground - h * 0.06f)

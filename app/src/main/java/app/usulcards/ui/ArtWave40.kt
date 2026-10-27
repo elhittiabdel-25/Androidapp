@@ -212,8 +212,8 @@ private fun DrawScope.classRoom(a: ArtCtx) {
         val step = easeInOut(seg(fw, 0.2f, 0.7f))
         figure(Offset(w * 0.5f + w * 0.1f * step, floor + h * 0.12f), h * 0.12f, ClassC40.Pupil, f, walk = if (fw in 0.2f..0.7f) t * 6f else 0f)
         figure(Offset(w * 0.42f - w * 0.08f * step, floor + h * 0.12f), h * 0.12f, Color(0xFF5A4A40), f, lean = 0.15f * step)
-        tagAt(a.tag("forward", 0, 0), Offset(w * 0.62f, floor + h * 0.16f), seg(fw, 0.5f, 0.75f) * away, back = Back40, ink = ArtInk.Gold)
-        tagAt(a.tag("forward", 0, 1), Offset(w * 0.3f, floor + h * 0.16f), seg(fw, 0.6f, 0.85f) * away, back = Back40, ink = Color(0xFFD8D0C8))
+        tagAt(a.tag("forward", 0, 0), Offset(w * 0.62f, floor + h * 0.16f), seg(fw, 0.5f, 0.75f) * (1f - seg(ms, 0f, 0.3f)), back = Back40, ink = ArtInk.Gold)
+        tagAt(a.tag("forward", 0, 1), Offset(w * 0.3f, floor + h * 0.16f), seg(fw, 0.6f, 0.85f) * (1f - seg(ms, 0f, 0.3f)), back = Back40, ink = Color(0xFFD8D0C8))
     }
     // messengers sent to every town
     if (ms > 0f) {
@@ -316,7 +316,6 @@ private fun DrawScope.revNight(a: ArtCtx) {
     if (vo > 0f) {
         val f = easeOut(seg(vo, 0f, 0.3f)) * (1f - 0.5f * seg(om, 0f, 0.4f))
         val light = Offset(w * 0.3f, h * 0.36f)
-        sirajMunir(light, w * 0.011f, f, t, nameAt = light + Offset(0f, -h * 0.1f))
         val shelfY = h * 0.6f
         for (r in 0 until 2) {
             drawRect(RevC40.Shelf, Offset(w * 0.45f, shelfY + r * h * 0.1f), Size(w * 0.45f, h * 0.012f), alpha = f)
@@ -342,8 +341,15 @@ private fun DrawScope.revNight(a: ArtCtx) {
         val foot = Offset(w * 0.25f, ground + h * 0.02f)
         val kneel = easeInOut(seg(om, 0.35f, 0.7f))
         camel26(foot + Offset(0f, h * 0.04f * kneel), h * 0.22f, RevC40.Camel, f, t, 0f)
-        val c = foot + Offset(0f, -h * 0.3f + h * 0.04f * kneel)
-        sirajMunir(c, w * 0.011f, f, t, nameAt = c + Offset(0f, -h * 0.1f))
+    }
+    // his light: one light only, by the shelves and then on his mount
+    if (vo > 0f || om > 0f) {
+        val byShelf = Offset(w * 0.3f, h * 0.36f)
+        val kneel = easeInOut(seg(om, 0.35f, 0.7f))
+        val onMount = Offset(w * 0.25f, ground + h * 0.02f) + Offset(0f, -h * 0.3f + h * 0.04f * kneel)
+        val p = byShelf + (onMount - byShelf) * easeInOut(seg(om, 0f, 0.4f))
+        val s = maxOf(easeOut(seg(vo, 0f, 0.3f)), easeOut(seg(om, 0f, 0.3f))) * (1f - 0.5f * seg(ec, 0f, 0.4f))
+        sirajMunir(p, w * 0.011f, s, t, nameAt = p + Offset(0f, -h * 0.1f))
     }
     // the eclipse he would not use
     if (ec > 0f) {
@@ -523,7 +529,7 @@ private fun DrawScope.stormSky(a: ArtCtx) {
     }
     // why, and why again, down to: so it has been made to run
     if (wc > 0f) {
-        val f = easeOut(seg(wc, 0f, 0.25f)) * (1f - 0.6f * seg(me, 0f, 0.4f))
+        val f = easeOut(seg(wc, 0f, 0.25f)) * (1f - 0.6f * seg(me, 0f, 0.4f)) * (1f - seg(bp, 0f, 0.3f))
         for (k in 0 until 4) {
             val c = Offset(w * 0.78f, h * (0.36f + 0.09f * k))
             val g = seg(wc, 0.05f + 0.12f * k, 0.25f + 0.12f * k)
@@ -531,7 +537,7 @@ private fun DrawScope.stormSky(a: ArtCtx) {
             qmark21(c, h * 0.035f, Color(0xFFD8DCF0), f * g)
             if (k < 3) drawLine(Color(0xFFB8BCD0), c + Offset(0f, h * 0.03f), c + Offset(0f, h * 0.06f), 1.5f * dp, alpha = f * g)
         }
-        tagAt(a.tag("whychain"), Offset(w * 0.78f, h * 0.78f), seg(wc, 0.6f, 0.85f) * (1f - 0.6f * seg(me, 0f, 0.4f)), back = Back40, ink = ArtInk.Gold)
+        tagAt(a.tag("whychain"), Offset(w * 0.78f, h * 0.78f), seg(wc, 0.6f, 0.85f) * (1f - 0.6f * seg(me, 0f, 0.4f)) * (1f - seg(bp, 0f, 0.3f)), back = Back40, ink = ArtInk.Gold)
     }
     // the mechanism: how it runs
     if (me > 0f) {

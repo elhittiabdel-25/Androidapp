@@ -92,11 +92,11 @@ private fun DrawScope.courtNight(a: ArtCtx) {
         for (k in 0 until 5) drawCircle(CourtC44.Fruit, w * 0.012f, tree + Offset(w * 0.05f * cos(k * 1.3f), -h * 0.26f + h * 0.05f * sin(k * 1.7f)), alpha = f)
         check21(tree + Offset(w * 0.1f, -h * 0.34f), w * 0.02f, ArtInk.Jade, seg(ex, 0.2f, 0.4f) * f, 3f * dp)
         for (k in 0 until 3) {
-            val c = Offset(w * (0.32f + 0.1f * k), ground - h * (0.12f + 0.08f * (k % 2)))
+            val c = Offset(w * (0.3f + 0.14f * k), ground - h * (0.12f + 0.06f * (k % 2)))
             val g = seg(ex, 0.3f + 0.15f * k, 0.5f + 0.15f * k)
             drawCircle(CourtC44.Coin, w * 0.025f, c, alpha = f * g)
             check21(c + Offset(w * 0.035f, -h * 0.03f), w * 0.012f, ArtInk.Jade, g * f, 2.5f * dp)
-            tagAt(a.tag("exemptions", 0, k), c + Offset(0f, -h * 0.07f), g * away * (1f - seg(ta, 0f, 0.3f)), back = Back44, ink = ArtInk.Ivory)
+            tagAt(a.tag("exemptions", 0, k), c + Offset(0f, -h * (0.07f + 0.08f * (k % 2))), g * away * (1f - seg(ta, 0f, 0.3f)), back = Back44, ink = ArtInk.Ivory)
         }
     }
     // the court gate turns the confessor back
@@ -213,11 +213,22 @@ private fun DrawScope.emptyRoom(a: ArtCtx) {
         val m = seg(ll, 0.15f, 0.35f) * f
         drawOval(EmptyC44.Mule, Offset(mule.x - w * 0.07f, mule.y - h * 0.14f), Size(w * 0.14f, h * 0.07f), alpha = m)
         for (k in 0 until 4) drawLine(EmptyC44.Mule, Offset(mule.x - w * 0.05f + k * w * 0.033f, mule.y - h * 0.09f), Offset(mule.x - w * 0.05f + k * w * 0.033f, mule.y), w * 0.01f, alpha = m)
-        drawLine(EmptyC44.Mule, mule + Offset(-w * 0.06f, -h * 0.12f), mule + Offset(-w * 0.1f, -h * 0.18f), w * 0.02f, StrokeCap.Round, alpha = m)
-        val sword = Offset(w * 0.5f, floor - h * 0.25f)
+        drawLine(EmptyC44.Mule, mule + Offset(-w * 0.06f, -h * 0.12f), mule + Offset(-w * 0.09f, -h * 0.17f), w * 0.022f, StrokeCap.Round, alpha = m)
+        drawOval(EmptyC44.Mule, Offset(mule.x - w * 0.125f, mule.y - h * 0.19f), Size(w * 0.055f, h * 0.035f), alpha = m)
+        for (e in 0 until 2) drawLine(EmptyC44.Mule, mule + Offset(-w * (0.085f + 0.012f * e), -h * 0.185f), mule + Offset(-w * (0.08f + 0.012f * e), -h * 0.225f), w * 0.008f, StrokeCap.Round, alpha = m)
+        drawCircle(Color(0xFF3A3028), w * 0.004f, mule + Offset(-w * 0.11f, -h * 0.175f), alpha = m)
+        drawLine(EmptyC44.Mule, mule + Offset(w * 0.07f, -h * 0.12f), mule + Offset(w * 0.085f, -h * 0.07f), w * 0.006f, StrokeCap.Round, alpha = m)
+        val sword = Offset(w * 0.5f, floor - h * 0.3f)
         val s = seg(ll, 0.3f, 0.5f) * f
-        drawLine(EmptyC44.Steel, sword, sword + Offset(0f, h * 0.18f), w * 0.01f, StrokeCap.Round, alpha = s)
-        drawLine(ArtInk.Brass, sword + Offset(-w * 0.03f, h * 0.035f), sword + Offset(w * 0.03f, h * 0.035f), w * 0.01f, StrokeCap.Round, alpha = s)
+        for (pg in listOf(-1f, 1f)) drawCircle(Color(0xFF6A4A32), w * 0.008f, sword + Offset(pg * w * 0.07f, h * 0.012f), alpha = s)
+        drawPath(Path().apply {
+            moveTo(sword.x - w * 0.06f, sword.y - h * 0.006f)
+            quadraticTo(sword.x + w * 0.06f, sword.y - h * 0.012f, sword.x + w * 0.13f, sword.y - h * 0.03f)
+            quadraticTo(sword.x + w * 0.07f, sword.y + h * 0.006f, sword.x - w * 0.06f, sword.y + h * 0.006f)
+            close()
+        }, EmptyC44.Steel, alpha = s)
+        drawLine(ArtInk.Brass, sword + Offset(-w * 0.06f, -h * 0.018f), sword + Offset(-w * 0.06f, h * 0.018f), w * 0.008f, StrokeCap.Round, alpha = s)
+        drawLine(Color(0xFF6A4A32), sword + Offset(-w * 0.065f, 0f), sword + Offset(-w * 0.11f, 0f), w * 0.012f, StrokeCap.Round, alpha = s)
         val land = Offset(w * 0.75f, floor - h * 0.03f)
         val lf = seg(ll, 0.45f, 0.65f) * f
         drawRect(EmptyC44.Land, Offset(land.x - w * 0.1f, land.y - h * 0.03f), Size(w * 0.2f, h * 0.05f), alpha = lf)
@@ -225,7 +236,7 @@ private fun DrawScope.emptyRoom(a: ArtCtx) {
     }
     // Bilal clothes the poor on borrowed money
     if (bd > 0f) {
-        val f = easeOut(seg(bd, 0f, 0.3f)) * away
+        val f = easeOut(seg(bd, 0f, 0.3f)) * (1f - seg(fc, 0f, 0.35f))
         val b = Offset(w * 0.3f, h * 0.38f)
         nameRoundel(b, w * 0.05f, a.tag("bilaldebt"), Roundel.Fills[0], Roundel.Rim, f)
         for (k in 0 until 3) {
@@ -406,7 +417,7 @@ private fun DrawScope.honorNight(a: ArtCtx) {
     val op = a.b("ownpurse")
     val sq = a.b("shaqaiq")
     nightSky(t, HonorC44.Sky, HonorC44.SkyLow, h, starAlpha = 0.5f)
-    val away = 1f - 0.8f * seg(sq, 0f, 0.4f)
+    val away = 1f - seg(sq, 0f, 0.4f)
     // three quarters
     if (qu > 0f) {
         val f = easeOut(seg(qu, 0f, 0.3f)) * away
@@ -438,7 +449,7 @@ private fun DrawScope.honorNight(a: ArtCtx) {
             val g = easeOut(seg(ls, 0.1f + 0.12f * k, 0.3f + 0.12f * k))
             val r = w * (0.015f + 0.006f * k)
             drawPath(w8Heart(c, r * g), HonorC44.Heart, alpha = f)
-            drawCircle(ArtInk.BrassLight, r * 2f * g, c, alpha = f * 0.8f, style = Stroke(2f * dp))
+            drawCircle(ArtInk.BrassLight, r * 1.7f * g, c, alpha = f * 0.8f, style = Stroke(2f * dp))
         }
     }
     // a purse of her own
@@ -625,7 +636,7 @@ private fun DrawScope.ledgerRoom(a: ArtCtx) {
     val floor = h * 0.86f
     drawRect(Brush.verticalGradient(listOf(LedgerC44.Wall, LedgerC44.WallLow), endY = floor), size = Size(w, floor))
     drawRect(LedgerC44.Floor, Offset(0f, floor), Size(w, h - floor))
-    val away = 1f - 0.75f * seg(obl, 0f, 0.4f)
+    val away = 1f - seg(obl, 0f, 0.4f)
     // a trade ledger and two seals that remind each other
     if (tl > 0f) {
         val f = easeOut(seg(tl, 0f, 0.3f)) * away
@@ -739,7 +750,7 @@ private fun DrawScope.fairNight(a: ArtCtx) {
     val away = 1f - 0.8f * seg(ko, 0f, 0.4f)
     // a bond, or loose threads
     if (bv > 0f) {
-        val f = easeOut(seg(bv, 0f, 0.3f)) * away * (1f - 0.7f * seg(jc, 0f, 0.4f))
+        val f = easeOut(seg(bv, 0f, 0.3f)) * away * (1f - seg(jc, 0f, 0.4f))
         val h1 = Offset(w * 0.28f, ground)
         house44(h1, w * 0.18f, FairC44.Wall, FairC44.Roof, f, lit = 0.6f)
         val tie = easeOut(seg(bv, 0.2f, 0.6f))

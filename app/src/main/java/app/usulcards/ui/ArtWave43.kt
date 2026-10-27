@@ -204,7 +204,7 @@ private fun DrawScope.writeRoom(a: ArtCtx) {
         val f = easeOut(seg(cl, 0f, 0.3f)) * away
         val y = h * 0.18f
         val start = Offset(w * 0.12f, y)
-        sirajMunir(start, w * 0.01f, f, t, nameAt = start + Offset(0f, -h * 0.08f))
+        sirajMunir(start, w * 0.01f, f, t, nameAt = start + Offset(w * 0.05f, h * 0.075f))
         drawLine(WriteC43.Line, start, Offset(w * 0.9f, y), 2f * dp, alpha = f)
         val m = Offset(w * 0.78f, y)
         drawLine(WriteC43.Red, m + Offset(0f, -h * 0.03f), m + Offset(0f, h * 0.03f), 2.5f * dp, alpha = f)
@@ -236,7 +236,7 @@ private fun DrawScope.writeRoom(a: ArtCtx) {
             val g = easeOut(seg(tc, 0.2f + 0.2f * k, 0.5f + 0.2f * k))
             book43(base + Offset(0f, -h * 0.12f), h * 0.12f, WriteC43.Cover[1], f * g)
             softGlow(base + Offset(0f, -h * 0.18f), w * 0.05f, ArtInk.Gold, 0.4f * f * g)
-            tagAt(a.tag("twocopies", 0, k), base + Offset(0f, h * 0.05f), seg(tc, 0.4f + 0.2f * k, 0.65f + 0.2f * k) * away, back = Back43, ink = ArtInk.Ivory)
+            tagAt(a.tag("twocopies", 0, k), base + Offset(0f, h * 0.05f), seg(tc, 0.4f + 0.2f * k, 0.65f + 0.2f * k) * away * (1f - seg(ft, 0f, 0.3f)), back = Back43, ink = ArtInk.Ivory)
         }
     }
     // fifty-two companions who wrote
@@ -310,7 +310,7 @@ private fun DrawScope.chainNight(a: ArtCtx) {
     val top = Offset(w * 0.35f, h * 0.1f)
     val cf = easeOut(seg(el, 0f, 0.3f)) * away
     if (cf > 0f) {
-        sirajMunir(top, w * 0.011f, cf, t, nameAt = top + Offset(-w * 0.14f, 0f))
+        sirajMunir(top, w * 0.011f, cf, t, nameAt = top + Offset(-w * 0.16f, h * 0.06f))
         val n = 8
         for (k in 0 until n) {
             val c = Offset(top.x, h * (0.17f + 0.06f * k))
@@ -325,7 +325,7 @@ private fun DrawScope.chainNight(a: ArtCtx) {
         }
         val book = Offset(top.x, h * 0.17f + h * 0.06f * n + h * 0.02f)
         openBook21(book, w * 0.12f, Color(0xFFF6EED8), Color(0xFF8A6A3A), cf * seg(el, 0.6f, 0.85f), glow = 0.4f * cf)
-        tagAt(a.tag("missinglink"), Offset(top.x + w * 0.17f, h * 0.23f), seg(ml, 0.4f, 0.7f) * away, back = Color(0xE6501818), ink = Color(0xFFFFD8D0))
+        tagAt(a.tag("missinglink"), Offset(top.x + w * 0.17f, h * 0.23f), seg(ml, 0.4f, 0.7f) * (1f - seg(tr, 0f, 0.3f)), back = Color(0xE6501818), ink = Color(0xFFFFD8D0))
     }
     // five sieves
     if (fc > 0f) {
@@ -335,7 +335,7 @@ private fun DrawScope.chainNight(a: ArtCtx) {
             val g = easeOut(seg(fc, 0.05f + 0.15f * k, 0.25f + 0.15f * k))
             drawArc(ChainC43.Sieve, 0f, 180f, false, Offset(c.x - w * 0.1f, c.y - h * 0.03f), Size(w * 0.2f, h * 0.06f), alpha = f * g, style = Stroke(2.5f * dp))
             for (j in 0 until 5) drawCircle(ChainC43.Sieve, w * 0.003f, c + Offset(w * (-0.06f + 0.03f * j), h * 0.02f), alpha = f * g)
-            tagAt(a.tag("fiveconditions", 0, k), c + Offset(0f, -h * 0.01f), g * away, back = Back43, ink = ArtInk.Ivory)
+            tagAt(a.tag("fiveconditions", 0, k), c + Offset(0f, -h * 0.01f), g * away * (1f - seg(ml, 0f, 0.3f)), back = Back43, ink = ArtInk.Ivory)
         }
     }
     // a month's ride for one hadith
@@ -344,7 +344,7 @@ private fun DrawScope.chainNight(a: ArtCtx) {
         val y = h * 0.85f
         drawLine(ChainC43.Road, Offset(w * 0.08f, y), Offset(w * 0.92f, y), 3f * dp, alpha = f, pathEffect = PathEffect.dashPathEffect(floatArrayOf(8f * dp, 6f * dp)))
         val go = easeInOut(seg(tr, 0.2f, 0.95f))
-        nameRoundel(Offset(w * (0.12f + 0.76f * go), y - h * 0.07f), w * 0.045f, a.tag("travel"), Roundel.Fills[1], Roundel.Rim, f)
+        nameRoundel(Offset(w * (0.16f + 0.68f * go), y - h * 0.07f), w * 0.045f, a.tag("travel"), Roundel.Fills[1], Roundel.Rim, f)
         val moon = Offset(w * 0.5f, h * 0.62f)
         val phase = go
         drawCircle(ChainC43.Moon, w * 0.035f, moon, alpha = f)
@@ -503,8 +503,10 @@ private fun DrawScope.cloakNight(a: ArtCtx) {
     nightSky(t, CloakC43.Sky, CloakC43.SkyLow, h, starAlpha = 0.6f)
     val light = Offset(w * 0.3f, h * 0.24f)
     val lf = easeOut(seg(cl, 0f, 0.3f)) * (1f - 0.7f * seg(eh, 0f, 0.4f))
-    sirajMunir(light, w * 0.012f, lf, t, nameAt = light + Offset(0f, -h * 0.1f))
-    val ab = Offset(w * 0.42f + w * 0.01f * sin(t * 0.8f), h * 0.3f)
+    sirajMunir(light, w * 0.012f, lf, t, nameAt = light + Offset(-w * 0.15f, h * 0.01f))
+    // one roundel for him all through: beside the light, then at the centre of those who took from him
+    val ab = Offset(w * 0.42f + w * 0.01f * sin(t * 0.8f), h * 0.3f) +
+        (Offset(w * 0.5f, h * 0.45f) - Offset(w * 0.42f, h * 0.3f)) * easeInOut(seg(eh, 0f, 0.4f))
     val rf = easeOut(seg(cl, 0.2f, 0.5f))
     // the cloak
     if (ck > 0f) {
@@ -534,12 +536,11 @@ private fun DrawScope.cloakNight(a: ArtCtx) {
             check21(c + Offset(0f, h * 0.16f), w * 0.02f, ArtInk.Jade, seg(mt, 0.75f, 0.95f) * f, 3f * dp)
         }
     }
-    nameRoundel(ab, w * 0.05f, a.tag("closest"), Roundel.Fills[1], Roundel.Rim, rf * (1f - 0.3f * seg(ck, 0f, 0.3f)))
+    nameRoundel(ab, w * 0.05f, a.tag("closest"), Roundel.Fills[1], Roundel.Rim, rf * (1f - 0.3f * seg(ck, 0f, 0.3f) * (1f - seg(eh, 0f, 0.3f))))
     // eight hundred who took from him
     if (eh > 0f) {
         val f = easeOut(seg(eh, 0f, 0.3f))
         val c = Offset(w * 0.5f, h * 0.45f)
-        nameRoundel(c, w * 0.05f, a.tag("closest"), Roundel.Fills[1], Roundel.Rim, f)
         for (k in 0 until 80) {
             val an = k * 2.399f
             val r = w * (0.09f + 0.3f * fract(k * 0.618f)) * easeOut(seg(eh, 0.1f, 0.7f))

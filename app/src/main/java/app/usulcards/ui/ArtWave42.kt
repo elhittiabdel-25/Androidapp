@@ -478,10 +478,10 @@ private fun DrawScope.templeSands(a: ArtCtx) {
         val s1 = Offset(w * 0.36f, ground + h * 0.12f)
         drawRoundRect(TempleC42.Stele, Offset(s1.x - w * 0.07f, s1.y - h * 0.2f), Size(w * 0.14f, h * 0.2f), CornerRadius(w * 0.07f, w * 0.07f), alpha = f)
         for (r in 0 until 5) drawLine(Color(0xFF5A544A), Offset(s1.x - w * 0.05f, s1.y - h * 0.15f + r * h * 0.03f), Offset(s1.x + w * 0.05f, s1.y - h * 0.15f + r * h * 0.03f), 1f * dp, alpha = f * 0.6f)
-        tagAt(a.tag("steles", 0, 0), s1 + Offset(0f, -h * 0.25f), seg(sl, 0.3f, 0.55f) * away, back = Back42, ink = ArtInk.Ivory)
+        tagAt(a.tag("steles", 0, 0), s1 + Offset(0f, -h * 0.25f), seg(sl, 0.3f, 0.55f) * (1f - seg(mm, 0f, 0.3f)), back = Back42, ink = ArtInk.Ivory)
         val s2 = Offset(w * 0.64f, ground + h * 0.12f)
         drawPath(Path().apply { moveTo(s2.x - w * 0.07f, s2.y); lineTo(s2.x - w * 0.06f, s2.y - h * 0.12f); lineTo(s2.x + w * 0.02f, s2.y - h * 0.15f); lineTo(s2.x + w * 0.07f, s2.y - h * 0.06f); lineTo(s2.x + w * 0.06f, s2.y); close() }, TempleC42.Stele, alpha = f * seg(sl, 0.4f, 0.6f))
-        tagAt(a.tag("steles", 0, 1), s2 + Offset(0f, -h * 0.21f), seg(sl, 0.6f, 0.85f) * away, back = Back42, ink = ArtInk.Ivory)
+        tagAt(a.tag("steles", 0, 1), s2 + Offset(0f, -h * 0.21f), seg(sl, 0.6f, 0.85f) * (1f - seg(mm, 0f, 0.3f)), back = Back42, ink = ArtInk.Ivory)
     }
     // a city whose places everyone knows
     if (mm > 0f) {

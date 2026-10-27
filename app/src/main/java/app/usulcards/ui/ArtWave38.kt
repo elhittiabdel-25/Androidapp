@@ -120,11 +120,10 @@ private fun DrawScope.fogField(a: ArtCtx) {
     }
     // the three sources of their doubts, named over the clouded stones
     if (to > 0f) {
-        for ((n, k) in fogged.withIndex()) {
-            val row = k / 7
-            val col = k % 7
-            val c = Offset(w * (0.1f + 0.13f * col + 0.05f * (row % 2)), ground + h * (0.08f + 0.1f * row) - h * 0.12f)
-            tagAt(a.tag("threeorigins", 0, n), c + Offset(0f, -h * 0.08f - h * 0.06f * n), seg(to, 0.35f + 0.15f * n, 0.6f + 0.15f * n) * (1f - seg(cg, 0f, 0.3f)), back = Back38, ink = Color(0xFFE0E0E8))
+        for (n in 0 until minOf(3, fogged.size)) {
+            // spread in a row above the field, so the three names never sit on each other
+            val c = Offset(w * (0.78f - 0.28f * n), ground - h * (0.1f + 0.06f * (n % 2)))
+            tagAt(a.tag("threeorigins", 0, n), c, seg(to, 0.35f + 0.15f * n, 0.6f + 0.15f * n) * (1f - seg(cg, 0f, 0.3f)), back = Back38, ink = Color(0xFFE0E0E8))
         }
     }
     // one cell under the lens: billions of letters in order
@@ -471,7 +470,7 @@ private fun DrawScope.labRoom(a: ArtCtx) {
             val g = seg(tp, 0.1f + 0.15f * k, 0.4f + 0.15f * k)
             drawRect(Color(0xFFC8C8D0), Offset(x - w * 0.035f, roofY + h * 0.02f), Size(w * 0.07f, bench - roofY - h * 0.02f), alpha = f * g,
                 style = Stroke(2f * dp, pathEffect = PathEffect.dashPathEffect(floatArrayOf(6f * dp, 5f * dp))))
-            tagAt(a.tag("threepillars", 0, k), Offset(x, h * (0.34f + 0.08f * k)), seg(tp, 0.25f + 0.15f * k, 0.5f + 0.15f * k) * (1f - seg(iw, 0f, 0.4f)), back = Back38, ink = Color(0xFFE8E8F0))
+            tagAt(a.tag("threepillars", 0, k), Offset(x, h * (0.29f + 0.115f * k)), seg(tp, 0.25f + 0.15f * k, 0.5f + 0.15f * k) * (1f - seg(iw, 0f, 0.4f)), back = Back38, ink = Color(0xFFE8E8F0))
         }
     }
     // the wall behind you: no good, no evil
