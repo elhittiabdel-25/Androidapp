@@ -24,7 +24,8 @@ FIGURE_LAYOUTS = {"verdict", "crowd", "deeds", "gifts", "camp", "study", "canyon
                   "heights", "revelation", "gaze", "resurrection", "register", "unseen", "barzakh", "nameswall",
                   "fourrules", "anwat", "offering", "storm", "twoseals", "plaingrave", "footsteps",
                   "courts", "verseguard", "wholeman", "heartlights", "threelives",
-                  "twolands", "proofscroll", "lastbrick", "allegiance", "jamaa", "twowings"}   # scenes drawn with faceless figures
+                  "twolands", "proofscroll", "lastbrick", "allegiance", "jamaa", "twowings",
+                  "dawnfear", "elephant", "detector", "safa", "vineyard", "listener", "challenge", "conquests", "skyline"}   # scenes drawn with faceless figures
 # a prophet named in a tag (a lantern may carry the companions' or the scholars' knowledge, never a prophet)
 PROPHET = re.compile(r"ﷺ|النبي|الرسول|رسول|نبي\b|محمد|المبعوث")       # one prophet (the guidance of "the prophets" may be a lantern)
 # people a lantern must not stand for: they are drawn as figures (or as their names in roundels)

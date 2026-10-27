@@ -9,7 +9,7 @@
 BASAER = "73540"
 
 BOOKS6 = {
-    BASAER: {"title": "بصائر — الجزء الأول: تفنيد آراء الملحدين في الكون والحياة", "author": "هيثم طلعت"},
+    BASAER: {"title": "بصائر", "author": "هيثم طلعت"},   # one PDF for the whole book; pages run on through the parts
 }
 
 P_YAQIN = "الإلحاد وطريق اليقين"

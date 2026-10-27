@@ -468,14 +468,14 @@ private fun DrawScope.householdField(a: ArtCtx) {
         if (shine > 0f) softGlow(c, w * 0.08f, Color(0xFFFFE6B0), 0.5f * shine)
         nameRoundel(c + Offset(0f, -h * 0.3f * lift), w * 0.055f, a.big("household", 0, k), Roundel.Fills[k], Roundel.Rim, f)
     }
-    tagAt(a.tag("household", 0, 4), Offset(w * 0.5f, h * 0.06f), seg(ho, 0.55f, 0.8f) * (1f - seg(ne, 0f, 0.2f)), back = HouseC30.Back, ink = ArtInk.BrassLight)
+    tagAt(a.tag("household", 0, 4), Offset(w * 0.5f, h * 0.06f), seg(ho, 0.55f, 0.8f) * (1f - seg(nl, 0f, 0.2f)), back = HouseC30.Back, ink = ArtInk.BrassLight)
     // the Mothers of the Believers
     for (k in 0 until 6) {
         val f = easeOut(seg(mo, 0.05f + k * 0.1f, 0.3f + k * 0.1f))
         nameRoundel(motherRing30(w, h, k), w * 0.048f, a.big("mothers", 0, k), HouseC30.Mothers, Roundel.Rim, f)
     }
     // one of his kin who has no share in this
-    val lah = easeOut(seg(nl, 0f, 0.3f))
+    val lah = easeOut(seg(nl, 0f, 0.3f)) * (1f - seg(ne, 0f, 0.25f))
     if (lah > 0f) {
         val c = Offset(w * 0.86f, h * 0.86f)
         nameRoundel(c, w * 0.045f, a.big("notlahab"), HouseC30.Out, Color(0xFF8A8A8A), lah, ink = Color(0xFFC8C8C8))

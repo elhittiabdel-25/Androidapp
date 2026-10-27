@@ -72,7 +72,7 @@ private fun DrawScope.paleFlame29(base: Offset, s: Float, t: Float, k: Int, alph
 }
 
 /** The Kaaba, seen from the front, its base at [foot]. */
-private fun DrawScope.kaaba29(foot: Offset, s: Float, alpha: Float) {
+internal fun DrawScope.kaaba29(foot: Offset, s: Float, alpha: Float) {
     if (alpha <= 0.01f) return
     drawRect(Color(0xFF14121A), Offset(foot.x - s * 0.5f, foot.y - s * 0.9f), Size(s, s * 0.9f), alpha = alpha)
     drawRect(Color(0xFFD8A83A), Offset(foot.x - s * 0.5f, foot.y - s * 0.72f), Size(s, s * 0.07f), alpha = alpha)
@@ -80,7 +80,7 @@ private fun DrawScope.kaaba29(foot: Offset, s: Float, alpha: Float) {
 }
 
 /** A mosque with a dome, its base at [foot]. */
-private fun DrawScope.domed29(foot: Offset, s: Float, body: Color, dome: Color, alpha: Float) {
+internal fun DrawScope.domed29(foot: Offset, s: Float, body: Color, dome: Color, alpha: Float) {
     if (alpha <= 0.01f) return
     drawRect(body, Offset(foot.x - s * 0.55f, foot.y - s * 0.5f), Size(s * 1.1f, s * 0.5f), alpha = alpha)
     drawRect(lerpColor(body, Color.Black, 0.15f), Offset(foot.x - s * 0.3f, foot.y - s * 0.62f), Size(s * 0.6f, s * 0.12f), alpha = alpha)

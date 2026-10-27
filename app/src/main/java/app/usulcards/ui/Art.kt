@@ -296,6 +296,38 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "jamaa" -> jamaaScene(a)
         "household" -> householdScene(a)
         "twowings" -> twowingsScene(a)
+        "dawnfear" -> dawnfearScene(a)
+        "spring" -> springScene(a)
+        "elephant" -> elephantScene(a)
+        "detector" -> detectorScene(a)
+        "safa" -> safaScene(a)
+        "mistpath" -> mistpathScene(a)
+        "tawatur" -> tawaturScene(a)
+        "brethren" -> brethrenScene(a)
+        "threepeaks" -> threepeaksScene(a)
+        "kedar" -> kedarScene(a)
+        "openhouse" -> openhouseScene(a)
+        "vineyard" -> vineyardScene(a)
+        "statue" -> statueScene(a)
+        "sceptre" -> sceptreScene(a)
+        "awaited" -> awaitedScene(a)
+        "overseer" -> overseerScene(a)
+        "myths" -> mythsScene(a)
+        "gates" -> gatesScene(a)
+        "nebula" -> nebulaScene(a)
+        "earthmoon" -> earthmoonScene(a)
+        "twowaters" -> twowatersScene(a)
+        "spine" -> spineScene(a)
+        "nightglobe" -> nightglobeScene(a)
+        "listener" -> listenerScene(a)
+        "challenge" -> challengeScene(a)
+        "lifeline" -> lifelineScene(a)
+        "darkvale" -> darkvaleScene(a)
+        "foretold" -> foretoldScene(a)
+        "siffin" -> siffinScene(a)
+        "conquests" -> conquestsScene(a)
+        "skyline" -> skylineScene(a)
+        "greenarabia" -> greenarabiaScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -680,6 +712,10 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "nosincere", "nofollow" -> 4000
     "sideroad" -> 7750
     "twowings" -> 9000
+    // «بصائر»، الجزء الثاني
+    "fourq", "ishmaellight", "fulfilled", "lastlit", "handover", "onelight", "daily", "heartrise", "rights", "secret", "sixmonths", "certain", "alarm" -> 3500
+    "fearstorm", "grandeur", "ownsource", "fromabove", "spring", "muddy", "witness", "blindsix", "overview", "pullout", "parts", "plateglow", "cage", "plate", "cageopen", "embers", "twopoles", "safahill", "samethread", "witnessed", "impossible", "wonder", "align", "sunsea", "ringclose", "twobranch", "falsefade", "likemusa", "tin", "paran", "sinai", "seir", "names3", "quietstreet", "kedarhomes", "eyesopen", "servant", "selasong", "welling", "newkeepers", "cornerset", "rejected", "fillearth", "handless", "kingdoms", "unshackle", "sceptre", "linedark", "throne", "yathrib", "cell", "ezra", "strikethree", "striketwo", "strikeone", "overbook", "clean", "manyverses", "radiator", "sevenhorses", "beacon", "dukhan", "primalsea", "breathe", "moonfade", "waterlife", "innerwave", "curdle", "extract", "stages", "mixing", "sinks", "streak", "coccyx", "openquran", "offers", "returns", "fussilat", "dare", "pearls", "spears", "depth", "links", "topofhundred", "swapstone", "daybreak", "darkvale", "martyrs", "twobricks", "quds", "aman", "constantinople", "shepherds", "skyward", "foam", "markets", "belowzero", "goldpillars", "greening" -> 5000
+    "sameday", "sparks", "converge", "pot", "pilgrims", "dayandnight", "flocks", "vineyard", "statue", "twelve", "gatethree", "gatetwo", "gateone", "fabric", "widen", "condense", "joints", "everyhouse", "dense", "hira", "fleet", "twocamps", "threelands", "buriedrivers" -> 7000
     else -> 1000
 }
 
