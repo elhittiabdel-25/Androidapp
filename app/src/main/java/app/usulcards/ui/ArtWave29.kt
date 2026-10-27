@@ -56,6 +56,21 @@ private fun DrawScope.elder29(foot: Offset, tall: Float, color: Color, alpha: Fl
     drawLine(color, foot + Offset(-tall * 0.28f, -tall * 0.45f), foot + Offset(-tall * 0.32f, 0f), max(1.4f * density, tall * 0.035f), StrokeCap.Round, alpha = alpha)
 }
 
+/** A jinn as the codex draws it: a pale, smokeless blue flame. */
+private fun DrawScope.paleFlame29(base: Offset, s: Float, t: Float, k: Int, alpha: Float) {
+    if (alpha <= 0.01f) return
+    val fl = 0.08f * sin(t * 7f + k * 1.7f) + 0.05f * sin(t * 11f + k)
+    val tip = base + Offset(s * fl, -s)
+    val p = Path().apply {
+        moveTo(base.x - s * 0.22f, base.y)
+        quadraticTo(base.x - s * 0.3f, base.y - s * 0.45f, tip.x, tip.y)
+        quadraticTo(base.x + s * 0.3f, base.y - s * 0.45f, base.x + s * 0.22f, base.y)
+        close()
+    }
+    softGlow(base + Offset(0f, -s * 0.4f), s * 0.6f, Color(0xFFBFD8FF), 0.5f * alpha)
+    drawPath(p, Brush.verticalGradient(listOf(Color(0xFFEAF4FF), Color(0xFF9AC0F0), Color(0xFF5A8AE0)), startY = tip.y, endY = base.y), alpha = 0.85f * alpha)
+}
+
 /** The Kaaba, seen from the front, its base at [foot]. */
 private fun DrawScope.kaaba29(foot: Offset, s: Float, alpha: Float) {
     if (alpha <= 0.01f) return
@@ -158,7 +173,7 @@ private fun DrawScope.twolandsRoad(a: ArtCtx) {
         drawCircle(LandC29.Idol, w * 0.01f, Offset(x, horizon - h * 0.21f), alpha = lands)
     }
     val tagLands = seg(co, 0.15f, 0.35f)
-    tagAt(a.tag("crossover", 0, 0), Offset(w * 0.77f, h * 0.12f), tagLands, back = LandC29.Back, ink = Color(0xFFFFB0A0))
+    tagAt(a.tag("crossover", 0, 0), Offset(w * 0.77f, h * 0.12f), tagLands * (1f - seg(ex, 0f, 0.2f)), back = LandC29.Back, ink = Color(0xFFFFB0A0))
     tagAt(a.tag("crossover", 0, 1), Offset(w * 0.23f, h * 0.12f), tagLands * (1f - seg(ex, 0f, 0.2f)), back = LandC29.Back, ink = ArtInk.BrassLight)
     // the family on the road, then others after them
     val tall = h * 0.16f
@@ -204,8 +219,8 @@ private fun DrawScope.twolandsRoad(a: ArtCtx) {
                 }
             }
         }
-        fitBig26(a.big("excused", 0, 0), Offset(w * 0.72f, h * 0.3f), w * 0.36f, Color(0xFF4A2E1A), seg(ex, 0.3f, 0.55f))
-        fitBig26(a.big("excused", 0, 1), Offset(w * 0.72f, h * 0.4f), w * 0.36f, Color(0xFF4A2E1A), seg(ex, 0.45f, 0.7f))
+        fitBig26(a.big("excused", 0, 0), Offset(w * 0.72f, h * 0.2f), w * 0.36f, Color(0xFF4A2E1A), seg(ex, 0.3f, 0.55f))
+        fitBig26(a.big("excused", 0, 1), Offset(w * 0.72f, h * 0.29f), w * 0.36f, Color(0xFF4A2E1A), seg(ex, 0.45f, 0.7f))
     }
 }
 
@@ -525,7 +540,7 @@ private fun DrawScope.lastbrickPlain(a: ArtCtx) {
         lightShafts(c, PI.toFloat(), 0.5f, w * 0.45f, Color(0xFFFFE6A0), 0.35f * o, t, rays = 5)
         lightShafts(c, 0f, 0.5f, w * 0.45f, Color(0xFFFFE6A0), 0.35f * o, t, rays = 5)
         for (k in 0 until 3) figure(Offset(w * (0.05f + 0.06f * k), h * 0.95f), h * 0.13f, BrickC29.Ink, easeOut(seg(ta, 0.3f + k * 0.08f, 0.5f + k * 0.08f)))
-        for (k in 0 until 3) jinnFlame20(Offset(w * (0.83f + 0.06f * k), h * 0.95f), h * 0.1f, t, k, easeOut(seg(ta, 0.35f + k * 0.08f, 0.55f + k * 0.08f)))
+        for (k in 0 until 3) paleFlame29(Offset(w * (0.83f + 0.06f * k), h * 0.95f), h * 0.1f, t, k, easeOut(seg(ta, 0.35f + k * 0.08f, 0.55f + k * 0.08f)))
         tagAt(a.tag("toall", 0, 1), Offset(w * 0.11f, h * 0.68f), seg(ta, 0.5f, 0.7f), back = BrickC29.Back, ink = ArtInk.BrassLight)
         tagAt(a.tag("toall", 0, 0), Offset(w * 0.89f, h * 0.68f), seg(ta, 0.55f, 0.75f), back = BrickC29.Back, ink = Color(0xFFBFD8FF))
     }
@@ -655,8 +670,8 @@ private fun DrawScope.nightjourneySky(a: ArtCtx) {
         val upDown = if (trips >= 4f) 0f else sin(u * PI.toFloat())
         pos = Offset(col, mix(treeC.y + h * 0.08f, heaven29(h, 5) - h * 0.03f, upDown))
         val fifty = 1f - seg(ff, 0.8f, 0.9f)
-        tagAt(a.tag("fiftytofive", 0, 0), Offset(col + w * 0.2f, h * 0.2f), seg(ff, 0.05f, 0.15f) * fifty, back = NightC29.Back, ink = ArtInk.Gold)
-        tagAt(a.tag("fiftytofive", 0, 1), Offset(col + w * 0.2f, h * 0.2f), seg(ff, 0.88f, 0.98f), back = NightC29.Back, ink = ArtInk.Gold)
+        tagAt(a.tag("fiftytofive", 0, 0), Offset(col + w * 0.32f, h * 0.34f), seg(ff, 0.05f, 0.15f) * fifty, back = NightC29.Back, ink = ArtInk.Gold)
+        tagAt(a.tag("fiftytofive", 0, 1), Offset(col + w * 0.32f, h * 0.34f), seg(ff, 0.88f, 0.98f), back = NightC29.Back, ink = ArtInk.Gold)
     }
     val strength = easeOut(seg(nr, 0.05f, 0.3f))
     sirajMunir(pos, w * 0.012f, strength, t, nameAt = pos + Offset(w * 0.14f, h * 0.02f))

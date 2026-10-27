@@ -172,6 +172,13 @@ ART_KINDS = {
     "proofscroll": {"refusegold", "trusted", "fewtomany", "reproach", "saferider"},
     "lastbrick": {"sealofall", "liars", "palacegap", "lastone", "toall"},
     "nightjourney": {"nightride", "ledprayer", "sevenheavens", "lotetop", "fiftytofive"},
+    # round 18: «منهج أهل السنة»
+    "allegiance": {"believer", "nobond", "evenkin", "loveandhate"},
+    "companions": {"fourfirst", "theten", "allcompanions", "holdtongue", "tworewards", "bestgens"},
+    "jamaa": {"bidgood", "keeprows", "withleaders", "onewall"},
+    "household": {"household", "mothers", "notlahab", "noexcess", "nosaving"},
+    # round 19: «السنة والبدعة»
+    "twowings": {"sideroad", "twowings", "nosincere", "nofollow"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

@@ -291,6 +291,11 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "proofscroll" -> proofscrollScene(a)
         "lastbrick" -> lastbrickScene(a)
         "nightjourney" -> nightjourneyScene(a)
+        "allegiance" -> allegianceScene(a)
+        "companions" -> companionsScene(a)
+        "jamaa" -> jamaaScene(a)
+        "household" -> householdScene(a)
+        "twowings" -> twowingsScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -657,6 +662,24 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "saferider" -> 8250
     "toall" -> 8750
     "refusegold", "trusted", "sevenheavens", "fiftytofive" -> 9000
+    // round 18: «منهج أهل السنة»
+    "evenkin", "theten", "allcompanions" -> 1800
+    "holdtongue", "keeprows" -> 2500
+    "tworewards" -> 4000
+    "nobond" -> 4250
+    "believer", "loveandhate", "onewall" -> 4500
+    "nosaving" -> 5250
+    "bestgens" -> 5500
+    "notlahab" -> 5750
+    "mothers" -> 6750
+    "bidgood" -> 7000
+    "fourfirst" -> 7750
+    "withleaders" -> 8500
+    "household", "noexcess" -> 9000
+    // round 19: «السنة والبدعة»
+    "nosincere", "nofollow" -> 4000
+    "sideroad" -> 7750
+    "twowings" -> 9000
     else -> 1000
 }
 
@@ -724,7 +747,7 @@ internal class ArtCtx(
 }
 
 /** Scenes that write their tags large (see ArtCtx.big). */
-internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent", "omenroad", "triptych", "heights", "revelation", "gaze", "nameswall", "register", "unseen", "fourrules", "twoseals", "storm", "sixroots", "verseguard", "decree", "threelives", "twolands", "proofscroll")
+internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent", "omenroad", "triptych", "heights", "revelation", "gaze", "nameswall", "register", "unseen", "fourrules", "twoseals", "storm", "sixroots", "verseguard", "decree", "threelives", "twolands", "proofscroll", "allegiance", "companions", "household")
 
 // ───────────── shared helpers ─────────────
 

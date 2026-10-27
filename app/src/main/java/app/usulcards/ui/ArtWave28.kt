@@ -903,7 +903,7 @@ private fun DrawScope.wholemanRoom(a: ArtCtx) {
     if (ka > 0f) {
         val f3 = Offset(w * 0.86f, floor)
         faithMan28(f3, h * 0.42f, 0.35f * ka, 0f, 0f, t, ka, dark = 0.6f)
-        struckTag21(a.tag("heartonly"), Offset(w * 0.85f, h * 0.29f), seg(ho, 0.2f, 0.4f), seg(ho, 0.5f, 0.85f), ManC28.Red, back = ManC28.Back, ink = ArtInk.Ivory)
+        struckTag21(a.tag("heartonly"), Offset(w * 0.85f, h * 0.21f), seg(ho, 0.2f, 0.4f), seg(ho, 0.5f, 0.85f), ManC28.Red, back = ManC28.Back, ink = ArtInk.Ivory)
     }
 }
 
@@ -1169,7 +1169,7 @@ private fun DrawScope.threelivesLand(a: ArtCtx) {
         val n = Offset(w * 0.44f, h * 0.1f)
         val m = Offset(w * 0.56f, h * 0.24f)
         val dir = (m - n) / (m - n).getDistance()
-        val bend = Offset(w * 0.035f, -h * 0.02f)
+        val bend = Offset(w * 0.012f, -h * 0.008f)
         val horn = Path().apply {
             val steps = 14
             val left = mutableListOf<Offset>()
@@ -1187,8 +1187,20 @@ private fun DrawScope.threelivesLand(a: ArtCtx) {
             for (q in right.reversed()) lineTo(q.x, q.y)
             close()
         }
-        drawPath(horn, LifeC28.Horn, alpha = 0.9f * o)
-        drawPath(horn, LifeC28.HornEdge, alpha = o, style = Stroke(1.2f * dp))
+        drawPath(horn, Brush.linearGradient(listOf(Color(0xFFD8C8A0), LifeC28.Horn, Color(0xFFB8A27A)), start = n, end = m), alpha = o)
+        drawPath(horn, Color(0xFF8A7A5A), alpha = o, style = Stroke(1.6f * dp))
+        // bands round the horn, and its flared mouth
+        for (k in 1..3) {
+            val u = k / 4f
+            val p = n + (m - n) * u + bend * (4f * u * (1f - u))
+            val half = w * (0.004f + 0.024f * u * u)
+            val nn = Offset(-dir.y, dir.x)
+            drawLine(Color(0xFF8A7A5A), p + nn * half, p - nn * half, 1.4f * dp, alpha = o)
+        }
+        withTransform({ rotate((kotlin.math.atan2(dir.y, dir.x) * 180f / PI.toFloat()) + 90f, m) }) {
+            drawOval(Color(0xFF3A3040), Offset(m.x - w * 0.028f, m.y - h * 0.008f), Size(w * 0.056f, h * 0.016f), alpha = o)
+            drawOval(Color(0xFF8A7A5A), Offset(m.x - w * 0.028f, m.y - h * 0.008f), Size(w * 0.056f, h * 0.016f), alpha = o, style = Stroke(1.4f * dp))
+        }
         angelLight26(n - dir * w * 0.02f, w * 0.012f, t, o)
         val blow = seg(isr, 0.2f, 0.9f)
         if (blow > 0f) for (k in 0 until 4) {
