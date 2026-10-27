@@ -68,10 +68,20 @@ jobs:
           EOF
           echo "TAG=$tag" >> "$GITHUB_ENV"
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ocr-${{ env.TAG }}
-          path: out/*.txt
+      # each part goes straight to this branch (the account's artifact storage can be full)
+      - name: Commit this part to the branch
+        run: |
+          mkdir -p sources/ocr/parts
+          cp out/*.txt sources/ocr/parts/
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add sources/ocr/parts
+          git commit -qm "OCR part ${TAG}"
+          for i in 1 2 3 4 5 6 7 8 9 10; do
+            git pull -q --rebase origin sources && git push -q origin HEAD:sources && exit 0
+            sleep $((RANDOM % 12 + 3))
+          done
+          exit 1
 
   collect:
     needs: ocr
@@ -80,11 +90,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/download-artifact@v4
-        with:
-          pattern: ocr-*
-          merge-multiple: true
-          path: parts
+      - name: Get the parts the jobs pushed
+        run: git fetch -q origin sources && git reset -q --hard FETCH_HEAD
 
       - name: Join the parts and commit them to this branch
         run: |
@@ -93,18 +100,19 @@ jobs:
           python3 - <<'EOF'
           import os, re, collections
           parts = collections.defaultdict(list)
-          for f in os.listdir('parts'):
+          for f in os.listdir('sources/ocr/parts'):
               m = re.match(r'(\d+)(?:_(\d+)-\d+)?\.txt$', f)
               if m:
                   parts[m.group(1)].append((int(m.group(2) or 0), f))
           for book, fs in sorted(parts.items()):
               with open(f'sources/ocr/{book}.txt', 'w', encoding='utf-8') as o:
                   for _, f in sorted(fs):
-                      o.write(open(os.path.join('parts', f), encoding='utf-8').read())
+                      o.write(open(os.path.join('sources/ocr/parts', f), encoding='utf-8').read())
               print(book, len(fs), 'part(s)')
           EOF
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
+          git rm -q -r sources/ocr/parts
           git add sources/ocr
           git commit -qm "OCR text of the book PDFs" || echo "nothing to commit"
           git push
