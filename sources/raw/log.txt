@@ -24,3 +24,4 @@ ok 15892.doc 1845760 https://islamcontent.com/storage/contents/15892/ar_Fath_Alm
 ok 15714.pdf 18984200 https://islamcontent.com/storage/contents/15714/ar_Shr7_teeseer_Al3zeez_Al7meed.pdf
 ok 89743.doc 10018816 https://islamcontent.com/storage/contents/89743/ar_explaining_al-aqida_al-tahaweia.doc
 ok 765.pdf 1856220 https://islamcontent.com/storage/contents/765/ar-2-shar7-elsunna-elmozan-al-minhaaj.pdf
+ok 73540.pdf 47061942 https://islamcontent.com/storage/contents/73540/ar-basaer.pdf
