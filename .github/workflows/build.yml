@@ -47,8 +47,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: app/src/main/assets/quran
-          key: quran-${{ hashFiles('app/src/main/assets/content/cards.json') }}
-          restore-keys: quran-
+          key: quran48-${{ hashFiles('app/src/main/assets/content/cards.json') }}
+          restore-keys: quran48-
 
       - name: Fetch verse recitations and Uthmani text
         run: python3 tools/fetch_quran.py app/src/main/assets | tee "$RUNNER_TEMP/quran.log"

@@ -10,6 +10,7 @@ import json, os, re, sys, time, urllib.request
 
 ASSETS = sys.argv[1] if len(sys.argv) > 1 else "app/src/main/assets"
 RECITER = "ar.alafasy"          # Mishary Rashid Alafasy
+BITRATE = 48                    # kbps; the app's size is mostly audio (64 kbps made the recitations 67 MB)
 cards = json.load(open(f"{ASSETS}/content/cards.json", encoding="utf-8"))["cards"]
 ayat = set()
 for c in cards:
@@ -34,6 +35,7 @@ try:    # files kept from an earlier build by the workflow cache: only new verse
 except (OSError, ValueError):
     cached = {}
 uthmani, ok_audio = {}, 0
+rate = __import__("collections").Counter()     # recitations downloaded in this run, by bitrate
 for s, a in sorted(ayat):
     if f"{s}:{a}" in cached and os.path.exists(f"{ASSETS}/quran/{s:03d}{a:03d}.mp3"):
         uthmani[f"{s}:{a}"] = cached[f"{s}:{a}"]
@@ -50,13 +52,16 @@ for s, a in sorted(ayat):
             if words and re.sub(r"[ً-ٰٟۖ-ۭ]", "", words[0]).startswith("بسم"):
                 text = " ".join(words[4:])
         uthmani[f"{s}:{a}"] = text
-        links = list(audio_ed.get("audioSecondary") or []) + [audio_ed.get("audio")]   # 64 kbps first, then 128
+        # 48 kbps first (a bitrate the CDN publishes, so it is not re-encoded by us), then the API's 64 and 128
+        links = [f"https://cdn.islamic.network/quran/audio/{BITRATE}/{RECITER}/{audio_ed['number']}.mp3"] \
+            + list(audio_ed.get("audioSecondary") or []) + [audio_ed.get("audio")]
     mp3 = f"{ASSETS}/quran/{s:03d}{a:03d}.mp3"
     if not os.path.exists(mp3):
         for url in filter(None, links):
             audio = get(url)
             if audio and len(audio) > 1000:
                 open(mp3, "wb").write(audio)
+                rate[url.split("/audio/")[1].split("/")[0] if "/audio/" in url else "?"] += 1
                 break
     ok_audio += os.path.exists(mp3)
     time.sleep(0.2)
@@ -65,4 +70,6 @@ cited = {f"{s:03d}{a:03d}.mp3" for s, a in ayat}
 for f in os.listdir(f"{ASSETS}/quran"):     # a verse no longer cited must not stay in the app
     if f.endswith(".mp3") and f not in cited:
         os.remove(f"{ASSETS}/quran/{f}")
-print(f"verses cited: {len(ayat)} | recitations: {ok_audio} | uthmani texts: {len(uthmani)}")
+size = sum(os.path.getsize(f"{ASSETS}/quran/{f}") for f in os.listdir(f"{ASSETS}/quran") if f.endswith(".mp3"))
+got = ", ".join(f"{n} at {k} kbps" for k, n in sorted(rate.items())) or "none new"
+print(f"verses cited: {len(ayat)} | recitations: {ok_audio} ({size / 1048576:.1f} MB; downloaded now: {got}) | uthmani texts: {len(uthmani)}")

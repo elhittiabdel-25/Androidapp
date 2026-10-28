@@ -41,7 +41,11 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            // R8: drops unused code and resources (the code shrinks from about 9 MB to 2-3 MB in the download).
+            // The .aab carries the mapping file, so Play Console shows readable crash reports.
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = if (uploadKeystore != null) signingConfigs.getByName("upload") else signingConfigs.getByName("debug")
         }
     }
