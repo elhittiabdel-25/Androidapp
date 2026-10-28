@@ -1,0 +1,62 @@
+[
+ {
+  "ref": "2:255",
+  "kbps": 128,
+  "bytes": 831865,
+  "url": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/262.mp3"
+ },
+ {
+  "ref": "2:255",
+  "kbps": 64,
+  "bytes": 417111,
+  "url": "https://cdn.islamic.network/quran/audio/64/ar.alafasy/262.mp3"
+ },
+ {
+  "ref": "2:255",
+  "kbps": 48,
+  "error": "HTTP Error 403: Forbidden",
+  "url": "https://cdn.islamic.network/quran/audio/48/ar.alafasy/262.mp3"
+ },
+ {
+  "ref": "2:255",
+  "kbps": 40,
+  "error": "HTTP Error 403: Forbidden",
+  "url": "https://cdn.islamic.network/quran/audio/40/ar.alafasy/262.mp3"
+ },
+ {
+  "ref": "2:255",
+  "kbps": 32,
+  "error": "HTTP Error 403: Forbidden",
+  "url": "https://cdn.islamic.network/quran/audio/32/ar.alafasy/262.mp3"
+ },
+ {
+  "ref": "51:56",
+  "kbps": 128,
+  "bytes": 159787,
+  "url": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4731.mp3"
+ },
+ {
+  "ref": "51:56",
+  "kbps": 64,
+  "bytes": 81075,
+  "url": "https://cdn.islamic.network/quran/audio/64/ar.alafasy/4731.mp3"
+ },
+ {
+  "ref": "51:56",
+  "kbps": 48,
+  "error": "HTTP Error 403: Forbidden",
+  "url": "https://cdn.islamic.network/quran/audio/48/ar.alafasy/4731.mp3"
+ },
+ {
+  "ref": "51:56",
+  "kbps": 40,
+  "error": "HTTP Error 403: Forbidden",
+  "url": "https://cdn.islamic.network/quran/audio/40/ar.alafasy/4731.mp3"
+ },
+ {
+  "ref": "51:56",
+  "kbps": 32,
+  "error": "HTTP Error 403: Forbidden",
+  "url": "https://cdn.islamic.network/quran/audio/32/ar.alafasy/4731.mp3"
+ }
+]
