@@ -100,7 +100,8 @@ fun Evidence.ayat(): List<Pair<Int, Int>> {
     return (lo..hi).map { surah to it }
 }
 
-fun ayahFile(surah: Int, ayah: Int): String = "quran/%03d%03d.mp3".format(surah, ayah)
+/** A verse's recitation in the app: the published MP3, or Opus (.ogg) when the build re-encodes them. */
+fun ayahFiles(surah: Int, ayah: Int): List<String> = "quran/%03d%03d".format(surah, ayah).let { listOf("$it.ogg", "$it.mp3") }
 
 class ContentRepo(
     val books: Map<String, Book>,
@@ -148,7 +149,7 @@ class ContentRepo(
     }
 
     fun recitationFiles(e: Evidence): List<String> =
-        e.ayat().map { (s, a) -> ayahFile(s, a) }.filter { it in recitations }
+        e.ayat().mapNotNull { (s, a) -> ayahFiles(s, a).firstOrNull { it in recitations } }
 
     companion object {
         fun load(ctx: Context): ContentRepo {
@@ -158,7 +159,7 @@ class ContentRepo(
             } catch (e: Exception) {
                 null
             }
-            val recitations = (ctx.assets.list("quran") ?: emptyArray()).filter { it.endsWith(".mp3") }.map { "quran/$it" }.toSet()
+            val recitations = (ctx.assets.list("quran") ?: emptyArray()).filter { it.endsWith(".mp3") || it.endsWith(".ogg") }.map { "quran/$it" }.toSet()
             return parse(pack, uthmani, recitations)
         }
 

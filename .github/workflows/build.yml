@@ -24,6 +24,11 @@ concurrency:
   group: build-apk
   cancel-in-progress: true
 
+env:
+  # 0: Quran recitations ship as published (MP3, 64 kbps, 67 MB). 32: re-encoded to Opus 32 kbps (~41 MB),
+  # chosen by ear on 2026-10-28; switch only once AlQuran.cloud has allowed re-encoding in writing.
+  QURAN_OPUS_KBPS: "0"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -47,11 +52,13 @@ jobs:
         uses: actions/cache@v4
         with:
           path: app/src/main/assets/quran
-          key: quran48-${{ hashFiles('app/src/main/assets/content/cards.json') }}
-          restore-keys: quran48-
+          key: quran-${{ env.QURAN_OPUS_KBPS }}-${{ hashFiles('app/src/main/assets/content/cards.json') }}
+          restore-keys: quran-${{ env.QURAN_OPUS_KBPS }}-
 
       - name: Fetch verse recitations and Uthmani text
-        run: python3 tools/fetch_quran.py app/src/main/assets | tee "$RUNNER_TEMP/quran.log"
+        run: |
+          if [ "$QURAN_OPUS_KBPS" != "0" ]; then which ffmpeg || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg); fi
+          python3 tools/fetch_quran.py app/src/main/assets | tee "$RUNNER_TEMP/quran.log"
 
       - uses: gradle/actions/setup-gradle@v4
         with:

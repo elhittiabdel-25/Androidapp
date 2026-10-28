@@ -6,12 +6,16 @@ non-commercial use, unaltered and with its diacritics, with attribution (the tex
 its recitations to be redistributed freely for non-commercial use at the bitrates it publishes. The app
 credits both on its About screen. https://alquran.cloud/terms-and-conditions
 """
-import json, os, re, sys, time, urllib.request
+import json, os, re, subprocess, sys, time, urllib.request
 
 ASSETS = sys.argv[1] if len(sys.argv) > 1 else "app/src/main/assets"
 RECITER = "ar.alafasy"          # Mishary Rashid Alafasy
 # Alafasy is published at 128 and 64 kbps only (48, 40 and 32 answer 403, checked 2026-10-28); the terms
-# allow redistribution "at the bitrates we publish", so 64 kbps is the smallest the app may ship.
+# allow redistribution "at the bitrates we publish", so 64 kbps is the smallest the app may ship as is.
+# QURAN_OPUS_KBPS > 0 (set in the build workflow) re-encodes the 128 kbps files to Opus at that rate, mono,
+# as NNNNNN.ogg: only once AlQuran.cloud has allowed it in writing (32 kbps chosen by ear: 67 MB -> ~41 MB).
+OPUS = int(os.environ.get("QURAN_OPUS_KBPS", "0") or 0)
+EXT = "ogg" if OPUS else "mp3"
 cards = json.load(open(f"{ASSETS}/content/cards.json", encoding="utf-8"))["cards"]
 ayat = set()
 for c in cards:
@@ -38,7 +42,7 @@ except (OSError, ValueError):
 uthmani, ok_audio = {}, 0
 rate = __import__("collections").Counter()     # recitations downloaded in this run, by bitrate
 for s, a in sorted(ayat):
-    if f"{s}:{a}" in cached and os.path.exists(f"{ASSETS}/quran/{s:03d}{a:03d}.mp3"):
+    if f"{s}:{a}" in cached and os.path.exists(f"{ASSETS}/quran/{s:03d}{a:03d}.{EXT}"):
         uthmani[f"{s}:{a}"] = cached[f"{s}:{a}"]
         ok_audio += 1
         continue
@@ -54,21 +58,29 @@ for s, a in sorted(ayat):
                 text = " ".join(words[4:])
         uthmani[f"{s}:{a}"] = text
         links = list(audio_ed.get("audioSecondary") or []) + [audio_ed.get("audio")]   # 64 kbps first, then 128
+        if OPUS:
+            links = [audio_ed.get("audio")] + list(audio_ed.get("audioSecondary") or [])  # the best source first
     mp3 = f"{ASSETS}/quran/{s:03d}{a:03d}.mp3"
-    if not os.path.exists(mp3):
+    out = f"{ASSETS}/quran/{s:03d}{a:03d}.{EXT}"
+    if not os.path.exists(out):
         for url in filter(None, links):
             audio = get(url)
             if audio and len(audio) > 1000:
                 open(mp3, "wb").write(audio)
                 rate[url.split("/audio/")[1].split("/")[0] if "/audio/" in url else "?"] += 1
                 break
-    ok_audio += os.path.exists(mp3)
+        if OPUS and os.path.exists(mp3):
+            subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", mp3, "-c:a", "libopus", "-b:a", f"{OPUS}k",
+                            "-ac", "1", out], check=True)
+            os.remove(mp3)
+    ok_audio += os.path.exists(out)
     time.sleep(0.2)
 json.dump(uthmani, open(f"{ASSETS}/quran/uthmani.json", "w", encoding="utf-8"), ensure_ascii=False)
-cited = {f"{s:03d}{a:03d}.mp3" for s, a in ayat}
-for f in os.listdir(f"{ASSETS}/quran"):     # a verse no longer cited must not stay in the app
-    if f.endswith(".mp3") and f not in cited:
+cited = {f"{s:03d}{a:03d}.{EXT}" for s, a in ayat}
+for f in os.listdir(f"{ASSETS}/quran"):     # a verse no longer cited (or in the other format) must not stay in the app
+    if (f.endswith(".mp3") or f.endswith(".ogg")) and f not in cited:
         os.remove(f"{ASSETS}/quran/{f}")
-size = sum(os.path.getsize(f"{ASSETS}/quran/{f}") for f in os.listdir(f"{ASSETS}/quran") if f.endswith(".mp3"))
+size = sum(os.path.getsize(f"{ASSETS}/quran/{f}") for f in os.listdir(f"{ASSETS}/quran") if f.endswith("." + EXT))
 got = ", ".join(f"{n} at {k} kbps" for k, n in sorted(rate.items())) or "none new"
+got += f"; shipped as Opus {OPUS} kbps" if OPUS else "; shipped as published (MP3)"
 print(f"verses cited: {len(ayat)} | recitations: {ok_audio} ({size / 1048576:.1f} MB; downloaded now: {got}) | uthmani texts: {len(uthmani)}")
