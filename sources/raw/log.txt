@@ -25,3 +25,7 @@ ok 15714.pdf 18984200 https://islamcontent.com/storage/contents/15714/ar_Shr7_te
 ok 89743.doc 10018816 https://islamcontent.com/storage/contents/89743/ar_explaining_al-aqida_al-tahaweia.doc
 ok 765.pdf 1856220 https://islamcontent.com/storage/contents/765/ar-2-shar7-elsunna-elmozan-al-minhaaj.pdf
 ok 73540.pdf 47061942 https://islamcontent.com/storage/contents/73540/ar-basaer.pdf
+ok 106498.pdf 13238378 https://islamcontent.com/storage/contents/106498/ar-sharh-al-arbaeen-annawawiyah-ibn-ibraheem-pppp.pdf
+ok 9295.pdf 40746090 https://islamcontent.com/storage/contents/9295/ar-hisn-998.pdf
+ok 492.doc 3736064 https://islamcontent.com/storage/contents/492/ar_Riyad_usSaliheen.doc
+ok 6773.pdf 3674386 https://islamcontent.com/storage/contents/6773/ar_Summary_of_the_Prophets_Merits.pdf
