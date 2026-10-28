@@ -8,6 +8,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import java.time.LocalDate
 
+/** The voice speeds offered in «خيارات القراءة والاستماع». */
+val SPEEDS = listOf(1f, 1.25f, 1.5f)
+
 /** Learning progress kept on the phone: mastered cards, saved cards, points, daily goal and streak. */
 class ProgressStore(ctx: Context) {
     private val prefs = ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
@@ -25,7 +28,8 @@ class ProgressStore(ctx: Context) {
 
     var showDiacritics by mutableStateOf(prefs.getBoolean("diacritics", true))
         private set
-    var speed by mutableFloatStateOf(prefs.getFloat("speed", 1f))
+    /** Voice speed, one of [SPEEDS]; a value saved by an older version (×0.8, ×1.2) moves to the nearest one. */
+    var speed by mutableFloatStateOf(SPEEDS.minBy { kotlin.math.abs(it - prefs.getFloat("speed", 1f)) })
         private set
     var continuous by mutableStateOf(prefs.getBoolean("continuous", false))
         private set

@@ -32,10 +32,10 @@ def letters(t):
     return " ".join(re.sub(r"[^ء-ي ]", " ", t).split())
 
 def encode(wav, out):
-    """Encode a voice clip: Opus 24 kbps mono in Ogg for .ogg (half the size of the old 48 kbps MP3 at the
-    same clarity for speech; Android plays it natively), MP3 48 kbps for .mp3."""
+    """Encode a voice clip: Opus 16 kbps mono in Ogg for .ogg (chosen by ear against 24 kbps: the same
+    clarity for this voice at two thirds of the size; Android plays it natively), MP3 48 kbps for .mp3."""
     if out.endswith(".ogg"):
-        args = ["-c:a", "libopus", "-b:a", "24k", "-ac", "1"]
+        args = ["-c:a", "libopus", "-b:a", "16k", "-ac", "1"]
     else:
         args = ["-ac", "1", "-ar", "22050", "-b:a", "48k"]
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", wav, *args, out], check=True)

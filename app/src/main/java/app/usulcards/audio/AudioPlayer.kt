@@ -61,10 +61,19 @@ class AudioPlayer private constructor(private val app: Context) : PlaybackView {
     private var next: ((String) -> NextCard?)? = null   // given the last queued card, the card after it
     private var onAdvance: ((String) -> Unit)? = null   // the voice moved on to this card
     private var lastQueued: String? = null
+    private var voiceSpeed = 1f                         // the listener's choice, for the card voice only
+
+    /** The card voice plays at the chosen speed; a Quran recitation always plays at its own pace (×1). */
+    private fun applySpeed(item: MediaItem?) {
+        val verse = item?.localConfiguration?.uri?.path?.contains("/quran/") == true
+        val s = if (verse) 1f else voiceSpeed
+        if (exo.playbackParameters.speed != s) exo.setPlaybackSpeed(s)
+    }
 
     init {
         exo.addListener(object : Player.Listener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                applySpeed(mediaItem)
                 sync()
                 queueNextIfLast()
             }
@@ -121,7 +130,8 @@ class AudioPlayer private constructor(private val app: Context) : PlaybackView {
         isPlaying = true
         startService()
         exo.setMediaItems(items.mapIndexed { i, it -> media(it, owner, title, i) })
-        exo.setPlaybackSpeed(speed)
+        voiceSpeed = speed
+        applySpeed(exo.currentMediaItem)
         exo.prepare()
         exo.play()
     }

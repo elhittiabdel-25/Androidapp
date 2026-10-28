@@ -57,6 +57,7 @@ import androidx.compose.ui.unit.sp
 import app.usulcards.audio.AudioPlayer
 import app.usulcards.data.ContentRepo
 import app.usulcards.data.ProgressStore
+import app.usulcards.data.SPEEDS
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -336,7 +337,7 @@ private fun ReadingOptions(progress: ProgressStore, deck: DeckState, player: Aud
                 ) {
                     Text("السرعة", color = pal.ink, fontSize = 14.sp, fontFamily = Fonts.ui)
                     Row(Modifier.clip(RoundedCornerShape(10.dp)).border(1.dp, pal.line, RoundedCornerShape(10.dp))) {
-                        listOf(0.8f, 1f, 1.2f).forEach { s ->
+                        SPEEDS.forEach { s ->
                             val on = progress.speed == s
                             Text(
                                 "×${if (s == 1f) "1" else s.toString()}",
