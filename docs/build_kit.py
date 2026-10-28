@@ -100,7 +100,7 @@ body.append(step(1, "Add the upload key to GitHub", "", f"""
 body.append(step(2, "Make the privacy page public", "", f"""
 <p>Google needs a privacy policy page that anyone can open. It's ready in Arabic and English. Open it, use <b>Share</b> to make it public, then use its link in Play Console.</p>
 {field("Privacy policy link", PRIVACY)}
-<p class="hint">When you have the dedicated contact address, send it to me and I'll add it to the page and to the app's About screen.</p>"""))
+<p class="hint">The page and the app's About screen give the contact address: Reiman.app@gmail.com.</p>"""))
 
 body.append(step(3, "Create the app", "Créer une application", f"""
 <p class="hint">Your developer account must first finish identity verification. The Play Console dashboard lists any account tasks left, such as confirming a phone number or an Android device.</p>
@@ -135,7 +135,7 @@ body.append(step(5, "Write the store listing", "Fiche Play Store principale", f"
 <p>Both files are in the chat. <b>Phone screenshots</b> (2 to 8) must come from your phone. Take 4: a card with its animation, a card with “تعمّق” open, the الأقسام tab, and the self-test. Upload them as they are, or send them to me and I'll frame them with short captions.</p>
 <div class="two">
 {field("App category", "Education (Éducation)")}
-{field("Contact email", "your new dedicated address")}
+{field("Contact email", "Reiman.app@gmail.com")}
 </div>"""))
 
 notes = "".join(field(f"Release notes ({c})", f"<{t}>\n{NOTES[c]}\n</{t}>", "en") for c, t in (("ar", "ar"), ("en", "en-US"), ("fr", "fr-FR")))
@@ -144,7 +144,7 @@ body.append(step(6, "Run the closed test: 12 testers for 14 days", "Tests fermé
 <ol class="sub">
 <li><b>Testing → Closed testing → Create track</b>. Under <i>Testers</i>, create an email list with the Gmail addresses of 12 or more people (aim for 15 to keep a margin).</li>
 <li><b>Create release</b>. When asked about app signing, keep <b>Google-generated key</b> (Play App Signing). Upload the <code>.aab</code> from the release that says “Signed with the upload key”.</li>
-<li>Release name: <code>1.0.0</code>. Paste the release notes below.</li>
+<li>Release name: the version in the release title on GitHub, e.g. <code>1.0.69</code> (Play fills it in from the <code>.aab</code>). Paste the release notes below.</li>
 <li><b>Review release → Start rollout</b>. Once Google approves it (often within a day or two), copy the <b>opt-in link</b> and send it to your testers.</li>
 </ol>
 {notes}
@@ -160,7 +160,7 @@ body.append(step(7, "Apply for production (day 15 or later)", "Demander l'accès
 
 body.append(step(8, "Publish, then update", "Production", """
 <p>After approval: <b>Production → Create release</b>, add the same <code>.aab</code> (or a newer one), choose the countries, and roll out.</p>
-<p>For every later update: I raise <code>versionName</code> (1.0.1, 1.1.0…) and push. The build produces a new <code>.aab</code> with a higher version code, and you upload it the same way. Testers and users then get the update from Google Play.</p>"""))
+<p>For every later update: each build is numbered, and its version follows the number (build 69 is version 1.0.69, build 70 is 1.0.70). Upload the new <code>.aab</code> the same way; testers and users then get the update from Google Play.</p>"""))
 
 rights_rows = "".join(
     f'<tr><td><b>{a}</b><div class="fr">{html.escape(b)}</div></td><td>{html.escape(c)}</td><td><span class="chip {k}">{html.escape(s)}</span></td></tr>'
@@ -256,7 +256,7 @@ page = f"""<title>Re-Iman Play Launch Kit</title>
     <path class="ring" d="M73.745,42.6 A22.8,22.8 0 1,1 54,31.2"/><path class="head" d="M61.2,31.2 L52.8,24.96 L52.8,37.44 Z"/>
     <path class="star" d="M45.09,45.09 L62.91,45.09 L62.91,62.91 L45.09,62.91 Z"/><path class="star" d="M54,41.4 L66.6,54 L54,66.6 L41.4,54 Z"/><circle class="dot" cx="54" cy="54" r="3.12"/>
   </svg>
-  <div><div class="word"><span>Re</span>-Iman</div><div class="kicker">Google Play launch kit · version 1.0.0</div></div>
+  <div><div class="word"><span>Re</span>-Iman</div><div class="kicker">Google Play launch kit · version 1.0.&lt;build&gt;</div></div>
   <div class="meta"><span class="pill">app.reiman</span><span class="pill">Android 16 target</span><span class="pill">developer elh24</span></div>
 </div></header>
 
@@ -264,7 +264,7 @@ page = f"""<title>Re-Iman Play Launch Kit</title>
   <section class="card">
     <div class="cols">
       <div><div class="lbl">Ready</div><ul>
-        <li>App ID <code>app.reiman</code>, version 1.0.0, targets Android 16 (API 36)</li>
+        <li>App ID <code>app.reiman</code>, version 1.0.&lt;build number&gt; (e.g. 1.0.69), targets Android 16 (API 36)</li>
         <li>CI builds the Play bundle (<code>.aab</code>) and an APK</li>
         <li>New upload key, kept out of the code</li>
         <li>Icon 512 × 512 and feature graphic 1024 × 500</li>

@@ -37,8 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.usulcards.data.ContentRepo
 
-/** Public contact address (shown here and on the store listing); empty until the address exists. */
-const val CONTACT_EMAIL = ""
+/** Public contact address (shown here and on the store listing). */
+const val CONTACT_EMAIL = "Reiman.app@gmail.com"
 
 /** Public privacy policy page; empty until it is published. */
 const val PRIVACY_URL = "https://claude.ai/artifact/Q15UeL4ewuizXCnQmK3p58"

@@ -6,7 +6,8 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
-// Every CI build gets a higher versionCode (Play requires it to grow with each upload).
+// Every CI build gets a higher versionCode (Play requires it to grow with each upload), and the
+// version people see carries the same number: build 69 is version 1.0.69.
 val buildNumber = (System.getenv("GITHUB_RUN_NUMBER") ?: "1").toInt()
 
 // The upload key never lives in the repository: CI writes it from the repository secrets
@@ -23,7 +24,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = buildNumber
-        versionName = "1.0.0"
+        versionName = "1.0.$buildNumber"
     }
 
     signingConfigs {

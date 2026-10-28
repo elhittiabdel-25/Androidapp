@@ -96,9 +96,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           N="${{ github.run_number }}"
-          V=$(grep -oP 'versionName = "\K[^"]+' app/build.gradle.kts)
-          APK="Re-Iman-$V-$N.apk"
-          AAB="Re-Iman-$V-$N.aab"
+          V="1.0.$N"                      # the versionName in app/build.gradle.kts: 1.0.<build number>
+          APK="Re-Iman-$V.apk"
+          AAB="Re-Iman-$V.aab"
           cp app/build/outputs/apk/release/app-release.apk "$APK"
           cp app/build/outputs/bundle/release/app-release.aab "$AAB"
           if [ -n "$UPLOAD_KEYSTORE_PATH" ]; then
@@ -112,7 +112,7 @@ jobs:
             "- $AAB: upload to Google Play Console." \
             "$SIGNING" "Quran files: $QURAN" > notes.md
           gh release create "build-$N" "$APK" "$AAB" \
-            --title "Re-Iman $V — نسخة $N" \
+            --title "Re-Iman $V" \
             --notes-file notes.md \
             --latest
 
