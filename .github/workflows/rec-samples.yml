@@ -1,0 +1,42 @@
+name: Recitation samples
+
+# One-off: downloads two cited verses at every bitrate the CDN publishes, so the recitation size can be
+# chosen by ear. Lives only on the rec-samples branch.
+on:
+  push:
+    branches: [rec-samples]
+    paths: [".github/workflows/rec-samples.yml"]
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request
+          os.makedirs("samples", exist_ok=True)
+          info = []
+          for ref in ["2:255", "51:56"]:
+              r = urllib.request.urlopen(urllib.request.Request(f"https://api.alquran.cloud/v1/ayah/{ref}", headers={"User-Agent": "Re-Iman-build"}), timeout=30)
+              n = json.loads(r.read())["data"]["number"]
+              for b in [128, 64, 48, 40, 32]:
+                  url = f"https://cdn.islamic.network/quran/audio/{b}/ar.alafasy/{n}.mp3"
+                  name = f"samples/{ref.replace(':', '_')}_{b}.mp3"
+                  try:
+                      data = urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "Re-Iman-build"}), timeout=30).read()
+                      open(name, "wb").write(data)
+                      info.append({"ref": ref, "kbps": b, "bytes": len(data), "url": url})
+                  except Exception as ex:
+                      info.append({"ref": ref, "kbps": b, "error": str(ex), "url": url})
+          json.dump(info, open("samples/info.json", "w"), indent=1)
+          print(json.dumps(info, indent=1))
+          PY
+      - name: Save
+        run: |
+          git config user.name "github-actions"; git config user.email "github-actions@users.noreply.github.com"
+          git add samples && git commit -m "Recitation samples" && git push origin HEAD:rec-samples
