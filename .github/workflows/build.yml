@@ -27,7 +27,7 @@ concurrency:
 env:
   # 0: Quran recitations ship as published (MP3, 64 kbps, 67 MB). 32: re-encoded to Opus 32 kbps (~41 MB),
   # chosen by ear on 2026-10-28; switch only once AlQuran.cloud has allowed re-encoding in writing.
-  QURAN_OPUS_KBPS: "0"
+  QURAN_OPUS_KBPS: "32"
 
 jobs:
   build:
