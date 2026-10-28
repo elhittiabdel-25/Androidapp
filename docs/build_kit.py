@@ -73,7 +73,7 @@ CONTENT_FORMS = [
 RIGHTS = [
     ("Book texts", "Islamic Content Encyclopedia (islamcontent.com)", "No licence or contact published; the site calls itself a free reference and offers a developer API. Cards summarise in our own words, with short quotes, the book, the page and a link.", "Reasonable, no formal permission", "amber"),
     ("Quran text", "Tanzil.net via AlQuran.cloud", "Free for non-commercial use, unaltered, with its diacritics and attribution.", "Clear, credited in the app", "green"),
-    ("Recitation", "Mishary Alafasy via AlQuran.cloud", "Free non-commercial redistribution at a bitrate the CDN publishes (48 kbps, not re-encoded). Switched from everyayah.com in this build.", "Clear, credited in the app", "green"),
+    ("Recitation", "Mishary Alafasy via AlQuran.cloud", "Free non-commercial redistribution at the published bitrate (64 kbps, not re-encoded). Switched from everyayah.com in this build.", "Clear, credited in the app", "green"),
     ("Card voice", "Piper voice \"Kareem\"", "The voice collection is MIT-licensed; the voice's training data states no licence.", "Mostly clear, small uncertainty", "amber"),
     ("Fonts", "Amiri Quran, Noto Naskh Arabic, Reem Kufi, IBM Plex Sans Arabic", "SIL Open Font License 1.1; the licence texts ship inside the app.", "Clear", "green"),
     ("Signing key", "Upload key (new)", "The old key and its password were removed from the repository. The new upload key lives only in GitHub secrets and with you; Google holds the app signing key.", "Fixed", "green"),

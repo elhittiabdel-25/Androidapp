@@ -10,7 +10,8 @@ import json, os, re, sys, time, urllib.request
 
 ASSETS = sys.argv[1] if len(sys.argv) > 1 else "app/src/main/assets"
 RECITER = "ar.alafasy"          # Mishary Rashid Alafasy
-BITRATE = 48                    # kbps; the app's size is mostly audio (64 kbps made the recitations 67 MB)
+# Alafasy is published at 128 and 64 kbps only (48, 40 and 32 answer 403, checked 2026-10-28); the terms
+# allow redistribution "at the bitrates we publish", so 64 kbps is the smallest the app may ship.
 cards = json.load(open(f"{ASSETS}/content/cards.json", encoding="utf-8"))["cards"]
 ayat = set()
 for c in cards:
@@ -52,9 +53,7 @@ for s, a in sorted(ayat):
             if words and re.sub(r"[ً-ٰٟۖ-ۭ]", "", words[0]).startswith("بسم"):
                 text = " ".join(words[4:])
         uthmani[f"{s}:{a}"] = text
-        # 48 kbps first (a bitrate the CDN publishes, so it is not re-encoded by us), then the API's 64 and 128
-        links = [f"https://cdn.islamic.network/quran/audio/{BITRATE}/{RECITER}/{audio_ed['number']}.mp3"] \
-            + list(audio_ed.get("audioSecondary") or []) + [audio_ed.get("audio")]
+        links = list(audio_ed.get("audioSecondary") or []) + [audio_ed.get("audio")]   # 64 kbps first, then 128
     mp3 = f"{ASSETS}/quran/{s:03d}{a:03d}.mp3"
     if not os.path.exists(mp3):
         for url in filter(None, links):
