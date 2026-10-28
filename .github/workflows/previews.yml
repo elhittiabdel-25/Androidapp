@@ -2,6 +2,8 @@ name: Scene previews
 
 # Renders the illustrated card scenes on the JVM (Paparazzi, no emulator) and pushes contact sheets, dark-theme
 # stills and animated GIFs to the `previews` branch, so the drawings can be reviewed without a phone.
+# Runs when the drawing code changes, not on every content change (cards.json), to save Actions minutes.
+# To refresh the previews after a content-only change, edit tools/previews/refresh.txt (or run it by hand).
 on:
   push:
     branches: [main]
@@ -9,7 +11,6 @@ on:
       - "app/src/main/java/app/usulcards/ui/Art*.kt"
       - "app/src/main/java/app/usulcards/ui/Scenes.kt"
       - "app/src/main/java/app/usulcards/ui/BooksScreen.kt"
-      - "app/src/main/assets/content/cards.json"
       - "tools/previews/**"
       - ".github/workflows/previews.yml"
   workflow_dispatch:

@@ -2,14 +2,9 @@ name: Speech check
 
 # Transcribes the app's voice clips with Whisper and compares them with the text they should say.
 # The report is pushed to the "checks" branch (reports/speech-check.txt), since job logs are not always reachable.
+# Run by hand only (Actions → Speech check → Run workflow): new clips are already checked with the same Whisper
+# model before they are pushed, and a full run costs 30 to 60 of the 2,000 free minutes a month.
 on:
-  push:
-    branches: [main]
-    paths:
-      - "app/src/main/assets/audio/**"
-      - "tools/tts/speech.json"
-      - "tools/tts/speech_check.py"
-      - ".github/workflows/speech-check.yml"
   workflow_dispatch:
     inputs:
       cards:

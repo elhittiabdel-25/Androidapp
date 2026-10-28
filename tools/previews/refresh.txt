@@ -1,0 +1,2 @@
+Edit this file (any change) to re-render the scene previews after a content-only change.
+2026-10-28

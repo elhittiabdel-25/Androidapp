@@ -10,7 +10,10 @@ on:
       - "README.md"
       - "tools/previews/**"
       - "tools/cards/verify*.py"
+      - "tools/tts/*.py"   # voice scripts; their output (clips, speech.json) still triggers a build
       - ".github/workflows/previews.yml"
+      - ".github/workflows/speech-check.yml"
+      - ".github/workflows/card-film.yml"
   workflow_dispatch:
 
 permissions:
