@@ -2178,4 +2178,41 @@ SCENES = {
         I("وكان ابن عمر يقول", None, "face-2", sub="إذا أمسيت فلا تنتظر الصباح|وإذا أصبحت فلا تنتظر المساء", kind="dontwait"),
         I("واعمل عمل الصحة قبل أن يحول المرض", None, "deep-1", sub="وخذ من صحتك لمرضك|ومن حياتك لموتك", kind="storeahead"),
     ], layout="stranger"),
+    # ── v1.2: the Forty of al-Nawawi, 41–42, and «مختصر الشمائل» (wave 65) ──
+    "nw-41": S("art", [
+        I("لا يؤمن أحدكم الإيمان الواجب", None, "face-0", sub="تبعا لما جاء به", kind="needlealigns"),
+        I("فواجب أن يحب ما أوجبه", None, "face-1", sub="محبة تقتضي فعله|كراهة تقتضي تركه", kind="lovesdoes"),
+        I("وواجب تحكيمه ﷺ في القليل والكثير", None, "face-2", sub="في القليل والكثير|والتسليم له تسليما تاما", kind="smallandlarge"),
+        I("ويحكم ﷺ في النقير والقطمير", None, "deep-1", sub="النقير|والقطمير", kind="datestone"),
+    ], layout="followsrevealed"),
+    "nw-42": S("art", [
+        I("حديث قدسي جمع ثلاثة أسباب للمغفرة", None, "face-0", sub="الدعاء مع الرجاء|والاستغفار|والتوحيد", kind="threecauses"),
+        I("فالدعاء مع رجاء الله سبب للمغفرة", None, "face-1", sub="ولو بلغت الذنوب عنان السماء", kind="cloudstosky"),
+        I("والتوحيد المحقق هو السبب الأعظم", None, "face-2", sub="بقراب الأرض مغفرة", kind="earthfulpardon"),
+        I("ويشبه المؤلف التوحيد بالإكسير", None, "deep-0", sub="بالإكسير", kind="elixirdrop"),
+        I("وبهذا الحديث ختم النووي أربعينه", None, "deep-2", sub="بالنية|بسعة المغفرة", kind="firstlastpage"),
+    ], layout="skyhighforgive"),
+    "sira-khalq": S("art", [
+        I("كان ﷺ ربعة من القوم", None, "face-0", kind="neithertall"),
+        I("وسأل رجل البراء بن عازب عن وجهه", None, "face-1", sub="البراء بن عازب|مثل القمر", kind="moonnotsword"),
+        I("ورآه جابر بن سمرة في ليلة مقمرة", None, "face-2", sub="جابر بن سمرة|أحسن من القمر", kind="brighterthanmoon"),
+        I("وقال أبو هريرة: كان أبيض كأنما صيغ من فضة", None, "deep-1", sub="أبو هريرة|كأنما صيغ من فضة", kind="silvercast"),
+        I("وقال أبو الطفيل", None, "deep-3", sub="أبو الطفيل", kind="lastwhosaw"),
+        I("ويبين الألباني درجة كل حديث", None, "deep-4", sub="ضعيف جدا", kind="gradedmarks"),
+    ], layout="moonface"),
+    "sira-libas": S("art", [
+        I("كان أحب الثياب إلى رسول الله ﷺ القميص", None, "face-0", sub="القميص|الحبرة", kind="shirtstripes"),
+        I("وقال: عليكم بالبياض من الثياب", None, "face-1", sub="عليكم بالبياض من الثياب", kind="whitecloths"),
+        I("وكان ﷺ لا يرد الطيب", None, "face-2", sub="لا يرد الطيب", kind="perfumekept"),
+        I("وكان إذا استجد ثوبا سماه باسمه", None, "deep-0", sub="عمامة|قميصا|رداء", kind="namednew"),
+        I("وقال: ثلاث لا ترد", None, "deep-1", sub="الوسائد|والدهن|واللبن", kind="notreturned3"),
+    ], layout="garments"),
+    "sira-akl": S("art", [
+        I("وقال: أما أنا فلا آكل متكئا", None, "face-1", sub="فلا آكل متكئا", kind="norecline"),
+        I("وكان إذا رفعت المائدة من بين يديه", None, "face-2", sub="حمدا كثيرا طيبا مباركا فيه", kind="tablelifted"),
+        I("وأكل طعاما في ستة من أصحابه", None, "deep-0", sub="لو سمى لكفاكم", kind="basmalabless"),
+        I("ومن نسي أن يذكر الله في أول طعامه", None, "deep-1", sub="بسم الله أوله وآخره", kind="firstandlast"),
+        I("وكان يتنفس في الشرب ثلاثا", None, "deep-3", sub="أمرأ وأروى", kind="threesips"),
+        I("ومن سقاه الله لبنا", None, "deep-4", sub="اللهم بارك لنا فيه وزدنا منه", kind="milkbless"),
+    ], layout="humbletable"),
 }

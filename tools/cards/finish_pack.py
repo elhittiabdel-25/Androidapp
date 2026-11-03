@@ -354,6 +354,11 @@ ART_KINDS = {
     "awliya": {"upright", "twotiersawliya", "fardthennafl", "guidedsteps", "answereddua"},
     "pardoned": {"threeforgiven", "accidentspill", "forcedcalmheart", "answeredbaqara", "stillowes"},
     "stranger": {"shoulderword", "takesonly", "dontwait", "storeahead"},
+    "followsrevealed": {"needlealigns", "lovesdoes", "smallandlarge", "datestone"},
+    "skyhighforgive": {"threecauses", "cloudstosky", "earthfulpardon", "elixirdrop", "firstlastpage"},
+    "moonface": {"neithertall", "moonnotsword", "brighterthanmoon", "silvercast", "lastwhosaw", "gradedmarks"},
+    "garments": {"shirtstripes", "whitecloths", "perfumekept", "namednew", "notreturned3"},
+    "humbletable": {"norecline", "tablelifted", "basmalabless", "firstandlast", "threesips", "milkbless"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
