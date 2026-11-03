@@ -421,6 +421,12 @@ ART_KINDS = {
     "fullwash": {"wholebody", "newmuslimwash", "twoghusl", "perfectsteps"},
     "dryablution": {"noewater", "strikeearth", "waterfound", "liftshadath"},
     "impurities": {"waterremoves", "groundwash", "sevenwash", "sprinkle", "rubwring"},
+    "naturalcycle": {"monthrhythm", "seednourish", "nolimits", "usualyears", "easerule"},
+    "cyclechanges": {"shiftingdays", "tintedcells", "whitesign", "pregnantrule"},
+    "excusedprayer": {"noprayermakeup", "onerakahtime", "dhikrallowed", "readbyheart"},
+    "excusedfast": {"fastmakeup", "ritesbutawaf", "purifiedwash", "aftersunset", "farewellwaived"},
+    "continuousflow": {"unbrokenline", "knownhabit", "wudueachprayer", "threecases"},
+    "afterbirth": {"cradlebegins", "pureearly", "fortymark", "washatforty"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

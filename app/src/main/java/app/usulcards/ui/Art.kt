@@ -537,6 +537,12 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "fullwash" -> fullwashScene(a)
         "dryablution" -> dryablutionScene(a)
         "impurities" -> impuritiesScene(a)
+        "naturalcycle" -> naturalcycleScene(a)
+        "cyclechanges" -> cyclechangesScene(a)
+        "excusedprayer" -> excusedprayerScene(a)
+        "excusedfast" -> excusedfastScene(a)
+        "continuousflow" -> continuousflowScene(a)
+        "afterbirth" -> afterbirthScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -1073,6 +1079,10 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "groundwash", "sevenwash" -> 5000
     "trimexcess", "needmeasure" -> 5500
     "wuduglowbreaks", "deepsleep", "doubtstay", "camelmeat", "khuffallowed", "wipeperiod", "wipetop", "wipeends", "castonarm", "nolimit", "wholebody", "newmuslimwash", "twoghusl", "perfectsteps", "noewater", "strikeearth", "waterfound", "liftshadath", "waterremoves", "sprinkle", "rubwring" -> 6000
+    // v1.3 fiqh: natural blood (wave 78)
+    "readbyheart" -> 4000
+    "dhikrallowed" -> 5750
+    "monthrhythm", "seednourish", "nolimits", "usualyears", "easerule", "shiftingdays", "tintedcells", "whitesign", "pregnantrule", "noprayermakeup", "onerakahtime", "fastmakeup", "ritesbutawaf", "purifiedwash", "aftersunset", "farewellwaived", "unbrokenline", "knownhabit", "wudueachprayer", "threecases", "cradlebegins", "pureearly", "fortymark", "washatforty" -> 6000
     else -> 1000
 }
 
