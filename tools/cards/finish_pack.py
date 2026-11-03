@@ -404,6 +404,11 @@ ART_KINDS = {
     "withimam": {"firsttolast", "twoimams", "evenitout", "rowsfill"},
     "witrclose": {"singlewitr", "apartjoined", "twowitrforms", "witrsurahs", "subhanmalik"},
     "qunuthands": {"qunutsunnah", "afterbow", "wordsfree", "aminecho", "notoverlong"},
+    "itikafstay": {"staymosque", "cutties", "sunnahvow", "lasttenstay", "threemosques"},
+    "mosqueonly": {"mosqueandintent", "amoment", "fastoptional", "nothome", "hotelhall", "insidewall"},
+    "itikaftimes": {"enterssunset", "entersdawn", "leavesforeid", "vowthree"},
+    "leavingmosque": {"outvoid", "needout", "onlyneed", "statedcondition"},
+    "seclusionadvice": {"knockdoor", "nocrowd", "phonejail", "silencespeechsight", "notebook"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

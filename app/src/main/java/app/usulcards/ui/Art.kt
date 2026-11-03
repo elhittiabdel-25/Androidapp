@@ -520,6 +520,11 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "withimam" -> withimamScene(a)
         "witrclose" -> witrcloseScene(a)
         "qunuthands" -> qunuthandsScene(a)
+        "itikafstay" -> itikafstayScene(a)
+        "mosqueonly" -> mosqueonlyScene(a)
+        "itikaftimes" -> itikaftimesScene(a)
+        "leavingmosque" -> leavingmosqueScene(a)
+        "seclusionadvice" -> seclusionadviceScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -1038,6 +1043,11 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "twentyrakat" -> 5000
     "nightrows" -> 5750
     "confirmedsunnah", "firsttolast", "twoimams", "evenitout", "rowsfill", "apartjoined", "twowitrforms", "witrsurahs", "qunutsunnah", "afterbow", "wordsfree", "aminecho", "notoverlong" -> 6000
+    // v1.3 fiqh: itikaf (wave 75)
+    "cutties" -> 3250
+    "staymosque", "knockdoor" -> 3750
+    "nocrowd" -> 5000
+    "sunnahvow", "lasttenstay", "threemosques", "mosqueandintent", "amoment", "fastoptional", "nothome", "hotelhall", "insidewall", "enterssunset", "entersdawn", "leavesforeid", "vowthree", "outvoid", "needout", "onlyneed", "statedcondition", "phonejail", "silencespeechsight", "notebook" -> 6000
     else -> 1000
 }
 
