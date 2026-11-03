@@ -1,0 +1,12 @@
+> Task :app:compileDebugUnitTestKotlin FAILED
+e: java.lang.RuntimeException: Error generating class file app/usulcards/PreviewData.class (compiled from [/home/runner/work/Androidapp/Androidapp/app/src/test/java/app/usulcards/PreviewData.kt]): Method too large: app/usulcards/PreviewData.<clinit> ()V
+Caused by: org.jetbrains.org.objectweb.asm.MethodTooLargeException: Method too large: app/usulcards/PreviewData.<clinit> ()V
+* What went wrong:
+* Exception is:
+org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:compileDebugUnitTestKotlin'.
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+Caused by: org.gradle.workers.internal.DefaultWorkerExecutor$WorkExecutionException: A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+Caused by: org.jetbrains.kotlin.gradle.tasks.FailedCompilationException: Internal compiler error. See log for more details
+	at org.jetbrains.kotlin.gradle.tasks.TasksUtilsKt.throwExceptionIfCompilationFailed(tasksUtils.kt:22)
+BUILD FAILED in 1m 35s
