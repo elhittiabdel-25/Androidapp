@@ -29,3 +29,12 @@ ok 106498.pdf 13238378 https://islamcontent.com/storage/contents/106498/ar-sharh
 ok 9295.pdf 40746090 https://islamcontent.com/storage/contents/9295/ar-hisn-998.pdf
 ok 492.doc 3736064 https://islamcontent.com/storage/contents/492/ar_Riyad_usSaliheen.doc
 ok 6773.pdf 3674386 https://islamcontent.com/storage/contents/6773/ar_Summary_of_the_Prophets_Merits.pdf
+ok 107576.pdf 50057650 https://islamcontent.com/storage/contents/107576/ar_The_Facilitated_Fiqh2.pdf
+ok 37168.pdf 16277930 https://islamcontent.com/storage/contents/37168/ar_Fiqh_Summary.pdf
+ok 8728.pdf 597192 https://islamcontent.com/storage/contents/8728/ar-rsaltan-fi-alsalah.pdf
+ok 114079.pdf 1035720 https://islamcontent.com/storage/contents/114079/risala_ar-risalah_fi_dima-3.pdf
+ok 73620.pdf 43986945 https://islamcontent.com/storage/contents/73620/ar-shahr-ramdan.pdf
+ok 115992.pdf 4708258 https://islamcontent.com/storage/contents/115992/ar-a7kam-atraweh.pdf
+ok 115993.pdf 4824616 https://islamcontent.com/storage/contents/115993/ar-zad-almo3takef.pdf
+ok 114224.pdf 1630675 https://islamcontent.com/storage/contents/114224/risala_ar-attahqiq_walidoh-3.1.pdf
+ok 115196.pdf 1467368 https://islamcontent.com/storage/contents/115196/risala_ar_ahkam-udhiyah.pdf
