@@ -463,6 +463,11 @@ ART_KINDS = {
     "fridayprayer": {"fardayn", "notobligedbutvalid", "catchonerakah", "twokhutbas", "nostepping"},
     "fridaymanners": {"earlyfriday", "silentlisten", "tworakatenter", "kahfread", "noreserve"},
     "eidprayer": {"eidkifaya", "eidtime", "sevenfive", "datesbefore", "otherwayback"},
+    "eclipseprayer": {"sundarkens", "eclipsewindow", "tworukuperrakah", "longthenshorter", "secondless"},
+    "rainprayer": {"drought", "tworakatground", "repentfirst", "cloakturn", "rainarrives"},
+    "preparingdeceased": {"visitremind", "washdeceased", "threewhite", "dustinstead"},
+    "funeralprayer": {"fourtakbir", "foursteps", "latejoin", "duaall", "qirats"},
+    "burial": {"hastenbier", "lahdniche", "spanmound", "standdua", "taziya"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

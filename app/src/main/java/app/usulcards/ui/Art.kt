@@ -579,6 +579,11 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "fridayprayer" -> fridayprayerScene(a)
         "fridaymanners" -> fridaymannersScene(a)
         "eidprayer" -> eidprayerScene(a)
+        "eclipseprayer" -> eclipseprayerScene(a)
+        "rainprayer" -> rainprayerScene(a)
+        "preparingdeceased" -> preparingdeceasedScene(a)
+        "funeralprayer" -> funeralprayerScene(a)
+        "burial" -> burialScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -1144,6 +1149,8 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "nofajrjoin" -> 4750
     "catchonerakah" -> 5500
     "fourtotwo", "takerukhsa", "fourdaysrule", "charitygift", "homemissed", "twopairs", "movingorresting", "rainmudwind", "delaytoasr", "advancewithzuhr", "fardayn", "notobligedbutvalid", "twokhutbas", "nostepping", "earlyfriday", "silentlisten", "tworakatenter", "noreserve", "eidkifaya", "eidtime", "sevenfive", "datesbefore", "otherwayback" -> 6000
+    // Wave 85 (2026-11-03): v1.3 fiqh, prayer 6: eclipse, rain prayer, washing, funeral prayer, burial
+    "sundarkens", "eclipsewindow", "tworukuperrakah", "longthenshorter", "secondless", "drought", "tworakatground", "repentfirst", "cloakturn", "rainarrives", "visitremind", "washdeceased", "threewhite", "dustinstead", "fourtakbir", "foursteps", "latejoin", "duaall", "qirats", "hastenbier", "lahdniche", "spanmound", "standdua", "taziya" -> 6000
     else -> 1000
 }
 
