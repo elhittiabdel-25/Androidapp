@@ -300,6 +300,11 @@ ART_KINDS = {
     "springheart": {"cloudlift", "bowedtags", "springheart", "eightpairs", "endless"},
     "deepsea": {"praisestars", "boatheld", "dhunnun", "onename", "shore"},
     "campguard": {"turnsback", "coolfire", "suffice", "trenchwind", "neighbour"},
+    "roughground": {"smoothed", "nolaw", "strongweak", "whispercut"},
+    "mountaindebt": {"comestoali", "mountainpaid", "heavyload", "workandask", "repaid"},
+    "betterjar": {"brokenjar", "ummsalama", "takengiven", "visitgraves"},
+    "healingbed": {"nobas", "sevenvisits", "handonpain", "lastword"},
+    "rainwind": {"usefulrain", "notthestar", "strongwind", "rainaround", "thunderhush"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

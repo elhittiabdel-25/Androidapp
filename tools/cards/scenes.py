@@ -1787,4 +1787,37 @@ SCENES = {
         I("ومن دعائه ﷺ على الأحزاب", None, "deep-1", kind="trenchwind"),
         I("ومن خاف ظلم ذي سلطان استجار بالله", None, "deep-2", kind="neighbour"),
     ], layout="campguard"),
+    # ── v1.2: Hisn al-Muslim, «أذكار الأحوال» (wave 54) ──
+    "hisn-istisab": S("art", [
+        I("اللهم لا سهل إلا ما جعلته سهلا، وأنت تجعل الحزن إذا شئت سهلا", "اللهم", "face-0", sub="الحزن", kind="smoothed"),
+        I("وإذا وقع ما لا يرضاه قال: قدر الله وما شاء فعل", None, "face-2", sub="لو|قدر الله وما شاء فعل", kind="nolaw"),
+        I("المؤمن القوي خير وأحب إلى الله من المؤمن الضعيف، وفي كل خير", None, "deep-0", kind="strongweak"),
+        I("ومن أصابه وسوسة في الإيمان استعاذ بالله وانتهى", None, "deep-1", sub="آمنت بالله ورسله", kind="whispercut"),
+    ], layout="roughground"),
+    "hisn-dayn": S("art", [
+        I("جاء رجل إلى علي يشكو عجزه عما عليه", None, "face-0", sub="علي", kind="comestoali"),
+        I("لو كان عليه مثل جبل دينا أداه الله عنه", None, "face-1", sub="اكفني بحلالك عن حرامك|وأغنني بفضلك عمن سواك", kind="mountainpaid"),
+        I("وكان ﷺ يستعيذ من ضلع الدين، أي: ثقله وشدته", None, "face-2", kind="heavyload"),
+        I("والدعاء لا يغني عن السعي", None, "deep-0", kind="workandask"),
+        I("إنما جزاء السلف الحمد والأداء", "إنما", "deep-1", kind="repaid"),
+    ], layout="mountaindebt"),
+    "hisn-musiba": S("art", [
+        I("اللهم أجرني في مصيبتي وأخلف لي خيرا منها", "اللهم", "face-0", kind="brokenjar"),
+        I("قالته أم سلمة لما توفي أبو سلمة", None, "face-1", sub="أم سلمة|أبو سلمة", kind="ummsalama"),
+        I("إن لله ما أخذ، وله ما أعطى، وكل شيء عنده بأجل مسمى", "إن", "face-2", sub="ما أخذ|ما أعطى", kind="takengiven"),
+        I("السلام عليكم أهل الديار من المؤمنين والمسلمين", "السلام", "deep-2", sub="أهل الديار", kind="visitgraves"),
+    ], layout="betterjar"),
+    "hisn-marid": S("art", [
+        I("كان ﷺ إذا دخل على مريض يعوده", None, "face-0", sub="طهور", kind="nobas"),
+        I("ومن عاد مريضا لم يحضر أجله فقال عنده سبع مرات", None, "face-1", kind="sevenvisits"),
+        I("ويضع المريض يده على موضع الألم", None, "face-2", kind="handonpain"),
+        I("ومن كان آخر كلامه: لا إله إلا الله، دخل الجنة", None, "deep-2", sub="لا إله إلا الله", kind="lastword"),
+    ], layout="healingbed"),
+    "hisn-matar": S("art", [
+        I("كان ﷺ إذا رأى المطر قال", None, "face-0", sub="صيبا نافعا", kind="usefulrain"),
+        I("وبعد نزوله يقال: مطرنا بفضل الله ورحمته", None, "face-1", sub="بفضل الله ورحمته", kind="notthestar"),
+        I("وإذا عصفت الريح سأل الله خيرها وخير ما فيها", None, "face-2", kind="strongwind"),
+        I("اللهم حوالينا ولا علينا", "حوالينا", "deep-1", kind="rainaround"),
+        I("وإذا سمع الرعد ترك الحديث", None, "deep-2", kind="thunderhush"),
+    ], layout="rainwind"),
 }
