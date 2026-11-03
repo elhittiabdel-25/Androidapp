@@ -399,6 +399,11 @@ ART_KINDS = {
     "forgotfast": {"threerings", "forgotate", "didntknow", "notbreakers", "rememberstop"},
     "lastten": {"lasttennights", "wakefamily", "oddnights", "movingnight", "hiddenseek"},
     "fitrsaa": {"everysoul", "onesaa", "surplus", "beforeeidprayer", "foodnotvalue"},
+    "tarawihnight": {"nightrows", "afterisha", "confirmedsunnah", "firstnight", "noadhan"},
+    "rakatcount": {"twentyrakat", "elevenrakat", "twobytwo", "imamcare", "heartbest"},
+    "withimam": {"firsttolast", "twoimams", "evenitout", "rowsfill"},
+    "witrclose": {"singlewitr", "apartjoined", "twowitrforms", "witrsurahs", "subhanmalik"},
+    "qunuthands": {"qunutsunnah", "afterbow", "wordsfree", "aminecho", "notoverlong"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

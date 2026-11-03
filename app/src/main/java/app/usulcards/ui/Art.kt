@@ -515,6 +515,11 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "forgotfast" -> forgotfastScene(a)
         "lastten" -> lasttenScene(a)
         "fitrsaa" -> fitrsaaScene(a)
+        "tarawihnight" -> tarawihnightScene(a)
+        "rakatcount" -> rakatcountScene(a)
+        "withimam" -> withimamScene(a)
+        "witrclose" -> witrcloseScene(a)
+        "qunuthands" -> qunuthandsScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -1021,6 +1026,18 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "movingnight", "hiddenseek", "surplus" -> 5500
     "prayontime" -> 5750
     "twotiers", "sleptprayer", "earseyetongue", "ratabtamrwater", "thirstgone", "eatdrink", "scentok", "holdandrepay", "didntknow", "notbreakers", "rememberstop", "lasttennights", "oddnights", "everysoul", "onesaa", "beforeeidprayer", "foodnotvalue" -> 6000
+    // v1.3 fiqh: tarawih (wave 74)
+    "afterisha" -> 1750
+    "imamcare" -> 3000
+    "noadhan", "twobytwo" -> 3250
+    "subhanmalik" -> 3500
+    "heartbest" -> 3750
+    "singlewitr" -> 4000
+    "firstnight" -> 4500
+    "elevenrakat" -> 4750
+    "twentyrakat" -> 5000
+    "nightrows" -> 5750
+    "confirmedsunnah", "firsttolast", "twoimams", "evenitout", "rowsfill", "apartjoined", "twowitrforms", "witrsurahs", "qunutsunnah", "afterbow", "wordsfree", "aminecho", "notoverlong" -> 6000
     else -> 1000
 }
 
