@@ -39,7 +39,7 @@ internal class Camera(var zoom: Float = 1f, var px: Float = 0f, var py: Float = 
 
 internal object Cinema {
     /** Layouts drawn on the notebook page: they follow the app theme, move less and get no dust. */
-    val paper = setOf("chart", "circuit", "verdict", "board", "oath", "kin", "homeledger", "pardonbook", "rumorchain", "covenant", "sneezebook", "radd", "halfofiman")
+    val paper = setOf("chart", "circuit", "verdict", "board", "oath", "kin", "homeledger", "pardonbook", "rumorchain", "covenant", "sneezebook", "radd", "halfofiman", "fourrulings")
     /** Scenes whose drawing fills the frame edge to edge: the camera barely moves. */
     val tight = setOf("hourglass")
     /** Scenes in daylight or on a lit page: the edges darken less. */

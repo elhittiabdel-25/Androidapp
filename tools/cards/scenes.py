@@ -2065,4 +2065,41 @@ SCENES = {
         I("فالأذكار صدقة من الإنسان على نفسه", None, "deep-0", kind="selfcharity"),
         I("والمعروف: ما عرف حسنه في الشرع", None, "deep-1", sub="التوحيد|الواجبة|المستحبات", kind="maruftiers"),
     ], layout="notonlywealth"),
+    # ── v1.2: the Forty of al-Nawawi, hadiths 26–30 (wave 62) ──
+    "nw-26": S("art", [
+        I("السلامى: مفاصل الإنسان وأعضاؤه وفقاره", None, "face-0", kind="jointslight"),
+        I("والصدقات عنها تارة واجبة", None, "face-1", sub="واجبة|مندوبة", kind="dutyorextra"),
+        I("فتعدل بين اثنين صدقة", None, "face-2", sub="فتعدل بين اثنين|وتعين الرجل في دابته|والكلمة الطيبة|وكل خطوة إلى الصلاة|وإماطة الأذى عن الطريق", kind="fivesadaqa"),
+        I("ويجزئ من ذلك ركعتان من الضحى", None, "deep-0", sub="ركعتان من الضحى", kind="duhatwo"),
+        I("والأذى الذي يماط عن الطريق", None, "deep-1", kind="clearroad"),
+        I("وهي صدقات كل يوم تطلع فيه الشمس", None, "deep-2", kind="eachsunrise"),
+    ], layout="everyjoint"),
+    "nw-27": S("art", [
+        I("البر كلمة جامعة معناها معنى الدين", None, "face-0", sub="البر|بحسن الخلق", kind="birrring"),
+        I("والإثم: ما حاك في نفسك", None, "face-1", sub="ما حاك في نفسك", kind="hiddenknot"),
+        I("وقال لوابصة: استفت قلبك", None, "face-2", sub="استفت قلبك", kind="consultheart"),
+        I("وجاءه وابصة فقال له قبل أن يسأل", None, "deep-0", sub="وابصة", kind="answeredfirst"),
+        I("وذلك في قلب عرف الوحي واستنار به", None, "deep-2", kind="revealedlit"),
+    ], layout="askyourheart"),
+    "nw-28": S("art", [
+        I("وعظهم ﷺ موعظة بليغة", None, "face-0", kind="movingsermon"),
+        I("فأوصاهم بتقوى الله، والسمع والطاعة", None, "face-1", sub="بجماعة|بإمارة|بسمع وطاعة", kind="linkedrings"),
+        I("وأخبر بالاختلاف الكثير", None, "face-2", sub="بسنته|وسنة الخلفاء الراشدين المهديين", kind="onelitway"),
+        I("وعضوا عليها بالنواجذ مبالغة في الإمساك", None, "deep-2", kind="tightgrip"),
+        I("وضابط البدعة", None, "deep-3", sub="ولو كان خيرا لسبقونا إليه", kind="notbeforeus"),
+    ], layout="holdfast"),
+    "nw-29": S("art", [
+        I("سأل معاذ عن عمل يدخله الجنة", None, "face-0", sub="معاذ|وإنه ليسير على من يسره الله عليه", kind="greatyeteasy"),
+        I("ورأس الأمر الإسلام", None, "face-2", sub="رأس الأمر الإسلام|وعموده الصلاة|وذروة سنامه الجهاد", kind="tentparts"),
+        I("وأبواب الخير", None, "deep-0", sub="الصوم جنة|والصدقة تطفئ الخطيئة", kind="shieldandwater"),
+        I("والصلاة بمنزلة عمود الفسطاط", None, "deep-1", kind="polefalls"),
+        I("ثم أخذ بلسانه وقال: كف عليك هذا", None, "deep-2", sub="كف عليك هذا", kind="sealtongue"),
+    ], layout="headofmatter"),
+    "nw-30": S("art", [
+        I("الفرائض هي الواجبات", None, "face-0", sub="فلا تضيعوها", kind="keepduties"),
+        I("وحد حدودا هي الفواصل بين الحلال والحرام", None, "face-1", sub="فلا تعتدوها|فلا تنتهكوها", kind="boundsfences"),
+        I("وسكت عن أشياء رحمة بنا غير نسيان", None, "face-2", sub="فهو عفو", kind="silentmercy"),
+        I("فجمع الحديث أحكام الدين", None, "deep-0", sub="واجبات تفعل|وحدودا يوقف عندها|ومحرمات تجتنب|ومسكوتا عنه يعفى عنه", kind="fourquads"),
+        I("والله لا ينسى", None, "deep-2", sub="عن علم وحكمة", kind="knowingsilence"),
+    ], layout="fourrulings"),
 }

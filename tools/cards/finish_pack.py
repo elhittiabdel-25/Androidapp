@@ -339,6 +339,11 @@ ART_KINDS = {
     "halfofiman": {"halffilled", "praisefills", "lightproofglow", "patiencethree", "proofforagainst"},
     "noinjustice": {"forbadeself", "wrongplace", "fourneeds", "curedone", "nothingadded"},
     "notonlywealth": {"richpoor", "dhikrcoins", "spreadsgood", "selfcharity", "maruftiers"},
+    "everyjoint": {"jointslight", "dutyorextra", "fivesadaqa", "duhatwo", "clearroad", "eachsunrise"},
+    "askyourheart": {"birrring", "hiddenknot", "consultheart", "answeredfirst", "revealedlit"},
+    "holdfast": {"movingsermon", "linkedrings", "onelitway", "tightgrip", "notbeforeus"},
+    "headofmatter": {"greatyeteasy", "tentparts", "shieldandwater", "polefalls", "sealtongue"},
+    "fourrulings": {"keepduties", "boundsfences", "silentmercy", "fourquads", "knowingsilence"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
