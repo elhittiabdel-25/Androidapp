@@ -550,6 +550,12 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "harvestshare" -> harvestshareScene(a)
         "livestockzakat" -> livestockzakatScene(a)
         "eightrecipients" -> eightrecipientsScene(a)
+        "prayerrank" -> prayerrankScene(a)
+        "adhancall" -> adhancallScene(a)
+        "fivetimes" -> fivetimesScene(a)
+        "prayerconds" -> prayercondsScene(a)
+        "walktoprayer" -> walktoprayerScene(a)
+        "openingtakbir" -> openingtakbirScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -1094,6 +1100,10 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "anyclass" -> 4250
     "lastfour" -> 5750
     "growsprout", "thirdpillar", "threewisdoms", "bondnet", "twokinds", "firstislam", "nisabowned", "fullyear", "fourwealth", "debtzakat", "quarterten", "twonisabs", "nocombine", "fiveof200", "jewelry", "shopshelf", "threetradeconds", "valueatyearend", "inheritedno", "rentincome", "storedgrains", "tenthorhalf", "ripenow", "threehundredsaa", "buriedfifth", "threeherds", "herdnisab", "grazingfree", "mostlyfed", "onesheepdue", "firstfour", "poorneedy", "notdependents" -> 6000
+    // v1.3 fiqh: prayer 1 (wave 80)
+    "secondpillar" -> 4750
+    "zuhrshadow" -> 5500
+    "miraj", "openclose", "ontimeanyway", "sevenyears", "announcetime", "kifaya", "fifteenphrases", "turnrightleft", "nostepout", "asryellow", "maghribisha", "fajrline", "middleprayer", "purityandtime", "threemoreconds", "intentheart", "condsvspillars", "smallsteps", "waitdhikr", "straightrows", "rightfootmosque", "widestance", "facequibla", "raisehands", "handsonchest", "farapartsins", "alternate" -> 6000
     else -> 1000
 }
 

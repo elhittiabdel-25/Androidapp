@@ -434,6 +434,12 @@ ART_KINDS = {
     "harvestshare": {"storedgrains", "tenthorhalf", "ripenow", "threehundredsaa", "buriedfifth"},
     "livestockzakat": {"threeherds", "herdnisab", "grazingfree", "mostlyfed", "onesheepdue"},
     "eightrecipients": {"firstfour", "lastfour", "anyclass", "poorneedy", "notdependents"},
+    "prayerrank": {"secondpillar", "miraj", "openclose", "ontimeanyway", "sevenyears"},
+    "adhancall": {"announcetime", "kifaya", "fifteenphrases", "turnrightleft", "nostepout"},
+    "fivetimes": {"zuhrshadow", "asryellow", "maghribisha", "fajrline", "middleprayer"},
+    "prayerconds": {"purityandtime", "threemoreconds", "intentheart", "condsvspillars"},
+    "walktoprayer": {"smallsteps", "waitdhikr", "straightrows", "rightfootmosque", "widestance"},
+    "openingtakbir": {"facequibla", "raisehands", "handsonchest", "farapartsins", "alternate"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
