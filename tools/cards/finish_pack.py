@@ -359,6 +359,11 @@ ART_KINDS = {
     "moonface": {"neithertall", "moonnotsword", "brighterthanmoon", "silvercast", "lastwhosaw", "gradedmarks"},
     "garments": {"shirtstripes", "whitecloths", "perfumekept", "namednew", "notreturned3"},
     "humbletable": {"norecline", "tablelifted", "basmalabless", "firstandlast", "threesips", "milkbless"},
+    "namesring": {"threenames", "lastnames", "yearsline", "mercynames", "atforty"},
+    "simpleliving": {"coldhearth", "barleynights", "coolshade", "milkfromneighbors", "chaffblown"},
+    "clearspeech": {"spacedwords", "threetimesword", "warmsmile", "neverbarred", "aliriding"},
+    "truejest": {"truejoke", "littlebird", "everycamel", "twoears", "notcheap", "youngagain"},
+    "gratefulservant": {"thankfulnight", "threesuras", "longstanding", "nightplan", "heartawake", "steadydrops"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

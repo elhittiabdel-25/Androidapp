@@ -2215,4 +2215,42 @@ SCENES = {
         I("وكان يتنفس في الشرب ثلاثا", None, "deep-3", sub="أمرأ وأروى", kind="threesips"),
         I("ومن سقاه الله لبنا", None, "deep-4", sub="اللهم بارك لنا فيه وزدنا منه", kind="milkbless"),
     ], layout="humbletable"),
+    # ── v1.2: «مختصر الشمائل» (wave 66) ──
+    "sira-asma": S("art", [
+        I("قال ﷺ: إن لي أسماء", None, "face-0", sub="محمد|أحمد|الماحي", kind="threenames"),
+        I("وأنا الحاشر الذي يحشر الناس على قدمي", None, "face-1", sub="الحاشر|العاقب", kind="lastnames"),
+        I("ومكث بمكة 13 سنة يوحى إليه", None, "face-2", sub="بمكة 13 سنة|وبالمدينة 10|ابن 63", kind="yearsline"),
+        I("وفي حديث حذيفة", None, "deep-0", sub="نبي الرحمة|ونبي التوبة|المقفي", kind="mercynames"),
+        I("وبعثه الله على رأس 40 سنة", None, "deep-1", sub="40 سنة", kind="atforty"),
+    ], layout="namesring"),
+    "sira-aysh": S("art", [
+        I("قالت عائشة", None, "face-0", sub="التمر والماء", kind="coldhearth"),
+        I("وكان يبيت الليالي المتتابعة طاويا", None, "face-1", sub="خبز الشعير", kind="barleynights"),
+        I("ولما أكل هو وصاحباه عند أبي الهيثم رطبا", None, "face-2", sub="أبي الهيثم|هذا من النعيم الذي تسألون عنه", kind="coolshade"),
+        I("وكان له جيران من الأنصار لهم منائح", None, "deep-1", kind="milkfromneighbors"),
+        I("ولم تكن لهم مناخل", None, "deep-2", kind="chaffblown"),
+    ], layout="simpleliving"),
+    "sira-kalam": S("art", [
+        I("ما كان ﷺ يسرد الكلام سردا", None, "face-0", kind="spacedwords"),
+        I("وكان يعيد الكلمة ثلاثا لتعقل عنه", None, "face-1", kind="threetimesword"),
+        I("وقال عبد الله بن الحارث", None, "face-2", sub="عبد الله بن الحارث|أكثر تبسما", kind="warmsmile"),
+        I("وقال جرير بن عبد الله", None, "deep-0", sub="جرير بن عبد الله", kind="neverbarred"),
+        I("وركب علي دابة فذكر الله واستغفره ثم ضحك", None, "deep-3", sub="علي", kind="aliriding"),
+    ], layout="clearspeech"),
+    "sira-mizah": S("art", [
+        I("قالوا: يا رسول الله، إنك تداعبنا", None, "face-0", sub="لا أقول إلا حقا", kind="truejoke"),
+        I("وكان يخالطهم حتى يقول لأخ صغير لأنس مات طائره", None, "face-1", sub="يا أبا عمير، ما فعل النغير", kind="littlebird"),
+        I("واستحمله رجل فقال: إني حاملك على ولد ناقة", None, "face-2", sub="وهل تلد الإبل إلا النوق", kind="everycamel"),
+        I("وكان يقول لأنس يمازحه", None, "deep-0", sub="يا ذا الأذنين", kind="twoears"),
+        I("وكان زاهر من أهل البادية يحبه ﷺ", None, "deep-2", sub="زاهر|لكن عند الله لست بكاسد", kind="notcheap"),
+        I("وقال لعجوز", None, "deep-3", kind="youngagain"),
+    ], layout="truejest"),
+    "sira-ibada": S("art", [
+        I("صلى ﷺ حتى انتفخت قدماه", None, "face-0", sub="أفلا أكون عبدا شكورا", kind="thankfulnight"),
+        I("وصلى معه حذيفة ليلة", None, "face-1", sub="حذيفة|البقرة|وآل عمران|والنساء", kind="threesuras"),
+        I("وقال ابن مسعود: صليت معه ليلة", None, "face-2", sub="ابن مسعود", kind="longstanding"),
+        I("وكان ينام أول الليل ثم يقوم", None, "deep-0", kind="nightplan"),
+        I("وسألته عائشة: أتنام قبل أن توتر", None, "deep-2", sub="إن عيني تنامان ولا ينام قلبي", kind="heartawake"),
+        I("وكان أحب العمل إليه ما ديم عليه وإن قل", None, "deep-4", sub="ما ديم عليه وإن قل", kind="steadydrops"),
+    ], layout="gratefulservant"),
 }
