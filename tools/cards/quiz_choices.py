@@ -2011,3 +2011,6 @@ QUIZ = {
         "توفي يوم الاثنين مسندا إلى صدر عائشة، ودفن في الموضع الذي قبض فيه؛ وقال لفاطمة: لا كرب على أبيك بعد اليوم.",
     ),
 }
+
+from quiz_fiqh import QUIZ_FIQH          # noqa: E402  (the fiqh cards of v1.3)
+QUIZ.update(QUIZ_FIQH)

@@ -1,4 +1,4 @@
-"""Merge the first 16 cards with batches 2 to 11 into cards.json (screen text) and speech.json (vowelled speech).
+"""Merge the first 16 cards with batches 2 to 15 into cards.json (screen text) and speech.json (vowelled speech).
 
 The batch files are the source of truth: their speech entries are rewritten on every run; sources found in
 later books are merged into the earlier cards (MERGE_SOURCES of batch 2, then MERGE_SOURCES3, 4 and 5).
@@ -18,6 +18,10 @@ from cards_batch8 import NEW8
 from cards_batch9 import NEW9, BOOKS9
 from cards_batch10 import NEW10, BOOKS10
 from cards_batch11 import NEW11, BOOKS11
+from cards_batch12 import NEW12, BOOKS12
+from cards_batch13 import NEW13, BOOKS13
+from cards_batch14 import NEW14, BOOKS14
+from cards_batch15 import NEW15, BOOKS15
 H = re.compile(r'[ً-ْٰـ]')
 def shown(s): return re.sub(r'\{[^}]*\}', '', re.sub(r'\[([^|\]]*)\|([^\]]*)\]', r'\1', s))
 def plain(s): return H.sub('', shown(s))
@@ -37,6 +41,7 @@ def add_sources(card, extra):
 cards, speech = [], json.load(open(os.path.join(HERE, '..', 'tts', 'speech.json'), encoding='utf-8'))
 books = dict(OLD_BOOKS); books.update(BOOKS2); books.update(BOOKS3); books.update(BOOKS4); books.update(BOOKS5); books.update(BOOKS6)
 books.update(BOOKS9); books.update(BOOKS10); books.update(BOOKS11)
+books.update(BOOKS12); books.update(BOOKS13); books.update(BOOKS14); books.update(BOOKS15)
 for c in OLD:                                   # first 16 cards: same text and audio, extra sources merged in
     c = copy.deepcopy(c)
     for e in c["evidence"]:
@@ -46,7 +51,7 @@ for c in OLD:                                   # first 16 cards: same text and 
     add_sources(c, MERGE_SOURCES4.get(c["id"], []))
     add_sources(c, MERGE_SOURCES5.get(c["id"], []))
     cards.append(c)
-for c in NEW + NEW3 + NEW4 + NEW5 + NEW6 + NEW7 + NEW8 + NEW9 + NEW10 + NEW11:
+for c in NEW + NEW3 + NEW4 + NEW5 + NEW6 + NEW7 + NEW8 + NEW9 + NEW10 + NEW11 + NEW12 + NEW13 + NEW14 + NEW15:
     ev = [quran_ev(q) if isinstance(q, str) else quran_ev(*q) for q in c["quran"]]
     ev += [{"kind": "hadith", "text": plain(t), "takhrij": tk} for t, tk in c["hadith"]]
     out = {"id": c["id"], "type": c["type"], "topic": c["topic"], "path": c["path"], "order": c["order"],
