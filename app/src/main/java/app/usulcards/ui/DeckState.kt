@@ -101,7 +101,13 @@ object UiVisibility {
     var visible = true
 }
 
-/** Card navigation with its fly-out/rise-in animation, and the listen queue (including continuous mode). */
+/**
+ * Card navigation with its fly-out/rise-in animation, and the listen queue (including continuous mode).
+ *
+ * Continuous listening with the app on screen stops at the end of each card, so its quiz can be answered:
+ * the next move («التالية» or a swipe) starts the following card's voice. With the screen locked or the app
+ * in the background, the voice goes straight on from card to card.
+ */
 class DeckController(
     private val repo: ContentRepo,
     private val deck: DeckState,
@@ -113,9 +119,13 @@ class DeckController(
     val enter = Animatable(1f)
     private var busy = false
 
+    /** The voice finished a card on screen in continuous listening: the next move goes on listening. */
+    private var resumeOnMove = false
+
     fun navigate(d: Int, autoPlay: Boolean = false) {
         if (busy || !deck.canGo(d)) return
-        val keepPlaying = autoPlay || (player.isPlaying && progress.continuous)
+        val keepPlaying = autoPlay || (progress.continuous && (player.isPlaying || resumeOnMove))
+        resumeOnMove = false
         player.stop()
         busy = true
         scope.launch {
@@ -138,20 +148,30 @@ class DeckController(
     }
 
     fun toggleListen(card: Card) {
+        resumeOnMove = false
         if (player.isPlaying) player.stop() else listen(card)
     }
 
+    /** Stops listening and forgets a pending «go on after the quiz». */
+    fun stopListening() {
+        resumeOnMove = false
+        player.stop()
+    }
+
     /**
-     * Reads [card]. In continuous listening the player queues each next card itself before the current
-     * one ends (so the voice goes on with the screen locked), and tells us when it moves on: the deck then
-     * follows, with the card animation if the app is on screen.
+     * Reads [card]. In continuous listening with the app off screen, the player queues each next card itself
+     * before the current one ends (so the voice goes on with the screen locked), and tells us when it moves
+     * on: the deck then follows. On screen, the voice stops at the card's end and waits for the quiz.
      */
     fun listen(card: Card) {
+        resumeOnMove = false
         player.play(
             playlist(card, deck.deepOpen), progress.speed, card.id, card.title,
-            next = { last -> if (progress.continuous) nextAfter(last) else null },
+            next = { last -> if (progress.continuous && !UiVisibility.visible) nextAfter(last) else null },
             onAdvance = { id -> follow(id) },
-        ) {}
+        ) {
+            resumeOnMove = progress.continuous && UiVisibility.visible
+        }
     }
 
     /** The card after [id] in the deck, with the clips it will play (its «تعمّق» as a new card opens). */

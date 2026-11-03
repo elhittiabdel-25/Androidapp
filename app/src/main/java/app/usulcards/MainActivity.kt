@@ -42,11 +42,13 @@ class MainActivity : ComponentActivity() {
     override fun onStart() {
         super.onStart()
         UiVisibility.visible = true
+        player.dropQueuedNext()
     }
 
     override fun onStop() {
         super.onStop()
         UiVisibility.visible = false
+        player.queueNextNow()
         if (progress.reminderOn) Reminders.saveHint(this, repo, progress)
     }
 

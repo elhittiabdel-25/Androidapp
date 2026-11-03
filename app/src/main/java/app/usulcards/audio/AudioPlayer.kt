@@ -186,6 +186,24 @@ class AudioPlayer private constructor(private val app: Context) : PlaybackView {
         }
     }
 
+    /** The app left the screen: in continuous listening, queue the next card now if this card's last clip is playing. */
+    fun queueNextNow() {
+        if (isPlaying) queueNextIfLast()
+    }
+
+    /**
+     * The app came back on screen: take back a next card queued for the locked screen whose voice has not begun,
+     * so this card's quiz can be answered first.
+     */
+    fun dropQueuedNext() {
+        val own = owner ?: return
+        if (!isPlaying || lastQueued == own) return
+        val from = exo.currentMediaItemIndex + 1
+        val cut = (from until exo.mediaItemCount).firstOrNull { exo.getMediaItemAt(it).mediaId.substringBefore("|") != own } ?: return
+        exo.removeMediaItems(cut, exo.mediaItemCount)
+        lastQueued = own
+    }
+
     private fun queueNextIfLast() {
         val provide = next ?: return
         val last = lastQueued ?: return

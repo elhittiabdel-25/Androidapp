@@ -212,7 +212,7 @@ fun ModuleScreen(
                                 ctl.navigate(1)
                             }
                         },
-                        onRelated = { id -> player.stop(); deck.jumpTo(id) },
+                        onRelated = { id -> ctl.stopListening(); deck.jumpTo(id) },
                         onPlayVerse = { files, key -> ctl.playVerse(files, key) },
                         quizKey = deck.index,
                         hasNext = deck.canGo(1),
@@ -349,7 +349,7 @@ private fun ReadingOptions(progress: ProgressStore, deck: DeckState, player: Aud
                         }
                     }
                 }
-                ToggleRow("استماع متواصل", "ينتقل الصوت إلى البطاقة التالية وحده", progress.continuous) { progress.updateContinuous(it) }
+                ToggleRow("استماع متواصل", "يمضي إلى البطاقة التالية بعد اختبارك، ووحده إذا أُقفلت الشاشة", progress.continuous) { progress.updateContinuous(it) }
                 ToggleRow("الشاشة مضاءة أثناء الاستماع", "لتتابع القراءة دون لمس الهاتف", progress.keepScreenOn) { progress.updateKeepScreenOn(it) }
                 ToggleRow("تتبّع موضع القراءة", "تتحرك الصفحة مع الجملة المقروءة", progress.followReading) { progress.updateFollowReading(it) }
                 ToggleRow("التشكيل", "", progress.showDiacritics) { progress.updateShowDiacritics(it) }
