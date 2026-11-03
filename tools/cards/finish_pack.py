@@ -369,6 +369,18 @@ ART_KINDS = {
     "noblemanners": {"neveruff", "shyerthan", "pardonsback", "chooseseasier", "windgiving", "giftreturned"},
     "lastday": {"curtainlift", "noagony", "mondayrest", "zumarverse", "citylitdark"},
     "echoadhan": {"answercall", "radeetu", "twohayya", "highstation", "betweencalls"},
+    "hajjpillar": {"fifthpillar", "hastenhajj", "oncelife", "umrahspan"},
+    "beforehajj": {"debtledger", "tawbanasuh", "rightsback", "cleanpurse", "goodcompany"},
+    "miqatwhite": {"washscent", "twowhites", "labbayk", "keephair", "mountride"},
+    "fivemiqat": {"threemiqat", "twomiqat", "passmiqat", "fromhome", "todaynames", "tohill"},
+    "threenusuk": {"umrahsteps", "threeroads", "tamattu", "hajjmonths", "ifheld"},
+    "childpilgrim": {"validyoung", "guardianlabbayk", "throwsforhim", "carriedround", "guardianreward"},
+    "ihramlimits": {"nocutscent", "nosewn", "nohunt", "norafath", "mayshade"},
+    "sevenrounds": {"blackstone", "sevencircuits", "behindmaqam", "safamarwa", "umrahdone"},
+    "arafatday": {"tarwiya", "arafastand", "muzdalifanight", "mashardawn"},
+    "nahrday": {"fourrites", "noharaj", "tashriqthree", "deputythrow"},
+    "hadyoffer": {"hadyshare", "pureearning", "tenfast", "arafaopen", "fourdays"},
+    "farewellhouse": {"stayworship", "doubledhere", "farewelltawaf", "walkonward", "madinahmosque"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
