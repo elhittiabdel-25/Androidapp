@@ -452,6 +452,12 @@ ART_KINDS = {
     "postprayerdhikr": {"istighfarthree", "thirtythree", "kursiyshield", "tentimes", "imamturns"},
     "twelverakat": {"twelvearches", "aroundprayers", "travelkeeps", "houseinjannah"},
     "witrnight": {"strongestnafl", "witrwindow", "oneto13", "ninejoined", "lastnightwitnessed"},
+    "forenoon": {"duhanafl", "twotoeight", "duhawindow", "threecounsels", "hotsand"},
+    "recitationbow": {"versebow", "listenerkinds", "bowsubhan", "sajadawajhi", "fromstanding"},
+    "forbiddentimes": {"twodawnbans", "threedaybans", "allowedwithcause", "shadowstops"},
+    "congregation": {"rowsduty", "evenwar", "benefits4", "stepreward", "familyneighbors"},
+    "wholeads": {"rankorder", "readerfaqih", "hostfirst", "drawlots", "unknownfault"},
+    "sickprayer": {"hardshipease", "standsitside", "nodlower", "bentstand", "sickjoin"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

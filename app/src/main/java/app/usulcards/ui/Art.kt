@@ -568,6 +568,12 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "postprayerdhikr" -> postprayerdhikrScene(a)
         "twelverakat" -> twelverakatScene(a)
         "witrnight" -> witrnightScene(a)
+        "forenoon" -> forenoonScene(a)
+        "recitationbow" -> recitationbowScene(a)
+        "forbiddentimes" -> forbiddentimesScene(a)
+        "congregation" -> congregationScene(a)
+        "wholeads" -> wholeadsScene(a)
+        "sickprayer" -> sickprayerScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -1126,6 +1132,8 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "lastnightwitnessed" -> 5000
     "returnifnotup" -> 5750
     "eightduties", "transitions", "extrareward", "threetoten", "followerpraise", "gazedown", "fidgets", "distractions", "ornatewall", "presentheart", "threeaims", "sahwcauses", "alertimam", "istighfarthree", "thirtythree", "kursiyshield", "tentimes", "imamturns", "twelvearches", "aroundprayers", "travelkeeps", "strongestnafl", "witrwindow", "oneto13", "ninejoined" -> 6000
+    // v1.3 fiqh: prayer 4 (wave 83)
+    "duhanafl", "twotoeight", "duhawindow", "threecounsels", "hotsand", "versebow", "listenerkinds", "bowsubhan", "sajadawajhi", "fromstanding", "twodawnbans", "threedaybans", "allowedwithcause", "shadowstops", "rowsduty", "evenwar", "benefits4", "stepreward", "familyneighbors", "rankorder", "readerfaqih", "hostfirst", "drawlots", "unknownfault", "hardshipease", "standsitside", "nodlower", "bentstand", "sickjoin" -> 6000
     else -> 1000
 }
 
