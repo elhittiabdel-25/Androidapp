@@ -409,6 +409,12 @@ ART_KINDS = {
     "itikaftimes": {"enterssunset", "entersdawn", "leavesforeid", "vowthree"},
     "leavingmosque": {"outvoid", "needout", "onlyneed", "statedcondition"},
     "seclusionadvice": {"knockdoor", "nocrowd", "phonejail", "silencespeechsight", "notebook"},
+    "purewater": {"keyofprayer", "twopurities", "minormajor", "fourwaters", "threechanges"},
+    "vesselrules": {"allvessels", "goldsilver", "otherspots", "silverpatch", "goldpatch"},
+    "restroomway": {"leftfootin", "rightfootout", "noqibla", "waterorstones"},
+    "miswak": {"anytime", "fourmoments", "aracktwig", "fitrafive", "siwakbenefits"},
+    "wudusix": {"wuduneeded", "sixfard", "orderflow", "wuduconds", "dryspot"},
+    "wudusunnahs": {"rewardnoblame", "startsunnahs", "rightthrice", "onceorthrice", "allthreeways"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

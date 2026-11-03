@@ -525,6 +525,12 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "itikaftimes" -> itikaftimesScene(a)
         "leavingmosque" -> leavingmosqueScene(a)
         "seclusionadvice" -> seclusionadviceScene(a)
+        "purewater" -> purewaterScene(a)
+        "vesselrules" -> vesselrulesScene(a)
+        "restroomway" -> restroomwayScene(a)
+        "miswak" -> miswakScene(a)
+        "wudusix" -> wudusixScene(a)
+        "wudusunnahs" -> wudusunnahsScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -1048,6 +1054,14 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "staymosque", "knockdoor" -> 3750
     "nocrowd" -> 5000
     "sunnahvow", "lasttenstay", "threemosques", "mosqueandintent", "amoment", "fastoptional", "nothome", "hotelhall", "insidewall", "enterssunset", "entersdawn", "leavesforeid", "vowthree", "outvoid", "needout", "onlyneed", "statedcondition", "phonejail", "silencespeechsight", "notebook" -> 6000
+    // v1.3 fiqh: purification 1 (wave 76)
+    "orderflow" -> 2000
+    "onceorthrice" -> 3500
+    "keyofprayer", "rightfootout" -> 3750
+    "anytime" -> 4750
+    "minormajor" -> 5250
+    "goldpatch", "dryspot" -> 5500
+    "twopurities", "fourwaters", "threechanges", "allvessels", "goldsilver", "otherspots", "silverpatch", "leftfootin", "noqibla", "waterorstones", "fourmoments", "aracktwig", "fitrafive", "siwakbenefits", "wuduneeded", "sixfard", "wuduconds", "rewardnoblame", "startsunnahs", "rightthrice", "allthreeways" -> 6000
     else -> 1000
 }
 
