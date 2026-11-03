@@ -1,18 +1,19 @@
 LISTING = {
  "ar": {
   "title": "Re-Iman: جدد إيمانك",
-  "short": "بطاقات قصيرة من كتب العقيدة بالأدلة والمصادر، تُقرأ وتُسمع مع حركة توضيحية",
-  "full": """Re-Iman تطبيق مجاني بلا إعلانات لتعلّم أصول العقيدة الإسلامية ومراجعتها، من خلال بطاقات قصيرة مأخوذة من كتب أهل العلم.
+  "short": "بطاقات قصيرة من كتب أهل العلم بالأدلة والمصادر، تُقرأ وتُسمع مع حركة توضيحية",
+  "full": """Re-Iman تطبيق مجاني بلا إعلانات لتعلّم أصول العقيدة الإسلامية والحديث والأذكار ومراجعتها، من خلال بطاقات قصيرة مأخوذة من كتب أهل العلم.
 
 لماذا Re-Iman؟
-• 223 بطاقة من 26 كتابًا، فكرة واحدة في كل بطاقة، بنص مشكول كاملًا.
+• 332 بطاقة من 30 كتابًا، فكرة واحدة في كل بطاقة، بنص مشكول كاملًا.
 • الأدلة من القرآن والسنة، مع اسم الكتاب ورقم الصفحة لكل بطاقة.
 • استمع: كل جملة تُقرأ بصوت واضح وتُظلَّل أثناء القراءة، والآيات تُسمع بتلاوة الشيخ مشاري العفاسي.
 • مشهد مرسوم في كل بطاقة يتحرك مع الصوت لتثبيت الفكرة.
 • «تعمّق» لمن أراد التفصيل: شرح أوسع وأدلة وأحاديث.
 • اختبر نفسك في آخر كل بطاقة، وتعود إليك البطاقات التي لم تحفظها.
-• أقسام ومسارات: التوحيد، الشرك وما يضاد التوحيد، الإيمان، السيرة ومنهج أهل السنة.
-• جديد: قسم الكتب، كتب كاملة في بطاقات مرتبة حسب أجزائها، وأولها «بصائر» للدكتور هيثم طلعت بأجزائه الثلاثة.
+• أقسام ومسارات: التوحيد، الشرك وما يضاد التوحيد، الإيمان، منهج أهل السنة، السيرة والشمائل، الأخلاق والآداب، الأذكار والدعاء.
+• قسم الكتب: كتب كاملة في بطاقات مرتبة حسب أجزائها: «بصائر» للدكتور هيثم طلعت، و«الأربعون النووية» بشرح الشيخ محمد بن إبراهيم آل الشيخ.
+• جديد: الحديث والأذكار من «رياض الصالحين» و«حصن المسلم» و«مختصر الشمائل».
 • هدف يومي ونقاط وأيام مواظبة، وتذكير يومي اختياري.
 • يعمل دون إنترنت، ولا يجمع أي بيانات.
 
@@ -43,56 +44,62 @@ LISTING = {
 • شرح السنة — إسماعيل بن يحيى المزني
 • شرح أصول السنة للإمام أحمد بن حنبل — عبد العزيز بن عبد الله الراجحي
 • بصائر — هيثم طلعت
+• رياض الصالحين — يحيى بن شرف النووي
+• حصن المسلم من أذكار الكتاب والسنة — سعيد بن علي بن وهف القحطاني
+• شرح الأربعين النووية — محمد بن إبراهيم آل الشيخ
+• مختصر الشمائل المحمدية — أبو عيسى الترمذي، اختصار محمد ناصر الدين الألباني
 
-وتُضاف كتب في الفقه والتفسير والحديث والسيرة في الإصدارات القادمة بإذن الله.""",
+وتُضاف كتب في الفقه والتفسير والسيرة في الإصدارات القادمة بإذن الله.""",
  },
  "en": {
   "title": "Re-Iman: Renew your Iman",
-  "short": "Short Islamic belief cards from classic books, with evidence, audio, animation",
-  "full": """Re-Iman is a free, ad-free app for learning and reviewing the foundations of Islamic belief (aqeedah) through short cards drawn from the works of scholars. The cards are in Arabic.
+  "short": "Short Islamic cards from classic books, with evidence, audio and animation",
+  "full": """Re-Iman is a free, ad-free app for learning and reviewing the foundations of Islamic belief (aqeedah), hadith and adhkar through short cards drawn from the works of scholars. The cards are in Arabic.
 
 Why Re-Iman?
-• 223 cards from 26 books, one idea per card, with full diacritics (tashkeel).
+• 332 cards from 30 books, one idea per card, with full diacritics (tashkeel).
 • Evidence from the Quran and Sunnah, and the book and page for every card.
 • Listen: each sentence is read aloud and highlighted as it plays; verses play the recitation of Sheikh Mishary Alafasy.
 • A drawn scene on every card moves with the voice to make the idea stick.
 • "Go deeper" for more explanation, verses and hadith.
 • A quick self-test at the end of each card; cards you don't know yet come back later.
-• Categories and paths: Tawhid, Shirk and what opposes Tawhid, Iman, Seerah and the way of Ahl al-Sunnah.
-• New: the Books section, whole books in cards arranged by their parts, starting with Basa'ir by Dr. Haitham Talaat in all 3 parts.
+• Categories and paths: Tawhid, Shirk and what opposes Tawhid, Iman, the way of Ahl al-Sunnah, Seerah and Shama'il, Character and manners, Adhkar and dua.
+• The Books section: whole books in cards arranged by their parts: Basa'ir by Dr. Haitham Talaat, and the Forty Hadith of al-Nawawi with the commentary of Sheikh Muhammad ibn Ibrahim Al al-Sheikh.
+• New: hadith and adhkar from Riyad al-Salihin, Hisn al-Muslim and Mukhtasar al-Shama'il.
 • Daily goal, points and streaks, and an optional daily reminder.
 • Works offline and collects no data.
 
-Books in this version (26, from the Islamic Content Encyclopedia), among them: Thalathat al-Usul and its Hashiyah (Ibn Qasim), al-Aqidah al-Sahihah (Ibn Baz), Kitab al-Tawhid and Fath al-Majid, Sharh al-Qawaid al-Arba (al-Fawzan), Sharh Kashf al-Shubuhat, Lum'at al-I'tiqad (Ibn Qudamah), Sharh al-Aqidah al-Wasitiyyah (Harras), Sharh al-Aqidah al-Tahawiyyah (Ibn Abi al-Izz), A'lam al-Sunnah al-Manshurah (Hafiz al-Hakami), Sharh al-Sunnah (al-Barbahari and al-Muzani), Usul al-Sunnah of Imam Ahmad (explained by al-Rajhi), and Basa'ir (Haitham Talaat).
+Books in this version (30, from the Islamic Content Encyclopedia), among them: Thalathat al-Usul and its Hashiyah (Ibn Qasim), al-Aqidah al-Sahihah (Ibn Baz), Kitab al-Tawhid and Fath al-Majid, Sharh al-Qawaid al-Arba (al-Fawzan), Sharh Kashf al-Shubuhat, Lum'at al-I'tiqad (Ibn Qudamah), Sharh al-Aqidah al-Wasitiyyah (Harras), Sharh al-Aqidah al-Tahawiyyah (Ibn Abi al-Izz), A'lam al-Sunnah al-Manshurah (Hafiz al-Hakami), Sharh al-Sunnah (al-Barbahari and al-Muzani), Usul al-Sunnah of Imam Ahmad (explained by al-Rajhi), Basa'ir (Haitham Talaat), Riyad al-Salihin (al-Nawawi), Hisn al-Muslim (al-Qahtani), Sharh al-Arba'in al-Nawawiyyah (Muhammad ibn Ibrahim Al al-Sheikh) and Mukhtasar al-Shama'il (al-Tirmidhi, abridged by al-Albani).
 
-Books on fiqh, tafsir, hadith and seerah will be added in coming updates, in sha Allah.""",
+Books on fiqh, tafsir and seerah will be added in coming updates, in sha Allah.""",
  },
  "fr": {
   "title": "Re-Iman : renouvelle ta foi",
   "short": "Fiches courtes sur la croyance islamique, avec preuves, audio et animations",
-  "full": """Re-Iman est une application gratuite et sans publicité pour apprendre et réviser les fondements de la croyance islamique (aqîda), à travers de courtes fiches tirées des livres des savants. Les fiches sont en arabe.
+  "full": """Re-Iman est une application gratuite et sans publicité pour apprendre et réviser les fondements de la croyance islamique (aqîda), le hadith et les adhkâr, à travers de courtes fiches tirées des livres des savants. Les fiches sont en arabe.
 
 Pourquoi Re-Iman ?
-• 223 fiches tirées de 26 livres, une idée par fiche, entièrement vocalisée (tashkîl).
+• 332 fiches tirées de 30 livres, une idée par fiche, entièrement vocalisée (tashkîl).
 • Les preuves du Coran et de la Sunna, avec le livre et la page pour chaque fiche.
 • Écoute : chaque phrase est lue à voix haute et surlignée ; les versets sont récités par le cheikh Mishary Alafasy.
 • Une scène dessinée sur chaque fiche s'anime avec la voix pour fixer l'idée.
 • « Approfondir » pour plus d'explications, de versets et de hadiths.
 • Un petit test à la fin de chaque fiche ; les fiches non maîtrisées reviennent plus tard.
-• Catégories et parcours : Tawhid, le Shirk et ce qui s'oppose au Tawhid, la foi, la Sîra et la voie d'Ahl al-Sunna.
-• Nouveau : la section Livres, des livres entiers en fiches classées par parties, en commençant par « Basâ'ir » du Dr Haitham Talaat, en 3 parties.
+• Catégories et parcours : Tawhid, le Shirk et ce qui s'oppose au Tawhid, la foi, la voie d'Ahl al-Sunna, la Sîra et les Shamâ'il, le comportement et les bonnes manières, les adhkâr et les invocations.
+• La section Livres : des livres entiers en fiches classées par parties : « Basâ'ir » du Dr Haitham Talaat, et les Quarante hadiths d'an-Nawawî avec le commentaire du cheikh Muhammad ibn Ibrâhîm Âl ash-Sheikh.
+• Nouveau : hadiths et adhkâr de Riyâd as-Sâlihîn, Hisn al-Muslim et Mukhtasar ash-Shamâ'il.
 • Objectif quotidien, points et séries de jours, et un rappel quotidien facultatif.
 • Fonctionne hors ligne et ne collecte aucune donnée.
 
-Livres de cette version (26, Encyclopédie du contenu islamique), dont : Thalâthat al-Usûl et sa Hâshiya (Ibn Qâsim), al-Aqîda as-Sahîha (Ibn Bâz), Kitâb at-Tawhîd et Fath al-Majîd, Sharh al-Qawâ'id al-Arba' (al-Fawzân), Sharh Kashf ash-Shubuhât, Lum'at al-I'tiqâd (Ibn Qudâma), Sharh al-Aqîda al-Wâsitiyya (Harrâs), Sharh al-Aqîda at-Tahâwiyya (Ibn Abî al-'Izz), A'lâm as-Sunna al-Manshûra (Hâfiz al-Hakamî), Sharh as-Sunna (al-Barbahârî et al-Muzanî), Usûl as-Sunna de l'imam Ahmad (expliqué par ar-Râjihî), et Basâ'ir (Haitham Talaat).
+Livres de cette version (30, Encyclopédie du contenu islamique), dont : Thalâthat al-Usûl et sa Hâshiya (Ibn Qâsim), al-Aqîda as-Sahîha (Ibn Bâz), Kitâb at-Tawhîd et Fath al-Majîd, Sharh al-Qawâ'id al-Arba' (al-Fawzân), Sharh Kashf ash-Shubuhât, Lum'at al-I'tiqâd (Ibn Qudâma), Sharh al-Aqîda al-Wâsitiyya (Harrâs), Sharh al-Aqîda at-Tahâwiyya (Ibn Abî al-'Izz), A'lâm as-Sunna al-Manshûra (Hâfiz al-Hakamî), Sharh as-Sunna (al-Barbahârî et al-Muzanî), Usûl as-Sunna de l'imam Ahmad (expliqué par ar-Râjihî), Basâ'ir (Haitham Talaat), Riyâd as-Sâlihîn (an-Nawawî), Hisn al-Muslim (al-Qahtânî), Sharh al-Arba'în an-Nawawiyya (Muhammad ibn Ibrâhîm Âl ash-Sheikh) et Mukhtasar ash-Shamâ'il (at-Tirmidhî, abrégé par al-Albânî).
 
-D'autres livres de fiqh, tafsir, hadith et sîra arriveront dans les prochaines mises à jour, in shâ Allah.""",
+D'autres livres de fiqh, tafsir et sîra arriveront dans les prochaines mises à jour, in shâ Allah.""",
  },
 }
 NOTES = {
- "ar": "223 بطاقة من 26 كتابًا في العقيدة، بصوت ومشهد مرسوم لكل بطاقة، وتلاوة للآيات. جديد: قسم الكتب، وأوله «بصائر» للدكتور هيثم طلعت بأجزائه الثلاثة.",
- "en": "223 cards from 26 books on Islamic belief, each with voice and a drawn scene, and recitation for the verses. New: the Books section, starting with Basa'ir by Dr. Haitham Talaat in all 3 parts.",
- "fr": "223 fiches tirées de 26 livres sur la croyance, chacune avec voix et scène dessinée, et récitation des versets. Nouveau : la section Livres, avec « Basâ'ir » du Dr Haitham Talaat en 3 parties.",
+ "ar": "332 بطاقة من 30 كتابًا. جديد: الأربعون النووية بشرح الشيخ محمد بن إبراهيم آل الشيخ في قسم الكتب، وبطاقات من رياض الصالحين وحصن المسلم ومختصر الشمائل، وثلاثة أقسام جديدة: السيرة والشمائل، الأخلاق والآداب، الأذكار والدعاء. لكل بطاقة صوت ومشهد مرسوم.",
+ "en": "332 cards from 30 books. New: the Forty Hadith of al-Nawawi with Al al-Sheikh's commentary in the Books section, cards from Riyad al-Salihin, Hisn al-Muslim and Mukhtasar al-Shama'il, and three new categories: Seerah and Shama'il, Character and manners, Adhkar and dua. Every card has voice and a drawn scene.",
+ "fr": "332 fiches tirées de 30 livres. Nouveau : les Quarante hadiths d'an-Nawawî avec le commentaire d'Âl ash-Sheikh dans la section Livres, des fiches de Riyâd as-Sâlihîn, Hisn al-Muslim et Mukhtasar ash-Shamâ'il, et trois nouvelles catégories : Sîra et Shamâ'il, comportement et bonnes manières, adhkâr et invocations. Chaque fiche a une voix et une scène dessinée.",
 }
 if __name__ == "__main__":
     lim = {"title": 30, "short": 80, "full": 4000}

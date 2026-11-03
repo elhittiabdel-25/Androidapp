@@ -391,6 +391,100 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "truthroad" -> truthroadScene(a)
         "mercyrain" -> mercyrainScene(a)
         "guestnight" -> guestnightScene(a)
+        "brightface" -> brightfaceScene(a)
+        "tonguegate" -> tonguegateScene(a)
+        "backbite" -> backbiteScene(a)
+        "rumorchain" -> rumorchainScene(a)
+        "cursereturn" -> cursereturnScene(a)
+        "turnback" -> turnbackScene(a)
+        "salamstreet" -> salamstreetScene(a)
+        "threeknocks" -> threeknocksScene(a)
+        "sharedtray" -> sharedtrayScene(a)
+        "majlisring" -> majlisringScene(a)
+        "wakedawn" -> wakedawnScene(a)
+        "newrobe" -> newrobeScene(a)
+        "eightgates" -> eightgatesScene(a)
+        "threewords" -> threewordsScene(a)
+        "rightfoot" -> rightfootScene(a)
+        "afterprayer" -> afterprayerScene(a)
+        "twodoors" -> twodoorsScene(a)
+        "morningevening" -> morningeveningScene(a)
+        "covenant" -> covenantScene(a)
+        "noharm" -> noharmScene(a)
+        "bedtime" -> bedtimeScene(a)
+        "nightdoors" -> nightdoorsScene(a)
+        "springheart" -> springheartScene(a)
+        "deepsea" -> deepseaScene(a)
+        "campguard" -> campguardScene(a)
+        "roughground" -> roughgroundScene(a)
+        "mountaindebt" -> mountaindebtScene(a)
+        "betterjar" -> betterjarScene(a)
+        "healingbed" -> healingbedScene(a)
+        "rainwind" -> rainwindScene(a)
+        "journey" -> journeyScene(a)
+        "iftar" -> iftarScene(a)
+        "sneezebook" -> sneezebookScene(a)
+        "weddinglights" -> weddinglightsScene(a)
+        "alivetree" -> alivetreeScene(a)
+        "lightheavy" -> lightheavyScene(a)
+        "tenfold" -> tenfoldScene(a)
+        "seventyhundred" -> seventyhundredScene(a)
+        "raisedhands" -> raisedhandsScene(a)
+        "intentlamp" -> intentlampScene(a)
+        "questioner" -> questionerScene(a)
+        "fivepillars" -> fivepillarsScene(a)
+        "fourwrit" -> fourwritScene(a)
+        "radd" -> raddScene(a)
+        "himaedge" -> himaedgeScene(a)
+        "fivecounsel" -> fivecounselScene(a)
+        "threeshown" -> threeshownScene(a)
+        "canbear" -> canbearScene(a)
+        "goodonly" -> goodonlyScene(a)
+        "doubtfree" -> doubtfreeScene(a)
+        "notmyconcern" -> notmyconcernScene(a)
+        "likeforbrother" -> likeforbrotherScene(a)
+        "inviolable" -> inviolableScene(a)
+        "goodorsilent" -> goodorsilentScene(a)
+        "angerember" -> angeremberScene(a)
+        "ihsaneverything" -> ihsaneverythingScene(a)
+        "taqwaeverywhere" -> taqwaeverywhereScene(a)
+        "guardhim" -> guardhimScene(a)
+        "modesty" -> modestyScene(a)
+        "straightpath" -> straightpathScene(a)
+        "intojanna" -> intojannaScene(a)
+        "halfofiman" -> halfofimanScene(a)
+        "noinjustice" -> noinjusticeScene(a)
+        "notonlywealth" -> notonlywealthScene(a)
+        "everyjoint" -> everyjointScene(a)
+        "askyourheart" -> askyourheartScene(a)
+        "holdfast" -> holdfastScene(a)
+        "headofmatter" -> headofmatterScene(a)
+        "fourrulings" -> fourrulingsScene(a)
+        "zuhdlove" -> zuhdloveScene(a)
+        "harmblocked" -> harmblockedScene(a)
+        "proofonclaimant" -> proofonclaimantScene(a)
+        "changeevil" -> changeevilScene(a)
+        "nojealousy" -> nojealousyScene(a)
+        "relievegrief" -> relievegriefScene(a)
+        "recordbook" -> recordbookScene(a)
+        "awliya" -> awliyaScene(a)
+        "pardoned" -> pardonedScene(a)
+        "stranger" -> strangerScene(a)
+        "followsrevealed" -> followsrevealedScene(a)
+        "skyhighforgive" -> skyhighforgiveScene(a)
+        "moonface" -> moonfaceScene(a)
+        "garments" -> garmentsScene(a)
+        "humbletable" -> humbletableScene(a)
+        "namesring" -> namesringScene(a)
+        "simpleliving" -> simplelivingScene(a)
+        "clearspeech" -> clearspeechScene(a)
+        "truejest" -> truejestScene(a)
+        "gratefulservant" -> gratefulservantScene(a)
+        "recitelight" -> recitelightScene(a)
+        "onlyaservant" -> onlyaservantScene(a)
+        "noblemanners" -> noblemannersScene(a)
+        "lastday" -> lastdayScene(a)
+        "echoadhan" -> echoadhanScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -847,6 +941,23 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "justice", "speck", "fourcalls", "nevernot" -> 5500
     "sharetable", "fastrank" -> 5750
     "bestdeeds", "mother3", "rughim", "midgate", "hangs", "widens", "twofold", "counsel", "harm", "broth", "beam", "together", "threeranks", "weakroots", "twodaughters", "bestrank", "homelight", "firstdinar", "sixfirst", "sixrest", "onebody", "building", "visit", "threeacts", "angels", "whispers", "village", "debt", "heaviest", "twokeys", "threetraits", "twohouses", "twotraits", "bucket", "zanahu", "threenever", "mountains", "beautyok", "levelout", "childrenlead", "sinkdown", "toberr", "tofujur", "market", "bedrank", "kiss", "mirrorrain", "babycry", "twolights", "lampout", "onecloth", "shoulder" -> 6000
+    // v1.2 waves 49-68: Hisn al-Muslim, the Forty of al-Nawawi, Mukhtasar al-Shama'il
+    "keptsafe", "sealedfast" -> 2000
+    "sevenrings", "shore", "rainaround" -> 2250
+    "wornrenewed", "abu", "bluntno" -> 2500
+    "absent", "suffice", "calmfast" -> 2750
+    "smallgood", "heldup", "endless" -> 3250
+    "goodnews", "latename", "repaid", "norecline", "atforty" -> 3500
+    "rightsleeve", "onename", "tenletters", "fivelocked" -> 3750
+    "organs", "sieve", "gooddoor", "moist", "fromeverywhere", "threetimesword" -> 4000
+    "falsedream", "threetimes", "namedwater", "twoears" -> 4250
+    "updown", "chatterdoor", "steadydrops" -> 4500
+    "threesit", "curtain", "notreturned3" -> 4750
+    "safering", "fournot", "nopraise", "faithbranch" -> 5000
+    "bounce", "boatheld", "abrahamic", "clearroad", "noharmneighbor", "betweencalls" -> 5250
+    "fallword", "sowing", "plateall", "wakeup", "sleepsister", "lastword", "kanz", "nearestsujud", "hiddenknot" -> 5500
+    "halfdate", "listen", "inkdrop", "twograins", "aside", "eightdoors", "venomback", "noghulul" -> 5750
+    "drawnear", "twolocks", "riseword", "twoverdicts", "coal", "shieldback", "passedon", "fourmarks", "boomerang", "shutgates", "freecamel", "noaid", "backs", "greetfirst", "records", "lovechain", "whofirst", "tens", "quietnight", "askin", "sayname", "grownchild", "yourside", "noblame", "threebreaths", "rightward", "nosupper", "makeroom", "atedge", "clearing", "remembered", "nightwake", "lastten", "comesdown", "threegarments", "inout", "twopure", "threewords", "threegifts", "homegreet", "pitfalls", "rightin", "leftout", "fourlights", "manylights", "salamturn", "hundred", "nobarrier", "threeasks", "nojadd", "likesurah", "tworakah", "consulted", "closedoor", "bookends", "dawnguard", "threeshields", "mulk", "tillsunrise", "fourparts", "dayornight", "fivesteps", "dayshukr", "scorpion", "threecontent", "threesurahs", "watcher", "twoverses", "rightside", "tasbihcols", "callin", "shutdoors", "coverjars", "lastpage", "lampfire", "cloudlift", "bowedtags", "springheart", "eightpairs", "praisestars", "dhunnun", "turnsback", "coolfire", "trenchwind", "neighbour", "smoothed", "nolaw", "strongweak", "whispercut", "comestoali", "mountainpaid", "heavyload", "workandask", "brokenjar", "ummsalama", "takengiven", "visitgraves", "nobas", "sevenvisits", "handonpain", "usefulrain", "notthestar", "strongwind", "thunderhush", "mounted", "piety", "homecoming", "keptboth", "guestdua", "rootsdrink", "angelsover", "firstdates", "threeanswers", "coolword", "twopraises", "blessit", "tworings", "hasanayn", "fatherofprophets", "thanksgift", "twotrees", "outweighs", "featherwords", "seafoam", "fourwords", "thousandgood", "tenback", "misertag", "nearestmost", "seventyplus", "turnall", "washpray", "tallyhundred", "lastthird", "duaworship", "nohaste", "forbrother", "twogoods", "openwith", "twopillarsof", "innerouter", "samewash", "hijraroads", "fourquestions", "nestedranks", "pairsplit", "tworungs", "toweringup", "fivebuild", "basefirst", "saidanddone", "twoservitudes", "orderofduty", "threestages", "fourwrit", "endings", "nesteddecree", "bounceback", "twogatesmeet", "bothreturned", "twomothers", "threezones", "stepclear", "nearhima", "threeshepherds", "slopedown", "limbsfollow", "thriceword", "cleanfull", "fiveto", "bookfirst", "measuringline", "pointgood", "threelit", "bloodwealth", "sevenconds", "iqal", "outerjudged", "shutandclimb", "sitpray", "manyquestions", "partwater", "pureonly", "eatandwork", "blockeddua", "fourcauses", "rayhanatan", "murkyclear", "widermargin", "steadyjitter", "betterless", "passby", "enjoinstill", "twobaskets", "anasyears", "baseremains", "mirrorgood", "faiththread", "warmnet", "threesacred", "tonguehearthand", "farewellday", "partmissing", "speakorstill", "rightscount", "guestwelcome", "neighborcounsel", "threehostdays", "repeatnoanger", "pulledoff", "emberquench", "sitthenlie", "smokeandwater", "trulystrong", "twowritings", "sharpenrest", "outweighharm", "reachesbeast", "muadhabudharr", "shieldsecret", "patchtear", "tworanks", "fourmanners", "ridebehind", "keepbounds", "crowdcannot", "ownwhip", "easethenhard", "missandhit", "oldprophecy", "sternword", "hayagauge", "pullsback", "placebadr", "sufyanasks", "fouralong", "safeend", "bothsides", "fourticks", "heldbelief", "mercygate", "notlisted", "neverdrops", "halffilled", "praisefills", "lightproofglow", "patiencethree", "proofforagainst", "forbadeself", "wrongplace", "fourneeds", "curedone", "nothingadded", "richpoor", "dhikrcoins", "spreadsgood", "selfcharity", "maruftiers", "jointslight", "dutyorextra", "fivesadaqa", "duhatwo", "eachsunrise", "birrring", "consultheart", "answeredfirst", "revealedlit", "movingsermon", "linkedrings", "onelitway", "tightgrip", "notbeforeus", "greatyeteasy", "tentparts", "shieldandwater", "polefalls", "sealtongue", "keepduties", "boundsfences", "silentmercy", "fourquads", "knowingsilence", "twoloves", "stepaside", "handvsheart", "zuhdrungs", "noshunhalal", "poetfour", "harmwall", "twoharms", "fourchapters", "openpasture", "threadsstrong", "bareclaims", "proofoath", "twoaimsqada", "halfwaymeet", "halfdebt", "bothcontent", "darkblots", "handtongueheart", "dimbutlit", "faithgauge", "barrierexcused", "twelvephrases", "envysmoke", "lightmytoo", "firstenvy", "backturned", "fournots", "liftweight", "smallvsbig", "helpedhelper", "givetime", "cloaked", "knowledgeroad", "twocolumns", "multiply", "badleft", "camelseven", "mercywins", "upright", "twotiersawliya", "fardthennafl", "guidedsteps", "answereddua", "threeforgiven", "accidentspill", "forcedcalmheart", "answeredbaqara", "stillowes", "shoulderword", "takesonly", "dontwait", "storeahead", "needlealigns", "lovesdoes", "smallandlarge", "datestone", "threecauses", "cloudstosky", "earthfulpardon", "elixirdrop", "firstlastpage", "neithertall", "moonnotsword", "brighterthanmoon", "silvercast", "lastwhosaw", "gradedmarks", "shirtstripes", "whitecloths", "perfumekept", "namednew", "tablelifted", "basmalabless", "firstandlast", "threesips", "milkbless", "threenames", "lastnames", "yearsline", "mercynames", "coldhearth", "barleynights", "coolshade", "milkfromneighbors", "chaffblown", "spacedwords", "warmsmile", "neverbarred", "aliriding", "truejoke", "littlebird", "everycamel", "notcheap", "youngagain", "thankfulnight", "threesuras", "longstanding", "nightplan", "heartawake", "drawnout", "readtome", "simmering", "loudorlow", "heardatnight", "servantmessenger", "anystreet", "homechores", "smallgift", "plainsaddle", "walkingvisit", "neveruff", "shyerthan", "pardonsback", "chooseseasier", "windgiving", "giftreturned", "curtainlift", "noagony", "mondayrest", "zumarverse", "citylitdark", "answercall", "radeetu", "twohayya", "highstation" -> 6000
     else -> 1000
 }
 
