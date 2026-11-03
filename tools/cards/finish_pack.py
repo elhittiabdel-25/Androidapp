@@ -334,6 +334,11 @@ ART_KINDS = {
     "taqwaeverywhere": {"muadhabudharr", "shieldsecret", "patchtear", "tworanks", "fourmanners"},
     "guardhim": {"ridebehind", "keepbounds", "crowdcannot", "ownwhip", "easethenhard", "missandhit"},
     "modesty": {"oldprophecy", "sternword", "hayagauge", "pullsback", "placebadr", "faithbranch"},
+    "straightpath": {"sufyanasks", "fouralong", "safeend", "bothsides"},
+    "intojanna": {"fourticks", "heldbelief", "mercygate", "notlisted", "neverdrops"},
+    "halfofiman": {"halffilled", "praisefills", "lightproofglow", "patiencethree", "proofforagainst"},
+    "noinjustice": {"forbadeself", "wrongplace", "fourneeds", "curedone", "nothingadded"},
+    "notonlywealth": {"richpoor", "dhikrcoins", "spreadsgood", "selfcharity", "maruftiers"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

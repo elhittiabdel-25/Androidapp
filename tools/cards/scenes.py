@@ -2030,4 +2030,39 @@ SCENES = {
         I("وراويه أبو مسعود البدري", None, "deep-1", sub="أبو مسعود البدري", kind="placebadr"),
         I("والحياء شعبة من الإيمان", None, "deep-2", sub="شعبة من الإيمان", kind="faithbranch"),
     ], layout="modesty"),
+    # ── v1.2: the Forty of al-Nawawi, hadiths 21–25 (wave 61) ──
+    "nw-21": S("art", [
+        I("سأل سفيان بن عبد الله قولا في الإسلام", None, "face-0", sub="سفيان بن عبد الله|قل آمنت بالله|ثم استقم", kind="sufyanasks"),
+        I("فلا بد من أربعة أمور", None, "face-2", sub="معرفة ذلك|واعتقاده|والعمل به|والاستقامة عليه", kind="fouralong"),
+        I("وهو كآيتي فصلت والأحقاف", None, "deep-0", kind="safeend"),
+        I("ويدخل تحت الاستقامة الحقوق والفرائض كلها", None, "deep-2", sub="فعل الواجبات|وترك المحرمات", kind="bothsides"),
+    ], layout="straightpath"),
+    "nw-22": S("art", [
+        I("سأل رجل: إذا صليت المكتوبات", None, "face-0", sub="صليت المكتوبات|وصمت رمضان|وأحللت الحلال|وحرمت الحرام|نعم", kind="fourticks"),
+        I("ومعنى أحللت الحلال: فعلته معتقدا حله", None, "face-1", kind="heldbelief"),
+        I("فمن عمل بأركان الإسلام وواجباته", None, "face-2", sub="بفضل الله ورحمته", kind="mercygate"),
+        I("ولم يذكر الزكاة لأنها ليست على كل أحد", None, "deep-1", kind="notlisted"),
+        I("أما الصلاة فلا تسقط بحال", None, "deep-2", kind="neverdrops"),
+    ], layout="intojanna"),
+    "nw-23": S("art", [
+        I("الطهور شطر الإيمان أي نصفه", None, "face-0", sub="شطر الإيمان", kind="halffilled"),
+        I("والحمد لله تملأ الميزان", None, "face-2", sub="الحمد لله تملأ الميزان", kind="praisefills"),
+        I("والصلاة نور في القلوب والقبور ويوم القيامة", None, "deep-0", sub="نور|برهان|ضياء", kind="lightproofglow"),
+        I("والصبر ثلاثة", None, "deep-1", sub="على الطاعات|وعن المعاصي|وعلى أقدار الله المؤلمة", kind="patiencethree"),
+        I("والقرآن حجة لك إذا وقفت عند حدوده", None, "deep-3", sub="حجة لك|وعليك", kind="proofforagainst"),
+    ], layout="halfofiman"),
+    "nw-24": S("art", [
+        I("حديث قدسي جليل", None, "face-0", sub="حرم الظلم على نفسه", kind="forbadeself"),
+        I("والظلم وضع الشيء في غير موضعه", None, "face-1", sub="وضع الشيء في غير موضعه", kind="wrongplace"),
+        I("وقرر في أثنائه حاجة العباد إلى ربهم", None, "face-2", sub="الهداية|والطعام|والكسوة|والمغفرة", kind="fourneeds"),
+        I("والعباد يخطئون بالليل والنهار", None, "deep-1", kind="curedone"),
+        I("ولو أن أولهم وآخرهم وإنسهم وجنهم", None, "deep-2", sub="فهو الغني بذاته", kind="nothingadded"),
+    ], layout="noinjustice"),
+    "nw-25": S("art", [
+        I("شكا فقراء المهاجرين", None, "face-0", kind="richpoor"),
+        I("فبين لهم ﷺ أن الصدقة ليست بالمال وحده", None, "face-1", sub="تسبيحة|تكبيرة|تحميدة|تهليلة", kind="dhikrcoins"),
+        I("والأمر بالمعروف والنهي عن المنكر من أعظم الصدقات المتعدية", None, "face-2", kind="spreadsgood"),
+        I("فالأذكار صدقة من الإنسان على نفسه", None, "deep-0", kind="selfcharity"),
+        I("والمعروف: ما عرف حسنه في الشرع", None, "deep-1", sub="التوحيد|الواجبة|المستحبات", kind="maruftiers"),
+    ], layout="notonlywealth"),
 }
