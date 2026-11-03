@@ -509,6 +509,12 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "whomustfast" -> whomustfastScene(a)
         "travelersick" -> travelersickScene(a)
         "excusedays" -> excusedaysScene(a)
+        "fastmanners" -> fastmannersScene(a)
+        "suhooriftar" -> suhooriftarScene(a)
+        "fastbreakers" -> fastbreakersScene(a)
+        "forgotfast" -> forgotfastScene(a)
+        "lastten" -> lasttenScene(a)
+        "fitrsaa" -> fitrsaaScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -1005,6 +1011,16 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "jannahopen" -> 5250
     "forgivenpast" -> 5750
     "threespans", "beyondcount", "secretheart", "muskscent", "fastshield", "twojoys", "rayyangate", "onewitness", "monthlength", "fiveconds", "childtrain", "feedperday", "newmuslim", "liftedpen", "travelchoice", "easierway", "sickgauge", "nofaultfound", "medicaldoctor", "makeupdays", "nursingfear", "beforenext", "rescuer" -> 6000
+    // v1.3 fiqh: fasting 2 (wave 73)
+    "fourharms" -> 3250
+    "predawnmeal", "plainshot" -> 3500
+    "nearfajr", "sunsethaste", "forgotate" -> 3750
+    "nutritivedrip" -> 4250
+    "wakefamily" -> 4750
+    "threerings" -> 5000
+    "movingnight", "hiddenseek", "surplus" -> 5500
+    "prayontime" -> 5750
+    "twotiers", "sleptprayer", "earseyetongue", "ratabtamrwater", "thirstgone", "eatdrink", "scentok", "holdandrepay", "didntknow", "notbreakers", "rememberstop", "lasttennights", "oddnights", "everysoul", "onesaa", "beforeeidprayer", "foodnotvalue" -> 6000
     else -> 1000
 }
 

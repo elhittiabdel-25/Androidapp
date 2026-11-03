@@ -393,6 +393,12 @@ ART_KINDS = {
     "whomustfast": {"fiveconds", "childtrain", "feedperday", "newmuslim", "liftedpen"},
     "travelersick": {"travelchoice", "easierway", "sickgauge", "nofaultfound", "medicaldoctor"},
     "excusedays": {"makeupdays", "nursingfear", "beforenext", "rescuer"},
+    "fastmanners": {"twotiers", "prayontime", "fourharms", "sleptprayer", "earseyetongue"},
+    "suhooriftar": {"predawnmeal", "nearfajr", "sunsethaste", "ratabtamrwater", "thirstgone"},
+    "fastbreakers": {"eatdrink", "nutritivedrip", "plainshot", "scentok", "holdandrepay"},
+    "forgotfast": {"threerings", "forgotate", "didntknow", "notbreakers", "rememberstop"},
+    "lastten": {"lasttennights", "wakefamily", "oddnights", "movingnight", "hiddenseek"},
+    "fitrsaa": {"everysoul", "onesaa", "surplus", "beforeeidprayer", "foodnotvalue"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
