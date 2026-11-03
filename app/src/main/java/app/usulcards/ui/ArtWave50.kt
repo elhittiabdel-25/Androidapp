@@ -219,15 +219,14 @@ private fun DrawScope.salamDay(a: ArtCtx) {
         val f = easeOut(seg(qn, 0f, 0.3f))
         drawRect(SalamC50.Room, Offset(w * 0.06f, h * 0.18f), Size(w * 0.88f, ground - h * 0.18f), alpha = f)
         for (k in 0 until 3) {
-            val c = Offset(w * (0.2f + 0.16f * k), ground - h * 0.04f)
-            drawLine(Color(0xFF8A8296), c + Offset(-w * 0.05f, 0f), c + Offset(w * 0.05f, 0f), h * 0.04f, StrokeCap.Round, alpha = f)
-            drawCircle(Color(0xFF8A8296), h * 0.03f, c + Offset(-w * 0.065f, -h * 0.01f), alpha = f)
+            val c = Offset(w * (0.2f + 0.16f * k), ground - h * 0.06f)
+            nameRoundel(c, w * 0.03f, null, Roundel.PlainFill, Roundel.PlainRim, f * 0.45f)
         }
-        sit12(Offset(w * 0.78f, ground), h * 0.3f, Color(0xFFE6DCC8), f, -1f)
+        nameRoundel(Offset(w * 0.78f, ground - h * 0.14f), w * 0.035f, null, Roundel.PlainFill, Roundel.PlainRim, f)
         val u = seg(qn, 0.2f, 0.85f)
-        val c = Offset(w * (0.1f + 0.64f * u), ground - h * 0.3f)
+        val c = Offset(w * (0.1f + 0.64f * u), ground - h * 0.14f)
         softGlow(c, w * 0.03f, SalamC50.Gold, 0.6f * f * bump(seg(qn, 0.15f, 0.95f)))
-        if (u > 0.95f) softGlow(Offset(w * 0.78f, ground - h * 0.3f), w * 0.05f, SalamC50.Gold, 0.6f * f)
+        if (u > 0.95f) softGlow(Offset(w * 0.78f, ground - h * 0.14f), w * 0.06f, SalamC50.Gold, 0.6f * f)
     }
 }
 

@@ -108,7 +108,7 @@ private fun DrawScope.faceMorning(a: ArtCtx) {
         for (k in 0 until 6) {
             val ang = k * PI.toFloat() / 3f + 0.3f
             val rr = w * (0.26f - 0.12f * near)
-            figure(Offset(c.x + cos(ang) * rr, ground - h * 0.02f * (k % 2)), h * 0.18f, FaceC49.Person, f * 0.9f)
+            nameRoundel(Offset(c.x + cos(ang) * rr, ground - h * 0.06f - h * 0.02f * (k % 2)), w * 0.028f, null, Roundel.PlainFill, Roundel.PlainRim, f * 0.9f)
         }
         val sp = Offset(w * 0.8f, h * 0.5f)
         val spread = seg(ga, 0.5f, 0.95f)

@@ -622,7 +622,7 @@ private fun DrawScope.envyDusk(a: ArtCtx) {
         drawLine(EnvyC63.Gold, Offset(w * 0.22f, h * 0.55f), Offset(w * 0.78f, h * 0.55f), 2f * dp, alpha = f * seg(fn, 0.7f, 0.9f))
         for (k in 0 until 4) {
             val g = seg(fn, 0.08f + 0.16f * k, 0.22f + 0.16f * k)
-            tagAt(a.tag("fournots", 0, k), Offset(w * 0.5f, h * (0.25f + 0.1f * k + (if (k >= 2) 0.2f else 0f))), f * g, back = Back63, ink = ArtInk.Gold)
+            tagAt(a.tag("fournots", 0, k), Offset(w * 0.5f, h * (0.2f + 0.12f * k + (if (k >= 2) 0.16f else 0f))), f * g, back = Back63, ink = ArtInk.Gold)
         }
     }
 }

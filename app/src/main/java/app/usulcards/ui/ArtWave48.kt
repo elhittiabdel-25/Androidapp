@@ -224,9 +224,9 @@ private fun DrawScope.squareDay(a: ArtCtx) {
         sirajMunir(light, w * 0.014f, f, t, nameAt = light + Offset(0f, -h * 0.13f))
         for (k in 0 until 3) {
             val g = seg(cl, 0.1f + 0.08f * k, 0.25f + 0.08f * k) * (1f - seg(cl, 0.45f, 0.6f))
-            child12(Offset(w * (0.56f + 0.08f * k), ground), h * 0.3f, SquareC48.Child, f * g, arms = 0.3f * sin(t * 3f + k).coerceAtLeast(0f))
+            nameRoundel(Offset(w * (0.56f + 0.08f * k), ground - h * 0.06f - h * 0.01f * sin(t * 3f + k).coerceAtLeast(0f)), w * 0.022f, null, Roundel.PlainFill, Roundel.PlainRim, f * g)
         }
-        woman12(Offset(light.x - w * 0.05f, ground), h * 0.16f, SquareC48.Child, f * seg(cl, 0.4f, 0.5f), walk = t * 5f * go)
+        nameRoundel(Offset(light.x - w * 0.07f, ground - h * 0.06f), w * 0.022f, null, Roundel.PlainFill, Roundel.PlainRim, f * seg(cl, 0.4f, 0.5f))
     }
     // the one who struts in his robe
     if (sn > 0f) {
@@ -588,7 +588,7 @@ private fun DrawScope.guestNight(a: ArtCtx) {
             val u = seg(nn, 0.1f + 0.18f * k, 0.5f + 0.18f * k)
             val come = bump(u)
             val p = Offset(w * 0.5f + side * w * (0.42f - 0.24f * come), ground)
-            figure(p, h * 0.26f, GuestC48.Person, f * seg(nn, 0.05f + 0.18f * k, 0.12f + 0.18f * k), walk = t * 5f, arms = if (u < 0.5f) 0.7f else 0f)
+            nameRoundel(p + Offset(0f, -h * 0.08f), w * 0.03f, null, Roundel.PlainFill, Roundel.PlainRim, f * seg(nn, 0.05f + 0.18f * k, 0.12f + 0.18f * k))
             if (u > 0.5f) softGlow(p + Offset(0f, -h * 0.14f), w * 0.02f, ArtInk.Gold, 0.9f * f * (1f - seg(u, 0.9f, 1f)))
         }
     }

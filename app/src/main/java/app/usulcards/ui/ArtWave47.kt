@@ -459,8 +459,8 @@ private fun DrawScope.twoTents(a: ArtCtx) {
     // part of the debt let go
     if (db > 0f) {
         val f = easeOut(seg(db, 0f, 0.3f))
-        figure(Offset(w * 0.22f, ground), h * 0.32f, MendC47.Person, f, arms = 0.4f)
-        figure(Offset(w * 0.78f, ground), h * 0.32f, MendC47.Person, f, arms = -0.5f * (1f - seg(db, 0.5f, 0.7f)))
+        nameRoundel(Offset(w * 0.22f, ground - h * 0.16f), w * 0.05f, null, Roundel.PlainFill, Roundel.PlainRim, f)
+        nameRoundel(Offset(w * 0.78f, ground - h * 0.16f), w * 0.05f, null, Roundel.PlainFill, Roundel.PlainRim, f)
         val back = easeInOut(seg(db, 0.55f, 0.9f))
         for (k in 0 until 8) {
             val half = k >= 4

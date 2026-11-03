@@ -116,7 +116,7 @@ private fun DrawScope.jointDay(a: ArtCtx) {
                 else -> { val lift = seg(fs, 0.85f, 0.98f); drawCircle(JointC62.Stone, w * 0.02f, foot + Offset(0f, -h * 0.02f - h * 0.08f * lift), alpha = f * g) }
             }
             softGlow(foot + Offset(0f, -h * 0.06f), w * 0.06f, JointC62.Gold, 0.4f * f * g)
-            tagAt(a.tag("fivesadaqa", 0, k), Offset(x, h * (0.3f + 0.1f * (k % 2))), f * g, back = Back62, ink = ArtInk.Gold)
+            tagAt(a.tag("fivesadaqa", 0, k), Offset(w * 0.5f, h * 0.28f), f * g * (if (k < 4) 1f - seg(fs, 0.06f + 0.18f * (k + 1), 0.12f + 0.18f * (k + 1)) else 1f), back = Back62, ink = ArtInk.Gold)
         }
     }
     if (dt > 0f) {

@@ -333,7 +333,7 @@ private fun DrawScope.dayCycle(a: ArtCtx) {
         for (k in 0 until 6) {
             val ang = PI.toFloat() * (0.1f + 0.8f * k / 5f)
             val p = Offset(w * 0.5f - cos(ang) * w * 0.3f, ground + h * 0.08f - sin(ang) * h * 0.04f)
-            sit12(p, h * 0.2f, DayC52.Person, f, if (p.x < w * 0.5f) 1f else -1f)
+            nameRoundel(p + Offset(0f, -h * 0.05f), w * 0.026f, null, Roundel.PlainFill, Roundel.PlainRim, f)
         }
         val lc = Offset(w * 0.5f, ground - h * 0.08f)
         sirajMunir(lc, w * 0.01f, f, t, nameAt = lc + Offset(0f, -h * 0.1f))

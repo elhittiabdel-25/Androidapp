@@ -240,7 +240,7 @@ private object SpeechC66 {
 
 /**
  * Beats: spacedwords (the light ﷺ speaks; words come one at a time with space between, and roundels around keep each one),
- * threetimesword (the same word comes three times, each softer glow kept), warmsmile (warm arcs of light open around the light ﷺ, and a
+ * threetimesword (the same word comes three times, each softer glow kept), warmsmile (warm rings of light open out around the light ﷺ, and a
  * roundel with his name: «عَبْدُ اللَّهِ بْنُ الْحَارِثِ», «أَكْثَرَ تَبَسُّمًا»), neverbarred (a door that is never closed to a roundel
  * with his name, «جَرِيرُ بْنُ عَبْدِ اللَّهِ», and warm light each time), aliriding (a roundel with his name, «عَلِيٌّ», on a mount; a
  * light of remembrance and then a warm glow).
@@ -294,11 +294,7 @@ private fun DrawScope.speechNight(a: ArtCtx) {
     if (ws > 0f) {
         val f = easeOut(seg(ws, 0f, 0.25f)) * (1f - seg(nb, 0f, 0.4f))
         sirajMunir(light, w * 0.012f, f, t, nameAt = light + Offset(0f, -h * 0.1f))
-        for (k in 0 until 3) {
-            val g = seg(ws, 0.15f + 0.15f * k, 0.35f + 0.15f * k)
-            val r = w * (0.08f + 0.04f * k)
-            drawArc(SpeechC66.Warm, 20f, 140f, false, Offset(light.x - r, light.y - r), Size(r * 2f, r * 2f), alpha = f * g * (1f - 0.2f * k), style = Stroke(3f * dp, cap = StrokeCap.Round))
-        }
+        warmRings66(light, w * 0.06f, w * 0.2f, f * seg(ws, 0.15f, 0.35f), t)
         nameRoundel(Offset(w * 0.5f, h * 0.68f), w * 0.09f, a.big("warmsmile", 0, 0), Roundel.Fills[1], Roundel.Rim, f * seg(ws, 0.05f, 0.25f))
         tagAt(a.tag("warmsmile", 0, 1), Offset(w * 0.5f, h * 0.9f), f * seg(ws, 0.45f, 0.65f), back = Back66, ink = ArtInk.Gold)
     }
@@ -309,7 +305,7 @@ private fun DrawScope.speechNight(a: ArtCtx) {
         softGlow(sill + Offset(0f, -h * 0.18f), w * 0.12f, SpeechC66.Warm, 0.6f * f * (0.7f + 0.3f * sin(t * 2f)))
         val come = easeInOut(seg(nb, 0.1f, 0.5f))
         nameRoundel(Offset(mix(w * 0.15f, w * 0.38f, come), h * 0.6f), w * 0.08f, a.big("neverbarred"), Roundel.Fills[2], Roundel.Rim, f)
-        for (k in 0 until 3) drawArc(SpeechC66.Warm, 20f, 140f, false, Offset(w * 0.65f - w * (0.05f + 0.03f * k), h * 0.3f - w * (0.05f + 0.03f * k)), Size(w * (0.1f + 0.06f * k), w * (0.1f + 0.06f * k)), alpha = f * seg(nb, 0.5f + 0.1f * k, 0.6f + 0.1f * k), style = Stroke(2.5f * dp, cap = StrokeCap.Round))
+        warmRings66(Offset(w * 0.38f, h * 0.6f), w * 0.09f, w * 0.2f, f * seg(nb, 0.5f, 0.7f), t)
     }
     if (ar > 0f) {
         val f = easeOut(seg(ar, 0f, 0.25f))
@@ -317,7 +313,7 @@ private fun DrawScope.speechNight(a: ArtCtx) {
         camel26(foot, h * 0.36f, SpeechC66.Camel, f, t)
         nameRoundel(foot + Offset(0f, -h * 0.42f), w * 0.07f, a.big("aliriding"), Roundel.Fills[0], Roundel.Rim, f * seg(ar, 0.05f, 0.2f))
         softGlow(foot + Offset(0f, -h * 0.42f), w * 0.12f, SpeechC66.Gold, 0.5f * f * seg(ar, 0.3f, 0.5f))
-        for (k in 0 until 3) drawArc(SpeechC66.Warm, 20f, 140f, false, Offset(foot.x - w * (0.1f + 0.03f * k), foot.y - h * 0.42f - w * (0.1f + 0.03f * k)), Size(w * (0.2f + 0.06f * k), w * (0.2f + 0.06f * k)), alpha = f * seg(ar, 0.6f + 0.1f * k, 0.7f + 0.1f * k), style = Stroke(2.5f * dp, cap = StrokeCap.Round))
+        warmRings66(foot + Offset(0f, -h * 0.42f), w * 0.08f, w * 0.2f, f * seg(ar, 0.6f, 0.8f), t)
     }
 }
 
@@ -341,7 +337,7 @@ private object JestC66 {
 /**
  * Beats: truejoke (playful sparkles dance around a straight gold line that does not bend: «لَا أَقُولُ إِلَّا حَقًّا»), littlebird
  * (a small roundel and a little bird hopping beside it: «يَا أَبَا عُمَيْرٍ، مَا فَعَلَ النُّغَيْرُ»), everycamel (a great camel walks
- * up beside its mother: «وَهَلْ تَلِدُ الْإِبِلُ إِلَّا النُّوقَ»), twoears (a roundel with two little arcs at its sides: «يَا ذَا
+ * up beside its mother: «وَهَلْ تَلِدُ الْإِبِلُ إِلَّا النُّوقَ»), twoears (a roundel and soft sound waves coming to it from both sides: «يَا ذَا
  * الْأُذُنَيْنِ»), notcheap (in a market, a roundel with his name, «زَاهِرٌ», is set on a scale and outweighs the coins: «لَكِنْ عِنْدَ
  * اللَّهِ لَسْتَ بِكَاسِدٍ»), youngagain (an old roundel grows bright and young).
  */
@@ -406,7 +402,11 @@ private fun DrawScope.jestDay(a: ArtCtx) {
         val c = Offset(w * 0.5f, h * 0.5f)
         nameRoundel(c, w * 0.08f, null, Roundel.PlainFill, Roundel.PlainRim, f)
         val g = seg(te, 0.2f, 0.45f)
-        for (side in listOf(-1f, 1f)) drawArc(JestC66.Spark, if (side < 0) 120f else -60f, 120f, false, Offset(c.x + side * w * 0.1f - w * 0.035f, c.y - w * 0.035f), Size(w * 0.07f, w * 0.07f), alpha = f * g, style = Stroke(4f * dp, cap = StrokeCap.Round))
+        for (side in listOf(-1f, 1f)) for (k in 0 until 3) {
+            val u = fract(t * 0.6f + k / 3f)
+            val r = w * (0.2f - 0.1f * u)
+            drawArc(JestC66.Spark, if (side < 0) 150f else -30f, 60f, false, Offset(c.x - r, c.y - r), Size(r * 2f, r * 2f), alpha = f * g * u, style = Stroke(3f * dp, cap = StrokeCap.Round))
+        }
         tagAt(a.tag("twoears"), Offset(w * 0.5f, h * 0.25f), f * seg(te, 0.3f, 0.5f), back = Back66, ink = ArtInk.Gold)
     }
     if (nc > 0f) {
@@ -559,4 +559,14 @@ private fun DrawScope.nightPray(a: ArtCtx) {
         drawCircle(NightPrayC66.Water, w * 0.008f, Offset(c.x, mix(h * 0.15f, c.y - h * 0.3f * fill, u)), alpha = f)
         tagAt(a.tag("steadydrops"), Offset(w * 0.5f, h * 0.12f), f * seg(sd, 0.2f, 0.4f), back = Back66, ink = ArtInk.Gold)
     }
+}
+
+/** Warm rings that open out from [c] and fade: warmth and welcome, never a mouth or a face. */
+private fun DrawScope.warmRings66(c: Offset, r0: Float, r1: Float, alpha: Float, t: Float) {
+    if (alpha <= 0.01f) return
+    for (k in 0 until 3) {
+        val u = fract(t * 0.35f + k / 3f)
+        drawCircle(SpeechC66.Warm, mix(r0, r1, u), c, alpha = alpha * (1f - u) * 0.8f, style = Stroke(2.5f * density))
+    }
+    softGlow(c, r1 * 0.7f, SpeechC66.Warm, 0.35f * alpha)
 }

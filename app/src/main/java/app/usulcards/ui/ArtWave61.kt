@@ -368,7 +368,7 @@ private fun DrawScope.justNight(a: ArtCtx) {
     if (fs > 0f) {
         val f = easeOut(seg(fs, 0f, 0.25f)) * (1f - seg(wp, 0f, 0.4f))
         scroll14(Offset(w * 0.5f, h * 0.48f), w * 0.8f, h * 0.36f, easeOut(seg(fs, 0.05f, 0.3f)), f)
-        fitBig26(a.big("forbadeself"), Offset(w * 0.5f, h * 0.44f), w * 0.66f, Color(0xFF2E3A4A), f * seg(fs, 0.25f, 0.45f))
+        fitBig26(a.big("forbadeself"), Offset(w * 0.5f, h * 0.39f), w * 0.6f, Color(0xFF2E3A4A), f * seg(fs, 0.25f, 0.45f))
         drawLine(JustC61.Gold, Offset(w * 0.2f, h * 0.58f), Offset(w * 0.8f, h * 0.58f), 3f * dp, StrokeCap.Round, alpha = f * seg(fs, 0.5f, 0.7f))
         softGlow(Offset(w * 0.5f, h * 0.58f), w * 0.2f, JustC61.Gold, 0.25f * f * seg(fs, 0.5f, 0.8f))
     }

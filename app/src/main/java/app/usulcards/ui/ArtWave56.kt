@@ -77,7 +77,7 @@ private fun DrawScope.heavyNight(a: ArtCtx) {
         val (lp, rp) = balancePans12(foot, s, tilt)
         for (k in 0 until 2) {
             val sway = sin(t * 2f + k * 2f) * w * 0.05f * (1f - land)
-            val c = Offset(lp.x + sway + w * (0.06f * k - 0.03f), mix(h * 0.08f + h * 0.08f * k, lp.y - h * (0.05f + 0.06f * k), land))
+            val c = Offset(lp.x + sway, mix(h * 0.08f + h * 0.1f * k, lp.y - h * (0.06f + 0.11f * k), land))
             softGlow(c, w * 0.05f, HeavyC56.Gold, 0.4f * f)
             tagAt(a.tag("featherwords", 0, k), c, f * seg(tw, 0.05f + 0.1f * k, 0.15f + 0.1f * k), back = Back56, ink = ArtInk.Gold)
         }
