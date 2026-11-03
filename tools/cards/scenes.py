@@ -1820,4 +1820,39 @@ SCENES = {
         I("اللهم حوالينا ولا علينا", "حوالينا", "deep-1", kind="rainaround"),
         I("وإذا سمع الرعد ترك الحديث", None, "deep-2", kind="thunderhush"),
     ], layout="rainwind"),
+    # ── v1.2: Hisn al-Muslim, «أذكار الأحوال» and «الذكر والدعاء» (wave 55) ──
+    "hisn-safar": S("art", [
+        I("إذا استوى على راحلته خارجا إلى سفر كبر ثلاثا", None, "face-0", kind="mounted"),
+        I("اللهم إنا نسألك في سفرنا هذا البر والتقوى", "اللهم", "face-1", sub="البر والتقوى", kind="piety"),
+        I("وإذا رجع قالهن وزاد", None, "face-2", sub="آيبون|تائبون|عابدون|لربنا حامدون", kind="homecoming"),
+        I("اللهم أنت الصاحب في السفر، والخليفة في الأهل", "اللهم", "deep-0", kind="keptboth"),
+        I("وكانوا إذا صعدوا كبروا، وإذا نزلوا سبحوا", None, "deep-2", sub="كبروا|سبحوا", kind="updown"),
+    ], layout="journey"),
+    "hisn-taam": S("art", [
+        I("يدعو الضيف لصاحب الطعام", None, "face-0", sub="بارك لهم|واغفر لهم|وارحمهم", kind="guestdua"),
+        I("ذهب الظمأ، وابتلت العروق، وثبت الأجر إن شاء الله", "ذهب", "face-1", sub="وثبت الأجر", kind="rootsdrink"),
+        I("ومن أفطر عند قوم دعا لهم", None, "face-2", kind="angelsover"),
+        I("وإذا سابه أحد قال: إني صائم", "سابه", "deep-1", sub="إني صائم", kind="calmfast"),
+        I("وإذا رأى أول الثمر قال", None, "deep-2", sub="بارك لنا في ثمرنا", kind="firstdates"),
+    ], layout="iftar"),
+    "hisn-atas": S("art", [
+        I("إذا عطس المسلم قال", None, "face-0", sub="الحمد لله|يرحمك الله|يهديكم الله ويصلح بالكم", kind="threeanswers"),
+        I("ومن لم يحمد الله لم يشمت", None, "face-1", kind="nopraise"),
+        I("واستب رجلان", None, "deep-0", sub="أعوذ بالله من الشيطان الرجيم", kind="coolword"),
+        I("وإذا رأى ما يحب قال", None, "deep-1", sub="بنعمته تتم الصالحات|على كل حال", kind="twopraises"),
+        I("وإذا رأى ما يعجبه من نفسه أو ماله أو أخيه", None, "deep-2", sub="بالبركة", kind="blessit"),
+    ], layout="sneezebook"),
+    "hisn-zawaj": S("art", [
+        I("إذا هنأ إنسانا تزوج", None, "face-0", sub="بارك الله لك|وبارك عليك|وجمع بينكما في خير", kind="tworings"),
+        I("وكان يعوذ الحسن والحسين", None, "face-1", sub="الحسن|والحسين", kind="hasanayn"),
+        I("وأخبر أن إبراهيم كان يعوذ بها ابنيه", None, "face-2", sub="إبراهيم|إسماعيل|وإسحاق", kind="fatherofprophets"),
+        I("والهامة: كل ذات سم", None, "deep-0", kind="venomback"),
+        I("ومن صنع إليه معروف فقال لفاعله", None, "deep-1", sub="جزاك الله خيرا", kind="thanksgift"),
+    ], layout="weddinglights"),
+    "hisn-fadl": S("art", [
+        I("مثل الذي يذكر ربه والذي لا يذكر ربه", None, "face-0", kind="twotrees"),
+        I("وذكر الله خير الأعمال", None, "face-1", kind="outweighs"),
+        I("لا يزال لسانك رطبا من ذكر الله", "يزال", "deep-1", kind="moist"),
+        I("ولكن: ألف حرف، ولام حرف، وميم حرف", "ولكن", "deep-2", sub="ألف|ولام|وميم", kind="tenletters"),
+    ], layout="alivetree"),
 }

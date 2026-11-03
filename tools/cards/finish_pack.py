@@ -305,6 +305,11 @@ ART_KINDS = {
     "betterjar": {"brokenjar", "ummsalama", "takengiven", "visitgraves"},
     "healingbed": {"nobas", "sevenvisits", "handonpain", "lastword"},
     "rainwind": {"usefulrain", "notthestar", "strongwind", "rainaround", "thunderhush"},
+    "journey": {"mounted", "piety", "homecoming", "keptboth", "updown"},
+    "iftar": {"guestdua", "rootsdrink", "angelsover", "calmfast", "firstdates"},
+    "sneezebook": {"threeanswers", "nopraise", "coolword", "twopraises", "blessit"},
+    "weddinglights": {"tworings", "hasanayn", "fatherofprophets", "venomback", "thanksgift"},
+    "alivetree": {"twotrees", "outweighs", "moist", "tenletters"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
