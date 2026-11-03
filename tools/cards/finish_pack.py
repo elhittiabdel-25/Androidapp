@@ -427,6 +427,13 @@ ART_KINDS = {
     "excusedfast": {"fastmakeup", "ritesbutawaf", "purifiedwash", "aftersunset", "farewellwaived"},
     "continuousflow": {"unbrokenline", "knownhabit", "wudueachprayer", "threecases"},
     "afterbirth": {"cradlebegins", "pureearly", "fortymark", "washatforty"},
+    "zakatgrowth": {"growsprout", "thirdpillar", "threewisdoms", "bondnet", "twokinds"},
+    "zakatconds": {"firstislam", "nisabowned", "fullyear", "fourwealth", "debtzakat"},
+    "goldnisab": {"quarterten", "twonisabs", "nocombine", "fiveof200", "jewelry"},
+    "tradegoods": {"shopshelf", "threetradeconds", "valueatyearend", "inheritedno", "rentincome"},
+    "harvestshare": {"storedgrains", "tenthorhalf", "ripenow", "threehundredsaa", "buriedfifth"},
+    "livestockzakat": {"threeherds", "herdnisab", "grazingfree", "mostlyfed", "onesheepdue"},
+    "eightrecipients": {"firstfour", "lastfour", "anyclass", "poorneedy", "notdependents"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

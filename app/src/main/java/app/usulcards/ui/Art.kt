@@ -543,6 +543,13 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "excusedfast" -> excusedfastScene(a)
         "continuousflow" -> continuousflowScene(a)
         "afterbirth" -> afterbirthScene(a)
+        "zakatgrowth" -> zakatgrowthScene(a)
+        "zakatconds" -> zakatcondsScene(a)
+        "goldnisab" -> goldnisabScene(a)
+        "tradegoods" -> tradegoodsScene(a)
+        "harvestshare" -> harvestshareScene(a)
+        "livestockzakat" -> livestockzakatScene(a)
+        "eightrecipients" -> eightrecipientsScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -1083,6 +1090,10 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "readbyheart" -> 4000
     "dhikrallowed" -> 5750
     "monthrhythm", "seednourish", "nolimits", "usualyears", "easerule", "shiftingdays", "tintedcells", "whitesign", "pregnantrule", "noprayermakeup", "onerakahtime", "fastmakeup", "ritesbutawaf", "purifiedwash", "aftersunset", "farewellwaived", "unbrokenline", "knownhabit", "wudueachprayer", "threecases", "cradlebegins", "pureearly", "fortymark", "washatforty" -> 6000
+    // v1.3 fiqh: zakat (wave 79)
+    "anyclass" -> 4250
+    "lastfour" -> 5750
+    "growsprout", "thirdpillar", "threewisdoms", "bondnet", "twokinds", "firstislam", "nisabowned", "fullyear", "fourwealth", "debtzakat", "quarterten", "twonisabs", "nocombine", "fiveof200", "jewelry", "shopshelf", "threetradeconds", "valueatyearend", "inheritedno", "rentincome", "storedgrains", "tenthorhalf", "ripenow", "threehundredsaa", "buriedfifth", "threeherds", "herdnisab", "grazingfree", "mostlyfed", "onesheepdue", "firstfour", "poorneedy", "notdependents" -> 6000
     else -> 1000
 }
 
