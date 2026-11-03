@@ -43,7 +43,7 @@ data class Category(val id: String, val title: String, val about: String, val gl
  *  cards. A part with no paths yet is shown as coming soon. */
 data class BookPart(val title: String, val name: String, val paths: List<String>)
 
-/** A book of the books section: [book] is its id in [ContentRepo.books] (for sources); [cover] picks the drawn cover. */
+/** A book of the books section: [book] is its id in [ContentRepo.books] (for sources); [cover] picks the cover image (or the drawn cover). */
 data class ShelfBook(
     val id: String,
     val book: String,

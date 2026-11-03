@@ -3,7 +3,7 @@
 Each book lists its parts in the book's order; a part's `paths` are its chapters (learning paths), in order.
 A part with no paths yet shows as coming soon; a book with no ready part is left out of the pack.
 Every path in a part must have cards and must not also be in a category (finish_pack.py checks both).
-`book` is the source id (sources/raw/<id>.pdf); `cover` picks the drawn cover in ui/BooksScreen.kt.
+`book` is the source id (sources/raw/<id>.pdf); `cover` picks the cover in ui/BooksScreen.kt: the image res/drawable-nodpi/cover_<cover>.jpg when there is one, else the drawn cover.
 """
 
 SHELF = [

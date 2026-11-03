@@ -7,6 +7,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -49,18 +50,21 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.usulcards.R
 import app.usulcards.data.ShelfBook
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
 /**
- * The books section: whole books turned into cards. The shelf shows each book with its drawn cover; a book
+ * The books section: whole books turned into cards. The shelf shows each book with its cover; a book
  * opens on its parts, each part on its chapters (paths), and a chapter on its cards like any module.
  * Everything here takes plain values (cards per path, learned ids) so the screens can be previewed.
  */
@@ -216,12 +220,29 @@ private fun partsReady(n: Int) = when (n) {
     else -> "$n أجزاء متاحة"
 }
 
+/** The book's own front cover (res/drawable-nodpi, flattened to 2:3), keyed by `cover` in shelf.py. */
+private fun coverImage(cover: String): Int? = when (cover) {
+    "basaer" -> R.drawable.cover_basaer
+    "nawawi" -> R.drawable.cover_nawawi
+    else -> null
+}
+
 /**
- * A drawn cover (no image files): a night sky over an open book whose light rises in rays, a double gold frame
- * with eight-pointed stars at its corners, the title in Kufi, and the author. [compact] drops the subtitle.
+ * The book's cover: its real front cover when there is one, else a drawn cover: a night sky over an open book whose
+ * light rises in rays, a double gold frame with eight-pointed stars at its corners, the title in Kufi, and the author.
+ * [compact] drops the subtitle of the drawn cover.
  */
 @Composable
 fun BookCover(book: ShelfBook, modifier: Modifier = Modifier, compact: Boolean = false) {
+    val image = coverImage(book.cover)
+    if (image != null) {
+        Image(
+            painterResource(image), contentDescription = book.title, contentScale = ContentScale.Crop,
+            modifier = modifier.aspectRatio(2f / 3f).clip(RoundedCornerShape(6.dp))
+                .border(0.5.dp, Color.Black.copy(alpha = 0.25f), RoundedCornerShape(6.dp)),
+        )
+        return
+    }
     val gold = Color(0xFFE2BC62)
     val cream = Color(0xFFF4EAD0)
     BoxWithConstraints(
