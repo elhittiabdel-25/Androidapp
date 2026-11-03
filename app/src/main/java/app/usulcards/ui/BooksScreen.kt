@@ -234,7 +234,13 @@ fun BookCover(book: ShelfBook, modifier: Modifier = Modifier, compact: Boolean =
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(Modifier.height((w * 0.2f).dp))
-            Text(book.title, fontFamily = Fonts.kufi, fontWeight = FontWeight.Bold, fontSize = (w * 0.2f).sp, color = gold, maxLines = 1)
+            // short titles in one large line; longer ones wrap by word, sized so the longest word fits the width
+            val longest = book.title.split(' ').maxOf { it.length }.coerceAtLeast(1)
+            val ts = w * minOf(0.2f, 1.2f / longest)
+            Text(
+                book.title, fontFamily = Fonts.kufi, fontWeight = FontWeight.Bold, fontSize = ts.sp, lineHeight = (ts * 1.2f).sp,
+                color = gold, textAlign = TextAlign.Center, maxLines = 2,
+            )
             if (!compact && book.subtitle.isNotEmpty()) {
                 Spacer(Modifier.height((w * 0.02f).dp))
                 Text(

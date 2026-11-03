@@ -28,6 +28,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 import kotlin.math.sqrt
 
 /*
@@ -155,6 +158,44 @@ fun CategoryGlyph(kind: String, color: Color, size: Dp = 26.dp) {
                     drawLine(color, Offset(w * x, h * 0.42f), Offset(w * x, h * 0.78f), sw, StrokeCap.Round)
                 }
                 drawLine(color, Offset(w * 0.1f, h * 0.9f), Offset(w * 0.9f, h * 0.9f), sw, StrokeCap.Round)
+            }
+            "lamp" -> {   // a lit oil lamp: the Prophet ﷺ is shown only as light
+                val flame = Path().apply {
+                    moveTo(w * 0.5f, h * 0.08f)
+                    cubicTo(w * 0.68f, h * 0.28f, w * 0.64f, h * 0.46f, w * 0.5f, h * 0.5f)
+                    cubicTo(w * 0.36f, h * 0.46f, w * 0.32f, h * 0.28f, w * 0.5f, h * 0.08f)
+                    close()
+                }
+                drawPath(flame, color)
+                val bowl = Path().apply {
+                    moveTo(w * 0.12f, h * 0.6f)
+                    cubicTo(w * 0.2f, h * 0.86f, w * 0.8f, h * 0.86f, w * 0.88f, h * 0.6f)
+                    close()
+                }
+                drawPath(bowl, color, style = line)
+                drawLine(color, Offset(w * 0.34f, h * 0.93f), Offset(w * 0.66f, h * 0.93f), sw, StrokeCap.Round)
+            }
+            "heart" -> {
+                val p = Path().apply {
+                    moveTo(w * 0.5f, h * 0.88f)
+                    cubicTo(w * 0.1f, h * 0.6f, w * 0.04f, h * 0.3f, w * 0.27f, h * 0.17f)
+                    cubicTo(w * 0.4f, h * 0.11f, w * 0.48f, h * 0.2f, w * 0.5f, h * 0.3f)
+                    cubicTo(w * 0.52f, h * 0.2f, w * 0.6f, h * 0.11f, w * 0.73f, h * 0.17f)
+                    cubicTo(w * 0.96f, h * 0.3f, w * 0.9f, h * 0.6f, w * 0.5f, h * 0.88f)
+                    close()
+                }
+                drawPath(p, color, style = line)
+            }
+            "beads" -> {   // prayer beads: a ring of beads with a short tassel
+                val r = w * 0.3f
+                val c = Offset(w * 0.5f, h * 0.38f)
+                for (i in 0 until 12) {
+                    if (i == 3) continue                      // the gap at the bottom where the tassel hangs
+                    val a = (i * 30f) * PI.toFloat() / 180f
+                    drawCircle(color, radius = w * 0.06f, center = Offset(c.x + r * cos(a), c.y + r * sin(a)))
+                }
+                drawCircle(color, radius = w * 0.08f, center = Offset(c.x, c.y + r))
+                drawLine(color, Offset(c.x, c.y + r), Offset(c.x, h * 0.94f), sw, StrokeCap.Round)
             }
             else -> {   // "path": a road that winds up to a point
                 val road = Path().apply {

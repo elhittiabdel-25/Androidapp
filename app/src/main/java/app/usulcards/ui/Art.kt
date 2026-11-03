@@ -376,6 +376,21 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "falsewaves" -> falsewavesScene(a)
         "whymuslim" -> whymuslimScene(a)
         "surrender" -> surrenderScene(a)
+        "parentsgate" -> parentsgateScene(a)
+        "kinthreads" -> kinthreadsScene(a)
+        "neighbors" -> neighborsScene(a)
+        "orphangarden" -> orphangardenScene(a)
+        "homeledger" -> homeledgerScene(a)
+        "sixrights" -> sixrightsScene(a)
+        "sickroom" -> sickroomScene(a)
+        "reconcile" -> reconcileScene(a)
+        "heavyscale" -> heavyscaleScene(a)
+        "gentlerain" -> gentlerainScene(a)
+        "pardonbook" -> pardonbookScene(a)
+        "townsquare" -> townsquareScene(a)
+        "truthroad" -> truthroadScene(a)
+        "mercyrain" -> mercyrainScene(a)
+        "guestnight" -> guestnightScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -818,6 +833,20 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "steles" -> 15750
     "jabirflask", "claim200", "fiftytwo", "closest" -> 16000
     "explains", "consent" -> 20000
+    // v1.2: Riyad al-Salihin (waves 46-48)
+    "fihima" -> 1750
+    "mendword", "basinfill" -> 2750
+    "restrain" -> 3250
+    "weighflaw" -> 3500
+    "nearest" -> 3750
+    "quietpoor", "strongman" -> 4000
+    "rainvsflood" -> 4250
+    "reconnect" -> 4500
+    "signposts", "stoneheart" -> 4750
+    "orchard" -> 5250
+    "justice", "speck", "fourcalls", "nevernot" -> 5500
+    "sharetable", "fastrank" -> 5750
+    "bestdeeds", "mother3", "rughim", "midgate", "hangs", "widens", "twofold", "counsel", "harm", "broth", "beam", "together", "threeranks", "weakroots", "twodaughters", "bestrank", "homelight", "firstdinar", "sixfirst", "sixrest", "onebody", "building", "visit", "threeacts", "angels", "whispers", "village", "debt", "heaviest", "twokeys", "threetraits", "twohouses", "twotraits", "bucket", "zanahu", "threenever", "mountains", "beautyok", "levelout", "childrenlead", "sinkdown", "toberr", "tofujur", "market", "bedrank", "kiss", "mirrorrain", "babycry", "twolights", "lampout", "onecloth", "shoulder" -> 6000
     else -> 1000
 }
 

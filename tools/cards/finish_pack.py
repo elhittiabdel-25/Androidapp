@@ -260,6 +260,21 @@ ART_KINDS = {
     "falsewaves": {"tunecosmos", "noask", "threecures", "springmass", "plusminus"},
     "whymuslim": {"innate", "manyproofs", "onlydoor", "palmtrunk", "springwater", "rebuilt"},
     "surrender": {"prophetsrow", "twoconds", "fourrakah", "stonesbow", "sharedship", "khatma"},
+    "parentsgate": {"bestdeeds", "mother3", "rughim", "fihima", "midgate"},
+    "kinthreads": {"hangs", "widens", "reconnect", "twofold"},
+    "neighbors": {"counsel", "harm", "nearest", "broth", "beam"},
+    "orphangarden": {"together", "threeranks", "weakroots", "twodaughters", "quietpoor"},
+    "homeledger": {"bestrank", "sharetable", "weighflaw", "homelight", "firstdinar"},
+    "sixrights": {"sixfirst", "sixrest", "onebody", "building", "restrain"},
+    "sickroom": {"visit", "orchard", "threeacts", "angels"},
+    "reconcile": {"whispers", "justice", "mendword", "village", "debt"},
+    "heavyscale": {"heaviest", "twokeys", "threetraits", "fastrank", "twohouses"},
+    "gentlerain": {"twotraits", "rainvsflood", "bucket", "signposts", "zanahu"},
+    "pardonbook": {"threenever", "strongman", "mountains"},
+    "townsquare": {"speck", "beautyok", "levelout", "childrenlead", "sinkdown"},
+    "truthroad": {"toberr", "tofujur", "fourcalls", "market", "bedrank"},
+    "mercyrain": {"kiss", "mirrorrain", "babycry", "stoneheart"},
+    "guestnight": {"basinfill", "twolights", "nevernot", "lampout", "onecloth", "shoulder"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
