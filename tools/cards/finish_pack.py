@@ -458,6 +458,11 @@ ART_KINDS = {
     "congregation": {"rowsduty", "evenwar", "benefits4", "stepreward", "familyneighbors"},
     "wholeads": {"rankorder", "readerfaqih", "hostfirst", "drawlots", "unknownfault"},
     "sickprayer": {"hardshipease", "standsitside", "nodlower", "bentstand", "sickjoin"},
+    "shortenedprayer": {"fourtotwo", "takerukhsa", "fourdaysrule", "charitygift", "homemissed"},
+    "joiningprayers": {"twopairs", "movingorresting", "rainmudwind", "delaytoasr", "advancewithzuhr", "nofajrjoin"},
+    "fridayprayer": {"fardayn", "notobligedbutvalid", "catchonerakah", "twokhutbas", "nostepping"},
+    "fridaymanners": {"earlyfriday", "silentlisten", "tworakatenter", "kahfread", "noreserve"},
+    "eidprayer": {"eidkifaya", "eidtime", "sevenfive", "datesbefore", "otherwayback"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
