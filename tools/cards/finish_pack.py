@@ -440,6 +440,12 @@ ART_KINDS = {
     "prayerconds": {"purityandtime", "threemoreconds", "intentheart", "condsvspillars"},
     "walktoprayer": {"smallsteps", "waitdhikr", "straightrows", "rightfootmosque", "widestance"},
     "openingtakbir": {"facequibla", "raisehands", "handsonchest", "farapartsins", "alternate"},
+    "recitation": {"fatihakey", "aminloudlow", "midlength", "longshort", "thirdfourth"},
+    "bowing": {"flatback", "threetasbih", "riseupsami", "fillheavens", "handsafterrise"},
+    "prostration": {"kneesfirst", "sevenlimbs", "nearestbow", "armsapart", "greatestpillar"},
+    "betweensujud": {"iftirash", "rabbighfirli", "vertebrae", "followimam", "restsit"},
+    "tashahhud": {"indexpoint", "tahiyyat", "salamsides", "fourrefuge", "tawarruk"},
+    "pillarsofprayer": {"threetiers", "fourteenpillars", "somepillars", "sittingside", "calmness"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

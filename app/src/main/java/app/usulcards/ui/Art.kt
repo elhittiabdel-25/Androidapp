@@ -556,6 +556,12 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "prayerconds" -> prayercondsScene(a)
         "walktoprayer" -> walktoprayerScene(a)
         "openingtakbir" -> openingtakbirScene(a)
+        "recitation" -> recitationScene(a)
+        "bowing" -> bowingScene(a)
+        "prostration" -> prostrationScene(a)
+        "betweensujud" -> betweensujudScene(a)
+        "tashahhud" -> tashahhudScene(a)
+        "pillarsofprayer" -> pillarsofprayerScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -1104,6 +1110,11 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "secondpillar" -> 4750
     "zuhrshadow" -> 5500
     "miraj", "openclose", "ontimeanyway", "sevenyears", "announcetime", "kifaya", "fifteenphrases", "turnrightleft", "nostepout", "asryellow", "maghribisha", "fajrline", "middleprayer", "purityandtime", "threemoreconds", "intentheart", "condsvspillars", "smallsteps", "waitdhikr", "straightrows", "rightfootmosque", "widestance", "facequibla", "raisehands", "handsonchest", "farapartsins", "alternate" -> 6000
+    // v1.3 fiqh: prayer 2 (wave 81)
+    "tawarruk" -> 2750
+    "rabbighfirli" -> 3500
+    "aminloudlow" -> 5750
+    "fatihakey", "midlength", "longshort", "thirdfourth", "flatback", "threetasbih", "riseupsami", "fillheavens", "handsafterrise", "kneesfirst", "sevenlimbs", "nearestbow", "armsapart", "greatestpillar", "iftirash", "vertebrae", "followimam", "restsit", "indexpoint", "tahiyyat", "salamsides", "fourrefuge", "threetiers", "fourteenpillars", "somepillars", "sittingside", "calmness" -> 6000
     else -> 1000
 }
 
