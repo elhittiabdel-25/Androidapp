@@ -1991,4 +1991,43 @@ SCENES = {
         I("وما زال جبريل يوصي النبي ﷺ بالجار", "زال", "deep-1", kind="neighborcounsel"),
         I("وجائزة الضيف يوم وليلة", None, "deep-2", sub="يوم وليلة|ثلاثة أيام|فهو صدقة", kind="threehostdays"),
     ], layout="goodorsilent"),
+    # ── v1.2: the Forty of al-Nawawi, hadiths 16–20 (wave 60) ──
+    "nw-16": S("art", [
+        I("سأله رجل الوصية فقال: لا تغضب", None, "face-0", sub="لا تغضب", kind="repeatnoanger"),
+        I("فالغضب شر في الدين", None, "face-1", kind="pulledoff"),
+        I("وهو جمرة في القلب", None, "face-2", sub="جمرة في القلب", kind="emberquench"),
+        I("وأمر الغضبان أن يجلس إن كان قائما", None, "deep-0", kind="sitthenlie"),
+        I("والحامل عليه الشيطان، وهو مخلوق من نار", None, "deep-1", kind="smokeandwater"),
+        I("وليس الشديد بالصرعة", None, "deep-3", sub="يملك نفسه عند الغضب", kind="trulystrong"),
+    ], layout="angerember"),
+    "nw-17": S("art", [
+        I("الكتابة هنا شرعية دينية", None, "face-0", sub="كونية قدرية|وشرعية دينية", kind="twowritings"),
+        I("فإذا ذبحتم فأحسنوا الذبحة", None, "face-2", sub="وليحد أحدكم شفرته|وليرح ذبيحته", kind="sharpenrest"),
+        I("وفي الآلة الكالة تعذيب للحيوان", "الكالة", "deep-1", kind="bluntno"),
+        I("وذبح الحيوان مفسدة، لكنها مغمورة بمصلحة أعظم", None, "deep-2", kind="outweighharm"),
+        I("فالإحسان لا يقف عند العبادة والناس", None, "deep-3", kind="reachesbeast"),
+    ], layout="ihsaneverything"),
+    "nw-18": S("art", [
+        I("وصى به النبي ﷺ معاذا لما بعثه إلى اليمن معلما", None, "face-0", sub="معاذا|وأبا ذر", kind="muadhabudharr"),
+        I("وتقوى العبد لربه", None, "face-1", sub="في السر والعلانية", kind="shieldsecret"),
+        I("ولما كان الإنسان لا بد أن يخرق تقواه", None, "face-2", sub="أتبع السيئة الحسنة تمحها", kind="patchtear"),
+        I("والتقوى واجبة ومندوبة", None, "deep-0", sub="الأبرار|السابقين", kind="tworanks"),
+        I("ومخالقة الناس بخلق حسن", None, "deep-2", sub="بانطلاق الوجه|وإفشاء السلام|والهدية|والمسامحة", kind="fourmanners"),
+    ], layout="taqwaeverywhere"),
+    "nw-19": S("art", [
+        I("كان ابن عباس غلاما خلف النبي ﷺ", None, "face-0", sub="ابن عباس", kind="ridebehind"),
+        I("احفظ الله: احفظ حدوده بالوقوف عندها", None, "face-1", sub="يحفظك في دينك ودنياك", kind="keepbounds"),
+        I("ولو اجتمعت الأمة على أن ينفعوك أو يضروك", None, "face-2", sub="قد كتبه الله", kind="crowdcannot"),
+        I("فكان سوط أحدهم يسقط فما يسأل أحدا يناوله إياه", "فكان", "deep-0", kind="ownwhip"),
+        I("تعرف إلى الله في الرخاء يعرفك في الشدة", None, "deep-2", sub="في الرخاء|في الشدة", kind="easethenhard"),
+        I("واعلم أن ما أخطأك لم يكن ليصيبك", None, "deep-3", kind="missandhit"),
+    ], layout="guardhim"),
+    "nw-20": S("art", [
+        I("مما أدرك الناس من كلام النبوة الأولى", None, "face-0", sub="إذا لم تستح فاصنع ما شئت", kind="oldprophecy"),
+        I("وقيل: لفظه أمر ومعناه التهديد والوعيد", None, "face-1", kind="sternword"),
+        I("وقيل: هو على ظاهره", None, "face-2", kind="hayagauge"),
+        I("والمستحي إذا استحيا امتنع عما لا ينبغي", None, "deep-0", kind="pullsback"),
+        I("وراويه أبو مسعود البدري", None, "deep-1", sub="أبو مسعود البدري", kind="placebadr"),
+        I("والحياء شعبة من الإيمان", None, "deep-2", sub="شعبة من الإيمان", kind="faithbranch"),
+    ], layout="modesty"),
 }

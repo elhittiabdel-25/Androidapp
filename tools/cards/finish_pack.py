@@ -329,6 +329,11 @@ ART_KINDS = {
     "likeforbrother": {"anasyears", "baseremains", "mirrorgood", "faiththread", "warmnet"},
     "inviolable": {"threesacred", "tonguehearthand", "farewellday", "partmissing"},
     "goodorsilent": {"speakorstill", "rightscount", "guestwelcome", "neighborcounsel", "threehostdays"},
+    "angerember": {"repeatnoanger", "pulledoff", "emberquench", "sitthenlie", "smokeandwater", "trulystrong"},
+    "ihsaneverything": {"twowritings", "sharpenrest", "bluntno", "outweighharm", "reachesbeast"},
+    "taqwaeverywhere": {"muadhabudharr", "shieldsecret", "patchtear", "tworanks", "fourmanners"},
+    "guardhim": {"ridebehind", "keepbounds", "crowdcannot", "ownwhip", "easethenhard", "missandhit"},
+    "modesty": {"oldprophecy", "sternword", "hayagauge", "pullsback", "placebadr", "faithbranch"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
