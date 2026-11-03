@@ -344,6 +344,11 @@ ART_KINDS = {
     "holdfast": {"movingsermon", "linkedrings", "onelitway", "tightgrip", "notbeforeus"},
     "headofmatter": {"greatyeteasy", "tentparts", "shieldandwater", "polefalls", "sealtongue"},
     "fourrulings": {"keepduties", "boundsfences", "silentmercy", "fourquads", "knowingsilence"},
+    "zuhdlove": {"twoloves", "stepaside", "handvsheart", "zuhdrungs", "noshunhalal", "poetfour"},
+    "harmblocked": {"harmwall", "twoharms", "fourchapters", "openpasture", "noharmneighbor", "threadsstrong"},
+    "proofonclaimant": {"bareclaims", "proofoath", "twoaimsqada", "halfwaymeet", "halfdebt", "bothcontent"},
+    "changeevil": {"darkblots", "handtongueheart", "dimbutlit", "faithgauge", "barrierexcused"},
+    "nojealousy": {"twelvephrases", "envysmoke", "lightmytoo", "firstenvy", "backturned", "fournots"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
