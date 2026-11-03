@@ -349,6 +349,11 @@ ART_KINDS = {
     "proofonclaimant": {"bareclaims", "proofoath", "twoaimsqada", "halfwaymeet", "halfdebt", "bothcontent"},
     "changeevil": {"darkblots", "handtongueheart", "dimbutlit", "faithgauge", "barrierexcused"},
     "nojealousy": {"twelvephrases", "envysmoke", "lightmytoo", "firstenvy", "backturned", "fournots"},
+    "relievegrief": {"liftweight", "smallvsbig", "helpedhelper", "givetime", "cloaked", "knowledgeroad"},
+    "recordbook": {"twocolumns", "multiply", "badleft", "camelseven", "mercywins"},
+    "awliya": {"upright", "twotiersawliya", "fardthennafl", "guidedsteps", "answereddua"},
+    "pardoned": {"threeforgiven", "accidentspill", "forcedcalmheart", "answeredbaqara", "stillowes"},
+    "stranger": {"shoulderword", "takesonly", "dontwait", "storeahead"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

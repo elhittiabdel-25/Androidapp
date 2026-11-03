@@ -2142,4 +2142,40 @@ SCENES = {
         I("والتدابر: أن يلقى أخاه فيوليه دبره", "والتدابر", "deep-1", kind="backturned"),
         I("والمسلم أخو المسلم", None, "deep-2", sub="لا يظلمه|ولا يخذله|ولا يكذبه|ولا يحقره", kind="fournots"),
     ], layout="nojealousy"),
+    # ── v1.2: the Forty of al-Nawawi, hadiths 36–40 (wave 64) ──
+    "nw-36": S("art", [
+        I("من نفس عن مؤمن كربة من كرب الدنيا", None, "face-0", kind="liftweight"),
+        I("فكرب الدنيا كلها لو اجتمعت", None, "face-1", kind="smallvsbig"),
+        I("والله في عون العبد ما كان العبد في عون أخيه", None, "face-2", sub="والله في عون العبد ما كان العبد في عون أخيه", kind="helpedhelper"),
+        I("والتيسير على المعسر", None, "deep-0", sub="ويمهله حتى يجد", kind="givetime"),
+        I("ومن ستر مسلما ستره الله في الدنيا والآخرة", None, "deep-1", sub="ستره الله في الدنيا والآخرة", kind="cloaked"),
+        I("ومن سلك طريقا يلتمس فيه علما", None, "deep-3", sub="سهل الله له به طريقا إلى الجنة", kind="knowledgeroad"),
+    ], layout="relievegrief"),
+    "nw-37": S("art", [
+        I("كتبت الحسنات والسيئات كتبا كونيا قدريا", None, "face-0", sub="الحسنات|والسيئات", kind="twocolumns"),
+        I("فمن هم بحسنة فلم يعملها", None, "face-1", sub="حسنة كاملة|عشرا|سبعمئة ضعف", kind="multiply"),
+        I("ومن هم بسيئة فتركها خوفا من الله", None, "face-2", sub="كتبت له حسنة كاملة|سيئة واحدة", kind="badleft"),
+        I("وأتى رجل بناقة مخطومة", None, "deep-2", kind="camelseven"),
+        I("والسيئة لا تضاعف في العدد", None, "deep-3", sub="رحمة الله غلبت غضبه", kind="mercywins"),
+    ], layout="recordbook"),
+    "nw-38": S("art", [
+        I("ولي الله: المستقيم على طاعته", None, "face-0", sub="المستقيم على طاعته", kind="upright"),
+        I("وهم طبقتان", None, "face-1", sub="أصحاب اليمين|والسابقون المقربون", kind="twotiersawliya"),
+        I("وما تقرب عبد إلى الله بأحب إليه مما افترض عليه", None, "face-2", sub="مما افترض عليه|بالنوافل", kind="fardthennafl"),
+        I("فإذا أحبه كانت أعماله كلها على السداد", None, "deep-1", sub="موفقا محفوظا من الزلل", kind="guidedsteps"),
+        I("ومن ثوابه أن يصير مجاب الدعوة", None, "deep-2", sub="سعد بن أبي وقاص", kind="answereddua"),
+    ], layout="awliya"),
+    "nw-39": S("art", [
+        I("تجاوز الله لهذه الأمة عن ثلاث", None, "face-0", sub="الخطأ|والنسيان|وما استكرهوا عليه", kind="threeforgiven"),
+        I("فالمعاقبة على ذنب فعل نسيانا أو من غير قصد ممتنعة", None, "face-1", kind="accidentspill"),
+        I("ومن فعل شيئا مكرها ملجأ إليه", None, "face-2", sub="وقلبه مطمئن بالإيمان", kind="forcedcalmheart"),
+        I("ومنه دعاء المؤمنين في خاتمة البقرة", None, "deep-0", sub="إن نسوا أو أخطئوا", kind="answeredbaqara"),
+        I("ورفع الإثم عند أهل العلم لا يسقط حقوق العباد", None, "deep-1", sub="ضمنه", kind="stillowes"),
+    ], layout="pardoned"),
+    "nw-40": S("art", [
+        I("أخذ ﷺ بمنكب ابن عمر", None, "face-0", sub="ابن عمر|كأنك غريب أو عابر سبيل", kind="shoulderword"),
+        I("فالغريب لا يشتغل بما يشتغل به أهل الوطن", None, "face-1", kind="takesonly"),
+        I("وكان ابن عمر يقول", None, "face-2", sub="إذا أمسيت فلا تنتظر الصباح|وإذا أصبحت فلا تنتظر المساء", kind="dontwait"),
+        I("واعمل عمل الصحة قبل أن يحول المرض", None, "deep-1", sub="وخذ من صحتك لمرضك|ومن حياتك لموتك", kind="storeahead"),
+    ], layout="stranger"),
 }
