@@ -508,9 +508,9 @@ private object GuestC48 {
 /**
  * Beats: basinfill (a basin gives water to many cups and fills again as it gives), twolights (at dawn two cool white
  * lights come down: one over a giver's open door, «بِالْخَلَفِ»; one over a locked chest that crumbles, «بِالتَّلَفِ»),
- * nevernot (the light ﷺ, and those who come to it each leave with something), lampout (a small room: a guest eats by a
- * lamp; the host puts the lamp out and the hosts sit with empty hands; the children sleep), onecloth (small heaps of
- * food poured on one cloth and shared out in equal heaps), shoulder (a sheep given away all but its shoulder: what was
+ * nevernot (the light ﷺ, and those who come to it each leave with something), lampout (a small room: the guest eats by a
+ * lamp; the host puts the lamp out and the hosts sit with empty hands — the companions as plain roundels; the children
+ * sleep), onecloth (small heaps of food poured on one cloth and shared out in equal heaps among plain roundels), shoulder (a sheep given away all but its shoulder: what was
  * given glows; the shoulder kept fades).
  */
 internal fun DrawScope.guestnightScene(a: ArtCtx) {
@@ -602,10 +602,10 @@ private fun DrawScope.guestNight(a: ArtCtx) {
         drawOval(GuestC48.Flame, Offset(lamp.x - w * 0.006f, lamp.y - h * 0.05f * fl), Size(w * 0.012f, h * 0.04f * fl), alpha = f * (1f - dark))
         softGlow(lamp, w * 0.2f, GuestC48.Flame, 0.4f * f * (1f - dark) + 0.08f * f)
         drawOval(Color(0xFF8A5A3A), Offset(lamp.x - w * 0.025f, lamp.y - h * 0.01f), Size(w * 0.05f, h * 0.02f), alpha = f)
-        sit12(Offset(w * 0.3f, ground), h * 0.3f, GuestC48.Person, f, 1f)
+        nameRoundel(Offset(w * 0.3f, ground - h * 0.08f), w * 0.04f, null, Roundel.PlainFill, Roundel.PlainRim, f)
         cup12(Offset(w * 0.38f, ground), w * 0.06f, Color(0xFFC8A87A), f, GuestC48.Food)
-        sit12(Offset(w * 0.64f, ground), h * 0.3f, GuestC48.Person, f * 0.8f, -1f, bob = h * 0.01f * sin(t * 3f) * dark)
-        womanSit12(Offset(w * 0.74f, ground), h * 0.28f, GuestC48.Person, f * 0.8f, -1f)
+        nameRoundel(Offset(w * 0.64f, ground - h * 0.08f + h * 0.01f * sin(t * 3f) * dark), w * 0.04f, null, Roundel.PlainFill, Roundel.PlainRim, f * 0.8f)
+        nameRoundel(Offset(w * 0.75f, ground - h * 0.08f), w * 0.04f, null, Roundel.PlainFill, Roundel.PlainRim, f * 0.8f)
         for (k in 0 until 2) drawOval(GuestC48.Person, Offset(w * (0.8f + 0.05f * k), ground - h * 0.03f), Size(w * 0.05f, h * 0.025f), alpha = f * 0.6f)
     }
     // one cloth, equal shares
@@ -622,7 +622,7 @@ private fun DrawScope.guestNight(a: ArtCtx) {
             val p = if (share > 0f) mid + (end - mid) * share else start + (mid - start) * gather
             val r = if (share > 0f) mix(0f, 0.024f, share) else sizes[k] * (1f - gather)
             drawCircle(GuestC48.Food, w * r + 0.5f, p, alpha = f)
-            figure(Offset(w * (0.18f + 0.16f * k), ground + h * 0.02f), h * 0.12f, GuestC48.Person, f * share)
+            nameRoundel(Offset(w * (0.18f + 0.16f * k), ground + h * 0.06f), w * 0.025f, null, Roundel.PlainFill, Roundel.PlainRim, f * share)
         }
         if (share <= 0f) drawCircle(GuestC48.Food, w * 0.06f * gather, Offset(w * 0.5f, ground - h * 0.03f), alpha = f)
     }

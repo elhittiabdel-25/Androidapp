@@ -249,8 +249,8 @@ private object KnockC50 {
 /**
  * Beats: threetimes (a closed door; three knocks ring out, «1», «2», «3»; no answer, and he turns home), aside (he stands
  * to the side of the door, not before it: a line of sight from the doorway falls on the wall), askin (at the door his
- * greeting and his asking: «السَّلَامُ عَلَيْكُمْ», «أَأَدْخُلُ»), sayname (a knock; from within, a question; the answer «أَنَا»
- * is met with a puzzled mark, until he gives his name), grownchild (a boy grows tall and knocks at his parents' door
+ * greeting and his asking: «السَّلَامُ عَلَيْكُمْ», «أَأَدْخُلُ»), sayname (a companion, a plain roundel, knocks; from within, a
+ * question; the answer «أَنَا» is met with a puzzled mark, until he gives his name), grownchild (a boy grows tall and knocks at his parents' door
  * too).
  */
 internal fun DrawScope.threeknocksScene(a: ArtCtx) {
@@ -314,7 +314,7 @@ private fun DrawScope.knockDay(a: ArtCtx) {
     if (sn > 0f) {
         val f = easeOut(seg(sn, 0f, 0.3f)) * (1f - seg(gc, 0f, 0.4f))
         door12(sill, w * 0.14f, h * 0.44f, 0f, KnockC50.Trim, KnockC50.Leaf, f)
-        figure(Offset(w * 0.38f, ground), h * 0.3f, KnockC50.Person, f, arms = 0.4f)
+        nameRoundel(Offset(w * 0.38f, ground - h * 0.15f), w * 0.045f, null, Roundel.PlainFill, Roundel.PlainRim, f)
         qMark14(sill + Offset(0f, -h * 0.55f), h * 0.12f, KnockC50.Sight, f * seg(sn, 0.15f, 0.3f))
         tagAt(a.tag("sayname"), Offset(w * 0.3f, h * 0.28f), f * seg(sn, 0.35f, 0.5f), back = Back50, ink = ArtInk.Ivory)
         qMark14(Offset(w * 0.45f, h * 0.22f), h * 0.1f, KnockC50.Red, f * seg(sn, 0.5f, 0.65f) * (1f - seg(sn, 0.75f, 0.85f)))

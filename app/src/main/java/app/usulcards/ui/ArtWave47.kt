@@ -618,8 +618,8 @@ private object GentleC47 {
 
 /**
  * Beats: twotraits (two young trees grow slowly, side by side: «الْحِلْمُ», «وَالْأَنَاةُ»), rainvsflood (on the left a
- * soft rain and a field that greens; on the right a torrent that carries the soil away), bucket (a mosque floor; people
- * rush forward and stop; a bucket of water is poured over the spot), signposts (two signposts at a crossroads:
+ * soft rain and a field that greens; on the right a torrent that carries the soil away), bucket (a mosque floor; plain roundels
+ * of the companions rush forward and stop; a bucket of water is poured over the spot), signposts (two signposts at a crossroads:
  * «يَسِّرُوا», «وَبَشِّرُوا»), zanahu (a plain jar: as gentleness touches it a pattern blooms over it; taken away, it
  * cracks).
  */
@@ -687,7 +687,7 @@ private fun DrawScope.gentleDay(a: ArtCtx) {
         val stop = seg(bk, 0.25f, 0.4f)
         for (k in 0 until 3) {
             val x = w * (0.72f + 0.08f * k) - w * 0.1f * seg(bk, 0.05f, 0.25f)
-            figure(Offset(x, ground), h * 0.3f, GentleC47.Person, f, walk = t * 7f * (1f - stop), lean = 0.15f * (1f - stop), arms = 0.8f * (1f - stop))
+            nameRoundel(Offset(x, ground - h * 0.08f), w * 0.035f, null, Roundel.PlainFill, Roundel.PlainRim, f)
         }
         val spot = Offset(w * 0.4f, ground + h * 0.05f)
         drawOval(Color(0xFFC0AC88), Offset(spot.x - w * 0.06f, spot.y - h * 0.015f), Size(w * 0.12f, h * 0.03f), alpha = f * (1f - seg(bk, 0.7f, 0.95f)))

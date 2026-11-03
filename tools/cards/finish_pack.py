@@ -285,6 +285,16 @@ ART_KINDS = {
     "threeknocks": {"threetimes", "aside", "askin", "sayname", "grownchild"},
     "sharedtray": {"yourside", "latename", "noblame", "threebreaths", "rightward", "nosupper"},
     "majlisring": {"makeroom", "atedge", "clearing", "threesit", "remembered"},
+    "wakedawn": {"wakeup", "sleepsister", "nightwake", "lastten"},
+    "newrobe": {"comesdown", "threegarments", "wornrenewed", "curtain", "rightsleeve"},
+    "eightgates": {"inout", "namedwater", "eightdoors", "twopure"},
+    "threewords": {"threewords", "threegifts", "homegreet", "pitfalls"},
+    "rightfoot": {"rightin", "leftout", "fourlights", "keptsafe", "manylights"},
+    "afterprayer": {"salamturn", "hundred", "nobarrier", "threeasks", "nojadd"},
+    "twodoors": {"likesurah", "tworakah", "consulted", "gooddoor", "closedoor"},
+    "morningevening": {"bookends", "dawnguard", "threeshields", "mulk", "tillsunrise"},
+    "covenant": {"fourparts", "dayornight", "abu", "fivesteps", "dayshukr"},
+    "noharm": {"bounce", "scorpion", "threecontent", "heldup", "sevenrings"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

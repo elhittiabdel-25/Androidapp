@@ -1682,4 +1682,73 @@ SCENES = {
         I("وإذا كانوا ثلاثة فلا يتناجى اثنان دون الثالث", None, "deep-1", kind="threesit"),
         I("وما من قوم يقومون من مجلس لا يذكرون الله فيه", None, "deep-2", kind="remembered"),
     ], layout="majlisring"),
+    # ── v1.2: Hisn al-Muslim, «أذكار اليوم والليلة» (wave 51) ──
+    "hisn-istiqadh": S("art", [
+        I("الحمد لله الذي أحيانا بعد ما أماتنا وإليه النشور", "الحمد", "face-0", kind="wakeup"),
+        I("فالنوم أخو الموت", None, "face-1", kind="sleepsister"),
+        I("ومن تعار من الليل فذكر الله ثم دعا استجيب له", None, "face-2", kind="nightwake"),
+        I("قرأ الآيات العشر الأخيرة من سورة آل عمران", "قرأ", "deep-2", kind="lastten"),
+    ], layout="wakedawn"),
+    "hisn-libas": S("art", [
+        I("الحمد لله الذي كساني هذا ورزقنيه من غير حول مني ولا قوة", "الحمد", "face-0", kind="comesdown"),
+        I("وكان ﷺ إذا استجد ثوبا سماه باسمه", None, "face-1", kind="threegarments"),
+        I("تبلي ويخلف الله تعالى", "تبلي", "face-2", kind="wornrenewed"),
+        I("فذلك ستر بين أعين الجن وعورات بني آدم", "فذلك", "deep-2", kind="curtain"),
+        I("ومن السنة أن يبدأ في اللباس باليمين", None, "deep-3", kind="rightsleeve"),
+    ], layout="newrobe"),
+    "hisn-khala": S("art", [
+        I("إذا دخل المسلم الخلاء", None, "face-0", sub="غفرانك", kind="inout"),
+        I("ويسمي الله قبل الوضوء", None, "face-1", kind="namedwater"),
+        I("فتحت له أبواب الجنة الثمانية يدخل من أيها شاء", "فتحت", "face-2", kind="eightdoors"),
+        I("ويسأل أن تكون طهارة الباطن بالتوبة مع طهارة الظاهر بالماء", "ويسأل", "deep-2", sub="بالماء|بالتوبة", kind="twopure"),
+    ], layout="eightgates"),
+    "hisn-manzil": S("art", [
+        I("إذا خرج المسلم من بيته", None, "face-0", sub="بسم الله|توكلت على الله|ولا حول ولا قوة إلا بالله", kind="threewords"),
+        I("فيقال له: هديت وكفيت ووقيت، ويتنحى عنه الشيطان", None, "face-1", sub="هديت|وكفيت|ووقيت", kind="threegifts"),
+        I("وإذا دخل بيته ذكر الله وسلم على أهله", None, "face-2", kind="homegreet"),
+        I("اللهم إني أعوذ بك أن أضل أو أضل", "اللهم", "deep-0", kind="pitfalls"),
+    ], layout="threewords"),
+    "hisn-masjid": S("art", [
+        I("يدخل المسلم المسجد برجله اليمنى", None, "face-0", sub="اليمنى", kind="rightin"),
+        I("ويخرج برجله اليسرى", None, "face-1", sub="اليسرى", kind="leftout"),
+        I("اللهم اجعل في قلبي نورا، وفي لساني نورا، وفي سمعي نورا، وفي بصري نورا", "اللهم", "face-2", kind="fourlights"),
+        I("حفظ مني سائر اليوم", "حفظ", "deep-1", kind="keptsafe"),
+        I("وجمع ابن حجر من اختلاف روايات دعاء النور 25 خصلة", None, "deep-3", sub="25", kind="manylights"),
+    ], layout="rightfoot"),
+    # ── v1.2: Hisn al-Muslim, «أذكار اليوم والليلة» (wave 52) ──
+    "hisn-salah": S("art", [
+        I("إذا سلم ﷺ استغفر ثلاثا", None, "face-0", kind="salamturn"),
+        I("ومن سبح دبر كل صلاة 33، وحمد 33، وكبر 33", None, "face-1", sub="33", kind="hundred"),
+        I("ومن قرأ آية الكرسي دبر كل صلاة لم يمنعه من دخول الجنة إلا أن يموت", None, "face-2", kind="nobarrier"),
+        I("اللهم أعني على ذكرك، وشكرك، وحسن عبادتك", "اللهم", "deep-0", sub="ذكرك|وشكرك|وحسن عبادتك", kind="threeasks"),
+        I("فلا ينفع صاحب الغنى غناه من الله، إنما ينفعه العمل الصالح", "فلا", "deep-2", kind="nojadd"),
+    ], layout="afterprayer"),
+    "hisn-istikhara": S("art", [
+        I("كان ﷺ يعلم أصحابه الاستخارة في الأمور كلها كما يعلمهم السورة من القرآن", None, "face-0", kind="likesurah"),
+        I("صلى ركعتين من غير الفريضة", "صلى", "face-1", sub="1|2", kind="tworakah"),
+        I("وما ندم من استخار الخالق، وشاور المخلوقين المؤمنين، وتثبت في أمره", None, "face-2", kind="consulted"),
+        I("فاقدره لي، ويسره لي، ثم بارك لي فيه", "فاقدره", "deep-0", kind="gooddoor"),
+        I("فاصرفه عني واصرفني عنه، واقدر لي الخير حيث كان ثم أرضني به", "فاصرفه", "deep-1", kind="closedoor"),
+    ], layout="twodoors"),
+    "hisn-sabah": S("art", [
+        I("أمر الله بذكره بكرة وعشيا", None, "face-0", sub="بكرة|وعشيا", kind="bookends"),
+        I("من قالها حين يصبح أجير من الجن حتى يمسي", "قالها", "face-1", kind="dawnguard"),
+        I("والإخلاص والمعوذتان ثلاث مرات حين يصبح وحين يمسي تكفيه من كل شيء", None, "face-2", kind="threeshields"),
+        I("أمسينا وأمسى الملك لله", "أمسينا", "deep-0", sub="الملك لله", kind="mulk"),
+        I("وقعوده ﷺ مع قوم يذكرون الله من صلاة الغداة حتى تطلع الشمس", None, "deep-3", sub="4", kind="tillsunrise"),
+    ], layout="morningevening"),
+    "hisn-sayyid": S("art", [
+        I("سيد الاستغفار دعاء يجمع التوحيد، والعهد، والاعتراف بالنعمة وبالذنب", None, "face-0", sub="التوحيد|والعهد|والاعتراف بالنعمة|وبالذنب", kind="fourparts"),
+        I("من قاله من النهار موقنا به فمات قبل أن يمسي فهو من أهل الجنة", None, "face-1", kind="dayornight"),
+        I("ومعنى أبوء: أقر وأعترف", None, "face-2", sub="أبوء|أقر|وأعترف", kind="abu"),
+        I("ثم استعاذة من شر ما صنع، ثم اعتراف بنعمته وبذنبه، ثم سؤال المغفرة", None, "deep-1", kind="fivesteps"),
+        I("اللهم ما أصبح بي من نعمة أو بأحد من خلقك فمنك وحدك لا شريك لك", "اللهم", "deep-2", sub="فمنك وحدك", kind="dayshukr"),
+    ], layout="covenant"),
+    "hisn-hifz": S("art", [
+        I("بسم الله الذي لا يضر مع اسمه شيء، لم يضره شيء", "بسم", "face-0", kind="bounce"),
+        I("أعوذ بكلمات الله التامات من شر ما خلق، لم تضره حمة تلك الليلة", "أعوذ", "face-1", kind="scorpion"),
+        I("كان حقا على الله أن يرضيه يوم القيامة", None, "face-2", sub="رضيت بالله ربا|وبالإسلام دينا|وبمحمد ﷺ نبيا", kind="threecontent"),
+        I("ولا تكلني إلى نفسي طرفة عين", "ولا تكلني", "deep-1", kind="heldup"),
+        I("كفاه الله ما أهمه", "كفاه", "deep-2", kind="sevenrings"),
+    ], layout="noharm"),
 }
