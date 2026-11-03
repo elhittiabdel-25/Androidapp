@@ -1957,4 +1957,38 @@ SCENES = {
         I("فاجتمعت له أسباب الإجابة", None, "deep-0", sub="السفر|والشعث|ورفع اليدين|والإلحاح", kind="fourcauses"),
         I("ولا يقبل الله صلاة بغير طهور، ولا صدقة من غلول", None, "deep-3", sub="بغير طهور|من غلول", kind="noghulul"),
     ], layout="goodonly"),
+    # ── v1.2: the Forty of al-Nawawi, hadiths 11–15 (wave 59) ──
+    "nw-11": S("art", [
+        I("يرويه الحسن بن علي سبط رسول الله ﷺ", None, "face-0", sub="الحسن|والحسين", kind="rayhanatan"),
+        I("والحديث أصل في الورع", None, "face-1", sub="ما يشك في حله|ما لا يشك فيه", kind="murkyclear"),
+        I("وينبغي عند المؤلف استعمال الورع والخروج من الخلاف", None, "face-2", kind="widermargin"),
+        I("وفي تمامه عند الترمذي", None, "deep-0", sub="الصدق طمأنينة|والكذب ريبة", kind="steadyjitter"),
+    ], layout="doubtfree"),
+    "nw-12": S("art", [
+        I("يفيد الحديث أن الإسلام يحسن ويسوء", None, "face-0", kind="betterless"),
+        I("ومن حسنه ترك المرء ما لا يعنيه", None, "face-1", sub="ما لا يعنيه", kind="passby"),
+        I("والأمر بالمعروف والنهي عن المنكر مما يعني المسلم", None, "face-2", sub="والأمر بالمعروف والنهي عن المنكر", kind="enjoinstill"),
+        I("فما يعني العبد ما تعلقت به عنايته", None, "deep-0", sub="دينه|ودنياه النافعة|فضول", kind="twobaskets"),
+        I("فالكلام فيما لا يعني باب إلى آفات اللسان", "فالكلام", "deep-1", kind="chatterdoor"),
+    ], layout="notmyconcern"),
+    "nw-13": S("art", [
+        I("يرويه أنس بن مالك خادم رسول الله ﷺ", None, "face-0", sub="أنس بن مالك", kind="anasyears"),
+        I("وقوله: لا يؤمن أحدكم، نفي للإيمان الواجب", None, "face-1", kind="baseremains"),
+        I("فواجب أن تحب لأخيك كل خير", None, "face-2", kind="mirrorgood"),
+        I("وأخوة الدين أعظم من أخوة النسب", None, "deep-2", sub="أخوة الدين|أخوة النسب", kind="faiththread"),
+        I("وهو أصل عظيم في التواد والتعاضد", None, "deep-3", kind="warmnet"),
+    ], layout="likeforbrother"),
+    "nw-14": S("art", [
+        I("الأصل في المسلم العصمة", None, "face-0", sub="دمه|وماله|وعرضه", kind="threesacred"),
+        I("والمسلم على الحقيقة من قام بحقوق الشهادتين", None, "face-1", sub="نطقا|واعتقادا|وعملا", kind="tonguehearthand"),
+        I("وقال ﷺ في حجة الوداع", None, "deep-0", sub="كحرمة يومكم هذا", kind="farewellday"),
+        I("وليس كل من نطق بالشهادتين لا يتصور منه النقض", None, "deep-2", sub="لسانه|جنانه|أركانه", kind="partmissing"),
+    ], layout="inviolable"),
+    "nw-15": S("art", [
+        I("دل على أن من واجبات الإيمان قول الخير", None, "face-0", sub="قول الخير|فلا يتكلم", kind="speakorstill"),
+        I("والجار جاءت النصوص بتعظيم حقه", None, "face-1", sub="ثلاثة حقوق|حقان|حق واحد", kind="rightscount"),
+        I("وإكرام الضيف من الإيمان", None, "face-2", kind="guestwelcome"),
+        I("وما زال جبريل يوصي النبي ﷺ بالجار", "زال", "deep-1", kind="neighborcounsel"),
+        I("وجائزة الضيف يوم وليلة", None, "deep-2", sub="يوم وليلة|ثلاثة أيام|فهو صدقة", kind="threehostdays"),
+    ], layout="goodorsilent"),
 }

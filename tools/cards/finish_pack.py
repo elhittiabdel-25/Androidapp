@@ -324,6 +324,11 @@ ART_KINDS = {
     "threeshown": {"threelit", "sealedfast", "bloodwealth", "sevenconds", "iqal", "outerjudged"},
     "canbear": {"shutandclimb", "sitpray", "manyquestions", "partwater"},
     "goodonly": {"pureonly", "eatandwork", "blockeddua", "fourcauses", "noghulul"},
+    "doubtfree": {"rayhanatan", "murkyclear", "widermargin", "steadyjitter"},
+    "notmyconcern": {"betterless", "passby", "enjoinstill", "twobaskets", "chatterdoor"},
+    "likeforbrother": {"anasyears", "baseremains", "mirrorgood", "faiththread", "warmnet"},
+    "inviolable": {"threesacred", "tonguehearthand", "farewellday", "partmissing"},
+    "goodorsilent": {"speakorstill", "rightscount", "guestwelcome", "neighborcounsel", "threehostdays"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
