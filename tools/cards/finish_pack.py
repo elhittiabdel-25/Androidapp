@@ -446,6 +446,12 @@ ART_KINDS = {
     "betweensujud": {"iftirash", "rabbighfirli", "vertebrae", "followimam", "restsit"},
     "tashahhud": {"indexpoint", "tahiyyat", "salamsides", "fourrefuge", "tawarruk"},
     "pillarsofprayer": {"threetiers", "fourteenpillars", "somepillars", "sittingside", "calmness"},
+    "wajibatprayer": {"eightduties", "transitions", "extrareward", "threetoten", "followerpraise"},
+    "dislikedacts": {"gazedown", "fidgets", "distractions", "ornatewall", "presentheart"},
+    "forgetfulness": {"threeaims", "sahwcauses", "buildonless", "returnifnotup", "alertimam"},
+    "postprayerdhikr": {"istighfarthree", "thirtythree", "kursiyshield", "tentimes", "imamturns"},
+    "twelverakat": {"twelvearches", "aroundprayers", "travelkeeps", "houseinjannah"},
+    "witrnight": {"strongestnafl", "witrwindow", "oneto13", "ninejoined", "lastnightwitnessed"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

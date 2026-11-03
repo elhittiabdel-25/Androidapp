@@ -562,6 +562,12 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "betweensujud" -> betweensujudScene(a)
         "tashahhud" -> tashahhudScene(a)
         "pillarsofprayer" -> pillarsofprayerScene(a)
+        "wajibatprayer" -> wajibatprayerScene(a)
+        "dislikedacts" -> dislikedactsScene(a)
+        "forgetfulness" -> forgetfulnessScene(a)
+        "postprayerdhikr" -> postprayerdhikrScene(a)
+        "twelverakat" -> twelverakatScene(a)
+        "witrnight" -> witrnightScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -1115,6 +1121,11 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "rabbighfirli" -> 3500
     "aminloudlow" -> 5750
     "fatihakey", "midlength", "longshort", "thirdfourth", "flatback", "threetasbih", "riseupsami", "fillheavens", "handsafterrise", "kneesfirst", "sevenlimbs", "nearestbow", "armsapart", "greatestpillar", "iftirash", "vertebrae", "followimam", "restsit", "indexpoint", "tahiyyat", "salamsides", "fourrefuge", "threetiers", "fourteenpillars", "somepillars", "sittingside", "calmness" -> 6000
+    // v1.3 fiqh: prayer 3 (wave 82)
+    "buildonless", "houseinjannah" -> 4750
+    "lastnightwitnessed" -> 5000
+    "returnifnotup" -> 5750
+    "eightduties", "transitions", "extrareward", "threetoten", "followerpraise", "gazedown", "fidgets", "distractions", "ornatewall", "presentheart", "threeaims", "sahwcauses", "alertimam", "istighfarthree", "thirtythree", "kursiyshield", "tentimes", "imamturns", "twelvearches", "aroundprayers", "travelkeeps", "strongestnafl", "witrwindow", "oneto13", "ninejoined" -> 6000
     else -> 1000
 }
 
