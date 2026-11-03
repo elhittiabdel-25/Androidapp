@@ -197,6 +197,41 @@ fun CategoryGlyph(kind: String, color: Color, size: Dp = 26.dp) {
                 drawCircle(color, radius = w * 0.08f, center = Offset(c.x, c.y + r))
                 drawLine(color, Offset(c.x, c.y + r), Offset(c.x, h * 0.94f), sw, StrokeCap.Round)
             }
+            "drop" -> {   // a drop of water over a small ripple: purification and prayer
+                val d = Path().apply {
+                    moveTo(w * 0.5f, h * 0.08f)
+                    cubicTo(w * 0.62f, h * 0.28f, w * 0.78f, h * 0.42f, w * 0.78f, h * 0.56f)
+                    cubicTo(w * 0.78f, h * 0.74f, w * 0.64f, h * 0.84f, w * 0.5f, h * 0.84f)
+                    cubicTo(w * 0.36f, h * 0.84f, w * 0.22f, h * 0.74f, w * 0.22f, h * 0.56f)
+                    cubicTo(w * 0.22f, h * 0.42f, w * 0.38f, h * 0.28f, w * 0.5f, h * 0.08f)
+                    close()
+                }
+                drawPath(d, color, style = line)
+                drawLine(color, Offset(w * 0.12f, h * 0.94f), Offset(w * 0.88f, h * 0.94f), sw, StrokeCap.Round)
+            }
+            "crescent" -> {   // a new crescent: fasting and Ramadan
+                val c = Path().apply {
+                    moveTo(w * 0.62f, h * 0.1f)
+                    cubicTo(w * 0.2f, h * 0.12f, w * 0.12f, h * 0.7f, w * 0.5f, h * 0.88f)
+                    cubicTo(w * 0.66f, h * 0.95f, w * 0.82f, h * 0.9f, w * 0.9f, h * 0.8f)
+                    cubicTo(w * 0.48f, h * 0.8f, w * 0.32f, h * 0.36f, w * 0.62f, h * 0.1f)
+                    close()
+                }
+                drawPath(c, color)
+            }
+            "cube" -> {   // a cube seen from a corner: the House, for hajj, zakat and the sacrifice
+                val top = Path().apply {
+                    moveTo(w * 0.5f, h * 0.1f); lineTo(w * 0.88f, h * 0.28f); lineTo(w * 0.5f, h * 0.46f); lineTo(w * 0.12f, h * 0.28f); close()
+                }
+                drawPath(top, color, style = line)
+                drawLine(color, Offset(w * 0.12f, h * 0.28f), Offset(w * 0.12f, h * 0.74f), sw, StrokeCap.Round)
+                drawLine(color, Offset(w * 0.88f, h * 0.28f), Offset(w * 0.88f, h * 0.74f), sw, StrokeCap.Round)
+                drawLine(color, Offset(w * 0.5f, h * 0.46f), Offset(w * 0.5f, h * 0.92f), sw, StrokeCap.Round)
+                drawLine(color, Offset(w * 0.12f, h * 0.74f), Offset(w * 0.5f, h * 0.92f), sw, StrokeCap.Round)
+                drawLine(color, Offset(w * 0.88f, h * 0.74f), Offset(w * 0.5f, h * 0.92f), sw, StrokeCap.Round)
+                drawLine(color, Offset(w * 0.12f, h * 0.44f), Offset(w * 0.5f, h * 0.62f), sw, StrokeCap.Round)
+                drawLine(color, Offset(w * 0.88f, h * 0.44f), Offset(w * 0.5f, h * 0.62f), sw, StrokeCap.Round)
+            }
             else -> {   // "path": a road that winds up to a point
                 val road = Path().apply {
                     moveTo(w * 0.18f, h * 0.92f)
