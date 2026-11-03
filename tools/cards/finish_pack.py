@@ -275,6 +275,16 @@ ART_KINDS = {
     "truthroad": {"toberr", "tofujur", "fourcalls", "market", "bedrank"},
     "mercyrain": {"kiss", "mirrorrain", "babycry", "stoneheart"},
     "guestnight": {"basinfill", "twolights", "nevernot", "lampout", "onecloth", "shoulder"},
+    "brightface": {"smallgood", "halfdate", "drawnear", "listen", "goodnews"},
+    "tonguegate": {"safering", "twolocks", "fallword", "riseword", "organs"},
+    "backbite": {"absent", "twoverdicts", "coal", "inkdrop", "shieldback"},
+    "rumorchain": {"sieve", "falsedream", "passedon", "fourmarks", "twograins"},
+    "cursereturn": {"fournot", "boomerang", "shutgates", "freecamel", "noaid"},
+    "turnback": {"backs", "greetfirst", "records", "sowing"},
+    "salamstreet": {"lovechain", "plateall", "whofirst", "tens", "quietnight"},
+    "threeknocks": {"threetimes", "aside", "askin", "sayname", "grownchild"},
+    "sharedtray": {"yourside", "latename", "noblame", "threebreaths", "rightward", "nosupper"},
+    "majlisring": {"makeroom", "atedge", "clearing", "threesit", "remembered"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

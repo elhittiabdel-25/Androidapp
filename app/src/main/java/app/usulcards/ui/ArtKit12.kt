@@ -322,3 +322,28 @@ internal fun DrawScope.rain12(x0: Float, x1: Float, top: Float, bottom: Float, t
         drawLine(color, Offset(x, y), Offset(x - 1.5f * density, y + 9f * density), 1.2f * density, StrokeCap.Round, alpha = alpha * 0.8f)
     }
 }
+
+/** Shaytan as the codex draws him: a dark smoke that winds from [from] toward [to]; [p] 0..1 how far it has crept. */
+internal fun DrawScope.smoke12(from: Offset, to: Offset, p: Float, t: Float, alpha: Float, color: Color = Color(0xFF2A2430)) {
+    if (alpha <= 0.01f || p <= 0.01f) return
+    val d = to - from
+    val n = Offset(-d.y, d.x) / max(1f, d.getDistance())
+    val steps = 18
+    for (k in 0 until steps) {
+        val u = k / (steps - 1f) * p
+        val wob = sin(u * 9f - t * 2.2f) * d.getDistance() * 0.06f
+        val c = from + d * u + n * wob
+        val r = d.getDistance() * (0.035f + 0.03f * (1f - u))
+        drawCircle(color, r, c, alpha = alpha * (0.35f + 0.4f * (1f - u)))
+    }
+}
+
+/** A speech curl from [c]: a few rings that leave a mouth (no face is drawn, only the sound). */
+internal fun DrawScope.voice12(c: Offset, r: Float, t: Float, color: Color, alpha: Float, dir: Float = 1f) {
+    if (alpha <= 0.01f) return
+    for (k in 0 until 3) {
+        val u = fract(t * 0.9f + k / 3f)
+        val rr = r * (0.4f + u)
+        drawArc(color, if (dir > 0f) -40f else 140f, 80f, false, Offset(c.x - rr, c.y - rr), Size(rr * 2f, rr * 2f), alpha = alpha * (1f - u), style = Stroke(1.6f * density, cap = StrokeCap.Round))
+    }
+}
