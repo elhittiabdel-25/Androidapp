@@ -1884,4 +1884,39 @@ SCENES = {
         I("وكان أكثر دعائه ﷺ سؤال حسنة الدنيا، وحسنة الآخرة", None, "deep-0", sub="حسنة الدنيا|وحسنة الآخرة", kind="twogoods"),
         I("وأقرب ما يكون العبد من ربه وهو ساجد", None, "deep-2", kind="nearestsujud"),
     ], layout="raisedhands"),
+    # ── v1.2: the Forty of al-Nawawi, hadiths 1–5 (wave 57) ──
+    "nw-01": S("art", [
+        I("بهذا الحديث افتتح النووي أربعينه كما افتتح البخاري صحيحه", None, "face-0", sub="النووي|البخاري", kind="openwith"),
+        I("والعمل مفتقر في صحته إلى أمرين", "والعمل", "face-1", sub="الإخلاص لله|وموافقة سنة رسوله", kind="twopillarsof"),
+        I("فهذا الحديث ميزان العمل في باطنه", None, "face-2", sub="في باطنه|في ظاهره", kind="innerouter"),
+        I("وللنية اعتباران: تمييز العادة من العبادة", None, "deep-1", sub="العادة|العبادة", kind="samewash"),
+        I("وذكر الهجرة على وجه التمثيل", None, "deep-2", sub="لوجه الله|لغرض دنيوي", kind="hijraroads"),
+    ], layout="intentlamp"),
+    "nw-02": S("art", [
+        I("جاء جبريل في صورة رجل شديد بياض الثياب", None, "face-0", sub="الإسلام|والإيمان|والإحسان|والساعة", kind="fourquestions"),
+        I("والمراتب بعضها أخص من بعض", None, "face-2", sub="محسن|مؤمن|مسلم", kind="nestedranks"),
+        I("والإسلام والإيمان إذا اقترنا", None, "deep-1", sub="الفقير|والمسكين", kind="pairsplit"),
+        I("والإحسان: أن تعبد الله على استحضار المشاهدة", None, "deep-2", sub="كأنك تراه|أنه يراك", kind="tworungs"),
+        I("فهي من الخمس التي استأثر الله بعلمها", "فهي", "deep-3", kind="fivelocked"),
+        I("ومن أماراتها تطاول الحفاة العراة رعاء الشاء في البنيان", None, "deep-4", kind="toweringup"),
+    ], layout="questioner"),
+    "nw-03": S("art", [
+        I("التعبير بالبناء يفيد أن الخمس دعائم الإسلام وأركانه", None, "face-0", kind="fivebuild"),
+        I("وأعظمها الشهادتان", None, "face-1", sub="الشهادتان", kind="basefirst"),
+        I("والشهادة إخبار عن اعتقاد وجزم مع العمل بمقتضاه", None, "face-2", kind="saidanddone"),
+        I("والعبودية عبوديتان", None, "deep-1", sub="عامة|وخاصة", kind="twoservitudes"),
+        I("وفرضت الصلاة بمكة", None, "deep-3", sub="الصلاة|والزكاة|والصوم|والحج", kind="orderofduty"),
+    ], layout="fivepillars"),
+    "nw-04": S("art", [
+        I("يجمع خلق الإنسان في بطن أمه في ثلاثة أطوار", None, "face-0", sub="نطفة|علقة|مضغة", kind="threestages"),
+        I("ثم يرسل إليه ملك الأرحام فينفخ فيه الروح", None, "face-1", sub="رزقه|وأجله|وعمله|وشقي أو سعيد", kind="fourwrit"),
+        I("وفيه أن العبرة في الأعمال بخواتيمها", None, "face-2", kind="endings"),
+        I("وهذا هو التقدير العمري", None, "deep-0", sub="العمري|الحولي|واليومي", kind="nesteddecree"),
+    ], layout="fourwrit"),
+    "nw-05": S("art", [
+        I("من أحدث في أمرنا هذا ما ليس منه فهو رد", None, "face-0", sub="فهو رد", kind="bounceback"),
+        I("وهذان الميزانان مضمون الشهادتين", None, "face-2", sub="الإخلاص|والمتابعة", kind="twogatesmeet"),
+        I("ويشمل العبادات والعقود", None, "deep-1", sub="العبادات|والعقود", kind="bothreturned"),
+        I("وعائشة راويته أعلم نساء الصحابة", None, "deep-2", sub="عائشة|خديجة", kind="twomothers"),
+    ], layout="radd"),
 }

@@ -314,6 +314,11 @@ ART_KINDS = {
     "tenfold": {"tenback", "misertag", "fromeverywhere", "nearestmost", "abrahamic"},
     "seventyhundred": {"seventyplus", "turnall", "washpray", "tallyhundred", "lastthird"},
     "raisedhands": {"duaworship", "nohaste", "forbrother", "twogoods", "nearestsujud"},
+    "intentlamp": {"openwith", "twopillarsof", "innerouter", "samewash", "hijraroads"},
+    "questioner": {"fourquestions", "nestedranks", "pairsplit", "tworungs", "fivelocked", "toweringup"},
+    "fivepillars": {"fivebuild", "basefirst", "saidanddone", "twoservitudes", "orderofduty"},
+    "fourwrit": {"threestages", "fourwrit", "endings", "nesteddecree"},
+    "radd": {"bounceback", "twogatesmeet", "bothreturned", "twomothers"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
