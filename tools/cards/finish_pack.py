@@ -368,6 +368,7 @@ ART_KINDS = {
     "onlyaservant": {"servantmessenger", "anystreet", "homechores", "smallgift", "plainsaddle", "walkingvisit"},
     "noblemanners": {"neveruff", "shyerthan", "pardonsback", "chooseseasier", "windgiving", "giftreturned"},
     "lastday": {"curtainlift", "noagony", "mondayrest", "zumarverse", "citylitdark"},
+    "echoadhan": {"answercall", "radeetu", "twohayya", "highstation", "betweencalls"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

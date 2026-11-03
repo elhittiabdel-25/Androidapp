@@ -2284,4 +2284,12 @@ SCENES = {
         I("وتلا أبو بكر على الناس آية الزمر", None, "deep-2", sub="أبو بكر|آية الزمر", kind="zumarverse"),
         I("وقال أنس: لما كان اليوم الذي دخل فيه المدينة", None, "deep-4", sub="أضاء منها كل شيء|أظلم منها كل شيء", kind="citylitdark"),
     ], layout="lastday"),
+    # ── v1.2: Hisn al-Muslim, answering the adhan (wave 68) ──
+    "hisn-adhan": S("art", [
+        I("يقول السامع مثل ما يقول المؤذن", None, "face-0", sub="لا حول ولا قوة إلا بالله", kind="answercall"),
+        I("ومن قال بعد الشهادتين", None, "face-1", sub="رضيت بالله ربا|وبمحمد رسولا|وبالإسلام دينا", kind="radeetu"),
+        I("والحيعلتان", None, "deep-0", sub="حي على الصلاة|حي على الفلاح", kind="twohayya"),
+        I("والوسيلة منزلة في الجنة", None, "deep-1", sub="الوسيلة", kind="highstation"),
+        I("والدعاء بين الأذان والإقامة لا يرد", "والدعاء", "deep-2", sub="والدعاء بين الأذان والإقامة لا يرد", kind="betweencalls"),
+    ], layout="echoadhan"),
 }
