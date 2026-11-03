@@ -1751,4 +1751,40 @@ SCENES = {
         I("ولا تكلني إلى نفسي طرفة عين", "ولا تكلني", "deep-1", kind="heldup"),
         I("كفاه الله ما أهمه", "كفاه", "deep-2", kind="sevenrings"),
     ], layout="noharm"),
+    # ── v1.2: Hisn al-Muslim, «أذكار اليوم والليلة» and «أذكار الأحوال» (wave 53) ──
+    "hisn-nawm": S("art", [
+        I("كان ﷺ إذا أوى إلى فراشه جمع كفيه فنفث فيهما", None, "face-0", kind="threesurahs"),
+        I("لم يزل عليه من الله حافظ، ولا يقربه شيطان حتى يصبح", "يزل", "face-1", kind="watcher"),
+        I("ومن قرأ الآيتين من آخر سورة البقرة في ليلة كفتاه", None, "face-2", kind="twoverses"),
+        I("ويضطجع على شقه الأيمن", "ويضطجع", "deep-1", kind="rightside"),
+        I("وعلم عليا وفاطمة عند النوم التسبيح 33، والتحميد 33، والتكبير 34", None, "deep-3", sub="33|33|34", kind="tasbihcols"),
+    ], layout="bedtime"),
+    "hisn-layl": S("art", [
+        I("إذا كان جنح الليل فكفوا صبيانكم، فإن الشياطين تنتشر حينئذ", None, "face-0", kind="callin"),
+        I("وأغلقوا الأبواب واذكروا اسم الله، فإن الشيطان لا يفتح بابا مغلقا", "وأغلقوا", "face-1", kind="shutdoors"),
+        I("وأوكوا قربكم وخمروا آنيتكم", None, "face-2", kind="coverjars"),
+        I("وبهذا الحديث ختم القحطاني كتابه", None, "deep-0", kind="lastpage"),
+        I("واحترق بيت بالمدينة على أهله من الليل", None, "deep-1", kind="lampfire"),
+    ], layout="nightdoors"),
+    "hisn-hamm": S("art", [
+        I("إلا أذهب الله همه وحزنه، وأبدله مكانه فرجا", None, "face-0", kind="cloudlift"),
+        I("وفيه يعترف العبد بعبوديته", None, "face-1", sub="بعبوديته|ناصيته بيد الله|وقضاءه عدل", kind="bowedtags"),
+        I("ثم يتوسل بأسماء الله", None, "face-2", sub="ربيع قلبه|ونور صدره|وجلاء حزنه|وذهاب همه", kind="springheart"),
+        I("اللهم إني أعوذ بك من الهم والحزن، والعجز والكسل، والبخل والجبن، وضلع الدين وغلبة الرجال", "اللهم", "deep-0", kind="eightpairs"),
+        I("ولذلك لا تحصر أسماؤه في عدد", "ولذلك", "deep-2", kind="endless"),
+    ], layout="springheart"),
+    "hisn-karb": S("art", [
+        I("كان ﷺ يقول عند الكرب", None, "face-0", sub="العظيم الحليم|رب العرش العظيم", kind="praisestars"),
+        I("فلا تكلني إلى نفسي طرفة عين", "فلا", "face-1", kind="boatheld"),
+        I("ودعوة ذي النون في بطن الحوت", None, "face-2", sub="ذي النون", kind="dhunnun"),
+        I("الله الله ربي، لا أشرك به شيئا", "الله الله", "deep-0", sub="الله الله ربي", kind="onename"),
+        I("فنجاه الله من الغم", "فنجاه", "deep-2", kind="shore"),
+    ], layout="deepsea"),
+    "hisn-aduw": S("art", [
+        I("كان ﷺ إذا خاف قوما قال", None, "face-0", kind="turnsback"),
+        I("وحسبنا الله ونعم الوكيل قالها إبراهيم حين ألقي في النار", None, "face-1", sub="إبراهيم", kind="coolfire"),
+        I("اللهم اكفنيهم بما شئت", "اللهم", "face-2", kind="suffice"),
+        I("ومن دعائه ﷺ على الأحزاب", None, "deep-1", kind="trenchwind"),
+        I("ومن خاف ظلم ذي سلطان استجار بالله", None, "deep-2", kind="neighbour"),
+    ], layout="campguard"),
 }

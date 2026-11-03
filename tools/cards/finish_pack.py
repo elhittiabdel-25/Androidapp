@@ -295,6 +295,11 @@ ART_KINDS = {
     "morningevening": {"bookends", "dawnguard", "threeshields", "mulk", "tillsunrise"},
     "covenant": {"fourparts", "dayornight", "abu", "fivesteps", "dayshukr"},
     "noharm": {"bounce", "scorpion", "threecontent", "heldup", "sevenrings"},
+    "bedtime": {"threesurahs", "watcher", "twoverses", "rightside", "tasbihcols"},
+    "nightdoors": {"callin", "shutdoors", "coverjars", "lastpage", "lampfire"},
+    "springheart": {"cloudlift", "bowedtags", "springheart", "eightpairs", "endless"},
+    "deepsea": {"praisestars", "boatheld", "dhunnun", "onename", "shore"},
+    "campguard": {"turnsback", "coolfire", "suffice", "trenchwind", "neighbour"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
