@@ -319,6 +319,11 @@ ART_KINDS = {
     "fivepillars": {"fivebuild", "basefirst", "saidanddone", "twoservitudes", "orderofduty"},
     "fourwrit": {"threestages", "fourwrit", "endings", "nesteddecree"},
     "radd": {"bounceback", "twogatesmeet", "bothreturned", "twomothers"},
+    "himaedge": {"threezones", "stepclear", "nearhima", "threeshepherds", "slopedown", "limbsfollow"},
+    "fivecounsel": {"thriceword", "cleanfull", "fiveto", "bookfirst", "measuringline", "pointgood"},
+    "threeshown": {"threelit", "sealedfast", "bloodwealth", "sevenconds", "iqal", "outerjudged"},
+    "canbear": {"shutandclimb", "sitpray", "manyquestions", "partwater"},
+    "goodonly": {"pureonly", "eatandwork", "blockeddua", "fourcauses", "noghulul"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

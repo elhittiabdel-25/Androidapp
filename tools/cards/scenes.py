@@ -1919,4 +1919,42 @@ SCENES = {
         I("ويشمل العبادات والعقود", None, "deep-1", sub="العبادات|والعقود", kind="bothreturned"),
         I("وعائشة راويته أعلم نساء الصحابة", None, "deep-2", sub="عائشة|خديجة", kind="twomothers"),
     ], layout="radd"),
+    # ── v1.2: the Forty of al-Nawawi, hadiths 6–10 (wave 58) ──
+    "nw-06": S("art", [
+        I("الأشياء ثلاثة", None, "face-0", sub="حلال بين|وحرام بين|ومشتبه", kind="threezones"),
+        I("من اتقى الشبهات فقد استبرأ لدينه وعرضه", "اتقى", "face-1", sub="استبرأ لدينه وعرضه", kind="stepclear"),
+        I("ومثل لذلك بالراعي يرعى حول الحمى", None, "face-2", kind="nearhima"),
+        I("والرعاة ثلاثة", None, "deep-0", kind="threeshepherds"),
+        I("والنفس أمارة بالسوء", None, "deep-1", kind="slopedown"),
+        I("وصلاح القلب بالوحي والانقياد له", None, "deep-3", kind="limbsfollow"),
+    ], layout="himaedge"),
+    "nw-07": S("art", [
+        I("قال ﷺ ثلاثا: الدين النصيحة", None, "face-0", sub="الدين النصيحة", kind="thriceword"),
+        I("والنصيحة تعتمد على شيئين", None, "face-1", sub="السلامة من الغش|وبذل المجهود", kind="cleanfull"),
+        I("وهي لله، ولكتابه، ولرسوله، ولأئمة المسلمين، وعامتهم", None, "face-2", sub="لله|ولكتابه|ولرسوله|ولأئمة المسلمين|وعامتهم", kind="fiveto"),
+        I("ولكتابه: الإيمان بمحكمه ومتشابهه", None, "deep-1", kind="bookfirst"),
+        I("ولرسوله: الإيمان به وطاعته وتوقيره ومحبته", None, "deep-2", kind="measuringline"),
+        I("ولعامتهم: دلالتهم على طرق الخير", None, "deep-4", kind="pointgood"),
+    ], layout="fivecounsel"),
+    "nw-08": S("art", [
+        I("خص الحديث ثلاثة من أركان الإسلام", None, "face-0", sub="الشهادتين|والصلاة|والزكاة", kind="threelit"),
+        I("أما الصيام فسر وأمانة", "الصيام", "face-1", sub="فسر وأمانة", kind="sealedfast"),
+        I("ومن أظهرها عصم دمه وماله", None, "face-2", sub="عصم دمه وماله", kind="bloodwealth"),
+        I("والشهادة عند المؤلف إخبار عن علم", None, "deep-0", sub="علم|وصدق|ويقين|وانقياد|وإخلاص|ومحبة|وعمل", kind="sevenconds"),
+        I("استدل أبو بكر على قتال مانعي الزكاة", "استدل", "deep-2", sub="أبو بكر|عقالا", kind="iqal"),
+        I("وحسابهم على الله، أي: يكف عنهم في الظاهر", None, "deep-3", kind="outerjudged"),
+    ], layout="threeshown"),
+    "nw-09": S("art", [
+        I("المنهيات تجتنب كلها", None, "face-0", sub="تجتنب كلها|بما يستطاع", kind="shutandclimb"),
+        I("ومنه أخذت القاعدة الشرعية", None, "face-1", sub="لا واجب مع عجز", kind="sitpray"),
+        I("وإنما أهلك من قبلنا كثرة مسائلهم", None, "face-2", kind="manyquestions"),
+        I("ومن قدر على بعض العبادة أتى به", None, "deep-1", kind="partwater"),
+    ], layout="canbear"),
+    "nw-10": S("art", [
+        I("الله طيب: منزه عن جميع النقائص", None, "face-0", sub="فلا يتقرب إليه بخبيث", kind="pureonly"),
+        I("وأمر المؤمنين بما أمر به المرسلين", None, "face-1", sub="من الطيبات", kind="eatandwork"),
+        I("ثم ذكر الرجل يطيل السفر، أشعث أغبر", None, "face-2", sub="فأنى يستجاب لذلك", kind="blockeddua"),
+        I("فاجتمعت له أسباب الإجابة", None, "deep-0", sub="السفر|والشعث|ورفع اليدين|والإلحاح", kind="fourcauses"),
+        I("ولا يقبل الله صلاة بغير طهور، ولا صدقة من غلول", None, "deep-3", sub="بغير طهور|من غلول", kind="noghulul"),
+    ], layout="goodonly"),
 }
