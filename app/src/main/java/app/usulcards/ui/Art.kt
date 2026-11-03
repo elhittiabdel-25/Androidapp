@@ -503,6 +503,12 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "whocovers" -> whocoversScene(a)
         "threethirds" -> threethirdsScene(a)
         "dhulhijjanails" -> dhulhijjanailsScene(a)
+        "ramadangates" -> ramadangatesScene(a)
+        "fastsecret" -> fastsecretScene(a)
+        "hilalwatch" -> hilalwatchScene(a)
+        "whomustfast" -> whomustfastScene(a)
+        "travelersick" -> travelersickScene(a)
+        "excusedays" -> excusedaysScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -990,6 +996,15 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "notmorethan7" -> 5500
     "fourteen" -> 5750
     "adhadef", "twokabsh", "sunnahor", "betterthanprice", "familyall", "anam", "fourdefects", "timewindow", "owned", "rankkinds", "bestshape", "amlah", "disliked", "onesheep", "seventh", "notshared", "eatgivegive", "thirds", "nosale", "designated", "noclip", "onlyhim", "tawbanokaffara", "likepilgrim", "dhakatconds" -> 6000
+    // v1.3 fiqh: fasting 1 (wave 72)
+    "sighting" -> 1750
+    "chainedsmoke" -> 2000
+    "narshut" -> 2500
+    "thirtydays" -> 2750
+    "year2" -> 3750
+    "jannahopen" -> 5250
+    "forgivenpast" -> 5750
+    "threespans", "beyondcount", "secretheart", "muskscent", "fastshield", "twojoys", "rayyangate", "onewitness", "monthlength", "fiveconds", "childtrain", "feedperday", "newmuslim", "liftedpen", "travelchoice", "easierway", "sickgauge", "nofaultfound", "medicaldoctor", "makeupdays", "nursingfear", "beforenext", "rescuer" -> 6000
     else -> 1000
 }
 

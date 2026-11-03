@@ -387,6 +387,12 @@ ART_KINDS = {
     "whocovers": {"onesheep", "seventh", "notshared", "notmorethan7"},
     "threethirds": {"eatgivegive", "thirds", "nosale", "designated"},
     "dhulhijjanails": {"noclip", "onlyhim", "tawbanokaffara", "likepilgrim", "dhakatconds"},
+    "ramadangates": {"jannahopen", "narshut", "chainedsmoke", "forgivenpast", "threespans"},
+    "fastsecret": {"beyondcount", "secretheart", "muskscent", "fastshield", "twojoys", "rayyangate"},
+    "hilalwatch": {"year2", "sighting", "thirtydays", "onewitness", "monthlength"},
+    "whomustfast": {"fiveconds", "childtrain", "feedperday", "newmuslim", "liftedpen"},
+    "travelersick": {"travelchoice", "easierway", "sickgauge", "nofaultfound", "medicaldoctor"},
+    "excusedays": {"makeupdays", "nursingfear", "beforenext", "rescuer"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

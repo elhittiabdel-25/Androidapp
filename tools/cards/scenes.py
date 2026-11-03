@@ -2417,4 +2417,47 @@ SCENES = {
         I("والحكمة أن المضحي لما شارك الحاج", None, "deep-0", sub="شارك الحاج", kind="likepilgrim"),
         I("ويشترط للذكاة", None, "deep-2", sub="عاقلا مميزا|مسلما أو كتابيا|وأن يذكر اسم الله عليها", kind="dhakatconds"),
     ], layout="dhulhijjanails"),
+    # ── v1.3: fiqh, «الصيام» 1 (wave 72) ──
+    "ram-fadl": S("art", [
+        I("تفتح فيه أبواب الجنة", None, "face-0", sub="أبواب الجنة", kind="jannahopen"),
+        I("وتغلق أبواب النار", "وتغلق", sub="أبواب النار", kind="narshut"),
+        I("وتصفد الشياطين", "وتصفد", sub="وتصفد الشياطين", kind="chainedsmoke"),
+        I("ومن صامه إيمانا واحتسابا غفر له ما تقدم من ذنبه", None, "face-2", sub="إيمانا واحتسابا|غفر له ما تقدم من ذنبه", kind="forgivenpast"),
+        I("فالصلوات الخمس، والجمعة إلى الجمعة، ورمضان إلى رمضان", None, "deep-1", sub="الصلوات الخمس|والجمعة إلى الجمعة|ورمضان إلى رمضان", kind="threespans"),
+    ], layout="ramadangates"),
+    "ram-qudsi": S("art", [
+        I("بل يعطى الصائم أجره بغير حساب", None, "face-0", sub="بغير حساب", kind="beyondcount"),
+        I("لأنه سر بين العبد وربه", None, "face-1", sub="سر بين العبد وربه", kind="secretheart"),
+        I("وخلوف فم الصائم أطيب عند الله من ريح المسك", None, "face-2", sub="أطيب عند الله من ريح المسك", kind="muskscent"),
+        I("والصوم جنة، أي: وقاية وستر", None, "deep-1", sub="جنة", kind="fastshield"),
+        I("وللصائم فرحتان", None, "deep-3", sub="فرحة عند فطره|وفرحة عند لقاء ربه", kind="twojoys"),
+        I("وفي الجنة باب يقال له الريان", None, "deep-4", sub="الريان", kind="rayyangate"),
+    ], layout="fastsecret"),
+    "ram-hilal": S("art", [
+        I("وقد فرض في السنة الثانية من الهجرة", "وقد", "face-0", sub="في السنة الثانية من الهجرة", kind="year2"),
+        I("رؤية هلاله", "رؤية", "face-1", sub="رؤية هلاله", kind="sighting"),
+        I("أو إكمال شعبان ثلاثين يوما", "إكمال", sub="إكمال شعبان ثلاثين يوما", kind="thirtydays"),
+        I("بل إذا رآه من يثبت بشهادته دخول الشهر وجب الصوم على الجميع", "إذا", "face-2", sub="وجب الصوم على الجميع", kind="onewitness"),
+        I("والشهر القمري لا يزيد على ثلاثين يوما، ولا ينقص عن تسعة وعشرين", None, "deep-4", sub="ثلاثين يوما|تسعة وعشرين", kind="monthlength"),
+    ], layout="hilalwatch"),
+    "ram-wujub": S("art", [
+        I("على المسلم البالغ العاقل المقيم القادر السالم من الموانع", "على", "face-0", sub="المسلم|البالغ|العاقل|المقيم|القادر", kind="fiveconds"),
+        I("ولا يجب على الصغير حتى يبلغ", None, "face-1", sub="تمرينا له على الطاعة", kind="childtrain"),
+        I("يطعم عن كل يوم مسكينا", None, "face-2", sub="يطعم عن كل يوم مسكينا", kind="feedperday"),
+        I("فإن أسلم في أثناء الشهر لم يلزمه قضاء ما مضى", None, "deep-2", sub="لم يلزمه قضاء ما مضى", kind="newmuslim"),
+        I("لا يجب عليهما صوم ولا إطعام", None, "deep-3", sub="لسقوط التكليف عنهما", kind="liftedpen"),
+    ], layout="whomustfast"),
+    "ram-safar": S("art", [
+        I("مخير بين الصيام والفطر", None, "face-0", sub="الصيام|والفطر", kind="travelchoice"),
+        I("والأفضل له فعل الأسهل عليه", None, "face-1", sub="الأسهل عليه", kind="easierway"),
+        I("والمريض الذي يرجى برؤه", None, "face-2", sub="وإن شق عليه أفطر|وإن ضره وجب عليه الفطر", kind="sickgauge"),
+        I("فلم يعب الصائم على المفطر، ولا المفطر على الصائم", None, "deep-1", sub="فلم يعب الصائم على المفطر", kind="nofaultfound"),
+        I("وإذا ثبت بالطب أن الصوم يجلب المرض", None, "deep-4", sub="ثم يقضي إذا زال الخطر", kind="medicaldoctor"),
+    ], layout="travelersick"),
+    "ram-hayd": S("art", [
+        I("الحائض والنفساء يحرم عليهما الصيام", None, "face-0", sub="ويجب عليهما قضاء ما فاتهما", kind="makeupdays"),
+        I("والحامل والمرضع إذا خافت على نفسها أو على الولد أفطرت", None, "face-1", sub="وقضت حين يزول عنها الخوف", kind="nursingfear"),
+        I("والأولى المبادرة بالقضاء", None, "face-2", sub="ولا يجوز تأخيره إلى رمضان الثاني بدون عذر", kind="beforenext"),
+        I("ومن احتاج إلى الفطر لإنقاذ معصوم من غرق أو حريق", None, "deep-1", sub="لإنقاذ معصوم من غرق أو حريق", kind="rescuer"),
+    ], layout="excusedays"),
 }
