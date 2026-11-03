@@ -531,6 +531,12 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "miswak" -> miswakScene(a)
         "wudusix" -> wudusixScene(a)
         "wudusunnahs" -> wudusunnahsScene(a)
+        "wudubreakers" -> wudubreakersScene(a)
+        "khuffwipe" -> khuffwipeScene(a)
+        "castwipe" -> castwipeScene(a)
+        "fullwash" -> fullwashScene(a)
+        "dryablution" -> dryablutionScene(a)
+        "impurities" -> impuritiesScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -1062,6 +1068,11 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "minormajor" -> 5250
     "goldpatch", "dryspot" -> 5500
     "twopurities", "fourwaters", "threechanges", "allvessels", "goldsilver", "otherspots", "silverpatch", "leftfootin", "noqibla", "waterorstones", "fourmoments", "aracktwig", "fitrafive", "siwakbenefits", "wuduneeded", "sixfard", "wuduconds", "rewardnoblame", "startsunnahs", "rightthrice", "allthreeways" -> 6000
+    // v1.3 fiqh: purification 2 (wave 77)
+    "clockstarts" -> 4500
+    "groundwash", "sevenwash" -> 5000
+    "trimexcess", "needmeasure" -> 5500
+    "wuduglowbreaks", "deepsleep", "doubtstay", "camelmeat", "khuffallowed", "wipeperiod", "wipetop", "wipeends", "castonarm", "nolimit", "wholebody", "newmuslimwash", "twoghusl", "perfectsteps", "noewater", "strikeearth", "waterfound", "liftshadath", "waterremoves", "sprinkle", "rubwring" -> 6000
     else -> 1000
 }
 

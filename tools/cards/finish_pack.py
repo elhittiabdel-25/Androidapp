@@ -415,6 +415,12 @@ ART_KINDS = {
     "miswak": {"anytime", "fourmoments", "aracktwig", "fitrafive", "siwakbenefits"},
     "wudusix": {"wuduneeded", "sixfard", "orderflow", "wuduconds", "dryspot"},
     "wudusunnahs": {"rewardnoblame", "startsunnahs", "rightthrice", "onceorthrice", "allthreeways"},
+    "wudubreakers": {"wuduglowbreaks", "deepsleep", "doubtstay", "camelmeat"},
+    "khuffwipe": {"khuffallowed", "wipeperiod", "wipetop", "clockstarts", "wipeends"},
+    "castwipe": {"castonarm", "nolimit", "trimexcess", "needmeasure"},
+    "fullwash": {"wholebody", "newmuslimwash", "twoghusl", "perfectsteps"},
+    "dryablution": {"noewater", "strikeearth", "waterfound", "liftshadath"},
+    "impurities": {"waterremoves", "groundwash", "sevenwash", "sprinkle", "rubwring"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
