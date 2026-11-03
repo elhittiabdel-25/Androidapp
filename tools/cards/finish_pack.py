@@ -310,6 +310,10 @@ ART_KINDS = {
     "sneezebook": {"threeanswers", "nopraise", "coolword", "twopraises", "blessit"},
     "weddinglights": {"tworings", "hasanayn", "fatherofprophets", "venomback", "thanksgift"},
     "alivetree": {"twotrees", "outweighs", "moist", "tenletters"},
+    "lightheavy": {"featherwords", "seafoam", "fourwords", "kanz", "thousandgood"},
+    "tenfold": {"tenback", "misertag", "fromeverywhere", "nearestmost", "abrahamic"},
+    "seventyhundred": {"seventyplus", "turnall", "washpray", "tallyhundred", "lastthird"},
+    "raisedhands": {"duaworship", "nohaste", "forbrother", "twogoods", "nearestsujud"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

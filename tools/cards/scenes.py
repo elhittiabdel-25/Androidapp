@@ -1855,4 +1855,33 @@ SCENES = {
         I("لا يزال لسانك رطبا من ذكر الله", "يزال", "deep-1", kind="moist"),
         I("ولكن: ألف حرف، ولام حرف، وميم حرف", "ولكن", "deep-2", sub="ألف|ولام|وميم", kind="tenletters"),
     ], layout="alivetree"),
+    # ── v1.2: Hisn al-Muslim, «الذكر والدعاء» (wave 56) ──
+    "hisn-tasbih": S("art", [
+        I("كلمتان خفيفتان على اللسان، ثقيلتان في الميزان", None, "face-0", sub="سبحان الله وبحمده|سبحان الله العظيم", kind="featherwords"),
+        I("حطت خطاياه وإن كانت مثل زبد البحر", None, "face-1", sub="100 مرة", kind="seafoam"),
+        I("وأحب الكلام إلى الله أربع", None, "face-2", sub="سبحان الله|والحمد لله|ولا إله إلا الله|والله أكبر", kind="fourwords"),
+        I("ولا حول ولا قوة إلا بالله كنز من كنوز الجنة", None, "deep-0", sub="لا حول ولا قوة إلا بالله", kind="kanz"),
+        I("أيعجز أحدكم أن يكسب كل يوم 1000 حسنة", "أيعجز", "deep-2", sub="1000 حسنة", kind="thousandgood"),
+    ], layout="lightheavy"),
+    "hisn-salat-nabi": S("art", [
+        I("من صلى على النبي ﷺ صلاة صلى الله عليه بها عشرا", None, "face-0", kind="tenback"),
+        I("والبخيل من ذكر النبي ﷺ عنده فلم يصل عليه", None, "face-1", sub="البخيل", kind="misertag"),
+        I("فإن صلاتكم تبلغني حيث كنتم", "فإن", "face-2", kind="fromeverywhere"),
+        I("وأولى الناس به ﷺ يوم القيامة أكثرهم عليه صلاة", None, "deep-0", kind="nearestmost"),
+        I("علمهم الصلاة الإبراهيمية التي تقال في التشهد", "علمهم", "deep-2", sub="الصلاة الإبراهيمية", kind="abrahamic"),
+    ], layout="tenfold"),
+    "hisn-istighfar": S("art", [
+        I("والله إني لأستغفر الله وأتوب إليه في اليوم أكثر من 70 مرة", "والله", "face-0", sub="أكثر من 70 مرة", kind="seventyplus"),
+        I("يا أيها الناس، توبوا إلى الله واستغفروه", "أيها", "face-1", sub="توبوا إلى الله واستغفروه", kind="turnall"),
+        I("ومن أذنب ذنبا فأحسن الطهور، ثم صلى ركعتين", None, "face-2", kind="washpray"),
+        I("وكانوا يعدون له ﷺ في المجلس الواحد 100 مرة", None, "deep-0", sub="رب اغفر لي وتب علي", kind="tallyhundred"),
+        I("وأقرب ما يكون الرب من العبد في جوف الليل الآخر", None, "deep-1", kind="lastthird"),
+    ], layout="seventyhundred"),
+    "hisn-dua": S("art", [
+        I("الدعاء هو العبادة", "الدعاء", "face-0", sub="الدعاء هو العبادة", kind="duaworship"),
+        I("ويستجاب لأحدكم ما لم يعجل", None, "face-1", sub="ما لم يعجل", kind="nohaste"),
+        I("وما من عبد مسلم يدعو لأخيه بظهر الغيب", None, "face-2", sub="ولك بمثل", kind="forbrother"),
+        I("وكان أكثر دعائه ﷺ سؤال حسنة الدنيا، وحسنة الآخرة", None, "deep-0", sub="حسنة الدنيا|وحسنة الآخرة", kind="twogoods"),
+        I("وأقرب ما يكون العبد من ربه وهو ساجد", None, "deep-2", kind="nearestsujud"),
+    ], layout="raisedhands"),
 }
