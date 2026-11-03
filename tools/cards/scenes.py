@@ -2253,4 +2253,35 @@ SCENES = {
         I("وسألته عائشة: أتنام قبل أن توتر", None, "deep-2", sub="إن عيني تنامان ولا ينام قلبي", kind="heartawake"),
         I("وكان أحب العمل إليه ما ديم عليه وإن قل", None, "deep-4", sub="ما ديم عليه وإن قل", kind="steadydrops"),
     ], layout="gratefulservant"),
+    # ── v1.2: «مختصر الشمائل» (wave 67) ──
+    "sira-qiraa": S("art", [
+        I("سئل أنس عن قراءته ﷺ", None, "face-0", sub="أنس|كان يمد مدا", kind="drawnout"),
+        I("وقال لابن مسعود: اقرأ علي", None, "face-1", sub="ابن مسعود|سورة النساء", kind="readtome"),
+        I("وأتاه عبد الله بن الشخير وهو يصلي", None, "face-2", sub="عبد الله بن الشخير|كأزيز المرجل", kind="simmering"),
+        I("وسئلت عائشة: أكان يسر بالقراءة أم يجهر", None, "deep-1", sub="عائشة|كل ذلك قد كان يفعل", kind="loudorlow"),
+        I("وقالت أم هانئ", None, "deep-2", sub="أم هانئ", kind="heardatnight"),
+    ], layout="recitelight"),
+    "sira-tawadu": S("art", [
+        I("قال ﷺ: لا تطروني", None, "face-0", sub="عبد الله ورسوله", kind="servantmessenger"),
+        I("وجاءته امرأة لها حاجة", None, "face-1", sub="في أي طريق المدينة شئت", kind="anystreet"),
+        I("وسئلت عائشة عما كان يفعل في بيته", None, "face-2", sub="يفلي ثوبه|ويحلب شاته|ويخدم نفسه", kind="homechores"),
+        I("وقال: لو أهدي إلي كراع لقبلت", None, "deep-0", sub="لو أهدي إلي كراع لقبلت", kind="smallgift"),
+        I("وحج على رحل رث", None, "deep-2", sub="لا تساوي 4 دراهم|حجا لا رياء فيه ولا سمعة", kind="plainsaddle"),
+        I("وجاء جابرا يعوده ماشيا", None, "deep-3", sub="جابرا", kind="walkingvisit"),
+    ], layout="onlyaservant"),
+    "sira-khuluq": S("art", [
+        I("خدمه أنس 10 سنين", None, "face-0", sub="أنس|10 سنين", kind="neveruff"),
+        I("وكان أشد حياء من العذراء في خدرها", None, "face-2", sub="أشد حياء من العذراء في خدرها", kind="shyerthan"),
+        I("لم يكن فاحشا ولا متفحشا", None, "deep-0", sub="ولكن يعفو ويصفح", kind="pardonsback"),
+        I("وما خير بين أمرين إلا اختار أيسرهما", None, "deep-2", sub="إلا اختار أيسرهما", kind="chooseseasier"),
+        I("وما سئل شيئا قط فقال: لا", None, "deep-3", sub="أجود الناس بالخير|في شهر رمضان", kind="windgiving"),
+        I("وكان يقبل الهدية ويثيب عليها", None, "deep-4", kind="giftreturned"),
+    ], layout="noblemanners"),
+    "sira-wafat": S("art", [
+        I("آخر نظرة نظرها أنس إليه ﷺ يوم الاثنين", None, "face-0", sub="كأنه ورقة مصحف|أبي بكر", kind="curtainlift"),
+        I("ولما وجد من كرب الموت ما وجد", None, "face-1", sub="فاطمة|لا كرب على أبيك بعد اليوم", kind="noagony"),
+        I("وتوفي يوم الاثنين مسندا إلى صدر عائشة", None, "face-2", sub="يوم الاثنين|عائشة", kind="mondayrest"),
+        I("وتلا أبو بكر على الناس آية الزمر", None, "deep-2", sub="أبو بكر|آية الزمر", kind="zumarverse"),
+        I("وقال أنس: لما كان اليوم الذي دخل فيه المدينة", None, "deep-4", sub="أضاء منها كل شيء|أظلم منها كل شيء", kind="citylitdark"),
+    ], layout="lastday"),
 }

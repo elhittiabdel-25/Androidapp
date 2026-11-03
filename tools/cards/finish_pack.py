@@ -364,6 +364,10 @@ ART_KINDS = {
     "clearspeech": {"spacedwords", "threetimesword", "warmsmile", "neverbarred", "aliriding"},
     "truejest": {"truejoke", "littlebird", "everycamel", "twoears", "notcheap", "youngagain"},
     "gratefulservant": {"thankfulnight", "threesuras", "longstanding", "nightplan", "heartawake", "steadydrops"},
+    "recitelight": {"drawnout", "readtome", "simmering", "loudorlow", "heardatnight"},
+    "onlyaservant": {"servantmessenger", "anystreet", "homechores", "smallgift", "plainsaddle", "walkingvisit"},
+    "noblemanners": {"neveruff", "shyerthan", "pardonsback", "chooseseasier", "windgiving", "giftreturned"},
+    "lastday": {"curtainlift", "noagony", "mondayrest", "zumarverse", "citylitdark"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
