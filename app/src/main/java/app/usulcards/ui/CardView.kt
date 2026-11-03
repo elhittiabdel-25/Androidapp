@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -270,11 +271,11 @@ private fun DeepLayer(
         Section("المصادر", section++) {
             card.sources.forEach { s ->
                 val b = repo.books[s.book]
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                val book = @Composable { m: Modifier ->
                     Text(
                         "${b?.title ?: s.book} — ${b?.author ?: ""}",
                         color = pal.accent, fontSize = 14.sp, fontFamily = Fonts.ui,
-                        modifier = Modifier.weight(1f).clickable {
+                        modifier = m.clickable {
                             try {
                                 ctx.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://islamcontent.com/ar/content/${s.book}")))
                             } catch (e: Exception) {
@@ -282,8 +283,21 @@ private fun DeepLayer(
                             }
                         },
                     )
-                    Spacer(Modifier.width(8.dp))
-                    Text(if (s.pages.firstOrNull()?.isDigit() == true) "ص ${s.pages}" else s.pages, color = pal.muted, fontSize = 13.sp, fontFamily = Fonts.ui)
+                }
+                val where = if (s.pages.firstOrNull()?.isDigit() == true) "ص ${s.pages}" else s.pages
+                // page numbers sit beside the book; a chapter name goes under it (beside it, a long one squeezed
+                // the title to a sliver, one letter a line, and left a tall empty gap in the card)
+                if (where.length <= 16) {
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        book(Modifier.weight(1f))
+                        Spacer(Modifier.width(8.dp))
+                        Text(where, color = pal.muted, fontSize = 13.sp, fontFamily = Fonts.ui, modifier = Modifier.widthIn(max = 120.dp))
+                    }
+                } else {
+                    Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                        book(Modifier.fillMaxWidth())
+                        Text(where, color = pal.muted, fontSize = 13.sp, lineHeight = 22.sp, fontFamily = Fonts.ui)
+                    }
                 }
             }
         }
