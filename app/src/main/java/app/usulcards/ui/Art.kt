@@ -497,6 +497,12 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "nahrday" -> nahrdayScene(a)
         "hadyoffer" -> hadyofferScene(a)
         "farewellhouse" -> farewellhouseScene(a)
+        "eidoffering" -> eidofferingScene(a)
+        "fourconditions" -> fourconditionsScene(a)
+        "bestoffering" -> bestofferingScene(a)
+        "whocovers" -> whocoversScene(a)
+        "threethirds" -> threethirdsScene(a)
+        "dhulhijjanails" -> dhulhijjanailsScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -979,6 +985,11 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "hastenhajj", "tawbanasuh" -> 4750
     "rightsback" -> 5250
     "fifthpillar", "oncelife", "umrahspan", "debtledger", "cleanpurse", "goodcompany", "washscent", "twowhites", "labbayk", "keephair", "mountride", "threemiqat", "twomiqat", "fromhome", "tohill", "umrahsteps", "threeroads", "tamattu", "hajjmonths", "ifheld", "validyoung", "guardianlabbayk", "carriedround", "guardianreward", "nocutscent", "nosewn", "mayshade", "blackstone", "safamarwa", "tarwiya", "arafastand", "muzdalifanight", "mashardawn", "fourrites", "noharaj", "tashriqthree", "deputythrow", "hadyshare", "pureearning", "tenfast", "arafaopen", "fourdays", "stayworship", "doubledhere", "farewelltawaf", "walkonward", "madinahmosque" -> 6000
+    // v1.3 fiqh: udhiya (wave 71)
+    "agecheck" -> 3750
+    "notmorethan7" -> 5500
+    "fourteen" -> 5750
+    "adhadef", "twokabsh", "sunnahor", "betterthanprice", "familyall", "anam", "fourdefects", "timewindow", "owned", "rankkinds", "bestshape", "amlah", "disliked", "onesheep", "seventh", "notshared", "eatgivegive", "thirds", "nosale", "designated", "noclip", "onlyhim", "tawbanokaffara", "likepilgrim", "dhakatconds" -> 6000
     else -> 1000
 }
 

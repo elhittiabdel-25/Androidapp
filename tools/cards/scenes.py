@@ -2376,4 +2376,45 @@ SCENES = {
         I("مضى على وجهه", None, "deep-0", sub="مضى على وجهه", kind="walkonward"),
         I("فالصلاة فيه خير من ألف صلاة", None, "deep-3", sub="خير من ألف صلاة", kind="madinahmosque"),
     ], layout="farewellhouse"),
+    # ── v1.3: fiqh, «الأضحية والذكاة» (wave 71) ──
+    "udh-hukm": S("art", [
+        I("ما يذبح من بهيمة الأنعام أيام عيد الأضحى", None, "face-0", sub="تقربا إلى الله", kind="adhadef"),
+        I("بكبشين أملحين أقرنين", None, "face-1", sub="بكبشين أملحين أقرنين", kind="twokabsh"),
+        I("والجمهور على أنها سنة مؤكدة", None, "face-2", sub="سنة مؤكدة|وجوبها", kind="sunnahor"),
+        I("وذبحها أفضل من الصدقة بثمنها", None, "deep-0", sub="من شعائر الله", kind="betterthanprice"),
+        I("شمل أهله الأحياء والأموات", None, "deep-1", sub="الأحياء والأموات", kind="familyall"),
+    ], layout="eidoffering"),
+    "udh-shurut": S("art", [
+        I("يشترط أن تكون الأضحية من بهيمة الأنعام", None, "face-0", sub="الإبل|والبقر|والغنم", kind="anam"),
+        I("وأن تبلغ السن المحدودة شرعا", None, "face-1", sub="السن المحدودة شرعا", kind="agecheck"),
+        I("وأن تخلو من العيوب الأربعة", "تخلو", sub="العور البين|والمرض البين|والعرج البين|والهزال", kind="fourdefects"),
+        I("وأن يضحى بها في وقتها", None, "face-2", sub="بعد صلاة العيد|غروب الشمس من آخر أيام التشريق", kind="timewindow"),
+        I("وأن تكون ملكا للمضحي أو مأذونا له فيها", None, "deep-2", sub="ملكا للمضحي|فلا تصح بالمغصوب والمسروق", kind="owned"),
+    ], layout="fourconditions"),
+    "udh-afdal": S("art", [
+        I("الأفضل من الأضاحي جنسا", None, "face-0", sub="الإبل|ثم البقر|ثم الضأن|ثم المعز", kind="rankkinds"),
+        I("والأفضل صفة", None, "face-1", sub="الأسمن|الأكمل خلقة|الأحسن منظرا", kind="bestshape"),
+        I("ما خالط بياضه سواد", None, "face-2", sub="أقرنين|أملحين", kind="amlah"),
+        I("ويكره منها العضباء", None, "deep-0", sub="العضباء|ومشقوقة الأذن", kind="disliked"),
+        I("فإذا ضمت إليها المكروهات الملحقة بها صارت أربع عشرة", None, "deep-3", sub="أربع عشرة", kind="fourteen"),
+    ], layout="bestoffering"),
+    "udh-tujzi": S("art", [
+        I("تجزئ الأضحية الواحدة من الغنم عن الرجل وأهل بيته", None, "face-0", sub="عن الرجل وأهل بيته", kind="onesheep"),
+        I("ويجزئ سبع البعير أو سبع البقرة", None, "face-1", sub="سبع البعير|سبع البقرة", kind="seventh"),
+        I("ولا تجزئ الشاة عن شخصين يشتريانها", None, "face-2", sub="لأن العبادات توقيفية", kind="notshared"),
+        I("ولا يجزئ أن يشترك ثمانية فأكثر في بعير أو بقرة", None, "deep-3", sub="ثمانية فأكثر", kind="notmorethan7"),
+    ], layout="whocovers"),
+    "udh-akl": S("art", [
+        I("يشرع للمضحي أن يأكل من أضحيته، ويهدي، ويتصدق", None, "face-0", sub="يأكل|ويهدي|ويتصدق", kind="eatgivegive"),
+        I("والأمر في المقدار واسع", None, "face-1", sub="والمختار عند المؤلف|أن يأكل ثلثا|ويهدي ثلثا|ويتصدق بثلث", kind="thirds"),
+        I("ويحرم أن يبيع شيئا منها حتى الجلد", None, "face-2", sub="حتى الجلد|في مقابلة أجرته", kind="nosale"),
+        I("وتتعين الأضحية بقوله: هذه أضحية", None, "deep-2", sub="هذه أضحية", kind="designated"),
+    ], layout="threethirds"),
+    "udh-imsak": S("art", [
+        I("حرم عليه أن يأخذ شيئا من شعره أو أظفاره أو جلده حتى يذبح", None, "face-0", sub="شعره|أظفاره|جلده", kind="noclip"),
+        I("وهذا خاص بمن يضحي", None, "face-1", sub="خاص بمن يضحي", kind="onlyhim"),
+        I("ومن أخذ شيئا من ذلك تاب ولا كفارة عليه", None, "face-2", sub="تاب ولا كفارة عليه", kind="tawbanokaffara"),
+        I("والحكمة أن المضحي لما شارك الحاج", None, "deep-0", sub="شارك الحاج", kind="likepilgrim"),
+        I("ويشترط للذكاة", None, "deep-2", sub="عاقلا مميزا|مسلما أو كتابيا|وأن يذكر اسم الله عليها", kind="dhakatconds"),
+    ], layout="dhulhijjanails"),
 }

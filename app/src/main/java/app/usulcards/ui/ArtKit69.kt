@@ -278,3 +278,23 @@ internal fun DrawScope.fqShade(foot: Offset, s: Float, color: Color, alpha: Floa
     drawArc(color, 180f, 180f, true, Offset(foot.x - s * 0.5f, foot.y - s * 1.2f), Size(s, s * 0.45f), alpha = alpha)
     drawRect(color.copy(alpha = 0.18f), Offset(foot.x - s * 0.5f, foot.y - s * 0.02f), Size(s, s * 0.06f), alpha = alpha)
 }
+
+/** A ram facing left around [c]: a sheep with curled horns; [amlah] speckles the white fleece with black. */
+internal fun DrawScope.fqRam(c: Offset, s: Float, color: Color, alpha: Float, amlah: Boolean = false) {
+    if (alpha <= 0.01f) return
+    sheep26(c, s, color, alpha)
+    if (amlah) for (k in 0 until 9) {
+        val x = c.x - s * 0.4f + s * 0.8f * fract(k * 0.618f)
+        val y = c.y - s * 0.2f + s * 0.4f * fract(k * 0.381f + 0.2f)
+        drawCircle(Color(0xFF2A2428), s * (0.04f + 0.03f * fract(k * 0.77f)), Offset(x, y), alpha = alpha * 0.8f)
+    }
+    val hc = c + Offset(-s * 0.5f, -s * 0.26f)
+    drawArc(Color(0xFFB8A078), 120f, 260f, false, Offset(hc.x - s * 0.1f, hc.y - s * 0.1f), Size(s * 0.2f, s * 0.2f), alpha = alpha, style = Stroke(s * 0.06f, cap = StrokeCap.Round))
+}
+
+/** An eid crescent with a small star, around [c]. */
+internal fun DrawScope.fqEidMoon(c: Offset, r: Float, sky: Color, alpha: Float) {
+    if (alpha <= 0.01f) return
+    crescent12(c, r, Fq.Gold, sky, alpha)
+    drawPath(starPath(c + Offset(-r * 1.6f, -r * 0.4f), r * 0.35f), Fq.Gold, alpha = alpha)
+}

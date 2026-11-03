@@ -381,6 +381,12 @@ ART_KINDS = {
     "nahrday": {"fourrites", "noharaj", "tashriqthree", "deputythrow"},
     "hadyoffer": {"hadyshare", "pureearning", "tenfast", "arafaopen", "fourdays"},
     "farewellhouse": {"stayworship", "doubledhere", "farewelltawaf", "walkonward", "madinahmosque"},
+    "eidoffering": {"adhadef", "twokabsh", "sunnahor", "betterthanprice", "familyall"},
+    "fourconditions": {"anam", "agecheck", "fourdefects", "timewindow", "owned"},
+    "bestoffering": {"rankkinds", "bestshape", "amlah", "disliked", "fourteen"},
+    "whocovers": {"onesheep", "seventh", "notshared", "notmorethan7"},
+    "threethirds": {"eatgivegive", "thirds", "nosale", "designated"},
+    "dhulhijjanails": {"noclip", "onlyhim", "tawbanokaffara", "likepilgrim", "dhakatconds"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
