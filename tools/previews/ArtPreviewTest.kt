@@ -20,6 +20,7 @@ import app.usulcards.ui.DarkPalette
 import app.usulcards.ui.LightPalette
 import app.usulcards.ui.LocalPalette
 import app.usulcards.ui.beatMillis
+import app.usulcards.ui.SceneRecap
 import com.android.ide.common.rendering.api.SessionParams
 import com.android.resources.Density
 import org.junit.Rule
@@ -46,6 +47,8 @@ class ArtPreviewTest {
                 val beats = List(n) { i -> if (i < k) 1f else 0f }
                 paparazzi.snapshot(name = "${id}__s%02d".format(k)) { Frame(scene, beats, 2f + 1.7f * k, k, dark = false) }
             }
+            // the summary that comes over the scene once it has played out (the tile after the last beat)
+            paparazzi.snapshot(name = "${id}__s%02d".format(n + 1)) { Frame(scene, List(n) { 1f }, 2f + 1.7f * n, n, dark = false, recap = 1f) }
             paparazzi.snapshot(name = "${id}__dark") { Frame(scene, List(n) { 1f }, 3f, n, dark = true) }
             if (id in PreviewData.motion) motion(id, scene)
         }
@@ -56,8 +59,8 @@ class ArtPreviewTest {
         val fps = 12f
         var frame = 0
         var t = 0f
-        fun shoot(beats: List<Float>, shown: Int) {
-            paparazzi.snapshot(name = "${id}__m%04d".format(frame)) { Frame(scene, beats, t, shown, dark = false) }
+        fun shoot(beats: List<Float>, shown: Int, recap: Float = 0f) {
+            paparazzi.snapshot(name = "${id}__m%04d".format(frame)) { Frame(scene, beats, t, shown, dark = false, recap = recap) }
             frame++
             t += 1f / fps
         }
@@ -67,15 +70,19 @@ class ArtPreviewTest {
             for (j in 1..steps) shoot(List(n) { i -> if (i < k) 1f else if (i == k) j / steps.toFloat() else 0f }, k + 1)
             repeat(if (k == n - 1) 14 else 7) { shoot(List(n) { i -> if (i <= k) 1f else 0f }, k + 1) }
         }
+        // then the summary comes in (1.1 s in the app) and holds
+        for (j in 1..13) shoot(List(n) { 1f }, n, recap = j / 13f)
+        repeat(12) { shoot(List(n) { 1f }, n, recap = 1f) }
     }
 
     @Composable
-    private fun Frame(scene: Scene, beats: List<Float>, t: Float, shown: Int, dark: Boolean) {
+    private fun Frame(scene: Scene, beats: List<Float>, t: Float, shown: Int, dark: Boolean, recap: Float = 0f) {
         val pal = if (dark) DarkPalette else LightPalette
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl, LocalPalette provides pal) {
             Box(Modifier.width(320.dp).background(pal.surface).padding(10.dp)) {
                 Box(Modifier.clip(RoundedCornerShape(14.dp)).background(pal.bg)) {
                     ArtFrame(scene, { beats }, { t }, shown, true)
+                    SceneRecap(scene, recap) { it }
                 }
             }
         }

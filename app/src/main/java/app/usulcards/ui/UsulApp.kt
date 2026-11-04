@@ -206,12 +206,15 @@ private fun HomeScreen(
     onOpen: (path: String) -> Unit,
 ) {
     val pal = LocalPalette.current
+    val season = remember { currentSeason() }
     LazyColumn(
         Modifier.fillMaxSize().padding(horizontal = 16.dp),
         contentPadding = PaddingValues(bottom = bottomRoom),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         item { Box(Modifier.padding(top = 12.dp)) { Header(progress) } }
+        // a season of worship coming up (Ramadan, the ten days of Dhul-Hijjah): its paths, before it comes
+        if (season != null) item { SeasonCard(season, repo, progress, onOpen) }
         item {
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text("الأقسام", fontFamily = Fonts.kufi, fontWeight = FontWeight.Bold, fontSize = 24.sp, color = pal.ink)

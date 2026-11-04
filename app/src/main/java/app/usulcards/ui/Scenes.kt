@@ -73,6 +73,9 @@ import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -158,6 +161,18 @@ fun SceneHost(card: Card, scene: Scene, player: PlaybackView, showDiacritics: Bo
     val txt: (String) -> String = { s -> if (showDiacritics) s else stripHarakat(s) }
     val summary = remember(card.id) { scene.items.joinToString("، ") { stripHarakat(it.label) } }
 
+    // the summary at the end (after zadi.net's lessons, which sum up what was taught): once the scene has played
+    // out and the voice is done, its key points come back together over the picture; a tap replays the scene
+    var recapOn by remember(card.id) { mutableStateOf(false) }
+    LaunchedEffect(card.id, replay, following, shown >= n) {
+        recapOn = false
+        if (film == null && scene.type == "art" && n >= 2 && !following && shown >= n) {
+            delay(2600)
+            recapOn = true
+        }
+    }
+    val recap by animateFloatAsState(if (recapOn) 1f else 0f, tween(if (recapOn) 1100 else 160, easing = LinearEasing), label = "recap")
+
     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
         Box(
             Modifier
@@ -179,6 +194,7 @@ fun SceneHost(card: Card, scene: Scene, player: PlaybackView, showDiacritics: Bo
                 "stars" -> StarsScene(scene, shown, txt)
                 else -> StepsScene(scene, shown, txt)
             }
+            if (scene.type == "art") SceneRecap(scene, recap, txt)
         }
         Row(
             Modifier.fillMaxWidth().padding(horizontal = 4.dp),
@@ -1236,4 +1252,54 @@ private fun <T> QuickSwap(target: T, label: String, content: @Composable (T) -> 
         transitionSpec = { fadeIn(tween(170, delayMillis = 100)) togetherWith fadeOut(tween(110)) },
         label = label,
     ) { state -> content(state) }
+}
+
+
+/** The key points of a drawn scene, for its summary: each beat's short tag, or its caption when the tag is one word. */
+internal fun recapPoints(scene: Scene): List<String> {
+    val out = ArrayList<String>()
+    for (item in scene.items) {
+        val tag = item.sub.split("|").firstOrNull()?.trim().orEmpty()
+        val p = (if (tag.split(" ").size >= 2) tag else item.label).trim().trimEnd('،', '.', ':', '؛')
+        if (p.isNotEmpty() && out.none { stripHarakat(it) == stripHarakat(p) }) out.add(p)
+    }
+    return out.take(6)
+}
+
+/**
+ * The summary over a drawn scene once it has played out: «الخلاصة» and its key points, numbered (Western digits),
+ * coming in one after another as [reveal] goes 0 to 1.
+ */
+@Composable
+internal fun BoxScope.SceneRecap(scene: Scene, reveal: Float, txt: (String) -> String) {
+    if (reveal <= 0.001f) return
+    val points = remember(scene) { recapPoints(scene) }
+    if (points.isEmpty()) return
+    Box(Modifier.matchParentSize().background(ArtInk.Shade.copy(alpha = 0.84f * (reveal * 3f).coerceAtMost(1f)))) {
+        Column(
+            Modifier.fillMaxSize().padding(horizontal = 16.dp, vertical = 10.dp),
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Text(
+                "الخلاصة", color = ArtInk.Gold, fontFamily = Fonts.kufi, fontWeight = FontWeight.Bold, fontSize = 14.sp,
+                modifier = Modifier.alpha((reveal * 4f).coerceAtMost(1f)),
+            )
+            points.forEachIndexed { i, p ->
+                val a = (reveal * (points.size + 1) - 1f - i).coerceIn(0f, 1f)
+                Row(
+                    Modifier.padding(top = 5.dp).alpha(a).offset(y = (6f * (1f - a)).dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    Box(Modifier.size(18.dp).clip(CircleShape).background(ArtInk.Gold), contentAlignment = Alignment.Center) {
+                        Text("${i + 1}", color = ArtInk.Shade, fontFamily = Fonts.ui, fontWeight = FontWeight.Bold, fontSize = 10.sp)
+                    }
+                    Text(
+                        txt(p), color = ArtInk.Ivory, fontFamily = Fonts.naskh, fontSize = 13.sp, lineHeight = 20.sp,
+                        maxLines = 1, overflow = TextOverflow.Ellipsis,
+                    )
+                }
+            }
+        }
+    }
 }
