@@ -498,6 +498,12 @@ ART_KINDS = {
     "tariqstar": {"piercingstar", "allstars", "comesbynight", "guardian"},
     "burujsky": {"mansions", "wadud", "ghafurwadud", "lostmount"},
     "easyreckon": {"rightbook", "sinveiled", "reckonstages", "underrule"},
+    "raynheart": {"fairmeasure", "fairargument", "rayn", "tasnim"},
+    "kiram": {"ghurur", "noblescribes", "abrar"},
+    "takwir": {"sunfolded", "eachknows", "asifseen", "noblemessenger"},
+    "abasa": {"twocome", "gentlereproach", "knownrule", "welcomeseeker"},
+    "naziat": {"angelsobey", "sixpillars", "pharaoh", "nofear"},
+    "naba": {"rowsstand", "nofalsehood", "greatnews", "speakright"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
