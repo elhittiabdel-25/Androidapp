@@ -268,7 +268,8 @@ private object SpringC53 {
  * bows down, and three tags rise over him: «بِعُبُودِيَّتِهِ», «نَاصِيَتَهُ بِيَدِ اللَّهِ», «وَقَضَاءَهُ عَدْلٌ»), springheart (a
  * bare winter branch in the shape of a heart buds and blossoms while four tags come: «رَبِيعَ قَلْبِهِ», «وَنُورَ
  * صَدْرِهِ», «وَجَلَاءَ حُزْنِهِ», «وَذَهَابَ هَمِّهِ»), eightpairs (four pairs of dark shapes come close and stop at a line of
- * light), endless (a scroll of ruled lines unrolls beyond the edge of the picture and is never done).
+ * light; since 2026-11-04 each is its word and symbol on a card, stopping at a dome of light over the one who asks), endless
+ * (gold stars keep coming, more and more, out past the edges: «لَا تُحْصَرُ»).
  */
 internal fun DrawScope.springheartScene(a: ArtCtx) {
     val w = size.width
@@ -322,26 +323,48 @@ private fun DrawScope.springDay(a: ArtCtx) {
         for (k in 0 until 4) tagAt(a.tag("springheart", 0, k), Offset(w * (0.14f + 0.24f * k), h * (0.14f + 0.06f * (k % 2))), f * seg(sh, 0.15f + 0.18f * k, 0.3f + 0.18f * k), back = Back53, ink = ArtInk.Gold)
     }
     if (ep > 0f) {
+        // the eight things he seeks refuge from, each as its word and its symbol (never eight identical dots: the user's
+        // own example, 2026-11-04); they come in from both sides and stop at a dome of light over the one who asks
         val f = easeOut(seg(ep, 0f, BEAT_IN)) * (1f - seg(en, 0f, BEAT_OUT))
-        val line = w * 0.5f
-        drawLine(SpringC53.Gold, Offset(line, h * 0.15f), Offset(line, ground), 3f * dp, StrokeCap.Round, alpha = f * seg(ep, 0.1f, 0.3f))
-        softGlow(Offset(line, h * 0.5f), w * 0.06f, SpringC53.Gold, 0.3f * f)
-        for (k in 0 until 4) {
-            val y = h * (0.25f + 0.15f * k)
-            val come = easeInOut(seg(ep, 0.15f + 0.1f * k, 0.6f + 0.1f * k))
-            for (j in 0 until 2) {
-                val x = w * (0.05f + 0.1f * j) + (line - w * 0.2f - w * 0.05f) * come
-                drawCircle(SpringC53.Dark, w * 0.025f, Offset(x, y), alpha = f * 0.85f)
+        val me = Offset(w * 0.5f, ground)
+        sit12(me, h * 0.26f, SpringC53.Person, f, 1f)
+        guardDome12(me, w * 0.24f, seg(ep, 0.05f, 0.25f), t, f, Color(0xFFFFE6A0))
+        val icons = listOf("cloud", "tear", "chain", "bed", "lock", "shake", "coin", "people")
+        for (k in 0 until 8) {
+            val side = if (k % 2 == 0) 1f else -1f
+            val row = k / 2
+            val come = easeOut(seg(ep, 0.12f + 0.08f * k, 0.35f + 0.08f * k))
+            val home = Offset(w * 0.5f + side * w * 0.38f, h * (0.16f + 0.2f * row))
+            val c = Offset(home.x + side * w * 0.3f * (1f - come), home.y)
+            glyphCard(c, w * 0.085f, a.tag("eightpairs", 0, k), f * come, rim = Color(0xFF8A8494)) { at, sz, al ->
+                when (icons[k]) {
+                    "tear" -> fqDrop(at + Offset(0f, sz * 0.15f), sz * 0.22f, Color(0xFF8AA0C0), al)
+                    "chain" -> {
+                        chain72(at + Offset(-sz * 0.45f, 0f), at + Offset(-sz * 0.08f, 0f), sz * 0.2f, Color(0xFFB8AFA0), al)
+                        chain72(at + Offset(sz * 0.08f, sz * 0.06f), at + Offset(sz * 0.45f, sz * 0.06f), sz * 0.2f, Color(0xFFB8AFA0), al)
+                    }
+                    "shake" -> {   // one who shrinks back, trembling
+                        figure(at + Offset(0f, sz * 0.45f), sz * 0.85f, Color(0xFFE8DCC0), al, lean = 0.25f)
+                        for (m in 0 until 2) drawArc(Color(0xFFE8DCC0), 120f, 120f, false, at + Offset(sz * (0.15f + 0.12f * m), -sz * 0.3f), Size(sz * 0.3f, sz * 0.5f), alpha = al * 0.7f, style = Stroke(1.2f * dp))
+                    }
+                    else -> qIcon(icons[k], at, sz, Color(0xFFE8DCC0), al, t)
+                }
             }
         }
     }
     if (en > 0f) {
+        // His names are not confined to a number: gold stars keep coming, more and more, out past the edges
         val f = easeOut(seg(en, 0f, 0.3f))
-        val roll = easeOut(seg(en, 0.1f, 1f))
-        val y = h * 0.4f
-        drawRect(SpringC53.Page, Offset(w * 0.1f, y), Size(w * 1.0f * roll, h * 0.2f), alpha = f)
-        for (k in 0 until 4) drawLine(SpringC53.Rule, Offset(w * 0.13f, y + h * (0.04f + 0.04f * k)), Offset(w * (0.1f + 1.0f * roll), y + h * (0.04f + 0.04f * k)), 1.5f * dp, alpha = f)
-        drawCircle(Color(0xFF8A6A44), h * 0.11f, Offset(w * 0.1f, y + h * 0.1f), alpha = f)
+        drawRect(Color(0xFF14183A), alpha = 0.85f * f)
+        val n = (seg(en, 0.05f, 1f) * 60f).toInt()
+        for (k in 0 until n) {
+            val r = fract(sin(k * 12.7f) * 43.3f)
+            val an = k * 2.4f
+            val rad = w * (0.05f + 0.6f * fract(r * 3.7f + k * 0.013f))
+            val c = Offset(w * 0.5f + cos(an) * rad, h * 0.5f + sin(an) * rad * 0.7f)
+            drawPath(starPath(c, w * (0.008f + 0.008f * r)), SpringC53.Gold, alpha = f * (0.5f + 0.5f * r))
+        }
+        tagAt(a.tag("endless", 0, 0), Offset(w * 0.5f, h * 0.5f), f * seg(en, 0.3f, 0.5f), back = Back53, ink = ArtInk.Gold)
     }
 }
 
