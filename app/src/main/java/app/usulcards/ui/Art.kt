@@ -620,6 +620,14 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "abasa" -> abasaScene(a)
         "naziat" -> naziatScene(a)
         "naba" -> nabaScene(a)
+        "shafibook" -> shafibookScene(a)
+        "harfgood" -> harfgoodScene(a)
+        "ruinhouse" -> ruinhouseScene(a)
+        "nightrecite" -> nightreciteScene(a)
+        "mushaftouch" -> mushaftouchScene(a)
+        "recitemanners" -> recitemannersScene(a)
+        "tilawasujud" -> tilawasujudScene(a)
+        "sujuddhikr" -> sujuddhikrScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -1223,6 +1231,15 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "eachknows" -> 5000
     "speakright" -> 5250
     "fairmeasure", "fairargument", "rayn", "tasnim", "ghurur", "noblescribes", "abrar", "sunfolded", "asifseen", "noblemessenger", "twocome", "gentlereproach", "knownrule", "welcomeseeker", "angelsobey", "sixpillars", "pharaoh", "nofear", "rowsstand", "nofalsehood", "greatnews" -> 6000
+    // Wave 93 (2026-11-04): v1.4 the virtues of the Quran and the etiquette of reciting it
+    "eachletter" -> 2750
+    "fifteen" -> 3000
+    "notlineage" -> 4750
+    "learnteach" -> 5000
+    "ruined" -> 5250
+    "basmala" -> 5500
+    "honorall", "raiselower", "sunnahnot", "sameaswalat" -> 5750
+    "manyhadith", "intercedes", "tenfold", "harfclimb", "mawla", "allhours", "slowrecite", "respond", "khatm", "withbarrier", "tafsirpage", "devices", "junub", "istiadha", "tadabbur", "oneverse", "shaytanweeps", "imamled", "wajhisajad", "nocondition", "takbiroutside" -> 6000
     else -> 1000
 }
 
@@ -1290,7 +1307,7 @@ internal class ArtCtx(
 }
 
 /** Scenes that write their tags large (see ArtCtx.big). */
-internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent", "omenroad", "triptych", "heights", "revelation", "gaze", "nameswall", "register", "unseen", "fourrules", "twoseals", "storm", "sixroots", "verseguard", "decree", "threelives", "twolands", "proofscroll", "allegiance", "companions", "household", "morningevening", "mercyrain", "deepsea", "mountaindebt", "betterjar", "healingbed", "weddinglights", "alivetree", "tenfold", "radd", "threeshown", "doubtfree", "likeforbrother", "taqwaeverywhere", "guardhim", "modesty", "straightpath", "noinjustice", "askyourheart", "headofmatter", "proofonclaimant", "awliya", "stranger", "moonface", "simpleliving", "clearspeech", "truejest", "gratefulservant", "recitelight", "onlyaservant", "noblemanners", "lastday", "rabbgarden", "fatihaseven", "falaqnas", "samadneeds", "masadsign", "nasrdawn", "baraa", "kawtharriver", "maunhouse", "filquraysh", "humazawealth", "asrhourglass", "visitors", "qariaday", "atomweight", "bayyinascroll", "qadrnight", "iqrafirst", "tinmap", "usryusrayn", "duhamorning", "layleasy", "nafsmirror", "kabad", "fajrten", "ghashiyaearth", "alaguide", "tariqstar", "burujsky", "easyreckon", "raynheart", "kiram", "takwir", "abasa", "naziat", "naba")
+internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent", "omenroad", "triptych", "heights", "revelation", "gaze", "nameswall", "register", "unseen", "fourrules", "twoseals", "storm", "sixroots", "verseguard", "decree", "threelives", "twolands", "proofscroll", "allegiance", "companions", "household", "morningevening", "mercyrain", "deepsea", "mountaindebt", "betterjar", "healingbed", "weddinglights", "alivetree", "tenfold", "radd", "threeshown", "doubtfree", "likeforbrother", "taqwaeverywhere", "guardhim", "modesty", "straightpath", "noinjustice", "askyourheart", "headofmatter", "proofonclaimant", "awliya", "stranger", "moonface", "simpleliving", "clearspeech", "truejest", "gratefulservant", "recitelight", "onlyaservant", "noblemanners", "lastday", "rabbgarden", "fatihaseven", "falaqnas", "samadneeds", "masadsign", "nasrdawn", "baraa", "kawtharriver", "maunhouse", "filquraysh", "humazawealth", "asrhourglass", "visitors", "qariaday", "atomweight", "bayyinascroll", "qadrnight", "iqrafirst", "tinmap", "usryusrayn", "duhamorning", "layleasy", "nafsmirror", "kabad", "fajrten", "ghashiyaearth", "alaguide", "tariqstar", "burujsky", "easyreckon", "raynheart", "kiram", "takwir", "abasa", "naziat", "naba", "shafibook", "harfgood", "ruinhouse", "nightrecite", "mushaftouch", "recitemanners", "tilawasujud", "sujuddhikr")
 
 // ───────────── shared helpers ─────────────
 

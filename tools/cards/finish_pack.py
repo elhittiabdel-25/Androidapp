@@ -504,6 +504,14 @@ ART_KINDS = {
     "abasa": {"twocome", "gentlereproach", "knownrule", "welcomeseeker"},
     "naziat": {"angelsobey", "sixpillars", "pharaoh", "nofear"},
     "naba": {"rowsstand", "nofalsehood", "greatnews", "speakright"},
+    "shafibook": {"manyhadith", "intercedes", "learnteach", "honorall"},
+    "harfgood": {"tenfold", "eachletter", "harfclimb"},
+    "ruinhouse": {"ruined", "raiselower", "mawla", "notlineage"},
+    "nightrecite": {"allhours", "slowrecite", "respond", "khatm"},
+    "mushaftouch": {"withbarrier", "tafsirpage", "devices", "junub"},
+    "recitemanners": {"istiadha", "basmala", "tadabbur", "oneverse"},
+    "tilawasujud": {"shaytanweeps", "sunnahnot", "imamled", "fifteen"},
+    "sujuddhikr": {"sameaswalat", "wajhisajad", "nocondition", "takbiroutside"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
