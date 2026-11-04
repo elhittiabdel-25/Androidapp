@@ -566,7 +566,18 @@ internal fun DrawScope.caveScene(a: ArtCtx) {
     drawPath(hill, CaveInk.RockDark, style = Stroke(1.4f * dp))
     val caveA = if (a.count("cave") > 0) easeOut(a.b("cave")) else 1f
     val calm = 0.25f + 0.5f * seg(sun, 0.4f, 1f)
-    drawPath(horseshoe(mouth.x, mouth.y - h * 0.12f, w * 0.05f, w * 0.042f, mouth.y), CaveInk.Mouth.copy(alpha = caveA))
+    // a rough mouth in the rock, never a round arch (the review of 2026-11-04 read the arch in a dome as a shrine)
+    val rough = Path().apply {
+        moveTo(mouth.x - w * 0.07f, mouth.y)
+        lineTo(mouth.x - w * 0.065f, mouth.y - h * 0.07f); lineTo(mouth.x - w * 0.045f, mouth.y - h * 0.1f)
+        lineTo(mouth.x - w * 0.02f, mouth.y - h * 0.15f); lineTo(mouth.x + w * 0.012f, mouth.y - h * 0.13f)
+        lineTo(mouth.x + w * 0.04f, mouth.y - h * 0.15f); lineTo(mouth.x + w * 0.06f, mouth.y - h * 0.09f)
+        lineTo(mouth.x + w * 0.075f, mouth.y - h * 0.04f); lineTo(mouth.x + w * 0.08f, mouth.y)
+        close()
+    }
+    drawPath(rough, CaveInk.Mouth.copy(alpha = caveA))
+    drawPath(rough, CaveInk.RockDark.copy(alpha = caveA), style = Stroke(2.2f * dp))
+    for (k in 0 until 3) drawOval(CaveInk.RockDark.copy(alpha = caveA), topLeft = Offset(mouth.x - w * (0.12f - 0.1f * k), mouth.y - h * (0.03f + 0.012f * k)), size = Size(w * 0.04f, h * 0.03f))
     softGlow(mouth + Offset(0f, -h * 0.08f), w * 0.05f, Color(0xFF9FD2E8), calm * caveA * 0.5f)
     // rays: those that would enter the cave bend away from it
     if (sun > 0f) {

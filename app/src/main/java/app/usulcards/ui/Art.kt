@@ -589,6 +589,11 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "falaqnas" -> falaqnasScene(a)
         "samadneeds" -> samadneedsScene(a)
         "masadsign" -> masadsignScene(a)
+        "nasrdawn" -> nasrdawnScene(a)
+        "baraa" -> baraaScene(a)
+        "kawtharriver" -> kawtharriverScene(a)
+        "maunhouse" -> maunhouseScene(a)
+        "filquraysh" -> filqurayshScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -1168,6 +1173,9 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "faithsaves" -> 5000
     "ikhlasistiana" -> 5500
     "nurtureall", "generalcare", "specialcare", "rabbduas", "needaid", "shortholds", "fatihacontents", "everyrakah", "twohidayas", "allevils", "rabbmalikilah", "whisperretreat", "jinnins", "ahadunique", "samadneed", "nochild", "asmathree", "asmasifat", "revealedalive", "foretoldtwo", "cametrue", "wealthnohelp" -> 6000
+    // Wave 87 (2026-11-04): v1.4 the Quran 2: al-Nasr, al-Kafirun, al-Kawthar, al-Ma'un, al-Fil and Quraysh
+    "branchcut" -> 4250
+    "gladtidings", "tasbihistighfar", "sealedwith", "nasrgrows", "subhanaka", "disown", "mixedcup", "twicesaid", "keybaraa", "purecup", "muchgood", "riverhawd", "whitesweet", "prayersacrifice", "orphanhonor", "prayerguard", "lendsmall", "sahun", "sahwfi", "yearborn", "forquraysh", "twojourneys", "worshiplord" -> 6000
     else -> 1000
 }
 
@@ -1235,7 +1243,7 @@ internal class ArtCtx(
 }
 
 /** Scenes that write their tags large (see ArtCtx.big). */
-internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent", "omenroad", "triptych", "heights", "revelation", "gaze", "nameswall", "register", "unseen", "fourrules", "twoseals", "storm", "sixroots", "verseguard", "decree", "threelives", "twolands", "proofscroll", "allegiance", "companions", "household", "morningevening", "mercyrain", "deepsea", "mountaindebt", "betterjar", "healingbed", "weddinglights", "alivetree", "tenfold", "radd", "threeshown", "doubtfree", "likeforbrother", "taqwaeverywhere", "guardhim", "modesty", "straightpath", "noinjustice", "askyourheart", "headofmatter", "proofonclaimant", "awliya", "stranger", "moonface", "simpleliving", "clearspeech", "truejest", "gratefulservant", "recitelight", "onlyaservant", "noblemanners", "lastday", "rabbgarden", "fatihaseven", "falaqnas", "samadneeds", "masadsign")
+internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent", "omenroad", "triptych", "heights", "revelation", "gaze", "nameswall", "register", "unseen", "fourrules", "twoseals", "storm", "sixroots", "verseguard", "decree", "threelives", "twolands", "proofscroll", "allegiance", "companions", "household", "morningevening", "mercyrain", "deepsea", "mountaindebt", "betterjar", "healingbed", "weddinglights", "alivetree", "tenfold", "radd", "threeshown", "doubtfree", "likeforbrother", "taqwaeverywhere", "guardhim", "modesty", "straightpath", "noinjustice", "askyourheart", "headofmatter", "proofonclaimant", "awliya", "stranger", "moonface", "simpleliving", "clearspeech", "truejest", "gratefulservant", "recitelight", "onlyaservant", "noblemanners", "lastday", "rabbgarden", "fatihaseven", "falaqnas", "samadneeds", "masadsign", "nasrdawn", "baraa", "kawtharriver", "maunhouse", "filquraysh")
 
 // ───────────── shared helpers ─────────────
 

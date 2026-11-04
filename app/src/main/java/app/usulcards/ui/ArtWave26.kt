@@ -977,7 +977,8 @@ private fun DrawScope.unseenHall(a: ArtCtx) {
             val p = Offset(w * (0.67f + 0.03f * k), h * 0.52f + (floor - h * 0.54f) * f)
             withTransform({ rotate(90f * f * (if (k % 2 == 0) 1f else -1f), p) }) { drawRect(UnsC26.Spines[k], Offset(p.x - w * 0.012f, p.y - h * 0.04f), Size(w * 0.024f, h * 0.08f), alpha = o) }
         }
-        noSign11pub(foot + Offset(w * 0.0f, -h * 0.3f), w * 0.035f, easeOut(seg(dn, 0.55f, 0.8f)))
+        // the verdict on his act, a word over him (not a sign over the shelves, which read as "knowledge is forbidden")
+        tagAt(a.tag("denyknown"), foot + Offset(-w * 0.02f, -h * 0.33f), easeOut(seg(dn, 0.55f, 0.75f)) * (1f - seg(cl, 0f, BEAT_OUT)), back = Color(0xE6701E1E), ink = ArtInk.Ivory)
     }
     // the one who claims what is hidden
     if (cl > 0f) {
@@ -987,10 +988,12 @@ private fun DrawScope.unseenHall(a: ArtCtx) {
         val lock = Offset((dl + dr) / 2f, h * 0.62f)
         val reach = easeInOut(seg(cl, 0.1f, 0.45f))
         val jiggle = if (cl in 0.45f..0.8f) sin(t * 30f) * 8f else 0f
-        val kp = Offset(mix(foot.x - w * 0.06f, lock.x + w * 0.06f, reach), mix(h * 0.72f, lock.y + h * 0.01f, reach))
-        key21(kp, w * 0.06f, Color(0xFFB8A27A), o, rot = jiggle)
-        if (cl in 0.45f..0.8f) for (m in 0 until 4) glint(lock + Offset(w * (0.02f + 0.02f * m), -h * 0.03f * m), w * 0.01f, Color(0xFFFFE0A0), 0.6f * bump(fract(t * 3f + m * 0.25f)))
-        noSign11pub(foot + Offset(0f, -h * 0.3f), w * 0.035f, easeOut(seg(cl, 0.7f, 0.9f)))
+        // his key does not fit: it rattles, then falls to the floor, and the lock stays shut
+        val drop = easeIn26(seg(cl, 0.75f, 0.95f))
+        val kp = Offset(mix(foot.x - w * 0.06f, lock.x + w * 0.06f, reach), mix(h * 0.72f, lock.y + h * 0.01f, reach) + drop * (floor - lock.y - h * 0.02f))
+        key21(kp, w * 0.06f, Color(0xFFB8A27A), o, rot = jiggle + 80f * drop)
+        if (cl in 0.45f..0.75f) for (m in 0 until 4) glint(lock + Offset(w * (0.02f + 0.02f * m), -h * 0.03f * m), w * 0.01f, Color(0xFFFFE0A0), 0.6f * bump(fract(t * 3f + m * 0.25f)))
+        tagAt(a.tag("claim"), foot + Offset(0f, -h * 0.33f), easeOut(seg(cl, 0.6f, 0.8f)) * (1f - seg(oa, 0f, BEAT_OUT)), back = Color(0xE6701E1E), ink = ArtInk.Ivory)
     }
     // the unseen: only Allah knows it
     if (oa > 0f) {

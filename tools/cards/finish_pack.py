@@ -473,6 +473,11 @@ ART_KINDS = {
     "falaqnas": {"allevils", "rabbmalikilah", "whisperretreat", "jinnins"},
     "samadneeds": {"ahadunique", "samadneed", "nochild", "asmathree", "asmasifat"},
     "masadsign": {"revealedalive", "foretoldtwo", "cametrue", "wealthnohelp", "faithsaves"},
+    "nasrdawn": {"gladtidings", "tasbihistighfar", "sealedwith", "nasrgrows", "subhanaka"},
+    "baraa": {"disown", "mixedcup", "twicesaid", "keybaraa", "purecup"},
+    "kawtharriver": {"muchgood", "riverhawd", "whitesweet", "prayersacrifice", "branchcut"},
+    "maunhouse": {"orphanhonor", "prayerguard", "lendsmall", "sahun", "sahwfi"},
+    "filquraysh": {"yearborn", "forquraysh", "twojourneys", "worshiplord"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

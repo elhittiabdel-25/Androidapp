@@ -33,7 +33,7 @@ private val Dash27 = floatArrayOf(5f, 4f)
 private fun DrawScope.dash27(): PathEffect = PathEffect.dashPathEffect(floatArrayOf(Dash27[0] * density, Dash27[1] * density))
 
 /** A stone idol on a low base. */
-private fun DrawScope.idol27(foot: Offset, s: Float, color: Color, alpha: Float) {
+internal fun DrawScope.idol27(foot: Offset, s: Float, color: Color, alpha: Float) {
     if (alpha <= 0.01f) return
     drawRect(color, Offset(foot.x - s * 0.5f, foot.y - s * 0.2f), Size(s, s * 0.2f), alpha = alpha)
     drawRoundRect(color, Offset(foot.x - s * 0.32f, foot.y - s * 0.95f), Size(s * 0.64f, s * 0.78f), CornerRadius(s * 0.25f), alpha = alpha)
@@ -188,7 +188,7 @@ private fun DrawScope.ruleCloser27(a: ArtCtx, r: Rect, p: Float, o: Float, t: Fl
     val up = easeOut(seg(p, 0.35f, 0.7f))
     if (up > 0f) {
         val from = stone + Offset(0f, -r.height * 0.42f)
-        drawLine(RulC27.Red, from, from + Offset(r.width * 0.05f, -r.height * 0.3f * up), 1.6f * dp, StrokeCap.Round, pathEffect = dash27())
+        drawLine(RulC27.Red, from, from + Offset(-r.width * 0.12f * up, -r.height * 0.07f * up), 1.6f * dp, StrokeCap.Round, pathEffect = dash27())   // kept clear of the verse above
     }
     fitBig26(a.big("ruletwo", 0, 0), Offset(r.center.x, r.top + r.height * 0.13f), r.width * 0.68f, Color(0xFF6A4418), seg(p, 0.4f, 0.65f))
     fitBig26(a.big("ruletwo", 0, 1), Offset(r.center.x, r.top + r.height * 0.27f), r.width * 0.44f, Color(0xFF6A4418), seg(p, 0.5f, 0.75f))
@@ -352,21 +352,31 @@ private fun DrawScope.anwatRoad(a: ArtCtx) {
         val come = easeInOut(seg(ak, 0f, 0.5f))
         val head = mix(w * 1.05f, w * 0.66f, come)
         val walking = come in 0.01f..0.99f
+        // companions are never figures (the codex): plain roundels in one muted colour, the camel among them
         for (k in 0 until 6) {
             val x = head + k * w * 0.055f
-            val y = h * (0.79f - 0.004f * k)
+            val bob = if (walking) sin(t * 5f + k) * h * 0.006f else 0f
+            val c = Offset(x, h * 0.7f + bob)
+            val r = h * 0.035f
+            if (k == 3) camel26(Offset(x + w * 0.02f, h * 0.79f), h * 0.15f, Color(0xFF6A4A30), 1f, t, if (walking) t * 4f else 0f)
+            else {
+                drawCircle(Color(0xFF6E6A78), r, c)
+                drawCircle(Color(0xFFCFC6B4), r, c, style = Stroke(1.4f * dp))
+            }
             val askers = k == 1 || k == 2
             val point = if (askers) easeOut(seg(ak, 0.55f, 0.75f)) * (1f - easeOut(seg(tk, 0.5f, 0.8f))) else 0f
-            if (point > 0.02f) pointer27(Offset(x, y), h * 0.16f, AnwC27.Ink, 1f, point)
-            else figure(Offset(x, y), h * 0.16f, AnwC27.Ink, 1f, walk = if (walking) t * 5f + k else 0f)
-            if (k == 3) camel26(Offset(x + w * 0.04f, y), h * 0.15f, Color(0xFF6A4A30), 1f, t, if (walking) t * 4f else 0f)
+            if (point > 0.02f) {
+                val tip = c + (base + Offset(0f, -h * 0.25f) - c) * (0.35f * point)
+                drawLine(ArtInk.Ivory, c + Offset(-r, 0f), tip, 1.6f * dp, StrokeCap.Round, alpha = point)
+                arrowHead(tip, tip - c, w * 0.015f, ArtInk.Ivory, 1.6f * dp, point)
+            }
         }
         tagAt(a.tag("askanwat"), Offset(head + w * 0.08f, h * 0.5f), seg(ak, 0.6f, 0.8f) * (1f - seg(tk, 0f, BEAT_OUT)), back = AnwC27.Back, ink = ArtInk.Ivory)
     }
     // his ﷺ light at the head of the column
     if (tk > 0f) {
-        val c = Offset(w * 0.6f, h * 0.62f)
-        sirajMunir(c, w * 0.011f, easeOut(seg(tk, 0f, 0.3f)), t, nameAt = c + Offset(0f, -h * 0.12f))
+        val c = Offset(w * 0.58f, h * 0.6f)
+        sirajMunir(c, w * 0.022f, easeOut(seg(tk, 0f, 0.3f)), t, nameAt = c + Offset(0f, -h * 0.14f))
         tagAt(a.tag("takbirsunan"), Offset(w * 0.74f, h * 0.33f), seg(tk, 0.3f, 0.55f), back = AnwC27.Back, ink = ArtInk.Gold)
     }
 }

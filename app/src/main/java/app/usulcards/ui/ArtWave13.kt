@@ -7,6 +7,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -152,14 +153,16 @@ private fun DrawScope.shopRoom(a: ArtCtx) {
     if (fo > 0f) {
         val come = easeInOut(seg(fo, 0f, 0.35f))
         val take = easeOut(seg(fo, 0.35f, 0.55f)) * (1f - easeOut(seg(ex, 0.4f, 0.7f)))
-        val bow = easeOut(seg(fo, 0.6f, 0.9f)) * (1f - easeOut(seg(ex, 0.5f, 0.85f)))
-        val deeper = easeOut(seg(da, 0.3f, 0.8f)) * (1f - easeOut(seg(ex, 0.5f, 0.85f)))
+        // they never bow to him: obeying him in what he made lawful and unlawful is itself the worship (review of
+        // 2026-11-04), so each is joined to him by a line of obedience instead
+        val obey = easeOut(seg(fo, 0.6f, 0.9f)).coerceAtLeast(easeOut(seg(da, 0f, 0.3f))) * (1f - easeOut(seg(ex, 0.5f, 0.85f)))
         for (k in 0 until 3) {
-            val foot = Offset(mix(w * (1.05f + 0.06f * k), w * (0.62f + 0.08f * k), come), floorY + h * 0.08f)
-            if (bow > 0.3f) {
-                w8Worshipper(foot, tall, ShopC13.Ink, 0f, min(1f, 0.4f * bow + 0.6f * deeper), 1f)
-            } else {
-                figure(foot, tall, ShopC13.Ink, walk = if (come < 1f) t * 6f + k else 0f, arms = 0.2f + 0.7f * take)
+            val foot = Offset(mix(w * (1.05f + 0.06f * k), w * (0.62f + 0.1f * k), come), floorY + h * 0.08f)
+            figure(foot, tall, ShopC13.Ink, walk = if (come < 1f) t * 6f + k else 0f, arms = 0.2f + 0.7f * take)
+            if (obey > 0f) {
+                val from = foot + Offset(0f, -tall * 0.9f)
+                val to = mFoot + Offset(tall * 0.1f, -tall * 0.95f)
+                drawLine(Color(0xFFE8B84A), from, from + (to - from) * obey, 1.4f * dp, StrokeCap.Round, alpha = 0.8f, pathEffect = PathEffect.dashPathEffect(floatArrayOf(5f * dp, 4f * dp)))
             }
             if (take > 0.3f && k < 2) {
                 val jar = foot + Offset(-tall * 0.3f, -tall * 0.55f)
@@ -173,8 +176,9 @@ private fun DrawScope.shopRoom(a: ArtCtx) {
     if (ex > 0f) {
         val lc = doorC + Offset(0f, -h * 0.34f)
         softGlow(lc, w * 0.12f, Color(0xFFFFC870), 0.6f * easeOut(seg(ex, 0f, 0.25f)))
-        sirajMunir(lc, 5.2f * dp, easeOut(seg(ex, 0f, 0.25f)), t, nameAt = lc + Offset(-w * 0.13f, -h * 0.02f))
-        nameRoundel(doorC + Offset(-w * 0.07f, -h * 0.13f), w * 0.065f, a.big("explained", 0, 0), Roundel.PlainFill, Roundel.PlainRim, easeOut(seg(ex, 0.15f, 0.35f)))
+        sirajMunir(lc, 5.2f * dp, easeOut(seg(ex, 0f, 0.25f)), t, nameAt = lc + Offset(0f, -h * 0.09f))
+        // ʿAdī as a roundel of his own, clear of every figure (a companion is never a body)
+        nameRoundel(lc + Offset(-w * 0.17f, -h * 0.12f), w * 0.075f, a.big("explained", 0, 0), Roundel.PlainFill, Roundel.PlainRim, easeOut(seg(ex, 0.15f, 0.35f)))
     }
 }
 

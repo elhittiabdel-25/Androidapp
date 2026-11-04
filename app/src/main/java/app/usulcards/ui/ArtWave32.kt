@@ -276,7 +276,7 @@ private object FilC32 {
     val Band = Color(0xFFE8E0D0)
 }
 
-private fun DrawScope.elephant32(c: Offset, s: Float, alpha: Float, glow: Float, t: Float) {
+internal fun DrawScope.elephant32(c: Offset, s: Float, alpha: Float, glow: Float, t: Float) {
     if (alpha <= 0.01f) return
     val col = lerpColor(FilC32.Ele, Color(0xFFB8B4C0), glow)
     // legs

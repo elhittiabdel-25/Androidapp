@@ -141,15 +141,15 @@ private fun DrawScope.sixrootsPage(a: ArtCtx) {
         tagAt(a.tag("branchout", 0, 1), Offset(w * 0.14f, h * 0.9f), seg(br, 0.6f, 0.85f), back = SixC28.Back, ink = ArtInk.BrassLight)
         tagAt(a.tag("branchout", 0, 2), Offset(w * 0.86f, h * 0.9f), seg(br, 0.7f, 0.95f), back = SixC28.Back, ink = ArtInk.BrassLight)
     }
-    // the rosette: the ring and the two triangles, drawn as each medallion arrives
+    // the ring, drawn as each medallion arrives, and a spoke from the centre to each (spokes, not two crossed
+    // triangles: the review of 2026-11-04 read the triangles as a six-pointed star of another religion)
     for (k in 0 until 6) {
         val f = if (k < 5) min(shown[k], shown[k + 1]) else min(shown[5], shown[0])
         val p = medal28(w, h, k)
         val q = medal28(w, h, (k + 1) % 6)
         if (f > 0f) drawLine(SixC28.Ink, p, p + (q - p) * f, 1.4f * dp, alpha = 0.7f)
-        val g = min(shown[k], shown[(k + 2) % 6])
-        val q2 = medal28(w, h, (k + 2) % 6)
-        if (g > 0f) drawLine(SixC28.Gold, p, p + (q2 - p) * g, 1f * dp, alpha = 0.6f)
+        val g = shown[k]
+        if (g > 0f) drawLine(SixC28.Gold, c, c + (p - c) * g, 1f * dp, alpha = 0.5f)
     }
     // the centre: an eight-pointed star that lights when all six are in
     val all = easeOut(seg(m3, 0.75f, 1f)).coerceAtLeast(if (br > 0f) 1f else 0f)
@@ -1123,7 +1123,7 @@ private fun DrawScope.threelivesLand(a: ArtCtx) {
     if (jb > 0f) {
         val down = easeInOut(seg(jb, 0.05f, 0.5f))
         val from = Offset(w * 0.6f, -h * 0.04f)
-        val to = cave + Offset(-w * 0.03f, -h * 0.06f)
+        val to = cave + Offset(w * 0.02f, -h * 0.17f)      // the angel stops above the cave, apart from his ﷺ light
         val ctrl = Offset(w * 0.62f, h * 0.3f)
         val trail = Path()
         for (k in 0..20) {
@@ -1135,18 +1135,14 @@ private fun DrawScope.threelivesLand(a: ArtCtx) {
         drawPath(trail, Color(0xFFDDEBFF), alpha = 0.5f * fadeAll, style = Stroke(1.8f * dp, cap = StrokeCap.Round))
         val u = down
         angelLight26(from * ((1 - u) * (1 - u)) + ctrl * (2 * u * (1 - u)) + to * (u * u), w * 0.016f, t, easeOut(seg(jb, 0f, 0.15f)) * fadeAll.coerceAtLeast(0.3f))
-        sirajMunir(cave + Offset(0f, -h * 0.005f), w * 0.01f, easeOut(seg(jb, 0.4f, 0.7f)) * (1f - easeOut(seg(mk, 0f, BEAT_OUT))), t, nameAt = cave + Offset(-w * 0.15f, -h * 0.06f))
-        // the thread to a man's heart
-        val man = Offset(w * 0.6f, h * 0.88f)
+        sirajMunir(cave + Offset(0f, -h * 0.005f), w * 0.018f, easeOut(seg(jb, 0.4f, 0.7f)) * (1f - easeOut(seg(mk, 0f, BEAT_OUT))), t, nameAt = cave + Offset(-w * 0.16f, h * 0.02f))
+        // the revelation goes out to hearts: a heart (never a body, so it is not taken for him ﷺ) that comes alive
+        val chest = Offset(w * 0.56f, h * 0.8f)
         val th = easeOut(seg(jb, 0.6f, 0.85f))
-        val chest = man + Offset(0f, -h * 0.13f)
         if (th > 0f) drawLine(ArtInk.Gold, cave + Offset(-w * 0.01f, h * 0.03f), cave + Offset(-w * 0.01f, h * 0.03f) + (chest - cave - Offset(-w * 0.01f, h * 0.03f)) * th, 1.5f * dp, StrokeCap.Round, alpha = 0.85f * fadeAll)
-        figure(man, h * 0.2f, Color(0xFF0A0810), easeOut(seg(jb, 0.5f, 0.7f)) * fadeAll)
         val lit = easeOut(seg(jb, 0.8f, 1f))
-        if (lit > 0f) {
-            softGlow(chest, w * 0.04f, Color(0xFFFFE6B0), 0.8f * lit * fadeAll)
-            drawCircle(Color(0xFFFFF4DA), w * 0.006f, chest, alpha = lit * fadeAll)
-        }
+        heart12(chest, w * 0.07f, lerpColor(Color(0xFF5A4A5A), Color(0xFFE0566A), lit), easeOut(seg(jb, 0.5f, 0.7f)) * fadeAll, fill = true)
+        if (lit > 0f) softGlow(chest, w * 0.07f, Color(0xFFFFE6B0), 0.7f * lit * fadeAll)
     }
     // 2. rain: life for the earth
     if (mk > 0f) {

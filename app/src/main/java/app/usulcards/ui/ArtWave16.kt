@@ -1,5 +1,6 @@
 package app.usulcards.ui
 
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
@@ -11,6 +12,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.withTransform
+import androidx.compose.ui.text.drawText
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.max
@@ -253,10 +255,10 @@ internal fun DrawScope.plainScene(a: ArtCtx) {
     val shots = shotsFor(a, mapOf(
         "refine" to Shot(Offset(w * 0.52f, h * 0.62f), 1.55f),
         "straightin" to Shot(Offset(w * 0.5f, h * 0.5f), 1f),
-        "noruqya" to Shot(Offset(w * 0.4f, h * 0.62f), 1.25f),
-        "nocautery" to Shot(Offset(w * 0.4f, h * 0.62f), 1.25f),
-        "noomen" to Shot(Offset(w * 0.4f, h * 0.6f), 1.25f),
-        "rely" to Shot(Offset(w * 0.3f, h * 0.6f), 1.15f),
+        "noruqya" to Shot(Offset(w * 0.5f, h * 0.45f), 1.1f),
+        "nocautery" to Shot(Offset(w * 0.5f, h * 0.45f), 1.1f),
+        "noomen" to Shot(Offset(w * 0.5f, h * 0.45f), 1.1f),
+        "rely" to Shot(Offset(w * 0.45f, h * 0.5f), 1.05f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.12f) { plainDawn(a) }
 }
@@ -358,32 +360,38 @@ private fun DrawScope.plainDawn(a: ArtCtx) {
             drawPath(w8Heart(heart, tl * 0.055f), PlainC16.Heart.copy(alpha = alpha))
         }
     }
-    // what they do not seek, beside their lane, each crossed out as they walk on
-    fun refused(b: Float, c: Offset, draw: DrawScope.(Float) -> Unit) {
+    // what they do not seek: each on a card of its own above the lane, with its word, and the card crossed out (never
+    // a cross over the people: the review of 2026-11-04 read that as the saved being turned away)
+    fun refused(b: Float, n: Int, draw: DrawScope.(Offset, Float) -> Unit) {
         if (b <= 0f) return
         val show = easeOut(seg(b, 0f, 0.25f))
         val keep = 1f - 0.5f * seg(rl, 0f, 0.4f)
-        draw(show * keep)
-        cross14(c + Offset(0f, -h * 0.02f), h * 0.045f, seg(b, 0.35f, 0.8f) * keep)
+        val c = Offset(w * (0.74f - 0.22f * n), h * 0.24f)
+        val cw = w * 0.16f
+        val ch = h * 0.2f
+        drawRoundRect(Color(0xE6182030), Offset(c.x - cw / 2f, c.y - ch / 2f), Size(cw, ch), CornerRadius(8f * dp), alpha = show * keep)
+        drawRoundRect(PlainC16.Queue, Offset(c.x - cw / 2f, c.y - ch / 2f), Size(cw, ch), CornerRadius(8f * dp), alpha = show * keep, style = Stroke(1.2f * dp))
+        draw(c + Offset(0f, -h * 0.02f), show * keep)
+        val tl = a.tag(listOf("noruqya", "nocautery", "noomen")[n])
+        if (tl != null) drawText(tl, color = ArtInk.Ivory, topLeft = Offset(c.x - tl.size.width / 2f, c.y + ch * 0.22f), alpha = show * keep)
+        cross14(c, h * 0.08f, seg(b, 0.35f, 0.8f) * keep)
     }
-    refused(nr, Offset(w * 0.3f, h * 0.62f)) { al ->
-        // one holding out his hands to recite over them
-        val f = Offset(w * 0.3f, h * 0.72f)
-        figure(f, h * 0.2f, PlainC16.Queue, al, arms = 0.8f)
+    refused(nr, 0) { c, al ->
+        // hands held out to ask someone to recite over him
+        hands12(c, h * 0.09f, PlainC16.Queue, al)
         for (k in 0 until 3) {
             val q = fract(t * 1.4f + k / 3f)
-            drawArc(PlainC16.Queue, 140f, 80f, false, topLeft = f + Offset(-h * 0.2f - h * 0.04f * q, -h * 0.22f), size = Size(h * 0.08f, h * 0.08f), alpha = al * (1f - q), style = Stroke(1.2f * dp))
+            drawArc(PlainC16.Queue, 140f, 80f, false, topLeft = c + Offset(-h * 0.1f - h * 0.03f * q, -h * 0.07f), size = Size(h * 0.06f, h * 0.06f), alpha = al * (1f - q), style = Stroke(1.2f * dp))
         }
     }
-    refused(nc, Offset(w * 0.44f, h * 0.66f)) { al ->
-        val c = Offset(w * 0.44f, h * 0.7f)
+    refused(nc, 1) { c, al ->
+        // a branding iron, glowing at its tip
         drawLine(Color(0xFF6A4A2A), c + Offset(w * 0.04f, h * 0.03f), c, 2.4f * dp, StrokeCap.Round, alpha = al)
         drawLine(PlainC16.Iron, c, c + Offset(-w * 0.035f, -h * 0.025f), 3f * dp, StrokeCap.Round, alpha = al)
         softGlow(c + Offset(-w * 0.035f, -h * 0.025f), h * 0.05f, PlainC16.Iron, 0.8f * al)
     }
-    refused(no, Offset(w * 0.36f, h * 0.5f)) { al ->
-        val fly = seg(no, 0f, 1f)
-        val c = Offset(mix(w * 0.55f, w * 0.2f, fly), h * 0.5f + h * 0.02f * sin(t * 4f))
+    refused(no, 2) { c, al ->
+        // a black bird taken as an omen
         val flap = sin(t * 12f) * h * 0.025f
         drawPath(Path().apply {
             moveTo(c.x - h * 0.05f, c.y - flap)
@@ -391,5 +399,14 @@ private fun DrawScope.plainDawn(a: ArtCtx) {
             quadraticTo(c.x + h * 0.02f, c.y - h * 0.01f, c.x + h * 0.05f, c.y - flap)
         }, PlainC16.Crow.copy(alpha = al), style = Stroke(2.4f * dp, cap = StrokeCap.Round))
         drawCircle(PlainC16.Crow, h * 0.012f, c, alpha = al)
+    }
+    // reliance: a thread of light rises from each lit heart in the stream
+    if (rl > 0f) {
+        val up = easeOut(seg(rl, 0.1f, 0.6f))
+        for (k in 0 until 4) {
+            val p = w8Along(lane, fract(t * 0.06f + k / 8f)) + Offset(0f, -tall * 0.4f)
+            drawLine(PlainC16.Heart, p, p + Offset(0f, -h * 0.3f * up), 1.5f * dp, StrokeCap.Round, alpha = 0.7f * up)
+        }
+        tagAt(a.tag("rely"), Offset(w * 0.5f, h * 0.1f), seg(rl, 0.3f, 0.5f), back = Color(0xE6182030), ink = ArtInk.Gold)
     }
 }
