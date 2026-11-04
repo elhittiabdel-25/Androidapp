@@ -493,6 +493,11 @@ ART_KINDS = {
     "nafsmirror": {"subtlesoul", "innerlife", "nafsroads", "purifiedfail"},
     "kabad": {"toil", "restwork", "wasted", "tradedgod"},
     "fajrten": {"dawnoath", "tennights", "lifeafter", "besttwo"},
+    "ghashiyaearth": {"goodtalk", "kindmanners", "flatround", "bigflat"},
+    "alaguide": {"sabbih", "guideall", "remindtwo", "fearkeeps"},
+    "tariqstar": {"piercingstar", "allstars", "comesbynight", "guardian"},
+    "burujsky": {"mansions", "wadud", "ghafurwadud", "lostmount"},
+    "easyreckon": {"rightbook", "sinveiled", "reckonstages", "underrule"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
