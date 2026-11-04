@@ -294,7 +294,7 @@ internal fun DrawScope.chartScene(a: ArtCtx) {
         val dim = 1f - 0.65f * seg(seed, 0f, 0.3f)
         penLine(listOf(from, to), easeIn(seg(cross, 0f, 0.6f)), pp.bad, 2f * dp, alpha = dim, dash = dash)
         if (cross > 0.6f) crossMark(to, 4f * dp, pp.bad, 2f * dp, seg(cross, 0.6f, 0.8f) * dim)
-        note(a.tag("cross"), Offset(to.x + w * 0.15f, to.y - h * 0.02f), seg(cross, 0.55f, 1f) * (1f - seg(seed, 0f, 0.3f)), pp, ink = pp.bad)
+        note(a.tag("cross"), Offset(to.x + w * 0.15f, to.y - h * 0.02f), seg(cross, 0.55f, 1f) * (1f - seg(seed, 0f, BEAT_OUT)), pp, ink = pp.bad)
     }
 
     // a mustard seed of faith, still above the line, and lifted
@@ -328,7 +328,7 @@ internal fun DrawScope.circuitScene(a: ArtCtx) {
     val trip = a.b("trip")
     val guard = a.b("guard")
     val tripAt = a.nth("trip").let { if (it < 0) 0 else a.sideAt(it).coerceIn(0, 9) }
-    val open = easeOut(seg(trip, 0f, 0.35f)) * (1f - easeOut(seg(guard, 0f, 0.5f)))
+    val open = easeOut(seg(trip, 0f, 0.35f)) * (1f - easeOut(seg(guard, 0f, BEAT_OUT)))
 
     val row1 = h * 0.2f
     val row2 = h * 0.47f
@@ -393,7 +393,7 @@ internal fun DrawScope.circuitScene(a: ArtCtx) {
     // the tripped one, named again
     if (trip > 0f && tripAt < nB) {
         val c = Offset(bx(tripAt), by(tripAt))
-        note(a.tag("trip"), c + Offset(0f, h * 0.1f), seg(trip, 0.2f, 0.5f) * (1f - seg(guard, 0f, 0.3f)), pp, ink = pp.bad)
+        note(a.tag("trip"), c + Offset(0f, h * 0.1f), seg(trip, 0.2f, 0.5f) * (1f - seg(guard, 0f, BEAT_OUT)), pp, ink = pp.bad)
     }
 
     // the word the current lights
@@ -430,8 +430,8 @@ internal fun DrawScope.verdictScene(a: ArtCtx) {
     val less = a.b("less")
     val will = a.b("will")
     val echo = a.b("echo")
-    val act1 = 1f - seg(voidB, 0f, 0.3f)
-    val act2 = seg(voidB, 0f, 0.3f) * (1f - seg(echo, 0f, 0.25f))
+    val act1 = 1f - seg(voidB, 0f, BEAT_OUT)
+    val act2 = seg(voidB, 0f, 0.3f) * (1f - seg(echo, 0f, BEAT_OUT))
     val act3 = seg(echo, 0.1f, 0.3f)
 
     // act 1: four figures cross the line one by one

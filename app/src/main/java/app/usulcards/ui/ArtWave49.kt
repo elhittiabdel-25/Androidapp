@@ -73,7 +73,7 @@ private fun DrawScope.faceMorning(a: ArtCtx) {
     sun12(Offset(w * 0.15f, h * 0.2f), w * 0.04f, 1f)
     for (k in 0 until 4) house12(Offset(w * (0.14f + 0.24f * k), ground - h * 0.01f), w * 0.18f, FaceC49.Wall, FaceC49.Trim, 0.3f)
     if (sg > 0f) {
-        val f = easeOut(seg(sg, 0f, 0.3f)) * (1f - seg(hd, 0f, 0.4f))
+        val f = easeOut(seg(sg, 0f, 0.3f)) * (1f - seg(hd, 0f, BEAT_OUT))
         val meet = easeInOut(seg(sg, 0.05f, 0.5f))
         val l = Offset(w * (0.15f + 0.27f * meet), ground)
         val r = Offset(w * (0.85f - 0.27f * meet), ground)
@@ -84,7 +84,7 @@ private fun DrawScope.faceMorning(a: ArtCtx) {
         for (k in 0 until 2) softGlow(Offset(if (k == 0) l.x else r.x, ground - h * 0.27f), w * 0.04f, FaceC49.Warm, 0.7f * f * glow)
     }
     if (hd > 0f) {
-        val f = easeOut(seg(hd, 0f, 0.3f)) * (1f - seg(ga, 0f, 0.4f))
+        val f = easeOut(seg(hd, 0f, BEAT_IN)) * (1f - seg(ga, 0f, BEAT_OUT))
         val back = easeInOut(seg(hd, 0.3f, 0.9f))
         for (k in 0 until 6) {
             val x = w * (0.62f + 0.06f * k + 0.25f * back)
@@ -101,7 +101,7 @@ private fun DrawScope.faceMorning(a: ArtCtx) {
         tagAt(a.tag("halfdate", 0, 1), Offset(w * 0.3f, ground - h * 0.6f), f * word, back = Back49, ink = ArtInk.Gold)
     }
     if (ga > 0f) {
-        val f = easeOut(seg(ga, 0f, 0.3f)) * (1f - seg(ls, 0f, 0.4f))
+        val f = easeOut(seg(ga, 0f, BEAT_IN)) * (1f - seg(ls, 0f, BEAT_OUT))
         val c = Offset(w * 0.34f, h * 0.42f)
         sirajMunir(c, w * 0.014f, f, t, nameAt = c + Offset(0f, -h * 0.13f))
         val near = easeInOut(seg(ga, 0.15f, 0.7f))
@@ -119,7 +119,7 @@ private fun DrawScope.faceMorning(a: ArtCtx) {
         }
     }
     if (ls > 0f) {
-        val f = easeOut(seg(ls, 0f, 0.3f)) * (1f - seg(gn, 0f, 0.4f))
+        val f = easeOut(seg(ls, 0f, BEAT_IN)) * (1f - seg(gn, 0f, BEAT_OUT))
         sit12(Offset(w * 0.38f, ground), h * 0.32f, FaceC49.Person, f, 1f)
         voice12(Offset(w * 0.44f, ground - h * 0.38f), w * 0.04f, t, FaceC49.Trim, f)
         val lean = easeInOut(seg(ls, 0.2f, 0.5f))
@@ -192,7 +192,7 @@ private fun DrawScope.tongueNight(a: ArtCtx) {
     while (x < w) { drawLine(TongueC49.Line, Offset(x, 0f), Offset(x + h * 0.5f, h), 0.8f * dp, alpha = 0.5f); x += step }
     val ground = h * 0.86f
     if (sr > 0f) {
-        val f = easeOut(seg(sr, 0f, 0.3f)) * (1f - seg(tl, 0f, 0.4f))
+        val f = easeOut(seg(sr, 0f, BEAT_IN)) * (1f - seg(tl, 0f, BEAT_OUT))
         val c = Offset(w * 0.5f, ground)
         figure(c, h * 0.34f, TongueC49.Gold, f)
         drawOval(TongueC49.Gold, Offset(c.x - w * 0.36f, c.y - h * 0.08f), Size(w * 0.72f, h * 0.16f), alpha = f * 0.5f * seg(sr, 0.4f, 0.7f), style = Stroke(1.5f * dp))
@@ -209,7 +209,7 @@ private fun DrawScope.tongueNight(a: ArtCtx) {
         }
     }
     if (tl > 0f) {
-        val f = easeOut(seg(tl, 0f, 0.3f)) * (1f - seg(fw, 0f, 0.4f))
+        val f = easeOut(seg(tl, 0f, BEAT_IN)) * (1f - seg(fw, 0f, BEAT_OUT))
         val open = easeInOut(seg(tl, 0.65f, 0.95f))
         drawRect(TongueC49.Garden, Offset(w * 0.62f, h * 0.2f), Size(w * 0.3f, ground - h * 0.2f), alpha = f * open)
         door12(Offset(w * 0.77f, ground), w * 0.16f, h * 0.56f, open, Color(0xFF5A4A3A), Color(0xFF3A2A1E), f, Color(0xFFBFE4A0))
@@ -221,7 +221,7 @@ private fun DrawScope.tongueNight(a: ArtCtx) {
         }
     }
     if (fw > 0f) {
-        val f = easeOut(seg(fw, 0f, 0.3f)) * (1f - seg(rw, 0f, 0.4f))
+        val f = easeOut(seg(fw, 0f, BEAT_IN)) * (1f - seg(rw, 0f, BEAT_OUT))
         val rim = h * 0.36f
         drawRect(Brush.horizontalGradient(listOf(TongueC49.East, Color(0xFF6A5A7A), TongueC49.West)), Offset(0f, h * 0.18f), Size(w, h * 0.12f), alpha = f * 0.6f)
         sun12(Offset(w * 0.06f, h * 0.24f), w * 0.025f, f)
@@ -234,7 +234,7 @@ private fun DrawScope.tongueNight(a: ArtCtx) {
         figure(Offset(w * 0.5f, rim), h * 0.18f, TongueC49.Person, f * (1f - fall * 0.4f))
     }
     if (rw > 0f) {
-        val f = easeOut(seg(rw, 0f, 0.3f)) * (1f - seg(og, 0f, 0.4f))
+        val f = easeOut(seg(rw, 0f, BEAT_IN)) * (1f - seg(og, 0f, BEAT_OUT))
         for (k in 0 until 6) drawRect(Color(0xFF2E3256), Offset(w * (0.2f + 0.1f * k), ground - h * 0.1f * (k + 1)), Size(w * 0.1f, h * 0.1f * (k + 1)), alpha = f)
         val up = easeInOut(seg(rw, 0.25f, 0.9f))
         val step = (up * 5f)
@@ -308,7 +308,7 @@ private fun DrawScope.biteNight(a: ArtCtx) {
     nightSky(t, BiteC49.Sky, BiteC49.SkyLow, ground, starAlpha = 0.6f)
     drawRect(BiteC49.Ground, Offset(0f, ground), Size(w, h - ground))
     if (ab > 0f) {
-        val f = easeOut(seg(ab, 0f, 0.3f)) * (1f - seg(tv, 0f, 0.4f))
+        val f = easeOut(seg(ab, 0f, BEAT_IN)) * (1f - seg(tv, 0f, BEAT_OUT))
         drawRect(BiteC49.Wall, Offset(w * 0.56f, ground - h * 0.36f), Size(w * 0.04f, h * 0.36f), alpha = f)
         figure(Offset(w * 0.18f, ground), h * 0.3f, BiteC49.Person, f, arms = 0.4f)
         figure(Offset(w * 0.36f, ground), h * 0.3f, BiteC49.Person, f, arms = -0.4f)
@@ -319,7 +319,7 @@ private fun DrawScope.biteNight(a: ArtCtx) {
         }
     }
     if (tv > 0f) {
-        val f = easeOut(seg(tv, 0f, 0.3f)) * (1f - seg(co, 0f, 0.4f))
+        val f = easeOut(seg(tv, 0f, BEAT_IN)) * (1f - seg(co, 0f, BEAT_OUT))
         val c = Offset(w * 0.5f, ground)
         figure(c, h * 0.36f, BiteC49.Absent, f)
         val mark = c + Offset(w * 0.02f, -h * 0.2f)
@@ -334,7 +334,7 @@ private fun DrawScope.biteNight(a: ArtCtx) {
         }
     }
     if (co > 0f) {
-        val f = easeOut(seg(co, 0f, 0.3f)) * (1f - seg(ik, 0f, 0.4f))
+        val f = easeOut(seg(co, 0f, BEAT_IN)) * (1f - seg(ik, 0f, BEAT_OUT))
         house12(Offset(w * 0.18f, ground), w * 0.22f, BiteC49.Wall, Color(0xFF2A2430), f, 0.5f)
         house12(Offset(w * 0.82f, ground), w * 0.22f, BiteC49.Wall, Color(0xFF2A2430), f, 0.5f)
         val trip = easeInOut(seg(co, 0.1f, 0.6f))
@@ -348,7 +348,7 @@ private fun DrawScope.biteNight(a: ArtCtx) {
         }
     }
     if (ik > 0f) {
-        val f = easeOut(seg(ik, 0f, 0.3f)) * (1f - seg(sb, 0f, 0.4f))
+        val f = easeOut(seg(ik, 0f, BEAT_IN)) * (1f - seg(sb, 0f, BEAT_OUT))
         val sea = h * 0.5f
         drawRect(BiteC49.Sea, Offset(0f, sea), Size(w, h - sea), alpha = f)
         for (k in 0 until 8) drawLine(Color(0xFF6AA0C0), Offset(w * fract(k / 8f + t * 0.02f), sea + h * (0.05f + 0.05f * (k % 4))), Offset(w * fract(k / 8f + t * 0.02f) + w * 0.06f, sea + h * (0.05f + 0.05f * (k % 4))), 1.2f * dp, alpha = f * 0.5f)
@@ -404,7 +404,7 @@ private fun DrawScope.rumorPage(a: ArtCtx) {
     val tg = a.b("twograins")
     val pen = 2.2f * dp
     if (sv > 0f) {
-        val f = easeOut(seg(sv, 0f, 0.25f)) * (1f - seg(fd, 0f, 0.4f))
+        val f = easeOut(seg(sv, 0f, BEAT_IN)) * (1f - seg(fd, 0f, BEAT_OUT))
         for (side in 0 until 2) {
             val c = Offset(w * (0.3f + 0.4f * side), h * 0.42f)
             penLine(listOf(c + Offset(-w * 0.1f, -h * 0.16f), c + Offset(-w * 0.015f, h * 0.08f), c + Offset(-w * 0.015f, h * 0.2f)), seg(sv, 0.05f, 0.25f), pp.ink, pen, f)
@@ -423,7 +423,7 @@ private fun DrawScope.rumorPage(a: ArtCtx) {
         }
     }
     if (fd > 0f) {
-        val f = easeOut(seg(fd, 0f, 0.25f)) * (1f - seg(po, 0f, 0.4f))
+        val f = easeOut(seg(fd, 0f, BEAT_IN)) * (1f - seg(po, 0f, BEAT_OUT))
         val bed = Offset(w * 0.3f, h * 0.72f)
         penLine(listOf(bed + Offset(-w * 0.14f, 0f), bed + Offset(w * 0.14f, 0f)), seg(fd, 0.05f, 0.2f), pp.ink, pen, f)
         drawLine(pp.ink, bed + Offset(-w * 0.08f, -h * 0.03f), bed + Offset(w * 0.1f, -h * 0.025f), h * 0.03f, StrokeCap.Round, alpha = f)
@@ -434,7 +434,7 @@ private fun DrawScope.rumorPage(a: ArtCtx) {
         crossMark(cloud, w * 0.06f, pp.bad, pen * 1.4f, f * seg(fd, 0.55f, 0.75f))
     }
     if (po > 0f) {
-        val f = easeOut(seg(po, 0f, 0.25f)) * (1f - seg(fm, 0f, 0.4f))
+        val f = easeOut(seg(po, 0f, BEAT_IN)) * (1f - seg(fm, 0f, BEAT_OUT))
         val n = 6
         for (k in 0 until n) {
             val c = Offset(w * (0.12f + 0.15f * k), h * 0.5f)
@@ -447,7 +447,7 @@ private fun DrawScope.rumorPage(a: ArtCtx) {
         }
     }
     if (fm > 0f) {
-        val f = easeOut(seg(fm, 0f, 0.25f)) * (1f - seg(tg, 0f, 0.4f))
+        val f = easeOut(seg(fm, 0f, BEAT_IN)) * (1f - seg(tg, 0f, BEAT_OUT))
         for (k in 0 until 4) {
             val c = Offset(w * (0.2f + 0.2f * k), h * 0.5f)
             val g = seg(fm, 0.1f + 0.18f * k, 0.28f + 0.18f * k)
@@ -517,14 +517,14 @@ private fun DrawScope.curseNight(a: ArtCtx) {
     nightSky(t, CurseC49.Sky, CurseC49.SkyLow, ground, starAlpha = 0.7f)
     drawRect(CurseC49.Ground, Offset(0f, ground), Size(w, h - ground))
     if (fn > 0f) {
-        val f = easeOut(seg(fn, 0f, 0.3f)) * (1f - seg(bm, 0f, 0.4f))
+        val f = easeOut(seg(fn, 0f, BEAT_IN)) * (1f - seg(bm, 0f, BEAT_OUT))
         for (k in 0 until 4) {
             val c = Offset(w * (0.2f + 0.2f * k), h * (0.4f + 0.12f * (k % 2)))
             struckTag21(a.tag("fournot", 0, k), c, f * seg(fn, 0.1f + 0.18f * k, 0.25f + 0.18f * k), seg(fn, 0.2f + 0.18f * k, 0.35f + 0.18f * k), CurseC49.Red, Back49, ArtInk.Ivory)
         }
     }
     if (bm > 0f) {
-        val f = easeOut(seg(bm, 0f, 0.3f)) * (1f - seg(sg, 0f, 0.4f))
+        val f = easeOut(seg(bm, 0f, BEAT_IN)) * (1f - seg(sg, 0f, 0.4f))
         val thrower = Offset(w * 0.22f, ground)
         figure(thrower, h * 0.3f, CurseC49.Person, f, arms = -0.6f * seg(bm, 0.1f, 0.2f))
         figure(Offset(w * 0.78f, ground), h * 0.3f, CurseC49.Person, f * 0.8f)
@@ -535,7 +535,7 @@ private fun DrawScope.curseNight(a: ArtCtx) {
         if (u > 0.95f) softGlow(thrower + Offset(0f, -h * 0.2f), w * 0.04f, CurseC49.Red, 0.6f * f)
     }
     if (sg > 0f) {
-        val f = easeOut(seg(sg, 0f, 0.3f)) * (1f - seg(fc, 0f, 0.4f))
+        val f = easeOut(seg(sg, 0f, 0.3f)) * (1f - seg(fc, 0f, BEAT_OUT))
         val speaker = Offset(w * 0.22f, ground)
         figure(speaker, h * 0.24f, CurseC49.Person, f)
         for (k in 0 until 3) {
@@ -554,7 +554,7 @@ private fun DrawScope.curseNight(a: ArtCtx) {
         softGlow(p, w * 0.04f, CurseC49.Curse, 0.4f * f)
     }
     if (fc > 0f) {
-        val f = easeOut(seg(fc, 0f, 0.3f)) * (1f - seg(na, 0f, 0.4f))
+        val f = easeOut(seg(fc, 0f, BEAT_IN)) * (1f - seg(na, 0f, BEAT_OUT))
         val go = easeInOut(seg(fc, 0.55f, 1f))
         val foot = Offset(w * (0.55f + 0.3f * go), ground)
         camel26(foot, h * 0.3f, CurseC49.Camel, f, t, t * 3f * go)

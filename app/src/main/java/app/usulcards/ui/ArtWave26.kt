@@ -128,7 +128,7 @@ private fun DrawScope.heightsNight(a: ArtCtx) {
         val c = Offset(w * 0.5f, h * 0.85f)
         drawArc(HeiC26.Layer, 200f, 140f, false, Offset(c.x - rx, c.y - ry), Size(rx * 2f, ry * 2f), alpha = f * (0.5f - 0.06f * k), style = Stroke((1.6f - 0.15f * k) * dp))
     }
-    fitBig26(a.big("above"), Offset(w * 0.5f, h * 0.1f), w * 0.55f, HeiC26.Gold, easeOut(seg(ab, 0.45f, 0.8f)) * (1f - seg(mw, 0f, 0.3f)), glow = HeiC26.Gold)
+    fitBig26(a.big("above"), Offset(w * 0.5f, h * 0.1f), w * 0.55f, HeiC26.Gold, easeOut(seg(ab, 0.45f, 0.8f)) * (1f - seg(mw, 0f, BEAT_OUT)), glow = HeiC26.Gold)
     // the earth
     hills(HeiC26.DuneFar, horizon, h * 0.02f, 0.012f, 0.031f, 0.6f)
     drawRect(HeiC26.Water, Offset(w * 0.25f, h * 0.7f), Size(w * 0.24f, h * 0.06f), alpha = 0.9f)
@@ -163,9 +163,9 @@ private fun DrawScope.heightsNight(a: ArtCtx) {
         w8Worshipper(Offset(w * 0.07f, h * 0.85f), tall, HeiC26.Ink, 0f, bump(fract(t * 0.18f)).let { if (it > 0.6f) 1f else it / 0.6f }, v[3])
     }
     // with them wherever they are: the verse over the land
-    fitBig26(a.big("withall"), Offset(w * 0.5f, h * 0.47f), w * 0.7f, HeiC26.Gold, easeOut(seg(wa, 0.05f, 0.3f)) * (1f - easeOut(seg(mw, 0f, 0.3f))), glow = HeiC26.Gold)
+    fitBig26(a.big("withall"), Offset(w * 0.5f, h * 0.47f), w * 0.7f, HeiC26.Gold, easeOut(seg(wa, 0.05f, 0.3f)) * (1f - easeOut(seg(mw, 0f, BEAT_OUT))), glow = HeiC26.Gold)
     // not mixed with what He created
-    struckTag21(a.tag("notmixed"), Offset(w * 0.5f, h * 0.61f), easeOut(seg(nm, 0f, 0.25f)) * (1f - seg(mw, 0f, 0.25f)), seg(nm, 0.35f, 0.95f), HeiC26.Red, back = HeiC26.Back, ink = ArtInk.Ivory)
+    struckTag21(a.tag("notmixed"), Offset(w * 0.5f, h * 0.61f), easeOut(seg(nm, 0f, BEAT_IN)) * (1f - seg(mw, 0f, BEAT_OUT)), seg(nm, 0.35f, 0.95f), HeiC26.Red, back = HeiC26.Back, ink = ArtInk.Ivory)
     // the card's example: the moon in the sky, and with the traveller
     if (mw > 0f) {
         val rise = easeOut(seg(mw, 0f, 0.3f))
@@ -512,7 +512,7 @@ private fun DrawScope.resurrectionLand(a: ArtCtx) {
         if (blow > 0f) for (k in 0 until 4) {
             val f = fract(t * 0.45f + k / 4f)
             val r = w * (0.04f + 0.3f * f)
-            drawArc(Color.White, 100f, 90f, false, Offset(bell.x - r, bell.y - r), Size(r * 2f, r * 2f), alpha = 0.5f * (1f - f) * min(1f, blow * 2f) * (1f - seg(sf, 0f, 0.4f)), style = Stroke(1.6f * dp))
+            drawArc(Color.White, 100f, 90f, false, Offset(bell.x - r, bell.y - r), Size(r * 2f, r * 2f), alpha = 0.5f * (1f - f) * min(1f, blow * 2f) * (1f - seg(sf, 0f, BEAT_OUT)), style = Stroke(1.6f * dp))
         }
         tagAt(a.tag("horn"), Offset(w * 0.77f, h * 0.12f), seg(hn, 0.3f, 0.6f) * (1f - seg(ar, 0.5f, 1f)), back = ResC26.Back, ink = ArtInk.Ivory)
     }
@@ -542,7 +542,7 @@ private fun DrawScope.resurrectionLand(a: ArtCtx) {
             }
             if (land >= 1f) {
                 if (k == 0) softGlow(hand, w * 0.04f, ArtInk.Gold, 0.6f)
-                tagAt(a.tag("scrollsfly", 0, k), foot + Offset(if (k == 0) w * 0.05f else -w * 0.05f, -tall * 1.5f - h * 0.09f * k), seg(sf, 0.55f + 0.25f * k, 0.7f + 0.25f * k) * (1f - seg(wg, 0f, 0.3f)), back = ResC26.Back, ink = if (k == 0) ArtInk.BrassLight else ArtInk.Ivory)
+                tagAt(a.tag("scrollsfly", 0, k), foot + Offset(if (k == 0) w * 0.05f else -w * 0.05f, -tall * 1.5f - h * 0.09f * k), seg(sf, 0.55f + 0.25f * k, 0.7f + 0.25f * k) * (1f - seg(wg, 0f, BEAT_OUT)), back = ResC26.Back, ink = if (k == 0) ArtInk.BrassLight else ArtInk.Ivory)
             }
         }
     }
@@ -965,7 +965,7 @@ private fun DrawScope.unseenHall(a: ArtCtx) {
             val f = fract(t * 0.15f + k / 6f)
             drawOval(UnsC26.Mist, Offset(dl - w * 0.02f + f * (dr - dl), floor - h * 0.03f - h * 0.02f * sin(f * 6f + k)), Size(w * 0.09f, h * 0.035f), alpha = 0.35f * bump(f) * door)
         }
-        tagAt(a.tag("sealdoor"), Offset((dl + dr) / 2f, h * 0.31f), seg(sd, 0.25f, 0.5f) * (1f - seg(oa, 0f, 0.3f)), back = UnsC26.Back, ink = ArtInk.Ivory)
+        tagAt(a.tag("sealdoor"), Offset((dl + dr) / 2f, h * 0.31f), seg(sd, 0.25f, 0.5f) * (1f - seg(oa, 0f, BEAT_OUT)), back = UnsC26.Back, ink = ArtInk.Ivory)
     }
     // the one who denies what is known
     if (dn > 0f) {
@@ -1293,16 +1293,16 @@ private fun DrawScope.barzakhEarth(a: ArtCtx) {
             val down = easeOut(seg(an, 0f, 0.5f))
             val target = c + Offset(s * gw * 0.36f, -gh * 0.2f)
             val p = Offset(target.x, mix(surface - h * 0.15f, target.y, down))
-            angelLight26(p, w * 0.012f, t + s, easeOut(seg(an, 0f, 0.2f)) * (1f - 0.6f * max(widen, close)))
+            angelLight26(p, w * 0.012f, t + s, easeOut(seg(an, 0f, BEAT_IN)) * (1f - 0.6f * max(widen, close)))
         }
     }
     // the three questions, and the answers
-    val fadeQ = 1f - easeOut(seg(rw, 0f, 0.3f))
+    val fadeQ = 1f - easeOut(seg(rw, 0f, BEAT_OUT))
     val ys = listOf(h * 0.42f, h * 0.51f, h * 0.6f)
     for (k in 0 until 3) {
         tagAt(a.tag("threeq", 0, k), Offset(w * 0.5f, ys[k]), seg(q, k * 0.28f, k * 0.28f + 0.2f) * fadeQ, back = BarC26.Back, ink = ArtInk.Ivory)
         tagAt(a.tag("answers", 0, k), Offset(w * 0.77f, ys[k]), seg(ans, k * 0.18f, k * 0.18f + 0.12f) * fadeQ, back = BarC26.Back, ink = ArtInk.Gold)
     }
-    tagAt(a.tag("answers", 0, 3), Offset(w * 0.22f, ys[1]), seg(ans, 0.62f, 0.75f) * fadeQ * (1f - seg(hf, 0f, 0.2f)), back = BarC26.Back, ink = Color(0xFFC8C0D0))
+    tagAt(a.tag("answers", 0, 3), Offset(w * 0.22f, ys[1]), seg(ans, 0.62f, 0.75f) * fadeQ * (1f - seg(hf, 0f, BEAT_OUT)), back = BarC26.Back, ink = Color(0xFFC8C0D0))
     qmark21(Offset(w * 0.22f, ys[0]), h * 0.06f, Color(0xFFC8C0D0), seg(ans, 0.7f, 0.85f) * fadeQ)
 }

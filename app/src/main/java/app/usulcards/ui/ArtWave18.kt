@@ -174,7 +174,7 @@ private fun DrawScope.boothLane(a: ArtCtx) {
         val come = easeInOut(seg(ak, 0f, 0.35f))
         if (un <= 0.2f) {
             val ax = mix(w * 0.2f, w * 0.4f, come)
-            val al = 1f - seg(un, 0f, 0.2f)
+            val al = 1f - seg(un, 0f, BEAT_OUT)
             withTransform({ scale(-1f, 1f, pivot = Offset(ax, ground + h * 0.04f)) }) {
                 figure(Offset(ax, ground + h * 0.04f), tall, Color(0xFF3A2E40), al, walk = if (come < 1f) t * 6f else 0f, arms = if (come >= 1f) 0.8f else 0.1f)
             }
@@ -318,7 +318,7 @@ private fun DrawScope.omenroadFields(a: ArtCtx) {
             drawPath(w8Heart(heart, tall * 0.05f), Color(0xFFFFD27A).copy(alpha = lift))
         }
         // turning back for it: crossed out
-        noSign11pub(foot + Offset(0f, -tall * 0.55f), tall * 0.42f, easeOut(seg(th, 0.6f, 0.85f)) * (1f - seg(gw, 0f, 0.2f)))
+        noSign11pub(foot + Offset(0f, -tall * 0.55f), tall * 0.42f, easeOut(seg(th, 0.6f, 0.85f)) * (1f - seg(gw, 0f, BEAT_OUT)))
     }
     // the crow across his way, and its caw
     if (cf > 0.3f && th < 0.6f) {

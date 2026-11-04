@@ -70,7 +70,7 @@ private fun DrawScope.doubtNight(a: ArtCtx) {
     nightSky(t, DoubtC59.Night, DoubtC59.NightLow, ground, starAlpha = 0.85f)
     drawRect(DoubtC59.Ground, Offset(0f, ground), Size(w, h - ground))
     if (rh > 0f) {
-        val f = easeOut(seg(rh, 0f, 0.25f)) * (1f - seg(mc, 0f, 0.4f))
+        val f = easeOut(seg(rh, 0f, BEAT_IN)) * (1f - seg(mc, 0f, BEAT_OUT))
         val light = Offset(w * 0.5f, h * 0.28f)
         sirajMunir(light, w * 0.012f, f, t, nameAt = light + Offset(0f, -h * 0.11f))
         nameRoundel(Offset(w * 0.3f, h * 0.58f), w * 0.1f, a.big("rayhanatan", 0, 0), Roundel.Fills[0], Roundel.Rim, f * seg(rh, 0.1f, 0.3f))
@@ -82,7 +82,7 @@ private fun DrawScope.doubtNight(a: ArtCtx) {
         }
     }
     if (mc > 0f) {
-        val f = easeOut(seg(mc, 0f, 0.25f)) * (1f - seg(wm, 0f, 0.4f))
+        val f = easeOut(seg(mc, 0f, BEAT_IN)) * (1f - seg(wm, 0f, BEAT_OUT))
         val l = Offset(w * 0.3f, ground)
         val r = Offset(w * 0.7f, ground)
         val away = easeInOut(seg(mc, 0.3f, 0.5f))
@@ -94,7 +94,7 @@ private fun DrawScope.doubtNight(a: ArtCtx) {
         tagAt(a.tag("murkyclear", 0, 1), Offset(w * 0.7f, h * 0.25f), f * seg(mc, 0.5f, 0.7f), back = Back59, ink = ArtInk.Gold)
     }
     if (wm > 0f) {
-        val f = easeOut(seg(wm, 0f, 0.25f)) * (1f - seg(sj, 0f, 0.4f))
+        val f = easeOut(seg(wm, 0f, BEAT_IN)) * (1f - seg(sj, 0f, BEAT_OUT))
         val mud = Offset(w * 0.5f, h * 0.7f)
         drawOval(DoubtC59.Mud, Offset(mud.x - w * 0.14f, mud.y - h * 0.05f), Size(w * 0.28f, h * 0.1f), alpha = f)
         val p0 = Offset(w * 0.95f, h * 0.72f)
@@ -175,7 +175,7 @@ private fun DrawScope.concernDay(a: ArtCtx) {
     val ground = h * 0.84f
     daySky12(ConcernC59.Sky, ConcernC59.SkyLow, ground, ConcernC59.Ground)
     if (bl > 0f) {
-        val f = easeOut(seg(bl, 0f, 0.25f)) * (1f - seg(pb, 0f, 0.4f))
+        val f = easeOut(seg(bl, 0f, BEAT_IN)) * (1f - seg(pb, 0f, BEAT_OUT))
         for (k in 0 until 2) {
             val foot = Offset(w * (0.32f + 0.36f * k), ground)
             val g = easeOut(seg(bl, 0.1f, 0.7f))
@@ -191,7 +191,7 @@ private fun DrawScope.concernDay(a: ArtCtx) {
         }
     }
     if (pb > 0f || es > 0f) {
-        val f = easeOut(seg(pb, 0f, 0.25f)) * (1f - seg(tb, 0f, 0.4f))
+        val f = easeOut(seg(pb, 0f, BEAT_IN)) * (1f - seg(tb, 0f, BEAT_OUT))
         for (k in 0 until 3) {
             val foot = Offset(w * (0.75f - 0.22f * k), ground)
             house12(foot, w * 0.16f, ConcernC59.Wall, ConcernC59.Trim, f, 0.2f)
@@ -202,9 +202,9 @@ private fun DrawScope.concernDay(a: ArtCtx) {
         val stop = es > 0f
         val x = if (stop) w * 0.5f else mix(w * 0.95f, w * 0.15f, walk)
         figure(Offset(x, ground + h * 0.06f), h * 0.26f, ConcernC59.Person, f, walk = if (stop) 0f else t * 5f, arms = if (stop) -0.9f * seg(es, 0.2f, 0.4f) else 0f)
-        tagAt(a.tag("passby"), Offset(w * 0.5f, h * 0.2f), f * seg(pb, 0.4f, 0.6f) * (1f - seg(es, 0f, 0.2f)), back = Back59, ink = ArtInk.Gold)
+        tagAt(a.tag("passby"), Offset(w * 0.5f, h * 0.2f), f * seg(pb, 0.4f, 0.6f) * (1f - seg(es, 0f, BEAT_OUT)), back = Back59, ink = ArtInk.Gold)
         if (es > 0f) {
-            val ff = easeOut(seg(es, 0f, 0.25f)) * (1f - seg(tb, 0f, 0.4f))
+            val ff = easeOut(seg(es, 0f, BEAT_IN)) * (1f - seg(tb, 0f, BEAT_OUT))
             val other = Offset(w * 0.3f, ground + h * 0.06f)
             val turn = seg(es, 0.45f, 0.7f)
             figure(other, h * 0.26f, ConcernC59.Person, ff, walk = t * 4f * (1f - turn), lean = 0.1f - 0.2f * turn)
@@ -213,7 +213,7 @@ private fun DrawScope.concernDay(a: ArtCtx) {
         }
     }
     if (tb > 0f) {
-        val f = easeOut(seg(tb, 0f, 0.25f)) * (1f - seg(cd, 0f, 0.4f))
+        val f = easeOut(seg(tb, 0f, BEAT_IN)) * (1f - seg(cd, 0f, BEAT_OUT))
         for (k in 0 until 2) {
             val c = Offset(w * (0.68f - 0.36f * k), ground - h * 0.06f)
             val g = seg(tb, 0.1f + 0.2f * k, 0.3f + 0.2f * k)
@@ -291,7 +291,7 @@ private fun DrawScope.brotherNight(a: ArtCtx) {
     nightSky(t, BrotherC59.Night, BrotherC59.NightLow, ground, starAlpha = 0.8f)
     drawRect(BrotherC59.Ground, Offset(0f, ground), Size(w, h - ground))
     if (ay > 0f) {
-        val f = easeOut(seg(ay, 0f, 0.25f)) * (1f - seg(br, 0f, 0.4f))
+        val f = easeOut(seg(ay, 0f, BEAT_IN)) * (1f - seg(br, 0f, BEAT_OUT))
         val c = Offset(w * 0.5f, h * 0.5f)
         nameRoundel(c, w * 0.12f, a.big("anasyears"), Roundel.Fills[1], Roundel.Rim, f * seg(ay, 0.05f, 0.25f))
         for (k in 0 until 10) {
@@ -301,7 +301,7 @@ private fun DrawScope.brotherNight(a: ArtCtx) {
         drawLine(BrotherC59.Road, Offset(w * 0.1f, ground - h * 0.02f), Offset(w * 0.9f, ground - h * 0.02f), h * 0.02f, StrokeCap.Round, alpha = f * seg(ay, 0.6f, 0.8f))
     }
     if (br > 0f) {
-        val f = easeOut(seg(br, 0f, 0.25f)) * (1f - seg(mg, 0f, 0.4f))
+        val f = easeOut(seg(br, 0f, BEAT_IN)) * (1f - seg(mg, 0f, BEAT_OUT))
         val foot = Offset(w * 0.5f, ground - h * 0.04f)
         val vw = w * 0.3f
         val vh = h * 0.5f
@@ -312,7 +312,7 @@ private fun DrawScope.brotherNight(a: ArtCtx) {
         softGlow(Offset(foot.x, foot.y - vh * 0.15f), w * 0.1f, BrotherC59.Gold, 0.4f * f * seg(br, 0.65f, 0.85f))
     }
     if (mg > 0f) {
-        val f = easeOut(seg(mg, 0f, 0.25f)) * (1f - seg(ft, 0f, 0.4f))
+        val f = easeOut(seg(mg, 0f, BEAT_IN)) * (1f - seg(ft, 0f, BEAT_OUT))
         val l = Offset(w * 0.28f, h * 0.55f)
         val r = Offset(w * 0.72f, h * 0.55f)
         nameRoundel(l, w * 0.06f, null, Roundel.PlainFill, Roundel.PlainRim, f)
@@ -329,7 +329,7 @@ private fun DrawScope.brotherNight(a: ArtCtx) {
         drawCircle(BrotherC59.Dark, w * 0.03f, dark, alpha = f * (1f - push) + f * 0.2f)
     }
     if (ft > 0f) {
-        val f = easeOut(seg(ft, 0f, 0.25f)) * (1f - seg(wn, 0f, 0.4f))
+        val f = easeOut(seg(ft, 0f, BEAT_IN)) * (1f - seg(wn, 0f, BEAT_OUT))
         val l = Offset(w * 0.2f, h * 0.5f)
         val r = Offset(w * 0.8f, h * 0.5f)
         nameRoundel(l, w * 0.05f, null, Roundel.PlainFill, Roundel.PlainRim, f)
@@ -419,7 +419,7 @@ private fun DrawScope.sacredDay(a: ArtCtx) {
     val ground = h * 0.84f
     daySky12(SacredC59.Sky, SacredC59.SkyLow, ground, SacredC59.Ground)
     if (ts > 0f) {
-        val f = easeOut(seg(ts, 0f, 0.25f)) * (1f - seg(th, 0f, 0.4f))
+        val f = easeOut(seg(ts, 0f, BEAT_IN)) * (1f - seg(th, 0f, BEAT_OUT))
         for (k in 0 until 3) {
             val foot = Offset(w * (0.78f - 0.28f * k), ground - h * 0.05f)
             val g = seg(ts, 0.1f + 0.2f * k, 0.3f + 0.2f * k)
@@ -433,11 +433,11 @@ private fun DrawScope.sacredDay(a: ArtCtx) {
         }
     }
     if (th > 0f) {
-        val f = easeOut(seg(th, 0f, 0.25f)) * (1f - seg(fd, 0f, 0.4f))
+        val f = easeOut(seg(th, 0f, BEAT_IN)) * (1f - seg(fd, 0f, BEAT_OUT))
         threeLights59(a, "tonguehearthand", th, f, -1)
     }
     if (fd > 0f) {
-        val f = easeOut(seg(fd, 0f, 0.25f)) * (1f - seg(pm, 0f, 0.4f))
+        val f = easeOut(seg(fd, 0f, BEAT_IN)) * (1f - seg(pm, 0f, BEAT_OUT))
         sun12(Offset(w * 0.8f, h * 0.15f), w * 0.04f, f)
         drawPath(Path().apply { moveTo(w * 0.15f, ground); quadraticTo(w * 0.35f, ground - h * 0.35f, w * 0.55f, ground); close() }, SacredC59.Mount, alpha = f)
         for (k in 0 until 40) {
@@ -505,7 +505,7 @@ private fun DrawScope.silentDusk(a: ArtCtx) {
     drawRect(Brush.verticalGradient(listOf(SilentC59.Dusk, SilentC59.DuskLow), 0f, ground), Offset.Zero, Size(w, ground))
     drawRect(SilentC59.Ground, Offset(0f, ground), Size(w, h - ground))
     if (ss > 0f) {
-        val f = easeOut(seg(ss, 0f, 0.25f)) * (1f - seg(rc, 0f, 0.4f))
+        val f = easeOut(seg(ss, 0f, BEAT_IN)) * (1f - seg(rc, 0f, BEAT_OUT))
         val mouth = Offset(w * 0.7f, h * 0.5f)
         val shut = seg(ss, 0.55f, 0.75f)
         drawArc(SilentC59.Person, 20f, 140f, false, Offset(mouth.x - w * 0.08f, mouth.y - h * 0.06f * (1f - shut)), Size(w * 0.16f, h * 0.12f * (1f - shut) + 2f * dp), alpha = f, style = Stroke(4f * dp, cap = StrokeCap.Round))
@@ -518,7 +518,7 @@ private fun DrawScope.silentDusk(a: ArtCtx) {
         tagAt(a.tag("speakorstill", 0, 1), Offset(w * 0.7f, h * 0.7f), f * seg(ss, 0.6f, 0.8f), back = Back59)
     }
     if (rc > 0f) {
-        val f = easeOut(seg(rc, 0f, 0.25f)) * (1f - seg(gw, 0f, 0.4f))
+        val f = easeOut(seg(rc, 0f, BEAT_IN)) * (1f - seg(gw, 0f, BEAT_OUT))
         for (k in 0 until 3) {
             val foot = Offset(w * (0.78f - 0.28f * k), ground)
             val g = seg(rc, 0.1f + 0.22f * k, 0.3f + 0.22f * k)
@@ -528,7 +528,7 @@ private fun DrawScope.silentDusk(a: ArtCtx) {
         }
     }
     if (gw > 0f) {
-        val f = easeOut(seg(gw, 0f, 0.25f)) * (1f - seg(nc, 0f, 0.4f))
+        val f = easeOut(seg(gw, 0f, BEAT_IN)) * (1f - seg(nc, 0f, BEAT_OUT))
         val sill = Offset(w * 0.6f, ground)
         house12(sill, w * 0.4f, SilentC59.Wall, SilentC59.Trim, f, 0.7f)
         door12(sill, w * 0.09f, h * 0.2f, seg(gw, 0.1f, 0.3f), SilentC59.Trim, SilentC59.Wall, f)
@@ -540,7 +540,7 @@ private fun DrawScope.silentDusk(a: ArtCtx) {
         for (k in 0 until 3) drawCircle(SilentC59.Food, w * 0.01f, Offset(w * (0.57f + 0.025f * k), ground + h * 0.085f), alpha = f * tray)
     }
     if (nc > 0f) {
-        val f = easeOut(seg(nc, 0f, 0.25f)) * (1f - seg(td, 0f, 0.4f))
+        val f = easeOut(seg(nc, 0f, BEAT_IN)) * (1f - seg(td, 0f, BEAT_OUT))
         val light = Offset(w * 0.3f, h * 0.35f)
         sirajMunir(light, w * 0.012f, f, t, nameAt = light + Offset(0f, -h * 0.1f))
         for (k in 0 until 3) {

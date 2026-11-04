@@ -378,7 +378,7 @@ private fun DrawScope.labRoom(a: ArtCtx) {
     val door = Offset(w * 0.3f, h * 0.8f)
     drawRect(LabC24.Door, Offset(door.x - w * 0.08f, door.y - h * 0.5f), Size(w * 0.16f, h * 0.5f))
     drawCircle(LabC24.Gold, w * 0.007f, door + Offset(w * 0.055f, -h * 0.24f))
-    tagAt(a.tag("waitdoor"), door + Offset(0f, -h * 0.56f), seg(wd, 0.1f, 0.3f) * (1f - seg(lf, 0f, 0.3f)), back = LabC24.Back, ink = ArtInk.BrassLight)
+    tagAt(a.tag("waitdoor"), door + Offset(0f, -h * 0.56f), seg(wd, 0.1f, 0.3f) * (1f - seg(lf, 0f, BEAT_OUT)), back = LabC24.Back, ink = ArtInk.BrassLight)
     val man = Offset(w * 0.15f, h * 0.88f)
     figure(man, h * 0.24f, LabC24.Ink, easeOut(seg(wd, 0f, 0.3f)).coerceAtLeast(if (lf > 0f) 1f else 0f), arms = -0.2f * sin(t))
     if (wd > 0f) {

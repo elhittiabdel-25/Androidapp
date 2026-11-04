@@ -105,7 +105,7 @@ private fun DrawScope.datedNight(a: ArtCtx) {
         val bookAt = book + (Offset(w * 0.3f, lineY - h * 0.12f) - book) * easeInOut(seg(tl, 0.4f, 0.8f))
         openBook21(bookAt, w * 0.14f, Color(0xFFF6EED8), Color(0xFF8A6A3A), sf, glow = 0.3f + 0.7f * glow)
         // the claimed arrow from the scroll to the Book, later struck out
-        val arr = seg(cl, 0.3f, 0.7f) * (1f - seg(tl, 0f, 0.3f)) + seg(mk, 0.1f, 0.4f) * 0.8f
+        val arr = seg(cl, 0.3f, 0.7f) * (1f - seg(tl, 0f, BEAT_OUT)) + seg(mk, 0.1f, 0.4f) * 0.8f
         val from = sc + Offset(-w * 0.08f, 0f)
         val to = bookAt + Offset(w * 0.1f, 0f)
         if (arr > 0f) {
@@ -113,7 +113,7 @@ private fun DrawScope.datedNight(a: ArtCtx) {
             arrowHead(to, to - from, w * 0.02f, Color(0xFFE8D8B8), 2f * dp, arr)
             cross21((from + to) / 2f, w * 0.04f, DateC41.Red, seg(mk, 0.4f, 0.7f), 4f * dp)
         }
-        tagAt(a.tag("meccankahf"), bookAt + Offset(0f, -h * 0.1f), seg(mk, 0.3f, 0.6f) * (1f - seg(fc, 0f, 0.3f)), back = Back41, ink = ArtInk.Gold)
+        tagAt(a.tag("meccankahf"), bookAt + Offset(0f, -h * 0.1f), seg(mk, 0.3f, 0.6f) * (1f - seg(fc, 0f, BEAT_OUT)), back = Back41, ink = ArtInk.Gold)
     }
     // a shepherd's light by the House, and a church a world away
     if (fc > 0f) {
@@ -186,7 +186,7 @@ private fun DrawScope.hornsPlain(a: ArtCtx) {
             val c = Offset(x, ground - h * 0.01f)
             softGlow(c, w * 0.08f, HornC41.Sun, 0.6f * f)
             drawArc(HornC41.Sun, 180f, 180f, true, Offset(c.x - w * 0.045f, c.y - w * 0.045f), Size(w * 0.09f, w * 0.09f), alpha = f)
-            tagAt(a.tag("eastwest", 0, k), c + Offset(if (k == 0) w * 0.08f else -w * 0.08f, -h * 0.1f), seg(ew, 0.5f + 0.15f * k, 0.75f + 0.15f * k) * (1f - seg(th, 0f, 0.3f)), back = Back41, ink = ArtInk.Gold)
+            tagAt(a.tag("eastwest", 0, k), c + Offset(if (k == 0) w * 0.08f else -w * 0.08f, -h * 0.1f), seg(ew, 0.5f + 0.15f * k, 0.75f + 0.15f * k) * (1f - seg(th, 0f, BEAT_OUT)), back = Back41, ink = ArtInk.Gold)
         }
         drawLine(Color(0xFFE8D2A0), Offset(w * 0.5f - w * 0.42f * road, ground + h * 0.05f), Offset(w * 0.5f + w * 0.42f * road, ground + h * 0.05f), 4f * dp, StrokeCap.Round, alpha = f)
     }
@@ -199,11 +199,11 @@ private fun DrawScope.hornsPlain(a: ArtCtx) {
         drawOval(Color(0xFF8A6A3A), Offset(c.x - w * 0.03f, c.y - h * 0.05f), Size(w * 0.06f, h * 0.09f), alpha = f * 0.5f)
         drawArc(Color(0xFF5A4020), 90f, 270f, false, Offset(c.x - w * 0.045f, c.y - h * 0.035f), Size(w * 0.03f, h * 0.035f), alpha = f, style = Stroke(2.5f * dp))
         cross21(c, w * 0.07f, HornC41.Red, seg(ih, 0.5f, 0.8f) * f, 4f * dp)
-        tagAt(a.tag("idolhorns"), c + Offset(0f, h * 0.12f), seg(ih, 0.3f, 0.6f) * (1f - seg(th, 0f, 0.4f)), back = Back41, ink = Color(0xFFFFE0D0))
+        tagAt(a.tag("idolhorns"), c + Offset(0f, h * 0.12f), seg(ih, 0.3f, 0.6f) * (1f - seg(th, 0f, BEAT_OUT)), back = Back41, ink = Color(0xFFFFE0D0))
     }
     // a crown with two great horns, east and west
     if (th > 0f) {
-        val f = easeOut(seg(th, 0f, 0.3f)) * (1f - 0.5f * seg(dr, 0f, 0.4f))
+        val f = easeOut(seg(th, 0f, BEAT_IN)) * (1f - 0.5f * seg(dr, 0f, 0.4f))
         val c = Offset(w * 0.5f, h * 0.3f)
         drawRect(HornC41.Crown, Offset(c.x - w * 0.06f, c.y - h * 0.02f), Size(w * 0.12f, h * 0.05f), alpha = f)
         for (k in 0 until 3) drawPath(Path().apply { val x = c.x - w * 0.05f + k * w * 0.05f; moveTo(x - w * 0.015f, c.y - h * 0.02f); lineTo(x, c.y - h * 0.06f); lineTo(x + w * 0.015f, c.y - h * 0.02f); close() }, HornC41.Crown, alpha = f)
@@ -215,12 +215,12 @@ private fun DrawScope.hornsPlain(a: ArtCtx) {
             }
             drawPath(p, HornC41.Crown, alpha = f, style = Stroke(w * 0.018f, cap = StrokeCap.Round))
         }
-        tagAt(a.tag("twohorns", 0, 0), c + Offset(w * 0.32f, -h * 0.05f), seg(th, 0.6f, 0.85f) * (1f - seg(dr, 0f, 0.4f)), back = Back41, ink = ArtInk.Gold)
-        tagAt(a.tag("twohorns", 0, 1), c + Offset(-w * 0.32f, -h * 0.05f), seg(th, 0.65f, 0.9f) * (1f - seg(dr, 0f, 0.4f)), back = Back41, ink = ArtInk.Gold)
+        tagAt(a.tag("twohorns", 0, 0), c + Offset(w * 0.32f, -h * 0.05f), seg(th, 0.6f, 0.85f) * (1f - seg(dr, 0f, BEAT_OUT)), back = Back41, ink = ArtInk.Gold)
+        tagAt(a.tag("twohorns", 0, 1), c + Offset(-w * 0.32f, -h * 0.05f), seg(th, 0.65f, 0.9f) * (1f - seg(dr, 0f, BEAT_OUT)), back = Back41, ink = ArtInk.Gold)
     }
     // Daniel's ram with two high horns
     if (dr > 0f) {
-        val f = easeOut(seg(dr, 0f, 0.3f)) * (1f - 0.5f * seg(od, 0f, 0.4f))
+        val f = easeOut(seg(dr, 0f, BEAT_IN)) * (1f - 0.5f * seg(od, 0f, 0.4f))
         val c = Offset(w * 0.72f, h * 0.62f)
         drawOval(HornC41.Ram, Offset(c.x - w * 0.09f, c.y - h * 0.05f), Size(w * 0.18f, h * 0.1f), alpha = f)
         for (k in 0 until 4) drawLine(HornC41.Ram, c + Offset(w * (-0.06f + 0.04f * k), h * 0.03f), c + Offset(w * (-0.06f + 0.04f * k), h * 0.1f), w * 0.012f, StrokeCap.Round, alpha = f)
@@ -228,8 +228,8 @@ private fun DrawScope.hornsPlain(a: ArtCtx) {
         drawCircle(HornC41.Ram, w * 0.03f, head, alpha = f)
         val grow = easeOut(seg(dr, 0.2f, 0.6f))
         for (k in 0 until 2) drawLine(HornC41.Crown, head + Offset(w * 0.01f * k, -h * 0.02f), head + Offset(-w * 0.01f + w * 0.03f * k, -h * (0.06f + 0.03f * k) * grow - h * 0.02f), w * 0.01f, StrokeCap.Round, alpha = f)
-        tagAt(a.tag("danielram", 0, 0), c + Offset(-w * 0.08f, -h * 0.17f), seg(dr, 0.5f, 0.75f) * (1f - seg(od, 0f, 0.4f)), back = Back41, ink = ArtInk.Ivory)
-        tagAt(a.tag("danielram", 0, 1), c + Offset(w * 0.1f, -h * 0.13f), seg(dr, 0.6f, 0.85f) * (1f - seg(od, 0f, 0.4f)), back = Back41, ink = ArtInk.Ivory)
+        tagAt(a.tag("danielram", 0, 0), c + Offset(-w * 0.08f, -h * 0.17f), seg(dr, 0.5f, 0.75f) * (1f - seg(od, 0f, BEAT_OUT)), back = Back41, ink = ArtInk.Ivory)
+        tagAt(a.tag("danielram", 0, 1), c + Offset(w * 0.1f, -h * 0.13f), seg(dr, 0.6f, 0.85f) * (1f - seg(od, 0f, BEAT_OUT)), back = Back41, ink = ArtInk.Ivory)
     }
     // the gates opened before him
     if (od > 0f) {
@@ -290,7 +290,7 @@ private fun DrawScope.dotsRoom(a: ArtCtx) {
     drawRect(Brush.verticalGradient(listOf(DotC41.Wall, DotC41.WallLow), endY = floor), size = Size(w, floor))
     drawRect(Color(0xFF2A2228), Offset(0f, floor), Size(w, h - floor))
     // the page and its dots
-    val page = easeOut(seg(md, 0f, 0.3f)) * (1f - 0.8f * seg(vc, 0.2f, 0.6f))
+    val page = easeOut(seg(md, 0f, BEAT_IN)) * (1f - 0.8f * seg(vc, 0.2f, 0.6f))
     if (page > 0f) {
         val c = Offset(w * 0.5f, h * 0.3f)
         drawRect(DotC41.Paper, Offset(c.x - w * 0.25f, c.y - h * 0.16f), Size(w * 0.5f, h * 0.32f), alpha = page)
@@ -315,7 +315,7 @@ private fun DrawScope.dotsRoom(a: ArtCtx) {
     }
     // the voice: from mouth to ear, generation after generation
     if (vc > 0f) {
-        val f = easeOut(seg(vc, 0f, 0.3f)) * (1f - 0.5f * seg(rq, 0f, 0.4f))
+        val f = easeOut(seg(vc, 0f, BEAT_IN)) * (1f - 0.5f * seg(rq, 0f, 0.4f))
         for (k in 0 until 6) {
             val foot = Offset(w * (0.9f - 0.15f * k), floor)
             figure(foot, h * 0.16f, DotC41.Reciter, f * seg(vc, 0.05f * k, 0.2f + 0.05f * k))
@@ -406,7 +406,7 @@ private fun DrawScope.sanaaNight(a: ArtCtx) {
     }
     // a child's sheet: written, wiped, corrected
     if (ep > 0f) {
-        val f = easeOut(seg(ep, 0f, 0.3f)) * (1f - 0.6f * seg(ih, 0f, 0.4f))
+        val f = easeOut(seg(ep, 0f, BEAT_IN)) * (1f - 0.6f * seg(ih, 0f, 0.4f))
         val c = Offset(w * 0.64f, h * 0.38f)
         drawRect(SanaaC41.Parch, Offset(c.x - w * 0.16f, c.y - h * 0.18f), Size(w * 0.32f, h * 0.36f), alpha = f)
         for (r in 0 until 5) {
@@ -509,23 +509,23 @@ private fun DrawScope.streamsNight(a: ArtCtx) {
             }
             drawPath(p, StreamC41.Water, alpha = sf * 0.75f * run, style = Stroke(w * 0.012f, cap = StrokeCap.Round))
         }
-        tagAt(a.tag("sevenbranches"), Offset(w * 0.5f, h * 0.38f), seg(sb, 0.55f, 0.8f) * (1f - seg(tc, 0f, 0.3f)), back = Back41, ink = ArtInk.Gold)
+        tagAt(a.tag("sevenbranches"), Offset(w * 0.5f, h * 0.38f), seg(sb, 0.55f, 0.8f) * (1f - seg(tc, 0f, BEAT_OUT)), back = Back41, ink = ArtInk.Gold)
     }
     // two companions, two ways of reading, both as revealed
     if (tc > 0f) {
-        val f = easeOut(seg(tc, 0f, 0.4f)) * (1f - seg(cb, 0f, 0.4f))
+        val f = easeOut(seg(tc, 0f, 0.4f)) * (1f - seg(cb, 0f, BEAT_OUT))
         for (k in 0 until 2) {
             val come = easeInOut(seg(tc, 0.1f + 0.15f * k, 0.6f + 0.15f * k))
             val from = Offset(if (k == 0) w * 0.08f else w * 0.92f, h * 0.32f)
             val to = Offset(w * (0.36f + 0.28f * k), h * 0.26f)
             val p = from + (to - from) * come
             nameRoundel(p, w * 0.045f, a.tag("twocompanions", 0, k), Roundel.Fills[k], Roundel.Rim, f)
-            check21(p + Offset(0f, h * 0.08f), w * 0.018f, ArtInk.Jade, seg(br, 0.1f + 0.3f * k, 0.4f + 0.3f * k) * (1f - seg(cb, 0f, 0.4f)), 3f * dp)
+            check21(p + Offset(0f, h * 0.08f), w * 0.018f, ArtInk.Jade, seg(br, 0.1f + 0.3f * k, 0.4f + 0.3f * k) * (1f - seg(cb, 0f, BEAT_OUT)), 3f * dp)
         }
     }
     // a reading: two streams into one cup
     if (cb > 0f) {
-        val f = easeOut(seg(cb, 0f, 0.3f)) * (1f - 0.5f * seg(dpp, 0f, 0.4f))
+        val f = easeOut(seg(cb, 0f, BEAT_IN)) * (1f - 0.5f * seg(dpp, 0f, 0.4f))
         val cup = Offset(w * 0.35f, h * 0.85f)
         for (k in 0 until 2) {
             val r = Offset(w * (0.18f + 0.34f * k), h * 0.62f)
@@ -594,7 +594,7 @@ private fun DrawScope.stairsDay(a: ArtCtx) {
     drawRect(StepC41.Ground, Offset(0f, ground), Size(w, h - ground))
     // the ransom
     if (rr > 0f) {
-        val f = easeOut(seg(rr, 0f, 0.3f)) * (1f - seg(gr, 0f, 0.4f))
+        val f = easeOut(seg(rr, 0f, BEAT_IN)) * (1f - seg(gr, 0f, BEAT_OUT))
         val light = Offset(w * 0.16f, h * 0.42f)
         nabiLight14(light, w * 0.01f, f, t, a.tag("ransomram"), light + Offset(0f, -h * 0.1f))
         val ram = Offset(w * 0.3f, ground - h * 0.06f)
@@ -604,7 +604,7 @@ private fun DrawScope.stairsDay(a: ArtCtx) {
     }
     // gradual: step by step to the full ruling
     if (gr > 0f) {
-        val f = easeOut(seg(gr, 0f, 0.3f)) * (1f - 0.5f * seg(st, 0f, 0.4f))
+        val f = easeOut(seg(gr, 0f, BEAT_IN)) * (1f - 0.5f * seg(st, 0f, 0.4f))
         for (k in 0 until 4) {
             val x = w * (0.38f + 0.12f * k)
             val top = ground - h * 0.07f * (k + 1)
@@ -626,7 +626,7 @@ private fun DrawScope.stairsDay(a: ArtCtx) {
         val c = Offset(w * 0.8f, h * 0.3f)
         drawCircle(StepC41.Pie, w * 0.08f, c, alpha = f)
         drawArc(ArtInk.Gold, -90f, 120f * easeOut(seg(wt, 0.3f, 0.7f)), true, Offset(c.x - w * 0.08f, c.y - w * 0.08f), Size(w * 0.16f, w * 0.16f), alpha = f)
-        tagAt(a.tag("willthird"), c + Offset(0f, h * 0.12f), seg(wt, 0.5f, 0.8f) * (1f - seg(fn, 0f, 0.4f)), back = Back41, ink = ArtInk.Gold)
+        tagAt(a.tag("willthird"), c + Offset(0f, h * 0.12f), seg(wt, 0.5f, 0.8f) * (1f - seg(fn, 0f, BEAT_OUT)), back = Back41, ink = ArtInk.Gold)
     }
     // few: nine
     if (fn > 0f) {

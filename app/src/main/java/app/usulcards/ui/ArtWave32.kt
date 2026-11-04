@@ -90,7 +90,7 @@ private fun DrawScope.dawnfearPlain(a: ArtCtx) {
         drawPath(arc, FearC32.Sun, alpha = 0.35f * easeOut(seg(sd, 0.3f, 0.6f)), style = Stroke(1.2f * dp, pathEffect = PathEffect.dashPathEffect(floatArrayOf(4f * dp, 4f * dp))))
     }
     // storm clouds and lightning, fading as the days come
-    val storm = easeOut(seg(fs, 0f, 0.3f)) * (1f - day)
+    val storm = easeOut(seg(fs, 0f, BEAT_IN)) * (1f - day)
     if (storm > 0f) {
         for (k in 0 until 7) {
             val c = Offset(w * (0.05f + 0.15f * k) + w * 0.01f * sin(t * 0.4f + k), h * (0.12f + 0.04f * (k % 2)))
@@ -144,7 +144,7 @@ private fun DrawScope.dawnfearPlain(a: ArtCtx) {
     if (fq > 0f) {
         for (k in 0 until 4) {
             val c = Offset(w * (0.2f + 0.2f * k), h * 0.27f)
-            val f = easeOut(seg(fq, k * 0.15f, 0.3f + k * 0.15f)) * (1f - seg(os, 0f, 0.25f))
+            val f = easeOut(seg(fq, k * 0.15f, 0.3f + k * 0.15f)) * (1f - seg(os, 0f, BEAT_OUT))
             if (f <= 0f) continue
             drawCircle(Color(0xFF2A2440), w * 0.03f * f, c, alpha = 0.9f)
             drawCircle(ArtInk.BrassLight, w * 0.03f * f, c, alpha = 0.8f, style = Stroke(1.4f * dp))
@@ -158,7 +158,7 @@ private fun DrawScope.dawnfearPlain(a: ArtCtx) {
         val from = Offset(w * 0.36f, -h * 0.05f)
         lightShafts(from, PI.toFloat() / 2f, 0.32f, h * 0.85f, Color(0xFFFFF2D0), 0.7f * f, t, rays = 6)
         softGlow(Offset(w * 0.38f, horizon), w * 0.08f, Color(0xFFFFE8B0), 0.5f * f)
-        tagAt(a.tag("ownsource"), Offset(w * 0.36f, h * 0.2f), seg(os, 0.35f, 0.6f) * (1f - seg(sd, 0f, 0.2f)), back = Back32, ink = ArtInk.Gold)
+        tagAt(a.tag("ownsource"), Offset(w * 0.36f, h * 0.2f), seg(os, 0.35f, 0.6f) * (1f - seg(sd, 0f, BEAT_OUT)), back = Back32, ink = ArtInk.Gold)
     }
 }
 
@@ -364,7 +364,7 @@ private fun DrawScope.elephantHall(a: ArtCtx) {
     // what each one is sure it is
     val partsAt = listOf(Offset(w * 0.22f, h * 0.42f), Offset(w * 0.09f, h * 0.6f), Offset(w * 0.37f, h * 0.38f), Offset(w * 0.58f, h * 0.26f))
     for (k in 0 until 4) {
-        tagAt(a.tag("parts", 0, k), partsAt[k], seg(pa, 0.1f + k * 0.15f, 0.3f + k * 0.15f) * (1f - seg(ov, 0f, 0.3f)), back = Back32, ink = Color(0xFFFFD0A8))
+        tagAt(a.tag("parts", 0, k), partsAt[k], seg(pa, 0.1f + k * 0.15f, 0.3f + k * 0.15f) * (1f - seg(ov, 0f, BEAT_OUT)), back = Back32, ink = Color(0xFFFFD0A8))
     }
     // what only the light from outside answers
     for (k in 0 until 3) {
@@ -432,7 +432,7 @@ private fun DrawScope.detectorNight(a: ArtCtx) {
             softGlow(win, w * 0.05f, PlateC32.Ember, 0.6f * f)
         }
     }
-    tagAt(a.tag("embers"), Offset(w * 0.17f, h * 0.36f), seg(em, 0.4f, 0.65f) * (1f - seg(pl, 0f, 0.3f)), back = Back32, ink = ArtInk.Gold)
+    tagAt(a.tag("embers"), Offset(w * 0.17f, h * 0.36f), seg(em, 0.4f, 0.65f) * (1f - seg(pl, 0f, BEAT_OUT)), back = Back32, ink = ArtInk.Gold)
     // the cage on show
     val cageC = Offset(w * 0.78f, ground)
     if (cg > 0f) {
@@ -522,7 +522,7 @@ private fun DrawScope.safaMorning(a: ArtCtx) {
         Brush.verticalGradient(listOf(SafaC32.Hill, SafaC32.HillDark), startY = top.y, endY = h * 0.82f))
     drawRect(SafaC32.Valley, Offset(0f, h * 0.8f), Size(w, h * 0.2f))
     // the two pillars, nothing between them
-    val poles = easeOut(seg(tp, 0f, 0.3f)) * (1f - easeOut(seg(sh, 0f, 0.3f)))
+    val poles = easeOut(seg(tp, 0f, BEAT_IN)) * (1f - easeOut(seg(sh, 0f, BEAT_OUT)))
     if (poles > 0f) {
         for (k in 0 until 2) {
             val x = if (k == 0) w * 0.2f else w * 0.8f
@@ -561,7 +561,7 @@ private fun DrawScope.safaMorning(a: ArtCtx) {
             val y = h * (0.86f + 0.04f * (k % 3))
             figure(Offset(x, y), h * 0.12f, SafaC32.Crowd, f, lean = (x - top.x) / w * 0.3f)
         }
-        tagAt(a.tag("witnessed"), Offset(w * 0.5f, h * 0.66f), seg(wt, 0.4f, 0.7f) * (1f - seg(st, 0f, 0.3f)), back = Back32, ink = ArtInk.Ivory)
+        tagAt(a.tag("witnessed"), Offset(w * 0.5f, h * 0.66f), seg(wt, 0.4f, 0.7f) * (1f - seg(st, 0f, BEAT_OUT)), back = Back32, ink = ArtInk.Ivory)
     }
 }
 
@@ -734,7 +734,7 @@ private fun DrawScope.tawaturNight(a: ArtCtx) {
             val p = Offset(w * w8Rnd(k, 12.9898f), h * 0.62f * w8Rnd(k, 78.233f))
             drawCircle(TawC32.Spark, w * (0.002f + 0.003f * w8Rnd(k, 3.7f)), p, alpha = 0.5f + 0.5f * sin(t * 2f + k))
         }
-        tagAt(a.tag("sparks"), Offset(w * 0.5f, h * 0.1f), seg(sk, 0.4f, 0.7f) * (1f - seg(cv, 0f, 0.3f)), back = Back32, ink = ArtInk.Gold)
+        tagAt(a.tag("sparks"), Offset(w * 0.5f, h * 0.1f), seg(sk, 0.4f, 0.7f) * (1f - seg(cv, 0f, BEAT_OUT)), back = Back32, ink = ArtInk.Gold)
     }
     // chains from every side into one point
     val hub = Offset(w * 0.5f, h * 0.42f)

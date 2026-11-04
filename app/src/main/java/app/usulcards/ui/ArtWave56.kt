@@ -68,7 +68,7 @@ private fun DrawScope.heavyNight(a: ArtCtx) {
     val th = a.b("thousandgood")
     nightSky(t, HeavyC56.Night, HeavyC56.NightLow, h * 0.7f, starAlpha = 0.7f)
     if (tw > 0f) {
-        val f = easeOut(seg(tw, 0f, 0.25f)) * (1f - seg(sf, 0f, 0.4f))
+        val f = easeOut(seg(tw, 0f, BEAT_IN)) * (1f - seg(sf, 0f, BEAT_OUT))
         val land = easeInOut(seg(tw, 0.15f, 0.6f))
         val tilt = mix(0f, 0.75f, easeInOut(seg(tw, 0.55f, 0.85f)))
         val foot = Offset(w * 0.5f, h * 0.92f)
@@ -84,7 +84,7 @@ private fun DrawScope.heavyNight(a: ArtCtx) {
         drawCircle(HeavyC56.Beam, w * 0.012f, rp + Offset(0f, -h * 0.02f), alpha = f * 0.6f)
     }
     if (sf > 0f) {
-        val f = easeOut(seg(sf, 0f, 0.25f)) * (1f - seg(fw, 0f, 0.4f))
+        val f = easeOut(seg(sf, 0f, BEAT_IN)) * (1f - seg(fw, 0f, BEAT_OUT))
         val top = h * 0.55f
         drawRect(Brush.verticalGradient(listOf(HeavyC56.Sea, HeavyC56.Night), top, h), Offset(0f, top), Size(w, h - top), alpha = f)
         val wipe = easeInOut(seg(sf, 0.35f, 0.9f))
@@ -98,7 +98,7 @@ private fun DrawScope.heavyNight(a: ArtCtx) {
         tagAt(a.tag("seafoam"), Offset(w * 0.5f, h * 0.3f), f * seg(sf, 0.15f, 0.35f), back = Back56, ink = ArtInk.Gold)
     }
     if (fw > 0f) {
-        val f = easeOut(seg(fw, 0f, 0.25f)) * (1f - seg(kz, 0f, 0.4f))
+        val f = easeOut(seg(fw, 0f, BEAT_IN)) * (1f - seg(kz, 0f, BEAT_OUT))
         val sw = easeInOut(seg(fw, 0.55f, 0.85f))
         val slots = listOf(Offset(w * 0.3f, h * 0.35f), Offset(w * 0.7f, h * 0.35f), Offset(w * 0.3f, h * 0.65f), Offset(w * 0.7f, h * 0.65f))
         val order = listOf(3, 2, 0, 1)
@@ -111,7 +111,7 @@ private fun DrawScope.heavyNight(a: ArtCtx) {
         }
     }
     if (kz > 0f) {
-        val f = easeOut(seg(kz, 0f, 0.25f)) * (1f - seg(th, 0f, 0.4f))
+        val f = easeOut(seg(kz, 0f, BEAT_IN)) * (1f - seg(th, 0f, 0.4f))
         val c = Offset(w * 0.5f, h * 0.7f)
         val open = easeInOut(seg(kz, 0.2f, 0.5f))
         drawRoundRect(HeavyC56.Chest, Offset(c.x - w * 0.16f, c.y - h * 0.08f), Size(w * 0.32f, h * 0.16f), CornerRadius(5f * dp), alpha = f)
@@ -192,7 +192,7 @@ private fun DrawScope.tenNight(a: ArtCtx) {
     nightSky(t, TenC56.Night, TenC56.NightLow, ground, starAlpha = 0.8f)
     drawRect(TenC56.Ground, Offset(0f, ground), Size(w, h - ground))
     if (tb > 0f) {
-        val f = easeOut(seg(tb, 0f, 0.25f)) * (1f - seg(ms, 0f, 0.4f))
+        val f = easeOut(seg(tb, 0f, BEAT_IN)) * (1f - seg(ms, 0f, BEAT_OUT))
         val up = easeInOut(seg(tb, 0.05f, 0.4f))
         softGlow(Offset(w * 0.5f, mix(ground - h * 0.05f, h * 0.15f, up)), w * 0.025f, TenC56.Gold, f * (1f - seg(tb, 0.38f, 0.45f)))
         for (k in 0 until 10) {
@@ -203,7 +203,7 @@ private fun DrawScope.tenNight(a: ArtCtx) {
         }
     }
     if (ms > 0f) {
-        val f = easeOut(seg(ms, 0f, 0.25f)) * (1f - seg(fe, 0f, 0.4f))
+        val f = easeOut(seg(ms, 0f, BEAT_IN)) * (1f - seg(fe, 0f, BEAT_OUT))
         for (k in 0 until 7) {
             val c = Offset(w * (0.1f + 0.13f * k), ground - h * 0.12f)
             val dark = k == 4
@@ -214,7 +214,7 @@ private fun DrawScope.tenNight(a: ArtCtx) {
         tagAt(a.tag("misertag"), Offset(w * 0.62f, ground - h * 0.35f), f * seg(ms, 0.6f, 0.75f), back = Back56, ink = Color(0xFFE0A0A0))
     }
     if (fe > 0f) {
-        val f = easeOut(seg(fe, 0f, 0.25f)) * (1f - seg(nm, 0f, 0.4f))
+        val f = easeOut(seg(fe, 0f, BEAT_IN)) * (1f - seg(nm, 0f, BEAT_OUT))
         val light = Offset(w * 0.5f, h * 0.22f)
         sirajMunir(light, w * 0.012f, f, t, nameAt = light + Offset(0f, -h * 0.1f))
         val land = Path().apply {
@@ -231,7 +231,7 @@ private fun DrawScope.tenNight(a: ArtCtx) {
         }
     }
     if (nm > 0f) {
-        val f = easeOut(seg(nm, 0f, 0.25f)) * (1f - seg(ab, 0f, 0.4f))
+        val f = easeOut(seg(nm, 0f, BEAT_IN)) * (1f - seg(ab, 0f, BEAT_OUT))
         val light = Offset(w * 0.5f, h * 0.2f)
         sirajMunir(light, w * 0.012f, f, t, nameAt = light + Offset(0f, -h * 0.1f))
         val sort = easeInOut(seg(nm, 0.35f, 0.75f))
@@ -303,7 +303,7 @@ private fun DrawScope.forgiveNight(a: ArtCtx) {
     nightSky(t, ForgiveC56.Night, ForgiveC56.NightLow, ground, starAlpha = 0.9f)
     drawRect(ForgiveC56.Ground, Offset(0f, ground), Size(w, h - ground))
     if (sp > 0f) {
-        val f = easeOut(seg(sp, 0f, 0.25f)) * (1f - seg(ta, 0f, 0.4f))
+        val f = easeOut(seg(sp, 0f, BEAT_IN)) * (1f - seg(ta, 0f, BEAT_OUT))
         val c = Offset(w * 0.5f, h * 0.5f)
         val fill = seg(sp, 0.1f, 0.75f)
         for (k in 0 until 70) {
@@ -319,7 +319,7 @@ private fun DrawScope.forgiveNight(a: ArtCtx) {
         tagAt(a.tag("seventyplus"), c, f * seg(sp, 0.2f, 0.4f), back = Back56, ink = ArtInk.Gold)
     }
     if (ta > 0f) {
-        val f = easeOut(seg(ta, 0f, 0.25f)) * (1f - seg(wp, 0f, 0.4f))
+        val f = easeOut(seg(ta, 0f, BEAT_IN)) * (1f - seg(wp, 0f, BEAT_OUT))
         val light = Offset(w * 0.5f, h * 0.18f)
         softGlow(light, w * 0.08f, ForgiveC56.Gold, 0.7f * f)
         for (k in 0 until 9) {
@@ -333,7 +333,7 @@ private fun DrawScope.forgiveNight(a: ArtCtx) {
         tagAt(a.tag("turnall"), Offset(w * 0.5f, h * 0.38f), f * seg(ta, 0.2f, 0.4f), back = Back56, ink = ArtInk.Gold)
     }
     if (wp > 0f) {
-        val f = easeOut(seg(wp, 0f, 0.25f)) * (1f - seg(th, 0f, 0.4f))
+        val f = easeOut(seg(wp, 0f, BEAT_IN)) * (1f - seg(th, 0f, 0.4f))
         val foot = Offset(w * 0.5f, ground)
         val wash = 1f - seg(wp, 0.3f, 0.36f)
         figure(foot, h * 0.34f, ForgiveC56.Person, f * wash, arms = 0.4f)
@@ -354,7 +354,7 @@ private fun DrawScope.forgiveNight(a: ArtCtx) {
         softGlow(foot + Offset(0f, -h * 0.2f), w * 0.1f, ForgiveC56.Gold, 0.5f * f * lift)
     }
     if (th > 0f) {
-        val f = easeOut(seg(th, 0f, 0.25f)) * (1f - seg(lt, 0f, 0.4f))
+        val f = easeOut(seg(th, 0f, 0.25f)) * (1f - seg(lt, 0f, BEAT_OUT))
         val fill = seg(th, 0.1f, 0.85f)
         for (k in 0 until 100) {
             val col = k % 10
@@ -428,14 +428,14 @@ private fun DrawScope.handsNight(a: ArtCtx) {
     nightSky(t, HandsC56.Sky, HandsC56.SkyLow, ground, starAlpha = 0.85f)
     drawRect(HandsC56.Ground, Offset(0f, ground), Size(w, h - ground))
     if (dw > 0f) {
-        val f = easeOut(seg(dw, 0f, 0.25f)) * (1f - seg(nh, 0f, 0.4f))
+        val f = easeOut(seg(dw, 0f, BEAT_IN)) * (1f - seg(nh, 0f, BEAT_OUT))
         val c = Offset(w * 0.5f, h * 0.62f)
         hands12(c, h * 0.2f, HandsC56.Person, f)
         lightShafts(c + Offset(0f, -h * 0.08f), -PI.toFloat() / 2f, 0.25f, h * 0.55f, HandsC56.Gold, 0.6f * f * seg(dw, 0.2f, 0.5f), t, rays = 5)
         tagAt(a.tag("duaworship"), Offset(w * 0.5f, h * 0.2f), f * seg(dw, 0.3f, 0.5f), back = Back56, ink = ArtInk.Gold)
     }
     if (nh > 0f) {
-        val f = easeOut(seg(nh, 0f, 0.25f)) * (1f - seg(fb, 0f, 0.4f))
+        val f = easeOut(seg(nh, 0f, BEAT_IN)) * (1f - seg(fb, 0f, BEAT_OUT))
         val seed = Offset(w * 0.62f, ground + h * 0.05f)
         drawOval(HandsC56.Seed, Offset(seed.x - w * 0.015f, seed.y - h * 0.012f), Size(w * 0.03f, h * 0.024f), alpha = f)
         val grow = seg(nh, 0.1f, 0.6f)
@@ -449,7 +449,7 @@ private fun DrawScope.handsNight(a: ArtCtx) {
         tagAt(a.tag("nohaste"), Offset(w * 0.5f, h * 0.25f), f * seg(nh, 0.65f, 0.8f), back = Back56, ink = ArtInk.Gold)
     }
     if (fb > 0f) {
-        val f = easeOut(seg(fb, 0f, 0.25f)) * (1f - seg(tg, 0f, 0.4f))
+        val f = easeOut(seg(fb, 0f, BEAT_IN)) * (1f - seg(tg, 0f, BEAT_OUT))
         drawRect(HandsC56.Wall, Offset(w * 0.48f, ground - h * 0.35f), Size(w * 0.04f, h * 0.35f), alpha = f)
         val me = Offset(w * 0.25f, ground)
         sit12(me, h * 0.3f, HandsC56.Person, f, 1f)
@@ -466,7 +466,7 @@ private fun DrawScope.handsNight(a: ArtCtx) {
         tagAt(a.tag("forbrother"), Offset(w * 0.5f, h * 0.32f), f * seg(fb, 0.45f, 0.6f), back = Back56, ink = ArtInk.Gold)
     }
     if (tg > 0f) {
-        val f = easeOut(seg(tg, 0f, 0.25f)) * (1f - seg(ns, 0f, 0.4f))
+        val f = easeOut(seg(tg, 0f, BEAT_IN)) * (1f - seg(ns, 0f, BEAT_OUT))
         for (k in 0 until 2) {
             val c = Offset(w * (0.3f + 0.4f * k), h * 0.3f)
             softGlow(c, w * 0.08f, HandsC56.Gold, 0.7f * f * seg(tg, 0.1f + 0.25f * k, 0.3f + 0.25f * k))

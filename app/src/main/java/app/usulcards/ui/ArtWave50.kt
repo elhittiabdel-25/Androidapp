@@ -66,7 +66,7 @@ private fun DrawScope.turnDusk(a: ArtCtx) {
     nightSky(t, TurnC50.Sky, TurnC50.SkyLow, ground, starAlpha = 0.6f)
     drawRect(TurnC50.Ground, Offset(0f, ground), Size(w, h - ground))
     if (bk > 0f) {
-        val f = easeOut(seg(bk, 0f, 0.3f)) * (1f - seg(gf, 0f, 0.4f))
+        val f = easeOut(seg(bk, 0f, BEAT_IN)) * (1f - seg(gf, 0f, BEAT_OUT))
         val turn = seg(bk, 0.15f, 0.3f)
         figure(Offset(w * 0.4f, ground), h * 0.32f, TurnC50.Person, f, lean = 0.12f * turn, walk = t * 5f * (1f - turn))
         figure(Offset(w * 0.6f, ground), h * 0.32f, TurnC50.Person, f, lean = -0.12f * turn, walk = t * 5f * (1f - turn))
@@ -78,7 +78,7 @@ private fun DrawScope.turnDusk(a: ArtCtx) {
         }
     }
     if (gf > 0f) {
-        val f = easeOut(seg(gf, 0f, 0.3f)) * (1f - seg(rc, 0f, 0.4f))
+        val f = easeOut(seg(gf, 0f, BEAT_IN)) * (1f - seg(rc, 0f, BEAT_OUT))
         val back = easeInOut(seg(gf, 0.1f, 0.35f))
         figure(Offset(w * 0.38f, ground), h * 0.34f, TurnC50.Gold, f, lean = 0.12f * (1f - back), arms = 0.7f * back)
         voice12(Offset(w * 0.42f, ground - h * 0.3f), w * 0.04f, t, TurnC50.Gold, f * back)
@@ -88,7 +88,7 @@ private fun DrawScope.turnDusk(a: ArtCtx) {
         softGlow(Offset(w * 0.62f, ground - h * 0.32f), w * 0.06f, TurnC50.Gold, 0.6f * f * answer)
     }
     if (rc > 0f) {
-        val f = easeOut(seg(rc, 0f, 0.3f)) * (1f - seg(sw, 0f, 0.4f))
+        val f = easeOut(seg(rc, 0f, BEAT_IN)) * (1f - seg(sw, 0f, BEAT_OUT))
         for (k in 0 until 7) {
             val x = w * (0.08f + 0.12f * k)
             val held = k == 3 || k == 4
@@ -161,7 +161,7 @@ private fun DrawScope.salamDay(a: ArtCtx) {
     val ground = h * 0.84f
     daySky12(SalamC50.Sky, SalamC50.SkyLow, ground, SalamC50.Ground)
     if (lc > 0f) {
-        val f = easeOut(seg(lc, 0f, 0.3f)) * (1f - seg(pa, 0f, 0.4f))
+        val f = easeOut(seg(lc, 0f, BEAT_IN)) * (1f - seg(pa, 0f, BEAT_OUT))
         for (k in 0 until 4) {
             val c = Offset(w * (0.16f + 0.23f * k), h * 0.48f)
             val g = easeOut(seg(lc, 0.1f + 0.2f * k, 0.3f + 0.2f * k))
@@ -178,7 +178,7 @@ private fun DrawScope.salamDay(a: ArtCtx) {
         }
     }
     if (pa > 0f) {
-        val f = easeOut(seg(pa, 0f, 0.3f)) * (1f - seg(wf, 0f, 0.4f))
+        val f = easeOut(seg(pa, 0f, BEAT_IN)) * (1f - seg(wf, 0f, BEAT_OUT))
         house12(Offset(w * 0.16f, ground), w * 0.2f, SalamC50.Wall, SalamC50.Trim, f, 0.4f)
         figure(Offset(w * 0.32f, ground), h * 0.3f, SalamC50.Person, f, arms = 0.6f)
         drawOval(SalamC50.Plate, Offset(w * 0.24f, ground - h * 0.2f), Size(w * 0.05f, h * 0.018f), alpha = f)
@@ -190,7 +190,7 @@ private fun DrawScope.salamDay(a: ArtCtx) {
         voice12(Offset(w * 0.56f, ground - h * 0.28f), w * 0.05f, t, SalamC50.Gold, f * seg(pa, 0.6f, 0.75f))
     }
     if (wf > 0f) {
-        val f = easeOut(seg(wf, 0f, 0.3f)) * (1f - seg(tn, 0f, 0.4f))
+        val f = easeOut(seg(wf, 0f, BEAT_IN)) * (1f - seg(tn, 0f, BEAT_OUT))
         for (k in 0 until 4) {
             val cx = w * (0.14f + 0.24f * k)
             val g = seg(wf, 0.1f + 0.2f * k, 0.3f + 0.2f * k)
@@ -207,7 +207,7 @@ private fun DrawScope.salamDay(a: ArtCtx) {
         }
     }
     if (tn > 0f) {
-        val f = easeOut(seg(tn, 0f, 0.3f)) * (1f - seg(qn, 0f, 0.4f))
+        val f = easeOut(seg(tn, 0f, BEAT_IN)) * (1f - seg(qn, 0f, BEAT_OUT))
         for (k in 0 until 3) {
             val y = h * (0.3f + 0.2f * k)
             val g = easeOut(seg(tn, 0.1f + 0.25f * k, 0.3f + 0.25f * k))
@@ -284,7 +284,7 @@ private fun DrawScope.knockDay(a: ArtCtx) {
     }
     val sill = Offset(w * 0.55f, ground)
     if (tt > 0f) {
-        val f = easeOut(seg(tt, 0f, 0.3f)) * (1f - seg(asd, 0f, 0.4f))
+        val f = easeOut(seg(tt, 0f, BEAT_IN)) * (1f - seg(asd, 0f, BEAT_OUT))
         door12(sill, w * 0.14f, h * 0.44f, 0f, KnockC50.Trim, KnockC50.Leaf, f)
         val home = easeInOut(seg(tt, 0.72f, 1f))
         figure(Offset(w * (0.36f - 0.3f * home), ground), h * 0.3f, KnockC50.Person, f, walk = t * 5f * home, arms = if (home > 0f) 0f else 0.7f)
@@ -295,14 +295,14 @@ private fun DrawScope.knockDay(a: ArtCtx) {
         }
     }
     if (asd > 0f) {
-        val f = easeOut(seg(asd, 0f, 0.3f)) * (1f - seg(ak, 0f, 0.4f))
+        val f = easeOut(seg(asd, 0f, BEAT_IN)) * (1f - seg(ak, 0f, BEAT_OUT))
         door12(sill, w * 0.14f, h * 0.44f, 0.4f * seg(asd, 0.3f, 0.6f), KnockC50.Trim, KnockC50.Leaf, f)
         val step = easeInOut(seg(asd, 0.1f, 0.4f))
         figure(Offset(w * (0.55f - 0.2f * step), ground), h * 0.3f, KnockC50.Person, f, walk = t * 5f * (1f - step))
         penLine(listOf(sill + Offset(0f, -h * 0.25f), sill + Offset(0f, -h * 0.25f) + Offset(0f, h * 0.24f)), seg(asd, 0.5f, 0.7f), KnockC50.Sight, 2f * dp, f, dash = androidx.compose.ui.graphics.PathEffect.dashPathEffect(floatArrayOf(5f * dp, 4f * dp)))
     }
     if (ak > 0f) {
-        val f = easeOut(seg(ak, 0f, 0.3f)) * (1f - seg(sn, 0f, 0.4f))
+        val f = easeOut(seg(ak, 0f, BEAT_IN)) * (1f - seg(sn, 0f, BEAT_OUT))
         door12(sill, w * 0.14f, h * 0.44f, 0f, KnockC50.Trim, KnockC50.Leaf, f)
         figure(Offset(w * 0.38f, ground), h * 0.3f, KnockC50.Person, f)
         for (k in 0 until 2) {
@@ -311,7 +311,7 @@ private fun DrawScope.knockDay(a: ArtCtx) {
         }
     }
     if (sn > 0f) {
-        val f = easeOut(seg(sn, 0f, 0.3f)) * (1f - seg(gc, 0f, 0.4f))
+        val f = easeOut(seg(sn, 0f, BEAT_IN)) * (1f - seg(gc, 0f, BEAT_OUT))
         door12(sill, w * 0.14f, h * 0.44f, 0f, KnockC50.Trim, KnockC50.Leaf, f)
         nameRoundel(Offset(w * 0.38f, ground - h * 0.15f), w * 0.045f, null, Roundel.PlainFill, Roundel.PlainRim, f)
         qMark14(sill + Offset(0f, -h * 0.55f), h * 0.12f, KnockC50.Sight, f * seg(sn, 0.15f, 0.3f))
@@ -384,7 +384,7 @@ private fun DrawScope.trayTop(a: ArtCtx) {
     val c = Offset(w * 0.5f, h * 0.52f)
     val r = h * 0.32f
     if (ys > 0f || ln > 0f) {
-        val f = easeOut(seg(ys, 0f, 0.3f)) * (1f - seg(nb, 0f, 0.4f))
+        val f = easeOut(seg(ys, 0f, BEAT_IN)) * (1f - seg(nb, 0f, BEAT_OUT))
         drawCircle(TrayC50.TrayRim, r * 1.06f, c, alpha = f)
         drawCircle(TrayC50.Tray, r, c, alpha = f)
         val eaten = seg(ln, 0.1f, 0.6f)
@@ -408,7 +408,7 @@ private fun DrawScope.trayTop(a: ArtCtx) {
         }
     }
     if (nb > 0f) {
-        val f = easeOut(seg(nb, 0f, 0.3f)) * (1f - seg(tb, 0f, 0.4f))
+        val f = easeOut(seg(nb, 0f, BEAT_IN)) * (1f - seg(tb, 0f, BEAT_OUT))
         for (k in 0 until 4) {
             val push = if (k == 2) easeInOut(seg(nb, 0.45f, 0.75f)) else 0f
             val p = Offset(w * (0.2f + 0.2f * k), h * (0.5f + 0.25f * push))
@@ -417,7 +417,7 @@ private fun DrawScope.trayTop(a: ArtCtx) {
         }
     }
     if (tb > 0f) {
-        val f = easeOut(seg(tb, 0f, 0.3f)) * (1f - seg(rw, 0f, 0.4f))
+        val f = easeOut(seg(tb, 0f, BEAT_IN)) * (1f - seg(rw, 0f, BEAT_OUT))
         val cup = Offset(w * 0.45f, h * 0.62f)
         cup12(cup, w * 0.14f, TrayC50.Cup, f, Color(0xFFBFE0F0))
         for (k in 0 until 3) {
@@ -428,7 +428,7 @@ private fun DrawScope.trayTop(a: ArtCtx) {
         for (k in 0 until 3) drawCircle(TrayC50.Gold, w * 0.012f, Offset(w * (0.75f + 0.05f * k), h * 0.3f), alpha = f * seg(tb, 0.2f + 0.25f * k, 0.3f + 0.25f * k))
     }
     if (rw > 0f) {
-        val f = easeOut(seg(rw, 0f, 0.3f)) * (1f - seg(ns, 0f, 0.4f))
+        val f = easeOut(seg(rw, 0f, BEAT_IN)) * (1f - seg(ns, 0f, BEAT_OUT))
         val rr = h * 0.3f
         for (k in 0 until 6) {
             val ang = -PI.toFloat() / 2f + k * PI.toFloat() / 3f
@@ -513,7 +513,7 @@ private fun DrawScope.circleRoom(a: ArtCtx) {
         }
     }
     if (mr > 0f || ae > 0f) {
-        val f = easeOut(seg(mr, 0f, 0.3f)) * (1f - seg(cl, 0f, 0.4f))
+        val f = easeOut(seg(mr, 0f, BEAT_IN)) * (1f - seg(cl, 0f, BEAT_OUT))
         drawOval(CircleC50.Rug, Offset(c.x - w * 0.3f, c.y - h * 0.1f), Size(w * 0.6f, h * 0.14f), alpha = f)
         val open = easeInOut(seg(mr, 0.3f, 0.7f))
         ring(6, 1f - 0.12f * open, f)
@@ -524,7 +524,7 @@ private fun DrawScope.circleRoom(a: ArtCtx) {
         }
     }
     if (ae > 0f) {
-        val f = easeOut(seg(ae, 0f, 0.3f)) * (1f - seg(cl, 0f, 0.4f))
+        val f = easeOut(seg(ae, 0f, BEAT_IN)) * (1f - seg(cl, 0f, BEAT_OUT))
         val gap = Offset(w * 0.5f, c.y - h * 0.14f)
         crossMark(gap + Offset(0f, -h * 0.2f), w * 0.025f, CircleC50.Red, 3f * dp, f * seg(ae, 0.2f, 0.35f) * (1f - seg(ae, 0.6f, 0.7f)))
         val go = easeInOut(seg(ae, 0.3f, 0.8f))
@@ -534,7 +534,7 @@ private fun DrawScope.circleRoom(a: ArtCtx) {
         tick14(Offset(w * 0.88f, c.y - h * 0.24f), w * 0.025f, seg(ae, 0.8f, 0.95f) * f)
     }
     if (cl > 0f) {
-        val f = easeOut(seg(cl, 0f, 0.3f)) * (1f - seg(ts, 0f, 0.4f))
+        val f = easeOut(seg(cl, 0f, BEAT_IN)) * (1f - seg(ts, 0f, BEAT_OUT))
         ring(6, 1f, f)
         val sweep = easeInOut(seg(cl, 0.55f, 0.9f))
         for (k in 0 until 12) {
@@ -546,7 +546,7 @@ private fun DrawScope.circleRoom(a: ArtCtx) {
         if (sweep > 0f && sweep < 1f) drawRect(Brush.horizontalGradient(listOf(Color.Transparent, CircleC50.Gold.copy(alpha = 0.5f), Color.Transparent), w * sweep - w * 0.1f, w * sweep + w * 0.02f), Offset(w * sweep - w * 0.1f, h * 0.15f), Size(w * 0.12f, h * 0.4f), alpha = f)
     }
     if (ts > 0f) {
-        val f = easeOut(seg(ts, 0f, 0.3f)) * (1f - seg(rm, 0f, 0.4f))
+        val f = easeOut(seg(ts, 0f, BEAT_IN)) * (1f - seg(rm, 0f, BEAT_OUT))
         val lean = easeInOut(seg(ts, 0.15f, 0.4f))
         sit12(Offset(w * 0.38f, c.y), h * 0.24f, CircleC50.Person, f, 1f, bob = h * 0.02f * lean)
         sit12(Offset(w * 0.5f, c.y), h * 0.24f, CircleC50.Person, f, -1f, bob = h * 0.02f * lean)

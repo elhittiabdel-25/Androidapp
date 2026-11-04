@@ -346,7 +346,7 @@ private fun DrawScope.stageField(a: ArtCtx) {
     // ── the puppet on strings (the Jabriyya), on the right ──
     if (mp > 0f) {
         val x = w * 0.8f
-        val drop = -h * 0.6f * (1f - easeOut(seg(mp, 0f, 0.3f)))
+        val drop = -h * 0.6f * (1f - easeOut(seg(mp, 0f, BEAT_OUT)))
         val shake = easeOut(seg(jt, 0f, 0.15f))
         val tr = { k: Int -> Offset(tall * 0.03f * shake * sin(t * 47f + k * 1.9f), tall * 0.025f * shake * sin(t * 59f + k * 2.7f)) }
         val sway = tall * 0.04f * sin(t * 1.3f)
@@ -578,7 +578,7 @@ private fun DrawScope.edenSky(a: ArtCtx) {
 
     // his children walking out of the garden, down to the earth: the calamity
     if (bl > 0f) {
-        val go = seg(bl, 0.15f, 1f) * (1f - easeOut(seg(rp, 0f, 0.3f)))
+        val go = seg(bl, 0.15f, 1f) * (1f - easeOut(seg(rp, 0f, BEAT_OUT)))
         for (m in 0 until 7) {
             val u = fract(t * 0.05f + m / 7f)
             val pc = w8Along(road, u)
@@ -593,7 +593,7 @@ private fun DrawScope.edenSky(a: ArtCtx) {
     val bow = easeInOut(seg(rp, 0.05f, 0.3f)) * (1f - easeInOut(seg(rp, 0.45f, 0.75f)))
     val up = easeInOut(seg(rp, 0.45f, 0.75f))
     val adam = adam0 + Offset(0f, h * 0.24f * bow - h * 0.12f * up)
-    val lights = easeOut(seg(bl, 0f, 0.2f)) * (1f - 0.6f * easeOut(seg(tw, 0f, 0.3f)))
+    val lights = easeOut(seg(bl, 0f, BEAT_IN)) * (1f - 0.6f * easeOut(seg(tw, 0f, 0.3f)))
     val win = easeOut(seg(dc, 0.5f, 0.9f))
     val musaA = lights * (1f - 0.25f * win) * (1f - 0.55f * easeOut(seg(rp, 0f, 0.3f)))
     val musaC = musa + Offset(0f, h * 0.03f * win)
@@ -607,7 +607,7 @@ private fun DrawScope.edenSky(a: ArtCtx) {
         }
     }
     // the decree written before, between them
-    val sd = easeOut(seg(dc, 0f, 0.4f)) * (1f - easeOut(seg(rp, 0f, 0.3f)))
+    val sd = easeOut(seg(dc, 0f, 0.4f)) * (1f - easeOut(seg(rp, 0f, BEAT_OUT)))
     if (sd > 0f) {
         val sc = Offset(w * 0.53f, mix(-h * 0.1f, h * 0.22f, sd))
         scroll14(sc, w * 0.09f, h * 0.17f, seg(dc, 0.25f, 0.6f), sd)
@@ -618,7 +618,7 @@ private fun DrawScope.edenSky(a: ArtCtx) {
 
     // repented: the tree, the bowing, the tears, the rise, the way opened ahead
     if (rp > 0f) {
-        val tr = easeOut(seg(rp, 0f, 0.2f)) * (1f - easeOut(seg(tw, 0f, 0.3f)))
+        val tr = easeOut(seg(rp, 0f, BEAT_IN)) * (1f - easeOut(seg(tw, 0f, BEAT_OUT)))
         val base = Offset(w * 0.3f, h * 0.7f)
         drawLine(EdenC14.Tree, base, base + Offset(0f, -h * 0.14f), 2.4f * dp, StrokeCap.Round, alpha = tr)
         drawCircle(EdenC14.Leaf, h * 0.07f, base + Offset(0f, -h * 0.18f), alpha = tr)
@@ -629,7 +629,7 @@ private fun DrawScope.edenSky(a: ArtCtx) {
                 drawCircle(EdenC14.Tear, 1.6f * dp, adam + Offset((m - 2) * 3f * dp, h * 0.02f + f * h * 0.08f), alpha = bow * (1f - f))
             }
         }
-        val way = easeOut(seg(rp, 0.7f, 1f)) * (1f - easeOut(seg(tw, 0f, 0.3f)))
+        val way = easeOut(seg(rp, 0.7f, 1f)) * (1f - easeOut(seg(tw, 0f, BEAT_OUT)))
         if (way > 0f) {
             val p0 = adam + Offset(-w * 0.02f, -h * 0.02f)
             val p3 = adam + Offset(-w * 0.2f, -h * 0.18f)
@@ -825,7 +825,7 @@ private fun DrawScope.casketYard(a: ArtCtx) {
         drawPath(cloth, CasketC14.Cloth)
         drawPath(cloth, CasketC14.ClothEdge, style = Stroke(1.2f * dp), alpha = 0.8f)
     }
-    tagAt(a.tag("pry"), Offset(cx, top - h * 0.14f), seg(py, 0.3f, 0.6f) * (1f - seg(sb, 0f, 0.3f)), back = CasketC14.Back, ink = ArtInk.Gold)
+    tagAt(a.tag("pry"), Offset(cx, top - h * 0.14f), seg(py, 0.3f, 0.6f) * (1f - seg(sb, 0f, BEAT_OUT)), back = CasketC14.Back, ink = ArtInk.Gold)
 
     // the two men, mirrored on either side
     val tall = h * 0.36f

@@ -56,7 +56,7 @@ private fun DrawScope.pardonPage(a: ArtCtx) {
     val mt = a.b("mountains")
     val pen = 2.2f * dp
     if (tn > 0f) {
-        val f = easeOut(seg(tn, 0f, 0.25f)) * (1f - seg(sm, 0f, 0.4f))
+        val f = easeOut(seg(tn, 0f, BEAT_IN)) * (1f - seg(sm, 0f, BEAT_OUT))
         for (k in 0 until 3) {
             val c = Offset(w * (0.2f + 0.3f * k), h * 0.56f)
             val g = seg(tn, 0.08f + 0.28f * k, 0.32f + 0.28f * k)
@@ -87,7 +87,7 @@ private fun DrawScope.pardonPage(a: ArtCtx) {
     }
     // not the one who throws men down: the one who holds himself
     if (sm > 0f) {
-        val f = easeOut(seg(sm, 0f, 0.25f)) * (1f - seg(mt, 0f, 0.4f))
+        val f = easeOut(seg(sm, 0f, BEAT_IN)) * (1f - seg(mt, 0f, BEAT_OUT))
         val ground = h * 0.78f
         penLine(listOf(Offset(w * 0.05f, ground), Offset(w * 0.95f, ground)), seg(sm, 0f, 0.2f), pp.faint, pen * 0.7f, f)
         val throwP = easeInOut(seg(sm, 0.1f, 0.35f))
@@ -178,7 +178,7 @@ private fun DrawScope.squareDay(a: ArtCtx) {
     for (k in 0 until 4) house12(Offset(w * (0.12f + 0.25f * k), ground - h * 0.02f), w * 0.2f, SquareC48.Wall, SquareC48.Trim, 0.35f)
     // a speck of pride, and the gate that stays shut
     if (sk > 0f) {
-        val f = easeOut(seg(sk, 0f, 0.3f)) * (1f - seg(bo, 0f, 0.4f))
+        val f = easeOut(seg(sk, 0f, BEAT_IN)) * (1f - seg(bo, 0f, BEAT_OUT))
         door12(Offset(w * 0.72f, ground), w * 0.14f, h * 0.5f, 0.35f * (1f - seg(sk, 0.5f, 0.8f)), SquareC48.Trim, Color(0xFF5A3A24), f, Color(0xFFBFE4A0))
         val c = Offset(w * 0.34f, h * 0.48f)
         heart12(c, w * 0.18f, SquareC48.Heart, f, fill = true)
@@ -187,7 +187,7 @@ private fun DrawScope.squareDay(a: ArtCtx) {
     }
     // beauty is not pride; pride is pushing truth away and looking down on people
     if (bo > 0f) {
-        val f = easeOut(seg(bo, 0f, 0.3f)) * (1f - seg(lv, 0f, 0.4f))
+        val f = easeOut(seg(bo, 0f, BEAT_IN)) * (1f - seg(lv, 0f, BEAT_OUT))
         val stand = Offset(w * 0.22f, ground)
         drawLine(SquareC48.Trim, stand, stand + Offset(0f, -h * 0.4f), 3f * dp, StrokeCap.Round, alpha = f)
         drawPath(Path().apply {
@@ -205,7 +205,7 @@ private fun DrawScope.squareDay(a: ArtCtx) {
     }
     // pedestals sink level
     if (lv > 0f) {
-        val f = easeOut(seg(lv, 0f, 0.3f)) * (1f - seg(cl, 0f, 0.4f))
+        val f = easeOut(seg(lv, 0f, BEAT_IN)) * (1f - seg(cl, 0f, BEAT_OUT))
         val down = easeInOut(seg(lv, 0.35f, 0.85f))
         val heights = listOf(0.28f, 0.1f, 0.2f, 0.04f, 0.16f)
         for ((k, ht) in heights.withIndex()) {
@@ -218,7 +218,7 @@ private fun DrawScope.squareDay(a: ArtCtx) {
     }
     // he greets the children, and a little girl leads him where she wishes
     if (cl > 0f) {
-        val f = easeOut(seg(cl, 0f, 0.3f)) * (1f - seg(sn, 0f, 0.4f))
+        val f = easeOut(seg(cl, 0f, BEAT_IN)) * (1f - seg(sn, 0f, BEAT_OUT))
         val go = easeInOut(seg(cl, 0.45f, 0.95f))
         val light = Offset(w * (0.36f - 0.16f * go), h * 0.46f)
         sirajMunir(light, w * 0.014f, f, t, nameAt = light + Offset(0f, -h * 0.13f))
@@ -290,7 +290,7 @@ private fun DrawScope.roadsMap(a: ArtCtx) {
     var x = 0f
     while (x < w) { drawLine(RoadsC48.MapDark, Offset(x, 0f), Offset(x, h), 0.6f * dp, alpha = 0.4f); x += step }
     val cross = Offset(w * 0.5f, h * 0.88f)
-    val away = 1f - seg(fc, 0f, 0.4f)
+    val away = 1f - seg(fc, 0f, BEAT_OUT)
     // the bright road
     if (tb > 0f) {
         val f = easeOut(seg(tb, 0f, 0.3f)) * away
@@ -324,7 +324,7 @@ private fun DrawScope.roadsMap(a: ArtCtx) {
     }
     // four signs of one message
     if (fc > 0f) {
-        val f = easeOut(seg(fc, 0f, 0.3f)) * (1f - seg(mk, 0f, 0.4f))
+        val f = easeOut(seg(fc, 0f, BEAT_IN)) * (1f - seg(mk, 0f, BEAT_OUT))
         for (k in 0 until 4) {
             val c = Offset(w * (0.2f + 0.2f * k), h * 0.55f)
             val g = easeOut(seg(fc, 0.1f + 0.18f * k, 0.3f + 0.18f * k))
@@ -335,7 +335,7 @@ private fun DrawScope.roadsMap(a: ArtCtx) {
     }
     // a true sale and a false one
     if (mk > 0f) {
-        val f = easeOut(seg(mk, 0f, 0.3f)) * (1f - seg(br, 0f, 0.4f))
+        val f = easeOut(seg(mk, 0f, BEAT_IN)) * (1f - seg(br, 0f, BEAT_OUT))
         val ground = h * 0.8f
         drawLine(RoadsC48.MapDark, Offset(w * 0.5f, h * 0.15f), Offset(w * 0.5f, h * 0.9f), 1.5f * dp, alpha = f)
         for (side in 0 until 2) {
@@ -414,7 +414,7 @@ private fun DrawScope.mercyDay(a: ArtCtx) {
     val ground = h * 0.84f
     daySky12(MercyC48.Sky, MercyC48.SkyLow, ground, MercyC48.Ground)
     if (ks > 0f) {
-        val f = easeOut(seg(ks, 0f, 0.3f)) * (1f - seg(mr, 0f, 0.4f))
+        val f = easeOut(seg(ks, 0f, BEAT_IN)) * (1f - seg(mr, 0f, BEAT_OUT))
         val light = Offset(w * 0.34f, h * 0.36f)
         sirajMunir(light, w * 0.015f, f, t, nameAt = light + Offset(0f, -h * 0.13f))
         val near = easeInOut(seg(ks, 0.15f, 0.45f))
@@ -430,7 +430,7 @@ private fun DrawScope.mercyDay(a: ArtCtx) {
     }
     // the merciful are shown mercy
     if (mr > 0f) {
-        val f = easeOut(seg(mr, 0f, 0.3f)) * (1f - seg(bc, 0f, 0.4f))
+        val f = easeOut(seg(mr, 0f, BEAT_IN)) * (1f - seg(bc, 0f, BEAT_OUT))
         drawLine(Color(0xFF6A5A4A), Offset(w * 0.5f, h * 0.2f), Offset(w * 0.5f, ground), 1.5f * dp, alpha = f * 0.5f)
         drawRect(MercyC48.Dry, Offset(w * 0.52f, ground), Size(w * 0.48f, h * 0.04f), alpha = f)
         // a jug that stays upright over a dry plant
@@ -449,7 +449,7 @@ private fun DrawScope.mercyDay(a: ArtCtx) {
     }
     // the prayer cut short for a crying child
     if (bc > 0f) {
-        val f = easeOut(seg(bc, 0f, 0.3f)) * (1f - seg(sh, 0f, 0.4f))
+        val f = easeOut(seg(bc, 0f, BEAT_IN)) * (1f - seg(sh, 0f, BEAT_OUT))
         drawRect(Color(0xFFF2E8D0), Offset.Zero, Size(w, ground), alpha = f)
         for (k in 0 until 4) drawPath(archPath26(w * (0.15f + 0.23f * k), h * 0.1f, ground - h * 0.32f, w * 0.08f), MercyC48.Arch, alpha = f)
         drawRect(MercyC48.Floor, Offset(0f, ground), Size(w, h - ground), alpha = f)
@@ -543,7 +543,7 @@ private fun DrawScope.guestNight(a: ArtCtx) {
     drawRect(GuestC48.Ground, Offset(0f, ground), Size(w, h - ground))
     // the basin that fills as it gives
     if (sp > 0f) {
-        val f = easeOut(seg(sp, 0f, 0.3f)) * (1f - seg(tl, 0f, 0.4f))
+        val f = easeOut(seg(sp, 0f, BEAT_IN)) * (1f - seg(tl, 0f, BEAT_OUT))
         val c = Offset(w * 0.5f, ground - h * 0.12f)
         drawRoundRect(GuestC48.Well, Offset(c.x - w * 0.12f, c.y - h * 0.08f), Size(w * 0.24f, h * 0.2f), CornerRadius(6f * dp), alpha = f)
         val level = 0.7f + 0.2f * sin(t * 1.5f)
@@ -561,7 +561,7 @@ private fun DrawScope.guestNight(a: ArtCtx) {
     }
     // two angels at dawn
     if (tl > 0f) {
-        val f = easeOut(seg(tl, 0f, 0.3f)) * (1f - seg(nn, 0f, 0.4f))
+        val f = easeOut(seg(tl, 0f, BEAT_IN)) * (1f - seg(nn, 0f, BEAT_OUT))
         drawRect(Brush.verticalGradient(listOf(Color.Transparent, Color(0xFFE8A07A).copy(alpha = 0.4f)), h * 0.3f, ground), Offset(0f, h * 0.3f), Size(w, ground - h * 0.3f), alpha = f)
         val left = Offset(w * 0.28f, ground)
         house12(left, w * 0.2f, GuestC48.Wall, Color(0xFF3A2E30), f, 0.8f)
@@ -580,7 +580,7 @@ private fun DrawScope.guestNight(a: ArtCtx) {
     }
     // never did he say no
     if (nn > 0f) {
-        val f = easeOut(seg(nn, 0f, 0.3f)) * (1f - seg(lo, 0f, 0.4f))
+        val f = easeOut(seg(nn, 0f, BEAT_IN)) * (1f - seg(lo, 0f, BEAT_OUT))
         val c = Offset(w * 0.5f, h * 0.4f)
         sirajMunir(c, w * 0.016f, f, t, nameAt = c + Offset(0f, -h * 0.14f))
         for (k in 0 until 4) {
@@ -594,7 +594,7 @@ private fun DrawScope.guestNight(a: ArtCtx) {
     }
     // the lamp put out for the guest
     if (lo > 0f) {
-        val f = easeOut(seg(lo, 0f, 0.3f)) * (1f - seg(oc, 0f, 0.4f))
+        val f = easeOut(seg(lo, 0f, BEAT_IN)) * (1f - seg(oc, 0f, BEAT_OUT))
         val dark = seg(lo, 0.35f, 0.5f)
         drawRect(lerpColor(GuestC48.Room, Color(0xFF0E0C12), dark * 0.7f), Offset(w * 0.08f, h * 0.2f), Size(w * 0.84f, ground - h * 0.2f), alpha = f)
         val lamp = Offset(w * 0.5f, ground - h * 0.04f)
@@ -610,7 +610,7 @@ private fun DrawScope.guestNight(a: ArtCtx) {
     }
     // one cloth, equal shares
     if (oc > 0f) {
-        val f = easeOut(seg(oc, 0f, 0.3f)) * (1f - seg(sd, 0f, 0.4f))
+        val f = easeOut(seg(oc, 0f, BEAT_IN)) * (1f - seg(sd, 0f, BEAT_OUT))
         drawOval(GuestC48.Cloth, Offset(w * 0.25f, ground - h * 0.06f), Size(w * 0.5f, h * 0.1f), alpha = f)
         val gather = easeInOut(seg(oc, 0.1f, 0.45f))
         val share = easeInOut(seg(oc, 0.55f, 0.9f))

@@ -235,7 +235,7 @@ private fun DrawScope.forgeSky(a: ArtCtx) {
         }
     }
     // the room of the careful spender
-    val room = 1f - easeInOut(seg(va, 0f, 0.4f))
+    val room = 1f - easeInOut(seg(va, 0f, BEAT_OUT))
     if (room > 0f) {
         drawRect(Brush.verticalGradient(listOf(ForgeC23.Room, ForgeC23.RoomLow)), alpha = room)
         softGlow(Offset(w * 0.5f, h * 0.45f), w * 0.25f, Color(0xFFFFD28A), 0.4f * room)
@@ -329,7 +329,7 @@ private fun DrawScope.scalesNight(a: ArtCtx) {
         val y = fract(sin(k * 78.233f) * 12345.6f)
         drawCircle(Color.White, (0.6f + (k % 3) * 0.4f) * dp, Offset(w * x, h * 0.7f * y), alpha = 0.3f + 0.3f * sin(t + k))
     }
-    val inBalance = easeOut(seg(ba, 0f, 0.3f)) * (1f - easeOut(seg(tr, 0f, 0.3f)))
+    val inBalance = easeOut(seg(ba, 0f, BEAT_IN)) * (1f - easeOut(seg(tr, 0f, BEAT_OUT)))
     galaxy22(Offset(w * 0.3f, h * 0.28f), w * 0.2f, t * 0.1f, 0.8f * (1f - inBalance))
     // the hill and the small man on it
     drawPath(Path().apply { moveTo(0f, h * 0.85f); cubicTo(w * 0.3f, h * 0.76f, w * 0.7f, h * 0.76f, w, h * 0.85f); lineTo(w, h); lineTo(0f, h); close() }, ScaleC23.Hill)

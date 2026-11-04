@@ -88,7 +88,7 @@ private fun DrawScope.fogField(a: ArtCtx) {
             val c = Offset(w * (0.36f + 0.28f * k), h * 0.34f)
             drawRoundRect(FogC38.Tablet, Offset(c.x - w * 0.09f, c.y - h * 0.12f), Size(w * 0.18f, h * 0.24f), CornerRadius(w * 0.03f, w * 0.03f), alpha = tab)
             for (r in 0 until 4) drawLine(Color(0xFF9A8A6A), Offset(c.x - w * 0.06f, c.y - h * 0.06f + r * h * 0.035f), Offset(c.x + w * 0.06f, c.y - h * 0.06f + r * h * 0.035f), 1.2f * dp, alpha = tab * 0.7f)
-            tagAt(a.tag("twoages", 0, k), c + Offset(0f, -h * 0.15f), seg(ta, 0.3f + 0.15f * k, 0.55f + 0.15f * k) * (1f - seg(ff, 0f, 0.4f)), back = Back38, ink = ArtInk.Gold)
+            tagAt(a.tag("twoages", 0, k), c + Offset(0f, -h * 0.15f), seg(ta, 0.3f + 0.15f * k, 0.55f + 0.15f * k) * (1f - seg(ff, 0f, BEAT_OUT)), back = Back38, ink = ArtInk.Gold)
         }
         val neq = seg(ta, 0.6f, 0.85f) * tab
         val m = Offset(w * 0.5f, h * 0.34f)
@@ -115,15 +115,15 @@ private fun DrawScope.fogField(a: ArtCtx) {
                 pebble38(at, r, FogC38.Clear, pop, glow = 0.5f + 0.2f * sin(t * 1.3f + k))
             }
         }
-        tagAt(a.tag("fewfog", 0, 0), Offset(w * 0.3f, ground + h * 0.38f), seg(ff, 0.5f, 0.75f) * (1f - seg(to, 0f, 0.3f)), back = Back38, ink = ArtInk.Gold)
-        tagAt(a.tag("fewfog", 0, 1), Offset(w * 0.72f, ground + h * 0.38f), seg(ff, 0.6f, 0.85f) * (1f - seg(to, 0f, 0.3f)), back = Back38, ink = Color(0xFFD8D8E0))
+        tagAt(a.tag("fewfog", 0, 0), Offset(w * 0.3f, ground + h * 0.38f), seg(ff, 0.5f, 0.75f) * (1f - seg(to, 0f, BEAT_OUT)), back = Back38, ink = ArtInk.Gold)
+        tagAt(a.tag("fewfog", 0, 1), Offset(w * 0.72f, ground + h * 0.38f), seg(ff, 0.6f, 0.85f) * (1f - seg(to, 0f, BEAT_OUT)), back = Back38, ink = Color(0xFFD8D8E0))
     }
     // the three sources of their doubts, named over the clouded stones
     if (to > 0f) {
         for (n in 0 until minOf(3, fogged.size)) {
             // spread in a row above the field, so the three names never sit on each other
             val c = Offset(w * (0.78f - 0.28f * n), ground - h * (0.1f + 0.06f * (n % 2)))
-            tagAt(a.tag("threeorigins", 0, n), c, seg(to, 0.35f + 0.15f * n, 0.6f + 0.15f * n) * (1f - seg(cg, 0f, 0.3f)), back = Back38, ink = Color(0xFFE0E0E8))
+            tagAt(a.tag("threeorigins", 0, n), c, seg(to, 0.35f + 0.15f * n, 0.6f + 0.15f * n) * (1f - seg(cg, 0f, BEAT_OUT)), back = Back38, ink = Color(0xFFE0E0E8))
         }
     }
     // one cell under the lens: billions of letters in order
@@ -206,7 +206,7 @@ private fun DrawScope.sunPlain(a: ArtCtx) {
     // the one who asks
     val foot = Offset(w * 0.24f, ground)
     figure(foot, h * 0.26f, SunC38.Figure, easeOut(seg(ak, 0f, 0.3f)), lean = -0.18f * easeOut(seg(ak, 0.2f, 0.6f)))
-    qmark21(foot + Offset(w * 0.07f, -h * 0.36f), h * 0.07f, Color(0xFF3A4A6A), seg(ak, 0.4f, 0.7f) * (1f - seg(hs, 0f, 0.4f)))
+    qmark21(foot + Offset(w * 0.07f, -h * 0.36f), h * 0.07f, Color(0xFF3A4A6A), seg(ak, 0.4f, 0.7f) * (1f - seg(hs, 0f, BEAT_OUT)))
     // the heart brighter than the sun
     if (hs > 0f) {
         val f = easeOut(seg(hs, 0f, 0.5f))
@@ -226,12 +226,12 @@ private fun DrawScope.sunPlain(a: ArtCtx) {
         }
         for (k in 0 until 3) {
             val c = Offset(w * (0.39f + 0.2f * k), ground - h * (0.1f + 0.12f * k))
-            tagAt(a.tag("seekpath", 0, k), c, seg(sp, 0.4f + 0.15f * k, 0.65f + 0.15f * k) * (1f - seg(ne, 0f, 0.3f)), back = Back38, ink = ArtInk.Gold)
+            tagAt(a.tag("seekpath", 0, k), c, seg(sp, 0.4f + 0.15f * k, 0.65f + 0.15f * k) * (1f - seg(ne, 0f, BEAT_OUT)), back = Back38, ink = ArtInk.Gold)
         }
     }
     // no test: a sheet already filled in
     if (ne > 0f) {
-        val f = easeOut(seg(ne, 0f, 0.35f)) * (1f - seg(td, 0f, 0.4f))
+        val f = easeOut(seg(ne, 0f, 0.35f)) * (1f - seg(td, 0f, BEAT_OUT))
         val c = Offset(w * 0.72f, h * 0.42f)
         drawRect(SunC38.Exam, Offset(c.x - w * 0.09f, c.y - h * 0.13f), Size(w * 0.18f, h * 0.26f), alpha = f)
         for (r in 0 until 5) {
@@ -239,7 +239,7 @@ private fun DrawScope.sunPlain(a: ArtCtx) {
             drawLine(Color(0xFF8A8070), Offset(c.x - w * 0.06f, y), Offset(c.x + w * 0.02f, y), 1.2f * dp, alpha = f)
             check21(Offset(c.x + w * 0.05f, y), w * 0.012f, Color(0xFF2E9A55), seg(ne, 0.2f + r * 0.06f, 0.4f + r * 0.06f), 2f * dp)
         }
-        tagAt(a.tag("noexam"), c + Offset(0f, h * 0.17f), seg(ne, 0.5f, 0.75f) * (1f - seg(td, 0f, 0.4f)), back = Back38, ink = Color(0xFFFFE0D0))
+        tagAt(a.tag("noexam"), c + Offset(0f, h * 0.17f), seg(ne, 0.5f, 0.75f) * (1f - seg(td, 0f, BEAT_OUT)), back = Back38, ink = Color(0xFFFFE0D0))
     }
     // three doors, only one lit
     if (td > 0f) {
@@ -318,11 +318,11 @@ private fun DrawScope.hawaNight(a: ArtCtx) {
         drawPath(Path().apply {
             moveTo(top.x - w * 0.15f, top.y - h * 0.13f); lineTo(top.x, top.y - h * 0.22f); lineTo(top.x + w * 0.13f, top.y - h * 0.12f); close()
         }, HawaC38.Pillar, alpha = house)
-        tagAt(a.tag("pillarhawa"), base + Offset(0f, -h * 0.14f), seg(ph, 0.4f, 0.7f) * (1f - seg(tdr, 0f, 0.4f)), back = Back38, ink = Color(0xFFF0B0B8))
+        tagAt(a.tag("pillarhawa"), base + Offset(0f, -h * 0.14f), seg(ph, 0.4f, 0.7f) * (1f - seg(tdr, 0f, BEAT_OUT)), back = Back38, ink = Color(0xFFF0B0B8))
     }
     // the heart of certainty, dimmed by the letters, bright again after seeking forgiveness
     val hc = Offset(w * 0.72f, h * 0.42f)
-    val heartOn = easeOut(seg(dh, 0f, 0.3f)) * (1f - 0.7f * seg(tdr, 0f, 0.4f))
+    val heartOn = easeOut(seg(dh, 0f, BEAT_IN)) * (1f - 0.7f * seg(tdr, 0f, 0.4f))
     if (heartOn > 0f) {
         val dim = seg(dh, 0.4f, 0.9f) * (1f - easeOut(seg(df, 0.4f, 0.9f)))
         val bright = 1f - 0.75f * dim
@@ -461,7 +461,7 @@ private fun DrawScope.labRoom(a: ArtCtx) {
     }
     // three pillars that are not there
     if (tp > 0f) {
-        val f = easeOut(seg(tp, 0f, 0.3f)) * (1f - 0.6f * seg(iw, 0f, 0.4f))
+        val f = easeOut(seg(tp, 0f, BEAT_IN)) * (1f - 0.6f * seg(iw, 0f, 0.4f))
         val roofY = h * 0.16f
         val sag = easeInOut(seg(tp, 0.7f, 1f)) * h * 0.05f
         drawPath(Path().apply { moveTo(w * 0.14f, roofY + sag * 0.3f); lineTo(w * 0.86f, roofY + sag); lineTo(w * 0.8f, roofY - h * 0.06f + sag); lineTo(w * 0.2f, roofY - h * 0.06f); close() }, Color(0xFF6A6A78), alpha = f)
@@ -470,7 +470,7 @@ private fun DrawScope.labRoom(a: ArtCtx) {
             val g = seg(tp, 0.1f + 0.15f * k, 0.4f + 0.15f * k)
             drawRect(Color(0xFFC8C8D0), Offset(x - w * 0.035f, roofY + h * 0.02f), Size(w * 0.07f, bench - roofY - h * 0.02f), alpha = f * g,
                 style = Stroke(2f * dp, pathEffect = PathEffect.dashPathEffect(floatArrayOf(6f * dp, 5f * dp))))
-            tagAt(a.tag("threepillars", 0, k), Offset(x, h * (0.29f + 0.115f * k)), seg(tp, 0.25f + 0.15f * k, 0.5f + 0.15f * k) * (1f - seg(iw, 0f, 0.4f)), back = Back38, ink = Color(0xFFE8E8F0))
+            tagAt(a.tag("threepillars", 0, k), Offset(x, h * (0.29f + 0.115f * k)), seg(tp, 0.25f + 0.15f * k, 0.5f + 0.15f * k) * (1f - seg(iw, 0f, BEAT_OUT)), back = Back38, ink = Color(0xFFE8E8F0))
         }
     }
     // the wall behind you: no good, no evil
@@ -538,7 +538,7 @@ private fun DrawScope.clinicRoom(a: ArtCtx) {
             val drift = easeOut(seg(tf, 0.05f + 0.15f * k, 0.4f + 0.15f * k))
             val c = Offset(w * (0.2f + 0.3f * k) + w * 0.03f * sin(t * 0.5f + k), h * (0.22f + 0.05f * (k % 2)) - h * 0.1f * (1f - drift))
             cloud38(c, w * 0.08f, ClinicC38.Fog, 0.75f * drift * (1f - clear))
-            tagAt(a.tag("threefogs", 0, k), c + Offset(0f, h * 0.08f), seg(tf, 0.3f + 0.15f * k, 0.55f + 0.15f * k) * (1f - seg(di, 0f, 0.3f)), back = Back38, ink = Color(0xFFE8E8F0))
+            tagAt(a.tag("threefogs", 0, k), c + Offset(0f, h * 0.08f), seg(tf, 0.3f + 0.15f * k, 0.55f + 0.15f * k) * (1f - seg(di, 0f, BEAT_OUT)), back = Back38, ink = Color(0xFFE8E8F0))
         }
     }
     // the diploma
@@ -642,7 +642,7 @@ private fun DrawScope.popMind(a: ArtCtx) {
     }
     // a doubt is one question: answered, and gone
     if (oq > 0f) {
-        val f = easeOut(seg(oq, 0f, 0.3f)) * (1f - seg(oq, 0.75f, 1f))
+        val f = easeOut(seg(oq, 0f, BEAT_IN)) * (1f - seg(oq, 0.75f, 1f))
         val c = Offset(w * 0.2f, h * 0.32f)
         drawCircle(Color(0xFF3A4A60), w * 0.05f, c, alpha = f)
         qmark21(c, h * 0.04f, Color(0xFFE0E0F0), f * (1f - seg(oq, 0.35f, 0.55f)))
@@ -650,7 +650,7 @@ private fun DrawScope.popMind(a: ArtCtx) {
     }
     // answer one, two more pop up
     if (hy > 0f) {
-        val f = easeOut(seg(hy, 0f, 0.25f)) * (1f - 0.6f * seg(sa, 0f, 0.4f))
+        val f = easeOut(seg(hy, 0f, BEAT_IN)) * (1f - 0.6f * seg(sa, 0f, 0.4f))
         val gens = listOf(listOf(Offset(0.45f, 0.36f)), listOf(Offset(0.36f, 0.24f), Offset(0.55f, 0.22f)), listOf(Offset(0.28f, 0.13f), Offset(0.42f, 0.1f), Offset(0.52f, 0.11f), Offset(0.64f, 0.12f)))
         for ((g, list) in gens.withIndex()) {
             val born = seg(hy, 0.05f + 0.25f * g, 0.25f + 0.25f * g)
@@ -662,12 +662,12 @@ private fun DrawScope.popMind(a: ArtCtx) {
                 check21(c, w * 0.018f, PopC38.Answer, answered, 2.5f * dp)
             }
         }
-        tagAt(a.tag("hydra", 0, 0), Offset(w * 0.28f, h * 0.05f), seg(hy, 0.6f, 0.8f) * (1f - seg(fu, 0f, 0.3f)), back = Back38, ink = Color(0xFFD8C8F0))
-        tagAt(a.tag("hydra", 0, 1), Offset(w * 0.64f, h * 0.05f), seg(hy, 0.7f, 0.9f) * (1f - seg(fu, 0f, 0.3f)), back = Back38, ink = Color(0xFFD8C8F0))
+        tagAt(a.tag("hydra", 0, 0), Offset(w * 0.28f, h * 0.05f), seg(hy, 0.6f, 0.8f) * (1f - seg(fu, 0f, BEAT_OUT)), back = Back38, ink = Color(0xFFD8C8F0))
+        tagAt(a.tag("hydra", 0, 1), Offset(w * 0.64f, h * 0.05f), seg(hy, 0.7f, 0.9f) * (1f - seg(fu, 0f, BEAT_OUT)), back = Back38, ink = Color(0xFFD8C8F0))
     }
     // petrol on a fire
     if (fu > 0f) {
-        val f = easeOut(seg(fu, 0f, 0.3f)) * (1f - 0.7f * seg(sa, 0f, 0.4f))
+        val f = easeOut(seg(fu, 0f, BEAT_IN)) * (1f - 0.7f * seg(sa, 0f, 0.4f))
         val fire = Offset(w * 0.8f, h * 0.8f)
         val leap = 1f + 1.6f * easeOut(seg(fu, 0.5f, 0.8f))
         for (k in 0 until 5) {

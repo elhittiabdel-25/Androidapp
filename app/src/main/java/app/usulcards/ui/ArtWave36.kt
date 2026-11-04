@@ -175,7 +175,7 @@ private fun DrawScope.listenerEvening(a: ArtCtx) {
     val manX = mix(w * 0.42f, w * 0.68f, walk)
     val lean = -0.25f * easeOut(seg(fs, 0.3f, 0.7f)) * (1f - walk)
     figure(Offset(manX, ground), h * 0.22f, UtbaC36.Man, easeOut(seg(of, 0f, 0.3f)), walk = if (walk in 0.01f..0.99f) t * 4f else 0f, lean = lean, arms = if (fs > 0f && rt <= 0f) 0.6f else 0.2f)
-    tagAt(a.tag("offers", 0, 0), Offset(manX, ground - h * 0.32f), seg(of, 0.2f, 0.45f) * (1f - seg(rt, 0f, 0.2f)), back = Back36, ink = ArtInk.Ivory)
+    tagAt(a.tag("offers", 0, 0), Offset(manX, ground - h * 0.32f), seg(of, 0.2f, 0.45f) * (1f - seg(rt, 0f, BEAT_OUT)), back = Back36, ink = ArtInk.Ivory)
     // the offers
     val offerF = easeOut(seg(of, 0.3f, 0.6f)) * (1f - easeOut(seg(fs, 0.2f, 0.6f)))
     if (offerF > 0f) {
@@ -191,7 +191,7 @@ private fun DrawScope.listenerEvening(a: ArtCtx) {
     }
     // the recitation reaching him
     if (fs > 0f && rt < 1f) {
-        val f = easeOut(seg(fs, 0f, 0.3f)) * (1f - seg(rt, 0f, 0.4f))
+        val f = easeOut(seg(fs, 0f, BEAT_IN)) * (1f - seg(rt, 0f, BEAT_OUT))
         for (k in 0 until 4) {
             val r = fract(t * 0.4f + k / 4f)
             val reach = w * 0.22f * r
@@ -202,7 +202,7 @@ private fun DrawScope.listenerEvening(a: ArtCtx) {
     if (rt > 0f) {
         val f = easeOut(seg(rt, 0f, 0.3f))
         for (k in 0 until 4) figure(Offset(w * (0.78f + 0.05f * k), ground), h * 0.2f, Color(0xFF2E2420), f, lean = -0.1f)
-        tagAt(a.tag("returns"), Offset(w * 0.72f, h * 0.36f), seg(rt, 0.6f, 0.85f) * (1f - seg(hr, 0f, 0.3f)), back = Back36, ink = ArtInk.Ivory)
+        tagAt(a.tag("returns"), Offset(w * 0.72f, h * 0.36f), seg(rt, 0.6f, 0.85f) * (1f - seg(hr, 0f, BEAT_OUT)), back = Back36, ink = ArtInk.Ivory)
     }
     // a heart that nearly flew
     if (hr > 0f) {

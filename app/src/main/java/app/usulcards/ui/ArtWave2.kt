@@ -1123,7 +1123,7 @@ private fun DrawScope.shrineTree(a: ArtCtx, ground: Float, strip: Float) {
     if (copy > 0f) {
         val gone = 1f - 0.75f * easeOut(seg(takbir, 0.5f, 1f))
         loteTree(copyBase, 0.5f + 0.4f * easeOut(copy), easeOut(copy) * gone, true, t)
-        tagAt(a.tag("copy"), copyBase + Offset(0f, -h * 0.42f), seg(copy, 0.3f, 1f) * (1f - seg(takbir, 0f, 0.3f)), back = TagBack, ink = ArtInk.Ivory)
+        tagAt(a.tag("copy"), copyBase + Offset(0f, -h * 0.42f), seg(copy, 0.3f, 1f) * (1f - seg(takbir, 0f, BEAT_OUT)), back = TagBack, ink = ArtInk.Ivory)
     }
     if (takbir > 0f) {
         val q = easeOut(seg(takbir, 0f, 0.5f))

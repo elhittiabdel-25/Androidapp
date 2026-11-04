@@ -121,7 +121,7 @@ private fun DrawScope.kunafaLand(a: ArtCtx) {
             drawCircle(KunC25.Rock, w * 0.012f, p)
             softGlow(p, w * 0.03f, KunC25.Lava, 0.7f)
         }
-        val cloud = (if (me >= 1f) 0.8f else bump(seg(me, 0.3f, 1.3f))) * (1f - easeOut(seg(ra, 0f, 0.35f)))
+        val cloud = (if (me >= 1f) 0.8f else bump(seg(me, 0.3f, 1.3f))) * (1f - easeOut(seg(ra, 0f, BEAT_OUT)))
         for (k in 0 until 8) {
             val ang = k * 0.8f
             drawCircle(KunC25.Flour, w * (0.02f + 0.01f * (k % 3)), strike + Offset(cos(ang) * w * 0.05f * seg(me, 0.3f, 0.8f), -h * 0.04f - sin(ang).let { it * it } * h * 0.05f), alpha = 0.7f * cloud)
@@ -227,7 +227,7 @@ private fun DrawScope.sieveRoom(a: ArtCtx) {
     val oc = a.b("othercause")
     drawRect(Brush.verticalGradient(listOf(Color(0xFF3A4A44), SieveC25.Board)))
     // the quoted card
-    val cardA = easeOut(seg(qc, 0f, 0.3f)) * (1f - easeOut(seg(lp, 0f, 0.3f)))
+    val cardA = easeOut(seg(qc, 0f, BEAT_IN)) * (1f - easeOut(seg(lp, 0f, BEAT_OUT)))
     if (cardA > 0f) {
         val c = Offset(w * 0.5f, h * 0.4f)
         drawRoundRect(SieveC25.Card, c + Offset(-w * 0.17f, -h * 0.16f), Size(w * 0.34f, h * 0.32f), CornerRadius(w * 0.006f), alpha = cardA)
@@ -237,7 +237,7 @@ private fun DrawScope.sieveRoom(a: ArtCtx) {
     }
     // the sieve and the circle of arrows
     if (lp > 0f && oc < 0.3f) {
-        val o = easeOut(seg(lp, 0f, 0.3f)) * (1f - easeOut(seg(oc, 0f, 0.3f)))
+        val o = easeOut(seg(lp, 0f, BEAT_IN)) * (1f - easeOut(seg(oc, 0f, BEAT_OUT)))
         val s = Offset(w * 0.38f, h * 0.45f)
         drawOval(SieveC25.Sieve, Offset(s.x - w * 0.14f, s.y - h * 0.04f), Size(w * 0.28f, h * 0.08f), alpha = o, style = Stroke(4f * dp))
         for (k in 0 until 9) drawLine(SieveC25.Mesh, Offset(s.x - w * 0.12f + k * w * 0.03f, s.y - h * 0.03f), Offset(s.x - w * 0.12f + k * w * 0.03f, s.y + h * 0.03f), 1f * dp, alpha = o)
@@ -325,7 +325,7 @@ private fun DrawScope.kitchenRoom(a: ArtCtx) {
     drawRect(KitC25.Wall)
     for (k in 0 until 12) for (m in 0 until 4) drawRect(KitC25.Tile, Offset(w * k / 12f + 1f, h * (0.08f + 0.09f * m)), Size(w / 12f - 2f, h * 0.085f), alpha = 0.5f)
     // the basin of one kind
-    val poolA = easeOut(seg(po, 0f, 0.3f)) * (1f - easeOut(seg(pa, 0f, 0.3f)))
+    val poolA = easeOut(seg(po, 0f, BEAT_IN)) * (1f - easeOut(seg(pa, 0f, BEAT_OUT)))
     if (poolA > 0f) {
         val c = Offset(w * 0.5f, h * 0.72f)
         drawOval(KitC25.Pool, Offset(c.x - w * 0.38f, c.y - h * 0.08f), Size(w * 0.76f, h * 0.18f), alpha = 0.5f * poolA)
@@ -337,7 +337,7 @@ private fun DrawScope.kitchenRoom(a: ArtCtx) {
         tagAt(a.tag("pool"), c + Offset(0f, -h * 0.42f), seg(po, 0.4f, 0.6f) * poolA, back = KitC25.Back, ink = ArtInk.BrassLight)
     }
     // the counter and its few things
-    val kit = easeOut(seg(pa, 0f, 0.3f)) * (1f - easeOut(seg(be, 0f, 0.3f)))
+    val kit = easeOut(seg(pa, 0f, BEAT_IN)) * (1f - easeOut(seg(be, 0f, BEAT_OUT)))
     if (kit > 0f) {
         val top = h * 0.66f
         drawRect(KitC25.Counter, Offset(w * 0.08f, top), Size(w * 0.84f, h * 0.34f), alpha = kit)
@@ -586,7 +586,7 @@ private fun DrawScope.anatomyRoom(a: ArtCtx) {
     val gr = a.b("graph")
     drawRect(Brush.verticalGradient(listOf(Color(0xFF1E2434), Color(0xFF2E3446))))
     // the scroll of "useless" organs
-    val scroll = easeOut(seg(l1, 0f, 0.5f)) * (1f - easeOut(seg(gl, 0f, 0.3f)))
+    val scroll = easeOut(seg(l1, 0f, 0.5f)) * (1f - easeOut(seg(gl, 0f, BEAT_OUT)))
     if (scroll > 0f) {
         val left = w * 0.3f
         val right = w * 0.7f
@@ -608,10 +608,10 @@ private fun DrawScope.anatomyRoom(a: ArtCtx) {
                 drawCircle(Color(0xFF7ED6A0), w * 0.006f, Offset(right - w * 0.03f, yy), alpha = found)
             }
         }
-        tagAt(a.tag("list180"), Offset(w * 0.5f, top - h * 0.06f), seg(l1, 0.3f, 0.6f) * (1f - seg(sh, 0f, 0.3f)), back = AnaC25.Back, ink = ArtInk.BrassLight)
+        tagAt(a.tag("list180"), Offset(w * 0.5f, top - h * 0.06f), seg(l1, 0.3f, 0.6f) * (1f - seg(sh, 0f, BEAT_OUT)), back = AnaC25.Back, ink = ArtInk.BrassLight)
     }
     // a head and neck, three small glands lit in turn
-    val body = easeOut(seg(gl, 0f, 0.3f)) * (1f - easeOut(seg(gr, 0f, 0.3f)))
+    val body = easeOut(seg(gl, 0f, BEAT_IN)) * (1f - easeOut(seg(gr, 0f, BEAT_OUT)))
     if (body > 0f) {
         val head = Offset(w * 0.5f, h * 0.32f)
         drawOval(AnaC25.Body, Offset(head.x - w * 0.09f, head.y - h * 0.18f), Size(w * 0.18f, h * 0.34f), alpha = body)

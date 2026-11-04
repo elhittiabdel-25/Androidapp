@@ -204,7 +204,7 @@ private fun DrawScope.atelierRoom(a: ArtCtx) {
     if (uh > 0f && dg <= 0.3f) {
         val come = easeOut(seg(uh, 0f, 0.15f))
         val seat = Offset(w * 0.25f, floorY + h * 0.03f)
-        w8Seated(seat, tall * 0.92f, AtelierC9.Ink, facing = 1f, alpha = come * (1f - seg(dg, 0f, 0.3f)), speak = 0.6f + 0.4f * sin(t * 3f))
+        w8Seated(seat, tall * 0.92f, AtelierC9.Ink, facing = 1f, alpha = come * (1f - seg(dg, 0f, BEAT_OUT)), speak = 0.6f + 0.4f * sin(t * 3f))
         val mouth = seat + Offset(w * 0.035f, -tall * 0.55f)
         val head = Offset(px, h * 0.41f)
         for (k in 0 until 3) {
@@ -503,7 +503,7 @@ private fun DrawScope.chamberRoom(a: ArtCtx) {
         }
     }
     drawPath(win, Color(0xFF5A4030), style = Stroke(3f * dp))
-    drawLine(Color(0xFF5A4030), Offset((wl + wr) / 2f, h * 0.18f), Offset((wl + wr) / 2f, h * 0.74f), 1.4f * dp, alpha = 1f - easeOut(seg(sh, 0f, 0.3f)))
+    drawLine(Color(0xFF5A4030), Offset((wl + wr) / 2f, h * 0.18f), Offset((wl + wr) / 2f, h * 0.74f), 1.4f * dp, alpha = 1f - easeOut(seg(sh, 0f, BEAT_OUT)))
     // the bed, its blanket drawn up over him
     val bedL = w * 0.2f
     val bedR = w * 0.6f

@@ -93,7 +93,7 @@ private fun DrawScope.statueDream(a: ArtCtx) {
             if (k == 4) for (j in 0 until 4) drawRect(if (j % 2 == 0) StatueC34.Iron else StatueC34.Clay, Offset(c.x - sz.width / 2f + j * sz.width / 4f, c.y - sz.height / 2f), Size(sz.width / 4f, sz.height), alpha = f)
             softGlow(c, sz.width, col, 0.15f * f)
         }
-        val tagF = seg(st, 0.2f + k * 0.12f, 0.4f + k * 0.12f) * (1f - seg(hl, 0f, 0.2f))
+        val tagF = seg(st, 0.2f + k * 0.12f, 0.4f + k * 0.12f) * (1f - seg(hl, 0f, BEAT_OUT))
         tagAt(a.tag("statue", 0, k), Offset(w * 0.28f, parts[k].first.y), tagF, back = Back34, ink = ArtInk.Ivory)
         if (tagF > 0f) drawLine(Color(0xFF8A86A8), Offset(w * 0.33f, parts[k].first.y), Offset(parts[k].first.x - parts[k].second.width / 2f, parts[k].first.y), 1f * dp, alpha = 0.6f * tagF,
             pathEffect = PathEffect.dashPathEffect(floatArrayOf(3f * dp, 3f * dp)))
@@ -285,7 +285,7 @@ private fun DrawScope.awaitedNight(a: ArtCtx) {
         for (k in 0 until 3) w8Palm(Offset(w * (0.08f + 0.1f * k), ground), h * (0.2f + 0.03f * (k % 2)), WaitC34.Trunk, WaitC34.Leaf, t, yf)
         for (k in 0 until 3) drawRect(Color(0xFF8A7A60), Offset(w * (0.12f + 0.08f * k), ground - h * 0.07f), Size(w * 0.06f, h * 0.07f), alpha = yf)
     }
-    tagAt(a.tag("yathrib"), Offset(w * 0.2f, h * 0.22f), seg(yt, 0.3f, 0.55f) * (1f - seg(ce, 0f, 0.25f)), back = Back34, ink = ArtInk.Ivory)
+    tagAt(a.tag("yathrib"), Offset(w * 0.2f, h * 0.22f), seg(yt, 0.3f, 0.55f) * (1f - seg(ce, 0f, BEAT_OUT)), back = Back34, ink = ArtInk.Ivory)
     // the monk's cell
     val cf = easeOut(seg(ce, 0f, 0.4f))
     if (cf > 0f) {
@@ -294,7 +294,7 @@ private fun DrawScope.awaitedNight(a: ArtCtx) {
         softGlow(Offset(w * 0.5f, ground - h * 0.12f), w * 0.05f, WaitC34.Window, 0.5f * cf)
         openBook21(Offset(w * 0.5f, ground - h * 0.08f), w * 0.04f, Color(0xFFF2E8D2), Color(0xFF8A7A5A), cf)
     }
-    tagAt(a.tag("cell"), Offset(w * 0.5f, h * 0.22f), seg(ce, 0.3f, 0.55f) * (1f - seg(th, 0f, 0.25f)), back = Back34, ink = ArtInk.Ivory)
+    tagAt(a.tag("cell"), Offset(w * 0.5f, h * 0.22f), seg(ce, 0.3f, 0.55f) * (1f - seg(th, 0f, BEAT_OUT)), back = Back34, ink = ArtInk.Ivory)
     // the crown on its cushion
     val tf = easeOut(seg(th, 0f, 0.4f))
     if (tf > 0f) {
@@ -307,7 +307,7 @@ private fun DrawScope.awaitedNight(a: ArtCtx) {
         drawPath(crown, WaitC34.Crown, alpha = tf)
         glint(Offset(c.x, c.y - h * 0.1f), w * 0.006f, Color.White, tf)
     }
-    tagAt(a.tag("throne"), Offset(w * 0.8f, h * 0.22f), seg(th, 0.3f, 0.55f) * (1f - seg(tw, 0f, 0.25f)), back = Back34, ink = ArtInk.Ivory)
+    tagAt(a.tag("throne"), Offset(w * 0.8f, h * 0.22f), seg(th, 0.3f, 0.55f) * (1f - seg(tw, 0f, BEAT_OUT)), back = Back34, ink = ArtInk.Ivory)
     // twelve centuries from the ruined temple
     if (tw > 0f) {
         val f = easeOut(seg(tw, 0f, 0.2f))
@@ -394,7 +394,7 @@ private fun DrawScope.overseerHall(a: ArtCtx) {
         val ray = easeOut(seg(b, 0f, 0.3f))
         drawLine(OverC34.Ray, book + Offset(0f, h * 0.05f), book + Offset(0f, h * 0.05f) + (c + Offset(0f, -h * 0.12f) - book - Offset(0f, h * 0.05f)) * ray, 2f * dp, StrokeCap.Round, alpha = 0.7f * (1f - seg(b, 0.8f, 1f) * 0.5f))
         // once the camera goes down to Ezra's town the three verdicts step back, so they do not crowd his tag
-        val away = 1f - seg(ez, 0f, 0.25f)
+        val away = 1f - seg(ez, 0f, BEAT_OUT)
         struckTag21(a.tag(kinds[k], 0, 0), c + Offset(0f, h * 0.17f), seg(b, 0.15f, 0.4f) * away, seg(b, 0.35f, 0.75f), OverC34.Red, Back34, ArtInk.Ivory)
         if (k == 2) tagAt(a.tag("strikethree", 0, 1), c + Offset(0f, h * 0.285f), seg(b, 0.7f, 0.95f) * away, back = Back34, ink = ArtInk.Gold)
     }

@@ -73,7 +73,7 @@ private fun DrawScope.afterHall(a: ArtCtx) {
     for (k in 0 until 4) drawPath(archPath26(w * (0.14f + 0.24f * k), h * 0.1f, floor - h * 0.2f, w * 0.08f), AfterC52.Arch)
     drawRect(AfterC52.Floor, Offset(0f, floor), Size(w, h - floor))
     if (st > 0f) {
-        val f = easeOut(seg(st, 0f, 0.3f)) * (1f - seg(hd, 0f, 0.4f))
+        val f = easeOut(seg(st, 0f, BEAT_IN)) * (1f - seg(hd, 0f, BEAT_OUT))
         val seat = Offset(w * 0.5f, floor)
         val turn = sin(PI.toFloat() * 2f * seg(st, 0.05f, 0.35f))
         val light = seat + Offset(0f, -h * 0.26f)
@@ -86,7 +86,7 @@ private fun DrawScope.afterHall(a: ArtCtx) {
         }
     }
     if (hd > 0f) {
-        val f = easeOut(seg(hd, 0f, 0.3f)) * (1f - seg(nb, 0f, 0.4f))
+        val f = easeOut(seg(hd, 0f, BEAT_IN)) * (1f - seg(nb, 0f, BEAT_OUT))
         for (row in 0 until 3) {
             val fill = seg(hd, 0.05f + 0.2f * row, 0.25f + 0.2f * row)
             for (k in 0 until 33) {
@@ -101,7 +101,7 @@ private fun DrawScope.afterHall(a: ArtCtx) {
         for (k in 0 until 12) drawCircle(AfterC52.Foam, w * 0.012f, Offset(w * (0.8f + 0.015f * k), floor - h * (0.13f + 0.02f * (k % 3))), alpha = f * (1f - gone))
     }
     if (nb > 0f) {
-        val f = easeOut(seg(nb, 0f, 0.3f)) * (1f - seg(ta, 0f, 0.4f))
+        val f = easeOut(seg(nb, 0f, BEAT_IN)) * (1f - seg(ta, 0f, BEAT_OUT))
         drawPath(archPath26(w * 0.15f, h * 0.3f, floor, w * 0.07f), Color(0xFF6A5A44), alpha = f)
         val run = easeInOut(seg(nb, 0.1f, 0.6f))
         drawLine(AfterC52.Gold, Offset(w * 0.2f, floor - h * 0.02f), Offset(w * (0.2f + 0.56f * run), floor - h * 0.02f), 4f * dp, StrokeCap.Round, alpha = f)
@@ -110,7 +110,7 @@ private fun DrawScope.afterHall(a: ArtCtx) {
         drawLine(Color(0xFF8A8494), Offset(w * 0.75f, h * 0.45f), Offset(w * 0.75f, floor), 1f * dp, alpha = f * 0.7f)
     }
     if (ta > 0f) {
-        val f = easeOut(seg(ta, 0f, 0.3f)) * (1f - seg(nj, 0f, 0.4f))
+        val f = easeOut(seg(ta, 0f, BEAT_IN)) * (1f - seg(nj, 0f, BEAT_OUT))
         for (k in 0 until 3) {
             val g = easeOut(seg(ta, 0.1f + 0.25f * k, 0.3f + 0.25f * k))
             val top = floor - h * (0.1f + 0.1f * k)
@@ -182,14 +182,14 @@ private fun DrawScope.chooseDay(a: ArtCtx) {
     val ground = h * 0.84f
     daySky12(ChooseC52.Sky, ChooseC52.SkyLow, ground, ChooseC52.Ground)
     if (ls > 0f) {
-        val f = easeOut(seg(ls, 0f, 0.3f)) * (1f - seg(tr, 0f, 0.4f))
+        val f = easeOut(seg(ls, 0f, BEAT_IN)) * (1f - seg(tr, 0f, BEAT_OUT))
         val light = Offset(w * 0.3f, h * 0.38f)
         sirajMunir(light, w * 0.014f, f, t, nameAt = light + Offset(0f, -h * 0.13f))
         openBook21(Offset(w * 0.55f, h * 0.4f), w * 0.2f, ChooseC52.Page, Color(0xFF9A9080), f * seg(ls, 0.1f, 0.3f), glow = 0.3f)
         for (k in 0 until 4) nameRoundel(Offset(w * (0.3f + 0.13f * k), ground - h * 0.08f), w * 0.035f, null, Roundel.PlainFill, Roundel.PlainRim, f * seg(ls, 0.2f + 0.08f * k, 0.35f + 0.08f * k))
     }
     if (tr > 0f) {
-        val f = easeOut(seg(tr, 0f, 0.3f)) * (1f - seg(cs, 0f, 0.4f))
+        val f = easeOut(seg(tr, 0f, BEAT_IN)) * (1f - seg(cs, 0f, BEAT_OUT))
         val p = Offset(w * 0.5f, ground)
         val ph = seg(tr, 0.05f, 0.8f) * 2f
         val inCycle = fract(ph)
@@ -207,7 +207,7 @@ private fun DrawScope.chooseDay(a: ArtCtx) {
         tagAt(a.tag("tworakah", 0, minOf(1, ph.toInt())), Offset(w * 0.5f, h * 0.24f), f * seg(tr, 0.1f, 0.2f) * (1f - seg(tr, 0.75f, 0.8f)), back = Back52, ink = ArtInk.Gold)
     }
     if (cs > 0f) {
-        val f = easeOut(seg(cs, 0f, 0.3f)) * (1f - seg(od, 0f, 0.4f))
+        val f = easeOut(seg(cs, 0f, BEAT_IN)) * (1f - seg(od, 0f, BEAT_OUT))
         val go = easeInOut(seg(cs, 0.55f, 0.95f))
         sit12(Offset(w * 0.24f, ground), h * 0.26f, ChooseC52.Person, f * (1f - go * 0.5f), 1f)
         sit12(Offset(w * 0.4f, ground), h * 0.26f, ChooseC52.Person, f * (1f - go * 0.5f), -1f)
@@ -282,7 +282,7 @@ private fun DrawScope.dayCycle(a: ArtCtx) {
     drawRect(Brush.verticalGradient(listOf(DayC52.Noon, Color(0xFFF2E6CC)), 0f, ground), Offset.Zero, Size(w, ground))
     drawRect(DayC52.Ground, Offset(0f, ground), Size(w, h - ground))
     if (be > 0f) {
-        val f = easeOut(seg(be, 0f, 0.3f)) * (1f - seg(dg, 0f, 0.4f))
+        val f = easeOut(seg(be, 0f, BEAT_IN)) * (1f - seg(dg, 0f, BEAT_OUT))
         val u = seg(be, 0.1f, 0.9f)
         val c = Offset(w * 0.5f, ground)
         drawArc(DayC52.Gold, 180f, 180f, false, Offset(c.x - w * 0.4f, c.y - h * 0.6f), Size(w * 0.8f, h * 1.2f), alpha = f * 0.4f, style = Stroke(1.5f * dp, pathEffect = androidx.compose.ui.graphics.PathEffect.dashPathEffect(floatArrayOf(5f * dp, 5f * dp))))
@@ -296,7 +296,7 @@ private fun DrawScope.dayCycle(a: ArtCtx) {
         }
     }
     if (dg > 0f) {
-        val f = easeOut(seg(dg, 0f, 0.3f)) * (1f - seg(ts, 0f, 0.4f))
+        val f = easeOut(seg(dg, 0f, BEAT_IN)) * (1f - seg(ts, 0f, BEAT_OUT))
         drawRect(Brush.verticalGradient(listOf(Color(0xFF6A88B8), DayC52.Dawn), 0f, ground), Offset.Zero, Size(w, ground), alpha = f)
         val c = Offset(w * 0.5f, ground)
         house12(c, w * 0.22f, DayC52.Wall, DayC52.Trim, f, 0.5f)
@@ -304,7 +304,7 @@ private fun DrawScope.dayCycle(a: ArtCtx) {
         for (k in 0 until 4) jinnFlame20(Offset(w * (0.1f + 0.08f * k) + (if (k > 1) w * 0.56f else 0f), ground), h * 0.12f, t, k, f * 0.8f)
     }
     if (ts > 0f) {
-        val f = easeOut(seg(ts, 0f, 0.3f)) * (1f - seg(mk, 0f, 0.4f))
+        val f = easeOut(seg(ts, 0f, BEAT_IN)) * (1f - seg(mk, 0f, BEAT_OUT))
         val c = Offset(w * 0.5f, h * 0.55f)
         drawCircle(DayC52.Person, h * 0.05f, c + Offset(0f, -h * 0.05f), alpha = f)
         drawLine(DayC52.Person, c, c + Offset(0f, h * 0.18f), h * 0.03f, StrokeCap.Round, alpha = f)
@@ -319,7 +319,7 @@ private fun DrawScope.dayCycle(a: ArtCtx) {
         }
     }
     if (mk > 0f) {
-        val f = easeOut(seg(mk, 0f, 0.3f)) * (1f - seg(tsr, 0f, 0.4f))
+        val f = easeOut(seg(mk, 0f, BEAT_IN)) * (1f - seg(tsr, 0f, BEAT_OUT))
         val dusk = seg(mk, 0.1f, 0.8f)
         drawRect(Brush.verticalGradient(listOf(lerpColor(DayC52.Noon, DayC52.Night, dusk), lerpColor(Color(0xFFF2E6CC), DayC52.Dusk, dusk)), 0f, ground), Offset.Zero, Size(w, ground), alpha = f)
         for (k in 0 until 5) house12(Offset(w * (0.1f + 0.2f * k), ground), w * 0.12f, DayC52.Wall, DayC52.Trim, f, dusk)
@@ -381,7 +381,7 @@ private fun DrawScope.covenantPage(a: ArtCtx) {
     val ds = a.b("dayshukr")
     val pen = 2.2f * dp
     if (fp > 0f) {
-        val f = easeOut(seg(fp, 0f, 0.25f)) * (1f - seg(dn, 0f, 0.4f))
+        val f = easeOut(seg(fp, 0f, BEAT_IN)) * (1f - seg(dn, 0f, BEAT_OUT))
         for (k in 0 until 4) {
             val c = Offset(w * (0.2f + 0.2f * k), h * 0.5f + h * 0.08f * (k % 2))
             val g = seg(fp, 0.1f + 0.2f * k, 0.3f + 0.2f * k)
@@ -390,7 +390,7 @@ private fun DrawScope.covenantPage(a: ArtCtx) {
         }
     }
     if (dn > 0f) {
-        val f = easeOut(seg(dn, 0f, 0.25f)) * (1f - seg(ab, 0f, 0.4f))
+        val f = easeOut(seg(dn, 0f, BEAT_IN)) * (1f - seg(ab, 0f, BEAT_OUT))
         penLine(listOf(Offset(w * 0.5f, h * 0.15f), Offset(w * 0.5f, h * 0.85f)), seg(dn, 0.05f, 0.25f), pp.ink, pen, f)
         val sunC = Offset(w * 0.28f, h * 0.3f)
         for (k in 0 until 8) {
@@ -407,7 +407,7 @@ private fun DrawScope.covenantPage(a: ArtCtx) {
         }
     }
     if (ab > 0f) {
-        val f = easeOut(seg(ab, 0f, 0.25f)) * (1f - seg(fs, 0f, 0.4f))
+        val f = easeOut(seg(ab, 0f, BEAT_IN)) * (1f - seg(fs, 0f, BEAT_OUT))
         val c = Offset(w * 0.5f, h * 0.32f)
         note(a.tag("abu", 0, 0), c, f * seg(ab, 0.05f, 0.2f), pp, pp.amber, boxed = true)
         for (k in 0 until 2) {
@@ -418,7 +418,7 @@ private fun DrawScope.covenantPage(a: ArtCtx) {
         }
     }
     if (fs > 0f) {
-        val f = easeOut(seg(fs, 0f, 0.25f)) * (1f - seg(ds, 0f, 0.4f))
+        val f = easeOut(seg(fs, 0f, BEAT_IN)) * (1f - seg(ds, 0f, BEAT_OUT))
         val pts = mutableListOf(Offset(w * 0.15f, h * 0.82f))
         for (k in 0 until 5) {
             val x = w * (0.15f + 0.14f * k)
@@ -490,7 +490,7 @@ private fun DrawScope.harmNight(a: ArtCtx) {
     nightSky(t, HarmC52.Sky, HarmC52.SkyLow, ground, starAlpha = 0.7f)
     drawRect(HarmC52.Ground, Offset(0f, ground), Size(w, h - ground))
     if (bo > 0f) {
-        val f = easeOut(seg(bo, 0f, 0.3f)) * (1f - seg(sc, 0f, 0.4f))
+        val f = easeOut(seg(bo, 0f, BEAT_IN)) * (1f - seg(sc, 0f, BEAT_OUT))
         val c = Offset(w * 0.5f, ground)
         house12(c, w * 0.2f, HarmC52.Wall, HarmC52.Roof, f, 0.7f)
         guardDome12(c, w * 0.2f, seg(bo, 0.05f, 0.3f), t, f)
@@ -504,7 +504,7 @@ private fun DrawScope.harmNight(a: ArtCtx) {
         }
     }
     if (sc > 0f) {
-        val f = easeOut(seg(sc, 0f, 0.3f)) * (1f - seg(tc, 0f, 0.4f))
+        val f = easeOut(seg(sc, 0f, BEAT_IN)) * (1f - seg(tc, 0f, BEAT_OUT))
         door12(Offset(w * 0.3f, ground), w * 0.12f, h * 0.38f, 0f, HarmC52.Wall, Color(0xFF3A2A2A), f)
         guardDome12(Offset(w * 0.3f, ground), w * 0.12f, 1f, t, f * seg(sc, 0.05f, 0.2f))
         val come = seg(sc, 0.1f, 0.5f)
@@ -521,7 +521,7 @@ private fun DrawScope.harmNight(a: ArtCtx) {
         drawLine(HarmC52.Scorp, Offset(x + dir * w * 0.03f, y), Offset(x + dir * w * 0.05f, y - h * 0.015f), 2f * dp, StrokeCap.Round, alpha = f)
     }
     if (tc > 0f) {
-        val f = easeOut(seg(tc, 0f, 0.3f)) * (1f - seg(hu, 0f, 0.4f))
+        val f = easeOut(seg(tc, 0f, BEAT_IN)) * (1f - seg(hu, 0f, BEAT_OUT))
         for (k in 0 until 3) {
             val g = seg(tc, 0.1f + 0.25f * k, 0.3f + 0.25f * k)
             val y = h * (0.7f - 0.2f * k) - h * 0.05f * g
@@ -530,7 +530,7 @@ private fun DrawScope.harmNight(a: ArtCtx) {
         }
     }
     if (hu > 0f) {
-        val f = easeOut(seg(hu, 0f, 0.3f)) * (1f - seg(sr, 0f, 0.4f))
+        val f = easeOut(seg(hu, 0f, BEAT_IN)) * (1f - seg(sr, 0f, BEAT_OUT))
         val base = Offset(w * 0.5f, ground)
         val lean = 0.5f * (1f - easeInOut(seg(hu, 0.3f, 0.6f)))
         val top = base + Offset(sin(lean) * h * 0.3f, -cos(lean) * h * 0.3f)

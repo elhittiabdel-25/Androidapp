@@ -1,6 +1,9 @@
 package app.usulcards.ui
 
-import androidx.compose.animation.Crossfade
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat
@@ -231,7 +234,7 @@ private fun SceneTitle(text: String) {
 @Composable
 internal fun SceneCaption(scene: Scene, shown: Int, txt: (String) -> String) {
     val pal = LocalPalette.current
-    Crossfade(targetState = shown - 1, label = "scene-caption") { i ->
+    QuickSwap(shown - 1, "scene-caption") { i ->
         val text = if (i >= 0) scene.items[i].label else scene.title
         Text(
             txt(text),
@@ -720,7 +723,7 @@ private fun TimelineScene(scene: Scene, shown: Int, txt: (String) -> String) {
             drawCircle(pal.gold, radius = 6.dp.toPx(), center = Offset(cx, cy))
             drawCircle(pal.surface, radius = 2.5.dp.toPx(), center = Offset(cx, cy))
         }
-        Crossfade(targetState = shown - 1, label = "timeline-caption") { c ->
+        QuickSwap(shown - 1, "timeline-caption") { c ->
             Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 if (c >= 0) {
                     Text(txt(items[c].label), color = colors[c % colors.size], fontFamily = Fonts.naskh, fontWeight = FontWeight.Bold, fontSize = 16.sp, lineHeight = 26.sp)
@@ -789,7 +792,7 @@ private fun CirclesScene(scene: Scene, shown: Int, txt: (String) -> String) {
                 }
             }
         }
-        Crossfade(targetState = shown - 1, label = "circles-caption") { c ->
+        QuickSwap(shown - 1, "circles-caption") { c ->
             val text = if (c >= 0) listOf(items[c].label, items[c].sub).filter { it.isNotEmpty() }.joinToString(" · ") else " "
             Text(
                 txt(text),
@@ -1219,4 +1222,18 @@ private fun StarsScene(scene: Scene, shown: Int, txt: (String) -> String) {
         }
         Box(Modifier.fillMaxWidth().background(pal.bg)) { SceneCaption(scene, shown, txt) }
     }
+}
+
+
+/**
+ * The caption under a scene changes without the two texts overlapping: the old one goes in 110 ms and the new one
+ * comes in just after it (a Crossfade blended them for 300 ms, which users found disturbing).
+ */
+@Composable
+private fun <T> QuickSwap(target: T, label: String, content: @Composable (T) -> Unit) {
+    AnimatedContent(
+        targetState = target,
+        transitionSpec = { fadeIn(tween(170, delayMillis = 100)) togetherWith fadeOut(tween(110)) },
+        label = label,
+    ) { state -> content(state) }
 }

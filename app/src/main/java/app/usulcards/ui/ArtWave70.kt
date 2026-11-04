@@ -172,7 +172,7 @@ private fun DrawScope.sevenRoundsDraw(a: ArtCtx) {
     val dp = density
     val c = Offset(w * 0.5f, h * 0.5f)
     val sm = a.b("safamarwa")
-    val court = 1f - seg(sm, 0f, 0.4f)
+    val court = 1f - seg(sm, 0f, BEAT_OUT)
     drawRect(lerpColor(HajjC70.Floor, Color(0xFF2A2A38), seg(sm, 0f, 0.4f)), Offset.Zero, size)
     if (court > 0f) {
         val s = h * 0.2f
@@ -609,7 +609,7 @@ private fun DrawScope.farewellHouseDraw(a: ArtCtx) {
         fqRoad(Offset(c.x - w * 0.05f, ground + h * 0.1f), Offset(-w * 0.05f, ground + h * 0.14f), h * 0.05f, Color(0xFF4A4038), p3 * seg(pb, 0.4f, 0.55f))
         fqPilgrim(pos, h * 0.2f, p3, walk = t * 9f)
         tagAt(a.tag("farewelltawaf", 0, 0), Offset(w * 0.72f, h * 0.2f), p3 * seg(pb, 0.05f, 0.2f), back = Fq.Back, ink = ArtInk.Gold)
-        tagAt(a.tag("farewelltawaf", 0, 1), Offset(w * 0.35f, h * 0.35f), p3 * seg(pb, 0.4f, 0.55f) * (1f - seg(wo, 0f, 0.2f)), back = Fq.Back, ink = ArtInk.Ivory)
+        tagAt(a.tag("farewelltawaf", 0, 1), Offset(w * 0.35f, h * 0.35f), p3 * seg(pb, 0.4f, 0.55f) * (1f - seg(wo, 0f, BEAT_OUT)), back = Fq.Back, ink = ArtInk.Ivory)
         if (wo > 0f) {
             tick14(Offset(w * 0.3f, h * 0.55f), w * 0.05f, seg(wo, 0.3f, 0.5f))
             tagAt(a.tag("walkonward"), Offset(w * 0.35f, h * 0.35f), p3 * seg(wo, 0.15f, 0.3f), back = Fq.Back, ink = ArtInk.Jade)

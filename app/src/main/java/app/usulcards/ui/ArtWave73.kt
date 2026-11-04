@@ -266,7 +266,7 @@ private fun DrawScope.suhoorIftarDraw(a: ArtCtx) {
     val sh = fqIn(a, "sunsethaste", "thirstgone")
     val rt = fqIn(a, "ratabtamrwater", "thirstgone")
     val tg = fqIn(a, "thirstgone")
-    val dawn = seg(a.b("nearfajr"), 0.1f, 0.9f) * (1f - seg(a.b("sunsethaste"), 0f, 0.3f))
+    val dawn = seg(a.b("nearfajr"), 0.1f, 0.9f) * (1f - seg(a.b("sunsethaste"), 0f, BEAT_OUT))
     val dusk = seg(a.b("sunsethaste"), 0f, 0.4f)
     nightSky(t, RamC.Top, lerpColor(lerpColor(RamC.Low, Color(0xFFB8A0C8), dawn), Color(0xFFE8906A), dusk), ground, starAlpha = 0.8f * (1f - dawn * 0.6f))
     drawRect(RamC.Ground, Offset(0f, ground), Size(w, h - ground))
@@ -282,7 +282,7 @@ private fun DrawScope.suhoorIftarDraw(a: ArtCtx) {
     if (pm > 0f) {
         val p = a.b("predawnmeal")
         crescent12(Offset(w * 0.2f, h * 0.18f), w * 0.03f, RamC.Lit, RamC.Top, pm * (1f - dawn))
-        tagAt(a.tag("predawnmeal"), Offset(w * 0.5f, h * 0.22f), pm * seg(p, 0.15f, 0.35f) * (1f - seg(a.b("nearfajr"), 0f, 0.2f)), back = Fq.Back, ink = ArtInk.Gold)
+        tagAt(a.tag("predawnmeal"), Offset(w * 0.5f, h * 0.22f), pm * seg(p, 0.15f, 0.35f) * (1f - seg(a.b("nearfajr"), 0f, BEAT_OUT)), back = Fq.Back, ink = ArtInk.Gold)
     }
     if (nf > 0f) {
         val p = a.b("nearfajr")
@@ -450,7 +450,7 @@ private fun DrawScope.forgotFastDraw(a: ArtCtx) {
     val dk = fqIn(a, "didntknow", "notbreakers")
     val nb = fqIn(a, "notbreakers", "rememberstop")
     val rs = fqIn(a, "rememberstop")
-    val dawn = seg(a.b("didntknow"), 0.1f, 0.5f) * (1f - seg(a.b("notbreakers"), 0f, 0.4f))
+    val dawn = seg(a.b("didntknow"), 0.1f, 0.5f) * (1f - seg(a.b("notbreakers"), 0f, BEAT_OUT))
     nightSky(t, RamC.Top, lerpColor(RamC.Low, Color(0xFFE8C8A8), dawn), ground, starAlpha = 0.7f * (1f - dawn))
     drawRect(RamC.Ground, Offset(0f, ground), Size(w, h - ground))
     if (tr > 0f) {

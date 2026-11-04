@@ -86,7 +86,7 @@ private fun DrawScope.mythRoom(a: ArtCtx) {
     val fall = w8EaseIn(seg(cl, 0.4f, 1f))
     // Aristotle's brain, a radiator for the blood
     if (ra > 0f) {
-        val f = easeOut(seg(ra, 0f, 0.3f)) * (1f - fall)
+        val f = easeOut(seg(ra, 0f, BEAT_IN)) * (1f - fall)
         val c = Offset(w * 0.2f, h * 0.48f + h * 0.3f * fall)
         val col = lerpColor(MythC35.Brain, MythC35.Ash, ash)
         drawOval(col, Offset(c.x - w * 0.08f, c.y - h * 0.08f), Size(w * 0.09f, h * 0.15f), alpha = f)
@@ -101,7 +101,7 @@ private fun DrawScope.mythRoom(a: ArtCtx) {
     }
     // the sun and its seven horses
     if (sh > 0f) {
-        val f = easeOut(seg(sh, 0f, 0.3f)) * (1f - fall)
+        val f = easeOut(seg(sh, 0f, BEAT_IN)) * (1f - fall)
         val run = seg(sh, 0f, 1f)
         val sun = Offset(w * (0.92f - 0.2f * run), h * 0.22f + h * 0.4f * fall)
         val col = lerpColor(MythC35.Sun, MythC35.Ash, ash)
@@ -286,7 +286,7 @@ private fun DrawScope.nebulaSpace(a: ArtCtx) {
     for (k in 0 until 40) drawCircle(Color.White, w * 0.0018f, Offset(w * w8Rnd(k, 3.3f), h * w8Rnd(k, 8.8f)), alpha = 0.4f + 0.3f * sin(t + k))
     val c = Offset(w * 0.5f, h * 0.45f)
     // the myths' first water
-    val sea = easeOut(seg(ps, 0f, 0.3f)) * (1f - easeOut(seg(dk, 0f, 0.4f)))
+    val sea = easeOut(seg(ps, 0f, BEAT_IN)) * (1f - easeOut(seg(dk, 0f, BEAT_OUT)))
     if (sea > 0f) {
         val y = h * 0.76f
         val wave = Path().apply {
@@ -647,12 +647,12 @@ private fun DrawScope.spineSoil(a: ArtCtx) {
         val base = Offset(spineX, h * 0.82f)
         drawPath(Path().apply { moveTo(base.x - w * 0.012f, base.y - h * 0.02f); lineTo(base.x + w * 0.012f, base.y - h * 0.02f); lineTo(base.x, base.y + h * 0.03f); close() }, SpineC35.Gold, alpha = f)
         softGlow(base, w * 0.04f, SpineC35.Gold, 0.6f * f)
-        tagAt(a.tag("coccyx"), base + Offset(0f, -h * 0.12f), seg(cc, 0.5f, 0.75f) * (1f - seg(jt, 0f, 0.3f)), back = Back35, ink = ArtInk.Gold)
+        tagAt(a.tag("coccyx"), base + Offset(0f, -h * 0.12f), seg(cc, 0.5f, 0.75f) * (1f - seg(jt, 0f, BEAT_OUT)), back = Back35, ink = ArtInk.Gold)
     }
     // the embryonic disc and its line
     val disc = Offset(w * 0.68f, h * 0.45f)
     if (sk > 0f) {
-        val f = easeOut(seg(sk, 0f, 0.3f)) * (1f - easeOut(seg(jt, 0f, 0.3f)))
+        val f = easeOut(seg(sk, 0f, BEAT_IN)) * (1f - easeOut(seg(jt, 0f, BEAT_OUT)))
         drawOval(SpineC35.Disc, Offset(disc.x - w * 0.09f, disc.y - h * 0.16f), Size(w * 0.18f, h * 0.32f), alpha = 0.85f * f)
         val draw = easeOut(seg(sk, 0.2f, 0.6f))
         val shrink = easeInOut(seg(sn, 0f, 0.8f))
@@ -669,7 +669,7 @@ private fun DrawScope.spineSoil(a: ArtCtx) {
             softGlow(Offset(disc.x, bottom), w * 0.03f, SpineC35.Gold, 0.8f * g * f)
             drawCircle(SpineC35.Gold, w * 0.008f, Offset(disc.x, bottom), alpha = g * f)
         }
-        tagAt(a.tag("streak"), disc + Offset(0f, -h * 0.24f), seg(sk, 0.4f, 0.65f) * (1f - seg(jt, 0f, 0.2f)), back = Back35, ink = Color(0xFFFFD8D0))
+        tagAt(a.tag("streak"), disc + Offset(0f, -h * 0.24f), seg(sk, 0.4f, 0.65f) * (1f - seg(jt, 0f, BEAT_OUT)), back = Back35, ink = Color(0xFFFFD8D0))
     }
     // three hundred and sixty joints
     if (jt > 0f) {

@@ -163,7 +163,7 @@ internal fun DrawScope.amuletScene(a: ArtCtx) {
                     style = Stroke(0.8f * dp, pathEffect = PathEffect.dashPathEffect(floatArrayOf(2f * dp, 2f * dp), 0f)))
             }
         }
-        tagAt(a.tag("hang", 0, k), Offset(x, rest.y + h * 0.15f), seg(hang, 0.4f + k * 0.15f, 0.7f + k * 0.1f) * (1f - seg(snip, 0f, 0.3f)),
+        tagAt(a.tag("hang", 0, k), Offset(x, rest.y + h * 0.15f), seg(hang, 0.4f + k * 0.15f, 0.7f + k * 0.1f) * (1f - seg(snip, 0f, BEAT_OUT)),
             back = Still.Back, ink = Still.Thread)
     }
     // the cut: one bright stroke through the threads, right to left
@@ -171,7 +171,7 @@ internal fun DrawScope.amuletScene(a: ArtCtx) {
         val s0 = Offset(w * 0.97f, h * 0.2175f)
         val s1 = Offset(w * 0.42f, h * 0.27f)
         drawLine(Still.Light, s0, s0 + (s1 - s0) * easeOut(seg(snip, 0f, 0.3f)), 2.2f * dp, cap = StrokeCap.Round, alpha = 1f - seg(snip, 0.4f, 0.7f))
-        val gone = 1f - seg(page, 0f, 0.3f)
+        val gone = 1f - seg(page, 0f, BEAT_OUT)
         tagAt(a.tag("snip", 0, 0), Offset(w * 0.69f, h * 0.52f), seg(snip, 0.3f, 0.7f) * gone, back = Still.Back, ink = Still.Bad)
         tagAt(a.tag("snip", 0, 1), Offset(w * 0.5f, h * 0.36f), seg(snip, 0.5f, 1f) * gone, back = Still.Back, ink = Still.Thread)
     }
@@ -207,7 +207,7 @@ internal fun DrawScope.knotsScene(a: ArtCtx) {
     stillLife(table, Offset(w * 0.5f, h * 0.25f), 0.7f)
 
     // act 1: the seven, resting on the table; the first two glow like embers when they are named together
-    val act1 = seg(stones, 0f, 0.3f) * (1f - seg(rope, 0f, 0.35f))
+    val act1 = seg(stones, 0f, 0.3f) * (1f - seg(rope, 0f, BEAT_OUT))
     if (act1 > 0.01f) {
         val tops = ArrayList<Offset>()
         for (k in 0 until 7) {
@@ -258,14 +258,14 @@ internal fun DrawScope.knotsScene(a: ArtCtx) {
         }
         drawPath(line, Still.Thread, alpha = act2, style = Stroke(3f * dp, cap = StrokeCap.Round))
         val n = 4
-        val hot = easeOut(seg(fake, 0.2f, 0.6f)) * (1f - seg(cure, 0f, 0.3f))
+        val hot = easeOut(seg(fake, 0.2f, 0.6f)) * (1f - seg(cure, 0f, BEAT_OUT))
         for (k in 0 until n) {
             val x = mix(w * 0.95f, w * 0.05f, (k + 1f) / (n + 1f))
             // the light reaches each knot in turn, from the right
             val r = h * 0.04f * (1f - seg(loose, k / n.toFloat(), (k + 1f) / n))
             if (r > 0.5f) knot(Offset(x, y), r, lerpC(Still.Thread, Still.Bad, hot), act2)
         }
-        tagAt(a.tag("knotted"), Offset(w * 0.5f, h * 0.14f), act2 * seg(rope, 0.4f, 0.9f) * (1f - seg(fake, 0f, 0.3f)), back = Still.Back, ink = Still.Thread)
+        tagAt(a.tag("knotted"), Offset(w * 0.5f, h * 0.14f), act2 * seg(rope, 0.4f, 0.9f) * (1f - seg(fake, 0f, BEAT_OUT)), back = Still.Back, ink = Still.Thread)
         // the false cure: more magic — smoke round the knots, which only burn hotter; rejected
         if (fake > 0f) {
             val fa = act2 * seg(fake, 0f, 0.3f) * (1f - 0.75f * seg(cure, 0f, 0.3f))
@@ -376,8 +376,8 @@ internal fun DrawScope.lightsScene(a: ArtCtx) {
         if (lit > 0f) lightOf(k, c, h * 0.07f, lit, t)
         tagAt(if (i >= 0) a.tagOf(i) else null, Offset(c.x, h * (if (k % 2 == 0) 0.74f else 0.86f)), seg(beat, 0.3f, 0.8f), back = Sky.Back, ink = Sky.Pale)
     }
-    tagAt(a.tag("same"), Offset(w * 0.5f, h * 0.8f), seg(same, 0.4f, 0.9f) * (1f - seg(unlike, 0f, 0.3f)), back = Sky.Back, ink = Sky.Pale)
-    tagAt(a.tag("unlike"), Offset(w * 0.5f, h * 0.8f), seg(unlike, 0.3f, 0.8f) * (1f - seg(a.b("lit"), 0f, 0.3f)), back = Sky.Back, ink = Sky.Gold)
+    tagAt(a.tag("same"), Offset(w * 0.5f, h * 0.8f), seg(same, 0.4f, 0.9f) * (1f - seg(unlike, 0f, BEAT_OUT)), back = Sky.Back, ink = Sky.Pale)
+    tagAt(a.tag("unlike"), Offset(w * 0.5f, h * 0.8f), seg(unlike, 0.3f, 0.8f) * (1f - seg(a.b("lit"), 0f, BEAT_OUT)), back = Sky.Back, ink = Sky.Gold)
 }
 
 /** The five lights: the sun, the shining star, the great torch, the bright lamp, the weak lamp. */
@@ -680,7 +680,7 @@ internal fun DrawScope.oathScene(a: ArtCtx) {
     val topple = a.b("topple")
     val plea = a.b("plea")
     val tasbih = a.b("tasbih")
-    val act1 = seg(swear, 0f, 0.3f) * (1f - seg(plea, 0f, 0.3f))
+    val act1 = seg(swear, 0f, 0.3f) * (1f - seg(plea, 0f, BEAT_OUT))
 
     if (act1 > 0.01f) {
         val swearer = Offset(w * 0.62f, ground)
@@ -787,7 +787,7 @@ internal fun DrawScope.kinScene(a: ArtCtx) {
         drawOval(pp.card, topLeft = at - Offset(w * 0.07f, h * 0.05f), size = Size(w * 0.14f, h * 0.1f), alpha = p)
         drawOval(lerpC(pp.ink, pp.bad, cut), topLeft = at - Offset(w * 0.07f, h * 0.05f), size = Size(w * 0.14f, h * 0.1f), alpha = p, style = Stroke(1.4f * dp))
         note(a.tag("foe"), Offset(at.x + w * 0.06f, at.y - h * 0.1f), seg(foe, 0.3f, 0.8f), pp, ink = pp.ink)
-        note(a.tag("kin"), Offset(at.x + w * 0.05f, at.y + h * 0.11f), seg(kin, 0.3f, 0.8f) * (1f - seg(love, 0f, 0.3f)), pp, ink = pp.bad)
+        note(a.tag("kin"), Offset(at.x + w * 0.05f, at.y + h * 0.11f), seg(kin, 0.3f, 0.8f) * (1f - seg(love, 0f, BEAT_OUT)), pp, ink = pp.bad)
         if (hate > 0f) note(a.tag("hate"), centre + (at - centre) * 0.5f + Offset(w * 0.12f, h * 0.02f), seg(hate, 0.3f, 0.8f), pp, ink = pp.bad)
     }
     // the believer at the centre

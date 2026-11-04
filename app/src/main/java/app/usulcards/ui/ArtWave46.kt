@@ -76,7 +76,7 @@ private fun DrawScope.gardenGates(a: ArtCtx) {
     for (k in 0 until 4) palm12(Offset(w * (0.04f + 0.3f * k), ground), h * 0.32f, Color(0xFF7A5A3A), GateC46.Leaf, 0.35f, t + k)
     // three deeds, three steps
     if (bd > 0f) {
-        val f = easeOut(seg(bd, 0f, 0.3f)) * (1f - seg(m3, 0f, 0.4f))
+        val f = easeOut(seg(bd, 0f, BEAT_IN)) * (1f - seg(m3, 0f, BEAT_OUT))
         for (k in 0 until 3) {
             val g = easeOut(seg(bd, 0.1f + 0.22f * k, 0.3f + 0.22f * k))
             val x = w * (0.2f + 0.24f * k)
@@ -94,7 +94,7 @@ private fun DrawScope.gardenGates(a: ArtCtx) {
     }
     // the mother three times, then the father
     if (m3 > 0f) {
-        val f = easeOut(seg(m3, 0f, 0.3f)) * (1f - seg(rg, 0f, 0.4f))
+        val f = easeOut(seg(m3, 0f, BEAT_IN)) * (1f - seg(rg, 0f, BEAT_OUT))
         val mom = Offset(w * 0.4f, ground)
         val dad = Offset(w * 0.62f, ground)
         womanSit12(mom, h * 0.24f, GateC46.Elder, f, 1f)
@@ -110,7 +110,7 @@ private fun DrawScope.gardenGates(a: ArtCtx) {
     }
     // the gate beside the parents, and one who walks away from it
     if (rg > 0f) {
-        val f = easeOut(seg(rg, 0f, 0.3f)) * (1f - seg(fh, 0f, 0.4f))
+        val f = easeOut(seg(rg, 0f, BEAT_IN)) * (1f - seg(fh, 0f, BEAT_OUT))
         val dim = seg(rg, 0.45f, 0.9f)
         val sill = Offset(w * 0.32f, ground)
         drawRect(GateC46.Wall, Offset(w * 0.12f, ground - h * 0.42f), Size(w * 0.4f, h * 0.42f), alpha = f)
@@ -122,7 +122,7 @@ private fun DrawScope.gardenGates(a: ArtCtx) {
     }
     // two roads: the pennant on the hill, or home to the parents
     if (fh > 0f) {
-        val f = easeOut(seg(fh, 0f, 0.3f)) * (1f - seg(mg, 0f, 0.4f))
+        val f = easeOut(seg(fh, 0f, BEAT_IN)) * (1f - seg(mg, 0f, BEAT_OUT))
         val fork = Offset(w * 0.5f, ground - h * 0.02f)
         val start = Offset(w * 0.5f, h * 0.98f)
         drawLine(GateC46.Road, start, fork, w * 0.05f, StrokeCap.Round, alpha = f)
@@ -208,7 +208,7 @@ private fun DrawScope.kinValley(a: ArtCtx) {
         moveTo(0f, h * 0.62f); quadraticTo(w * 0.5f, h * 0.9f, w, h * 0.6f); lineTo(w, h); lineTo(0f, h); close()
     }, KinC46.Ground)
     val pts = kinHouses46.map { Offset(w * it.x, h * it.y) }
-    val show = easeOut(seg(hg, 0f, 0.3f)) * (1f - seg(tf, 0f, 0.4f))
+    val show = easeOut(seg(hg, 0f, BEAT_IN)) * (1f - seg(tf, 0f, BEAT_OUT))
     for ((k, p) in pts.withIndex()) house12(p, w * 0.1f, KinC46.Wall, KinC46.Roof, show, 0.6f)
     // the threads between the houses, and from each up into the light
     if (hg > 0f) {
@@ -232,7 +232,7 @@ private fun DrawScope.kinValley(a: ArtCtx) {
     }
     // the one who keeps the ties: provision and a longer road
     if (wd > 0f) {
-        val f = easeOut(seg(wd, 0f, 0.3f)) * (1f - seg(tf, 0f, 0.4f))
+        val f = easeOut(seg(wd, 0f, BEAT_IN)) * (1f - seg(tf, 0f, BEAT_OUT))
         val p = pts[1]
         softGlow(p + Offset(0f, -h * 0.05f), w * 0.08f, KinC46.Thread, 0.5f * f)
         val basket = p + Offset(-w * 0.07f, 0f)
@@ -244,7 +244,7 @@ private fun DrawScope.kinValley(a: ArtCtx) {
     }
     // cut, and tied again
     if (rc > 0f) {
-        val f = easeOut(seg(rc, 0f, 0.3f)) * (1f - seg(tf, 0f, 0.4f))
+        val f = easeOut(seg(rc, 0f, BEAT_IN)) * (1f - seg(tf, 0f, BEAT_OUT))
         val p0 = pts[2] + Offset(0f, -h * 0.07f)
         val p1 = pts[3] + Offset(0f, -h * 0.07f)
         val mid = (p0 + p1) / 2f + Offset(0f, h * 0.05f)
@@ -332,7 +332,7 @@ private fun DrawScope.alley(a: ArtCtx) {
     daySky12(AlleyC46.Sky, AlleyC46.SkyLow, ground, AlleyC46.Ground)
     // the counsel, repeated: a cool light comes to the warm light, and the alley's houses glow
     if (cs > 0f) {
-        val f = easeOut(seg(cs, 0f, 0.3f)) * (1f - seg(hm, 0f, 0.4f))
+        val f = easeOut(seg(cs, 0f, BEAT_IN)) * (1f - seg(hm, 0f, BEAT_OUT))
         val light = Offset(w * 0.62f, h * 0.22f)
         sirajMunir(light, w * 0.016f, f, t, nameAt = light + Offset(0f, -h * 0.12f))
         for (k in 0 until 3) {
@@ -345,7 +345,7 @@ private fun DrawScope.alley(a: ArtCtx) {
     }
     // thorns over the wall
     if (hm > 0f) {
-        val f = easeOut(seg(hm, 0f, 0.3f)) * (1f - seg(nr, 0f, 0.4f))
+        val f = easeOut(seg(hm, 0f, BEAT_IN)) * (1f - seg(nr, 0f, BEAT_OUT))
         house12(Offset(w * 0.3f, ground), w * 0.26f, AlleyC46.Wall, AlleyC46.Trim, f, 0.2f)
         val dark = seg(hm, 0.55f, 0.9f)
         house12(Offset(w * 0.7f, ground), w * 0.26f, lerpColor(AlleyC46.WallB, Color(0xFF6A5A4A), dark), AlleyC46.Trim, f, 0.8f * (1f - dark))
@@ -361,7 +361,7 @@ private fun DrawScope.alley(a: ArtCtx) {
     }
     // three doors; the gift goes to the nearest
     if (nr > 0f) {
-        val f = easeOut(seg(nr, 0f, 0.3f)) * (1f - seg(br, 0f, 0.4f))
+        val f = easeOut(seg(nr, 0f, BEAT_IN)) * (1f - seg(br, 0f, 0.4f))
         house12(Offset(w * 0.12f, ground), w * 0.2f, AlleyC46.Wall, AlleyC46.Trim, f, 0.5f)
         for (k in 0 until 3) {
             val x = w * (0.4f + 0.2f * k)
@@ -376,7 +376,7 @@ private fun DrawScope.alley(a: ArtCtx) {
     }
     // the broth with more water
     if (br > 0f) {
-        val f = easeOut(seg(br, 0f, 0.3f)) * (1f - seg(bm, 0f, 0.4f))
+        val f = easeOut(seg(br, 0f, 0.3f)) * (1f - seg(bm, 0f, BEAT_OUT))
         val pot = Offset(w * 0.3f, ground - h * 0.06f)
         for (k in 0 until 4) {
             val u = fract(t * 1.3f + k / 4f)
@@ -470,7 +470,7 @@ private fun DrawScope.orphanDawn(a: ArtCtx) {
     drawRect(OrphanC46.Ground, Offset(0f, ground), Size(w, h - ground))
     // a garden with a river beneath
     if (tg > 0f) {
-        val f = easeOut(seg(tg, 0f, 0.3f)) * (1f - seg(tr, 0f, 0.4f))
+        val f = easeOut(seg(tg, 0f, BEAT_IN)) * (1f - seg(tr, 0f, BEAT_OUT))
         for (k in 0 until 5) palm12(Offset(w * (0.06f + 0.22f * k), ground), h * (0.36f + 0.06f * (k % 2)), OrphanC46.Trunk, OrphanC46.Leaf, f, t + k)
         val y = ground + h * 0.08f
         drawRect(OrphanC46.River, Offset(0f, y), Size(w, h * 0.05f), alpha = f * 0.8f)
@@ -484,7 +484,7 @@ private fun DrawScope.orphanDawn(a: ArtCtx) {
     }
     // the one who looks after the widow and the poor
     if (tr > 0f) {
-        val f = easeOut(seg(tr, 0f, 0.3f)) * (1f - seg(wr, 0f, 0.4f))
+        val f = easeOut(seg(tr, 0f, BEAT_IN)) * (1f - seg(wr, 0f, BEAT_OUT))
         house12(Offset(w * 0.78f, ground), w * 0.2f, OrphanC46.Wall, OrphanC46.Trim, f, seg(tr, 0.4f, 0.6f))
         woman12(Offset(w * 0.64f, ground), h * 0.2f, OrphanC46.Child, f * seg(tr, 0.35f, 0.5f))
         val go = easeInOut(seg(tr, 0.05f, 0.4f))
@@ -495,7 +495,7 @@ private fun DrawScope.orphanDawn(a: ArtCtx) {
     }
     // a tree fed by small lights
     if (wr > 0f) {
-        val f = easeOut(seg(wr, 0f, 0.3f)) * (1f - seg(td, 0f, 0.4f))
+        val f = easeOut(seg(wr, 0f, BEAT_IN)) * (1f - seg(td, 0f, BEAT_OUT))
         val base = Offset(w * 0.5f, ground)
         for (k in 0 until 9) {
             val x = w * (0.3f + 0.05f * k)
@@ -516,7 +516,7 @@ private fun DrawScope.orphanDawn(a: ArtCtx) {
     }
     // two daughters raised, then two lights side by side
     if (td > 0f) {
-        val f = easeOut(seg(td, 0f, 0.3f)) * (1f - seg(qp, 0f, 0.4f))
+        val f = easeOut(seg(td, 0f, BEAT_IN)) * (1f - seg(qp, 0f, BEAT_OUT))
         val grow = easeInOut(seg(td, 0.1f, 0.6f))
         figure(Offset(w * 0.3f, ground), h * 0.26f, OrphanC46.Person, f * (1f - seg(td, 0.65f, 0.8f)))
         for (k in 0 until 2) woman12(Offset(w * (0.42f + 0.1f * k), ground), h * (0.1f + 0.1f * grow + 0.02f * k), OrphanC46.Child, f * (1f - seg(td, 0.65f, 0.8f)))
@@ -574,7 +574,7 @@ private fun DrawScope.homePage(a: ArtCtx) {
     val pen = 2.2f * dp
     // a ladder of ranks; the house at the top
     if (br > 0f) {
-        val f = easeOut(seg(br, 0f, 0.25f)) * (1f - seg(st, 0f, 0.4f))
+        val f = easeOut(seg(br, 0f, 0.25f)) * (1f - seg(st, 0f, BEAT_OUT))
         val x0 = w * 0.38f
         val x1 = w * 0.5f
         penLine(listOf(Offset(x0, h * 0.86f), Offset(x0, h * 0.2f)), seg(br, 0.05f, 0.4f), pp.ink, pen, f)
@@ -592,7 +592,7 @@ private fun DrawScope.homePage(a: ArtCtx) {
     }
     // his plate and hers, his robe and hers
     if (st > 0f) {
-        val f = easeOut(seg(st, 0f, 0.25f)) * (1f - seg(wf, 0f, 0.4f))
+        val f = easeOut(seg(st, 0f, BEAT_IN)) * (1f - seg(wf, 0f, BEAT_OUT))
         for (row in 0 until 2) {
             val y = h * (0.36f + 0.3f * row)
             for (side in 0 until 2) {
@@ -612,7 +612,7 @@ private fun DrawScope.homePage(a: ArtCtx) {
     }
     // a small flaw in one pan, many good traits in the other
     if (wf > 0f) {
-        val f = easeOut(seg(wf, 0f, 0.25f)) * (1f - seg(hl, 0f, 0.4f))
+        val f = easeOut(seg(wf, 0f, BEAT_IN)) * (1f - seg(hl, 0f, BEAT_OUT))
         val tilt = -0.9f * easeInOut(seg(wf, 0.35f, 0.8f))
         val foot = Offset(w * 0.5f, h * 0.88f)
         val s = h * 0.62f
@@ -625,7 +625,7 @@ private fun DrawScope.homePage(a: ArtCtx) {
     }
     // at home in the service of his family, then out to the prayer
     if (hl > 0f) {
-        val f = easeOut(seg(hl, 0f, 0.25f)) * (1f - seg(fd, 0f, 0.4f))
+        val f = easeOut(seg(hl, 0f, BEAT_IN)) * (1f - seg(fd, 0f, BEAT_OUT))
         val house = Offset(w * 0.32f, h * 0.7f)
         penLine(listOf(house + Offset(-w * 0.12f, 0f), house + Offset(-w * 0.12f, -h * 0.26f), house + Offset(w * 0.12f, -h * 0.26f), house + Offset(w * 0.12f, 0f), house + Offset(-w * 0.12f, 0f)), seg(hl, 0.05f, 0.3f), pp.ink, pen, f)
         val m = Offset(w * 0.74f, h * 0.7f)

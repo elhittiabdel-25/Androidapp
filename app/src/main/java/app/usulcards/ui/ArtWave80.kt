@@ -208,7 +208,7 @@ private fun DrawScope.adhanCallDraw(a: ArtCtx) {
     val t = a.t
     val ground = h * 0.84f
     val ff = fqIn(a, "fifteenphrases", "turnrightleft")
-    val dawn = seg(a.b("fifteenphrases"), 0.6f, 0.8f) * (1f - seg(a.b("turnrightleft"), 0f, 0.4f))
+    val dawn = seg(a.b("fifteenphrases"), 0.6f, 0.8f) * (1f - seg(a.b("turnrightleft"), 0f, BEAT_OUT))
     nightSky(t, SalC.Top, lerpColor(SalC.Low, Color(0xFFE8B890), dawn), ground, starAlpha = 0.7f * (1f - dawn))
     drawRect(SalC.Ground, Offset(0f, ground), Size(w, h - ground))
     val at = fqIn(a, "announcetime", "kifaya")

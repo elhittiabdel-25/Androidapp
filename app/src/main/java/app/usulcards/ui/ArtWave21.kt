@@ -268,7 +268,7 @@ private fun DrawScope.locksWall(a: ArtCtx) {
             val dx = w * 0.12f * (1f - easeOut(seg(tryK, 0f, 0.4f))) + w * 0.05f * easeOut(seg(tryK, 0.5f, 1f))
             key21(c + Offset(w * 0.07f + dx, h * 0.01f), w * 0.08f, LockC21.Key, 1f - seg(tryK, 0.85f, 1f))
         }
-        val q = seg(el, 0.55f, 0.8f) * (1f - seg(mk, 0f, 0.3f))
+        val q = seg(el, 0.55f, 0.8f) * (1f - seg(mk, 0f, BEAT_OUT))
         for (k in 0 until 3) qmark21(c + Offset(w * (-0.05f + 0.05f * k), -h * (0.17f + 0.03f * (k % 2))), h * 0.07f, LockC21.Red, q)
         // the master key of method
         if (mk > 0f) {
@@ -395,7 +395,7 @@ private fun DrawScope.roadsYaqin(a: ArtCtx, dawn: Offset) {
     val rib = easeOut(seg(wi, 0.5f, 0.75f))
     if (rib > 0f) {
         drawLine(Color(0xFF2E7A56), book + Offset(0f, h * 0.02f), book + Offset(w * 0.005f, h * 0.02f + h * 0.08f * rib), w * 0.006f, StrokeCap.Round)
-        tagAt(a.tag("wird"), book + Offset(-w * 0.1f, h * 0.12f), seg(wi, 0.6f, 0.8f) * (1f - seg(tf, 0f, 0.25f)), back = RoadC21.Back, ink = ArtInk.BrassLight)
+        tagAt(a.tag("wird"), book + Offset(-w * 0.1f, h * 0.12f), seg(wi, 0.6f, 0.8f) * (1f - seg(tf, 0f, BEAT_OUT)), back = RoadC21.Back, ink = ArtInk.BrassLight)
     }
     // the tafsir, then next year's tafsir
     for ((k, p) in listOf(tf, ny).withIndex()) {
@@ -603,7 +603,7 @@ private fun DrawScope.forkPlain(a: ArtCtx) {
     if (at > 0f || all > 0f) {
         val p = forkSpot21(w, h, 0)
         withTransform({ scale(-1f, 1f, pivot = p) }) { figure(p, tall, ForkC21.Ink, easeOut(seg(at, 0f, 0.3f)).coerceAtLeast(if (all > 0f) 1f else 0f), arms = -0.8f) }
-        tagAt(a.tag("atheist"), p + Offset(0f, -tall * 1.25f), seg(at, 0.2f, 0.5f) * (1f - seg(de, 0f, 0.2f)) + seg(all, 0.6f, 0.8f) * 0f, back = ForkC21.Back, ink = ArtInk.Ivory)
+        tagAt(a.tag("atheist"), p + Offset(0f, -tall * 1.25f), seg(at, 0.2f, 0.5f) * (1f - seg(de, 0f, BEAT_OUT)) + seg(all, 0.6f, 0.8f) * 0f, back = ForkC21.Back, ink = ArtInk.Ivory)
     }
     // 2. the deist: looks up at the stars, then walks past the book
     if (de > 0f || all > 0f) {
@@ -622,8 +622,8 @@ private fun DrawScope.forkPlain(a: ArtCtx) {
         val al = easeOut(seg(ag, 0f, 0.2f)).coerceAtLeast(if (all > 0f) 1f else 0f)
         for (side in listOf(-1f, 1f)) drawLine(ForkC21.Road, p + Offset(0f, h * 0.01f), p + Offset(side * w * 0.09f, h * 0.12f), h * 0.02f, StrokeCap.Round, alpha = 0.7f * al)
         figure(p, tall, ForkC21.Ink, al, arms = -0.3f * sin(t * 2f))
-        qmark21(p + Offset(0f, -tall * 1.25f), h * 0.07f, ArtInk.Ivory, seg(ag, 0.2f, 0.4f) * (1f - seg(ind, 0f, 0.3f)) + 0.4f * seg(all, 0f, 0.3f))
-        tagAt(a.tag("agnostic"), p + Offset(0f, h * 0.08f), seg(ag, 0.2f, 0.4f) * (1f - seg(ind, 0f, 0.2f)), back = ForkC21.Back, ink = ArtInk.Ivory)
+        qmark21(p + Offset(0f, -tall * 1.25f), h * 0.07f, ArtInk.Ivory, seg(ag, 0.2f, 0.4f) * (1f - seg(ind, 0f, BEAT_OUT)) + 0.4f * seg(all, 0f, 0.3f))
+        tagAt(a.tag("agnostic"), p + Offset(0f, h * 0.08f), seg(ag, 0.2f, 0.4f) * (1f - seg(ind, 0f, BEAT_OUT)), back = ForkC21.Back, ink = ArtInk.Ivory)
     }
     // 4. the indifferent: sits with his back to it all, lit by a small screen
     if (ind > 0f || all > 0f) {
@@ -633,7 +633,7 @@ private fun DrawScope.forkPlain(a: ArtCtx) {
         val screen = p + Offset(-w * 0.04f, -tall * 0.5f)
         softGlow(screen, w * 0.04f, Color(0xFF8AC8FF), 0.6f * al * (0.85f + 0.15f * sin(t * 9f)))
         drawRoundRect(Color(0xFFBEE2FF), screen + Offset(-w * 0.008f, -h * 0.015f), Size(w * 0.016f, h * 0.03f), CornerRadius(w * 0.003f), alpha = al)
-        tagAt(a.tag("indifferent"), p + Offset(0f, -tall * 1.15f), seg(ind, 0.2f, 0.4f) * (1f - seg(all, 0f, 0.2f)), back = ForkC21.Back, ink = ArtInk.Ivory)
+        tagAt(a.tag("indifferent"), p + Offset(0f, -tall * 1.15f), seg(ind, 0.2f, 0.4f) * (1f - seg(all, 0f, BEAT_OUT)), back = ForkC21.Back, ink = ArtInk.Ivory)
     }
     // the thread round all four, and their common name
     if (all > 0f) {
@@ -740,7 +740,7 @@ private fun DrawScope.centuriesRiver(a: ArtCtx) {
     val up = easeOut(seg(ag, 0.7f, 0.95f)).coerceAtLeast(if (tw > 0f) 1f else 0f)
     if (up > 0f) {
         drawLine(Color(0xFF5A4030), fp, fp + Offset(0f, h * 0.14f * up), 1.6f * dp)
-        tagAt(a.tag("ages"), fp + Offset(0f, h * 0.2f), seg(ag, 0.8f, 1f) * (1f - seg(tw, 0f, 0.3f)), back = CentC21.Back, ink = ArtInk.BrassLight)
+        tagAt(a.tag("ages"), fp + Offset(0f, h * 0.2f), seg(ag, 0.8f, 1f) * (1f - seg(tw, 0f, BEAT_OUT)), back = CentC21.Back, ink = ArtInk.BrassLight)
     }
     // the scroll wrung into knots
     if (tw > 0f) {
@@ -783,7 +783,7 @@ private fun DrawScope.centuriesRiver(a: ArtCtx) {
             val c = lect + Offset(w * (-0.04f + 0.04f * k), -h * 0.06f)
             spine21(c, w * 0.032f, h * 0.13f, cols[k], 1, f)
             // the names in a column beside the lectern, each tied to its book by a fine line
-            val ta = seg(th, 0.15f + k * 0.2f, 0.3f + k * 0.2f) * (1f - seg(nc, 0f, 0.3f))
+            val ta = seg(th, 0.15f + k * 0.2f, 0.3f + k * 0.2f) * (1f - seg(nc, 0f, BEAT_OUT))
             val tp = Offset(w * 0.4f, h * (0.21f + 0.12f * k))
             drawLine(CentC21.Smoke, c + Offset(w * 0.016f, -h * 0.03f), tp + Offset(-w * 0.07f, 0f), 1f * dp, alpha = 0.7f * ta)
             tagAt(a.tag("thinkers", 0, k), tp, ta, back = CentC21.Back, ink = ArtInk.Ivory)

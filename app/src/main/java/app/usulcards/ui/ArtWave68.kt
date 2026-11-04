@@ -76,7 +76,7 @@ private fun DrawScope.adhanDawn(a: ArtCtx) {
         }
     }
     if (ac > 0f) {
-        val f = easeOut(seg(ac, 0f, 0.25f)) * (1f - seg(rd, 0f, 0.4f))
+        val f = easeOut(seg(ac, 0f, BEAT_IN)) * (1f - seg(rd, 0f, BEAT_OUT))
         mosque12(minaret + Offset(-w * 0.12f, 0f), w * 0.22f, AdhanC68.Mosque, AdhanC68.Dome, f, 0.6f)
         drawRect(AdhanC68.Mosque, Offset(minaret.x - w * 0.025f, top.y), Size(w * 0.05f, minaret.y - top.y), alpha = f)
         waves(top, AdhanC68.Call, f, -1f)
@@ -87,7 +87,7 @@ private fun DrawScope.adhanDawn(a: ArtCtx) {
         tagAt(a.tag("answercall"), Offset(w * 0.4f, h * 0.22f), f * seg(ac, 0.5f, 0.7f), back = Back68, ink = ArtInk.Gold)
     }
     if (rd > 0f) {
-        val f = easeOut(seg(rd, 0f, 0.25f)) * (1f - seg(th, 0f, 0.4f))
+        val f = easeOut(seg(rd, 0f, BEAT_IN)) * (1f - seg(th, 0f, BEAT_OUT))
         for (k in 0 until 3) {
             val g = seg(rd, 0.08f + 0.27f * k, 0.25f + 0.27f * k)
             val c = Offset(w * (0.78f - 0.28f * k), mix(ground, h * 0.4f, easeOut(g)))
@@ -96,7 +96,7 @@ private fun DrawScope.adhanDawn(a: ArtCtx) {
         }
     }
     if (th > 0f) {
-        val f = easeOut(seg(th, 0f, 0.25f)) * (1f - seg(hs, 0f, 0.4f))
+        val f = easeOut(seg(th, 0f, BEAT_IN)) * (1f - seg(hs, 0f, BEAT_OUT))
         drawRect(AdhanC68.Mosque, Offset(minaret.x - w * 0.025f, top.y), Size(w * 0.05f, minaret.y - top.y), alpha = f)
         waves(top, AdhanC68.Call, f, -1f)
         for (k in 0 until 2) {
@@ -107,7 +107,7 @@ private fun DrawScope.adhanDawn(a: ArtCtx) {
         }
     }
     if (hs > 0f) {
-        val f = easeOut(seg(hs, 0f, 0.25f)) * (1f - seg(bc, 0f, 0.4f))
+        val f = easeOut(seg(hs, 0f, BEAT_IN)) * (1f - seg(bc, 0f, BEAT_OUT))
         for (k in 0 until 6) {
             val g = seg(hs, 0.05f + 0.07f * k, 0.2f + 0.07f * k)
             val y = ground - h * 0.1f * k

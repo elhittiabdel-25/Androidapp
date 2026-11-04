@@ -205,7 +205,7 @@ private fun DrawScope.riverDay(a: ArtCtx) {
         if (fh > 0f) softGlow(rc, h * 0.08f, RiverC17.Ring, 0.6f * easeOut(seg(fh, 0.3f, 0.6f)))
         drawCircle(RiverC17.Ring, h * 0.032f, rc, alpha = show, style = Stroke(3f * dp))
         if (fh > 0.4f) glint(rc + Offset(-h * 0.02f, -h * 0.025f), h * 0.05f, Color.White, bump(seg(fh, 0.4f, 0.9f)))
-        tagAt(a.tag("firmhold"), Offset(pierX, h * 0.3f), seg(fh, 0.4f, 0.8f) * (1f - seg(tw, 0f, 0.3f)), back = RiverC17.Back, ink = ArtInk.Gold)
+        tagAt(a.tag("firmhold"), Offset(pierX, h * 0.3f), seg(fh, 0.4f, 0.8f) * (1f - seg(tw, 0f, BEAT_OUT)), back = RiverC17.Back, ink = ArtInk.Gold)
     }
     // the broken things in the water as they are carried off
     for ((k, p) in listOf(idolP, bannerP, crownP).withIndex()) {
@@ -305,7 +305,7 @@ private fun DrawScope.millaGround(a: ArtCtx) {
         val foot = Offset(x, c.y + h * 0.02f)
         val outside = x > c.x + rx * 0.95f
         val col = lerpColor(MillaC17.In, MillaC17.Out, seg(go, 0.55f, 0.8f))
-        val gone = 1f - easeOut(seg(be, 0f, 0.3f))
+        val gone = 1f - easeOut(seg(be, 0f, BEAT_OUT))
         withTransform({ scale(-1f, 1f, pivot = foot) }) { figure(foot, tall, col, gone, walk = if (go in 0.01f..0.99f) t * 6f else 0f) }
         val flash = bump(seg(go, 0.5f, 0.75f))
         if (flash > 0f) {

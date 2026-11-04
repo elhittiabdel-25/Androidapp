@@ -72,19 +72,19 @@ private fun DrawScope.foretoldNight(a: ArtCtx) {
     drawRect(Brush.verticalGradient(listOf(ForeC37.Sea, ForeC37.SeaLow), startY = seaTop, endY = h), Offset(0f, seaTop), Size(w, h - seaTop))
     // his light and Fatima
     val light = Offset(w * 0.14f, h * 0.3f)
-    val showLight = easeOut(seg(se, 0f, 0.3f)) * (1f - easeOut(seg(fl, 0f, 0.3f)))
+    val showLight = easeOut(seg(se, 0f, BEAT_IN)) * (1f - easeOut(seg(fl, 0f, BEAT_OUT)))
     sirajMunir(light, w * 0.011f, showLight, t, nameAt = light + Offset(0f, -h * 0.12f))
     if (se > 0f) {
         val join = easeInOut(seg(sm, 0.5f, 1f))
         val her = Offset(w * 0.3f, h * 0.32f) + (light + Offset(w * 0.05f, h * 0.02f) - Offset(w * 0.3f, h * 0.32f)) * join
-        nameRoundel(her, w * 0.045f, a.tag("secret"), Roundel.Fills[1], Roundel.Rim, easeOut(seg(se, 0.1f, 0.35f)) * (1f - seg(fl, 0f, 0.3f)))
+        nameRoundel(her, w * 0.045f, a.tag("secret"), Roundel.Fills[1], Roundel.Rim, easeOut(seg(se, 0.1f, 0.35f)) * (1f - seg(fl, 0f, BEAT_OUT)))
         // a tear, then a warm glow
         val tear = seg(se, 0.35f, 0.65f)
         if (tear in 0.01f..0.99f) drawPath(Path().apply {
             val p = her + Offset(w * 0.05f, -h * 0.02f + h * 0.06f * tear)
             moveTo(p.x, p.y - h * 0.02f); quadraticTo(p.x + w * 0.008f, p.y, p.x, p.y + h * 0.008f); quadraticTo(p.x - w * 0.008f, p.y, p.x, p.y - h * 0.02f)
         }, ForeC37.Tear, alpha = 1f - tear)
-        val warm = seg(se, 0.65f, 0.95f) * (1f - seg(fl, 0f, 0.3f))
+        val warm = seg(se, 0.65f, 0.95f) * (1f - seg(fl, 0f, BEAT_OUT))
         if (warm > 0f) softGlow(her, w * 0.07f, ArtInk.Gold, 0.6f * warm)
     }
     // six marks: six months
@@ -92,7 +92,7 @@ private fun DrawScope.foretoldNight(a: ArtCtx) {
         for (k in 0 until 6) {
             val u = seg(sm, k * 0.07f, 0.5f)
             val p = light + (Offset(w * 0.3f, h * 0.32f) - light) * u + Offset(0f, -h * 0.08f * sin(PI.toFloat() * u))
-            drawCircle(ArtInk.BrassLight, w * 0.005f, p, alpha = (1f - seg(sm, 0.55f, 0.7f)) * (1f - seg(fl, 0f, 0.3f)))
+            drawCircle(ArtInk.BrassLight, w * 0.005f, p, alpha = (1f - seg(sm, 0.55f, 0.7f)) * (1f - seg(fl, 0f, BEAT_OUT)))
         }
     }
     // the first fleet
@@ -106,7 +106,7 @@ private fun DrawScope.foretoldNight(a: ArtCtx) {
             drawPath(Path().apply { moveTo(p.x - w * 0.035f, p.y); lineTo(p.x + w * 0.035f, p.y); lineTo(p.x + w * 0.025f, p.y + h * 0.03f); lineTo(p.x - w * 0.025f, p.y + h * 0.03f); close() }, ForeC37.Ship, alpha = f)
             drawLine(ForeC37.Ship, p, p + Offset(0f, -h * 0.07f), 1.5f * dp, alpha = f)
             drawPath(Path().apply { moveTo(p.x + w * 0.002f, p.y - h * 0.07f); lineTo(p.x + w * 0.03f, p.y - h * 0.015f); lineTo(p.x + w * 0.002f, p.y - h * 0.015f); close() }, ForeC37.Sail, alpha = f)
-            if (k == 0) nameRoundel(p + Offset(0f, -h * 0.13f), w * 0.04f, a.tag("fleet"), Roundel.Fills[2], Roundel.Rim, seg(fl, 0.3f, 0.55f) * (1f - seg(hi, 0f, 0.3f)))
+            if (k == 0) nameRoundel(p + Offset(0f, -h * 0.13f), w * 0.04f, a.tag("fleet"), Roundel.Fills[2], Roundel.Rim, seg(fl, 0.3f, 0.55f) * (1f - seg(hi, 0f, BEAT_OUT)))
         }
     }
     // Hira trembles
@@ -174,7 +174,7 @@ private fun DrawScope.siffinPlain(a: ArtCtx) {
     drawRect(Brush.verticalGradient(listOf(AmmarC37.SkyHigh, AmmarC37.Sky), endY = ground), size = Size(w, ground))
     drawRect(AmmarC37.Ground, Offset(0f, ground), Size(w, h - ground))
     // the mosque's first walls
-    val wallF = easeOut(seg(tb, 0f, 0.3f)) * (1f - easeOut(seg(tc, 0f, 0.4f)))
+    val wallF = easeOut(seg(tb, 0f, BEAT_IN)) * (1f - easeOut(seg(tc, 0f, BEAT_OUT)))
     if (wallF > 0f) {
         for (r in 0 until 3) for (k in 0 until 8) {
             val x = w * (0.08f + 0.04f * k) + (if (r % 2 == 1) w * 0.02f else 0f)

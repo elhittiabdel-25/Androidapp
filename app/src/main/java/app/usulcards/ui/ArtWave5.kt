@@ -327,7 +327,7 @@ internal fun DrawScope.crowdScene(a: ArtCtx) {
             }
             if (calm > 0f) drawCircle(Mono.Warm, radius = 2f * dp, center = Offset(x, markY - h * 0.02f), alpha = easeOut(seg(calm, 0.3f, 0.8f)) * crowd)
         }
-        tagAt(a.tag("shout"), Offset(w * 0.77f, ground - h * 0.48f), seg(shout, 0.3f, 0.7f) * (1f - seg(calm, 0f, 0.3f)), back = Mono.Back, ink = Mono.Ember)
+        tagAt(a.tag("shout"), Offset(w * 0.77f, ground - h * 0.48f), seg(shout, 0.3f, 0.7f) * (1f - seg(calm, 0f, BEAT_OUT)), back = Mono.Back, ink = Mono.Ember)
         tagAt(a.tag("quiet"), Offset(w * 0.77f, ground - h * 0.48f), seg(calm, 0.4f, 1f), back = Mono.Back, ink = Mono.Warm)
     }
 
@@ -375,7 +375,7 @@ internal fun DrawScope.deedsScene(a: ArtCtx) {
             val from = Offset(x - 0f, ground - tallK * 1.08f)
             val to = Offset(archX - w * 0.04f, ground - tall * 0.95f)
             val dash = PathEffect.dashPathEffect(floatArrayOf(3f * dp, 4f * dp), -t * 12f * dp)
-            drawLine(Mono.Dim, from, from + (to - from) * easeOut(seg(gaze, 0.2f, 0.7f)), 1f * dp, pathEffect = dash, alpha = eyes * 0.7f * (1f - seg(left, 0f, 0.5f)))
+            drawLine(Mono.Dim, from, from + (to - from) * easeOut(seg(gaze, 0.2f, 0.7f)), 1f * dp, pathEffect = dash, alpha = eyes * 0.7f * (1f - seg(left, 0f, BEAT_OUT)))
         }
         tagAt(a.tag("eyes"), Offset(w * 0.2f, ground - h * 0.42f), seg(gaze, 0.3f, 0.8f), back = Mono.Back, ink = Mono.Line)
     }
@@ -403,12 +403,12 @@ internal fun DrawScope.deedsScene(a: ArtCtx) {
                 val p = c + Offset(cos(k * 1.05f + t) * s * (0.7f + 0.5f * f), sin(k * 1.05f + t) * s * (0.7f + 0.5f * f))
                 drawCircle(Mono.Line, radius = 1.1f * dp, center = p, alpha = adorn * (1f - f) * fade)
             }
-            tagAt(a.tag("eyes", 0, 1), c + Offset(w * 0.15f, -s * 0.2f), seg(gaze, 0.6f, 1f) * (1f - seg(back, 0f, 0.3f)), back = Mono.Back, ink = Mono.Line)
+            tagAt(a.tag("eyes", 0, 1), c + Offset(w * 0.15f, -s * 0.2f), seg(gaze, 0.6f, 1f) * (1f - seg(back, 0f, BEAT_OUT)), back = Mono.Back, ink = Mono.Line)
         }
         // the hidden thread from the deed to the onlookers
         if (khafi > 0f) {
             val to = Offset(w * 0.2f, ground - h * 0.3f)
-            val k2 = easeOut(seg(khafi, 0f, 0.7f)) * (1f - seg(left, 0f, 0.4f))
+            val k2 = easeOut(seg(khafi, 0f, 0.7f)) * (1f - seg(left, 0f, BEAT_OUT))
             val mid = Offset((c.x + to.x) / 2f, min(c.y, to.y) - h * 0.06f)
             val pts = List(18) { m ->
                 val u = m / 17f
@@ -420,9 +420,9 @@ internal fun DrawScope.deedsScene(a: ArtCtx) {
                 if (m / 17f > k2) break
                 drawLine(Mono.Ember, pts[m - 1], pts[m], 1.2f * dp, alpha = 0.75f * k2)
             }
-            tagAt(a.tag("khafi"), Offset(w * 0.4f, min(c.y, to.y) - h * 0.1f), seg(khafi, 0.3f, 0.8f) * (1f - seg(back, 0f, 0.4f)), back = Mono.Back, ink = Mono.Ember)
+            tagAt(a.tag("khafi"), Offset(w * 0.4f, min(c.y, to.y) - h * 0.1f), seg(khafi, 0.3f, 0.8f) * (1f - seg(back, 0f, BEAT_OUT)), back = Mono.Back, ink = Mono.Ember)
         }
-        if (back > 0f) tagAt(a.tag("returned"), Offset(archX - w * 0.2f, ground - h * 0.1f), seg(back, 0.5f, 1f) * (1f - seg(left, 0f, 0.4f)), back = Mono.Back, ink = Mono.Ember)
+        if (back > 0f) tagAt(a.tag("returned"), Offset(archX - w * 0.2f, ground - h * 0.1f), seg(back, 0.5f, 1f) * (1f - seg(left, 0f, BEAT_OUT)), back = Mono.Back, ink = Mono.Ember)
         // His words in the hadith qudsi: high in the picture, never by the ground
         if (left > 0f) tagAt(a.tag("left"), Offset(w * 0.4f, h * 0.13f), seg(left, 0.3f, 0.8f), back = Mono.Back, ink = Mono.Ember)
     }
@@ -568,8 +568,8 @@ internal fun DrawScope.giftsScene(a: ArtCtx) {
         }
     }
     // what each one says (the first two sayings are examples of the two errors; they go before the story's two are named)
-    monoBubble(a.tag("other"), Offset(xs[0] - w * 0.02f, ground - tall * 1.55f), Offset(xs[0], ground - tall * 1.2f), seg(other, 0.2f, 0.5f) * (1f - seg(deny, 0f, 0.3f)))
-    monoBubble(a.tag("self"), Offset(xs[1], ground - tall * 1.55f), Offset(xs[1], ground - tall * 1.2f), seg(self, 0.2f, 0.5f) * (1f - seg(deny, 0f, 0.3f)))
+    monoBubble(a.tag("other"), Offset(xs[0] - w * 0.02f, ground - tall * 1.55f), Offset(xs[0], ground - tall * 1.2f), seg(other, 0.2f, 0.5f) * (1f - seg(deny, 0f, BEAT_OUT)))
+    monoBubble(a.tag("self"), Offset(xs[1], ground - tall * 1.55f), Offset(xs[1], ground - tall * 1.2f), seg(self, 0.2f, 0.5f) * (1f - seg(deny, 0f, BEAT_OUT)))
     monoBubble(a.tag("thank", 0, 1), Offset(xs[2] + w * 0.05f, ground - tall * 1.55f), Offset(xs[2], ground - tall * 1.2f), seg(thank, 0.25f, 0.55f), ink = Mono.Warm, edge = Mono.Warm)
     // who they were
     for (k in 0 until 2) tagAt(a.tag("deny", 0, k), Offset(xs[k], ground + h * 0.065f), seg(deny, 0.2f, 0.6f), back = Mono.Back, ink = Mono.Dim)

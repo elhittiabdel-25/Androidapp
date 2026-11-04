@@ -77,7 +77,7 @@ private fun DrawScope.wakeRoom(a: ArtCtx) {
         if (dawn > 0f) drawRect(Brush.verticalGradient(listOf(WakeC51.Dawn.copy(alpha = 0.25f * dawn), Color.Transparent), win.y + winSize.height, floor), Offset(win.x - w * 0.1f, win.y + winSize.height), Size(winSize.width + w * 0.2f, floor - win.y - winSize.height), alpha = alpha)
     }
     if (rs > 0f) {
-        val f = easeOut(seg(rs, 0f, 0.3f)) * (1f - seg(ss, 0f, 0.4f))
+        val f = easeOut(seg(rs, 0f, 0.3f)) * (1f - seg(ss, 0f, BEAT_OUT))
         val dawn = seg(rs, 0.1f, 0.6f)
         room(dawn, f)
         drawRect(WakeC51.Mat, Offset(w * 0.2f, floor - h * 0.03f), Size(w * 0.34f, h * 0.03f), alpha = f)
@@ -89,7 +89,7 @@ private fun DrawScope.wakeRoom(a: ArtCtx) {
         softGlow(Offset(w * 0.32f, floor - h * 0.35f), w * 0.05f, WakeC51.Gold, 0.5f * f * seg(rs, 0.8f, 1f))
     }
     if (ss > 0f) {
-        val f = easeOut(seg(ss, 0f, 0.3f)) * (1f - seg(nw, 0f, 0.4f))
+        val f = easeOut(seg(ss, 0f, BEAT_IN)) * (1f - seg(nw, 0f, 0.4f))
         val dawn = seg(ss, 0.4f, 0.95f)
         drawRect(Brush.verticalGradient(listOf(lerpColor(WakeC51.Night, Color(0xFF6A88B8), dawn), lerpColor(WakeC51.Night, WakeC51.Dawn, dawn)), 0f, floor), Offset.Zero, Size(w, floor), alpha = f)
         drawRect(Color(0xFF221C26), Offset(0f, floor), Size(w, h - floor), alpha = f)
@@ -101,7 +101,7 @@ private fun DrawScope.wakeRoom(a: ArtCtx) {
         drawLine(WakeC51.Stone, Offset(w * 0.86f, floor), Offset(w * 0.86f, floor - h * 0.1f), 3f * dp, alpha = f)
     }
     if (nw > 0f) {
-        val f = easeOut(seg(nw, 0f, 0.3f)) * (1f - seg(lt, 0f, 0.4f))
+        val f = easeOut(seg(nw, 0f, 0.3f)) * (1f - seg(lt, 0f, BEAT_OUT))
         room(0f, f)
         val p = Offset(w * 0.4f, floor)
         when {
@@ -188,7 +188,7 @@ private fun DrawScope.robeRoom(a: ArtCtx) {
     val rs = a.b("rightsleeve")
     drawRect(Brush.verticalGradient(listOf(RobeC51.Back, RobeC51.BackDark)))
     if (cd > 0f) {
-        val f = easeOut(seg(cd, 0f, 0.3f)) * (1f - seg(tg, 0f, 0.4f))
+        val f = easeOut(seg(cd, 0f, BEAT_IN)) * (1f - seg(tg, 0f, 0.4f))
         val stand = Offset(w * 0.5f, h * 0.9f)
         drawLine(RobeC51.Stand, stand, stand + Offset(0f, -h * 0.66f), 4f * dp, StrokeCap.Round, alpha = f)
         drawLine(RobeC51.Stand, stand + Offset(-w * 0.08f, 0f), stand + Offset(w * 0.08f, 0f), 4f * dp, StrokeCap.Round, alpha = f)
@@ -199,7 +199,7 @@ private fun DrawScope.robeRoom(a: ArtCtx) {
         tick14(Offset(w * 0.72f, h * 0.24f), w * 0.035f, seg(cd, 0.7f, 0.9f) * f)
     }
     if (tg > 0f) {
-        val f = easeOut(seg(tg, 0f, 0.3f)) * (1f - seg(wr, 0f, 0.4f))
+        val f = easeOut(seg(tg, 0f, 0.3f)) * (1f - seg(wr, 0f, BEAT_OUT))
         for (k in 0 until 3) {
             val c = Offset(w * (0.22f + 0.28f * k), h * 0.52f)
             val g = easeOut(seg(tg, 0.1f + 0.25f * k, 0.3f + 0.25f * k))
@@ -212,7 +212,7 @@ private fun DrawScope.robeRoom(a: ArtCtx) {
         }
     }
     if (wr > 0f) {
-        val f = easeOut(seg(wr, 0f, 0.3f)) * (1f - seg(ct, 0f, 0.4f))
+        val f = easeOut(seg(wr, 0f, BEAT_IN)) * (1f - seg(ct, 0f, BEAT_OUT))
         val fray = seg(wr, 0.1f, 0.55f)
         robe51(Offset(w * 0.4f, h * 0.52f), h * 0.5f, RobeC51.RobeOld, f * (1f - seg(wr, 0.45f, 0.65f)), fray)
         for (k in 0 until 6) drawLine(RobeC51.RobeOld, Offset(w * (0.33f + 0.025f * k), h * (0.72f - 0.05f * fray)), Offset(w * (0.33f + 0.025f * k), h * (0.75f + 0.04f * fray)), 1.2f * dp, alpha = f * fray * (1f - seg(wr, 0.45f, 0.65f)))
@@ -220,7 +220,7 @@ private fun DrawScope.robeRoom(a: ArtCtx) {
         robe51(Offset(w * 0.6f, h * 0.52f), h * 0.5f * n, RobeC51.Robe, f * n)
     }
     if (ct > 0f) {
-        val f = easeOut(seg(ct, 0f, 0.3f)) * (1f - seg(rs, 0f, 0.4f))
+        val f = easeOut(seg(ct, 0f, BEAT_IN)) * (1f - seg(rs, 0f, 0.4f))
         drawRect(RobeC51.Room, Offset(w * 0.08f, h * 0.1f), Size(w * 0.84f, h * 0.8f), alpha = f)
         for (k in 0 until 4) {
             val c = Offset(w * (0.68f + 0.06f * k), h * 0.75f)
@@ -294,7 +294,7 @@ private fun DrawScope.gatesDay(a: ArtCtx) {
     val ground = h * 0.84f
     daySky12(GatesC51.Sky, GatesC51.SkyLow, ground, GatesC51.Ground)
     if (io > 0f) {
-        val f = easeOut(seg(io, 0f, 0.3f)) * (1f - seg(nw, 0f, 0.4f))
+        val f = easeOut(seg(io, 0f, BEAT_IN)) * (1f - seg(nw, 0f, 0.4f))
         val sill = Offset(w * 0.5f, ground)
         door12(sill, w * 0.12f, h * 0.4f, 0.3f, GatesC51.Frame, GatesC51.Door, f)
         val inn = seg(io, 0.05f, 0.4f)
@@ -307,7 +307,7 @@ private fun DrawScope.gatesDay(a: ArtCtx) {
         tagAt(a.tag("inout"), Offset(w * 0.8f, ground - h * 0.38f), f * seg(io, 0.65f, 0.8f), back = Back51, ink = GatesC51.Green)
     }
     if (nw > 0f) {
-        val f = easeOut(seg(nw, 0f, 0.3f)) * (1f - seg(ed, 0f, 0.4f))
+        val f = easeOut(seg(nw, 0f, 0.3f)) * (1f - seg(ed, 0f, BEAT_OUT))
         val jug = Offset(w * 0.42f, h * 0.36f)
         rotate(50f * seg(nw, 0.1f, 0.3f), jug) { cup12(jug, w * 0.09f, GatesC51.Jug, f) }
         for (k in 0 until 10) {
@@ -320,7 +320,7 @@ private fun DrawScope.gatesDay(a: ArtCtx) {
         drawOval(GatesC51.Water, Offset(w * 0.4f, h * 0.78f), Size(w * 0.14f, h * 0.04f), alpha = f * 0.6f)
     }
     if (ed > 0f) {
-        val f = easeOut(seg(ed, 0f, 0.3f)) * (1f - seg(tp, 0f, 0.4f))
+        val f = easeOut(seg(ed, 0f, BEAT_IN)) * (1f - seg(tp, 0f, BEAT_OUT))
         val open = easeInOut(seg(ed, 0.3f, 0.75f))
         for (k in 0 until 8) {
             val ang = PI.toFloat() * (0.1f + 0.8f * k / 7f)
@@ -386,7 +386,7 @@ private fun DrawScope.doorDay(a: ArtCtx) {
     val ground = h * 0.84f
     daySky12(DoorC51.Sky, DoorC51.SkyLow, ground, DoorC51.Ground)
     if (tw > 0f) {
-        val f = easeOut(seg(tw, 0f, 0.3f)) * (1f - seg(tg, 0f, 0.4f))
+        val f = easeOut(seg(tw, 0f, BEAT_IN)) * (1f - seg(tg, 0f, 0.4f))
         house12(Offset(w * 0.22f, ground), w * 0.3f, DoorC51.Wall, DoorC51.Trim, f, 0.3f)
         val out = easeInOut(seg(tw, 0.05f, 0.35f))
         val p = Offset(w * (0.2f + 0.24f * out), ground)
@@ -394,7 +394,7 @@ private fun DrawScope.doorDay(a: ArtCtx) {
         for (k in 0 until 3) tagAt(a.tag("threewords", 0, k), Offset(w * (0.5f + 0.12f * k), h * (0.22f + 0.12f * k)), f * seg(tw, 0.2f + 0.22f * k, 0.35f + 0.22f * k), back = Back51, ink = ArtInk.Gold)
     }
     if (tg > 0f) {
-        val f = easeOut(seg(tg, 0f, 0.3f)) * (1f - seg(hg, 0f, 0.4f))
+        val f = easeOut(seg(tg, 0f, 0.3f)) * (1f - seg(hg, 0f, BEAT_OUT))
         val c = Offset(w * 0.5f, ground)
         figure(c, h * 0.3f, DoorC51.Person, f)
         guardDome12(c, h * 0.42f, seg(tg, 0.1f, 0.5f), t, f)
@@ -406,7 +406,7 @@ private fun DrawScope.doorDay(a: ArtCtx) {
         smoke12(Offset(w * (0.95f + 0.2f * away), h * 0.3f), Offset(w * (0.72f + 0.3f * away), ground - h * 0.2f), 1f, t, f * (1f - away), DoorC51.Smoke)
     }
     if (hg > 0f) {
-        val f = easeOut(seg(hg, 0f, 0.3f)) * (1f - seg(pf, 0f, 0.4f))
+        val f = easeOut(seg(hg, 0f, BEAT_IN)) * (1f - seg(pf, 0f, BEAT_OUT))
         val glow = seg(hg, 0.35f, 0.7f)
         drawRect(lerpColor(DoorC51.Room, Color(0xFF6A5040), glow), Offset(w * 0.06f, h * 0.18f), Size(w * 0.88f, ground - h * 0.18f), alpha = f)
         door12(Offset(w * 0.86f, ground), w * 0.1f, h * 0.4f, 0.8f, DoorC51.Trim, Color(0xFF5A3A24), f)
@@ -487,7 +487,7 @@ private fun DrawScope.mosqueDay(a: ArtCtx) {
     val ground = h * 0.84f
     daySky12(MosqueC51.Sky, MosqueC51.SkyLow, ground, MosqueC51.Ground)
     if (ri > 0f) {
-        val f = easeOut(seg(ri, 0f, 0.3f)) * (1f - seg(lo, 0f, 0.4f))
+        val f = easeOut(seg(ri, 0f, BEAT_IN)) * (1f - seg(lo, 0f, BEAT_OUT))
         drawRect(MosqueC51.Body, Offset(0f, h * 0.1f), Size(w, h * 0.5f), alpha = f)
         val glow = seg(ri, 0.35f, 0.8f)
         drawPath(archPath26(w * 0.5f, h * 0.14f, h * 0.6f, w * 0.16f), lerpColor(Color(0xFF3A2E26), MosqueC51.Mercy, glow), alpha = f)
@@ -498,7 +498,7 @@ private fun DrawScope.mosqueDay(a: ArtCtx) {
         tagAt(a.tag("rightin"), Offset(w * 0.7f, h * 0.7f), f * seg(ri, 0.2f, 0.35f), back = Back51, ink = ArtInk.Gold)
     }
     if (lo > 0f) {
-        val f = easeOut(seg(lo, 0f, 0.3f)) * (1f - seg(fl, 0f, 0.4f))
+        val f = easeOut(seg(lo, 0f, BEAT_IN)) * (1f - seg(fl, 0f, BEAT_OUT))
         for (k in 0 until 4) house12(Offset(w * (0.12f + 0.25f * k), h * 0.6f), w * 0.2f, Color(0xFFDCC6A0), Color(0xFF8A6A44), f, 0.2f)
         drawRect(Color(0xFF9A8460), Offset(0f, h * 0.6f), Size(w, h * 0.03f), alpha = f)
         for (k in 0 until 6) {
@@ -511,7 +511,7 @@ private fun DrawScope.mosqueDay(a: ArtCtx) {
         tagAt(a.tag("leftout"), Offset(w * 0.28f, h * 0.7f), f * seg(lo, 0.2f, 0.35f), back = Back51, ink = ArtInk.Gold)
     }
     if (fl > 0f) {
-        val f = easeOut(seg(fl, 0f, 0.3f)) * (1f - seg(ks, 0f, 0.4f))
+        val f = easeOut(seg(fl, 0f, BEAT_IN)) * (1f - seg(ks, 0f, BEAT_OUT))
         mosque12(Offset(w * 0.8f, ground), w * 0.3f, MosqueC51.Body, MosqueC51.Dome, f)
         val go = easeInOut(seg(fl, 0.05f, 0.9f))
         val p = Offset(w * (0.12f + 0.42f * go), ground)
@@ -523,7 +523,7 @@ private fun DrawScope.mosqueDay(a: ArtCtx) {
         }
     }
     if (ks > 0f) {
-        val f = easeOut(seg(ks, 0f, 0.3f)) * (1f - seg(ml, 0f, 0.4f))
+        val f = easeOut(seg(ks, 0f, BEAT_IN)) * (1f - seg(ml, 0f, BEAT_OUT))
         mosque12(Offset(w * 0.42f, ground), w * 0.42f, MosqueC51.Body, MosqueC51.Dome, f, 0.7f)
         val come = seg(ks, 0.1f, 0.45f)
         val back = easeInOut(seg(ks, 0.5f, 0.9f))

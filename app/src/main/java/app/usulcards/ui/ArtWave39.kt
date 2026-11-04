@@ -189,7 +189,7 @@ private fun DrawScope.thermoNight(a: ArtCtx) {
     val ground = h * 0.84f
     nightSky(t, ThermoC39.Sky, ThermoC39.SkyLow, ground, starAlpha = 0.5f)
     drawRect(Color(0xFF2A2630), Offset(0f, ground), Size(w, h - ground))
-    val phase1 = 1f - easeOut(seg(mp, 0f, 0.3f))
+    val phase1 = 1f - easeOut(seg(mp, 0f, BEAT_OUT))
     // three thermometers
     val pour = easeInOut(seg(su, 0.1f, 0.6f))
     for (k in 0 until 3) {
@@ -213,12 +213,12 @@ private fun DrawScope.thermoNight(a: ArtCtx) {
     // the screen piles every cloud on one man
     val houses = List(5) { Offset(w * (0.12f + 0.19f * it), ground) }
     if (mp > 0f) {
-        val f = easeOut(seg(mp, 0f, 0.3f)) * (1f - 0.8f * seg(db, 0.3f, 0.6f))
+        val f = easeOut(seg(mp, 0f, BEAT_IN)) * (1f - 0.8f * seg(db, 0.3f, 0.6f))
         val scr = Offset(w * 0.5f, h * 0.22f)
         drawRoundRect(ThermoC39.Screen, Offset(scr.x - w * 0.16f, scr.y - h * 0.09f), Size(w * 0.32f, h * 0.18f), CornerRadius(8f * dp), alpha = f)
         drawRoundRect(Color(0xFF8AA0C0), Offset(scr.x - w * 0.16f, scr.y - h * 0.09f), Size(w * 0.32f, h * 0.18f), CornerRadius(8f * dp), alpha = f, style = Stroke(2f * dp))
         val man = Offset(w * 0.5f, ground)
-        figure(man, h * 0.16f, ThermoC39.Walker, f * (1f - seg(db, 0f, 0.3f)), lean = 0.2f * seg(mp, 0.4f, 0.9f))
+        figure(man, h * 0.16f, ThermoC39.Walker, f * (1f - seg(db, 0f, BEAT_OUT)), lean = 0.2f * seg(mp, 0.4f, 0.9f))
         for (k in 0 until 5) {
             val gather = easeInOut(seg(mp, 0.1f + 0.08f * k, 0.6f + 0.08f * k))
             val back = easeInOut(seg(db, 0.05f + 0.06f * k, 0.5f + 0.06f * k))
@@ -316,13 +316,13 @@ private fun DrawScope.fourGates(a: ArtCtx) {
         drawPath(archPath26(x, top, ground, hw), lerpColor(Color(0xFF2A2A3A), Color(0xFFFFF0C8), great), alpha = f * 0.85f)
         drawPath(archPath26(x, top, ground, hw), GatesC39.Gate, alpha = f, style = Stroke(4f * dp))
         // the four names belong to the wide shot; once the camera moves in only «الرسل» comes back, over its gate
-        val wide = seg(fw, 0.2f + 0.15f * k, 0.45f + 0.15f * k) * (1f - seg(fx, 0f, 0.25f))
-        val back = if (k == 3) seg(gw, 0.25f, 0.55f) * (1f - seg(rb, 0f, 0.25f)) else 0f
+        val wide = seg(fw, 0.2f + 0.15f * k, 0.45f + 0.15f * k) * (1f - seg(fx, 0f, BEAT_OUT))
+        val back = if (k == 3) seg(gw, 0.25f, 0.55f) * (1f - seg(rb, 0f, BEAT_OUT)) else 0f
         tagAt(a.tag("fourways", 0, k), Offset(x, top - h * 0.06f - h * 0.04f * (k % 2)), maxOf(wide, back), back = Back39, ink = if (k == 3) ArtInk.Gold else ArtInk.Ivory)
     }
     // no atheists in the trenches
     if (fx > 0f) {
-        val f = easeOut(seg(fx, 0f, 0.3f)) * (1f - 0.7f * seg(rb, 0f, 0.4f))
+        val f = easeOut(seg(fx, 0f, BEAT_IN)) * (1f - 0.7f * seg(rb, 0f, 0.4f))
         val tr = Offset(w * 0.25f, h * 0.84f)
         drawRect(GatesC39.Trench, Offset(tr.x - w * 0.16f, tr.y - h * 0.06f), Size(w * 0.32f, h * 0.12f), alpha = f)
         figure(tr + Offset(0f, h * 0.04f), h * 0.12f, GatesC39.Walker, f, lean = -0.35f * seg(fx, 0.3f, 0.7f), arms = 0.8f * seg(fx, 0.4f, 0.8f))
@@ -509,7 +509,7 @@ private fun DrawScope.seaShore(a: ArtCtx) {
     drawPath(Path().apply { moveTo(0f, horizon); lineTo(w * 0.5f, horizon); quadraticTo(w * 0.42f, h * 0.7f, w * 0.56f, h); lineTo(0f, h); close() }, SeaC39.Sand)
     // the doctor who asks no fee
     if (dfr > 0f) {
-        val f = easeOut(seg(dfr, 0f, 0.3f)) * (1f - 0.7f * seg(rs, 0f, 0.4f))
+        val f = easeOut(seg(dfr, 0f, BEAT_IN)) * (1f - 0.7f * seg(rs, 0f, 0.4f))
         val c = Offset(w * 0.2f, h * 0.36f)
         drawRoundRect(SeaC39.Bag, Offset(c.x - w * 0.07f, c.y - h * 0.04f), Size(w * 0.14f, h * 0.09f), CornerRadius(6f * dp), alpha = f)
         drawArc(SeaC39.Bag, 180f, 180f, false, Offset(c.x - w * 0.03f, c.y - h * 0.07f), Size(w * 0.06f, h * 0.06f), alpha = f, style = Stroke(3f * dp))
@@ -521,7 +521,7 @@ private fun DrawScope.seaShore(a: ArtCtx) {
     }
     // the rescue at sea
     if (rs > 0f) {
-        val f = easeOut(seg(rs, 0f, 0.2f)) * (1f - 0.6f * seg(fu, 0f, 0.4f))
+        val f = easeOut(seg(rs, 0f, BEAT_IN)) * (1f - 0.6f * seg(fu, 0f, 0.4f))
         val far = Offset(w * 0.82f, h * 0.62f)
         val shore = Offset(w * 0.46f, h * 0.7f)
         val bring = easeInOut(seg(rs, 0.25f, 0.65f))

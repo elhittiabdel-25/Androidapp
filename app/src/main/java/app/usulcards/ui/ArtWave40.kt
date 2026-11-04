@@ -110,7 +110,7 @@ private fun DrawScope.twoRoads(a: ArtCtx) {
     }
     // the addict: full will at first, then weaker with every step
     if (ad > 0f) {
-        val f = easeOut(seg(ad, 0f, 0.25f)) * (1f - 0.6f * seg(sm, 0f, 0.3f))
+        val f = easeOut(seg(ad, 0f, BEAT_IN)) * (1f - 0.6f * seg(sm, 0f, 0.3f))
         val u = easeInOut(seg(ad, 0.1f, 0.9f))
         val foot = fork + (dark - fork) * (0.15f + 0.55f * u)
         figure(foot, h * 0.14f, RoadsC40.Walker, f, walk = if (ad in 0.1f..0.9f) t * 4f else 0f, lean = 0.25f * u)
@@ -212,8 +212,8 @@ private fun DrawScope.classRoom(a: ArtCtx) {
         val step = easeInOut(seg(fw, 0.2f, 0.7f))
         figure(Offset(w * 0.5f + w * 0.1f * step, floor + h * 0.12f), h * 0.12f, ClassC40.Pupil, f, walk = if (fw in 0.2f..0.7f) t * 6f else 0f)
         figure(Offset(w * 0.42f - w * 0.08f * step, floor + h * 0.12f), h * 0.12f, Color(0xFF5A4A40), f, lean = 0.15f * step)
-        tagAt(a.tag("forward", 0, 0), Offset(w * 0.62f, floor + h * 0.16f), seg(fw, 0.5f, 0.75f) * (1f - seg(ms, 0f, 0.3f)), back = Back40, ink = ArtInk.Gold)
-        tagAt(a.tag("forward", 0, 1), Offset(w * 0.3f, floor + h * 0.16f), seg(fw, 0.6f, 0.85f) * (1f - seg(ms, 0f, 0.3f)), back = Back40, ink = Color(0xFFD8D0C8))
+        tagAt(a.tag("forward", 0, 0), Offset(w * 0.62f, floor + h * 0.16f), seg(fw, 0.5f, 0.75f) * (1f - seg(ms, 0f, BEAT_OUT)), back = Back40, ink = ArtInk.Gold)
+        tagAt(a.tag("forward", 0, 1), Offset(w * 0.3f, floor + h * 0.16f), seg(fw, 0.6f, 0.85f) * (1f - seg(ms, 0f, BEAT_OUT)), back = Back40, ink = Color(0xFFD8D0C8))
     }
     // messengers sent to every town
     if (ms > 0f) {
@@ -287,7 +287,7 @@ private fun DrawScope.revNight(a: ArtCtx) {
     nightSky(t, RevC40.Sky, RevC40.SkyLow, ground, starAlpha = 0.6f)
     drawRect(RevC40.Sand, Offset(0f, ground), Size(w, h - ground))
     // the claim: a seizure trace, then nothing remembered
-    val strip = easeOut(seg(sw, 0f, 0.3f)) * (1f - 0.8f * seg(vo, 0f, 0.4f))
+    val strip = easeOut(seg(sw, 0f, BEAT_IN)) * (1f - 0.8f * seg(vo, 0f, 0.4f))
     if (strip > 0f) {
         val y = h * 0.2f
         drawRect(RevC40.Strip, Offset(w * 0.15f, y - h * 0.07f), Size(w * 0.7f, h * 0.14f), alpha = strip)
@@ -314,7 +314,7 @@ private fun DrawScope.revNight(a: ArtCtx) {
     }
     // he remembered every word, and set each verse in its place
     if (vo > 0f) {
-        val f = easeOut(seg(vo, 0f, 0.3f)) * (1f - 0.5f * seg(om, 0f, 0.4f))
+        val f = easeOut(seg(vo, 0f, BEAT_IN)) * (1f - 0.5f * seg(om, 0f, 0.4f))
         val light = Offset(w * 0.3f, h * 0.36f)
         val shelfY = h * 0.6f
         for (r in 0 until 2) {
@@ -337,7 +337,7 @@ private fun DrawScope.revNight(a: ArtCtx) {
     }
     // on his mount: the camel kneels under the weight
     if (om > 0f) {
-        val f = easeOut(seg(om, 0f, 0.3f)) * (1f - 0.5f * seg(ec, 0f, 0.4f))
+        val f = easeOut(seg(om, 0f, BEAT_IN)) * (1f - 0.5f * seg(ec, 0f, 0.4f))
         val foot = Offset(w * 0.25f, ground + h * 0.02f)
         val kneel = easeInOut(seg(om, 0.35f, 0.7f))
         camel26(foot + Offset(0f, h * 0.04f * kneel), h * 0.22f, RevC40.Camel, f, t, 0f)
@@ -410,7 +410,7 @@ private fun DrawScope.boxNight(a: ArtCtx) {
     drawRect(BoxC40.Ground, Offset(0f, ground), Size(w, h - ground))
     // the same, the same, and then the sign
     if (bn > 0f) {
-        val f = easeOut(seg(bn, 0f, 0.3f)) * (1f - 0.7f * seg(gb, 0f, 0.4f))
+        val f = easeOut(seg(bn, 0f, BEAT_IN)) * (1f - 0.7f * seg(gb, 0f, 0.4f))
         for (k in 0 until 7) {
             val c = Offset(w * (0.2f + 0.1f * k), h * 0.2f)
             val g = seg(bn, 0.05f + 0.06f * k, 0.25f + 0.06f * k)
@@ -424,7 +424,7 @@ private fun DrawScope.boxNight(a: ArtCtx) {
     // a closed box: the law repeats
     val box = Offset(w * 0.3f, h * 0.55f)
     if (gb > 0f) {
-        val f = easeOut(seg(gb, 0f, 0.3f)) * (1f - 0.5f * seg(qr, 0f, 0.4f))
+        val f = easeOut(seg(gb, 0f, BEAT_IN)) * (1f - 0.5f * seg(qr, 0f, 0.4f))
         drawRect(BoxC40.Glass, Offset(box.x - w * 0.15f, box.y - h * 0.15f), Size(w * 0.3f, h * 0.3f), alpha = f * 0.15f)
         drawRect(BoxC40.Glass, Offset(box.x - w * 0.15f, box.y - h * 0.15f), Size(w * 0.3f, h * 0.3f), alpha = f, style = Stroke(2f * dp))
         val bounce = abs(sin(t * 3f))
@@ -438,7 +438,7 @@ private fun DrawScope.boxNight(a: ArtCtx) {
     }
     // Jerusalem raised before his eyes
     if (qr > 0f) {
-        val f = easeOut(seg(qr, 0f, 0.3f)) * (1f - 0.5f * seg(ls, 0f, 0.4f))
+        val f = easeOut(seg(qr, 0f, BEAT_IN)) * (1f - 0.5f * seg(ls, 0f, 0.4f))
         kaaba29(Offset(w * 0.56f, ground), w * 0.06f, f)
         val light = Offset(w * 0.56f, ground - h * 0.18f)
         sirajMunir(light, w * 0.011f, f, t, nameAt = light + Offset(0f, -h * 0.1f))
@@ -448,7 +448,7 @@ private fun DrawScope.boxNight(a: ArtCtx) {
         drawRect(BoxC40.Wall, Offset(dome.x - w * 0.07f, dome.y - h * 0.01f), Size(w * 0.14f, h * 0.05f), alpha = f * rise)
         drawArc(BoxC40.Dome, 180f, 180f, true, Offset(dome.x - w * 0.045f, dome.y - h * 0.06f), Size(w * 0.09f, h * 0.1f), alpha = f * rise)
         softGlow(dome, w * 0.1f, ArtInk.Gold, 0.4f * f * rise)
-        tagAt(a.tag("qudsraised"), dome + Offset(0f, -h * 0.15f), seg(qr, 0.5f, 0.8f) * (1f - seg(ls, 0f, 0.4f)), back = Back40, ink = ArtInk.Gold)
+        tagAt(a.tag("qudsraised"), dome + Offset(0f, -h * 0.15f), seg(qr, 0.5f, 0.8f) * (1f - seg(ls, 0f, BEAT_OUT)), back = Back40, ink = ArtInk.Gold)
     }
     // a time line: the tale came long after
     if (ls > 0f) {
@@ -529,7 +529,7 @@ private fun DrawScope.stormSky(a: ArtCtx) {
     }
     // why, and why again, down to: so it has been made to run
     if (wc > 0f) {
-        val f = easeOut(seg(wc, 0f, 0.25f)) * (1f - 0.6f * seg(me, 0f, 0.4f)) * (1f - seg(bp, 0f, 0.3f))
+        val f = easeOut(seg(wc, 0f, BEAT_IN)) * (1f - 0.6f * seg(me, 0f, 0.4f)) * (1f - seg(bp, 0f, BEAT_OUT))
         for (k in 0 until 4) {
             val c = Offset(w * 0.78f, h * (0.36f + 0.09f * k))
             val g = seg(wc, 0.05f + 0.12f * k, 0.25f + 0.12f * k)
@@ -537,7 +537,7 @@ private fun DrawScope.stormSky(a: ArtCtx) {
             qmark21(c, h * 0.035f, Color(0xFFD8DCF0), f * g)
             if (k < 3) drawLine(Color(0xFFB8BCD0), c + Offset(0f, h * 0.03f), c + Offset(0f, h * 0.06f), 1.5f * dp, alpha = f * g)
         }
-        tagAt(a.tag("whychain"), Offset(w * 0.78f, h * 0.78f), seg(wc, 0.6f, 0.85f) * (1f - 0.6f * seg(me, 0f, 0.4f)) * (1f - seg(bp, 0f, 0.3f)), back = Back40, ink = ArtInk.Gold)
+        tagAt(a.tag("whychain"), Offset(w * 0.78f, h * 0.78f), seg(wc, 0.6f, 0.85f) * (1f - 0.6f * seg(me, 0f, 0.4f)) * (1f - seg(bp, 0f, BEAT_OUT)), back = Back40, ink = ArtInk.Gold)
     }
     // the mechanism: how it runs
     if (me > 0f) {
@@ -556,7 +556,7 @@ private fun DrawScope.stormSky(a: ArtCtx) {
     }
     // water boils at a hundred
     if (bp > 0f) {
-        val f = easeOut(seg(bp, 0f, 0.3f)) * (1f - 0.5f * seg(wf, 0f, 0.4f))
+        val f = easeOut(seg(bp, 0f, BEAT_IN)) * (1f - 0.5f * seg(wf, 0f, 0.4f))
         val pot = Offset(w * 0.25f, ground - h * 0.06f)
         for (k in 0 until 3) {
             val fl = 0.8f + 0.2f * sin(t * 9f + k)
@@ -569,7 +569,7 @@ private fun DrawScope.stormSky(a: ArtCtx) {
             val u = fract(t * 0.9f + k * 0.2f)
             drawCircle(Color.White, w * 0.006f * (1f - u), pot + Offset(w * (-0.05f + 0.025f * k), -h * 0.11f - h * 0.08f * u), alpha = f * seg(bp, 0.3f, 0.6f) * (1f - u))
         }
-        tagAt(a.tag("boilpot"), pot + Offset(w * 0.14f, -h * 0.08f), seg(bp, 0.4f, 0.7f) * (1f - seg(wf, 0f, 0.4f)), back = Back40, ink = ArtInk.Ivory)
+        tagAt(a.tag("boilpot"), pot + Offset(w * 0.14f, -h * 0.08f), seg(bp, 0.4f, 0.7f) * (1f - seg(wf, 0f, BEAT_OUT)), back = Back40, ink = ArtInk.Ivory)
     }
     // the angels: a light we believe in without asking how
     if (wf > 0f) {

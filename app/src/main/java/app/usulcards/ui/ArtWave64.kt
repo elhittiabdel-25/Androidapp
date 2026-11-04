@@ -77,7 +77,7 @@ private fun DrawScope.reliefNight(a: ArtCtx) {
     nightSky(t, ReliefC64.Night, ReliefC64.NightLow, ground, starAlpha = 0.85f)
     drawRect(ReliefC64.Ground, Offset(0f, ground), Size(w, h - ground))
     if (lw > 0f) {
-        val f = easeOut(seg(lw, 0f, 0.25f)) * (1f - seg(sb, 0f, 0.4f))
+        val f = easeOut(seg(lw, 0f, BEAT_IN)) * (1f - seg(sb, 0f, BEAT_OUT))
         val a1 = Offset(w * 0.7f, h * 0.65f)
         val b1 = Offset(w * 0.45f, h * 0.65f)
         nameRoundel(a1, w * 0.045f, null, Roundel.PlainFill, Roundel.PlainRim, f)
@@ -91,13 +91,13 @@ private fun DrawScope.reliefNight(a: ArtCtx) {
         drawLine(ReliefC64.Gold, a1 + Offset(-w * 0.03f, -h * 0.04f), far + Offset(w * 0.05f, h * 0.06f), 1.5f * dp, alpha = f * 0.4f * seg(lw, 0.5f, 0.6f))
     }
     if (sb > 0f) {
-        val f = easeOut(seg(sb, 0f, 0.25f)) * (1f - seg(hh, 0f, 0.4f))
+        val f = easeOut(seg(sb, 0f, BEAT_IN)) * (1f - seg(hh, 0f, BEAT_OUT))
         for (k in 0 until 12) drawRect(ReliefC64.Weight, Offset(w * (0.6f + 0.05f * (k % 4)), ground - h * (0.04f + 0.04f * (k / 4))), Size(w * 0.04f, h * 0.035f), alpha = f * seg(sb, 0.05f + 0.03f * k, 0.12f + 0.03f * k))
         val g = seg(sb, 0.5f, 0.75f)
         drawRect(ReliefC64.Big, Offset(w * 0.08f, ground - h * 0.45f * g), Size(w * 0.38f, h * 0.45f * g), alpha = f)
     }
     if (hh > 0f) {
-        val f = easeOut(seg(hh, 0f, 0.25f)) * (1f - seg(gt, 0f, 0.4f))
+        val f = easeOut(seg(hh, 0f, BEAT_IN)) * (1f - seg(gt, 0f, BEAT_OUT))
         val l = Offset(w * 0.6f, ground)
         val r = Offset(w * 0.4f, ground)
         figure(l, h * 0.3f, ReliefC64.Person, f, arms = 0.9f)
@@ -107,7 +107,7 @@ private fun DrawScope.reliefNight(a: ArtCtx) {
         tagAt(a.tag("helpedhelper"), Offset(w * 0.5f, h * 0.18f), f * seg(hh, 0.2f, 0.4f), back = Back64, ink = ArtInk.Gold)
     }
     if (gt > 0f) {
-        val f = easeOut(seg(gt, 0f, 0.25f)) * (1f - seg(ck, 0f, 0.4f))
+        val f = easeOut(seg(gt, 0f, BEAT_IN)) * (1f - seg(ck, 0f, BEAT_OUT))
         nameRoundel(Offset(w * 0.78f, h * 0.6f), w * 0.05f, null, Roundel.PlainFill, Roundel.PlainRim, f)
         nameRoundel(Offset(w * 0.22f, h * 0.6f), w * 0.05f, null, Roundel.PlainFill, Roundel.PlainRim, f)
         val hg = Offset(w * 0.5f, h * 0.5f)
@@ -124,7 +124,7 @@ private fun DrawScope.reliefNight(a: ArtCtx) {
         tagAt(a.tag("givetime"), Offset(w * 0.5f, h * 0.2f), f * seg(gt, 0.2f, 0.4f), back = Back64, ink = ArtInk.Gold)
     }
     if (ck > 0f) {
-        val f = easeOut(seg(ck, 0f, 0.25f)) * (1f - seg(kr, 0f, 0.4f))
+        val f = easeOut(seg(ck, 0f, BEAT_IN)) * (1f - seg(kr, 0f, BEAT_OUT))
         val l = Offset(w * 0.68f, h * 0.55f)
         val r = Offset(w * 0.34f, h * 0.55f)
         nameRoundel(l, w * 0.06f, null, Roundel.PlainFill, Roundel.PlainRim, f)
@@ -189,7 +189,7 @@ private fun DrawScope.ledgerPage(a: ArtCtx) {
     val mw = a.b("mercywins")
     val pen = 2.2f * dp
     if (tc > 0f) {
-        val f = easeOut(seg(tc, 0f, 0.25f)) * (1f - seg(mu, 0f, 0.4f))
+        val f = easeOut(seg(tc, 0f, BEAT_IN)) * (1f - seg(mu, 0f, BEAT_OUT))
         penLine(listOf(Offset(w * 0.5f, h * 0.2f), Offset(w * 0.5f, h * 0.88f)), seg(tc, 0.05f, 0.25f), pp.ink, pen, f)
         penLine(listOf(Offset(w * 0.1f, h * 0.3f), Offset(w * 0.9f, h * 0.3f)), seg(tc, 0.1f, 0.3f), pp.ink, pen, f)
         note(a.tag("twocolumns", 0, 0), Offset(w * 0.72f, h * 0.24f), f * seg(tc, 0.2f, 0.4f), pp, pp.good)
@@ -197,7 +197,7 @@ private fun DrawScope.ledgerPage(a: ArtCtx) {
         for (k in 0 until 4) penLine(listOf(Offset(w * 0.6f, h * (0.4f + 0.1f * k)), Offset(w * 0.85f, h * (0.4f + 0.1f * k))), seg(tc, 0.5f + 0.08f * k, 0.6f + 0.08f * k), pp.faint, pen * 0.7f, f)
     }
     if (mu > 0f) {
-        val f = easeOut(seg(mu, 0f, 0.25f)) * (1f - seg(bl, 0f, 0.4f))
+        val f = easeOut(seg(mu, 0f, BEAT_IN)) * (1f - seg(bl, 0f, BEAT_OUT))
         val bubble = Offset(w * 0.8f, h * 0.35f)
         drawCircle(pp.good, w * 0.05f, bubble, alpha = f * seg(mu, 0.02f, 0.15f), style = Stroke(pen, pathEffect = androidx.compose.ui.graphics.PathEffect.dashPathEffect(floatArrayOf(5f * dp, 4f * dp))))
         for (k in 0 until 3) {
@@ -213,7 +213,7 @@ private fun DrawScope.ledgerPage(a: ArtCtx) {
         }
     }
     if (bl > 0f) {
-        val f = easeOut(seg(bl, 0f, 0.25f)) * (1f - seg(cs, 0f, 0.4f))
+        val f = easeOut(seg(bl, 0f, BEAT_IN)) * (1f - seg(cs, 0f, BEAT_OUT))
         val bubble = Offset(w * 0.5f, h * 0.3f)
         val drop = seg(bl, 0.1f, 0.35f)
         drawCircle(pp.bad, w * 0.05f, bubble + Offset(0f, h * 0.05f * drop), alpha = f * (1f - drop), style = Stroke(pen))
@@ -223,7 +223,7 @@ private fun DrawScope.ledgerPage(a: ArtCtx) {
         note(a.tag("badleft", 0, 1), Offset(w * 0.28f, h * 0.62f), f * seg(bl, 0.6f, 0.8f), pp, pp.bad)
     }
     if (cs > 0f) {
-        val f = easeOut(seg(cs, 0f, 0.25f)) * (1f - seg(mw, 0f, 0.4f))
+        val f = easeOut(seg(cs, 0f, BEAT_IN)) * (1f - seg(mw, 0f, BEAT_OUT))
         camel26(Offset(w * 0.78f, h * 0.72f), h * 0.3f, pp.ink, f * seg(cs, 0.05f, 0.2f), t)
         val n = (seg(cs, 0.3f, 0.9f) * 120f).toInt()
         for (k in 0 until n) {
@@ -291,7 +291,7 @@ private fun DrawScope.waliNight(a: ArtCtx) {
     nightSky(t, WaliC64.Night, WaliC64.NightLow, ground, starAlpha = 0.85f)
     drawRect(WaliC64.Ground, Offset(0f, ground), Size(w, h - ground))
     if (up > 0f) {
-        val f = easeOut(seg(up, 0f, 0.25f)) * (1f - seg(tt, 0f, 0.4f))
+        val f = easeOut(seg(up, 0f, BEAT_IN)) * (1f - seg(tt, 0f, BEAT_OUT))
         drawLine(WaliC64.Gold, Offset(w * 0.5f, ground), Offset(w * 0.5f, h * 0.2f), h * 0.012f, StrokeCap.Round, alpha = f * 0.6f)
         val c = Offset(w * 0.5f, mix(ground - h * 0.05f, h * 0.45f, easeInOut(seg(up, 0.05f, 0.6f))))
         nameRoundel(c, w * 0.045f, null, Roundel.PlainFill, Roundel.PlainRim, f)
@@ -306,7 +306,7 @@ private fun DrawScope.waliNight(a: ArtCtx) {
         tagAt(a.tag("upright"), Offset(w * 0.5f, h * 0.14f), f * seg(up, 0.15f, 0.35f), back = Back64, ink = ArtInk.Gold)
     }
     if (tt > 0f) {
-        val f = easeOut(seg(tt, 0f, 0.25f)) * (1f - seg(fn, 0f, 0.4f))
+        val f = easeOut(seg(tt, 0f, BEAT_IN)) * (1f - seg(fn, 0f, BEAT_OUT))
         softGlow(Offset(w * 0.5f, h * 0.08f), w * 0.2f, WaliC64.Gold, 0.4f * f)
         for (k in 0 until 6) nameRoundel(Offset(w * (0.62f + 0.06f * (k % 3)), h * (0.68f + 0.07f * (k / 3))), w * 0.025f, null, Roundel.PlainFill, Roundel.PlainRim, f * seg(tt, 0.1f, 0.3f))
         for (k in 0 until 4) nameRoundel(Offset(w * (0.38f + 0.07f * (k % 2)), h * (0.36f + 0.07f * (k / 2))), w * 0.025f, null, Roundel.PlainFill, Roundel.PlainRim, f * seg(tt, 0.45f, 0.65f))
@@ -315,7 +315,7 @@ private fun DrawScope.waliNight(a: ArtCtx) {
         tagAt(a.tag("twotiersawliya", 0, 1), Offset(w * 0.42f, h * 0.26f), f * seg(tt, 0.45f, 0.65f), back = Back64, ink = ArtInk.Gold)
     }
     if (fn > 0f) {
-        val f = easeOut(seg(fn, 0f, 0.25f)) * (1f - seg(gs, 0f, 0.4f))
+        val f = easeOut(seg(fn, 0f, BEAT_IN)) * (1f - seg(gs, 0f, BEAT_OUT))
         for (k in 0 until 3) {
             val g = easeOut(seg(fn, 0.05f + 0.12f * k, 0.2f + 0.12f * k))
             drawRect(WaliC64.Block, Offset(w * (0.2f + 0.2f * k), ground - h * 0.12f - h * 0.2f * (1f - g)), Size(w * 0.19f, h * 0.12f), alpha = f * g)
@@ -329,7 +329,7 @@ private fun DrawScope.waliNight(a: ArtCtx) {
         tagAt(a.tag("fardthennafl", 0, 1), Offset(w * 0.5f, ground - h * 0.32f), f * seg(fn, 0.5f, 0.7f), back = Back64, ink = WaliC64.Small)
     }
     if (gs > 0f) {
-        val f = easeOut(seg(gs, 0f, 0.25f)) * (1f - seg(ad, 0f, 0.4f))
+        val f = easeOut(seg(gs, 0f, BEAT_IN)) * (1f - seg(ad, 0f, BEAT_OUT))
         val path = Path().apply { moveTo(w, ground); for (j in 1..20) lineTo(w - w * j / 20f, ground - h * 0.02f * sin(j * 1.7f).let { it * it }) }
         drawPath(path, WaliC64.Path, alpha = f, style = Stroke(h * 0.02f, cap = StrokeCap.Round))
         for (k in 0 until 5) drawCircle(WaliC64.Dark, w * 0.012f, Offset(w * (0.15f + 0.17f * k), ground - h * 0.01f), alpha = f)
@@ -402,7 +402,7 @@ private fun DrawScope.pardonNight(a: ArtCtx) {
     nightSky(t, PardonC64.Sky, PardonC64.SkyLow, ground, starAlpha = 0.85f)
     drawRect(PardonC64.Ground, Offset(0f, ground), Size(w, h - ground))
     if (tf > 0f) {
-        val f = easeOut(seg(tf, 0f, 0.25f)) * (1f - seg(ap, 0f, 0.4f))
+        val f = easeOut(seg(tf, 0f, BEAT_IN)) * (1f - seg(ap, 0f, BEAT_OUT))
         for (k in 0 until 3) {
             val c = Offset(w * (0.78f - 0.28f * k), h * 0.55f)
             val g = seg(tf, 0.08f + 0.25f * k, 0.25f + 0.25f * k)
@@ -413,7 +413,7 @@ private fun DrawScope.pardonNight(a: ArtCtx) {
         }
     }
     if (ap > 0f) {
-        val f = easeOut(seg(ap, 0f, 0.25f)) * (1f - seg(fc, 0f, 0.4f))
+        val f = easeOut(seg(ap, 0f, BEAT_IN)) * (1f - seg(fc, 0f, BEAT_OUT))
         figure(Offset(w * 0.3f, ground), h * 0.3f, PardonC64.Person, f, walk = t * 4f * (1f - seg(ap, 0.3f, 0.35f)))
         val tip = seg(ap, 0.25f, 0.4f)
         val cup = Offset(w * 0.5f, ground)
@@ -422,7 +422,7 @@ private fun DrawScope.pardonNight(a: ArtCtx) {
         softGlow(Offset(w * 0.3f, ground - h * 0.2f), w * 0.08f, PardonC64.Gold, 0.4f * f * seg(ap, 0.5f, 0.8f))
     }
     if (fc > 0f) {
-        val f = easeOut(seg(fc, 0f, 0.25f)) * (1f - seg(ab, 0f, 0.4f))
+        val f = easeOut(seg(fc, 0f, BEAT_IN)) * (1f - seg(ab, 0f, BEAT_OUT))
         val foot = Offset(w * 0.5f, ground)
         val tall = h * 0.4f
         val press = seg(fc, 0.1f, 0.35f)
@@ -434,7 +434,7 @@ private fun DrawScope.pardonNight(a: ArtCtx) {
         tagAt(a.tag("forcedcalmheart"), Offset(w * 0.5f, h * 0.15f), f * seg(fc, 0.45f, 0.65f), back = Back64, ink = ArtInk.Gold)
     }
     if (ab > 0f) {
-        val f = easeOut(seg(ab, 0f, 0.25f)) * (1f - seg(so, 0f, 0.4f))
+        val f = easeOut(seg(ab, 0f, BEAT_IN)) * (1f - seg(so, 0f, BEAT_OUT))
         val c = Offset(w * 0.5f, h * 0.62f)
         hands12(c, h * 0.18f, PardonC64.Person, f)
         val up = seg(ab, 0.2f, 0.5f)
@@ -506,7 +506,7 @@ private fun DrawScope.strangerDay(a: ArtCtx) {
     val night = if (dw > 0f && sa <= 0f) sin(PI.toFloat() * fract(seg(dw, 0.05f, 0.95f) * 2f)).let { 1f - it } * seg(dw, 0f, 0.2f) else 0f
     daySky12(lerpColor(StrangerC64.Sky, StrangerC64.Night, night), lerpColor(StrangerC64.SkyLow, StrangerC64.Night, night * 0.7f), ground, StrangerC64.Ground)
     if (sw > 0f) {
-        val f = easeOut(seg(sw, 0f, 0.25f)) * (1f - seg(to, 0f, 0.4f))
+        val f = easeOut(seg(sw, 0f, BEAT_IN)) * (1f - seg(to, 0f, BEAT_OUT))
         drawLine(StrangerC64.Road, Offset(w, ground + h * 0.08f), Offset(0f, ground + h * 0.02f), h * 0.04f, StrokeCap.Round, alpha = f)
         val light = Offset(w * 0.65f, h * 0.42f)
         sirajMunir(light, w * 0.012f, f, t, nameAt = light + Offset(0f, -h * 0.11f))
@@ -514,7 +514,7 @@ private fun DrawScope.strangerDay(a: ArtCtx) {
         tagAt(a.tag("shoulderword", 0, 1), Offset(w * 0.5f, h * 0.16f), f * seg(sw, 0.35f, 0.55f), back = Back64, ink = ArtInk.Gold)
     }
     if (to > 0f) {
-        val f = easeOut(seg(to, 0f, 0.25f)) * (1f - seg(dw, 0f, 0.4f))
+        val f = easeOut(seg(to, 0f, BEAT_IN)) * (1f - seg(dw, 0f, BEAT_OUT))
         for (k in 0 until 4) house12(Offset(w * (0.3f + 0.13f * k), ground), w * 0.12f, StrangerC64.Wall, StrangerC64.Trim, f, 0.4f)
         drawLine(StrangerC64.Road, Offset(w, ground + h * 0.08f), Offset(0f, ground + h * 0.08f), h * 0.04f, StrokeCap.Round, alpha = f)
         val u = easeInOut(seg(to, 0.05f, 0.95f))
@@ -525,7 +525,7 @@ private fun DrawScope.strangerDay(a: ArtCtx) {
         cup12(Offset(w * 0.5f, ground + h * 0.06f), w * 0.04f, StrangerC64.Jar, f * (1f - got), StrangerC64.Water)
     }
     if (dw > 0f) {
-        val f = easeOut(seg(dw, 0f, 0.25f)) * (1f - seg(sa, 0f, 0.4f))
+        val f = easeOut(seg(dw, 0f, BEAT_IN)) * (1f - seg(sa, 0f, BEAT_OUT))
         drawLine(StrangerC64.Road, Offset(w, ground + h * 0.08f), Offset(0f, ground + h * 0.08f), h * 0.04f, StrokeCap.Round, alpha = f)
         val cyc = fract(seg(dw, 0.05f, 0.95f) * 2f)
         sun12(Offset(w * (0.9f - 0.8f * cyc), mix(ground, h * 0.15f, sin(PI.toFloat() * cyc))), w * 0.04f, f * (1f - night))

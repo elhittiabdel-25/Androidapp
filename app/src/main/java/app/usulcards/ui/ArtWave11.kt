@@ -267,7 +267,7 @@ private fun DrawScope.deckSea(a: ArtCtx) {
     }
     val tall = h * 0.3f
     val cap = Offset(w * 0.8f, deckY - h * 0.035f)
-    val pointJar = easeOut(seg(bo, 0f, 0.3f)) * (1f - easeOut(seg(co, 0f, 0.3f)))
+    val pointJar = easeOut(seg(bo, 0f, BEAT_IN)) * (1f - easeOut(seg(co, 0f, BEAT_OUT)))
     figure(cap, tall * 1.05f, DeckC11.Ink, arms = if (hv > 0f && hv < 1f && bo <= 0f) 0.9f else 0.4f + 0.5f * pointJar, lean = -0.04f)
     // the jar of wine he points to
     val jar = Offset(w * 0.64f, deckY - h * 0.02f)
@@ -284,7 +284,7 @@ private fun DrawScope.deckSea(a: ArtCtx) {
     for (k in 0 until 3) {
         val home = Offset(w * (0.2f + 0.1f * k), deckY - h * 0.005f * k)
         val nearJar = k == 2
-        val steps = if (nearJar) easeInOut(seg(bo, 0.25f, 0.7f)) * (1f - easeInOut(seg(co, 0f, 0.4f))) else 0f
+        val steps = if (nearJar) easeInOut(seg(bo, 0.25f, 0.7f)) * (1f - easeInOut(seg(co, 0f, BEAT_OUT))) else 0f
         val foot = home + Offset(w * 0.32f * steps, -h * 0.01f * steps)
         val refusing = nearJar && rf > 0.1f && co <= 0.2f
         if (refusing) {
@@ -419,14 +419,14 @@ private fun DrawScope.damValley(a: ArtCtx) {
 
     val tall = h * 0.2f
     // picks: villagers come up with picks; the elder stops them; then they kneel (repent)
-    val kneel = easeOut(seg(rp, 0f, 0.3f)) * (1f - seg(br, 0f, 0.2f))
+    val kneel = easeOut(seg(rp, 0f, BEAT_IN)) * (1f - seg(br, 0f, BEAT_OUT))
     if (pk > 0f && br < 0.2f) {
         val come = easeInOut(seg(pk, 0f, 0.4f))
         val lower = easeOut(seg(pk, 0.55f, 0.8f))
         for (k in 0 until 3) {
             val foot = Offset(mix(w * (0.82f + 0.06f * k), w * (0.5f + 0.06f * k), come), h * (0.74f + 0.012f * k))
             if (kneel > 0.5f) {
-                w8Seated(foot, tall, DamC11.Ink, facing = -1f, alpha = 1f - seg(br, 0f, 0.2f))
+                w8Seated(foot, tall, DamC11.Ink, facing = -1f, alpha = 1f - seg(br, 0f, BEAT_OUT))
                 for (sd in listOf(-1f, 1f)) drawLine(DamC11.Ink, foot + Offset(0f, -tall * 0.36f), foot + Offset(sd * tall * 0.12f, -tall * 0.55f), max(1.4f * dp, tall * 0.06f), StrokeCap.Round)
             } else {
                 figure(foot, tall, DamC11.Ink, walk = if (come < 1f) t * 6f + k else 0f, arms = 0.2f)
@@ -732,7 +732,7 @@ private fun DrawScope.soukStreet(a: ArtCtx) {
     // the buyer, and the bag he gets
     val bFoot = Offset(w * 0.3f, h * 0.9f)
     // (he goes on his way before the youth runs up)
-    withTransform({ scale(-1f, 1f, pivot = bFoot) }) { figure(bFoot, tall, SoukC11.Ink, alpha = 1f - easeOut(seg(sh, 0f, 0.2f)), arms = 0.5f) }
+    withTransform({ scale(-1f, 1f, pivot = bFoot) }) { figure(bFoot, tall, SoukC11.Ink, alpha = 1f - easeOut(seg(sh, 0f, BEAT_OUT)), arms = 0.5f) }
     // three: hand, tongue, heart, picked out in turn
     val focus = seg(th, 0f, 1f) * 3f
     fun spot(c: Offset, k: Int) {

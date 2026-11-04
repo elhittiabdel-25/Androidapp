@@ -358,7 +358,7 @@ private fun DrawScope.plazaSquare(a: ArtCtx) {
     val rs = a.b("resolve")
     val aj = a.b("askjanna")
     val gv = a.b("give")
-    val windy = (if (gu > 0f) 1f else 0f) * (1f - easeOut(seg(gu, 0.7f, 1f)) * 0.7f) * (1f - seg(gr, 0f, 0.3f))
+    val windy = (if (gu > 0f) 1f else 0f) * (1f - easeOut(seg(gu, 0.7f, 1f)) * 0.7f) * (1f - seg(gr, 0f, BEAT_OUT))
     val ground = h * 0.82f
     drawRect(Brush.verticalGradient(listOf(PlazaC13.SkyTop, PlazaC13.SkyLow), endY = ground), size = Size(w, ground))
     // the garden's gate, far off, shown as a labelled symbol when he asks for it
@@ -396,9 +396,9 @@ private fun DrawScope.plazaSquare(a: ArtCtx) {
     val palmsUp = easeOut(seg(gu, 0.6f, 0.8f)) * (1f - seg(gr, 0f, 0.15f))
     val greetUp = easeOut(seg(gr, 0.05f, 0.25f)) * (1f - easeOut(seg(gr, 0.45f, 0.6f)))
     val greetNb = easeOut(seg(gr, 0.55f, 0.75f)) * (1f - seg(rs, 0f, 0.15f))
-    val waver = easeOut(seg(rs, 0f, 0.2f)) * (1f - easeOut(seg(rs, 0.5f, 0.65f)))
-    val firm = easeOut(seg(rs, 0.55f, 0.8f)) * (1f - seg(gv, 0f, 0.2f))
-    val askG = if (aj > 0f) firm.coerceAtLeast(easeOut(seg(aj, 0f, 0.2f))) * (1f - seg(gv, 0f, 0.2f)) else 0f
+    val waver = easeOut(seg(rs, 0f, BEAT_IN)) * (1f - easeOut(seg(rs, 0.5f, 0.65f)))
+    val firm = easeOut(seg(rs, 0.55f, 0.8f)) * (1f - seg(gv, 0f, BEAT_OUT))
+    val askG = if (aj > 0f) firm.coerceAtLeast(easeOut(seg(aj, 0f, 0.2f))) * (1f - seg(gv, 0f, BEAT_OUT)) else 0f
     val giveA = easeOut(seg(gv, 0.4f, 0.6f))
     // the body without arms, then the arms of the moment
     val hip = me - Offset(0f, tall * 0.45f)
@@ -451,7 +451,7 @@ private fun DrawScope.plazaSquare(a: ArtCtx) {
     // the neighbour he greets
     if (gr > 0.4f && gv <= 0f) {
         val nb = Offset(w * 0.3f, h * 0.92f)
-        withTransform({ scale(-1f, 1f, pivot = nb) }) { figure(nb, tall, PlazaC13.Ink, alpha = seg(gr, 0.4f, 0.55f) * (1f - seg(rs, 0f, 0.2f)), arms = 0.6f * greetNb) }
+        withTransform({ scale(-1f, 1f, pivot = nb) }) { figure(nb, tall, PlazaC13.Ink, alpha = seg(gr, 0.4f, 0.55f) * (1f - seg(rs, 0f, BEAT_OUT)), arms = 0.6f * greetNb) }
         if (greetNb > 0.5f) softGlow(Offset(w * 0.37f, h * 0.92f - tall * 0.66f), tall * 0.15f, PlazaC13.Glow, 0.5f * greetNb)
     }
     // coins and goods drift by, unasked
@@ -578,7 +578,7 @@ private fun DrawScope.stallDusk(a: ArtCtx) {
         drawLine(StallC13.Ink, sh + Offset(tall * 0.12f, -tall * (0.1f + 0.12f * swearUp)), sh + Offset(tall * 0.13f, -tall * (0.2f + 0.14f * swearUp)), max(1.5f * dp, tall * 0.05f), StrokeCap.Round)
     }
     // the buyers: crowding in, then drifting away
-    val crowd = easeOut(seg(os, 0f, 0.3f)) * (1f - easeOut(seg(al, 0.2f, 0.8f)))
+    val crowd = easeOut(seg(os, 0f, BEAT_IN)) * (1f - easeOut(seg(al, 0.2f, 0.8f)))
     for (k in 0 until 3) {
         val foot = Offset(w * (0.12f + 0.08f * k) - w * 0.1f * seg(al, 0.2f, 0.8f), ground + h * 0.08f)
         withTransform({ scale(-1f, 1f, pivot = foot) }) { figure(foot, tall * 0.95f, Color(0xFF3A3040), alpha = crowd, arms = if (os in 0.2f..0.95f) 0.6f else 0f) }

@@ -141,7 +141,7 @@ private fun DrawScope.globeDawn(a: ArtCtx) {
     }
     // the snow of forgiveness falling into it
     if (fg > 0f) {
-        val snow = easeOut(seg(fg, 0f, 0.2f)) * (1f - 0.6f * seg(fg, 0.85f, 1f))
+        val snow = easeOut(seg(fg, 0f, BEAT_IN)) * (1f - 0.6f * seg(fg, 0.85f, 1f))
         for (k in 0 until 28) {
             val f = fract(t * 0.5f + w8Rnd(k, 2.3f))
             val x = gc.x + gr * 1.2f * (w8Rnd(k, 6.6f) - 0.5f) * 2f + sin(t * 1.5f + k) * gr * 0.05f

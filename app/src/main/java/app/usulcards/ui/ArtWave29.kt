@@ -173,8 +173,8 @@ private fun DrawScope.twolandsRoad(a: ArtCtx) {
         drawCircle(LandC29.Idol, w * 0.01f, Offset(x, horizon - h * 0.21f), alpha = lands)
     }
     val tagLands = seg(co, 0.15f, 0.35f)
-    tagAt(a.tag("crossover", 0, 0), Offset(w * 0.77f, h * 0.12f), tagLands * (1f - seg(ex, 0f, 0.2f)), back = LandC29.Back, ink = Color(0xFFFFB0A0))
-    tagAt(a.tag("crossover", 0, 1), Offset(w * 0.23f, h * 0.12f), tagLands * (1f - seg(ex, 0f, 0.2f)), back = LandC29.Back, ink = ArtInk.BrassLight)
+    tagAt(a.tag("crossover", 0, 0), Offset(w * 0.77f, h * 0.12f), tagLands * (1f - seg(ex, 0f, BEAT_OUT)), back = LandC29.Back, ink = Color(0xFFFFB0A0))
+    tagAt(a.tag("crossover", 0, 1), Offset(w * 0.23f, h * 0.12f), tagLands * (1f - seg(ex, 0f, BEAT_OUT)), back = LandC29.Back, ink = ArtInk.BrassLight)
     // the family on the road, then others after them
     val tall = h * 0.16f
     val walkers = mutableListOf<Pair<Float, Int>>()
@@ -197,7 +197,7 @@ private fun DrawScope.twolandsRoad(a: ArtCtx) {
             else figure(road29(w, h, 0.05f + 0.7f * u - 0.05f), tall * 0.85f, LandC29.Ink, fade, walk = if (walking) t * 5f + 1f else 0f)
         }
     }
-    tagAt(a.tag("neverclosed"), Offset(w * 0.5f, h * 0.24f), seg(nc, 0.15f, 0.35f) * (1f - seg(ex, 0f, 0.25f)), back = LandC29.Back, ink = ArtInk.BrassLight)
+    tagAt(a.tag("neverclosed"), Offset(w * 0.5f, h * 0.24f), seg(nc, 0.15f, 0.35f) * (1f - seg(ex, 0f, BEAT_OUT)), back = LandC29.Back, ink = ArtInk.BrassLight)
     // those who cannot take the road: excused
     if (ex > 0f) {
         val o = easeOut(seg(ex, 0.05f, 0.35f))
@@ -506,7 +506,7 @@ private fun DrawScope.lastbrickPlain(a: ArtCtx) {
         // his name stays beside the brick that completed the building
         sirajMunir(gap, w * 0.006f, 1f, t, nameAt = gap + Offset(w * 0.0f, -h * 0.1f))
     }
-    val stamp = easeOut(seg(se, 0.35f, 0.65f)) * (1f - easeOut(seg(pg, 0f, 0.3f)))
+    val stamp = easeOut(seg(se, 0.35f, 0.65f)) * (1f - easeOut(seg(pg, 0f, BEAT_OUT)))
     if (stamp > 0f) {
         val c = Offset(w * 0.5f, h * 0.33f)
         val drop = (1f - stamp) * h * 0.06f
@@ -518,7 +518,7 @@ private fun DrawScope.lastbrickPlain(a: ArtCtx) {
     }
     // 2. liars: small flames of their own, each going out
     if (li > 0f) {
-        val o = easeOut(seg(li, 0f, 0.25f)) * (1f - easeOut(seg(pg, 0f, 0.3f)))
+        val o = easeOut(seg(li, 0f, BEAT_IN)) * (1f - easeOut(seg(pg, 0f, BEAT_OUT)))
         for (k in 0 until 3) {
             val foot = Offset(w * (0.7f + 0.1f * k), h * 0.92f)
             figure(foot, h * 0.17f, Color(0xFF4A3A3A), o, arms = 0.6f)
@@ -531,7 +531,7 @@ private fun DrawScope.lastbrickPlain(a: ArtCtx) {
                 drawCircle(Color(0xFF9A9AA4), w * (0.004f + 0.006f * f), hand + Offset(sin(f * 6f) * w * 0.006f, -h * 0.02f - f * h * 0.05f), alpha = 0.5f * (1f - f) * o)
             }
         }
-        tagAt(a.tag("liars"), Offset(w * 0.8f, h * 0.6f), seg(li, 0.2f, 0.4f) * (1f - seg(pg, 0f, 0.3f)), back = BrickC29.Back, ink = Color(0xFFFFB0A0))
+        tagAt(a.tag("liars"), Offset(w * 0.8f, h * 0.6f), seg(li, 0.2f, 0.4f) * (1f - seg(pg, 0f, BEAT_OUT)), back = BrickC29.Back, ink = Color(0xFFFFB0A0))
     }
     // 3. to all: men on one side, pale flames on the other
     if (ta > 0f) {
@@ -623,7 +623,7 @@ private fun DrawScope.nightjourneySky(a: ArtCtx) {
         tagAt(a.tag("sevenheavens", 0, i), Offset(x + side * w * (0.09f + 0.015f * (n - 1)), y), f * (1f - 0.6f * seg(ff, 0f, 0.3f)), back = NightC29.Back, ink = ArtInk.Ivory)
     }
     // the rows of prophets at Bayt al-Maqdis, behind his light
-    val rows = easeOut(seg(lp, 0.05f, 0.35f)) * (1f - easeOut(seg(sv, 0f, 0.3f)))
+    val rows = easeOut(seg(lp, 0.05f, 0.35f)) * (1f - easeOut(seg(sv, 0f, BEAT_OUT)))
     if (rows > 0f) {
         for (r in 0 until 3) for (k in 0 until 5) {
             val c = Offset(quds.x + w * (0.1f + 0.035f * k), ground - h * (0.06f + 0.035f * r))
@@ -658,7 +658,7 @@ private fun DrawScope.nightjourneySky(a: ArtCtx) {
             val q = p0 * ((1 - u) * (1 - u)) + ctrl * (2 * u * (1 - u)) + endRide * (u * u)
             if (k == 0) trail.moveTo(q.x, q.y) else trail.lineTo(q.x, q.y)
         }
-        drawPath(trail, NightC29.Warm, alpha = 0.35f * (1f - easeOut(seg(sv, 0f, 0.4f))), style = Stroke(1.5f * dp, cap = StrokeCap.Round))
+        drawPath(trail, NightC29.Warm, alpha = 0.35f * (1f - easeOut(seg(sv, 0f, BEAT_OUT))), style = Stroke(1.5f * dp, cap = StrokeCap.Round))
     }
     val rise = easeInOut(seg(lp, 0.75f, 1f)) * 0.06f + easeInOut(seg(sv, 0f, 0.95f)) * 0.94f
     if (lp > 0f || sv > 0f) pos = Offset(mix(endRide.x, col, easeOut(seg(rise, 0f, 0.15f))), mix(endRide.y, heaven29(h, 6) - h * 0.03f, rise))

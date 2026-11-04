@@ -96,7 +96,7 @@ private fun DrawScope.courtNight(a: ArtCtx) {
             val g = seg(ex, 0.3f + 0.15f * k, 0.5f + 0.15f * k)
             drawCircle(CourtC44.Coin, w * 0.025f, c, alpha = f * g)
             check21(c + Offset(w * 0.035f, -h * 0.03f), w * 0.012f, ArtInk.Jade, g * f, 2.5f * dp)
-            tagAt(a.tag("exemptions", 0, k), c + Offset(0f, -h * (0.07f + 0.08f * (k % 2))), g * away * (1f - seg(ta, 0f, 0.3f)), back = Back44, ink = ArtInk.Ivory)
+            tagAt(a.tag("exemptions", 0, k), c + Offset(0f, -h * (0.07f + 0.08f * (k % 2))), g * away * (1f - seg(ta, 0f, BEAT_OUT)), back = Back44, ink = ArtInk.Ivory)
         }
     }
     // the court gate turns the confessor back
@@ -131,7 +131,7 @@ private fun DrawScope.courtNight(a: ArtCtx) {
     }
     // four eyes that all must see
     if (fw > 0f) {
-        val f = easeOut(seg(fw, 0f, 0.3f)) * (1f - 0.5f * seg(ve, 0f, 0.4f))
+        val f = easeOut(seg(fw, 0f, BEAT_IN)) * (1f - 0.5f * seg(ve, 0f, 0.4f))
         for (k in 0 until 4) {
             val c = Offset(w * (0.26f + 0.16f * k), h * 0.24f)
             val open = easeInOut(seg(fw, 0.1f + 0.12f * k, 0.35f + 0.12f * k))
@@ -232,11 +232,11 @@ private fun DrawScope.emptyRoom(a: ArtCtx) {
         val land = Offset(w * 0.75f, floor - h * 0.03f)
         val lf = seg(ll, 0.45f, 0.65f) * f
         drawRect(EmptyC44.Land, Offset(land.x - w * 0.1f, land.y - h * 0.03f), Size(w * 0.2f, h * 0.05f), alpha = lf)
-        tagAt(a.tag("leftlittle"), land + Offset(0f, -h * 0.1f), seg(ll, 0.6f, 0.85f) * away * (1f - seg(bd, 0f, 0.3f)), back = Back44, ink = ArtInk.Gold)
+        tagAt(a.tag("leftlittle"), land + Offset(0f, -h * 0.1f), seg(ll, 0.6f, 0.85f) * away * (1f - seg(bd, 0f, BEAT_OUT)), back = Back44, ink = ArtInk.Gold)
     }
     // Bilal clothes the poor on borrowed money
     if (bd > 0f) {
-        val f = easeOut(seg(bd, 0f, 0.3f)) * (1f - seg(fc, 0f, 0.35f))
+        val f = easeOut(seg(bd, 0f, BEAT_IN)) * (1f - seg(fc, 0f, BEAT_OUT))
         val b = Offset(w * 0.3f, h * 0.38f)
         nameRoundel(b, w * 0.05f, a.tag("bilaldebt"), Roundel.Fills[0], Roundel.Rim, f)
         for (k in 0 until 3) {
@@ -250,7 +250,7 @@ private fun DrawScope.emptyRoom(a: ArtCtx) {
     }
     // four laden camels, given away before he goes in
     if (fc > 0f) {
-        val f = easeOut(seg(fc, 0f, 0.3f)) * (1f - 0.5f * seg(ga, 0f, 0.4f))
+        val f = easeOut(seg(fc, 0f, BEAT_IN)) * (1f - 0.5f * seg(ga, 0f, 0.4f))
         val door = Offset(w * 0.12f, floor)
         drawRect(Color(0xFF6A4A32), Offset(door.x - w * 0.05f, door.y - h * 0.22f), Size(w * 0.1f, h * 0.22f), alpha = f)
         for (k in 0 until 4) {
@@ -417,7 +417,7 @@ private fun DrawScope.honorNight(a: ArtCtx) {
     val op = a.b("ownpurse")
     val sq = a.b("shaqaiq")
     nightSky(t, HonorC44.Sky, HonorC44.SkyLow, h, starAlpha = 0.5f)
-    val away = 1f - seg(sq, 0f, 0.4f)
+    val away = 1f - seg(sq, 0f, BEAT_OUT)
     // three quarters
     if (qu > 0f) {
         val f = easeOut(seg(qu, 0f, 0.3f)) * away
@@ -428,7 +428,7 @@ private fun DrawScope.honorNight(a: ArtCtx) {
             val g = easeOut(seg(qu, 0.15f + 0.15f * k, 0.35f + 0.15f * k))
             drawArc(if (k < 3) HonorC44.Warm else HonorC44.Cool, -90f + 90f * k, 88f, true, Offset(c.x - r, c.y - r), Size(r * 2f, r * 2f), alpha = f * g)
         }
-        tagAt(a.tag("quarters"), c + Offset(0f, r + h * 0.05f), seg(qu, 0.75f, 0.95f) * away * (1f - seg(jd, 0f, 0.3f)), back = Back44, ink = ArtInk.Gold)
+        tagAt(a.tag("quarters"), c + Offset(0f, r + h * 0.05f), seg(qu, 0.75f, 0.95f) * away * (1f - seg(jd, 0f, BEAT_OUT)), back = Back44, ink = ArtInk.Gold)
     }
     // darkness, then light came down
     if (jd > 0f) {
@@ -531,12 +531,12 @@ private fun DrawScope.shieldDay(a: ArtCtx) {
         drawRect(ShieldC44.Pillar, Offset(base.x - w * 0.025f, base.y - h * 0.32f), Size(w * 0.05f, h * 0.32f), alpha = f)
         val load = easeOut(seg(sf, 0.2f, 0.5f))
         drawRect(Color(0xFF5A4A3A), Offset(base.x - w * 0.12f, base.y - h * 0.36f - h * 0.1f * (1f - load)), Size(w * 0.24f, h * 0.04f), alpha = f * load)
-        tagAt(a.tag("standingfor", 0, 0), base + Offset(0f, -h * 0.44f), seg(sf, 0.4f, 0.65f) * away * (1f - seg(ss, 0f, 0.3f)), back = Back44, ink = ArtInk.Gold)
+        tagAt(a.tag("standingfor", 0, 0), base + Offset(0f, -h * 0.44f), seg(sf, 0.4f, 0.65f) * away * (1f - seg(ss, 0f, BEAT_OUT)), back = Back44, ink = ArtInk.Gold)
         val crown = Offset(w * 0.38f, ground - h * 0.12f)
         drawRect(ArtInk.Gold, Offset(crown.x - w * 0.04f, crown.y), Size(w * 0.08f, h * 0.03f), alpha = f * seg(sf, 0.5f, 0.65f))
         for (k in 0 until 3) drawPath(Path().apply { val x = crown.x - w * 0.03f + k * w * 0.03f; moveTo(x - w * 0.01f, crown.y); lineTo(x, crown.y - h * 0.03f); lineTo(x + w * 0.01f, crown.y); close() }, ArtInk.Gold, alpha = f * seg(sf, 0.5f, 0.65f))
         cross21(crown + Offset(0f, h * 0.01f), w * 0.05f, ShieldC44.Red, seg(sf, 0.7f, 0.9f) * f, 3f * dp)
-        tagAt(a.tag("standingfor", 0, 1), crown + Offset(0f, -h * 0.08f), seg(sf, 0.75f, 0.95f) * away * (1f - seg(ss, 0f, 0.3f)), back = Back44, ink = Color(0xFFFFD8D0))
+        tagAt(a.tag("standingfor", 0, 1), crown + Offset(0f, -h * 0.08f), seg(sf, 0.75f, 0.95f) * away * (1f - seg(ss, 0f, BEAT_OUT)), back = Back44, ink = Color(0xFFFFD8D0))
     }
     // shield and spending
     val home = Offset(w * 0.62f, ground)
@@ -636,7 +636,7 @@ private fun DrawScope.ledgerRoom(a: ArtCtx) {
     val floor = h * 0.86f
     drawRect(Brush.verticalGradient(listOf(LedgerC44.Wall, LedgerC44.WallLow), endY = floor), size = Size(w, floor))
     drawRect(LedgerC44.Floor, Offset(0f, floor), Size(w, h - floor))
-    val away = 1f - seg(obl, 0f, 0.4f)
+    val away = 1f - seg(obl, 0f, BEAT_OUT)
     // a trade ledger and two seals that remind each other
     if (tl > 0f) {
         val f = easeOut(seg(tl, 0f, 0.3f)) * away
@@ -667,7 +667,7 @@ private fun DrawScope.ledgerRoom(a: ArtCtx) {
     }
     // the son's share flows out to others; hers stays hers
     if (obl > 0f) {
-        val f = easeOut(seg(obl, 0f, 0.3f)) * (1f - 0.6f * seg(rsn, 0f, 0.4f))
+        val f = easeOut(seg(obl, 0f, BEAT_IN)) * (1f - 0.6f * seg(rsn, 0f, 0.4f))
         val son = Offset(w * 0.3f, h * 0.5f)
         val dau = Offset(w * 0.7f, h * 0.5f)
         drawOval(Color(0xFF8A5A3A), Offset(son.x - w * 0.05f, son.y - h * 0.035f), Size(w * 0.1f, h * 0.07f), alpha = f)
@@ -750,12 +750,12 @@ private fun DrawScope.fairNight(a: ArtCtx) {
     val away = 1f - 0.8f * seg(ko, 0f, 0.4f)
     // a bond, or loose threads
     if (bv > 0f) {
-        val f = easeOut(seg(bv, 0f, 0.3f)) * away * (1f - seg(jc, 0f, 0.4f))
+        val f = easeOut(seg(bv, 0f, 0.3f)) * away * (1f - seg(jc, 0f, BEAT_OUT))
         val h1 = Offset(w * 0.28f, ground)
         house44(h1, w * 0.18f, FairC44.Wall, FairC44.Roof, f, lit = 0.6f)
         val tie = easeOut(seg(bv, 0.2f, 0.6f))
         drawArc(FairC44.Rope, 0f, 360f * tie, false, Offset(h1.x - w * 0.13f, h1.y - h * 0.24f), Size(w * 0.26f, h * 0.26f), alpha = f, style = Stroke(3f * dp))
-        tagAt(a.tag("bondvs"), h1 + Offset(0f, -h * 0.3f), seg(bv, 0.4f, 0.65f) * away * (1f - seg(jc, 0f, 0.3f)), back = Back44, ink = ArtInk.Gold)
+        tagAt(a.tag("bondvs"), h1 + Offset(0f, -h * 0.3f), seg(bv, 0.4f, 0.65f) * away * (1f - seg(jc, 0f, BEAT_OUT)), back = Back44, ink = ArtInk.Gold)
         val blow = easeOut(seg(bv, 0.5f, 1f))
         for (k in 0 until 5) {
             val p = Offset(w * (0.62f + 0.06f * k) + w * 0.1f * blow, ground - h * (0.08f + 0.04f * (k % 3)) - h * 0.1f * blow)
@@ -774,8 +774,8 @@ private fun DrawScope.fairNight(a: ArtCtx) {
         val r = c + Offset(w * 0.2f * cos(tilt), -w * 0.2f * sin(tilt))
         drawLine(FairC44.Brass, l, r, 4f * dp, StrokeCap.Round, alpha = f)
         for (p in listOf(l, r)) drawArc(FairC44.Brass, 0f, 180f, true, Offset(p.x - w * 0.05f, p.y + h * 0.04f), Size(w * 0.1f, h * 0.04f), alpha = f)
-        tagAt(a.tag("justicecond"), c + Offset(0f, -h * 0.08f), seg(jc, 0.4f, 0.7f) * away * (1f - seg(ti, 0f, 0.3f)), back = Back44, ink = ArtInk.Gold)
-        val crack = seg(ti, 0.55f, 0.85f) * (1f - seg(en, 0f, 0.4f))
+        tagAt(a.tag("justicecond"), c + Offset(0f, -h * 0.08f), seg(jc, 0.4f, 0.7f) * away * (1f - seg(ti, 0f, BEAT_OUT)), back = Back44, ink = ArtInk.Gold)
+        val crack = seg(ti, 0.55f, 0.85f) * (1f - seg(en, 0f, BEAT_OUT))
         if (crack > 0f) drawPath(Path().apply { moveTo(c.x + w * 0.05f, c.y - h * 0.01f); lineTo(c.x + w * 0.07f, c.y + h * 0.01f); lineTo(c.x + w * 0.065f, c.y + h * 0.03f); lineTo(c.x + w * 0.085f, c.y + h * 0.05f) }, FairC44.Crack, alpha = f * crack, style = Stroke(2.5f * dp))
     }
     // the same nights and the same spending for each

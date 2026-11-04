@@ -141,8 +141,8 @@ private fun DrawScope.twowingsDawn(a: ArtCtx) {
         dove31(c, s, 0, 0, t * 6f, t, o)
         if (rise > 0.95f) softGlow(c, w * 0.08f, WingC31.Gold, 0.5f)
         val tg = seg(tw, 0.15f, 0.35f)
-        tagAt(a.tag("twowings", 0, 0), c + Offset(s * 1.6f, -s * 0.2f), tg * (1f - seg(ns, 0f, 0.3f)), back = WingC31.Back, ink = ArtInk.BrassLight)
-        tagAt(a.tag("twowings", 0, 1), c + Offset(-s * 1.6f, -s * 0.2f), tg * (1f - seg(ns, 0f, 0.3f)), back = WingC31.Back, ink = ArtInk.BrassLight)
+        tagAt(a.tag("twowings", 0, 0), c + Offset(s * 1.6f, -s * 0.2f), tg * (1f - seg(ns, 0f, BEAT_OUT)), back = WingC31.Back, ink = ArtInk.BrassLight)
+        tagAt(a.tag("twowings", 0, 1), c + Offset(-s * 1.6f, -s * 0.2f), tg * (1f - seg(ns, 0f, BEAT_OUT)), back = WingC31.Back, ink = ArtInk.BrassLight)
     }
     // without sincerity: the wing is smoke
     if (ns > 0f) {

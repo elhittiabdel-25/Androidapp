@@ -239,7 +239,7 @@ private fun DrawScope.majlisRoom(a: ArtCtx) {
     // the one who left them: he turns away and goes to the lectern; later he brings the books
     val leave = easeInOut(seg(qr, 0.35f, 0.95f))
     val bring = easeInOut(seg(rf, 0f, 0.6f))
-    val sitAtLect = easeOut(seg(tq, 0f, 0.25f)) * (1f - easeOut(seg(rf, 0f, 0.15f)))
+    val sitAtLect = easeOut(seg(tq, 0f, BEAT_IN)) * (1f - easeOut(seg(rf, 0f, 0.15f)))
     val cx = when {
         rf > 0f -> mix(w * 0.79f, w * 0.6f, bring)
         else -> mix(w * 0.64f, w * 0.79f, leave)
@@ -498,7 +498,7 @@ private fun DrawScope.hilltopView(a: ArtCtx) {
     // the man, sitting
     val seat = Offset(w * 0.5f, h * 0.76f)
     val tall = h * 0.3f
-    val holdHead = easeOut(seg(ds, 0.3f, 0.5f)) * (1f - easeOut(seg(rv, 0f, 0.3f)))
+    val holdHead = easeOut(seg(ds, 0.3f, 0.5f)) * (1f - easeOut(seg(rv, 0f, BEAT_OUT)))
     val lookUp = easeOut(seg(cr, 0.3f, 0.6f))
     w8Seated(seat, tall, HillC10.Ink, facing = -1f, speak = 0f)
     if (holdHead > 0f) {
@@ -511,7 +511,7 @@ private fun DrawScope.hilltopView(a: ArtCtx) {
         for (sd in listOf(-1f, 1f)) drawLine(HillC10.Ink, sh, sh + Offset(sd * tall * 0.15f, -tall * 0.12f * lookUp), max(1.7f * dp, tall * 0.06f), StrokeCap.Round, alpha = lookUp)
     }
     val smoke = easeOut(seg(ds, 0.3f, 0.7f)) * (1f - easeOut(seg(rv, 0.2f, 0.7f)))
-    chestHeart10(seat + Offset(0f, tall * 0.3f), tall * 0.95f, smoke, t, alpha = seg(ds, 0.1f, 0.3f) * (1f - seg(cr, 0f, 0.2f)) + seg(rv, 0.5f, 0.8f) * (1f - seg(cr, 0f, 0.2f)))
+    chestHeart10(seat + Offset(0f, tall * 0.3f), tall * 0.95f, smoke, t, alpha = seg(ds, 0.1f, 0.3f) * (1f - seg(cr, 0f, BEAT_OUT)) + seg(rv, 0.5f, 0.8f) * (1f - seg(cr, 0f, BEAT_OUT)))
     // the fog over his head: no image in it, only question marks
     val fog = easeOut(seg(fg, 0.05f, 0.6f)) * (1f - easeOut(seg(rv, 0.2f, 0.7f)))
     val fc = seat + Offset(-tall * 0.05f, -tall * 0.85f)
@@ -625,7 +625,7 @@ private fun DrawScope.waysideRoad(a: ArtCtx) {
         w8Seated(sSeat, tall, WaysideC10.Ink, facing = 1f, alpha = sIn)
         drawPath(Path().apply { moveTo(sSeat.x - tall * 0.08f, sSeat.y - tall * 0.36f); lineTo(sSeat.x + tall * 0.06f, sSeat.y - tall * 0.36f); lineTo(sSeat.x + tall * 0.26f, sSeat.y); lineTo(sSeat.x - tall * 0.14f, sSeat.y); close() }, Color(0xFFCFC2A8), alpha = sIn)
         for (k in 0 until 5) drawCircle(WaysideC10.Stain, tall * (0.03f + 0.012f * (k % 2)), sSeat + Offset(tall * (-0.06f + 0.06f * k), -tall * (0.06f + 0.07f * (k % 3))), alpha = 0.85f * sIn)
-        flask10(sSeat + Offset(-tall * 0.2f, 0f), tall * 0.24f, 0f, t, alpha = seg(uh, 0f, 0.3f) * sIn + (1f - seg(uh, 0f, 0.3f)) * 0f)
+        flask10(sSeat + Offset(-tall * 0.2f, 0f), tall * 0.24f, 0f, t, alpha = seg(uh, 0f, 0.3f) * sIn + (1f - seg(uh, 0f, BEAT_OUT)) * 0f)
     }
     // the worshipper of desire on the mat: he prays and prays; his flask dark
     val zIn = easeOut(seg(zl, 0f, 0.25f))
@@ -662,7 +662,7 @@ private fun DrawScope.waysideRoad(a: ArtCtx) {
     }
     val tFoot = Offset(tx, h * 0.9f)
     if (sn > 0.15f) {
-        val ears = easeOut(seg(rs, 0f, 0.2f)) * (1f - easeOut(seg(sd, 0.3f, 0.6f)))
+        val ears = easeOut(seg(rs, 0f, BEAT_IN)) * (1f - easeOut(seg(sd, 0.3f, 0.6f)))
         if (sitWith > 0.5f) {
             w8Seated(Offset(w * 0.3f, h * 0.81f), tall, WaysideC10.Ink, facing = -1f)
             flask10(Offset(w * 0.36f, h * 0.81f), tall * 0.24f, 0f, t)

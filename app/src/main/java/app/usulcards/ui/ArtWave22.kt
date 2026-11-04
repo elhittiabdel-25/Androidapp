@@ -180,9 +180,9 @@ private fun DrawScope.cosmosBeginning(a: ArtCtx) {
     val n1 = a.b("fromnothing")
     val n2 = a.b("itself")
     val n3 = a.b("hascreator")
-    val dark = easeInOut(seg(no, 0f, 0.6f)) * (1f - easeOut(seg(bg, 0f, 0.3f)))
+    val dark = easeInOut(seg(no, 0f, 0.6f)) * (1f - easeOut(seg(bg, 0f, BEAT_OUT)))
     // before: a night plain and the stone of «nature»
-    val before = 1f - easeInOut(seg(no, 0f, 0.5f))
+    val before = 1f - easeInOut(seg(no, 0f, BEAT_OUT))
     if (before > 0f) {
         spaceStars22(t, 0.8f * before)
         drawRect(CosC22.Ground, Offset(0f, h * 0.78f), Size(w, h * 0.22f), alpha = before)
@@ -201,7 +201,7 @@ private fun DrawScope.cosmosBeginning(a: ArtCtx) {
             val p = Offset(w * (0.2f + 0.08f * k + if (k > 1) 0.3f else 0f), h * 0.86f)
             figure(p, h * 0.1f, CosC22.Ink.copy(alpha = 1f), before * easeOut(seg(mo, 0.3f + k * 0.1f, 0.6f + k * 0.1f)), lean = if (k > 1) 0.15f else -0.15f)
         }
-        tagAt(a.tag("monolith"), Offset(w * 0.5f, top - h * 0.06f), seg(mo, 0.4f, 0.6f) * (1f - seg(no, 0f, 0.3f)), back = CosC22.Back, ink = ArtInk.Ivory)
+        tagAt(a.tag("monolith"), Offset(w * 0.5f, top - h * 0.06f), seg(mo, 0.4f, 0.6f) * (1f - seg(no, 0f, BEAT_OUT)), back = CosC22.Back, ink = ArtInk.Ivory)
     }
     if (dark > 0f) drawRect(Color.Black, alpha = dark)
     // in the dark, a single point waits: the beginning
@@ -284,7 +284,7 @@ private fun DrawScope.cosmosBubbles(a: ArtCtx) {
         val gone = easeInOut(seg(nd, 0.1f, 0.6f))
         grid22(floorC, w * 0.6f, h * 0.14f, CosC22.Field, easeOut(seg(di, 0f, 0.3f)), 1f - gone)
         val clockC = Offset(w * 0.5f, h * 0.3f)
-        clock22(clockC, w * 0.05f, ArtInk.BrassLight, if (gone < 1f) t * 0.3f else 0f, easeOut(seg(di, 0f, 0.3f)) * (1f - gone))
+        clock22(clockC, w * 0.05f, ArtInk.BrassLight, if (gone < 1f) t * 0.3f else 0f, easeOut(seg(di, 0f, BEAT_IN)) * (1f - gone))
         tagAt(a.tag("dice", 0, 0), clockC + Offset(0f, -h * 0.12f), seg(di, 0.2f, 0.4f) * (1f - gone), back = CosC22.Back, ink = ArtInk.Ivory)
         tagAt(a.tag("dice", 0, 1), floorC + Offset(w * 0.25f, h * 0.02f), seg(di, 0.3f, 0.5f) * (1f - gone), back = CosC22.Back, ink = ArtInk.Ivory)
         if (nd > 0f) {
@@ -380,7 +380,7 @@ private fun DrawScope.cosmosEnergy(a: ArtCtx) {
     val bw = w * 0.28f
     val bh = h * 0.42f
     val later = easeOut(seg(co, 0f, 0.3f))
-    val o = easeOut(seg(sb, 0f, 0.3f)) * (1f - 0.8f * later)
+    val o = easeOut(seg(sb, 0f, BEAT_IN)) * (1f - 0.8f * later)
     if (o > 0f) {
         glassBox22(boxC, bw, bh, o)
         // sealed: bolts at its corners
@@ -402,7 +402,7 @@ private fun DrawScope.cosmosEnergy(a: ArtCtx) {
     }
     // the first flash of the universe, with the question
     val flashC = Offset(w * 0.75f, h * 0.35f)
-    val q = easeOut(seg(sb, 0.3f, 0.6f)) * (1f - easeOut(seg(ib, 0f, 0.3f)))
+    val q = easeOut(seg(sb, 0.3f, 0.6f)) * (1f - easeOut(seg(ib, 0f, BEAT_OUT)))
     if (q > 0f) {
         bloom(flashC, w * 0.03f, Color.White, q)
         qmark21(flashC + Offset(w * 0.07f, -h * 0.05f), h * 0.08f, ArtInk.Ivory, q)
@@ -410,7 +410,7 @@ private fun DrawScope.cosmosEnergy(a: ArtCtx) {
     // plus and minus meet on a balance: zero
     if (zs > 0f) {
         val c = Offset(w * 0.72f, h * 0.55f)
-        val f = easeOut(seg(zs, 0f, 0.3f)) * (1f - 0.8f * later)
+        val f = easeOut(seg(zs, 0f, BEAT_IN)) * (1f - 0.8f * later)
         drawLine(ArtInk.BrassLight, c + Offset(0f, h * 0.15f), c, 2f * dp, alpha = f)
         drawLine(ArtInk.BrassLight, c + Offset(-w * 0.12f, 0f), c + Offset(w * 0.12f, 0f), 2f * dp, alpha = f)
         for (k in 0 until 3) {
@@ -523,13 +523,13 @@ private fun DrawScope.billiardRoom(a: ArtCtx) {
     if (nc > 0f && et < 0.3f) {
         val c = Offset(w * 0.25f, h * 0.38f)
         val gone = easeInOut(seg(nc, 0.5f, 0.95f))
-        clock22(c, w * 0.06f, ArtInk.BrassLight, -t * 0.8f, easeOut(seg(nc, 0f, 0.2f)) * (1f - gone))
+        clock22(c, w * 0.06f, ArtInk.BrassLight, -t * 0.8f, easeOut(seg(nc, 0f, BEAT_IN)) * (1f - gone))
         for (k in 0 until 8) {
             val f = gone
             drawCircle(ArtInk.BrassLight, w * 0.005f, c + Offset(cos(k * 0.8f), sin(k * 0.8f)) * (w * 0.06f + w * 0.08f * f), alpha = 0.6f * bump(f))
         }
         val tg = c + Offset(0f, h * 0.15f)
-        struckTag21(a.tag("noclock"), tg, seg(nc, 0.2f, 0.4f) * (1f - seg(et, 0f, 0.3f)), seg(nc, 0.55f, 0.85f), BilC22.Red, back = BilC22.Back, ink = ArtInk.Ivory)
+        struckTag21(a.tag("noclock"), tg, seg(nc, 0.2f, 0.4f) * (1f - seg(et, 0f, BEAT_OUT)), seg(nc, 0.55f, 0.85f), BilC22.Red, back = BilC22.Back, ink = ArtInk.Ivory)
     }
     // the ball: dropped in, rolling along the law's dotted path
     if (bt > 0f) {
@@ -663,14 +663,14 @@ private fun DrawScope.dominoesCause(a: ArtCtx) {
     // one particle: a cloud of where it may be
     if (fz > 0f) {
         val c = Offset(w * 0.5f, h * 0.33f)
-        val o = easeOut(seg(fz, 0f, 0.3f)) * (1f - wide)
+        val o = easeOut(seg(fz, 0f, BEAT_IN)) * (1f - wide)
         softGlow(c, w * 0.09f, Color(0xFF9ABCFF), 0.5f * o)
         for (k in 0 until 40) {
             val ang = k * 2.39996f + t * 0.5f
             val r = w * 0.08f * kotlin.math.sqrt(fract(k * 0.618f + t * 0.3f))
             drawCircle(Color(0xFFCFE0FF), w * 0.004f, c + Offset(cos(ang) * r, sin(ang) * r * 0.7f), alpha = 0.6f * o)
         }
-        qmark21(c + Offset(w * 0.12f, -h * 0.05f), h * 0.06f, ArtInk.Ivory, o * (1f - seg(st, 0f, 0.3f)))
+        qmark21(c + Offset(w * 0.12f, -h * 0.05f), h * 0.06f, ArtInk.Ivory, o * (1f - seg(st, 0f, BEAT_OUT)))
     }
     // yet the whole stays steady
     if (st > 0f) {

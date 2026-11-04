@@ -594,6 +594,14 @@ private fun animationsOff(context: Context): Boolean = try {
     false
 }
 
+/**
+ * The hand-over between two ideas (2026-11-04, from users' feedback that the old idea lingered while the new one
+ * came in): the idea that is leaving fades over the first BEAT_OUT of the next beat, and a beat's own drawing rises
+ * over BEAT_IN, as shares of that beat (about 0.3 to 0.6 s for most beats). Before, 0.3 to 0.5 of the beat (2 to 3 s).
+ */
+internal const val BEAT_OUT = 0.07f
+internal const val BEAT_IN = 0.1f
+
 /** How long each kind of beat takes to play out. */
 internal fun beatMillis(kind: String): Int = when (kind) {
     "open" -> 2600

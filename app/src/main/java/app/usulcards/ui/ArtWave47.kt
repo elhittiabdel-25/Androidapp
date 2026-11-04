@@ -82,7 +82,7 @@ private fun DrawScope.rightsTiles(a: ArtCtx) {
     }
     // the rosette of six rights
     if (s1 > 0f) {
-        val f = easeOut(seg(s1, 0f, 0.3f)) * (1f - seg(ob, 0f, 0.4f))
+        val f = easeOut(seg(s1, 0f, BEAT_IN)) * (1f - seg(ob, 0f, BEAT_OUT))
         val c = Offset(w * 0.5f, h * 0.5f)
         val r = h * 0.3f
         val hex = Path()
@@ -110,7 +110,7 @@ private fun DrawScope.rightsTiles(a: ArtCtx) {
     }
     // one body
     if (ob > 0f) {
-        val f = easeOut(seg(ob, 0f, 0.3f)) * (1f - seg(bd, 0f, 0.4f))
+        val f = easeOut(seg(ob, 0f, BEAT_IN)) * (1f - seg(bd, 0f, BEAT_OUT))
         val foot = Offset(w * 0.5f, h * 0.9f)
         val tall = h * 0.72f
         val pts = listOf(
@@ -135,7 +135,7 @@ private fun DrawScope.rightsTiles(a: ArtCtx) {
     }
     // bricks that hold each other
     if (bd > 0f) {
-        val f = easeOut(seg(bd, 0f, 0.3f)) * (1f - seg(rs, 0f, 0.4f))
+        val f = easeOut(seg(bd, 0f, BEAT_IN)) * (1f - seg(rs, 0f, BEAT_OUT))
         val bw = w * 0.12f
         val bh = h * 0.07f
         var n = 0
@@ -248,7 +248,7 @@ private fun DrawScope.sickNight(a: ArtCtx) {
     drawRect(SickC47.Night)
     // the room
     if (vs > 0f) {
-        val f = easeOut(seg(vs, 0f, 0.3f)) * (1f - seg(oc, 0f, 0.4f))
+        val f = easeOut(seg(vs, 0f, BEAT_IN)) * (1f - seg(oc, 0f, BEAT_OUT))
         val warm = seg(vs, 0.45f, 0.95f)
         drawRect(lerpColor(SickC47.Wall, SickC47.WallLit, warm), Offset(0f, 0f), Size(w, floor), alpha = f)
         drawRect(Color(0xFF2A2026), Offset(0f, floor), Size(w, h - floor), alpha = f)
@@ -270,7 +270,7 @@ private fun DrawScope.sickNight(a: ArtCtx) {
     }
     // the way through the orchard
     if (oc > 0f) {
-        val f = easeOut(seg(oc, 0f, 0.3f)) * (1f - seg(ta, 0f, 0.4f))
+        val f = easeOut(seg(oc, 0f, BEAT_IN)) * (1f - seg(ta, 0f, BEAT_OUT))
         drawRect(Brush.verticalGradient(listOf(Color(0xFF1C2440), Color(0xFF3A4060)), 0f, floor), Offset.Zero, Size(w, floor), alpha = f)
         drawRect(Color(0xFF26302A), Offset(0f, floor), Size(w, h - floor), alpha = f)
         drawPath(Path().apply { moveTo(w * 0.04f, h); lineTo(w * 0.42f, floor); lineTo(w * 0.58f, floor); lineTo(w * 0.96f, h); close() }, SickC47.Path, alpha = f * 0.6f)
@@ -290,7 +290,7 @@ private fun DrawScope.sickNight(a: ArtCtx) {
     }
     // visit the sick, feed the hungry, free the captive
     if (ta > 0f) {
-        val f = easeOut(seg(ta, 0f, 0.3f)) * (1f - seg(an, 0f, 0.4f))
+        val f = easeOut(seg(ta, 0f, BEAT_IN)) * (1f - seg(an, 0f, BEAT_OUT))
         for (k in 0 until 3) {
             val c = Offset(w * (0.22f + 0.28f * k), h * 0.5f)
             val g = easeOut(seg(ta, 0.1f + 0.25f * k, 0.3f + 0.25f * k))
@@ -397,7 +397,7 @@ private fun DrawScope.twoTents(a: ArtCtx) {
     daySky12(MendC47.Sky, MendC47.SkyLow, ground, MendC47.Sand)
     // talk in secret
     if (wh > 0f) {
-        val f = easeOut(seg(wh, 0f, 0.3f)) * (1f - seg(js, 0f, 0.4f))
+        val f = easeOut(seg(wh, 0f, BEAT_IN)) * (1f - seg(js, 0f, BEAT_OUT))
         tent47(Offset(w * 0.25f, ground), w * 0.22f, MendC47.TentA, f, 1f)
         tent47(Offset(w * 0.75f, ground), w * 0.22f, MendC47.TentB, f, -1f)
         for (k in 0 until 9) {
@@ -411,7 +411,7 @@ private fun DrawScope.twoTents(a: ArtCtx) {
     }
     // a just word between two
     if (js > 0f) {
-        val f = easeOut(seg(js, 0f, 0.3f)) * (1f - seg(gw, 0f, 0.4f))
+        val f = easeOut(seg(js, 0f, BEAT_IN)) * (1f - seg(gw, 0f, BEAT_OUT))
         val close = easeInOut(seg(js, 0.4f, 0.85f))
         val gap = w * 0.02f * (1f - close)
         var x = w * 0.5f
@@ -427,7 +427,7 @@ private fun DrawScope.twoTents(a: ArtCtx) {
     }
     // the one who carries only good words
     if (gw > 0f) {
-        val f = easeOut(seg(gw, 0f, 0.3f)) * (1f - seg(vl, 0f, 0.4f))
+        val f = easeOut(seg(gw, 0f, BEAT_IN)) * (1f - seg(vl, 0f, BEAT_OUT))
         val turn = easeInOut(seg(gw, 0.6f, 0.9f))
         tent47(Offset(w * 0.18f, ground), w * 0.22f, MendC47.TentA, f, -1f + 2f * turn)
         tent47(Offset(w * 0.82f, ground), w * 0.22f, MendC47.TentB, f, 1f - 2f * turn)
@@ -440,7 +440,7 @@ private fun DrawScope.twoTents(a: ArtCtx) {
     }
     // the village where he went himself to make peace
     if (vl > 0f) {
-        val f = easeOut(seg(vl, 0f, 0.3f)) * (1f - seg(db, 0f, 0.4f))
+        val f = easeOut(seg(vl, 0f, BEAT_IN)) * (1f - seg(db, 0f, BEAT_OUT))
         drawRect(Color(0xFFEAD9B4), alpha = f)
         for (k in 0 until 12) {
             val q = Offset(w * (0.12f + 0.06f * (k % 4)), h * (0.3f + 0.12f * (k / 4)))
@@ -522,7 +522,7 @@ private fun DrawScope.weighNight(a: ArtCtx) {
     drawRect(Color(0xFF1C1A28), Offset(0f, ground), Size(w, h - ground))
     // the balance
     if (hv > 0f) {
-        val f = easeOut(seg(hv, 0f, 0.3f)) * (1f - seg(tk, 0f, 0.4f))
+        val f = easeOut(seg(hv, 0f, BEAT_IN)) * (1f - seg(tk, 0f, BEAT_OUT))
         val tilt = mix(0.7f, -0.8f, easeInOut(seg(hv, 0.45f, 0.85f)))
         val foot = Offset(w * 0.5f, ground)
         val s = h * 0.66f
@@ -536,7 +536,7 @@ private fun DrawScope.weighNight(a: ArtCtx) {
     }
     // the gate of two keys
     if (tk > 0f) {
-        val f = easeOut(seg(tk, 0f, 0.3f)) * (1f - seg(tt, 0f, 0.4f))
+        val f = easeOut(seg(tk, 0f, BEAT_IN)) * (1f - seg(tt, 0f, BEAT_OUT))
         val sill = Offset(w * 0.5f, ground)
         val open = easeInOut(seg(tk, 0.65f, 0.95f))
         door12(sill, w * 0.2f, h * 0.6f, open, WeighC47.Gate, Color(0xFF3A2A1E), f)
@@ -549,7 +549,7 @@ private fun DrawScope.weighNight(a: ArtCtx) {
     }
     // three signs of good character
     if (tt > 0f) {
-        val f = easeOut(seg(tt, 0f, 0.3f)) * (1f - seg(rk, 0f, 0.4f))
+        val f = easeOut(seg(tt, 0f, BEAT_IN)) * (1f - seg(rk, 0f, BEAT_OUT))
         for (k in 0 until 3) {
             val c = Offset(w * (0.2f + 0.3f * k), h * 0.5f)
             val g = easeOut(seg(tt, 0.1f + 0.25f * k, 0.3f + 0.25f * k))
@@ -573,7 +573,7 @@ private fun DrawScope.weighNight(a: ArtCtx) {
     }
     // the rank of the one who fasts and prays
     if (rk > 0f) {
-        val f = easeOut(seg(rk, 0f, 0.3f)) * (1f - seg(th, 0f, 0.4f))
+        val f = easeOut(seg(rk, 0f, BEAT_IN)) * (1f - seg(th, 0f, BEAT_OUT))
         val lift = easeInOut(seg(rk, 0.2f, 0.8f))
         val step = ground - h * 0.3f
         drawRect(Color(0xFF3A3450), Offset(w * 0.55f, step), Size(w * 0.36f, ground - step), alpha = f)
@@ -650,7 +650,7 @@ private fun DrawScope.gentleDay(a: ArtCtx) {
     daySky12(GentleC47.Sky, GentleC47.SkyLow, ground, GentleC47.Ground)
     // two calm trees
     if (tw > 0f) {
-        val f = easeOut(seg(tw, 0f, 0.3f)) * (1f - seg(rf, 0f, 0.4f))
+        val f = easeOut(seg(tw, 0f, BEAT_IN)) * (1f - seg(rf, 0f, BEAT_OUT))
         drawRect(GentleC47.Grass, Offset(0f, ground), Size(w, h * 0.03f), alpha = f)
         for (k in 0 until 2) {
             val base = Offset(w * (0.36f + 0.28f * k), ground)
@@ -662,7 +662,7 @@ private fun DrawScope.gentleDay(a: ArtCtx) {
     }
     // a soft rain, a hard torrent
     if (rf > 0f) {
-        val f = easeOut(seg(rf, 0f, 0.3f)) * (1f - seg(bk, 0f, 0.4f))
+        val f = easeOut(seg(rf, 0f, BEAT_IN)) * (1f - seg(bk, 0f, BEAT_OUT))
         cloud38(Offset(w * 0.25f, h * 0.18f), w * 0.1f, Color(0xFFE4E8F0), f)
         rain12(w * 0.1f, w * 0.42f, h * 0.24f, ground, t * 0.6f, GentleC47.Rain, f * 0.7f, 18)
         val green = seg(rf, 0.3f, 0.9f)
@@ -680,7 +680,7 @@ private fun DrawScope.gentleDay(a: ArtCtx) {
     }
     // a bucket of water in the mosque
     if (bk > 0f) {
-        val f = easeOut(seg(bk, 0f, 0.3f)) * (1f - seg(sp, 0f, 0.4f))
+        val f = easeOut(seg(bk, 0f, BEAT_IN)) * (1f - seg(sp, 0f, BEAT_OUT))
         drawRect(Color(0xFFEFE2C4), Offset(0f, 0f), Size(w, ground), alpha = f)
         for (k in 0 until 4) drawPath(archPath26(w * (0.15f + 0.23f * k), h * 0.12f, ground - h * 0.3f, w * 0.08f), Color(0xFFD8C49C), alpha = f)
         drawRect(GentleC47.Floor, Offset(0f, ground), Size(w, h - ground), alpha = f)
@@ -701,7 +701,7 @@ private fun DrawScope.gentleDay(a: ArtCtx) {
     }
     // make things easy, give good tidings
     if (sp > 0f) {
-        val f = easeOut(seg(sp, 0f, 0.3f)) * (1f - seg(ad, 0f, 0.4f))
+        val f = easeOut(seg(sp, 0f, BEAT_IN)) * (1f - seg(ad, 0f, BEAT_OUT))
         drawRect(Color(0xFFCDB890), Offset(w * 0.47f, ground - h * 0.5f), Size(w * 0.06f, h * 0.5f), alpha = 0f)
         for (k in 0 until 2) {
             val pole = Offset(w * (0.36f + 0.28f * k), ground)

@@ -69,7 +69,7 @@ private fun DrawScope.roughDay(a: ArtCtx) {
     val ground = h * 0.82f
     daySky12(RoughC54.Sky, RoughC54.SkyLow, ground, RoughC54.Ground)
     if (sm > 0f) {
-        val f = easeOut(seg(sm, 0f, 0.3f)) * (1f - seg(nl, 0f, 0.4f))
+        val f = easeOut(seg(sm, 0f, BEAT_IN)) * (1f - seg(nl, 0f, BEAT_OUT))
         val go = easeInOut(seg(sm, 0.1f, 0.95f))
         for (k in 0 until 9) {
             val x = w * (0.12f + 0.09f * k)
@@ -81,7 +81,7 @@ private fun DrawScope.roughDay(a: ArtCtx) {
         tagAt(a.tag("smoothed"), Offset(w * 0.6f, h * 0.48f), f * seg(sm, 0.15f, 0.3f), back = Back54, ink = ArtInk.Ivory)
     }
     if (nl > 0f) {
-        val f = easeOut(seg(nl, 0f, 0.3f)) * (1f - seg(sw, 0f, 0.4f))
+        val f = easeOut(seg(nl, 0f, BEAT_IN)) * (1f - seg(sw, 0f, 0.4f))
         figure(Offset(w * 0.5f, ground), h * 0.28f, RoughC54.Person, f, lean = -0.1f)
         val d = Offset(w * 0.22f, ground)
         door12(d, w * 0.1f, h * 0.3f, seg(nl, 0.15f, 0.35f), RoughC54.Rock, Color(0xFF3A2A1E), f, Color(0xFF4A4050))
@@ -90,7 +90,7 @@ private fun DrawScope.roughDay(a: ArtCtx) {
         tagAt(a.tag("nolaw", 0, 1), Offset(w * 0.66f, h * 0.3f), f * seg(nl, 0.6f, 0.8f), back = Back54, ink = ArtInk.Gold)
     }
     if (sw > 0f) {
-        val f = easeOut(seg(sw, 0f, 0.3f)) * (1f - seg(co, 0f, 0.4f))
+        val f = easeOut(seg(sw, 0f, 0.3f)) * (1f - seg(co, 0f, BEAT_OUT))
         for (k in 0 until 2) {
             val p = Offset(w * (0.35f + 0.3f * k), ground)
             val big = k == 0
@@ -157,7 +157,7 @@ private fun DrawScope.debtDay(a: ArtCtx) {
     val ground = h * 0.84f
     daySky12(DebtC54.Sky, DebtC54.SkyLow, ground, DebtC54.Ground)
     if (ca > 0f) {
-        val f = easeOut(seg(ca, 0f, 0.3f)) * (1f - seg(mp, 0f, 0.4f))
+        val f = easeOut(seg(ca, 0f, BEAT_IN)) * (1f - seg(mp, 0f, BEAT_OUT))
         val come = easeInOut(seg(ca, 0.05f, 0.45f))
         nameRoundel(Offset(w * (0.85f - 0.25f * come), ground - h * 0.2f), w * 0.045f, null, Roundel.PlainFill, Roundel.PlainRim, f)
         val r = Offset(w * 0.34f, ground - h * 0.2f)
@@ -168,7 +168,7 @@ private fun DrawScope.debtDay(a: ArtCtx) {
         }
     }
     if (mp > 0f) {
-        val f = easeOut(seg(mp, 0f, 0.3f)) * (1f - seg(hl, 0f, 0.4f))
+        val f = easeOut(seg(mp, 0f, BEAT_IN)) * (1f - seg(hl, 0f, BEAT_OUT))
         val crumble = seg(mp, 0.35f, 0.8f)
         val c = Offset(w * 0.5f, ground)
         if (crumble < 1f) drawPath(Path().apply { moveTo(c.x - w * 0.3f, ground); lineTo(c.x - w * 0.05f, h * (0.12f + 0.5f * crumble)); lineTo(c.x + w * 0.08f, h * (0.2f + 0.45f * crumble)); lineTo(c.x + w * 0.3f, ground); close() }, DebtC54.Mount, alpha = f * (1f - crumble * 0.6f))
@@ -180,7 +180,7 @@ private fun DrawScope.debtDay(a: ArtCtx) {
         for (k in 0 until 2) tagAt(a.tag("mountainpaid", 0, k), Offset(w * (0.3f + 0.4f * k), h * 0.18f + h * 0.08f * k), f * seg(mp, 0.2f + 0.25f * k, 0.35f + 0.25f * k), back = Back54, ink = ArtInk.Gold)
     }
     if (hl > 0f) {
-        val f = easeOut(seg(hl, 0f, 0.3f)) * (1f - seg(wa, 0f, 0.4f))
+        val f = easeOut(seg(hl, 0f, BEAT_IN)) * (1f - seg(wa, 0f, BEAT_OUT))
         val bend = easeInOut(seg(hl, 0.1f, 0.5f))
         val p = Offset(w * 0.5f, ground)
         figure(p, h * 0.32f, DebtC54.Person, f, lean = 0.4f * bend, walk = t * 2f)
@@ -188,7 +188,7 @@ private fun DrawScope.debtDay(a: ArtCtx) {
         drawRoundRect(Color(0xFF5A5060), Offset(p.x + w * 0.1f, p.y - h * 0.12f), Size(w * 0.08f, h * 0.12f), CornerRadius(3f * dp), alpha = f)
     }
     if (wa > 0f) {
-        val f = easeOut(seg(wa, 0f, 0.3f)) * (1f - seg(rp, 0f, 0.4f))
+        val f = easeOut(seg(wa, 0f, BEAT_IN)) * (1f - seg(rp, 0f, BEAT_OUT))
         drawRect(DebtC54.Field, Offset(w * 0.05f, ground), Size(w * 0.4f, h * 0.05f), alpha = f)
         val dig = sin(t * 4f)
         figure(Offset(w * 0.25f, ground), h * 0.3f, DebtC54.Person, f, lean = 0.25f + 0.1f * dig, arms = 0.8f)
@@ -255,7 +255,7 @@ private fun DrawScope.lossNight(a: ArtCtx) {
     nightSky(t, LossC54.Night, LossC54.NightLow, ground, starAlpha = 0.7f)
     drawRect(LossC54.Ground, Offset(0f, ground), Size(w, h - ground))
     if (bj > 0f) {
-        val f = easeOut(seg(bj, 0f, 0.3f)) * (1f - seg(us, 0f, 0.4f))
+        val f = easeOut(seg(bj, 0f, BEAT_IN)) * (1f - seg(us, 0f, BEAT_OUT))
         val fall = seg(bj, 0.05f, 0.25f)
         val broke = seg(bj, 0.25f, 0.3f)
         val c = Offset(w * 0.5f, h * 0.3f + (ground - h * 0.3f) * fall * fall)
@@ -273,7 +273,7 @@ private fun DrawScope.lossNight(a: ArtCtx) {
         }
     }
     if (us > 0f) {
-        val f = easeOut(seg(us, 0f, 0.3f)) * (1f - seg(tg, 0f, 0.4f))
+        val f = easeOut(seg(us, 0f, BEAT_IN)) * (1f - seg(tg, 0f, BEAT_OUT))
         val m = Offset(w * 0.4f, h * 0.5f)
         nameRoundel(m, w * 0.06f, a.big("ummsalama", 0, 0), LossC54.Mother, Roundel.Rim, f * seg(us, 0.05f, 0.2f))
         val fade = seg(us, 0.25f, 0.5f)
@@ -282,7 +282,7 @@ private fun DrawScope.lossNight(a: ArtCtx) {
         sirajMunir(light, w * 0.013f, f * seg(us, 0.6f, 0.85f), t, nameAt = light + Offset(0f, -h * 0.12f))
     }
     if (tg > 0f) {
-        val f = easeOut(seg(tg, 0f, 0.3f)) * (1f - seg(vg, 0f, 0.4f))
+        val f = easeOut(seg(tg, 0f, BEAT_IN)) * (1f - seg(vg, 0f, BEAT_OUT))
         for (k in 0 until 2) {
             val c = Offset(w * (0.28f + 0.44f * k), h * 0.5f)
             val g = seg(tg, 0.1f + 0.2f * k, 0.3f + 0.2f * k)
@@ -361,7 +361,7 @@ private fun DrawScope.healRoom(a: ArtCtx) {
         } else sit12(Offset(bed.x - w * 0.05f, bed.y), h * 0.26f, HealC54.Person, alpha, 1f)
     }
     if (nb > 0f) {
-        val f = easeOut(seg(nb, 0f, 0.3f)) * (1f - seg(sr, 0f, 0.4f))
+        val f = easeOut(seg(nb, 0f, BEAT_IN)) * (1f - seg(sr, 0f, BEAT_OUT))
         drawRoundRect(HealC54.Bed, Offset(bed.x - w * 0.2f, bed.y), Size(w * 0.4f, h * 0.05f), CornerRadius(4f * dp), alpha = f)
         drawRoundRect(HealC54.Blanket, Offset(bed.x - w * 0.16f, bed.y - h * 0.05f), Size(w * 0.32f, h * 0.06f), CornerRadius(h * 0.03f), alpha = f)
         val come = easeInOut(seg(nb, 0.05f, 0.45f))
@@ -370,7 +370,7 @@ private fun DrawScope.healRoom(a: ArtCtx) {
         tagAt(a.tag("nobas"), Offset(bed.x, bed.y - h * 0.16f), f * seg(nb, 0.5f, 0.7f), back = Back54, ink = ArtInk.Gold)
     }
     if (sr > 0f) {
-        val f = easeOut(seg(sr, 0f, 0.3f)) * (1f - seg(hp, 0f, 0.4f))
+        val f = easeOut(seg(sr, 0f, BEAT_IN)) * (1f - seg(hp, 0f, BEAT_OUT))
         bedWith(f, seg(sr, 0.85f, 0.95f))
         sit12(Offset(w * 0.78f, floor), h * 0.28f, HealC54.Person, f, -1f)
         for (k in 0 until 7) {
@@ -380,7 +380,7 @@ private fun DrawScope.healRoom(a: ArtCtx) {
         }
     }
     if (hp > 0f) {
-        val f = easeOut(seg(hp, 0f, 0.3f)) * (1f - seg(lw, 0f, 0.4f))
+        val f = easeOut(seg(hp, 0f, BEAT_IN)) * (1f - seg(lw, 0f, BEAT_OUT))
         val p = Offset(w * 0.5f, floor)
         sit12(p, h * 0.32f, HealC54.Person, f, 1f)
         val spot = p + Offset(w * 0.03f, -h * 0.2f)
@@ -458,7 +458,7 @@ private fun DrawScope.rainField(a: ArtCtx) {
     val ground = h * 0.82f
     daySky12(RainC54.Sky, RainC54.SkyLow, ground, RainC54.Dry)
     if (ur > 0f) {
-        val f = easeOut(seg(ur, 0f, 0.3f)) * (1f - seg(ns, 0f, 0.4f))
+        val f = easeOut(seg(ur, 0f, BEAT_IN)) * (1f - seg(ns, 0f, BEAT_OUT))
         cloud38(Offset(w * 0.5f, h * 0.16f), w * 0.2f, RainC54.Cloud, f)
         rain12(w * 0.15f, w * 0.85f, h * 0.22f, ground, t * 0.7f, RainC54.Rain, f * seg(ur, 0.1f, 0.25f), 36)
         val green = seg(ur, 0.3f, 0.95f)
@@ -467,7 +467,7 @@ private fun DrawScope.rainField(a: ArtCtx) {
         tagAt(a.tag("usefulrain"), Offset(w * 0.5f, h * 0.36f), f * seg(ur, 0.15f, 0.3f), back = Back54, ink = ArtInk.Gold)
     }
     if (ns > 0f) {
-        val f = easeOut(seg(ns, 0f, 0.3f)) * (1f - seg(sw, 0f, 0.4f))
+        val f = easeOut(seg(ns, 0f, BEAT_IN)) * (1f - seg(sw, 0f, 0.4f))
         cloud38(Offset(w * 0.45f, h * 0.2f), w * 0.18f, RainC54.Cloud, f)
         rain12(w * 0.2f, w * 0.7f, h * 0.26f, ground, t * 0.7f, RainC54.Rain, f, 26)
         val sc = Offset(w * 0.86f, h * 0.18f)
@@ -477,7 +477,7 @@ private fun DrawScope.rainField(a: ArtCtx) {
         tagAt(a.tag("notthestar"), Offset(w * 0.45f, h * 0.45f), f * seg(ns, 0.1f, 0.3f), back = Back54, ink = ArtInk.Gold)
     }
     if (sw > 0f) {
-        val f = easeOut(seg(sw, 0f, 0.3f)) * (1f - seg(ar, 0f, 0.4f))
+        val f = easeOut(seg(sw, 0f, 0.3f)) * (1f - seg(ar, 0f, BEAT_OUT))
         val gust = 0.5f + 0.5f * sin(t * 2.5f)
         for (k in 0 until 4) {
             val foot = Offset(w * (0.15f + 0.23f * k), ground)
@@ -494,7 +494,7 @@ private fun DrawScope.rainField(a: ArtCtx) {
         }
     }
     if (ar > 0f) {
-        val f = easeOut(seg(ar, 0f, 0.3f)) * (1f - seg(th, 0f, 0.4f))
+        val f = easeOut(seg(ar, 0f, BEAT_IN)) * (1f - seg(th, 0f, BEAT_OUT))
         drawPath(Path().apply { moveTo(0f, ground); quadraticTo(w * 0.12f, h * 0.45f, w * 0.26f, ground); close() }, Color(0xFF8A9A6A), alpha = f)
         drawPath(Path().apply { moveTo(w * 0.74f, ground); quadraticTo(w * 0.88f, h * 0.45f, w, ground); close() }, Color(0xFF8A9A6A), alpha = f)
         for (k in 0 until 4) house12(Offset(w * (0.34f + 0.1f * k), ground), w * 0.09f, RainC54.Wall, RainC54.Trim, f)

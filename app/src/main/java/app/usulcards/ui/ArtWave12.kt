@@ -165,10 +165,10 @@ private fun DrawScope.saplingBench(a: ArtCtx) {
 
     val tall = h * 0.4f
     // the gardener: he waters it, sets the bell, steps back with open hands; then stands between the two
-    val gFoot = Offset(mix(w * 0.66f, w * 0.7f, easeOut(seg(cl, 0.6f, 0.9f))) - w * 0.1f * easeInOut(seg(ax, 0f, 0.3f)) * (1f - easeInOut(seg(pa, 0f, 0.3f))) + w * 0.15f * easeInOut(seg(pa, 0f, 0.3f)), h * 0.98f)
+    val gFoot = Offset(mix(w * 0.66f, w * 0.7f, easeOut(seg(cl, 0.6f, 0.9f))) - w * 0.1f * easeInOut(seg(ax, 0f, 0.3f)) * (1f - easeInOut(seg(pa, 0f, BEAT_OUT))) + w * 0.15f * easeInOut(seg(pa, 0f, 0.3f)), h * 0.98f)
     val open = easeOut(seg(cl, 0.6f, 0.9f))
     figure(gFoot, tall, SaplingC12.Ink, arms = if (cl in 0.1f..0.6f) 0.9f else 0.2f)
-    if (open > 0f) for (sd in listOf(-1f, 1f)) drawLine(SaplingC12.Ink, gFoot + Offset(0f, -tall * 0.76f), gFoot + Offset(sd * tall * 0.2f, -tall * 0.62f), max(1.6f * dp, tall * 0.06f), StrokeCap.Round, alpha = open * (1f - seg(ax, 0f, 0.2f)))
+    if (open > 0f) for (sd in listOf(-1f, 1f)) drawLine(SaplingC12.Ink, gFoot + Offset(0f, -tall * 0.76f), gFoot + Offset(sd * tall * 0.2f, -tall * 0.62f), max(1.6f * dp, tall * 0.06f), StrokeCap.Round, alpha = open * (1f - seg(ax, 0f, BEAT_OUT)))
     if (rt > 0.3f && cl <= 0f) {
         // watering it
         val can = gFoot + Offset(-tall * 0.35f, -tall * 0.62f)
@@ -283,7 +283,7 @@ private fun DrawScope.returnRoad(a: ArtCtx) {
     val j = w * 0.06f
     val r = j * 1.2f
     val cy = ground - h * 0.3f
-    val open = (1f - easeInOut(seg(ws, 0.4f, 1f)) * 0.8f) * (1f - easeOut(seg(ds, 0f, 0.4f))).let { max(it, 0f) }
+    val open = (1f - easeInOut(seg(ws, 0.4f, 1f)) * 0.8f) * (1f - easeOut(seg(ds, 0f, BEAT_OUT))).let { max(it, 0f) }
     val openNow = if (ds > 0.4f) 0f else open
     val frame = horseshoe(gx, cy, r + w * 0.016f, j + w * 0.016f, ground)
     val opening = horseshoe(gx, cy, r, j, ground)
@@ -307,7 +307,7 @@ private fun DrawScope.returnRoad(a: ArtCtx) {
     val away = easeInOut(seg(od, 0.1f, 0.8f))
     val turned = tq > 0.1f
     val drop = easeIn12(seg(tq, 0.45f, 0.7f))
-    val kneel = easeOut(seg(rr, 0f, 0.2f)) * (1f - easeOut(seg(rr, 0.45f, 0.6f)))
+    val kneel = easeOut(seg(rr, 0f, BEAT_IN)) * (1f - easeOut(seg(rr, 0.45f, 0.6f)))
     val toDoor = easeInOut(seg(rr, 0.55f, 1f))
     val enter = easeInOut(seg(ws, 0.1f, 0.4f))
     val x = when {

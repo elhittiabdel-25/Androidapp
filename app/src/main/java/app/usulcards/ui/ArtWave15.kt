@@ -108,7 +108,7 @@ private fun DrawScope.threadsPlain(a: ArtCtx) {
     }
 
     // the pedestal on his right and the one set up on it
-    val rise = easeOut(seg(pd, 0f, 0.3f)) * (1f - easeInOut(seg(pf, 0f, 0.4f)))
+    val rise = easeOut(seg(pd, 0f, BEAT_IN)) * (1f - easeInOut(seg(pf, 0f, BEAT_OUT)))
     val px = w * 0.74f
     val pedH = h * 0.18f * rise
     if (pd > 0f) {
@@ -121,7 +121,7 @@ private fun DrawScope.threadsPlain(a: ArtCtx) {
     val other = Offset(px, ground + h * 0.03f - pedH - tall * 0.55f)
 
     // the man: bows to it, then stands and lifts his hands
-    val bow = easeOut(seg(pd, 0.3f, 0.55f)) * (1f - easeOut(seg(pf, 0f, 0.25f)))
+    val bow = easeOut(seg(pd, 0.3f, 0.55f)) * (1f - easeOut(seg(pf, 0f, BEAT_OUT)))
     val lift = easeOut(seg(pf, 0.15f, 0.4f)) * (1f - easeOut(seg(bl, 0.2f, 0.5f)) * 0.7f)
     val heart: Offset
     if (bow > 0.3f) {
@@ -141,7 +141,7 @@ private fun DrawScope.threadsPlain(a: ArtCtx) {
     val base = 1.2f * dp
     val toOther = if (pd > 0f) mix(base, 7f * dp, easeOut(seg(pd, 0.1f, 0.45f))) * (1f - 0.8f * easeOut(seg(pf, 0f, 0.4f))) else 0f
     loveThread(heart, other, toOther, seg(pd, 0.05f, 0.2f), t)
-    if (pd > 0f) noSign11pub(other + Offset(0f, -tall * 0.05f), h * 0.11f, easeOut(seg(pd, 0.6f, 0.85f)) * (1f - easeOut(seg(pf, 0f, 0.3f))))
+    if (pd > 0f) noSign11pub(other + Offset(0f, -tall * 0.05f), h * 0.11f, easeOut(seg(pd, 0.6f, 0.85f)) * (1f - easeOut(seg(pf, 0f, BEAT_OUT))))
     // the first love: straight up, out of the picture, to nothing drawn
     val up = easeOut(seg(pf, 0.2f, 0.6f))
     if (up > 0f) {
@@ -322,7 +322,7 @@ private fun DrawScope.carpetYard(a: ArtCtx) {
         }
     }
     // what is this?
-    val puzzled = seg(bs, 0.5f, 0.7f) * (1f - seg(ds, 0f, 0.2f))
+    val puzzled = seg(bs, 0.5f, 0.7f) * (1f - seg(ds, 0f, BEAT_OUT))
     qMark14(foot + Offset(tall * 0.12f, -tall * 1.25f), tall * 0.2f, CarpetC15.Ink, puzzled)
     // the dark cloud of his thought, breaking up when the face is seen
     val cloud = easeOut(seg(ds, 0.15f, 0.5f)) * (1f - easeOut(seg(to, 0.4f, 0.8f)))

@@ -87,7 +87,7 @@ internal fun DrawScope.nightScene(a: ArtCtx) {
     val layersA = easeOut(a.b("layers"))
     val quake = a.b("quake")
     val calm = easeOut(a.b("calm"))
-    val shaking = easeOut(seg(quake, 0f, 0.3f)) * (1f - calm)
+    val shaking = easeOut(seg(quake, 0f, BEAT_IN)) * (1f - calm)
     if (layersA > 0f) {
         val centre = Offset(w * 0.5f, h * 1.3f)
         for (k in 0 until 7) {

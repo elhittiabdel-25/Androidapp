@@ -332,7 +332,7 @@ private fun DrawScope.anwatRoad(a: ArtCtx) {
     drawOval(Color(0xFF8A7E72), Offset(stone.x - w * 0.035f, stone.y - h * 0.05f), Size(w * 0.07f, h * 0.06f))
     drawLine(AnwC27.Cloth[0], stone + Offset(-w * 0.03f, -h * 0.025f), stone + Offset(w * 0.03f, -h * 0.03f), 2.5f * dp, alpha = hung)
     // the men who hang them
-    val men = easeOut(seg(lt, 0f, 0.25f)) * (1f - easeOut(seg(ak, 0f, 0.4f)))
+    val men = easeOut(seg(lt, 0f, BEAT_IN)) * (1f - easeOut(seg(ak, 0f, BEAT_OUT)))
     for (k in 0 until 2) pointer27(base + Offset(w * (-0.07f + 0.15f * k), h * 0.03f), h * 0.17f, AnwC27.Pagan, men, 0.6f + 0.3f * sin(t * 2f + k))
     tagAt(a.tag("lotetree"), base + Offset(0f, -h * 0.5f), seg(lt, 0.4f, 0.7f), back = AnwC27.Back, ink = ArtInk.Ivory)
     // the old footprints of those before, and the red sign
@@ -361,7 +361,7 @@ private fun DrawScope.anwatRoad(a: ArtCtx) {
             else figure(Offset(x, y), h * 0.16f, AnwC27.Ink, 1f, walk = if (walking) t * 5f + k else 0f)
             if (k == 3) camel26(Offset(x + w * 0.04f, y), h * 0.15f, Color(0xFF6A4A30), 1f, t, if (walking) t * 4f else 0f)
         }
-        tagAt(a.tag("askanwat"), Offset(head + w * 0.08f, h * 0.5f), seg(ak, 0.6f, 0.8f) * (1f - seg(tk, 0f, 0.2f)), back = AnwC27.Back, ink = ArtInk.Ivory)
+        tagAt(a.tag("askanwat"), Offset(head + w * 0.08f, h * 0.5f), seg(ak, 0.6f, 0.8f) * (1f - seg(tk, 0f, BEAT_OUT)), back = AnwC27.Back, ink = ArtInk.Ivory)
     }
     // his ﷺ light at the head of the column
     if (tk > 0f) {
@@ -428,8 +428,8 @@ private fun DrawScope.offeringYard(a: ArtCtx) {
     tomb27(Offset(w * 0.15f, ground), w * 0.17f, OffC27.Tomb, OffC27.Dome, 1f)
     val dark = easeOut(seg(cu, 0.3f, 0.8f))
     drawRect(Brush.horizontalGradient(listOf(Color.Black.copy(alpha = 0.32f * dark), Color.Transparent), startX = 0f, endX = w * 0.42f), size = Size(w * 0.42f, h))
-    tagAt(a.tag("twopaths", 0, 0), niche + Offset(0f, -h * 0.47f), seg(tp, 0.1f, 0.3f) * (1f - seg(vk, 0f, 0.25f)), back = OffC27.Back, ink = ArtInk.BrassLight)
-    tagAt(a.tag("twopaths", 0, 1), Offset(w * 0.15f, ground - h * 0.25f), seg(tp, 0.2f, 0.4f) * (1f - seg(vk, 0f, 0.25f)), back = OffC27.Back, ink = Color(0xFFFFB0A0))
+    tagAt(a.tag("twopaths", 0, 0), niche + Offset(0f, -h * 0.47f), seg(tp, 0.1f, 0.3f) * (1f - seg(vk, 0f, BEAT_OUT)), back = OffC27.Back, ink = ArtInk.BrassLight)
+    tagAt(a.tag("twopaths", 0, 1), Offset(w * 0.15f, ground - h * 0.25f), seg(tp, 0.2f, 0.4f) * (1f - seg(vk, 0f, BEAT_OUT)), back = OffC27.Back, ink = Color(0xFFFFB0A0))
     // the two paths from the middle
     val mid = Offset(w * 0.5f, h * 0.7f)
     drawLine(Color(0xFFE6D2A6), mid, niche + Offset(0f, h * 0.04f), w * 0.03f, StrokeCap.Round, alpha = 0.8f)
@@ -447,7 +447,7 @@ private fun DrawScope.offeringYard(a: ArtCtx) {
         drawLine(Color(0xFF8A6A4A), Offset(x - w * 0.02f, y - h * 0.08f), Offset(x - w * 0.04f, y - h * 0.035f), 1.2f * dp)
     }
     noSign11pub(Offset(w * 0.24f, ground - h * 0.12f), w * 0.05f, easeOut(seg(tp, 0.6f, 0.85f)))
-    tagAt(a.tag("cursed"), Offset(w * 0.32f, h * 0.14f), seg(cu, 0.1f, 0.35f) * (1f - seg(vk, 0f, 0.25f)), back = OffC27.Back, ink = Color(0xFFFFB0A0))
+    tagAt(a.tag("cursed"), Offset(w * 0.32f, h * 0.14f), seg(cu, 0.1f, 0.35f) * (1f - seg(vk, 0f, BEAT_OUT)), back = OffC27.Back, ink = Color(0xFFFFB0A0))
     // the vows, in front
     val front = h * 0.92f
     if (vk > 0f || vb > 0f) {
@@ -593,7 +593,7 @@ private fun DrawScope.stormSea(a: ArtCtx) {
         drawLine(StoC27.Red, from, from + (to - from) * f, 1.8f * dp, StrokeCap.Round, pathEffect = dash27())
         val mid = (from + to) / 2f
         cross21(mid, h * 0.035f, StoC27.Red, seg(sc, 0.55f, 0.8f), 3f * dp)
-        tagAt(a.tag("shrinecall"), mid + Offset(0f, -h * 0.1f), seg(sc, 0.5f, 0.75f) * (1f - seg(lh, 0f, 0.3f)), back = StoC27.Back, ink = Color(0xFFFFB0A0))
+        tagAt(a.tag("shrinecall"), mid + Offset(0f, -h * 0.1f), seg(sc, 0.5f, 0.75f) * (1f - seg(lh, 0f, BEAT_OUT)), back = StoC27.Back, ink = Color(0xFFFFB0A0))
     }
     // the living man on the shore throws a rope
     if (lh > 0f) {
@@ -688,13 +688,13 @@ private fun DrawScope.twosealsPlain(a: ArtCtx) {
         drawCircle(lerpColor(SeaC27.Seal, SeaC27.SealLit, lit), w * 0.026f, c)
         drawCircle(Color(0xFF6A2018), w * 0.026f, c, alpha = 0.6f, style = Stroke(1.5f * dp))
     }
-    tagAt(a.tag("permit"), seals[0] + Offset(w * 0.0f, -h * 0.1f), seg(pm, 0.3f, 0.55f) * (1f - seg(rf, 0f, 0.3f)), back = SeaC27.Back, ink = ArtInk.BrassLight)
-    tagAt(a.tag("pleased"), seals[1] + Offset(0f, h * 0.1f), seg(pl, 0.3f, 0.55f) * (1f - seg(rf, 0f, 0.3f)), back = SeaC27.Back, ink = ArtInk.BrassLight)
+    tagAt(a.tag("permit"), seals[0] + Offset(w * 0.0f, -h * 0.1f), seg(pm, 0.3f, 0.55f) * (1f - seg(rf, 0f, BEAT_OUT)), back = SeaC27.Back, ink = ArtInk.BrassLight)
+    tagAt(a.tag("pleased"), seals[1] + Offset(0f, h * 0.1f), seg(pl, 0.3f, 0.55f) * (1f - seg(rf, 0f, BEAT_OUT)), back = SeaC27.Back, ink = ArtInk.BrassLight)
     // the verse over the gate
-    fitBig26(a.big("sealedgate"), Offset(gx, h * 0.12f), w * 0.5f, Color(0xFF5A3A10), easeOut(seg(sg, 0.2f, 0.6f)) * (1f - seg(pm, 0f, 0.2f) + seg(a.b("ikhlasopen"), 0f, 0.3f)).coerceIn(0f, 1f))
+    fitBig26(a.big("sealedgate"), Offset(gx, h * 0.12f), w * 0.5f, Color(0xFF5A3A10), easeOut(seg(sg, 0.2f, 0.6f)) * (1f - seg(pm, 0f, BEAT_OUT) + seg(a.b("ikhlasopen"), 0f, 0.3f)).coerceIn(0f, 1f))
     // those who bring their stones
     if (rf > 0f) {
-        val o = easeOut(seg(rf, 0f, 0.2f)) * (1f - easeOut(seg(io, 0f, 0.3f)))
+        val o = easeOut(seg(rf, 0f, BEAT_IN)) * (1f - easeOut(seg(io, 0f, BEAT_OUT)))
         for (k in 0 until 3) {
             val foot = Offset(w * (0.16f + 0.1f * k), ground + h * 0.02f)
             figure(foot, h * 0.18f, SeaC27.Ink, o, arms = 0.5f)
@@ -775,7 +775,7 @@ private fun DrawScope.plaingraveYard(a: ArtCtx) {
     val g = graves[4]
     val dash = dash27()
     // 1. a shrine raised over it: struck
-    val d1 = easeOut(seg(nd, 0f, 0.45f)) * (1f - 0.65f * easeOut(seg(nd, 0.8f, 1f))) * (1f - seg(nf, 0f, 0.2f))
+    val d1 = easeOut(seg(nd, 0f, 0.45f)) * (1f - 0.65f * easeOut(seg(nd, 0.8f, 1f))) * (1f - seg(nf, 0f, BEAT_OUT))
     if (d1 > 0f) {
         val ghost = Path().apply {
             moveTo(g.x - w * 0.14f, g.y); lineTo(g.x - w * 0.14f, g.y - h * 0.22f)
@@ -789,7 +789,7 @@ private fun DrawScope.plaingraveYard(a: ArtCtx) {
     val c1 = seg(nd, 0.45f, 0.75f)
     if (c1 > 0f && d1 > 0f) cross21(g + Offset(0f, -h * 0.25f), h * 0.1f, GraC27.Red, c1, 4f * dp)
     // 2. a festival around it: struck
-    val d2 = easeOut(seg(nf, 0f, 0.45f)) * (1f - 0.65f * easeOut(seg(nf, 0.8f, 1f))) * (1f - seg(ni, 0f, 0.2f))
+    val d2 = easeOut(seg(nf, 0f, 0.45f)) * (1f - 0.65f * easeOut(seg(nf, 0.8f, 1f))) * (1f - seg(ni, 0f, BEAT_OUT))
     if (d2 > 0f) {
         for (k in 0 until 8) {
             val ang = t * 0.8f + k * PI.toFloat() / 4f

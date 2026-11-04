@@ -70,7 +70,7 @@ private fun DrawScope.followNight(a: ArtCtx) {
     nightSky(t, FollowC65.Night, FollowC65.NightLow, ground, starAlpha = 0.85f)
     drawRect(FollowC65.Ground, Offset(0f, ground), Size(w, h - ground))
     if (na > 0f) {
-        val f = easeOut(seg(na, 0f, 0.25f)) * (1f - seg(ld, 0f, 0.4f))
+        val f = easeOut(seg(na, 0f, BEAT_IN)) * (1f - seg(ld, 0f, BEAT_OUT))
         val book = Offset(w * 0.5f, h * 0.22f)
         openBook21(book, w * 0.3f, FollowC65.Page, FollowC65.Book, f, seg(na, 0.1f, 0.3f))
         val heart = Offset(w * 0.5f, h * 0.65f)
@@ -84,7 +84,7 @@ private fun DrawScope.followNight(a: ArtCtx) {
         tagAt(a.tag("needlealigns"), Offset(w * 0.5f, h * 0.9f), f * seg(na, 0.5f, 0.7f), back = Back65, ink = ArtInk.Gold)
     }
     if (ld > 0f) {
-        val f = easeOut(seg(ld, 0f, 0.25f)) * (1f - seg(sl, 0f, 0.4f))
+        val f = easeOut(seg(ld, 0f, BEAT_IN)) * (1f - seg(sl, 0f, BEAT_OUT))
         val heart = Offset(w * 0.5f, h * 0.3f)
         heart12(heart, w * 0.06f, FollowC65.Gold, f, fill = true)
         for (k in 0 until 2) {
@@ -99,7 +99,7 @@ private fun DrawScope.followNight(a: ArtCtx) {
         }
     }
     if (sl > 0f) {
-        val f = easeOut(seg(sl, 0f, 0.25f)) * (1f - seg(ds, 0f, 0.4f))
+        val f = easeOut(seg(sl, 0f, BEAT_IN)) * (1f - seg(ds, 0f, BEAT_OUT))
         val light = Offset(w * 0.5f, h * 0.3f)
         softGlow(light, w * 0.1f, FollowC65.Gold, 0.8f * f)
         for (k in 0 until 6) {
@@ -178,7 +178,7 @@ private fun DrawScope.skyNight(a: ArtCtx) {
     nightSky(t, SkyC65.Night, SkyC65.NightLow, ground, starAlpha = 0.9f)
     drawRect(SkyC65.Ground, Offset(0f, ground), Size(w, h - ground))
     if (tc > 0f) {
-        val f = easeOut(seg(tc, 0f, 0.25f)) * (1f - seg(cs, 0f, 0.4f))
+        val f = easeOut(seg(tc, 0f, BEAT_IN)) * (1f - seg(cs, 0f, BEAT_OUT))
         for (k in 0 until 3) {
             val g = seg(tc, 0.1f + 0.25f * k, 0.3f + 0.25f * k)
             val x = w * (0.78f - 0.28f * k)
@@ -188,7 +188,7 @@ private fun DrawScope.skyNight(a: ArtCtx) {
         }
     }
     if (cs > 0f) {
-        val f = easeOut(seg(cs, 0f, 0.25f)) * (1f - seg(ep, 0f, 0.4f))
+        val f = easeOut(seg(cs, 0f, BEAT_IN)) * (1f - seg(ep, 0f, BEAT_OUT))
         val pile = seg(cs, 0.05f, 0.45f)
         val clear = seg(cs, 0.55f, 0.9f)
         for (k in 0 until 14) {
@@ -203,7 +203,7 @@ private fun DrawScope.skyNight(a: ArtCtx) {
         tagAt(a.tag("cloudstosky"), Offset(w * 0.5f, h * 0.1f), f * seg(cs, 0.2f, 0.4f), back = Back65, ink = ArtInk.Gold)
     }
     if (ep > 0f) {
-        val f = easeOut(seg(ep, 0f, 0.25f)) * (1f - seg(ed, 0f, 0.4f))
+        val f = easeOut(seg(ep, 0f, BEAT_IN)) * (1f - seg(ed, 0f, BEAT_OUT))
         val c = Offset(w * 0.5f, h * 1.25f)
         drawCircle(SkyC65.Earth, w * 0.75f, c, alpha = f)
         val heap = seg(ep, 0.05f, 0.35f)
@@ -213,7 +213,7 @@ private fun DrawScope.skyNight(a: ArtCtx) {
         tagAt(a.tag("earthfulpardon"), Offset(w * 0.5f, h * 0.2f), f * seg(ep, 0.5f, 0.7f), back = Back65, ink = ArtInk.Gold)
     }
     if (ed > 0f) {
-        val f = easeOut(seg(ed, 0f, 0.25f)) * (1f - seg(fl, 0f, 0.4f))
+        val f = easeOut(seg(ed, 0f, BEAT_IN)) * (1f - seg(fl, 0f, 0.4f))
         val melt = seg(ed, 0.45f, 0.9f)
         for (k in 0 until 3) {
             val x = w * (0.25f + 0.25f * k)
@@ -288,14 +288,14 @@ private fun DrawScope.moonNight(a: ArtCtx) {
     nightSky(t, MoonC65.Night, MoonC65.NightLow, ground, starAlpha = 0.9f)
     drawRect(MoonC65.Ground, Offset(0f, ground), Size(w, h - ground))
     if (nt > 0f) {
-        val f = easeOut(seg(nt, 0f, 0.25f)) * (1f - seg(ms, 0f, 0.4f))
+        val f = easeOut(seg(nt, 0f, BEAT_IN)) * (1f - seg(ms, 0f, BEAT_OUT))
         drawRect(MoonC65.Bar, Offset(w * 0.2f, ground - h * 0.6f * seg(nt, 0.05f, 0.25f)), Size(w * 0.06f, h * 0.6f * seg(nt, 0.05f, 0.25f)), alpha = f)
         drawRect(MoonC65.Bar, Offset(w * 0.74f, ground - h * 0.2f * seg(nt, 0.15f, 0.35f)), Size(w * 0.06f, h * 0.2f * seg(nt, 0.15f, 0.35f)), alpha = f)
         val light = Offset(w * 0.5f, ground - h * 0.4f)
         sirajMunir(light, w * 0.013f, f * seg(nt, 0.35f, 0.6f), t, nameAt = light + Offset(0f, -h * 0.13f))
     }
     if (ms > 0f || bm > 0f || sc > 0f) {
-        val f = (easeOut(seg(ms, 0f, 0.25f)) + easeOut(seg(bm, 0f, 0.25f)) + easeOut(seg(sc, 0f, 0.25f))).coerceIn(0f, 1f) * (1f - seg(lw, 0f, 0.4f))
+        val f = (easeOut(seg(ms, 0f, 0.25f)) + easeOut(seg(bm, 0f, 0.25f)) + easeOut(seg(sc, 0f, 0.25f))).coerceIn(0f, 1f) * (1f - seg(lw, 0f, BEAT_OUT))
         val light = Offset(w * 0.62f, h * 0.38f)
         val moon = Offset(w * 0.25f, h * 0.22f)
         val bright = 1f + 0.5f * seg(bm, 0.5f, 0.8f)
@@ -316,7 +316,7 @@ private fun DrawScope.moonNight(a: ArtCtx) {
         tagAt(a.tag(kind, 0, 1), Offset(w * 0.62f, h * 0.62f), f * seg(p, 0.45f, 0.65f), back = Back65, ink = ArtInk.Gold)
     }
     if (lw > 0f) {
-        val f = easeOut(seg(lw, 0f, 0.25f)) * (1f - seg(gm, 0f, 0.4f))
+        val f = easeOut(seg(lw, 0f, BEAT_IN)) * (1f - seg(gm, 0f, BEAT_OUT))
         for (k in 0 until 12) {
             val c = Offset(w * (0.12f + 0.076f * k), h * (0.55f + 0.06f * (k % 2)))
             val last = k == 7
@@ -408,7 +408,7 @@ private fun DrawScope.clothDay(a: ArtCtx) {
     val ground = h * 0.84f
     daySky12(ClothC65.Sky, ClothC65.SkyLow, ground, ClothC65.Ground)
     if (ss > 0f) {
-        val f = easeOut(seg(ss, 0f, 0.25f)) * (1f - seg(wc, 0f, 0.4f))
+        val f = easeOut(seg(ss, 0f, BEAT_IN)) * (1f - seg(wc, 0f, BEAT_OUT))
         val peg = Offset(w * 0.7f, h * 0.2f)
         drawCircle(ClothC65.Line, w * 0.012f, peg, alpha = f)
         shirt65(peg + Offset(0f, h * 0.27f), h * 0.45f, ClothC65.White, f * seg(ss, 0.05f, 0.25f))
@@ -425,7 +425,7 @@ private fun DrawScope.clothDay(a: ArtCtx) {
         tagAt(a.tag("shirtstripes", 0, 1), Offset(w * 0.25f, h * 0.84f), f * seg(ss, 0.45f, 0.65f), back = Back65, ink = ArtInk.Gold)
     }
     if (wc > 0f) {
-        val f = easeOut(seg(wc, 0f, 0.25f)) * (1f - seg(pk, 0f, 0.4f))
+        val f = easeOut(seg(wc, 0f, BEAT_IN)) * (1f - seg(pk, 0f, BEAT_OUT))
         sun12(Offset(w * 0.85f, h * 0.12f), w * 0.04f, f)
         drawLine(ClothC65.Line, Offset(w * 0.05f, h * 0.3f), Offset(w * 0.95f, h * 0.3f), 2f * dp, alpha = f)
         for (k in 0 until 4) {
@@ -436,7 +436,7 @@ private fun DrawScope.clothDay(a: ArtCtx) {
         tagAt(a.tag("whitecloths"), Offset(w * 0.5f, h * 0.72f), f * seg(wc, 0.3f, 0.5f), back = Back65, ink = ArtInk.Gold)
     }
     if (pk > 0f) {
-        val f = easeOut(seg(pk, 0f, 0.25f)) * (1f - seg(nn, 0f, 0.4f))
+        val f = easeOut(seg(pk, 0f, BEAT_IN)) * (1f - seg(nn, 0f, BEAT_OUT))
         val light = Offset(w * 0.68f, h * 0.38f)
         sirajMunir(light, w * 0.012f, f, t, nameAt = light + Offset(0f, -h * 0.11f))
         val go = easeInOut(seg(pk, 0.15f, 0.55f))
@@ -451,7 +451,7 @@ private fun DrawScope.clothDay(a: ArtCtx) {
         tagAt(a.tag("perfumekept"), Offset(w * 0.4f, h * 0.18f), f * seg(pk, 0.5f, 0.7f), back = Back65, ink = ArtInk.Gold)
     }
     if (nn > 0f) {
-        val f = easeOut(seg(nn, 0f, 0.25f)) * (1f - seg(nr, 0f, 0.4f))
+        val f = easeOut(seg(nn, 0f, BEAT_IN)) * (1f - seg(nr, 0f, 0.4f))
         for (k in 0 until 3) {
             val g = seg(nn, 0.1f + 0.25f * k, 0.3f + 0.25f * k)
             val c = Offset(w * (0.78f - 0.28f * k), h * 0.5f)
@@ -532,7 +532,7 @@ private fun DrawScope.tableRoom(a: ArtCtx) {
     drawRect(Brush.verticalGradient(listOf(TableC65.Wall, TableC65.WallLow), 0f, floor), Offset.Zero, Size(w, floor))
     drawRect(TableC65.Floor, Offset(0f, floor), Size(w, h - floor))
     if (nr > 0f) {
-        val f = easeOut(seg(nr, 0f, 0.25f)) * (1f - seg(tl, 0f, 0.4f))
+        val f = easeOut(seg(nr, 0f, 0.25f)) * (1f - seg(tl, 0f, BEAT_OUT))
         drawOval(TableC65.Cloth, Offset(w * 0.25f, floor + h * 0.02f), Size(w * 0.5f, h * 0.08f), alpha = f)
         drawOval(TableC65.Bowl, Offset(w * 0.44f, floor + h * 0.025f), Size(w * 0.12f, h * 0.04f), alpha = f)
         val away = easeInOut(seg(nr, 0.2f, 0.5f))
@@ -541,7 +541,7 @@ private fun DrawScope.tableRoom(a: ArtCtx) {
         tagAt(a.tag("norecline"), Offset(w * 0.5f, h * 0.3f), f * seg(nr, 0.4f, 0.6f), back = Back65, ink = ArtInk.Gold)
     }
     if (tl > 0f) {
-        val f = easeOut(seg(tl, 0f, 0.25f)) * (1f - seg(bb, 0f, 0.4f))
+        val f = easeOut(seg(tl, 0f, BEAT_IN)) * (1f - seg(bb, 0f, BEAT_OUT))
         val lift = easeInOut(seg(tl, 0.15f, 0.45f))
         drawOval(TableC65.Cloth, Offset(w * 0.25f, floor + h * 0.02f - h * 0.3f * lift), Size(w * 0.5f, h * 0.08f * (1f - 0.5f * lift)), alpha = f)
         for (k in 0 until 6) {
@@ -551,7 +551,7 @@ private fun DrawScope.tableRoom(a: ArtCtx) {
         tagAt(a.tag("tablelifted"), Offset(w * 0.5f, h * 0.15f), f * seg(tl, 0.4f, 0.6f), back = Back65, ink = ArtInk.Gold)
     }
     if (bb > 0f) {
-        val f = easeOut(seg(bb, 0f, 0.25f)) * (1f - seg(fl, 0f, 0.4f))
+        val f = easeOut(seg(bb, 0f, BEAT_IN)) * (1f - seg(fl, 0f, 0.4f))
         val bowl = Offset(w * 0.5f, floor + h * 0.03f)
         val eaten = seg(bb, 0.4f, 0.6f)
         drawOval(TableC65.Bowl, Offset(bowl.x - w * 0.1f, bowl.y - h * 0.03f), Size(w * 0.2f, h * 0.06f), alpha = f)
@@ -565,7 +565,7 @@ private fun DrawScope.tableRoom(a: ArtCtx) {
         tagAt(a.tag("basmalabless"), Offset(w * 0.5f, h * 0.18f), f * seg(bb, 0.6f, 0.8f), back = Back65, ink = ArtInk.Gold)
     }
     if (fl > 0f) {
-        val f = easeOut(seg(fl, 0f, 0.25f)) * (1f - seg(ts, 0f, 0.4f))
+        val f = easeOut(seg(fl, 0f, 0.25f)) * (1f - seg(ts, 0f, BEAT_OUT))
         val y = floor - h * 0.15f
         drawLine(TableC65.Bowl, Offset(w * 0.15f, y), Offset(w * 0.85f, y), 4f * dp, StrokeCap.Round, alpha = f * 0.6f)
         val said = seg(fl, 0.35f, 0.55f)
@@ -575,7 +575,7 @@ private fun DrawScope.tableRoom(a: ArtCtx) {
         tagAt(a.tag("firstandlast"), Offset(w * 0.5f, h * 0.3f), f * seg(fl, 0.35f, 0.55f), back = Back65, ink = ArtInk.Gold)
     }
     if (ts > 0f) {
-        val f = easeOut(seg(ts, 0f, 0.25f)) * (1f - seg(mb, 0f, 0.4f))
+        val f = easeOut(seg(ts, 0f, BEAT_IN)) * (1f - seg(mb, 0f, BEAT_OUT))
         val c = Offset(w * 0.5f, floor)
         cup12(c, w * 0.16f, TableC65.Cup, f, Color(0xFF8AC4EA))
         for (k in 0 until 3) {

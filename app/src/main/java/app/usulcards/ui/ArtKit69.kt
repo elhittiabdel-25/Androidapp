@@ -36,9 +36,9 @@ internal object Fq {
     val Back = Color(0xE6181420)
 }
 
-/** How present a beat is: it rises over the first [rise] of its own beat and fades out as [next] comes in. */
-internal fun fqIn(a: ArtCtx, kind: String, next: String? = null, rise: Float = 0.25f): Float =
-    easeOut(seg(a.b(kind), 0f, rise)) * (if (next == null) 1f else 1f - seg(a.b(next), 0f, 0.4f))
+/** How present a beat is: it rises over the first [rise] of its own beat and fades out quickly as [next] comes in. */
+internal fun fqIn(a: ArtCtx, kind: String, next: String? = null, rise: Float = BEAT_IN): Float =
+    easeOut(seg(a.b(kind), 0f, rise)) * (if (next == null) 1f else 1f - seg(a.b(next), 0f, BEAT_OUT))
 
 /** A water drop, its round end at [c]. */
 internal fun DrawScope.fqDrop(c: Offset, r: Float, color: Color, alpha: Float) {

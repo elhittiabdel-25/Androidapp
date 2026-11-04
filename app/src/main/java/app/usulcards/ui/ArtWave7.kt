@@ -96,7 +96,7 @@ internal fun DrawScope.followBeats(a: ArtCtx, shots: List<Shot?>, wide: Shot, di
         if (b <= 0f) continue
         prev = cur
         cur = s
-        f = easeInOut(seg(b, 0f, 0.4f))
+        f = easeInOut(seg(b, 0f, 0.15f))       // the camera reaches the new idea quickly (was 0.4 of the beat)
         started = true
     }
     val at = prev.at + (cur.at - prev.at) * f
@@ -591,9 +591,9 @@ private fun DrawScope.lensDesk(a: ArtCtx) {
             drawLine(Desk.Gold, c + Offset(-4f * dp, 2f * dp) * eq, c + Offset(4f * dp, 2f * dp) * eq, 1.8f * dp, StrokeCap.Round)
         }
         // the two quotes, on slips, until the next beat
-        val show = seg(mb, 0.15f, 0.4f) * (1f - seg(ab, 0f, 0.25f))
+        val show = seg(mb, 0.15f, 0.4f) * (1f - seg(ab, 0f, BEAT_OUT))
         callout(Offset(w * 0.7f, h * 0.2f), a.big("match", 0, 0), w * 0.46f, show, QuranInk, Desk.Gold)
-        callout(Offset(w * 0.7f, h * 0.53f), a.big("match", 0, 1), w * 0.46f, seg(mb, 0.3f, 0.55f) * (1f - seg(ab, 0f, 0.25f)), HadithInk, Desk.Red)
+        callout(Offset(w * 0.7f, h * 0.53f), a.big("match", 0, 1), w * 0.46f, seg(mb, 0.3f, 0.55f) * (1f - seg(ab, 0f, BEAT_OUT)), HadithInk, Desk.Red)
     }
 
     // lens: the magnifier shows the blurred passage clearly, and the hadith it comes from
@@ -624,7 +624,7 @@ private fun DrawScope.lensDesk(a: ArtCtx) {
         // a hadith lights up, rises on a slip, and its light reaches the lens: the explanation comes from the Sunna
         val lit = easeOut(seg(lb, 0.5f, 0.6f))
         val beam = easeInOut(seg(lb, 0.68f, 0.88f))
-        val away = 1f - seg(mb, 0f, 0.25f)
+        val away = 1f - seg(mb, 0f, BEAT_OUT)
         if (lit > 0f && sb > 0.5f) {
             val src = Offset(hc.x - hw * 0.25f, hrow(-1, 1))
             drawRect(Desk.Gold, topLeft = Offset(hc.x - hw * 0.44f, src.y - 4.5f * dp), size = Size(hw * 0.38f, 9f * dp), alpha = 0.32f * lit)

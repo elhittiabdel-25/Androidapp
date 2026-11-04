@@ -79,7 +79,7 @@ private fun DrawScope.bedNight(a: ArtCtx) {
     crescent12(Offset(w * 0.78f, h * 0.25f), w * 0.02f, Color(0xFFF2EEDC), BedC53.Night, 1f)
     val matY = floor - h * 0.02f
     if (ts > 0f) {
-        val f = easeOut(seg(ts, 0f, 0.3f)) * (1f - seg(wt, 0f, 0.4f))
+        val f = easeOut(seg(ts, 0f, BEAT_IN)) * (1f - seg(wt, 0f, BEAT_OUT))
         drawRect(BedC53.Mat, Offset(w * 0.3f, matY), Size(w * 0.4f, h * 0.03f), alpha = f)
         val light = Offset(w * 0.22f, h * 0.48f)
         sirajMunir(light, w * 0.013f, f, t, nameAt = light + Offset(0f, -h * 0.12f))
@@ -92,7 +92,7 @@ private fun DrawScope.bedNight(a: ArtCtx) {
         if (ts > 0.55f) softGlow(Offset(w * (0.32f + 0.36f * pass), matY - h * 0.02f), w * 0.05f, BedC53.Gold, 0.5f * f)
     }
     if (wt > 0f) {
-        val f = easeOut(seg(wt, 0f, 0.3f)) * (1f - seg(tv, 0f, 0.4f))
+        val f = easeOut(seg(wt, 0f, BEAT_IN)) * (1f - seg(tv, 0f, BEAT_OUT))
         drawRect(BedC53.Mat, Offset(w * 0.3f, matY), Size(w * 0.4f, h * 0.03f), alpha = f)
         sleeper53(Offset(w * 0.34f, matY - h * 0.02f), w * 0.3f, BedC53.Person, f)
         angelLight26(Offset(w * 0.5f, h * 0.36f + h * 0.01f * sin(t)), w * 0.012f, t, f * seg(wt, 0.1f, 0.3f))
@@ -100,7 +100,7 @@ private fun DrawScope.bedNight(a: ArtCtx) {
         smoke12(Offset(w * 0.98f, h * 0.2f), Offset(w * (0.8f + 0.15f * away), h * 0.5f), 0.8f, t, f * (1f - away), BedC53.Smoke)
     }
     if (tv > 0f) {
-        val f = easeOut(seg(tv, 0f, 0.3f)) * (1f - seg(rs, 0f, 0.4f))
+        val f = easeOut(seg(tv, 0f, BEAT_IN)) * (1f - seg(rs, 0f, BEAT_OUT))
         drawRect(BedC53.Mat, Offset(w * 0.3f, matY), Size(w * 0.4f, h * 0.03f), alpha = f)
         sleeper53(Offset(w * 0.34f, matY - h * 0.02f), w * 0.3f, BedC53.Person, f)
         for (k in 0 until 2) {
@@ -111,7 +111,7 @@ private fun DrawScope.bedNight(a: ArtCtx) {
         }
     }
     if (rs > 0f) {
-        val f = easeOut(seg(rs, 0f, 0.3f)) * (1f - seg(ct, 0f, 0.4f))
+        val f = easeOut(seg(rs, 0f, BEAT_IN)) * (1f - seg(ct, 0f, BEAT_OUT))
         drawRect(BedC53.Mat, Offset(w * 0.3f, matY), Size(w * 0.4f, h * 0.03f), alpha = f)
         val head = Offset(w * 0.66f, matY - h * 0.03f)
         drawLine(BedC53.Person, head + Offset(-w * 0.03f, 0f), head + Offset(-w * 0.3f, h * 0.01f), w * 0.04f, StrokeCap.Round, alpha = f)
@@ -183,7 +183,7 @@ private fun DrawScope.duskLanes(a: ArtCtx) {
     drawRect(Brush.verticalGradient(listOf(DuskC53.Sky, DuskC53.SkyLow), 0f, ground), Offset.Zero, Size(w, ground))
     drawRect(DuskC53.Ground, Offset(0f, ground), Size(w, h - ground))
     if (ci > 0f) {
-        val f = easeOut(seg(ci, 0f, 0.3f)) * (1f - seg(sd, 0f, 0.4f))
+        val f = easeOut(seg(ci, 0f, BEAT_IN)) * (1f - seg(sd, 0f, BEAT_OUT))
         for (k in 0 until 3) house12(Offset(w * (0.18f + 0.32f * k), ground), w * 0.22f, DuskC53.Wall, DuskC53.Roof, f, 0.7f)
         for (k in 0 until 4) {
             val go = easeInOut(seg(ci, 0.1f + 0.1f * k, 0.5f + 0.1f * k))
@@ -194,7 +194,7 @@ private fun DrawScope.duskLanes(a: ArtCtx) {
         for (k in 0 until 3) smoke12(Offset(w * (0.1f + 0.4f * k), ground - h * 0.02f), Offset(w * (0.3f + 0.4f * k), h * 0.4f), seg(ci, 0.3f, 0.9f), t + k, f * 0.6f, DuskC53.Smoke)
     }
     if (sd > 0f) {
-        val f = easeOut(seg(sd, 0f, 0.3f)) * (1f - seg(cj, 0f, 0.4f))
+        val f = easeOut(seg(sd, 0f, BEAT_IN)) * (1f - seg(cj, 0f, BEAT_OUT))
         for (k in 0 until 3) {
             val sill = Offset(w * (0.2f + 0.3f * k), ground)
             val shut = seg(sd, 0.1f + 0.15f * k, 0.3f + 0.15f * k)
@@ -205,7 +205,7 @@ private fun DrawScope.duskLanes(a: ArtCtx) {
         smoke12(Offset(w * 1.0f, h * 0.3f), Offset(w * (0.82f + 0.08f * bump(tryP)), ground - h * 0.2f), 0.9f, t, f * 0.8f, DuskC53.Smoke)
     }
     if (cj > 0f) {
-        val f = easeOut(seg(cj, 0f, 0.3f)) * (1f - seg(lp, 0f, 0.4f))
+        val f = easeOut(seg(cj, 0f, BEAT_IN)) * (1f - seg(lp, 0f, BEAT_OUT))
         drawRect(Color(0xFF2A2228), Offset(w * 0.06f, h * 0.2f), Size(w * 0.88f, ground - h * 0.2f), alpha = f)
         val skin = Offset(w * 0.24f, ground - h * 0.12f)
         drawOval(DuskC53.Skin, Offset(skin.x - w * 0.07f, skin.y - h * 0.08f), Size(w * 0.14f, h * 0.16f), alpha = f)
@@ -222,7 +222,7 @@ private fun DrawScope.duskLanes(a: ArtCtx) {
         softGlow(lamp, w * 0.1f, DuskC53.Flame, 0.4f * f * (1f - out))
     }
     if (lp > 0f) {
-        val f = easeOut(seg(lp, 0f, 0.3f)) * (1f - seg(lf, 0f, 0.4f))
+        val f = easeOut(seg(lp, 0f, BEAT_IN)) * (1f - seg(lf, 0f, BEAT_OUT))
         val c = Offset(w * 0.5f, h * 0.5f)
         val close = easeInOut(seg(lp, 0.3f, 0.7f))
         if (close < 0.95f) openBook21(c, w * 0.4f * (1f - 0.9f * close), Color(0xFFFBF7EC), Color(0xFF9A9080), f, glow = 0.3f)
@@ -298,19 +298,19 @@ private fun DrawScope.springDay(a: ArtCtx) {
     drawRect(Brush.verticalGradient(listOf(lerpColor(SpringC53.Winter, SpringC53.Spring, thaw), lerpColor(SpringC53.WinterLow, Color(0xFFF4ECD2), thaw)), 0f, ground), Offset.Zero, Size(w, ground))
     drawRect(lerpColor(SpringC53.Ground, SpringC53.Grass, thaw), Offset(0f, ground), Size(w, h - ground))
     if (cl > 0f) {
-        val f = easeOut(seg(cl, 0f, 0.3f)) * (1f - seg(bt, 0f, 0.4f))
+        val f = easeOut(seg(cl, 0f, BEAT_IN)) * (1f - seg(bt, 0f, BEAT_OUT))
         sit12(Offset(w * 0.5f, ground), h * 0.3f, SpringC53.Person, f, 1f)
         val lift = easeInOut(seg(cl, 0.35f, 0.85f))
         cloud38(Offset(w * 0.5f, h * (0.38f - 0.35f * lift)), w * 0.18f, SpringC53.Cloud, f * (1f - 0.7f * lift))
         if (lift > 0f) lightShafts(Offset(w * 0.5f, h * 0.05f), PI.toFloat() / 2f, 0.6f, h * 0.7f, Color(0xFFFFF0C8), 0.4f * f * lift, t, 6)
     }
     if (bt > 0f) {
-        val f = easeOut(seg(bt, 0f, 0.3f)) * (1f - seg(sh, 0f, 0.4f))
+        val f = easeOut(seg(bt, 0f, BEAT_IN)) * (1f - seg(sh, 0f, 0.4f))
         bow12(Offset(w * 0.5f, ground), h * 0.32f, SpringC53.Person, f, mix(0.5f, 1f, seg(bt, 0.05f, 0.25f)))
         for (k in 0 until 3) tagAt(a.tag("bowedtags", 0, k), Offset(w * (0.25f + 0.25f * k), h * (0.3f - 0.06f * (k % 2))), f * seg(bt, 0.2f + 0.2f * k, 0.35f + 0.2f * k), back = Back53, ink = ArtInk.Gold)
     }
     if (sh > 0f) {
-        val f = easeOut(seg(sh, 0f, 0.3f)) * (1f - seg(ep, 0f, 0.4f))
+        val f = easeOut(seg(sh, 0f, 0.3f)) * (1f - seg(ep, 0f, BEAT_OUT))
         val c = Offset(w * 0.5f, h * 0.5f)
         heart12(c, w * 0.3f, SpringC53.Branch, f)
         for (k in 0 until 14) {
@@ -322,7 +322,7 @@ private fun DrawScope.springDay(a: ArtCtx) {
         for (k in 0 until 4) tagAt(a.tag("springheart", 0, k), Offset(w * (0.14f + 0.24f * k), h * (0.14f + 0.06f * (k % 2))), f * seg(sh, 0.15f + 0.18f * k, 0.3f + 0.18f * k), back = Back53, ink = ArtInk.Gold)
     }
     if (ep > 0f) {
-        val f = easeOut(seg(ep, 0f, 0.3f)) * (1f - seg(en, 0f, 0.4f))
+        val f = easeOut(seg(ep, 0f, BEAT_IN)) * (1f - seg(en, 0f, BEAT_OUT))
         val line = w * 0.5f
         drawLine(SpringC53.Gold, Offset(line, h * 0.15f), Offset(line, ground), 3f * dp, StrokeCap.Round, alpha = f * seg(ep, 0.1f, 0.3f))
         softGlow(Offset(line, h * 0.5f), w * 0.06f, SpringC53.Gold, 0.3f * f)
@@ -394,19 +394,19 @@ private fun DrawScope.seaNight(a: ArtCtx) {
     val sea = h * 0.55f
     nightSky(t, SeaC53.Sky, SeaC53.SkyLow, sea, starAlpha = 0.3f)
     drawRect(Brush.verticalGradient(listOf(SeaC53.Sea, SeaC53.Deep), sea, h), Offset(0f, sea), Size(w, h - sea))
-    val rough = (1f - seg(on, 0f, 0.5f)) * (0.4f + 0.6f * (ps + bh).coerceAtMost(1f))
+    val rough = (1f - seg(on, 0f, BEAT_OUT)) * (0.4f + 0.6f * (ps + bh).coerceAtMost(1f))
     for (k in 0 until 10) {
         val x = w * fract(k / 10f + t * 0.03f)
         drawArc(SeaC53.Wave, 180f, 180f, false, Offset(x - w * 0.05f, sea - h * 0.02f * rough), Size(w * 0.1f, h * 0.04f * (0.3f + rough)), alpha = 0.7f, style = Stroke(2f * dp))
     }
     if (ps > 0f) {
-        val f = easeOut(seg(ps, 0f, 0.3f)) * (1f - seg(bh, 0f, 0.4f))
+        val f = easeOut(seg(ps, 0f, BEAT_IN)) * (1f - seg(bh, 0f, BEAT_OUT))
         cloud38(Offset(w * 0.3f, h * 0.15f), w * 0.12f, Color(0xFF3A3A50), f * (1f - seg(ps, 0.5f, 0.9f)))
         for (k in 0 until 7) drawPath(starPath(Offset(w * (0.15f + 0.12f * k), h * (0.12f + 0.08f * (k % 3))), w * 0.012f), SeaC53.Gold, alpha = f * seg(ps, 0.1f + 0.1f * k, 0.25f + 0.1f * k))
         for (k in 0 until 2) tagAt(a.tag("praisestars", 0, k), Offset(w * (0.3f + 0.4f * k), h * 0.38f), f * seg(ps, 0.2f + 0.35f * k, 0.35f + 0.35f * k), back = Back53, ink = ArtInk.Gold)
     }
     if (bh > 0f) {
-        val f = easeOut(seg(bh, 0f, 0.3f)) * (1f - seg(dn, 0f, 0.4f))
+        val f = easeOut(seg(bh, 0f, BEAT_IN)) * (1f - seg(dn, 0f, BEAT_OUT))
         val hold = seg(bh, 0.3f, 0.6f)
         val tilt = 18f * sin(t * 2.2f) * (1f - 0.85f * hold)
         val c = Offset(w * 0.5f, sea)
@@ -417,7 +417,7 @@ private fun DrawScope.seaNight(a: ArtCtx) {
         drawLine(SeaC53.Gold, c + Offset(0f, -h * 0.2f), Offset(c.x, 0f), 1.2f * dp, alpha = f * hold)
     }
     if (dn > 0f) {
-        val f = easeOut(seg(dn, 0f, 0.3f)) * (1f - seg(on, 0f, 0.4f))
+        val f = easeOut(seg(dn, 0f, BEAT_IN)) * (1f - seg(on, 0f, BEAT_OUT))
         val c = Offset(w * 0.45f, h * 0.78f)
         drawOval(SeaC53.Whale, Offset(c.x - w * 0.26f, c.y - h * 0.09f), Size(w * 0.5f, h * 0.18f), alpha = f)
         drawPath(Path().apply { moveTo(c.x + w * 0.22f, c.y); lineTo(c.x + w * 0.34f, c.y - h * 0.08f); lineTo(c.x + w * 0.33f, c.y + h * 0.07f); close() }, SeaC53.Whale, alpha = f)
@@ -430,7 +430,7 @@ private fun DrawScope.seaNight(a: ArtCtx) {
         }
     }
     if (on > 0f) {
-        val f = easeOut(seg(on, 0f, 0.3f)) * (1f - seg(sh, 0f, 0.4f))
+        val f = easeOut(seg(on, 0f, BEAT_IN)) * (1f - seg(sh, 0f, 0.4f))
         fitBig26(a.big("onename"), Offset(w * 0.5f, h * 0.32f), w * 0.5f, ArtInk.Gold, f * seg(on, 0.1f, 0.35f), glow = ArtInk.Gold)
     }
     if (sh > 0f) {
@@ -504,14 +504,14 @@ private fun DrawScope.campPlain(a: ArtCtx) {
     val ground = h * 0.82f
     daySky12(CampC53.SkyTop, CampC53.Sky, ground, CampC53.Ground)
     if (tb > 0f) {
-        val f = easeOut(seg(tb, 0f, 0.3f)) * (1f - seg(cf, 0f, 0.4f))
+        val f = easeOut(seg(tb, 0f, BEAT_IN)) * (1f - seg(cf, 0f, BEAT_OUT))
         for (k in 0 until 3) drawPath(Path().apply { val x = w * (0.12f + 0.08f * k); moveTo(x - w * 0.05f, ground); lineTo(x, ground - h * 0.12f); lineTo(x + w * 0.05f, ground); close() }, CampC53.Tent, alpha = f)
         val come = easeOut(seg(tb, 0.05f, 0.5f))
         val back = easeInOut(seg(tb, 0.6f, 1f))
         dustMass53(Offset(w * (0.9f - 0.35f * come + 0.4f * back), ground - h * 0.08f), w * 0.14f, CampC53.Mass, f * (1f - 0.6f * back), t)
     }
     if (cf > 0f) {
-        val f = easeOut(seg(cf, 0f, 0.3f)) * (1f - seg(sf, 0f, 0.4f))
+        val f = easeOut(seg(cf, 0f, BEAT_IN)) * (1f - seg(sf, 0f, BEAT_OUT))
         val c = Offset(w * 0.3f, ground)
         val cool = seg(cf, 0.25f, 0.55f)
         for (k in 0 until 6) drawOval(lerpColor(CampC53.Fire, CampC53.Cool, cool), Offset(c.x - w * 0.12f + w * 0.04f * k, ground - h * (0.25f + 0.08f * sin(t * 7f + k))), Size(w * 0.04f, h * 0.24f), alpha = f * 0.85f)
@@ -522,7 +522,7 @@ private fun DrawScope.campPlain(a: ArtCtx) {
         for (k in 0 until 3) dustMass53(Offset(w * (0.6f + 0.12f * k), ground - h * 0.05f), w * 0.06f, CampC53.Mass, f * seg(cf, 0.6f, 0.75f) * (1f - seg(cf, 0.8f, 1f)), t + k)
     }
     if (sf > 0f) {
-        val f = easeOut(seg(sf, 0f, 0.3f)) * (1f - seg(tw, 0f, 0.4f))
+        val f = easeOut(seg(sf, 0f, BEAT_IN)) * (1f - seg(tw, 0f, BEAT_OUT))
         val sweep = easeInOut(seg(sf, 0.3f, 0.9f))
         dustMass53(Offset(w * (0.55f + 0.6f * sweep), ground - h * 0.08f), w * 0.14f, CampC53.Mass, f * (1f - sweep), t)
         for (k in 0 until 10) {
@@ -532,7 +532,7 @@ private fun DrawScope.campPlain(a: ArtCtx) {
         }
     }
     if (tw > 0f) {
-        val f = easeOut(seg(tw, 0f, 0.3f)) * (1f - seg(nb, 0f, 0.4f))
+        val f = easeOut(seg(tw, 0f, BEAT_IN)) * (1f - seg(nb, 0f, BEAT_OUT))
         drawRect(Color(0xFF1C2036), Offset.Zero, Size(w, ground), alpha = f)
         drawRect(Color(0xFF3A3230), Offset(w * 0.08f, ground), Size(w * 0.84f, h * 0.03f), alpha = f)
         for (k in 0 until 5) {

@@ -84,7 +84,7 @@ private fun DrawScope.bridgeNight(a: ArtCtx) {
     val bf = easeOut(seg(sa, 0f, 0.3f))
     val book = Offset(w * 0.24f, ground - h * 0.12f)
     openBook21(book, w * 0.16f, Color(0xFFF6EED8), Color(0xFF8A6A3A), bf, glow = 0.5f * bf)
-    val away = easeInOut(seg(sa, 0.4f, 0.8f)) * (1f - easeInOut(seg(ex, 0f, 0.4f)))
+    val away = easeInOut(seg(sa, 0.4f, 0.8f)) * (1f - easeInOut(seg(ex, 0f, BEAT_OUT)))
     val scroll = Offset(w * 0.4f + w * 0.5f * away, ground - h * 0.12f - h * 0.2f * away)
     scroll14(scroll, w * 0.08f, h * 0.18f, 1f, bf * (1f - 0.7f * away))
     if (ex > 0f) {
@@ -111,7 +111,7 @@ private fun DrawScope.bridgeNight(a: ArtCtx) {
     }
     // one bow at dusk, one at dawn
     if (orr > 0f) {
-        val f = easeOut(seg(orr, 0f, 0.3f)) * (1f - 0.7f * seg(br, 0f, 0.4f))
+        val f = easeOut(seg(orr, 0f, BEAT_IN)) * (1f - 0.7f * seg(br, 0f, 0.4f))
         for (k in 0 until 2) {
             val c = Offset(w * (0.62f + 0.18f * k), h * 0.4f)
             drawRoundRect(BridgeC43.Mat, Offset(c.x - w * 0.05f, c.y - h * 0.08f), Size(w * 0.1f, h * 0.16f), CornerRadius(4f * dp), alpha = f)
@@ -127,7 +127,7 @@ private fun DrawScope.bridgeNight(a: ArtCtx) {
     }
     // the bridge into the fog
     if (br > 0f) {
-        val f = easeOut(seg(br, 0f, 0.3f)) * (1f - 0.5f * seg(ex, 0f, 0.4f))
+        val f = easeOut(seg(br, 0f, BEAT_IN)) * (1f - 0.5f * seg(ex, 0f, 0.4f))
         val run = easeInOut(seg(br, 0.1f, 0.7f))
         val y = ground + h * 0.02f
         drawLine(BridgeC43.Plank, Offset(w * 0.4f, y), Offset(w * (0.4f + 0.5f * run), y + h * 0.03f * run), 5f * dp, alpha = f)
@@ -135,7 +135,7 @@ private fun DrawScope.bridgeNight(a: ArtCtx) {
             val u = k / 9f
             if (u <= run) drawLine(BridgeC43.Plank, Offset(w * (0.4f + 0.5f * u), y + h * 0.03f * u - h * 0.03f), Offset(w * (0.4f + 0.5f * u), y + h * 0.03f * u), 2f * dp, alpha = f)
         }
-        tagAt(a.tag("sunnabridge"), Offset(w * 0.65f, ground - h * 0.08f), seg(br, 0.5f, 0.8f) * (1f - seg(ex, 0f, 0.4f)), back = Back43, ink = Color(0xFFF0C8C8))
+        tagAt(a.tag("sunnabridge"), Offset(w * 0.65f, ground - h * 0.08f), seg(br, 0.5f, 0.8f) * (1f - seg(ex, 0f, BEAT_OUT)), back = Back43, ink = Color(0xFFF0C8C8))
     }
     // the qibla turned: no verse ordered the first, the Sunnah did
     if (qt > 0f) {
@@ -225,7 +225,7 @@ private fun DrawScope.writeRoom(a: ArtCtx) {
             val lf = seg(fill, k / 8f, (k + 1) / 8f)
             drawLine(Color(0xFF5A4A3A), Offset(c.x + w * 0.08f, c.y - h * 0.1f + k * h * 0.027f), Offset(c.x + w * 0.08f - w * 0.16f * lf, c.y - h * 0.1f + k * h * 0.027f), 1.5f * dp, alpha = f)
         }
-        tagAt(a.tag("sahifa", 0, 1), c + Offset(0f, h * 0.16f), seg(sh, 0.6f, 0.85f) * away * (1f - seg(tc, 0f, 0.4f)), back = Back43, ink = ArtInk.Gold)
+        tagAt(a.tag("sahifa", 0, 1), c + Offset(0f, h * 0.16f), seg(sh, 0.6f, 0.85f) * away * (1f - seg(tc, 0f, BEAT_OUT)), back = Back43, ink = ArtInk.Gold)
     }
     // the same book kept in two cities
     if (tc > 0f) {
@@ -236,7 +236,7 @@ private fun DrawScope.writeRoom(a: ArtCtx) {
             val g = easeOut(seg(tc, 0.2f + 0.2f * k, 0.5f + 0.2f * k))
             book43(base + Offset(0f, -h * 0.12f), h * 0.12f, WriteC43.Cover[1], f * g)
             softGlow(base + Offset(0f, -h * 0.18f), w * 0.05f, ArtInk.Gold, 0.4f * f * g)
-            tagAt(a.tag("twocopies", 0, k), base + Offset(0f, h * 0.05f), seg(tc, 0.4f + 0.2f * k, 0.65f + 0.2f * k) * away * (1f - seg(ft, 0f, 0.3f)), back = Back43, ink = ArtInk.Ivory)
+            tagAt(a.tag("twocopies", 0, k), base + Offset(0f, h * 0.05f), seg(tc, 0.4f + 0.2f * k, 0.65f + 0.2f * k) * away * (1f - seg(ft, 0f, BEAT_OUT)), back = Back43, ink = ArtInk.Ivory)
         }
     }
     // fifty-two companions who wrote
@@ -325,7 +325,7 @@ private fun DrawScope.chainNight(a: ArtCtx) {
         }
         val book = Offset(top.x, h * 0.17f + h * 0.06f * n + h * 0.02f)
         openBook21(book, w * 0.12f, Color(0xFFF6EED8), Color(0xFF8A6A3A), cf * seg(el, 0.6f, 0.85f), glow = 0.4f * cf)
-        tagAt(a.tag("missinglink"), Offset(top.x + w * 0.17f, h * 0.23f), seg(ml, 0.4f, 0.7f) * (1f - seg(tr, 0f, 0.3f)), back = Color(0xE6501818), ink = Color(0xFFFFD8D0))
+        tagAt(a.tag("missinglink"), Offset(top.x + w * 0.17f, h * 0.23f), seg(ml, 0.4f, 0.7f) * (1f - seg(tr, 0f, BEAT_OUT)), back = Color(0xE6501818), ink = Color(0xFFFFD8D0))
     }
     // five sieves
     if (fc > 0f) {
@@ -335,7 +335,7 @@ private fun DrawScope.chainNight(a: ArtCtx) {
             val g = easeOut(seg(fc, 0.05f + 0.15f * k, 0.25f + 0.15f * k))
             drawArc(ChainC43.Sieve, 0f, 180f, false, Offset(c.x - w * 0.1f, c.y - h * 0.03f), Size(w * 0.2f, h * 0.06f), alpha = f * g, style = Stroke(2.5f * dp))
             for (j in 0 until 5) drawCircle(ChainC43.Sieve, w * 0.003f, c + Offset(w * (-0.06f + 0.03f * j), h * 0.02f), alpha = f * g)
-            tagAt(a.tag("fiveconditions", 0, k), c + Offset(0f, -h * 0.01f), g * away * (1f - seg(ml, 0f, 0.3f)), back = Back43, ink = ArtInk.Ivory)
+            tagAt(a.tag("fiveconditions", 0, k), c + Offset(0f, -h * 0.01f), g * away * (1f - seg(ml, 0f, BEAT_OUT)), back = Back43, ink = ArtInk.Ivory)
         }
     }
     // a month's ride for one hadith
@@ -405,7 +405,7 @@ private fun DrawScope.oneDay(a: ArtCtx) {
             val g = seg(cl, 0.2f + 0.1f * r, 0.4f + 0.1f * r)
             drawCircle(Color(0xFFE8E0D0), w * 0.005f, Offset(w * (0.25f - 0.012f * (6 + 4 * r) / 2f + 0.012f * k), h * (0.24f + 0.05f * r)), alpha = f * g)
         }
-        tagAt(a.tag("classify"), Offset(w * 0.25f, h * 0.48f), seg(cl, 0.6f, 0.85f) * away * (1f - seg(wi, 0f, 0.3f)), back = Back43, ink = ArtInk.Gold)
+        tagAt(a.tag("classify"), Offset(w * 0.25f, h * 0.48f), seg(cl, 0.6f, 0.85f) * away * (1f - seg(wi, 0f, BEAT_OUT)), back = Back43, ink = ArtInk.Gold)
     }
     // one trusted witness, many unknowns
     if (wi > 0f) {
@@ -438,7 +438,7 @@ private fun DrawScope.oneDay(a: ArtCtx) {
     }
     // envoys, one at a time, teaching faith itself
     if (en > 0f) {
-        val f = easeOut(seg(en, 0f, 0.3f)) * (1f - 0.5f * seg(mu, 0f, 0.4f))
+        val f = easeOut(seg(en, 0f, BEAT_IN)) * (1f - 0.5f * seg(mu, 0f, 0.4f))
         val src = Offset(w * 0.2f, h * 0.22f)
         sirajMunir(src, w * 0.011f, f, t, nameAt = src + Offset(0f, -h * 0.1f))
         for (k in 0 until 3) {
@@ -510,7 +510,7 @@ private fun DrawScope.cloakNight(a: ArtCtx) {
     val rf = easeOut(seg(cl, 0.2f, 0.5f))
     // the cloak
     if (ck > 0f) {
-        val f = easeOut(seg(ck, 0f, 0.3f)) * (1f - 0.6f * seg(mt, 0f, 0.4f))
+        val f = easeOut(seg(ck, 0f, BEAT_IN)) * (1f - 0.6f * seg(mt, 0f, 0.4f))
         val c = Offset(w * 0.35f, h * 0.62f)
         val fold = easeInOut(seg(ck, 0.75f, 0.95f))
         val half = w * 0.16f * (1f - 0.6f * fold)
@@ -524,7 +524,7 @@ private fun DrawScope.cloakNight(a: ArtCtx) {
     }
     // Marwan's test: the same, a year later
     if (mt > 0f) {
-        val f = easeOut(seg(mt, 0f, 0.3f)) * (1f - 0.6f * seg(eh, 0f, 0.4f))
+        val f = easeOut(seg(mt, 0f, BEAT_IN)) * (1f - 0.6f * seg(eh, 0f, 0.4f))
         for (k in 0 until 2) {
             val c = Offset(w * (0.62f + 0.2f * k), h * 0.48f)
             val g = easeOut(seg(mt, 0.1f + 0.3f * k, 0.4f + 0.3f * k))
@@ -536,7 +536,7 @@ private fun DrawScope.cloakNight(a: ArtCtx) {
             check21(c + Offset(0f, h * 0.16f), w * 0.02f, ArtInk.Jade, seg(mt, 0.75f, 0.95f) * f, 3f * dp)
         }
     }
-    nameRoundel(ab, w * 0.05f, a.tag("closest"), Roundel.Fills[1], Roundel.Rim, rf * (1f - 0.3f * seg(ck, 0f, 0.3f) * (1f - seg(eh, 0f, 0.3f))))
+    nameRoundel(ab, w * 0.05f, a.tag("closest"), Roundel.Fills[1], Roundel.Rim, rf * (1f - 0.3f * seg(ck, 0f, 0.3f) * (1f - seg(eh, 0f, BEAT_OUT))))
     // eight hundred who took from him
     if (eh > 0f) {
         val f = easeOut(seg(eh, 0f, 0.3f))
@@ -606,7 +606,7 @@ private fun DrawScope.cardsRoom(a: ArtCtx) {
             val to = his + Offset(0f, -h * 0.12f)
             drawCircle(ArtInk.Gold, w * 0.005f, from + (to - from) * u + Offset(0f, -h * 0.06f * sin(PI.toFloat() * u)), alpha = f * seg(ob, 0.4f, 0.6f) * (1f - u))
         }
-        tagAt(a.tag("olderbooks"), Offset(w * 0.17f, shelfY + h * 0.06f), seg(ob, 0.5f, 0.8f) * away * (1f - seg(sw, 0f, 0.3f)), back = Back43, ink = ArtInk.Gold)
+        tagAt(a.tag("olderbooks"), Offset(w * 0.17f, shelfY + h * 0.06f), seg(ob, 0.5f, 0.8f) * away * (1f - seg(sw, 0f, BEAT_OUT)), back = Back43, ink = ArtInk.Gold)
     }
     // ten cards: chains on wrong texts, then each set home
     if (sw > 0f) {

@@ -336,7 +336,7 @@ private fun DrawScope.kedarDusk(a: ArtCtx) {
     if (eo > 0f) {
         for (k in 0 until 5) {
             val c = Offset(w * (0.22f + 0.1f * k), h * 0.38f)
-            val f = easeOut(seg(eo, k * 0.08f, 0.25f + k * 0.08f)) * (1f - seg(kh, 0f, 0.3f))
+            val f = easeOut(seg(eo, k * 0.08f, 0.25f + k * 0.08f)) * (1f - seg(kh, 0f, BEAT_OUT))
             if (f <= 0f) continue
             val open = easeInOut(seg(eo, 0.3f + k * 0.08f, 0.6f + k * 0.08f))
             val ew = w * 0.035f
@@ -411,7 +411,7 @@ private fun DrawScope.openValley(a: ArtCtx) {
                 val to = Offset(w * 0.5f + s * w * (0.12f + 0.025f * k), h * (0.78f + 0.025f * (k % 3)))
                 sheep26(from + (to - from) * come, w * 0.03f, HouseC33.Sheep, easeOut(seg(fl, k * 0.05f, 0.2f + k * 0.05f)))
             }
-            tagAt(a.tag("flocks", 0, side), Offset(w * 0.5f + s * w * 0.28f, h * 0.58f), seg(fl, 0.4f + side * 0.15f, 0.65f + side * 0.15f) * (1f - seg(pi, 0f, 0.3f)), back = Back33, ink = ArtInk.Ivory)
+            tagAt(a.tag("flocks", 0, side), Offset(w * 0.5f + s * w * 0.28f, h * 0.58f), seg(fl, 0.4f + side * 0.15f, 0.65f + side * 0.15f) * (1f - seg(pi, 0f, BEAT_OUT)), back = Back33, ink = ArtInk.Ivory)
         }
     }
     // the spring in the dry valley
@@ -436,8 +436,8 @@ private fun DrawScope.openValley(a: ArtCtx) {
             val p = from + (to - from) * go
             val flap = sin(t * 8f + k) * w * 0.006f
             val s = w * 0.012f
-            drawLine(HouseC33.Bird, p, p + Offset(-s, -s * 0.4f - flap), 1.5f * dp, StrokeCap.Round, alpha = easeOut(seg(pi, 0f, 0.2f)) * (1f - go * go))
-            drawLine(HouseC33.Bird, p, p + Offset(s, -s * 0.4f - flap), 1.5f * dp, StrokeCap.Round, alpha = easeOut(seg(pi, 0f, 0.2f)) * (1f - go * go))
+            drawLine(HouseC33.Bird, p, p + Offset(-s, -s * 0.4f - flap), 1.5f * dp, StrokeCap.Round, alpha = easeOut(seg(pi, 0f, BEAT_IN)) * (1f - go * go))
+            drawLine(HouseC33.Bird, p, p + Offset(s, -s * 0.4f - flap), 1.5f * dp, StrokeCap.Round, alpha = easeOut(seg(pi, 0f, BEAT_IN)) * (1f - go * go))
         }
     }
 }
@@ -505,7 +505,7 @@ private fun DrawScope.vineyardField(a: ArtCtx) {
     drawPath(Path().apply { moveTo(w * 0.41f, h * 0.36f); lineTo(w * 0.445f, h * 0.31f); lineTo(w * 0.48f, h * 0.36f); close() }, Color(0xFF8A6A50), alpha = vf)
     // servants come and are driven back
     if (vy > 0f && nk < 0.3f) {
-        val fade = 1f - seg(nk, 0f, 0.3f)
+        val fade = 1f - seg(nk, 0f, BEAT_OUT)
         for (k in 0 until 3) {
             val come = easeInOut(seg(vy, 0.1f + k * 0.08f, 0.45f + k * 0.08f))
             val back = easeInOut(seg(vy, 0.6f + k * 0.05f, 0.95f))
@@ -549,7 +549,7 @@ private fun DrawScope.vineyardField(a: ArtCtx) {
         drawRoundRect(VineC33.Stone, Offset(stoneAt.x - w * 0.04f, stoneAt.y - h * 0.035f), Size(w * 0.08f, h * 0.07f), CornerRadius(3f * dp), alpha = sf)
         drawRoundRect(Color(0xFFB89A6A), Offset(stoneAt.x - w * 0.04f, stoneAt.y - h * 0.035f), Size(w * 0.08f, h * 0.07f), CornerRadius(3f * dp), alpha = sf, style = Stroke(1.2f * dp))
         if (set > 0.95f) softGlow(stoneAt, w * 0.08f, ArtInk.Gold, 0.6f)
-        if (rj > 0f && set <= 0f) for (k in 0 until 2) figure(Offset(w * (0.8f + 0.06f * k), ground), h * 0.14f, VineC33.Man, sf * (1f - seg(cs, 0f, 0.2f)), lean = -0.3f, arms = 0.7f)
+        if (rj > 0f && set <= 0f) for (k in 0 until 2) figure(Offset(w * (0.8f + 0.06f * k), ground), h * 0.14f, VineC33.Man, sf * (1f - seg(cs, 0f, BEAT_OUT)), lean = -0.3f, arms = 0.7f)
     }
     tagAt(a.tag("cornerset"), Offset(w * 0.8f, h * 0.2f), seg(cs, 0.5f, 0.75f), back = Back33, ink = ArtInk.Gold)
     // his light over the corner

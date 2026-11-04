@@ -93,7 +93,7 @@ private fun DrawScope.sunCourse(a: ArtCtx) {
     }
     // everything bows
     if (ab > 0f) {
-        val f = easeOut(seg(ab, 0f, 0.3f)) * (1f - 0.5f * seg(bh, 0f, 0.4f))
+        val f = easeOut(seg(ab, 0f, BEAT_IN)) * (1f - 0.5f * seg(bh, 0f, 0.4f))
         val base = h * 0.86f
         drawPath(Path().apply { moveTo(w * 0.55f, base); lineTo(w * 0.72f, h * 0.68f); lineTo(w * 0.9f, base); close() }, SunC42.Hill, alpha = f)
         val tree = Offset(w * 0.35f, base)
@@ -167,7 +167,7 @@ private fun DrawScope.caveNight(a: ArtCtx) {
     nightSky(t, CaveC42.Sky, CaveC42.SkyLow, ground, starAlpha = 0.6f)
     drawRect(Color(0xFF2A2428), Offset(0f, ground), Size(w, h - ground))
     // the cave and the boulder
-    val cf = easeOut(seg(bo, 0f, 0.3f)) * (1f - 0.6f * seg(ca, 0f, 0.4f))
+    val cf = easeOut(seg(bo, 0f, BEAT_IN)) * (1f - 0.6f * seg(ca, 0f, 0.4f))
     if (cf > 0f) {
         val mouth = Offset(w * 0.28f, h * 0.66f)
         drawPath(Path().apply { moveTo(w * 0.02f, ground); lineTo(w * 0.1f, h * 0.42f); lineTo(w * 0.36f, h * 0.38f); lineTo(w * 0.52f, ground); close() }, CaveC42.Rock, alpha = cf)
@@ -184,7 +184,7 @@ private fun DrawScope.caveNight(a: ArtCtx) {
     }
     // answered, but later
     if (de > 0f) {
-        val f = easeOut(seg(de, 0f, 0.3f)) * (1f - 0.6f * seg(ca, 0f, 0.4f))
+        val f = easeOut(seg(de, 0f, BEAT_IN)) * (1f - 0.6f * seg(ca, 0f, 0.4f))
         val from = Offset(w * 0.4f, h * 0.36f)
         val to = Offset(w * 0.86f, h * 0.36f)
         val arc = Path().apply { moveTo(from.x, from.y); quadraticTo(w * 0.63f, h * 0.08f, to.x, to.y) }
@@ -288,7 +288,7 @@ private fun DrawScope.wagesDay(a: ArtCtx) {
     }
     // the report: good conduct, no study
     if (fg > 0f) {
-        val f = easeOut(seg(fg, 0f, 0.3f)) * (1f - 0.6f * seg(dw, 0f, 0.4f))
+        val f = easeOut(seg(fg, 0f, BEAT_IN)) * (1f - 0.6f * seg(dw, 0f, 0.4f))
         val c = Offset(w * 0.5f, h * 0.35f)
         drawRect(WageC42.Card, Offset(c.x - w * 0.2f, c.y - h * 0.18f), Size(w * 0.4f, h * 0.36f), alpha = f)
         drawRect(Color(0xFF8A7A5A), Offset(c.x - w * 0.2f, c.y - h * 0.18f), Size(w * 0.4f, h * 0.36f), alpha = f, style = Stroke(2f * dp))
@@ -300,7 +300,7 @@ private fun DrawScope.wagesDay(a: ArtCtx) {
         drawLine(Color(0xFF9A9080), Offset(c.x - w * 0.15f, c.y), Offset(c.x - w * 0.05f, c.y), 1.5f * dp, alpha = f)
         drawRect(Color(0xFFE8E0D0), Offset(c.x + w * 0.0f, c.y - h * 0.025f), Size(w * 0.12f, h * 0.05f), alpha = f)
         cross21(Offset(c.x + w * 0.06f, c.y), w * 0.025f, WageC42.Red, seg(fg, 0.5f, 0.7f) * f, 3f * dp)
-        tagAt(a.tag("failgrade"), c + Offset(0f, h * 0.11f), seg(fg, 0.65f, 0.9f) * (1f - seg(dw, 0f, 0.4f)), back = Color(0xE6501818), ink = Color(0xFFFFE0D8))
+        tagAt(a.tag("failgrade"), c + Offset(0f, h * 0.11f), seg(fg, 0.65f, 0.9f) * (1f - seg(dw, 0f, BEAT_OUT)), back = Color(0xE6501818), ink = Color(0xFFFFE0D8))
     }
     // works with no foundation, blown away
     if (dw > 0f) {
@@ -370,7 +370,7 @@ private fun DrawScope.scaleNight(a: ArtCtx) {
             drawLine(ScaleC42.Brass, p, p + Offset(w * 0.06f, h * 0.16f), 1.2f * dp, alpha = sf)
             drawArc(ScaleC42.Brass, 0f, 180f, true, Offset(p.x - w * 0.08f, p.y + h * 0.14f), Size(w * 0.16f, h * 0.05f), alpha = sf)
         }
-        tagAt(a.tag("exactscale"), c + Offset(0f, -h * 0.08f), seg(es, 0.5f, 0.8f) * (1f - seg(gr, 0f, 0.3f)), back = Back42, ink = ArtInk.Gold)
+        tagAt(a.tag("exactscale"), c + Offset(0f, -h * 0.08f), seg(es, 0.5f, 0.8f) * (1f - seg(gr, 0f, BEAT_OUT)), back = Back42, ink = ArtInk.Gold)
         if (gr > 0f) {
             val g = easeOut(seg(gr, 0f, 0.35f))
             val p = l + Offset(0f, h * 0.155f)
@@ -478,10 +478,10 @@ private fun DrawScope.templeSands(a: ArtCtx) {
         val s1 = Offset(w * 0.36f, ground + h * 0.12f)
         drawRoundRect(TempleC42.Stele, Offset(s1.x - w * 0.07f, s1.y - h * 0.2f), Size(w * 0.14f, h * 0.2f), CornerRadius(w * 0.07f, w * 0.07f), alpha = f)
         for (r in 0 until 5) drawLine(Color(0xFF5A544A), Offset(s1.x - w * 0.05f, s1.y - h * 0.15f + r * h * 0.03f), Offset(s1.x + w * 0.05f, s1.y - h * 0.15f + r * h * 0.03f), 1f * dp, alpha = f * 0.6f)
-        tagAt(a.tag("steles", 0, 0), s1 + Offset(0f, -h * 0.25f), seg(sl, 0.3f, 0.55f) * (1f - seg(mm, 0f, 0.3f)), back = Back42, ink = ArtInk.Ivory)
+        tagAt(a.tag("steles", 0, 0), s1 + Offset(0f, -h * 0.25f), seg(sl, 0.3f, 0.55f) * (1f - seg(mm, 0f, BEAT_OUT)), back = Back42, ink = ArtInk.Ivory)
         val s2 = Offset(w * 0.64f, ground + h * 0.12f)
         drawPath(Path().apply { moveTo(s2.x - w * 0.07f, s2.y); lineTo(s2.x - w * 0.06f, s2.y - h * 0.12f); lineTo(s2.x + w * 0.02f, s2.y - h * 0.15f); lineTo(s2.x + w * 0.07f, s2.y - h * 0.06f); lineTo(s2.x + w * 0.06f, s2.y); close() }, TempleC42.Stele, alpha = f * seg(sl, 0.4f, 0.6f))
-        tagAt(a.tag("steles", 0, 1), s2 + Offset(0f, -h * 0.21f), seg(sl, 0.6f, 0.85f) * (1f - seg(mm, 0f, 0.3f)), back = Back42, ink = ArtInk.Ivory)
+        tagAt(a.tag("steles", 0, 1), s2 + Offset(0f, -h * 0.21f), seg(sl, 0.6f, 0.85f) * (1f - seg(mm, 0f, BEAT_OUT)), back = Back42, ink = ArtInk.Ivory)
     }
     // a city whose places everyone knows
     if (mm > 0f) {
@@ -544,7 +544,7 @@ private fun DrawScope.metersRoom(a: ArtCtx) {
     drawRect(MeterC42.Floor, Offset(0f, floor), Size(w, h - floor))
     // a balance of money: it breaks
     if (ms > 0f) {
-        val f = easeOut(seg(ms, 0f, 0.3f)) * (1f - 0.7f * seg(cc, 0f, 0.4f))
+        val f = easeOut(seg(ms, 0f, BEAT_IN)) * (1f - 0.7f * seg(cc, 0f, 0.4f))
         val c = Offset(w * 0.25f, h * 0.36f)
         val snap = easeOut(seg(ms, 0.6f, 0.85f))
         drawLine(MeterC42.Beam, c, Offset(c.x, h * 0.6f), 3f * dp, alpha = f)
@@ -554,18 +554,18 @@ private fun DrawScope.metersRoom(a: ArtCtx) {
     }
     // two meters
     if (cc > 0f) {
-        val f = easeOut(seg(cc, 0f, 0.3f)) * (1f - 0.6f * seg(lc, 0f, 0.4f))
+        val f = easeOut(seg(cc, 0f, BEAT_IN)) * (1f - 0.6f * seg(lc, 0f, 0.4f))
         for (k in 0 until 2) {
             val x = w * (0.52f + 0.2f * k)
             drawRect(Color(0xFF3A3E56), Offset(x - w * 0.04f, h * 0.2f), Size(w * 0.08f, h * 0.5f), alpha = f)
             val level = if (k == 0) 0.2f + 0.75f * easeOut(seg(cc, 0.2f, 0.8f)) else 0.55f
             drawRect(if (k == 0) MeterC42.Civ else MeterC42.Cul, Offset(x - w * 0.035f, h * 0.7f - h * 0.5f * level), Size(w * 0.07f, h * 0.5f * level), alpha = f)
-            tagAt(a.tag("civculture", 0, k), Offset(x, h * 0.76f), seg(cc, 0.3f + 0.2f * k, 0.55f + 0.2f * k) * (1f - seg(lc, 0f, 0.4f)), back = Back42, ink = if (k == 0) Color(0xFFCFE4FF) else ArtInk.Gold)
+            tagAt(a.tag("civculture", 0, k), Offset(x, h * 0.76f), seg(cc, 0.3f + 0.2f * k, 0.55f + 0.2f * k) * (1f - seg(lc, 0f, BEAT_OUT)), back = Back42, ink = if (k == 0) Color(0xFFCFE4FF) else ArtInk.Gold)
         }
     }
     // the longest civilisation
     if (lc > 0f) {
-        val f = easeOut(seg(lc, 0f, 0.3f)) * (1f - 0.5f * seg(qa, 0f, 0.4f))
+        val f = easeOut(seg(lc, 0f, BEAT_IN)) * (1f - 0.5f * seg(qa, 0f, 0.4f))
         val y = h * 0.16f
         val run = easeInOut(seg(lc, 0.1f, 0.8f))
         drawLine(Color(0xFF3A3E56), Offset(w * 0.06f, y), Offset(w * 0.94f, y), 2f * dp, alpha = f)
@@ -581,7 +581,7 @@ private fun DrawScope.metersRoom(a: ArtCtx) {
         val lamp = Offset(c.x, c.y - h * 0.17f)
         softGlow(lamp, w * 0.05f, ArtInk.Gold, 0.7f * f)
         drawCircle(ArtInk.Gold, w * 0.01f, lamp, alpha = f)
-        tagAt(a.tag("qarawiyyin"), c + Offset(0f, -h * 0.36f), seg(qa, 0.4f, 0.7f) * (1f - seg(ul, 0f, 0.4f)), back = Back42, ink = ArtInk.Gold)
+        tagAt(a.tag("qarawiyyin"), c + Offset(0f, -h * 0.36f), seg(qa, 0.4f, 0.7f) * (1f - seg(ul, 0f, BEAT_OUT)), back = Back42, ink = ArtInk.Gold)
     }
     // the lesson of Uhud: the post left
     if (ul > 0f) {

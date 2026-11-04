@@ -602,7 +602,7 @@ private fun DrawScope.fieldLand(a: ArtCtx) {
     val hv = a.b("harvest")
     val wn = a.b("winnow")
     val horizon = h * 0.46f
-    val clouds = easeOut(seg(sw, 0.5f, 0.72f)) * (1f - easeOut(seg(hv, 0f, 0.4f)))
+    val clouds = easeOut(seg(sw, 0.5f, 0.72f)) * (1f - easeOut(seg(hv, 0f, BEAT_OUT)))
     val rain = seg(sw, 0.62f, 0.7f) * (1f - seg(hv, 0f, 0.15f))
     drawRect(Brush.verticalGradient(listOf(lerpColor(FieldC8.SkyTop, FieldC8.Grey, clouds), lerpColor(FieldC8.SkyLow, FieldC8.Grey, 0.6f * clouds)), endY = horizon), size = Size(w, horizon))
     softGlow(Offset(w * 0.82f, h * 0.12f), w * 0.07f, FieldC8.Sun, 0.9f * (1f - 0.8f * clouds))
@@ -651,7 +651,7 @@ private fun DrawScope.fieldLand(a: ArtCtx) {
     val tall = h * 0.3f
     val walkS = easeInOut(seg(sw, 0f, 0.45f))
     val foot = Offset(mix(w * 0.8f, w * 0.48f, walkS), h * 0.95f)
-    val pray = easeOut(seg(sw, 0.45f, 0.58f)) * (1f - easeOut(seg(hv, 0f, 0.2f)))
+    val pray = easeOut(seg(sw, 0.45f, 0.58f)) * (1f - easeOut(seg(hv, 0f, BEAT_OUT)))
     val throwArm = if (sw in 0.01f..0.45f) 0.5f + 0.5f * sin(t * 6f) else 0f
     if (wn <= 0f) {
         drawOval(Color.Black, topLeft = foot - Offset(tall * 0.2f, tall * 0.03f), size = Size(tall * 0.4f, tall * 0.06f), alpha = 0.2f)

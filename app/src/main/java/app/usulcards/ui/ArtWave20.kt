@@ -113,7 +113,7 @@ private fun DrawScope.mankindEarth(a: ArtCtx) {
     // the jinn on the left, men on the right; even ones obey, odd ones turn away
     val n = 10
     val appear = easeOut(seg(cr, 0f, 0.5f))
-    val bow = easeOut(seg(wo, 0f, 0.4f)) * (1f - easeOut(seg(se, 0f, 0.3f)))
+    val bow = easeOut(seg(wo, 0f, 0.4f)) * (1f - easeOut(seg(se, 0f, BEAT_OUT)))
     for (k in 0 until n) {
         val jinn = k < 4
         val home = if (jinn) Offset(w * (0.2f + 0.07f * k), h * (0.76f + 0.05f * (k % 2))) else Offset(w * (0.5f + 0.065f * (k - 4)), h * (0.78f + 0.05f * (k % 2)))
@@ -139,8 +139,8 @@ private fun DrawScope.mankindEarth(a: ArtCtx) {
         // the light-motes they come out of
         if (cr in 0.01f..0.6f) glint(p + Offset(0f, -tall * 0.5f), tall * 0.3f, Color.White, bump(seg(cr, k * 0.04f, k * 0.04f + 0.3f)))
     }
-    tagAt(a.tag("created", 0, 0), Offset(w * 0.3f, h * 0.62f), seg(cr, 0.3f, 0.7f) * (1f - seg(se, 0f, 0.3f)), back = ManC20.Back, ink = Color(0xFFFFC890))
-    tagAt(a.tag("created", 0, 1), Offset(w * 0.68f, h * 0.62f), seg(cr, 0.4f, 0.8f) * (1f - seg(se, 0f, 0.3f)), back = ManC20.Back, ink = ArtInk.Ivory)
+    tagAt(a.tag("created", 0, 0), Offset(w * 0.3f, h * 0.62f), seg(cr, 0.3f, 0.7f) * (1f - seg(se, 0f, BEAT_OUT)), back = ManC20.Back, ink = Color(0xFFFFC890))
+    tagAt(a.tag("created", 0, 1), Offset(w * 0.68f, h * 0.62f), seg(cr, 0.4f, 0.8f) * (1f - seg(se, 0f, BEAT_OUT)), back = ManC20.Back, ink = ArtInk.Ivory)
 }
 
 // ═════════════ 2. obey4: four ways of following him ﷺ (rasul-meaning) ═════════════
@@ -199,7 +199,7 @@ private fun DrawScope.obey4Yard(a: ArtCtx) {
     sirajMunir(lc, 4.6f * dp, easeOut(seg(g4, 0f, 0.5f)).coerceAtLeast(if (oc > 0f) 1f else 0f), t, nameAt = lc + Offset(-w * 0.16f, 0f))
     val tall = h * 0.34f
     // where the man is
-    val give = easeInOut(seg(oc, 0.15f, 0.55f)) * (1f - easeInOut(seg(be, 0f, 0.4f)))
+    val give = easeInOut(seg(oc, 0.15f, 0.55f)) * (1f - easeInOut(seg(be, 0f, BEAT_OUT)))
     val back = easeOut(seg(av, 0.35f, 0.6f))
     val toJar = easeInOut(seg(av, 0.05f, 0.35f))
     var mx = mix(w * 0.5f, w * 0.38f, give) + w * 0.08f * toJar - w * 0.06f * back
@@ -209,7 +209,7 @@ private fun DrawScope.obey4Yard(a: ArtCtx) {
     // the poor man by the wall
     val poor = Offset(w * 0.27f, ground)
     if (oc > 0f || be > 0f) {
-        w8Seated(poor, tall * 0.9f, ObeyC20.Poor, 1f, alpha = 1f - seg(asb, 0f, 0.3f), speak = 0.6f)
+        w8Seated(poor, tall * 0.9f, ObeyC20.Poor, 1f, alpha = 1f - seg(asb, 0f, BEAT_OUT), speak = 0.6f)
         val ray = seg(oc, 0f, 0.25f) * (1f - seg(oc, 0.6f, 0.9f))
         if (ray > 0f) {
             drawLine(ArtInk.Gold, lc, poor + Offset(0f, -tall * 0.5f), 2f * dp, StrokeCap.Round, alpha = 0.6f * ray)
@@ -219,17 +219,17 @@ private fun DrawScope.obey4Yard(a: ArtCtx) {
         if (coin > 0f) {
             val c = poor + Offset(tall * 0.24f, -tall * 0.36f)
             softGlow(c, 8f * dp, ObeyC20.Coin, 0.7f * coin)
-            drawCircle(ObeyC20.Coin, 3f * dp, c, alpha = coin * (1f - seg(asb, 0f, 0.3f)))
+            drawCircle(ObeyC20.Coin, 3f * dp, c, alpha = coin * (1f - seg(asb, 0f, BEAT_OUT)))
         }
     }
     // the jar of wine on his way
     val jar = Offset(w * 0.66f, ground + h * 0.02f)
     if (av > 0f) {
         val mark = easeOut(seg(av, 0.05f, 0.3f))
-        softGlow(jar + Offset(0f, -h * 0.04f), h * 0.1f, Color(0xFFD23C30), 0.6f * mark * (1f - seg(asb, 0f, 0.3f)))
-        drawOval(ObeyC20.Jug, topLeft = jar + Offset(-w * 0.025f, -h * 0.09f), size = Size(w * 0.05f, h * 0.08f), alpha = 1f - seg(asb, 0f, 0.3f))
-        drawRect(ObeyC20.Jug, topLeft = jar + Offset(-w * 0.008f, -h * 0.11f), size = Size(w * 0.016f, h * 0.025f), alpha = 1f - seg(asb, 0f, 0.3f))
-        noSign11pub(jar + Offset(0f, -h * 0.06f), h * 0.07f, easeOut(seg(av, 0.5f, 0.75f)) * (1f - seg(asb, 0f, 0.3f)))
+        softGlow(jar + Offset(0f, -h * 0.04f), h * 0.1f, Color(0xFFD23C30), 0.6f * mark * (1f - seg(asb, 0f, BEAT_OUT)))
+        drawOval(ObeyC20.Jug, topLeft = jar + Offset(-w * 0.025f, -h * 0.09f), size = Size(w * 0.05f, h * 0.08f), alpha = 1f - seg(asb, 0f, BEAT_OUT))
+        drawRect(ObeyC20.Jug, topLeft = jar + Offset(-w * 0.008f, -h * 0.11f), size = Size(w * 0.016f, h * 0.025f), alpha = 1f - seg(asb, 0f, BEAT_OUT))
+        noSign11pub(jar + Offset(0f, -h * 0.06f), h * 0.07f, easeOut(seg(av, 0.5f, 0.75f)) * (1f - seg(asb, 0f, BEAT_OUT)))
     }
     // the man himself
     if (asb > 0.25f) {
@@ -254,14 +254,14 @@ private fun DrawScope.obey4Yard(a: ArtCtx) {
         // believe: hand on his heart; the news of what he cannot see
         if (be > 0f) {
             val heart = foot + Offset(0f, -tall * 0.6f)
-            val hand = easeOut(seg(be, 0.4f, 0.6f)) * (1f - seg(av, 0f, 0.2f))
+            val hand = easeOut(seg(be, 0.4f, 0.6f)) * (1f - seg(av, 0f, BEAT_OUT))
             if (hand > 0f) drawLine(ObeyC20.Ink, foot + Offset(0f, -tall * 0.76f), heart, max(1.7f * dp, tall * 0.06f), StrokeCap.Round, alpha = hand)
             for (k in 0 until 3) {
                 val f = fract(t * 1.3f + k / 3f)
                 val c = lc + (heart - lc) * (0.2f + 0.6f * f)
                 drawCircle(ArtInk.Gold, 2f * dp, c, alpha = seg(be, 0f, 0.2f) * (1f - seg(be, 0.5f, 0.7f)) * (1f - f))
             }
-            val bub = seg(be, 0.15f, 0.35f) * (1f - seg(av, 0f, 0.2f))
+            val bub = seg(be, 0.15f, 0.35f) * (1f - seg(av, 0f, BEAT_OUT))
             if (bub > 0f) {
                 val bc = Offset(w * 0.36f, h * 0.22f)
                 drawCircle(Color.White, h * 0.11f, bc, alpha = 0.9f * bub)
@@ -271,7 +271,7 @@ private fun DrawScope.obey4Yard(a: ArtCtx) {
                 for (k in 0 until 3) drawCircle(Color(0xFF4E9A5A), h * 0.025f, bc + Offset(h * (-0.05f + 0.05f * k), -h * 0.015f), alpha = bub)
                 drawPath(horseshoe(bc.x, bc.y - h * 0.03f, h * 0.022f, h * 0.018f, bc.y + h * 0.015f), Color(0xFFF2DFA8).copy(alpha = bub))
             }
-            tick14(foot + Offset(tall * 0.3f, -tall * 1.1f), h * 0.035f, seg(be, 0.6f, 0.85f) * (1f - seg(av, 0f, 0.2f)))
+            tick14(foot + Offset(tall * 0.3f, -tall * 1.1f), h * 0.035f, seg(be, 0.6f, 0.85f) * (1f - seg(av, 0f, BEAT_OUT)))
         }
     }
 }
