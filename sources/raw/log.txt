@@ -6,6 +6,12 @@ ok qawaid.doc 1250304
 ok quran-uthmani.json 2109200
 ok quran-simple.json 2070157
 ok quran-simple-clean.json 1506861
+ok 3423.pdf 46854151 https://islamcontent.com/storage/contents/3423/ar_Tfseer_al3shr_alakher.pdf
+ok 3523.pdf 4521052 https://islamcontent.com/storage/contents/3523/ar-tafseer-juzaa-3amah.pdf
+ok 74054.pdf 7876530 https://islamcontent.com/storage/contents/74054/ar-alsa3dii.pdf
+ok 116021.pdf 1066274 https://islamcontent.com/storage/contents/116021/ar_Tuhfat_Alatfal2.pdf
+ok 15622.pdf 7497146 https://islamcontent.com/storage/contents/15622/ar-jazariyyah-hawaashee.pdf
+ok 19943.pdf 968556 https://islamcontent.com/storage/contents/19943/ar_fadeal_alquran_alkareem.pdf
 ok 116093.pdf 6949033 https://islamcontent.com/storage/contents/116093/ar-tawdih-al-qawa3id-pp.pdf
 ok 90456.doc 1344000 https://islamcontent.com/storage/contents/90456/ar_al-aqida_al-tahaweia_binbaz.doc
 ok 7650.pdf 5981535 https://islamcontent.com/storage/contents/7650/ar-Sharh-asol-alsonh-ibn-hanbal.pdf
