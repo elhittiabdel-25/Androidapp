@@ -61,21 +61,34 @@ internal fun DrawScope.bow12(foot: Offset, tall: Float, color: Color, alpha: Flo
     val d = deep.coerceIn(0f, 1f)
     val bowF = (d / 0.5f).coerceIn(0f, 1f)
     val downF = ((d - 0.5f) / 0.5f).coerceIn(0f, 1f)
-    // the hip comes down to the heels in prostration
-    val hip = foot + Offset(tall * 0.12f * downF, -tall * (0.45f - 0.33f * downF))
-    val ang = (PI.toFloat() / 2f) * bowF + (PI.toFloat() / 4f) * downF          // body angle from upright, leaning left
+    // standing → bowing (back level, hands on the knees): the body turns about the hip
+    val ang = (PI.toFloat() / 2f) * bowF                                     // body angle from upright, leaning left
     val dir = Offset(-sin(ang), -cos(ang))
-    val shoulder = hip + dir * (tall * 0.31f)
-    val head = shoulder + dir * (tall * 0.14f)
-    val knee = if (downF > 0f) Offset(foot.x - tall * 0.12f * downF, foot.y - tall * 0.02f) else foot
+    val hipB = foot + Offset(0f, -tall * 0.45f)
+    val shB = hipB + dir * (tall * 0.31f)
+    val headB = shB + dir * (tall * 0.14f)
+    // bowing → prostration (fixed 2026-11-04: the head used to sink under the ground): knees and toes on the
+    // ground, hips above the knees, the back sloping down, the forehead resting ON the ground, hands beside it
+    val kneeP = Offset(foot.x - tall * 0.12f, foot.y - tall * 0.02f)
+    val hipP = Offset(kneeP.x + tall * 0.02f, foot.y - tall * 0.24f)
+    val shP = Offset(hipP.x - tall * 0.286f, foot.y - tall * 0.12f)
+    val r = tall * 0.1f
+    val headP = Offset(shP.x - tall * 0.138f, foot.y - r)
+    val hip = lerpOff(hipB, hipP, downF)
+    val shoulder = lerpOff(shB, shP, downF)
+    val head = lerpOff(headB, headP, downF)
+    val knee = lerpOff(foot, kneeP, downF)
     drawLine(color, hip, if (downF > 0f) knee else foot + Offset(-tall * 0.04f, 0f), sw, StrokeCap.Round, alpha = alpha)
-    if (downF > 0f) drawLine(color, knee, foot + Offset(tall * 0.1f, 0f), sw, StrokeCap.Round, alpha = alpha)
+    if (downF > 0f) drawLine(color, knee, lerpOff(foot, foot + Offset(tall * 0.1f, 0f), downF), sw, StrokeCap.Round, alpha = alpha)
     else drawLine(color, hip, foot + Offset(tall * 0.04f, 0f), sw, StrokeCap.Round, alpha = alpha)
     drawLine(color, hip, shoulder, sw, StrokeCap.Round, alpha = alpha)
-    drawCircle(color, tall * 0.1f, head, alpha = alpha)
-    val hand = if (downF > 0f) Offset(head.x + tall * 0.06f, foot.y) else hip + Offset(-tall * 0.12f * bowF, tall * 0.12f * bowF)
-    drawLine(color, shoulder, hand, sw * 0.9f, StrokeCap.Round, alpha = alpha)
+    drawCircle(color, r, head, alpha = alpha)
+    val handB = hipB + Offset(-tall * 0.12f * bowF, tall * 0.12f * bowF)
+    val handP = Offset(shP.x - tall * 0.04f, foot.y - sw * 0.5f)
+    drawLine(color, shoulder, lerpOff(handB, handP, downF), sw * 0.9f, StrokeCap.Round, alpha = alpha)
 }
+
+private fun lerpOff(a: Offset, b: Offset, f: Float): Offset = Offset(a.x + (b.x - a.x) * f, a.y + (b.y - a.y) * f)
 
 /** A woman as a modest silhouette: a long robe and a covering over head and shoulders. */
 internal fun DrawScope.woman12(foot: Offset, tall: Float, color: Color, alpha: Float, walk: Float = 0f) {
