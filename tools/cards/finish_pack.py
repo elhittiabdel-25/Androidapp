@@ -478,6 +478,11 @@ ART_KINDS = {
     "kawtharriver": {"muchgood", "riverhawd", "whitesweet", "prayersacrifice", "branchcut"},
     "maunhouse": {"orphanhonor", "prayerguard", "lendsmall", "sahun", "sahwfi"},
     "filquraysh": {"yearborn", "forquraysh", "twojourneys", "worshiplord"},
+    "humazawealth": {"slanderers", "countcoins", "nogiving", "hutama"},
+    "asrhourglass": {"timepasses", "fourtraits", "selfothers", "asrprofit"},
+    "visitors": {"rivalry", "allkinds", "graveguests", "barzakhpass"},
+    "qariaday": {"stingy", "selfwitness", "qariastrike", "guidedgive"},
+    "atomweight": {"earthspeaks", "obeysorder", "atomspeck", "evensmall"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

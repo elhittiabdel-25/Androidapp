@@ -185,6 +185,24 @@ internal fun DrawScope.qIcon(name: String, c: Offset, s: Float, color: Color, al
         "cup" -> cup12(c + Offset(0f, s * 0.4f), s * 0.8f, color, alpha, Color(0xFFF8F4EA))
         "mountain" -> drawPath(Path().apply { moveTo(c.x - s * 0.5f, c.y + s * 0.4f); lineTo(c.x - s * 0.1f, c.y - s * 0.4f); lineTo(c.x + s * 0.1f, c.y - s * 0.05f); lineTo(c.x + s * 0.22f, c.y - s * 0.22f); lineTo(c.x + s * 0.5f, c.y + s * 0.4f); close() }, color, alpha = alpha)
         "pen" -> quill72(c + Offset(-s * 0.3f, s * 0.35f), s * 0.9f, color, alpha)
+        "crown" -> {
+            drawPath(Path().apply {
+                moveTo(c.x - s * 0.4f, c.y + s * 0.25f); lineTo(c.x - s * 0.42f, c.y - s * 0.2f); lineTo(c.x - s * 0.2f, c.y + s * 0.02f)
+                lineTo(c.x, c.y - s * 0.32f); lineTo(c.x + s * 0.2f, c.y + s * 0.02f); lineTo(c.x + s * 0.42f, c.y - s * 0.2f); lineTo(c.x + s * 0.4f, c.y + s * 0.25f); close()
+            }, Qn.Gold, alpha = alpha)
+            drawRect(Qn.Gold, Offset(c.x - s * 0.4f, c.y + s * 0.28f), Size(s * 0.8f, s * 0.1f), alpha = alpha)
+        }
+        "point" -> {   // a hand pointing: a fist and one finger
+            drawCircle(color, s * 0.2f, c + Offset(s * 0.12f, s * 0.05f), alpha = alpha)
+            drawLine(color, c + Offset(s * 0.0f, -s * 0.02f), c + Offset(-s * 0.42f, -s * 0.12f), s * 0.11f, StrokeCap.Round, alpha = alpha)
+            drawLine(color, c + Offset(s * 0.3f, s * 0.12f), c + Offset(s * 0.46f, s * 0.32f), s * 0.16f, StrokeCap.Round, alpha = alpha)
+        }
+        "child" -> child12(c + Offset(0f, s * 0.45f), s * 0.85f, color, alpha)
+        "bed" -> {   // one lying down: idleness
+            drawRect(Qn.Soil, Offset(c.x - s * 0.45f, c.y + s * 0.1f), Size(s * 0.9f, s * 0.12f), alpha = alpha)
+            drawCircle(color, s * 0.1f, c + Offset(-s * 0.32f, 0f), alpha = alpha)
+            drawLine(color, c + Offset(-s * 0.2f, s * 0.04f), c + Offset(s * 0.38f, s * 0.04f), s * 0.12f, StrokeCap.Round, alpha = alpha)
+        }
         else -> drawCircle(color, s * 0.3f, c, alpha = alpha)
     }
 }
