@@ -2014,3 +2014,5 @@ QUIZ = {
 
 from quiz_fiqh import QUIZ_FIQH          # noqa: E402  (the fiqh cards of v1.3)
 QUIZ.update(QUIZ_FIQH)
+from quiz_quran import QUIZ_QURAN        # noqa: E402  (the Quran cards of v1.4)
+QUIZ.update(QUIZ_QURAN)

@@ -232,6 +232,23 @@ fun CategoryGlyph(kind: String, color: Color, size: Dp = 26.dp) {
                 drawLine(color, Offset(w * 0.12f, h * 0.44f), Offset(w * 0.5f, h * 0.62f), sw, StrokeCap.Round)
                 drawLine(color, Offset(w * 0.88f, h * 0.44f), Offset(w * 0.5f, h * 0.62f), sw, StrokeCap.Round)
             }
+            "book" -> {   // an open mushaf: the Quran, its tafsir and its etiquette
+                for (s in listOf(-1f, 1f)) {
+                    val page = Path().apply {
+                        moveTo(w * 0.5f, h * 0.3f)
+                        cubicTo(w * (0.5f + s * 0.14f), h * 0.2f, w * (0.5f + s * 0.3f), h * 0.2f, w * (0.5f + s * 0.4f), h * 0.24f)
+                        lineTo(w * (0.5f + s * 0.4f), h * 0.76f)
+                        cubicTo(w * (0.5f + s * 0.3f), h * 0.72f, w * (0.5f + s * 0.14f), h * 0.72f, w * 0.5f, h * 0.82f)
+                        close()
+                    }
+                    drawPath(page, color, style = line)
+                    for (k in 0 until 3) {
+                        val y = h * (0.4f + k * 0.11f)
+                        drawLine(color, Offset(w * (0.5f + s * 0.1f), y), Offset(w * (0.5f + s * 0.3f), y - h * 0.02f), sw * 0.7f, StrokeCap.Round)
+                    }
+                }
+                drawLine(color, Offset(w * 0.5f, h * 0.3f), Offset(w * 0.5f, h * 0.82f), sw, StrokeCap.Round)
+            }
             else -> {   // "path": a road that winds up to a point
                 val road = Path().apply {
                     moveTo(w * 0.18f, h * 0.92f)
