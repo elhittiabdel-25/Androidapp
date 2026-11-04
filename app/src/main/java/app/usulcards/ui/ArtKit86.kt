@@ -65,7 +65,7 @@ internal fun DrawScope.qRosette(c: Offset, r: Float, alpha: Float, fill: Color =
 /** A surah's header band, as in the mushaf: teal with gold rules and pointed ends, the name in a cartouche. */
 internal fun DrawScope.qPlate(c: Offset, wd: Float, name: TextLayoutResult?, alpha: Float) {
     if (alpha <= 0.01f) return
-    val ht = wd * 0.17f
+    val ht = wd * 0.2f
     val band = Path().apply {
         moveTo(c.x - wd / 2f, c.y); lineTo(c.x - wd / 2f + ht * 0.5f, c.y - ht / 2f); lineTo(c.x + wd / 2f - ht * 0.5f, c.y - ht / 2f)
         lineTo(c.x + wd / 2f, c.y); lineTo(c.x + wd / 2f - ht * 0.5f, c.y + ht / 2f); lineTo(c.x - wd / 2f + ht * 0.5f, c.y + ht / 2f); close()
@@ -76,11 +76,11 @@ internal fun DrawScope.qPlate(c: Offset, wd: Float, name: TextLayoutResult?, alp
         drawLine(Qn.Gold, Offset(c.x - wd / 2f + ht * 0.62f, c.y + s * ht * 0.36f), Offset(c.x + wd / 2f - ht * 0.62f, c.y + s * ht * 0.36f), max(0.8f * density, wd * 0.004f), alpha = alpha * 0.7f)
         qRosette(Offset(c.x + s * wd * 0.37f, c.y), ht * 0.3f, alpha)
     }
-    val cw = wd * 0.56f
-    val ch = ht * 0.64f
+    val cw = wd * 0.58f
+    val ch = ht * 0.74f
     drawRoundRect(Qn.Parch, Offset(c.x - cw / 2f, c.y - ch / 2f), Size(cw, ch), CornerRadius(ch / 2f), alpha = alpha)
     drawRoundRect(Qn.Gold, Offset(c.x - cw / 2f, c.y - ch / 2f), Size(cw, ch), CornerRadius(ch / 2f), alpha = alpha, style = Stroke(max(1f * density, wd * 0.005f)))
-    qFit(name, c, cw * 0.88f, ch * 0.95f, Qn.Ink, alpha)
+    qFit(name, c, cw * 0.9f, ch * 1.25f, Qn.Ink, alpha)
 }
 
 /**
@@ -94,15 +94,16 @@ internal fun DrawScope.glyphCard(c: Offset, s: Float, tl: TextLayoutResult?, alp
     val tw = (tl?.size?.width ?: 0).toFloat()
     val th = (tl?.size?.height ?: 0).toFloat()
     val cw = max(s, tw + 12f * density)
-    val ch = s * 0.74f + th + 6f * density
+    val ch = s * 0.92f + th + 6f * density
     val o = Offset(c.x - cw / 2f, c.y - ch / 2f + rise)
     val cr = CornerRadius(8f * density)
     if (lit > 0f) softGlow(c, cw * 0.9f, rim, 0.45f * lit * a)
     drawRoundRect(Color.Black, o + Offset(0f, 3f * density), Size(cw, ch), cr, alpha = 0.25f * a)
     drawRoundRect(Qn.Back, o, Size(cw, ch), cr, alpha = a)
     drawRoundRect(rim, o, Size(cw, ch), cr, alpha = a * (0.6f + 0.4f * lit), style = Stroke(1.3f * density))
-    icon(Offset(c.x, o.y + s * 0.4f), s * 0.52f, a)
-    if (tl != null) drawText(tl, color = ArtInk.Ivory, topLeft = Offset(c.x - tw / 2f, o.y + s * 0.74f), alpha = a)
+    // the symbol fills most of the card: a small one reads as a dot (the review of 2026-11-04)
+    icon(Offset(c.x, o.y + s * 0.47f), s * 0.8f, a)
+    if (tl != null) drawText(tl, color = ArtInk.Ivory, topLeft = Offset(c.x - tw / 2f, o.y + s * 0.9f), alpha = a)
 }
 
 /** A simple symbol by name, about [s] across, centred at [c]. */
@@ -276,5 +277,22 @@ internal fun DrawScope.qPage(c: Offset, wd: Float, ht: Float, alpha: Float, line
     for (k in 0 until lines) {
         val y = o.y + ht * (0.2f + 0.66f * k / max(1, lines - 1))
         drawLine(Qn.Ink, Offset(o.x + wd * 0.14f, y), Offset(o.x + wd * 0.86f, y), max(1f * density, wd * 0.012f), StrokeCap.Round, alpha = alpha * 0.4f)
+    }
+}
+
+/** Shaytan as dark smoke (the codex): a winding chain of dark puffs from [from] toward [to], [p] of the way. */
+internal fun DrawScope.qSmoke(from: Offset, to: Offset, p: Float, t: Float, alpha: Float, r: Float) {
+    if (alpha <= 0.01f || p <= 0.01f) return
+    val n = 14
+    val d = to - from
+    val len = kotlin.math.sqrt(d.x * d.x + d.y * d.y).coerceAtLeast(1f)
+    val nrm = Offset(-d.y / len, d.x / len)
+    for (k in 0 until n) {
+        val u = k / (n - 1f) * p
+        val wob = sin(u * 9f - t * 2.4f) * r * 1.4f
+        val c = from + d * u + nrm * wob
+        val rr = r * (1.25f - 0.6f * u)
+        drawCircle(Qn.Smoke, rr * 1.5f, c, alpha = alpha * 0.25f)
+        drawCircle(Color(0xFF17121C), rr, c, alpha = alpha * 0.75f)
     }
 }

@@ -105,15 +105,12 @@ private fun DrawScope.rabbGardenDraw(a: ArtCtx) {
         drawRect(Qn.Teal, alpha = 0.92f * rd)
         val c = Offset(w * 0.5f, h * 0.4f)
         openBook21(c, w * 0.78f, Qn.Parch, Qn.Ink, rd, glow = 0.4f)
-        // the lines of the open book begin in gold with «رَبِّ» or «رَبَّنَا» (words start on the right)
-        val bh = w * 0.78f * 0.36f
-        for (k in 0 until 8) {
-            val side = if (k < 4) 1f else -1f
-            val r = k % 4
-            val y = c.y + bh * (0.08f + r * 0.13f)
-            val x = c.x + side * w * 0.39f * (if (side > 0) 0.82f else 0.22f)
-            val on = seg(p, 0.1f + 0.08f * k, 0.22f + 0.08f * k)
-            qFit(a.big("rabbduas", 0, k % 2), Offset(x - w * 0.04f, y - bh * 0.03f), w * 0.09f, bh * 0.12f, Qn.Gold, rd * on)
+        // out of the open book rise the words its duas begin with, «رَبِّ» and «رَبَّنَا», large and gold
+        val spots = listOf(Offset(0.78f, 0.22f), Offset(0.58f, 0.14f), Offset(0.36f, 0.2f), Offset(0.2f, 0.12f), Offset(0.66f, 0.3f), Offset(0.28f, 0.32f))
+        for (k in 0 until 6) {
+            val f = easeOut(seg(p, 0.08f + 0.1f * k, 0.3f + 0.1f * k))
+            val at = Offset(mix(c.x, w * spots[k].x, f), mix(c.y + h * 0.05f, h * spots[k].y, f))
+            qFit(a.big("rabbduas", 0, k % 2), at, w * 0.2f, h * 0.12f, Qn.GoldLight, rd * f, glow = Qn.Gold)
         }
         tagAt(a.tag("rabbduas", 0, 2), Offset(w * 0.5f, h * 0.84f), rd * seg(p, 0.5f, 0.7f), back = Fq.Back, ink = ArtInk.Gold)
     }
@@ -123,18 +120,21 @@ private fun DrawScope.rabbGardenDraw(a: ArtCtx) {
         val icons = listOf("mat", "crescent", "coin")
         val src = Offset(w * 0.12f, h * 0.06f)
         // three steps up to the left, each an act of worship; each lights only when the help from above reaches it
+        val rise = listOf(0.22f, 0.36f, 0.5f)
         for (k in 0 until 3) {
-            val top = Offset(w * (0.72f - 0.2f * k), ground - h * (0.12f + 0.14f * k))
+            val top = Offset(w * (0.74f - 0.22f * k), ground - h * rise[k])
             val lit = seg(p, 0.2f + 0.2f * k, 0.32f + 0.2f * k)
-            drawRect(lerpColor(Color(0xFF4A4A58), Color(0xFF8A7448), lit), Offset(top.x - w * 0.1f, top.y), androidx.compose.ui.geometry.Size(w * 0.2f, ground - top.y), alpha = nd)
-            drawLine(Qn.GoldLight, Offset(top.x - w * 0.1f, top.y), Offset(top.x + w * 0.1f, top.y), 2f * density, alpha = nd * lit)
+            drawRect(lerpColor(Color(0xFF4A4A58), Color(0xFF8A7448), lit), Offset(top.x - w * 0.11f, top.y), androidx.compose.ui.geometry.Size(w * 0.22f, ground - top.y), alpha = nd)
+            drawLine(Qn.GoldLight, Offset(top.x - w * 0.11f, top.y), Offset(top.x + w * 0.11f, top.y), 2f * density, alpha = nd * lit)
             qBeam(src, top + Offset(0f, -h * 0.02f), lit, Qn.GoldLight, nd * 0.8f, 2f * density)
-            glyphCard(top + Offset(0f, -h * 0.13f), w * 0.08f, a.tag("needaid", 0, k + 1), nd * (0.35f + 0.65f * lit), lit = lit) { at, s, al -> qIcon(icons[k], at, s, Qn.GoldLight, al, a.t) }
+            // the card sits on the face of its step, clear of the one who climbs
+            glyphCard(Offset(top.x, top.y + h * 0.11f), w * 0.09f, a.tag("needaid", 0, k + 1), nd * (0.4f + 0.6f * lit), lit = lit) { at, s, al -> qIcon(icons[k], at, s, Qn.GoldLight, al, a.t) }
         }
-        val step = (seg(p, 0.2f, 0.85f) * 3f).toInt().coerceAtMost(2)
         val climb = seg(p, 0.2f, 0.85f)
-        val foot = Offset(w * mix(0.9f, 0.3f, climb), ground - h * (0.12f + 0.14f * step) * seg(climb, 0.05f, 1f).let { if (it > 0f) 1f else 0f })
-        figure(Offset(foot.x, if (climb < 0.05f) ground else foot.y), h * 0.2f, Qn.Person, nd, walk = t * 4f * (if (climb in 0.05f..0.99f) 1f else 0f))
+        val step = (climb * 3f).toInt().coerceAtMost(2)
+        val onStep = climb >= 0.05f
+        val foot = Offset(w * (0.78f - 0.22f * step), if (onStep) ground - h * rise[step] else ground)
+        figure(Offset(if (onStep) foot.x else w * 0.94f, foot.y), h * 0.18f, Qn.Person, nd)
         tagAt(a.tag("needaid", 0, 0), Offset(w * 0.3f, h * 0.08f), nd * seg(p, 0.05f, 0.2f), back = Fq.Back, ink = ArtInk.Gold)
     }
 }
@@ -317,11 +317,11 @@ private fun DrawScope.falaqNasDraw(a: ArtCtx) {
             val c = c0 + (person + Offset(0f, -h * 0.12f) - c0) * (0.25f * back)
             when (k) {
                 0 -> {   // a cord with knots: magic
-                    drawLine(Color(0xFF8A7A6A), c + Offset(-w * 0.05f, -h * 0.04f), c + Offset(w * 0.05f, h * 0.04f), 2.5f * density, StrokeCap.Round, alpha = ae * in0)
-                    for (n in 0 until 3) drawCircle(Color(0xFF5A4A3A), w * 0.008f, c + Offset(w * (-0.03f + 0.03f * n), h * (-0.024f + 0.024f * n)), alpha = ae * in0)
+                    drawLine(Color(0xFFB8A890), c + Offset(-w * 0.09f, -h * 0.07f), c + Offset(w * 0.09f, h * 0.07f), 4f * density, StrokeCap.Round, alpha = ae * in0)
+                    for (n in 0 until 3) drawCircle(Color(0xFF8A7A6A), w * 0.016f, c + Offset(w * (-0.05f + 0.05f * n), h * (-0.04f + 0.04f * n)), alpha = ae * in0)
                 }
-                1 -> eye73(c, w * 0.06f, Color(0xFF9A6A8A), ae * in0)
-                else -> cloud38(c, w * 0.04f, Color(0xFF3A3448), ae * in0)
+                1 -> eye73(c, w * 0.12f, Color(0xFFC08AAA), ae * in0)
+                else -> cloud38(c, w * 0.08f, Color(0xFF5A5468), ae * in0)
             }
         }
         tagAt(a.tag("allevils", 0, 1), Offset(w * 0.22f, h * 0.24f), ae * seg(p, 0.45f, 0.6f), back = Fq.Back, ink = ArtInk.Ivory)
@@ -340,7 +340,7 @@ private fun DrawScope.falaqNasDraw(a: ArtCtx) {
         }
         // the dark smoke at the root of every evil, low on the left
         val sm = seg(p, 0.6f, 0.9f)
-        smoke12(Offset(w * 0.06f, h * 0.62f), Offset(w * 0.24f, h * 0.5f), sm, t, rm)
+        qSmoke(Offset(w * 0.02f, h * 0.7f), Offset(w * 0.26f, h * 0.5f), sm, t, rm, w * 0.025f)
         tagAt(a.tag("rabbmalikilah", 0, 3), Offset(w * 0.2f, h * 0.4f), rm * seg(p, 0.7f, 0.85f), back = Fq.Back, ink = ArtInk.Ivory)
     }
     if (wr > 0f) {
@@ -350,7 +350,7 @@ private fun DrawScope.falaqNasDraw(a: ArtCtx) {
         val chest = person + Offset(0f, -h * 0.22f)
         val creep = easeOut(seg(p, 0.05f, 0.4f))
         val retreat = easeOut(seg(p, 0.6f, 0.9f))
-        smoke12(Offset(w * 0.08f, h * 0.3f), chest, creep * (1f - 0.85f * retreat), t, wr)
+        qSmoke(Offset(w * 0.04f, h * 0.2f), chest, creep * (1f - 0.85f * retreat), t, wr, w * 0.025f)
         // the signs swap while the whisper is in: evil made to look fair, good made to look ugly
         val swap = seg(p, 0.25f, 0.45f) * (1f - retreat)
         tagAt(a.tag("whisperretreat", 0, 0), Offset(w * 0.24f, h * 0.14f), wr * seg(p, 0.1f, 0.25f), back = Fq.Back, ink = ArtInk.Ivory)
@@ -367,7 +367,7 @@ private fun DrawScope.falaqNasDraw(a: ArtCtx) {
         val chest = person + Offset(0f, -h * 0.18f)
         // from the jinn: a pale smokeless flame on the left
         val jf = Offset(w * 0.16f, ground)
-        jinnFlame20(jf, w * 0.07f, t, 0, ji * seg(p, 0.05f, 0.2f))
+        jinnFlame20(jf, w * 0.13f, t, 0, ji * seg(p, 0.05f, 0.2f))
         // from people: someone whispering behind his hand on the right
         val hf = Offset(w * 0.84f, ground)
         figure(hf, h * 0.26f, Color(0xFF9A90A8), ji * seg(p, 0.35f, 0.5f), lean = -0.15f)
@@ -376,7 +376,7 @@ private fun DrawScope.falaqNasDraw(a: ArtCtx) {
             for (k in 0 until 3) {
                 val q = fract(f + k * 0.33f + t * 0.3f) * f
                 val pt = src + (chest - src) * q
-                drawArc(Color(0xFF8A80A0), -40f, 80f, false, Offset(pt.x - w * 0.015f, pt.y - w * 0.015f), androidx.compose.ui.geometry.Size(w * 0.03f, w * 0.03f), alpha = ji * f * (1f - q), style = Stroke(2f * density))
+                drawArc(Color(0xFFC8C0E0), -40f, 80f, false, Offset(pt.x - w * 0.025f, pt.y - w * 0.025f), androidx.compose.ui.geometry.Size(w * 0.05f, w * 0.05f), alpha = ji * f * (1f - 0.6f * q), style = Stroke(3f * density))
             }
         }
         tagAt(a.tag("jinnins", 0, 0), Offset(w * 0.16f, h * 0.5f), ji * seg(p, 0.15f, 0.3f), back = Fq.Back, ink = ArtInk.Ivory)
@@ -590,17 +590,18 @@ private fun DrawScope.masadSignDraw(a: ArtCtx) {
         val tilt = -0.8f * seg(a.b("faithsaves"), 0.1f, 0.5f)
         balance12(foot, sz, tilt, Qn.GoldLight, s)
         val (l, r) = balancePans12(foot, sz, tilt)
-        val gone = seg(a.b("wealthnohelp"), 0.55f, 0.9f).let { if (fs > 0f) 1f else it }
-        val pw = (wn + fs).coerceAtMost(1f) * (1f - 0.85f * gone)
-        fqCoins(r + Offset(-w * 0.03f, -h * 0.01f + gone * h * 0.03f), w * 0.016f, 4, pw, lerpColor(Fq.Gold, Color(0xFF6A6070), gone))
-        chain72(r + Offset(w * 0.0f, -h * 0.02f), r + Offset(w * 0.07f, -h * 0.05f), w * 0.016f, Color(0xFFB8AFA0), pw)
-        tagAt(a.tag("wealthnohelp", 0, 0), r + Offset(0f, -h * 0.16f), wn * seg(a.b("wealthnohelp"), 0.15f, 0.3f), back = Fq.Back, ink = ArtInk.Ivory)
-        tagAt(a.tag("wealthnohelp", 0, 1), r + Offset(0f, -h * 0.26f), wn * seg(a.b("wealthnohelp"), 0.35f, 0.5f), back = Fq.Back, ink = ArtInk.Ivory)
+        // the wealth and the kinship stay in view, dulled: they are there and avail him nothing
+        val dull = seg(a.b("wealthnohelp"), 0.55f, 0.9f).let { if (fs > 0f) 1f else it }
+        val pw = (wn + fs).coerceAtMost(1f)
+        fqCoins(r + Offset(-w * 0.03f, -h * 0.01f), w * 0.022f, 4, pw, lerpColor(Fq.Gold, Color(0xFF8A8494), dull))
+        chain72(r + Offset(w * 0.0f, -h * 0.02f), r + Offset(w * 0.08f, -h * 0.06f), w * 0.02f, Color(0xFFB8AFA0), pw)
+        tagAt(a.tag("wealthnohelp", 0, 0), r + Offset(w * 0.12f, -h * 0.2f), wn * seg(a.b("wealthnohelp"), 0.15f, 0.3f), back = Fq.Back, ink = ArtInk.Ivory)
+        tagAt(a.tag("wealthnohelp", 0, 1), r + Offset(w * 0.12f, -h * 0.32f), wn * seg(a.b("wealthnohelp"), 0.35f, 0.5f), back = Fq.Back, ink = ArtInk.Ivory)
         if (fs > 0f) {
             val p = a.b("faithsaves")
             val inn = seg(p, 0f, 0.15f)
-            heart12(l + Offset(-w * 0.03f, -h * 0.04f), w * 0.04f, Qn.Rose, fs * inn, fill = true)
-            qIcon("hands", l + Offset(w * 0.03f, -h * 0.05f), w * 0.05f, Qn.GoldLight, fs * inn)
+            heart12(l + Offset(-w * 0.04f, -h * 0.06f), w * 0.07f, Qn.Rose, fs * inn, fill = true)
+            qIcon("hands", l + Offset(w * 0.045f, -h * 0.07f), w * 0.08f, Qn.GoldLight, fs * inn)
             softGlow(l, w * 0.08f, Qn.GoldLight, 0.5f * fs * seg(p, 0.4f, 0.6f))
             tagAt(a.tag("faithsaves", 0, 0), Offset(w * 0.5f, h * 0.1f), fs * seg(p, 0.1f, 0.25f), back = Fq.Back, ink = ArtInk.Gold)
             tagAt(a.tag("faithsaves", 0, 1), r + Offset(0f, -h * 0.18f), fs * seg(p, 0.55f, 0.7f), back = Color(0xE63A1A24), ink = ArtInk.Ivory)
