@@ -483,6 +483,11 @@ ART_KINDS = {
     "visitors": {"rivalry", "allkinds", "graveguests", "barzakhpass"},
     "qariaday": {"stingy", "selfwitness", "qariastrike", "guidedgive"},
     "atomweight": {"earthspeaks", "obeysorder", "atomspeck", "evensmall"},
+    "bayyinascroll": {"messengerbook", "purepages", "seekerclear", "darknesslight"},
+    "qadrnight": {"greatworth", "exalted", "witrnights", "itikafnight"},
+    "iqrafirst": {"firstrevealed", "fromalaq", "commandsforbid", "forbidder"},
+    "tinmap": {"figolive", "sinaimakkah", "threeplaces", "bestform"},
+    "usryusrayn": {"chestopen", "withhardship", "oneandtwo", "lizardhole"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

@@ -599,6 +599,11 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "visitors" -> visitorsScene(a)
         "qariaday" -> qariadayScene(a)
         "atomweight" -> atomweightScene(a)
+        "bayyinascroll" -> bayyinascrollScene(a)
+        "qadrnight" -> qadrnightScene(a)
+        "iqrafirst" -> iqrafirstScene(a)
+        "tinmap" -> tinmapScene(a)
+        "usryusrayn" -> usryusraynScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -1185,6 +1190,10 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "nogiving" -> 2500
     "hutama" -> 5000
     "slanderers", "countcoins", "timepasses", "fourtraits", "selfothers", "asrprofit", "rivalry", "allkinds", "graveguests", "barzakhpass", "stingy", "selfwitness", "qariastrike", "guidedgive", "earthspeaks", "obeysorder", "atomspeck", "evensmall" -> 6000
+    // Wave 89 (2026-11-04): v1.4 the Quran 4: al-Bayyina, al-Qadr, al-'Alaq, al-Tin, al-Sharh
+    "fromalaq" -> 4500
+    "darknesslight" -> 5000
+    "messengerbook", "purepages", "seekerclear", "greatworth", "exalted", "witrnights", "itikafnight", "firstrevealed", "commandsforbid", "forbidder", "figolive", "sinaimakkah", "threeplaces", "bestform", "chestopen", "withhardship", "oneandtwo", "lizardhole" -> 6000
     else -> 1000
 }
 
@@ -1252,7 +1261,7 @@ internal class ArtCtx(
 }
 
 /** Scenes that write their tags large (see ArtCtx.big). */
-internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent", "omenroad", "triptych", "heights", "revelation", "gaze", "nameswall", "register", "unseen", "fourrules", "twoseals", "storm", "sixroots", "verseguard", "decree", "threelives", "twolands", "proofscroll", "allegiance", "companions", "household", "morningevening", "mercyrain", "deepsea", "mountaindebt", "betterjar", "healingbed", "weddinglights", "alivetree", "tenfold", "radd", "threeshown", "doubtfree", "likeforbrother", "taqwaeverywhere", "guardhim", "modesty", "straightpath", "noinjustice", "askyourheart", "headofmatter", "proofonclaimant", "awliya", "stranger", "moonface", "simpleliving", "clearspeech", "truejest", "gratefulservant", "recitelight", "onlyaservant", "noblemanners", "lastday", "rabbgarden", "fatihaseven", "falaqnas", "samadneeds", "masadsign", "nasrdawn", "baraa", "kawtharriver", "maunhouse", "filquraysh", "humazawealth", "asrhourglass", "visitors", "qariaday", "atomweight")
+internal val BIG_TEXT_LAYOUTS = setOf("ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent", "omenroad", "triptych", "heights", "revelation", "gaze", "nameswall", "register", "unseen", "fourrules", "twoseals", "storm", "sixroots", "verseguard", "decree", "threelives", "twolands", "proofscroll", "allegiance", "companions", "household", "morningevening", "mercyrain", "deepsea", "mountaindebt", "betterjar", "healingbed", "weddinglights", "alivetree", "tenfold", "radd", "threeshown", "doubtfree", "likeforbrother", "taqwaeverywhere", "guardhim", "modesty", "straightpath", "noinjustice", "askyourheart", "headofmatter", "proofonclaimant", "awliya", "stranger", "moonface", "simpleliving", "clearspeech", "truejest", "gratefulservant", "recitelight", "onlyaservant", "noblemanners", "lastday", "rabbgarden", "fatihaseven", "falaqnas", "samadneeds", "masadsign", "nasrdawn", "baraa", "kawtharriver", "maunhouse", "filquraysh", "humazawealth", "asrhourglass", "visitors", "qariaday", "atomweight", "bayyinascroll", "qadrnight", "iqrafirst", "tinmap", "usryusrayn")
 
 // ───────────── shared helpers ─────────────
 
