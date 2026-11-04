@@ -488,6 +488,11 @@ ART_KINDS = {
     "iqrafirst": {"firstrevealed", "fromalaq", "commandsforbid", "forbidder"},
     "tinmap": {"figolive", "sinaimakkah", "threeplaces", "bestform"},
     "usryusrayn": {"chestopen", "withhardship", "oneandtwo", "lizardhole"},
+    "duhamorning": {"notleft", "perfectstate", "twoaskers", "teacherkind"},
+    "layleasy": {"gaveguarded", "husnameaning", "easeall", "forhisface"},
+    "nafsmirror": {"subtlesoul", "innerlife", "nafsroads", "purifiedfail"},
+    "kabad": {"toil", "restwork", "wasted", "tradedgod"},
+    "fajrten": {"dawnoath", "tennights", "lifeafter", "besttwo"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
