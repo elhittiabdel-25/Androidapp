@@ -468,6 +468,11 @@ ART_KINDS = {
     "preparingdeceased": {"visitremind", "washdeceased", "threewhite", "dustinstead"},
     "funeralprayer": {"fourtakbir", "foursteps", "latejoin", "duaall", "qirats"},
     "burial": {"hastenbier", "lahdniche", "spanmound", "standdua", "taziya"},
+    "rabbgarden": {"nurtureall", "generalcare", "specialcare", "rabbduas", "needaid"},
+    "fatihaseven": {"shortholds", "fatihacontents", "everyrakah", "twohidayas", "ikhlasistiana"},
+    "falaqnas": {"allevils", "rabbmalikilah", "whisperretreat", "jinnins"},
+    "samadneeds": {"ahadunique", "samadneed", "nochild", "asmathree", "asmasifat"},
+    "masadsign": {"revealedalive", "foretoldtwo", "cametrue", "wealthnohelp", "faithsaves"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 

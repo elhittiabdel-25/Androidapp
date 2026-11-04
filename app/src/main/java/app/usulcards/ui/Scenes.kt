@@ -1255,15 +1255,18 @@ private fun <T> QuickSwap(target: T, label: String, content: @Composable (T) -> 
 }
 
 
-/** The key points of a drawn scene, for its summary: each beat's short tag, or its caption when the tag is one word. */
+/**
+ * The key points of a drawn scene, for its summary: each beat's caption, which is the card's own words. (The short tags
+ * were tried first, but a tag is written for its picture: alone, «مختلط بخلقه» without the cross drawn over it, or
+ * «لا إله» without what follows, says the opposite of the card.)
+ */
 internal fun recapPoints(scene: Scene): List<String> {
     val out = ArrayList<String>()
     for (item in scene.items) {
-        val tag = item.sub.split("|").firstOrNull()?.trim().orEmpty()
-        val p = (if (tag.split(" ").size >= 2) tag else item.label).trim().trimEnd('،', '.', ':', '؛')
+        val p = item.label.trim().trimEnd('،', '.', ':', '؛')
         if (p.isNotEmpty() && out.none { stripHarakat(it) == stripHarakat(p) }) out.add(p)
     }
-    return out.take(6)
+    return out.take(10)
 }
 
 /**
@@ -1275,7 +1278,7 @@ internal fun BoxScope.SceneRecap(scene: Scene, reveal: Float, txt: (String) -> S
     if (reveal <= 0.001f) return
     val points = remember(scene) { recapPoints(scene) }
     if (points.isEmpty()) return
-    Box(Modifier.matchParentSize().background(ArtInk.Shade.copy(alpha = 0.84f * (reveal * 3f).coerceAtMost(1f)))) {
+    Box(Modifier.matchParentSize().background(ArtInk.Shade.copy(alpha = 0.93f * (reveal * 3f).coerceAtMost(1f)))) {
         Column(
             Modifier.fillMaxSize().padding(horizontal = 16.dp, vertical = 10.dp),
             verticalArrangement = Arrangement.Center,
@@ -1287,16 +1290,19 @@ internal fun BoxScope.SceneRecap(scene: Scene, reveal: Float, txt: (String) -> S
             points.forEachIndexed { i, p ->
                 val a = (reveal * (points.size + 1) - 1f - i).coerceIn(0f, 1f)
                 Row(
-                    Modifier.padding(top = 5.dp).alpha(a).offset(y = (6f * (1f - a)).dp),
-                    verticalAlignment = Alignment.CenterVertically,
+                    Modifier.padding(top = if (points.size > 6) 2.dp else 4.dp).alpha(a).offset(y = (6f * (1f - a)).dp),
+                    verticalAlignment = Alignment.Top,
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    Box(Modifier.size(18.dp).clip(CircleShape).background(ArtInk.Gold), contentAlignment = Alignment.Center) {
+                    Box(Modifier.padding(top = 1.dp).size(18.dp).clip(CircleShape).background(ArtInk.Gold), contentAlignment = Alignment.Center) {
                         Text("${i + 1}", color = ArtInk.Shade, fontFamily = Fonts.ui, fontWeight = FontWeight.Bold, fontSize = 10.sp)
                     }
                     Text(
-                        txt(p), color = ArtInk.Ivory, fontFamily = Fonts.naskh, fontSize = 13.sp, lineHeight = 20.sp,
-                        maxLines = 1, overflow = TextOverflow.Ellipsis,
+                        txt(p), color = ArtInk.Ivory, fontFamily = Fonts.naskh,
+                        // every point is listed: two lines each while they fit, one line each for a long list
+                        fontSize = if (points.size > 6) 11.sp else if (points.size >= 5) 11.5.sp else 12.5.sp,
+                        lineHeight = if (points.size > 6) 15.sp else if (points.size >= 5) 17.sp else 19.sp,
+                        maxLines = if (points.size > 6) 1 else 2, overflow = TextOverflow.Ellipsis,
                     )
                 }
             }
