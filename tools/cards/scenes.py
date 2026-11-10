@@ -1556,11 +1556,11 @@ SCENES = {
         I("صلى عليه 70 ألف ملك حتى يمسي", "صلى", "deep-1", sub="70 ألف", kind="angels"),
     ], layout="sickroom"),
     "riyad-islah": S("art", [
-        I("استثنى الله الإصلاح بين الناس من كثير النجوى", None, "face-0", kind="whispers"),
-        I("وأن تعدل بين اثنين صدقة", None, "face-1", kind="justice"),
-        I("فينمي خيرا أو يقول خيرا", "فينمي", "face-2", kind="mendword"),
+        I("استثنى الله الإصلاح بين الناس من كثير النجوى", None, "face-0", sub="النَّجْوَى|الْإِصْلَاحُ", kind="whispers"),
+        I("وأن تعدل بين اثنين صدقة", None, "face-1", sub="الْعَدْلُ صَدَقَةٌ", kind="justice"),
+        I("فينمي خيرا أو يقول خيرا", "فينمي", "face-2", sub="خَيْرًا", kind="mendword"),
         I("فخرج بنفسه يصلح بينهم", "فخرج", "deep-0", kind="village"),
-        I("أين المتألي على الله لا يفعل المعروف", "أين", "deep-1", kind="debt"),
+        I("أين المتألي على الله لا يفعل المعروف", "أين", "deep-1", sub="الدَّائِنُ|الْمَدِينُ|وَاللَّهِ لَا أَفْعَلُ", kind="debt"),
     ], layout="reconcile"),
     "riyad-khuluq": S("art", [
         I("ما من شيء أثقل في ميزان المؤمن يوم القيامة من حسن الخلق", None, "face-0", sub="حسن الخلق", kind="heaviest"),
@@ -1994,10 +1994,10 @@ SCENES = {
     # ── v1.2: the Forty of al-Nawawi, hadiths 16–20 (wave 60) ──
     "nw-16": S("art", [
         I("سأله رجل الوصية فقال: لا تغضب", None, "face-0", sub="لا تغضب", kind="repeatnoanger"),
-        I("فالغضب شر في الدين", None, "face-1", kind="pulledoff"),
+        I("فالغضب شر في الدين", None, "face-1", sub="شَرٌّ فِي الدِّينِ", kind="pulledoff"),
         I("وهو جمرة في القلب", None, "face-2", sub="جمرة في القلب", kind="emberquench"),
         I("وأمر الغضبان أن يجلس إن كان قائما", None, "deep-0", kind="sitthenlie"),
-        I("والحامل عليه الشيطان، وهو مخلوق من نار", None, "deep-1", kind="smokeandwater"),
+        I("والحامل عليه الشيطان، وهو مخلوق من نار", None, "deep-1", sub="الشَّيْطَانُ|نَارٌ", kind="smokeandwater"),
         I("وليس الشديد بالصرعة", None, "deep-3", sub="يملك نفسه عند الغضب", kind="trulystrong"),
     ], layout="angerember"),
     "nw-17": S("art", [

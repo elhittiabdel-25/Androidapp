@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import kotlin.math.PI
 import kotlin.math.cos
+import kotlin.math.max
 import kotlin.math.sin
 
 /*
@@ -395,21 +396,26 @@ private fun DrawScope.twoTents(a: ArtCtx) {
     val db = a.b("debt")
     val ground = h * 0.8f
     daySky12(MendC47.Sky, MendC47.SkyLow, ground, MendC47.Sand)
-    // talk in secret
+    // talk in secret: grey whispers drift between the tents; one, the word that makes peace, turns gold
     if (wh > 0f) {
         val f = easeOut(seg(wh, 0f, BEAT_IN)) * (1f - seg(js, 0f, BEAT_OUT))
-        tent47(Offset(w * 0.25f, ground), w * 0.22f, MendC47.TentA, f, 1f)
-        tent47(Offset(w * 0.75f, ground), w * 0.22f, MendC47.TentB, f, -1f)
-        for (k in 0 until 9) {
+        tent47(Offset(w * 0.24f, ground), w * 0.2f, MendC47.TentA, f, 1f)
+        tent47(Offset(w * 0.76f, ground), w * 0.2f, MendC47.TentB, f, -1f)
+        var goldAt = Offset.Zero
+        for (k in 0 until 7) {
             val r = fract(sin(k * 7.3f) * 4375.5f)
-            val c = Offset(w * (0.12f + 0.08f * k) + w * 0.02f * sin(t * 0.5f + k), h * (0.22f + 0.2f * r))
-            val gold = k == 4
+            val c = Offset(w * (0.3f + 0.067f * k) + w * 0.015f * sin(t * 0.6f + k), h * (0.42f + 0.16f * r))
+            val gold = k == 3
             val col = if (gold) lerpColor(MendC47.Grey, MendC47.Gold, seg(wh, 0.5f, 0.8f)) else MendC47.Grey
-            cloud38(c, w * 0.035f, col, f * seg(wh, 0.05f * k, 0.2f + 0.05f * k) * (if (gold) 1f else 0.7f - 0.3f * seg(wh, 0.6f, 0.9f)))
-            if (gold) softGlow(c, w * 0.06f, MendC47.Gold, 0.6f * f * seg(wh, 0.5f, 0.8f))
+            val al = f * seg(wh, 0.04f * k, 0.15f + 0.04f * k) * (if (gold) 1f else 0.85f - 0.35f * seg(wh, 0.6f, 0.9f))
+            bubble47(c, w * 0.06f, h * 0.06f, col, al)
+            if (!gold) for (d in 0 until 3) drawCircle(Color(0xFFF4F0E8), 1.6f * dp, c + Offset(w * 0.012f * (d - 1), 0f), alpha = al)
+            if (gold) { goldAt = c; softGlow(c, w * 0.07f, MendC47.Gold, 0.6f * f * seg(wh, 0.5f, 0.8f)) }
         }
+        tagAt(a.tag("whispers", 0, 0), Offset(w * 0.5f, h * 0.26f), f * seg(wh, 0.25f, 0.45f), ink = Color(0xFFE0E0E8))
+        tagAt(a.tag("whispers", 0, 1), goldAt + Offset(0f, h * 0.11f), f * seg(wh, 0.6f, 0.85f), ink = ArtInk.Gold)
     }
-    // a just word between two
+    // a just word between two: the crack closes; the balance rests in his hands
     if (js > 0f) {
         val f = easeOut(seg(js, 0f, BEAT_IN)) * (1f - seg(gw, 0f, BEAT_OUT))
         val close = easeInOut(seg(js, 0.4f, 0.85f))
@@ -422,54 +428,81 @@ private fun DrawScope.twoTents(a: ArtCtx) {
         drawPath(crack, MendC47.Crack, alpha = f * (1f - close), style = Stroke(3f * dp))
         figure(Offset(w * 0.25f, ground), h * 0.3f, MendC47.Person, f, lean = 0.12f * (1f - close), arms = 0.6f * close)
         figure(Offset(w * 0.75f, ground), h * 0.3f, MendC47.Person, f, lean = -0.12f * (1f - close), arms = -0.4f * (1f - close))
-        figure(Offset(w * 0.5f, ground), h * 0.3f, MendC47.Gold, f * seg(js, 0.15f, 0.35f))
-        balance12(Offset(w * 0.5f, h * 0.36f), h * 0.16f, 0.4f * sin(t * 2f) * (1f - close), MendC47.Gold, f * seg(js, 0.25f, 0.45f))
+        figure(Offset(w * 0.5f, ground), h * 0.3f, MendC47.Gold, f * seg(js, 0.15f, 0.35f), arms = 1f)
+        balance12(Offset(w * 0.5f, ground - h * 0.3f), h * 0.12f, 0.4f * sin(t * 2f) * (1f - close), MendC47.Gold, f * seg(js, 0.25f, 0.45f))
+        if (close > 0.3f) softGlow(Offset(w * 0.5f, ground - h * 0.18f), h * 0.2f, MendC47.Gold, 0.45f * f * close)
+        tagAt(a.tag("justice"), Offset(w * 0.5f, ground - h * 0.5f), f * seg(js, 0.55f, 0.8f), ink = ArtInk.Gold)
     }
-    // the one who carries only good words
+    // the one who carries only good: a glowing word goes from tent to tent, and each lights as it arrives
     if (gw > 0f) {
         val f = easeOut(seg(gw, 0f, BEAT_IN)) * (1f - seg(vl, 0f, BEAT_OUT))
         val turn = easeInOut(seg(gw, 0.6f, 0.9f))
-        tent47(Offset(w * 0.18f, ground), w * 0.22f, MendC47.TentA, f, -1f + 2f * turn)
-        tent47(Offset(w * 0.82f, ground), w * 0.22f, MendC47.TentB, f, 1f - 2f * turn)
+        tent47(Offset(w * 0.24f, ground), w * 0.18f, MendC47.TentA, f, -1f + 2f * turn)
+        tent47(Offset(w * 0.76f, ground), w * 0.18f, MendC47.TentB, f, 1f - 2f * turn)
         val trip = fract(gw * 1.6f)
-        val dir = if ((gw * 1.6f).toInt() % 2 == 0) 1f else -1f
-        val x = if (dir > 0f) mix(w * 0.32f, w * 0.68f, trip) else mix(w * 0.68f, w * 0.32f, trip)
-        figure(Offset(x, ground), h * 0.26f, MendC47.Person, f * (1f - seg(gw, 0.85f, 0.95f)), walk = t * 6f, arms = 0.6f)
-        drawOval(MendC47.Green, Offset(x - w * 0.04f, ground - h * 0.2f), Size(w * 0.03f, h * 0.02f), alpha = f * (1f - seg(gw, 0.85f, 0.95f)))
-        if (turn > 0.5f) for (k in 0 until 2) softGlow(Offset(w * (0.27f + 0.46f * k), ground - h * 0.06f), w * 0.05f, MendC47.Gold, 0.5f * f * turn)
+        val leg = (gw * 1.6f).toInt()
+        val dir = if (leg % 2 == 0) 1f else -1f
+        val x = if (dir > 0f) mix(w * 0.34f, w * 0.66f, trip) else mix(w * 0.66f, w * 0.34f, trip)
+        val walker = f * (1f - seg(gw, 0.85f, 0.95f))
+        figure(Offset(x, ground), h * 0.26f, MendC47.Person, walker, walk = t * 6f, arms = 0.6f)
+        val b = Offset(x + dir * w * 0.05f, ground - h * 0.33f)
+        softGlow(b, w * 0.05f, MendC47.Gold, 0.5f * walker)
+        bubble47(b, w * 0.07f, h * 0.06f, MendC47.Gold, walker)
+        tagAt(a.tag("mendword"), b + Offset(0f, -h * 0.09f), walker * seg(gw, 0.1f, 0.25f), ink = ArtInk.Gold)
+        for (k in 0 until 2) {
+            val reached = if (k == 1) seg(gw, 0.3f, 0.4f) else seg(gw, 0.62f, 0.72f)
+            softGlow(Offset(w * (0.24f + 0.52f * k), ground - h * 0.05f), w * 0.06f, MendC47.Gold, 0.55f * f * max(reached, turn))
+        }
     }
-    // the village where he went himself to make peace
+    // he went himself to make peace: a light comes up to two groups at odds, and they draw together
     if (vl > 0f) {
         val f = easeOut(seg(vl, 0f, BEAT_IN)) * (1f - seg(db, 0f, BEAT_OUT))
         drawRect(Color(0xFFEAD9B4), alpha = f)
-        for (k in 0 until 12) {
-            val q = Offset(w * (0.12f + 0.06f * (k % 4)), h * (0.3f + 0.12f * (k / 4)))
-            drawRect(Color(0xFFB89A70), q, Size(w * 0.04f, h * 0.07f), alpha = f)
-            val q2 = Offset(w * (0.66f + 0.06f * (k % 4)), h * (0.3f + 0.12f * (k / 4)))
-            drawRect(Color(0xFFB89A70), q2, Size(w * 0.04f, h * 0.07f), alpha = f)
+        val clear = easeInOut(seg(vl, 0.6f, 0.9f))
+        for (side in listOf(-1f, 1f)) for (k in 0 until 4) {
+            val c = Offset(w * (0.5f + side * (0.3f - 0.08f * clear) + side * 0.06f * (k % 2)), h * (0.42f + 0.12f * (k / 2)))
+            nameRoundel(c, w * 0.035f, null, Roundel.PlainFill, Roundel.PlainRim, f)
+            if (clear > 0f) softGlow(c, w * 0.05f, MendC47.Gold, 0.35f * f * clear)
         }
-        val clear = seg(vl, 0.6f, 0.9f)
-        cloud38(Offset(w * 0.5f, h * 0.45f), w * 0.1f, MendC47.Cloud, f * (1f - clear))
-        drawLine(MendC47.Road, Offset(w * 0.5f, h * 0.95f), Offset(w * 0.5f, h * 0.55f), w * 0.02f, StrokeCap.Round, alpha = f)
+        for (k in 0 until 3) {
+            val sx = w * (0.44f + 0.06f * k) + w * 0.03f * sin(t * 3f + k)
+            drawCircle(Color(0xFF7A6A58), w * 0.008f, Offset(sx, h * (0.46f + 0.04f * sin(t * 4f + k * 2f))), alpha = f * (1f - clear))
+        }
+        cloud38(Offset(w * 0.5f, h * 0.3f), w * 0.09f, MendC47.Cloud, f * (1f - clear))
         val go = easeInOut(seg(vl, 0.15f, 0.6f))
-        val c = Offset(w * 0.5f, h * (0.92f - 0.38f * go))
-        sirajMunir(c, w * 0.012f, f * seg(vl, 0.1f, 0.25f), t, nameAt = c + Offset(w * 0.14f, 0f))
-        if (clear > 0f) drawLine(MendC47.Gold, Offset(w * 0.36f, h * 0.48f), Offset(w * 0.64f, h * 0.48f), 2f * dp, StrokeCap.Round, alpha = f * clear)
+        val c = Offset(w * 0.5f, h * (0.9f - 0.3f * go))
+        sirajMunir(c, w * 0.012f, f * seg(vl, 0.1f, 0.25f), t, nameAt = c + Offset(w * 0.16f, h * 0.04f))
     }
-    // part of the debt let go
+    // the debt: he swore not to do the good; the oath is struck out and half the pile goes back to the debtor
     if (db > 0f) {
         val f = easeOut(seg(db, 0f, 0.3f))
-        nameRoundel(Offset(w * 0.22f, ground - h * 0.16f), w * 0.05f, null, Roundel.PlainFill, Roundel.PlainRim, f)
-        nameRoundel(Offset(w * 0.78f, ground - h * 0.16f), w * 0.05f, null, Roundel.PlainFill, Roundel.PlainRim, f)
-        val back = easeInOut(seg(db, 0.55f, 0.9f))
+        val owes = Offset(w * 0.22f, ground - h * 0.16f)
+        val owed = Offset(w * 0.78f, ground - h * 0.16f)
+        nameRoundel(owes, w * 0.05f, null, Roundel.PlainFill, Roundel.PlainRim, f)
+        nameRoundel(owed, w * 0.05f, null, Roundel.PlainFill, Roundel.PlainRim, f)
+        tagAt(a.tag("debt", 0, 1), owes + Offset(0f, h * 0.13f), f, ink = Color(0xFFF0ECE4))
+        tagAt(a.tag("debt", 0, 0), owed + Offset(0f, h * 0.13f), f, ink = Color(0xFFF0ECE4))
+        val oath = owed + Offset(-w * 0.04f, -h * 0.2f)
+        val oathOn = seg(db, 0.12f, 0.3f)
+        bubble47(oath, w * 0.2f, h * 0.08f, Color(0xFF3A3040), f * oathOn)
+        tagAt(a.tag("debt", 0, 2), oath, f * oathOn, back = Color(0x00000000), ink = Color(0xFFF0ECE4))
+        cross14(oath, h * 0.05f, seg(db, 0.5f, 0.62f))
+        val back = easeInOut(seg(db, 0.6f, 0.92f))
         for (k in 0 until 8) {
             val half = k >= 4
             val base = Offset(w * 0.5f, ground - h * 0.03f - h * 0.025f * (k % 4))
             val c = if (half) base + Offset(-w * 0.24f * back, 0f) else base
             coin12(c, w * 0.022f, f)
         }
-        sirajMunir(Offset(w * 0.5f, h * 0.2f), w * 0.01f, f * seg(db, 0.35f, 0.55f), t, nameAt = Offset(w * 0.5f, h * 0.08f))
+        sirajMunir(Offset(w * 0.5f, h * 0.2f), w * 0.01f, f * seg(db, 0.3f, 0.48f), t, nameAt = Offset(w * 0.5f, h * 0.08f))
     }
+}
+
+/** A rounded speech bubble with a small tail, centred at [c]. */
+private fun DrawScope.bubble47(c: Offset, bw: Float, bh: Float, color: Color, alpha: Float) {
+    if (alpha <= 0.01f) return
+    drawRoundRect(color, topLeft = c - Offset(bw / 2f, bh / 2f), size = Size(bw, bh), cornerRadius = CornerRadius(bh * 0.45f), alpha = alpha)
+    drawPath(Path().apply { moveTo(c.x - bw * 0.1f, c.y + bh * 0.45f); lineTo(c.x - bw * 0.2f, c.y + bh * 0.85f); lineTo(c.x + bw * 0.05f, c.y + bh * 0.45f); close() }, color, alpha = alpha)
 }
 
 // ═════════════ 4. the heaviest in the balance (riyad-khuluq) ═════════════

@@ -9,6 +9,9 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.ui.graphics.drawscope.withTransform
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -82,75 +85,114 @@ private fun DrawScope.angerNight(a: ArtCtx) {
     val ground = h * 0.84f
     nightSky(t, AngerC60.Night, AngerC60.NightLow, ground, starAlpha = 0.6f)
     drawRect(AngerC60.Ground, Offset(0f, ground), Size(w, h - ground))
+    // a man asks for advice; the light ﷺ answers, and answers again: «لَا تَغْضَبْ»
     if (rn > 0f) {
         val f = easeOut(seg(rn, 0f, BEAT_IN)) * (1f - seg(po, 0f, BEAT_OUT))
+        val asker = Offset(w * 0.2f, ground)
+        figure(asker, h * 0.3f, AngerC60.Person, f, arms = 0.5f)
+        val light = Offset(w * 0.8f, h * 0.42f)
+        sirajMunir(light, w * 0.014f, f, t, nameAt = light + Offset(0f, h * 0.13f))
         for (k in 0 until 3) {
-            val g = seg(rn, 0.08f + 0.28f * k, 0.25f + 0.28f * k)
-            tagAt(a.tag("repeatnoanger"), Offset(w * (0.75f - 0.25f * k), h * (0.35f + 0.12f * k)), f * g, back = Back60, ink = AngerC60.Water)
+            val ask = seg(rn, 0.04f + 0.3f * k, 0.12f + 0.3f * k) * (1f - seg(rn, 0.16f + 0.3f * k, 0.22f + 0.3f * k))
+            qmark60(asker + Offset(0f, -h * 0.4f), h * 0.05f, AngerC60.Person, f * ask)
+            val g = seg(rn, 0.14f + 0.28f * k, 0.28f + 0.28f * k)
+            tagAt(a.tag("repeatnoanger"), Offset(w * (0.62f - 0.12f * k), h * (0.28f + 0.13f * k)), f * g, back = Back60, ink = AngerC60.Water)
         }
-        softGlow(Offset(w * 0.5f, h * 0.5f), w * 0.25f, AngerC60.Water, 0.15f * f)
     }
+    // anger is evil in the religion: a man on the lit way, then the flame in his chest turns him onto a dark, thorny one
     if (po > 0f) {
         val f = easeOut(seg(po, 0f, BEAT_IN)) * (1f - seg(eq, 0f, BEAT_OUT))
-        drawLine(AngerC60.Gold, Offset(w * 0.95f, ground - h * 0.02f), Offset(w * 0.05f, ground - h * 0.02f), h * 0.02f, StrokeCap.Round, alpha = f * 0.6f)
-        drawPath(Path().apply { moveTo(w * 0.6f, ground - h * 0.02f); quadraticTo(w * 0.45f, ground + h * 0.05f, w * 0.3f, h * 0.98f) }, AngerC60.Path, alpha = f, style = Stroke(h * 0.02f, cap = StrokeCap.Round))
-        val off = easeInOut(seg(po, 0.3f, 0.85f))
-        val foot = Offset(mix(w * 0.75f, w * 0.38f, off), mix(ground, h * 0.95f, off * off))
-        figure(foot, h * 0.28f, AngerC60.Person, f, walk = t * 5f, lean = -0.15f * off)
-        flame60(foot + Offset(0f, -h * 0.2f), w * 0.02f * (0.5f + off), t, f * seg(po, 0.15f, 0.35f))
+        val y = ground - h * 0.01f
+        drawLine(AngerC60.Gold, Offset(w * 0.5f, y), Offset(w * 0.98f, y), h * 0.022f, StrokeCap.Round, alpha = f * 0.75f)
+        softGlow(Offset(w * 0.95f, y), w * 0.08f, AngerC60.Gold, 0.5f * f)
+        drawLine(AngerC60.Path, Offset(w * 0.5f, y), Offset(w * 0.02f, y), h * 0.022f, StrokeCap.Round, alpha = f)
+        for (k in 0 until 8) {
+            val x = w * (0.08f + 0.05f * k)
+            drawPath(Path().apply { moveTo(x - w * 0.008f, y - h * 0.01f); lineTo(x, y - h * 0.05f - h * 0.015f * (k % 2)); lineTo(x + w * 0.008f, y - h * 0.01f); close() }, AngerC60.Path, alpha = f)
+        }
+        val turn = easeInOut(seg(po, 0.35f, 0.5f))
+        val x = if (po < 0.35f) mix(w * 0.42f, w * 0.6f, seg(po, 0f, 0.35f)) else mix(w * 0.6f, w * 0.24f, easeInOut(seg(po, 0.45f, 0.95f)))
+        val foot = Offset(x, y)
+        val tall = h * 0.3f
+        withTransform({ scale(if (turn > 0.5f) 1f else -1f, 1f, pivot = foot) }) { figure(foot, tall, AngerC60.Person, f, walk = t * 5f, lean = 0.1f * turn) }
+        flame60(foot + Offset(0f, -tall * 0.55f), w * 0.016f * (0.4f + 1.2f * seg(po, 0.15f, 0.4f)), t, f * seg(po, 0.1f, 0.3f))
+        tagAt(a.tag("pulledoff"), Offset(w * 0.22f, h * 0.48f), f * seg(po, 0.55f, 0.8f), back = Back60, ink = AngerC60.Ember)
     }
+    // an ember in the heart: a glowing coal, the heat rising off it
     if (eq > 0f) {
         val f = easeOut(seg(eq, 0f, BEAT_IN)) * (1f - seg(sl, 0f, BEAT_OUT))
-        val chest = Offset(w * 0.5f, h * 0.5f)
-        drawCircle(AngerC60.Person, w * 0.18f, chest, alpha = f * 0.08f)
-        val out = seg(eq, 0.5f, 0.85f)
-        drawCircle(lerpColor(AngerC60.Ember, AngerC60.Steam, out), w * 0.04f * (1f - 0.6f * out), chest, alpha = f)
-        softGlow(chest, w * 0.12f * (1f - out), AngerC60.Ember, f * (0.7f + 0.2f * sin(t * 8f)))
-        val rain = seg(eq, 0.35f, 0.8f)
-        for (k in 0 until 10) {
-            val u = fract(t * 1.2f + k * 0.1f)
-            drawCircle(AngerC60.Water, w * 0.006f, Offset(w * (0.42f + 0.016f * k), mix(h * 0.15f, chest.y, u)), alpha = f * rain * (1f - u * 0.5f))
+        val c = Offset(w * 0.5f, h * 0.48f)
+        val s = h * 0.36f * easeOut(seg(eq, 0f, 0.3f))
+        heart12(c, s, Color(0xFF8A3A3A), f, fill = true)
+        heart12(c, s, AngerC60.Ember, f * 0.9f)
+        val pulse = 0.75f + 0.25f * sin(t * 6f)
+        softGlow(c + Offset(0f, h * 0.03f), w * 0.1f, AngerC60.Ember, f * pulse * seg(eq, 0.15f, 0.35f))
+        val coal = c + Offset(0f, h * 0.04f)
+        drawOval(Color(0xFF3A1A14), topLeft = coal - Offset(w * 0.045f, h * 0.03f), size = Size(w * 0.09f, h * 0.06f), alpha = f * seg(eq, 0.15f, 0.35f))
+        drawOval(Color(0xFFFFA040), topLeft = coal - Offset(w * 0.03f, h * 0.018f), size = Size(w * 0.06f, h * 0.036f), alpha = f * pulse * seg(eq, 0.2f, 0.4f))
+        for (k in 0 until 3) {
+            val u = fract(t * 0.7f + k / 3f)
+            val x0 = coal.x + w * 0.03f * (k - 1)
+            drawPath(Path().apply {
+                moveTo(x0, coal.y - h * 0.05f - h * 0.12f * u)
+                quadraticTo(x0 + w * 0.012f, coal.y - h * 0.08f - h * 0.12f * u, x0, coal.y - h * 0.11f - h * 0.12f * u)
+            }, Color(0xFFFFC080), alpha = f * (1f - u) * seg(eq, 0.3f, 0.5f), style = Stroke(1.6f * dp, cap = StrokeCap.Round))
         }
-        for (k in 0 until 5) {
-            val u = fract(t * 0.5f + k * 0.2f)
-            drawCircle(AngerC60.Steam, w * 0.015f * (0.5f + u), chest + Offset(w * 0.03f * sin(k * 1.9f), -h * 0.15f * u), alpha = f * out * (1f - u) * 0.6f)
-        }
-        tagAt(a.tag("emberquench"), Offset(w * 0.5f, h * 0.78f), f * seg(eq, 0.1f, 0.3f), back = Back60, ink = AngerC60.Ember)
+        tagAt(a.tag("emberquench"), Offset(w * 0.5f, h * 0.8f), f * seg(eq, 0.1f, 0.3f), back = Back60, ink = AngerC60.Ember)
     }
+    // standing, then sitting, then lying: the flame in his chest smaller each time
     if (sl > 0f) {
         val f = easeOut(seg(sl, 0f, BEAT_IN)) * (1f - seg(sw, 0f, 0.4f))
         val foot = Offset(w * 0.5f, ground)
+        val tall = h * 0.36f
         val stage = if (sl < 0.35f) 0 else if (sl < 0.65f) 1 else 2
-        when (stage) {
-            0 -> figure(foot, h * 0.34f, AngerC60.Person, f)
-            1 -> sit12(foot, h * 0.34f, AngerC60.Person, f, 1f)
+        val chest = when (stage) {
+            0 -> { figure(foot, tall, AngerC60.Person, f); foot + Offset(0f, -tall * 0.62f) }
+            1 -> {
+                drawRoundRect(Color(0xFF5A4A50), topLeft = Offset(w * 0.47f, ground - tall * 0.2f), size = Size(w * 0.08f, tall * 0.2f), cornerRadius = CornerRadius(tall * 0.03f), alpha = f)
+                val seat = Offset(w * 0.5f, ground - tall * 0.2f)
+                sit12(seat, tall, AngerC60.Person, f, 1f)
+                seat + Offset(0f, -tall * 0.38f)
+            }
             else -> {
-                val y = ground - h * 0.03f
-                drawLine(AngerC60.Person, Offset(w * 0.35f, y), Offset(w * 0.6f, y), h * 0.025f, StrokeCap.Round, alpha = f)
-                drawCircle(AngerC60.Person, h * 0.035f, Offset(w * 0.64f, y - h * 0.01f), alpha = f)
+                val pivot = Offset(w * 0.5f, ground - h * 0.02f)
+                withTransform({ rotate(-90f, pivot) }) { figure(pivot + Offset(tall * 0.5f, 0f), tall, AngerC60.Person, f) }
+                Offset(w * 0.5f - tall * 0.12f, ground - h * 0.06f)
             }
         }
-        val s = w * 0.03f * (1f - 0.35f * stage) * (1f - seg(sl, 0.85f, 1f))
-        flame60(Offset(w * 0.75f, h * 0.35f), s, t, f)
+        val s = w * 0.022f * (1f - 0.35f * stage) * (1f - seg(sl, 0.85f, 1f))
+        flame60(chest, s, t, f)
     }
+    // the one who drives him to it is Shaytan, made of fire; water puts the fire out
     if (sw > 0f) {
         val f = easeOut(seg(sw, 0f, 0.25f)) * (1f - seg(ts, 0f, BEAT_OUT))
-        smoke12(Offset(w * 0.25f, ground), Offset(w * 0.3f, h * 0.35f), seg(sw, 0.05f, 0.3f), t, f, AngerC60.Smoke)
-        val wet = seg(sw, 0.45f, 0.8f)
-        flame60(Offset(w * 0.55f, h * 0.55f), w * 0.05f * (1f - wet), t, f)
-        rain12(w * 0.45f, w * 0.7f, h * 0.15f, h * 0.6f, t, AngerC60.Water, f * seg(sw, 0.4f, 0.5f), 20)
+        val me = Offset(w * 0.62f, ground)
+        val tall = h * 0.32f
+        val wet = seg(sw, 0.5f, 0.85f)
+        figure(me, tall, AngerC60.Person, f, arms = 0.4f * (1f - wet))
+        val base = Offset(w * 0.24f, ground)
+        flame60(base + Offset(0f, -h * 0.02f), w * 0.03f, t, f * seg(sw, 0.05f, 0.2f) * (1f - wet))
+        smoke12(base, me + Offset(-w * 0.04f, -tall * 0.7f), seg(sw, 0.05f, 0.35f), t, f * (1f - 0.7f * wet), Color(0xFF7A6A82))
+        flame60(me + Offset(0f, -tall * 0.62f), w * 0.02f * (1f - wet), t, f * seg(sw, 0.2f, 0.35f))
+        rain12(w * 0.5f, w * 0.74f, h * 0.12f, h * 0.7f, t, AngerC60.Water, f * seg(sw, 0.45f, 0.55f), 20)
         for (k in 0 until 4) {
             val u = fract(t * 0.5f + k * 0.25f)
-            drawCircle(AngerC60.Steam, w * 0.02f * (0.5f + u), Offset(w * 0.55f + w * 0.03f * sin(k * 2f), h * 0.5f - h * 0.15f * u), alpha = f * wet * (1f - u) * 0.6f)
+            drawCircle(AngerC60.Steam, w * 0.018f * (0.5f + u), me + Offset(w * 0.02f * sin(k * 2f), -tall * 0.7f - h * 0.12f * u), alpha = f * wet * (1f - u) * 0.6f)
         }
+        tagAt(a.tag("smokeandwater", 0, 0), Offset(w * 0.24f, h * 0.36f), f * seg(sw, 0.2f, 0.4f) * (1f - wet), back = Back60, ink = Color(0xFFC8B8D0))
+        tagAt(a.tag("smokeandwater", 0, 1), base + Offset(0f, -h * 0.12f), f * seg(sw, 0.25f, 0.45f) * (1f - wet), back = Back60, ink = AngerC60.Ember)
     }
+    // not the wrestler who throws others down: the strong one holds his own flame down until it goes out
     if (ts > 0f) {
         val f = easeOut(seg(ts, 0f, 0.25f))
         val throwP = easeInOut(seg(ts, 0.1f, 0.35f))
-        figure(Offset(w * 0.22f, ground), h * 0.28f, AngerC60.Person, f, arms = 0.8f)
-        val y = mix(ground, ground - h * 0.02f, throwP)
-        if (throwP < 0.9f) figure(Offset(w * 0.32f, y), h * 0.28f, AngerC60.Person, f * 0.7f, lean = 1.2f * throwP)
-        else drawLine(AngerC60.Person, Offset(w * 0.3f, ground - h * 0.02f), Offset(w * 0.48f, ground - h * 0.02f), h * 0.02f, StrokeCap.Round, alpha = f * 0.7f)
+        val tall = h * 0.28f
+        figure(Offset(w * 0.22f, ground), tall, AngerC60.Person, f, arms = 0.8f)
+        if (throwP < 0.9f) figure(Offset(w * 0.32f, mix(ground, ground - h * 0.02f, throwP)), tall, AngerC60.Person, f * 0.7f, lean = 1.2f * throwP)
+        else {
+            val pivot = Offset(w * 0.3f, ground - h * 0.015f)
+            withTransform({ rotate(-90f, pivot) }) { figure(pivot + Offset(tall * 0.5f, 0f), tall, AngerC60.Person, f * 0.7f) }
+        }
         val calm = seg(ts, 0.45f, 0.9f)
         val me = Offset(w * 0.75f, ground)
         figure(me, h * 0.34f, AngerC60.Person, f * seg(ts, 0.35f, 0.5f))
@@ -159,6 +201,14 @@ private fun DrawScope.angerNight(a: ArtCtx) {
         softGlow(me + Offset(0f, -h * 0.2f), w * 0.1f, AngerC60.Gold, 0.5f * f * calm)
         tagAt(a.tag("trulystrong"), Offset(w * 0.5f, h * 0.2f), f * seg(ts, 0.55f, 0.75f), back = Back60, ink = ArtInk.Gold)
     }
+}
+
+/** A drawn question mark, centred at [c]. */
+private fun DrawScope.qmark60(c: Offset, s: Float, color: Color, alpha: Float) {
+    if (alpha <= 0.01f) return
+    drawArc(color, 180f, 270f, false, topLeft = c - Offset(s * 0.5f, s * 0.9f), size = Size(s, s), alpha = alpha, style = Stroke(s * 0.18f, cap = StrokeCap.Round))
+    drawLine(color, c + Offset(0f, s * 0.1f), c + Offset(0f, s * 0.3f), s * 0.18f, StrokeCap.Round, alpha = alpha)
+    drawCircle(color, s * 0.1f, c + Offset(0f, s * 0.58f), alpha = alpha)
 }
 
 // ═════════════ 2. excellence written on everything (nw-17) ═════════════
