@@ -92,7 +92,13 @@ private fun DrawScope.namesNight(a: ArtCtx) {
         if (yl > 0f && af <= 0f) {
             tagAt(a.tag("yearsline", 0, 0), Offset((x40 + x53) / 2f, y - h * 0.1f), f * g1, back = Back66, ink = NamesC66.Makka)
             tagAt(a.tag("yearsline", 0, 1), Offset((x53 + w * 0.08f) / 2f, y + h * 0.1f), f * g2, back = Back66, ink = NamesC66.Madina)
-            tagAt(a.tag("yearsline", 0, 2), Offset(w * 0.5f, h * 0.25f), f * seg(yl, 0.7f, 0.85f), back = Back66, ink = ArtInk.Gold)
+            // time runs right to left: an arrowhead at the end, and «ابن 63» on the marker where the line ends
+            val end = Offset(w * 0.08f, y)
+            val m = f * seg(yl, 0.7f, 0.85f)
+            drawPath(Path().apply { moveTo(end.x - w * 0.02f, y); lineTo(end.x + w * 0.005f, y - h * 0.025f); lineTo(end.x + w * 0.005f, y + h * 0.025f); close() }, NamesC66.Line, alpha = f * seg(yl, 0.2f, 0.3f))
+            drawLine(NamesC66.Gold, end + Offset(w * 0.012f, -h * 0.07f), end + Offset(w * 0.012f, h * 0.05f), 3f * dp, StrokeCap.Round, alpha = m)
+            softGlow(end, w * 0.05f, NamesC66.Gold, 0.5f * m)
+            tagAt(a.tag("yearsline", 0, 2), end + Offset(w * 0.06f, -h * 0.15f), m, back = Back66, ink = ArtInk.Gold)
         }
         if (af > 0f) {
             val g = seg(af, 0.15f, 0.4f)

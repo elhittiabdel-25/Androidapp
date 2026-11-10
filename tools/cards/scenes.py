@@ -1390,7 +1390,7 @@ SCENES = {
         I("ولما لزمه إلا ركعة في المساء وأخرى عند الفجر", "ولما", "face-1", kind="onerakah"),
         I("فبغير السنة يصير القرآن نهبا لكل تأويل", None, "face-2", sub="قنطرة الإلحاد الأولى", kind="sunnabridge"),
         I("والسنة تبين المجمل كعدد الركعات", None, "deep-0", kind="explains"),
-        I("وصلى المسلمون إلى بيت المقدس زمنا وليس في القرآن آية تأمر بذلك", None, "deep-2", kind="qiblaturn"),
+        I("وصلى المسلمون إلى بيت المقدس زمنا وليس في القرآن آية تأمر بذلك", None, "deep-2", sub="بَيْتُ الْمَقْدِسِ|لَيْسَ فِي الْقُرْآنِ", kind="qiblaturn"),
     ], layout="bridgegap"),
     "bs-kitaba": S("art", [
         I("يزعم بعضهم أن السنة لم تكتب إلا بعد قرنين", None, "face-0", sub="بعد قرنين", kind="claim200"),
@@ -1453,7 +1453,7 @@ SCENES = {
         I("فقوامة الرجل تكليف لا تشريف", "فقوامة", "face-0", sub="تكليف|تشريف", kind="standingfor"),
         I("وهي لحمايتها والدفاع عنها والإنفاق عليها", None, "face-1", kind="shieldspend"),
         I("ولا ولاية لأحد على مالها، لا زوج ولا أب ولا أخ", None, "face-2", sub="زوج|أب|أخ", kind="ownbox"),
-        I("ولا تنكح البكر حتى تستأذن", None, "deep-1", kind="consent"),
+        I("ولا تنكح البكر حتى تستأذن", None, "deep-1", sub="إِذْنُهَا", kind="consent"),
         I("قائمة على المودة والرحمة", "قائمة", "deep-4", sub="المودة|الرحمة", kind="harmony"),
     ], layout="shieldtent"),
     "bs-shahada": S("art", [
@@ -2374,7 +2374,7 @@ SCENES = {
         I("فالحسنات في الحرم مضاعفة", None, "face-1", sub="مضاعفة|عظيمة شديدة", kind="doubledhere"),
         I("وجب عليهم طواف الوداع", None, "face-2", sub="طواف الوداع|آخر عهدهم بالبيت", kind="farewelltawaf"),
         I("مضى على وجهه", None, "deep-0", sub="مضى على وجهه", kind="walkonward"),
-        I("فالصلاة فيه خير من ألف صلاة", None, "deep-3", sub="خير من ألف صلاة", kind="madinahmosque"),
+        I("فالصلاة فيه خير من ألف صلاة", None, "deep-3", sub="خير من ألف صلاة|مَسْجِدُ النَّبِيِّ ﷺ", kind="madinahmosque"),
     ], layout="farewellhouse"),
     # ── v1.3: fiqh, «الأضحية والذكاة» (wave 71) ──
     "udh-hukm": S("art", [

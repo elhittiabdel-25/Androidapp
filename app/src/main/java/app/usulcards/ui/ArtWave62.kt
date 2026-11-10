@@ -113,7 +113,6 @@ private fun DrawScope.jointDay(a: ArtCtx) {
         softGlow(Offset(w * 0.5f, ground - h * 0.3f), w * 0.1f, JointC62.Gold, 0.5f * f * settle)
         tagAt(a.tag("fivesadaqa", 0, 0), Offset(w * 0.5f, h * 0.18f), f * seg(fs, 0.2f, 0.45f), back = Back62, ink = ArtInk.Gold)
     }
-    }
     if (dt > 0f) {
         val f = easeOut(seg(dt, 0f, BEAT_IN)) * (1f - seg(cr, 0f, BEAT_OUT))
         sun12(Offset(w * 0.82f, h * 0.35f), w * 0.04f, f)

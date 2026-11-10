@@ -605,13 +605,15 @@ private fun DrawScope.farewellHouseDraw(a: ArtCtx) {
         val ang = 2f * PI.toFloat() * circ - PI.toFloat() * 0.5f
         val round = Offset(c.x + w * 0.12f * cos(ang), c.y - h * 0.04f * sin(ang) + h * 0.04f)
         val away = seg(pb, 0.5f, 1f) * 0.4f + seg(wo, 0f, 1f) * 0.6f
-        val pos = if (circ < 1f) round else Offset(mix(round.x, w * 0.1f, away), mix(round.y, ground + h * 0.12f, away))
+        val pos = if (circ < 1f) round else Offset(mix(round.x, w * 0.3f, away), mix(round.y, ground + h * 0.12f, away))
         fqRoad(Offset(c.x - w * 0.05f, ground + h * 0.1f), Offset(-w * 0.05f, ground + h * 0.14f), h * 0.05f, Color(0xFF4A4038), p3 * seg(pb, 0.4f, 0.55f))
         fqPilgrim(pos, h * 0.2f, p3, walk = t * 9f)
         tagAt(a.tag("farewelltawaf", 0, 0), Offset(w * 0.72f, h * 0.2f), p3 * seg(pb, 0.05f, 0.2f), back = Fq.Back, ink = ArtInk.Gold)
         tagAt(a.tag("farewelltawaf", 0, 1), Offset(w * 0.35f, h * 0.35f), p3 * seg(pb, 0.4f, 0.55f) * (1f - seg(wo, 0f, BEAT_OUT)), back = Fq.Back, ink = ArtInk.Ivory)
         if (wo > 0f) {
-            tick14(Offset(w * 0.3f, h * 0.55f), w * 0.05f, seg(wo, 0.3f, 0.5f))
+            // the farewell tawaf done, the house behind him; he goes on facing forward
+            tick14(c + Offset(w * 0.08f, -h * 0.2f), w * 0.04f, seg(wo, 0.1f, 0.3f))
+            tick14(pos + Offset(-w * 0.05f, -h * 0.26f), w * 0.04f, seg(wo, 0.4f, 0.6f))
             tagAt(a.tag("walkonward"), Offset(w * 0.35f, h * 0.35f), p3 * seg(wo, 0.15f, 0.3f), back = Fq.Back, ink = ArtInk.Jade)
         }
     }
@@ -628,6 +630,7 @@ private fun DrawScope.farewellHouseDraw(a: ArtCtx) {
             val y = h * (0.06f + 0.3f * fract(k * 0.381f + 0.2f))
             drawCircle(HajjC70.Lit, w * 0.005f, Offset(x, y), alpha = p5 * (0.5f + 0.5f * sin(t * 2f + k)))
         }
-        tagAt(a.tag("madinahmosque"), Offset(w * 0.5f, h * 0.88f), p5 * seg(pb, 0.3f, 0.45f), back = Fq.Back, ink = ArtInk.Gold)
+        tagAt(a.tag("madinahmosque", 0, 1), foot + Offset(0f, -h * 0.52f), p5 * seg(pb, 0.1f, 0.3f), back = Fq.Back, ink = Color(0xFF9AE0A0))
+        tagAt(a.tag("madinahmosque", 0, 0), Offset(w * 0.5f, h * 0.88f), p5 * seg(pb, 0.3f, 0.45f), back = Fq.Back, ink = ArtInk.Gold)
     }
 }

@@ -182,7 +182,7 @@ private fun lockAt21(w: Float, h: Float, k: Int): Offset = Offset(w * (0.09f + (
  * A study wall by day. Beats: volumes (three volumes slide onto the shelf, one, two and three gold bands), arch
  * (loose bricks fly in and set into an arch, its keystone glowing), tenlocks (ten padlocks on a board each opened
  * by its own key, one after another), eleventh (an eleventh, larger lock appears; a key tries it, does not fit and
- * shakes; question marks), masterkey (the gold master key «الْمَنْهَجُ» turns in it: it opens, and all the locks glow).
+ * shakes; question marks), masterkey (the master key «الْمَنْهَجُ» is what he lacks: its faint outline, crossed; the lock stays shut).
  */
 internal fun DrawScope.locksScene(a: ArtCtx) {
     val w = size.width
@@ -251,15 +251,13 @@ private fun DrawScope.locksWall(a: ArtCtx) {
             val kin = seg(tl, 0.06f + k * 0.08f, 0.14f + k * 0.08f)
             if (kin > 0f && kin < 1f) key21(c + Offset(w * 0.06f * (1f - kin), h * 0.01f), w * 0.05f, LockC21.Key, 1f, rot = 90f * seg(kin, 0.6f, 1f))
             padlock21(c, w * 0.045f, LockC21.Lock, open, board)
-            val all = easeOut(seg(mk, 0.55f, 0.9f))
-            if (all > 0f) softGlow(c, w * 0.04f, ArtInk.Gold, 0.5f * all)
         }
     }
     // the eleventh lock: no key of the ten fits it
     if (el > 0f) {
         val c = Offset(w * 0.6f, h * 0.62f)
         val shake = if (mk <= 0f) sin(t * 40f) * 6f * bump(seg(el, 0.35f, 0.75f)) else 0f
-        val open = easeOut(seg(mk, 0.35f, 0.6f))
+        val open = 0f
         val body = lerpColor(LockC21.Red, LockC21.Lock, open)
         padlock21(c, w * 0.09f, body, open, easeOut(seg(el, 0f, 0.2f)), rot = shake)
         // a plain key tries it and bounces back
@@ -270,12 +268,12 @@ private fun DrawScope.locksWall(a: ArtCtx) {
         }
         val q = seg(el, 0.55f, 0.8f) * (1f - seg(mk, 0f, BEAT_OUT))
         for (k in 0 until 3) qmark21(c + Offset(w * (-0.05f + 0.05f * k), -h * (0.17f + 0.03f * (k % 2))), h * 0.07f, LockC21.Red, q)
-        // the master key of method
+        // the master key of method is what he lacks: only its faint outline, crossed, and the lock stays shut
         if (mk > 0f) {
             val come = easeOut(seg(mk, 0f, 0.35f))
-            val kp = c + Offset(w * 0.08f + w * 0.2f * (1f - come), h * 0.01f)
-            softGlow(kp, w * 0.06f, ArtInk.Gold, 0.55f * come)
-            key21(kp, w * 0.1f, ArtInk.Gold, come, rot = 90f * seg(mk, 0.35f, 0.5f))
+            val kp = c + Offset(w * 0.12f, h * 0.01f)
+            key21(kp, w * 0.1f, ArtInk.Gold, 0.3f * come)
+            cross21(kp, w * 0.045f, LockC21.Red, seg(mk, 0.35f, 0.6f), 3f * density)
             tagAt(a.tag("masterkey"), kp + Offset(w * 0.02f, -h * 0.11f), seg(mk, 0.1f, 0.3f), back = LockC21.Back, ink = ArtInk.BrassLight)
         }
     }

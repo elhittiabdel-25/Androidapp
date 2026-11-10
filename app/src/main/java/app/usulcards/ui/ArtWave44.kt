@@ -552,8 +552,8 @@ private fun DrawScope.shieldDay(a: ArtCtx) {
         }
     }
     // her chest, her lock
-    if (ob > 0f) {
-        val f = easeOut(seg(ob, 0f, 0.3f)) * away
+    if (ob > 0f && co < 0.3f) {
+        val f = easeOut(seg(ob, 0f, 0.3f)) * away * (1f - seg(co, 0f, 0.3f))
         val c = Offset(w * 0.5f, h * 0.74f)
         drawRect(ShieldC44.Chest, Offset(c.x - w * 0.07f, c.y - h * 0.05f), Size(w * 0.14f, h * 0.1f), alpha = f)
         padlock21(c + Offset(0f, h * 0.01f), w * 0.03f, ArtInk.Brass, 0f, f)
@@ -564,7 +564,7 @@ private fun DrawScope.shieldDay(a: ArtCtx) {
             val to = c + Offset(cos(an), sin(an)) * (w * (0.26f - 0.1f * reach))
             drawLine(Color(0xFF8A7A6A), from, to, 3f * dp, StrokeCap.Round, alpha = f)
             drawLine(ShieldC44.Red, to + Offset(-sin(an), cos(an)) * (w * 0.02f), to - Offset(-sin(an), cos(an)) * (w * 0.02f), 3f * dp, StrokeCap.Round, alpha = f * seg(ob, 0.5f + 0.12f * k, 0.6f + 0.12f * k))
-            tagAt(a.tag("ownbox", 0, k), from + Offset(cos(an), sin(an)) * (w * 0.05f), seg(ob, 0.4f + 0.12f * k, 0.6f + 0.12f * k) * away, back = Back44, ink = ArtInk.Ivory)
+            tagAt(a.tag("ownbox", 0, k), from + Offset(cos(an), sin(an)) * (w * 0.05f), seg(ob, 0.4f + 0.12f * k, 0.6f + 0.12f * k) * away * (1f - seg(co, 0f, 0.3f)), back = Back44, ink = ArtInk.Ivory)
         }
     }
     // a contract waiting for her seal
@@ -573,6 +573,11 @@ private fun DrawScope.shieldDay(a: ArtCtx) {
         val c = Offset(w * 0.76f, h * 0.28f)
         drawRect(Color(0xFFFBF7EC), Offset(c.x - w * 0.09f, c.y - h * 0.12f), Size(w * 0.18f, h * 0.24f), alpha = f)
         for (r in 0 until 5) drawLine(Color(0xFF9A9080), Offset(c.x - w * 0.06f, c.y - h * 0.08f + r * h * 0.03f), Offset(c.x + w * 0.06f, c.y - h * 0.08f + r * h * 0.03f), 1.2f * dp, alpha = f)
+        // she is asked: her own yes (a tick) comes before the contract is sealed
+        val her = Offset(c.x - w * 0.17f, c.y + h * 0.15f)
+        woman12(her, h * 0.26f, Color(0xFF5A4A6A), f)
+        tick14(her + Offset(w * 0.05f, -h * 0.3f), h * 0.035f, seg(co, 0.3f, 0.5f))
+        tagAt(a.tag("consent"), her + Offset(0f, -h * 0.38f), f * seg(co, 0.2f, 0.4f), back = Back44, ink = ArtInk.Gold)
         val stamp = easeOut(seg(co, 0.55f, 0.75f))
         drawCircle(Color(0xFFC8384A), w * 0.025f * (1.6f - 0.6f * stamp), c + Offset(w * 0.04f, h * 0.08f), alpha = f * stamp)
         drawCircle(Color(0xFFC8384A), w * 0.025f, c + Offset(w * 0.04f, h * 0.08f), alpha = f * (1f - stamp), style = Stroke(1.5f * dp, pathEffect = PathEffect.dashPathEffect(floatArrayOf(3f * dp, 3f * dp))))

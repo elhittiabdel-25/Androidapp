@@ -143,12 +143,16 @@ private fun DrawScope.bridgeNight(a: ArtCtx) {
         val c = Offset(w * 0.75f, h * 0.32f)
         drawCircle(Color(0xFF2A2E44), w * 0.08f, c, alpha = f)
         drawCircle(ArtInk.BrassLight, w * 0.08f, c, alpha = f, style = Stroke(2f * dp))
-        val turn = easeInOut(seg(qt, 0.4f, 0.8f))
-        val an = -PI.toFloat() / 2f + PI.toFloat() * turn
+        // the needle points to Bayt al-Maqdis: they prayed toward it, by the Sunnah, with no verse commanding it
+        val swing = easeOut(seg(qt, 0.15f, 0.4f))
+        val an = -PI.toFloat() / 2f + 0.6f * (1f - swing)
         drawLine(ArtInk.Gold, c, c + Offset(cos(an), sin(an)) * (w * 0.065f), 3f * dp, StrokeCap.Round, alpha = f)
-        val dome = c + Offset(0f, -h * 0.14f)
-        drawArc(BridgeC43.Dome, 180f, 180f, true, Offset(dome.x - w * 0.025f, dome.y - h * 0.02f), Size(w * 0.05f, h * 0.05f), alpha = f * (1f - 0.6f * turn))
-        kaaba29(c + Offset(0f, h * 0.18f), w * 0.035f, f * seg(qt, 0.5f, 0.8f))
+        val dome = c + Offset(0f, -h * 0.16f)
+        drawRect(Color(0xFFD8CCB0), Offset(dome.x - w * 0.04f, dome.y), Size(w * 0.08f, h * 0.04f), alpha = f)
+        drawArc(BridgeC43.Dome, 180f, 180f, true, Offset(dome.x - w * 0.03f, dome.y - h * 0.03f), Size(w * 0.06f, h * 0.06f), alpha = f)
+        softGlow(dome, w * 0.06f, ArtInk.Gold, 0.4f * f * swing)
+        tagAt(a.tag("qiblaturn", 0, 0), dome + Offset(0f, -h * 0.08f), f * seg(qt, 0.2f, 0.4f), ink = ArtInk.Gold)
+        tagAt(a.tag("qiblaturn", 0, 1), c + Offset(0f, h * 0.14f), f * seg(qt, 0.5f, 0.7f), ink = Color(0xFFF0ECE4))
     }
 }
 
