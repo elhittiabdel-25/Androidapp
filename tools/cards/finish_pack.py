@@ -42,7 +42,7 @@ ART_KINDS = {
     "streams": {"basin", "stream", "divert", "curse", "block", "near"},
     "building": {"base", "pillars", "course", "roof", "glow", "light", "house", "rival", "fall", "crack", "lock",
                  "lower", "wall", "name", "raise", "word", "level", "palace", "brick", "siraj"},
-    "gate": {"trumpet", "rise", "lights", "filter", "scrolls", "scale", "bridge", "pass", "trait", "gate", "seal",
+    "gate": {"trumpet", "rise", "lights", "filter", "scrolls", "scale", "bridge", "pass", "trait", "gate", "gatein", "seal",
              "shut", "open", "noprice"},
     "shrine": {"lamp", "excess", "names", "out", "stone", "idol", "forget", "dome", "feast", "tree", "rock", "shirk",
                "steps", "copy", "takbir", "ask", "garden", "pit"},

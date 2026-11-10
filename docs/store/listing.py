@@ -111,9 +111,9 @@ D'autres chapitres de fiqh et des livres de tafsir et de sîra arriveront dans l
  },
 }
 NOTES = {
- "ar": "475 بطاقة من 41 كتابًا. جديد: قسم «القرآن الكريم»، 44 بطاقة من فوائد تفسير السعدي للفاتحة وجزء عمّ، وفضائل القرآن وآداب تلاوته. مشاهد أوضح: كل ما يُذكر يُرسم بكلمته ورمزه، وانتقال أسرع بين الأفكار، وخلاصة في آخر كل مشهد، وتصحيح هيئة السجود.",
- "en": "475 cards from 41 books. New: the Quran category, 44 cards from al-Sa'di's tafsir of al-Fatiha and Juz' 'Amma, and the virtues and etiquette of the Quran. Clearer scenes: what a card names is drawn as its word and symbol, quicker changes between ideas, a summary at the end of every scene, and a corrected prostration.",
- "fr": "475 fiches tirées de 41 livres. Nouveau : la catégorie Coran, 44 fiches tirées du tafsîr d'as-Sa'dî sur al-Fâtiha et le Juz' 'Amma, et les mérites et règles de la récitation du Coran. Scènes plus claires : chaque chose nommée est dessinée avec son mot et son symbole, transitions plus rapides, un résumé à la fin de chaque scène, et une prosternation corrigée.",
+ "ar": "مشاهد أوضح: أعدنا رسم 24 مشهدًا حتى تقول الصورة ما تقوله الكلمات، منها: الطاغوت، والنصيحة، ومعنى «لا إله إلا الله»، ومعنى شهادة أن محمدًا رسول الله ﷺ، وآداب الألفاظ. وصار كل ما يُذكر في المشهد مكتوبًا باسمه، وما يُنهى عنه مشطوبًا بالأحمر.",
+ "en": "Clearer scenes: 24 scenes redrawn so the picture says what the words say, among them taghut, sincere advice, the meaning of «lā ilāha illa Allāh» and of the testimony that Muhammad ﷺ is the Messenger of Allah, and the etiquette of speech. What a scene names is now written on it, and what is forbidden is struck through in red.",
+ "fr": "Scènes plus claires : 24 scènes redessinées pour que l'image dise ce que disent les mots, dont le tâghût, le bon conseil, le sens de « lâ ilâha illa Allâh » et du témoignage que Muhammad ﷺ est le Messager d'Allah, et les règles du langage. Ce qu'une scène nomme y est désormais écrit, et ce qui est interdit est barré en rouge.",
 }
 if __name__ == "__main__":
     lim = {"title": 30, "short": 80, "full": 4000}

@@ -2374,7 +2374,7 @@ SCENES = {
         I("فالحسنات في الحرم مضاعفة", None, "face-1", sub="مضاعفة|عظيمة شديدة", kind="doubledhere"),
         I("وجب عليهم طواف الوداع", None, "face-2", sub="طواف الوداع|آخر عهدهم بالبيت", kind="farewelltawaf"),
         I("مضى على وجهه", None, "deep-0", sub="مضى على وجهه", kind="walkonward"),
-        I("فالصلاة فيه خير من ألف صلاة", None, "deep-3", sub="خير من ألف صلاة|مَسْجِدُ النَّبِيِّ ﷺ", kind="madinahmosque"),
+        I("فالصلاة فيه خير من ألف صلاة", None, "deep-3", sub="خير من ألف صلاة|الْمَسْجِدُ النَّبَوِيُّ", kind="madinahmosque"),
     ], layout="farewellhouse"),
     # ── v1.3: fiqh, «الأضحية والذكاة» (wave 71) ──
     "udh-hukm": S("art", [
