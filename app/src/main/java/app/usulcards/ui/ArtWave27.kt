@@ -593,31 +593,33 @@ private fun DrawScope.stormSea(a: ArtCtx) {
             val u = fract(t * 0.6f + k / 6f) * f
             drawCircle(StoC27.Gold, w * 0.004f, from + Offset(sin(u * 8f) * w * 0.01f, -h * 0.3f * u), alpha = (1f - u) * f)
         }
-        fitBig26(a.big("refugeonly"), Offset(w * 0.56f, h * 0.2f), w * 0.8f, StoC27.Gold, seg(ro, 0.3f, 0.65f), glow = StoC27.Gold)
+        fitBig26(a.big("refugeonly"), Offset(w * 0.56f, h * 0.2f), w * 0.8f, StoC27.Gold, seg(ro, 0.3f, 0.65f) * (1f - seg(lh, 0f, 0.3f)), glow = StoC27.Gold)
     }
     // the call to the tomb: crossed out
     if (sc > 0f) {
         val f = easeOut(seg(sc, 0.2f, 0.6f))
         val from = bc + Offset(-w * 0.1f, -h * 0.13f)
         val to = Offset(w * 0.14f, sea - h * 0.12f)
-        drawLine(StoC27.Red, from, from + (to - from) * f, 1.8f * dp, StrokeCap.Round, pathEffect = dash27())
+        val gone = 1f - seg(lh, 0f, 0.3f)
+        drawLine(StoC27.Red, from, from + (to - from) * f, 1.8f * dp, StrokeCap.Round, pathEffect = dash27(), alpha = gone)
         val mid = (from + to) / 2f
-        cross21(mid, h * 0.035f, StoC27.Red, seg(sc, 0.55f, 0.8f), 3f * dp)
+        cross21(mid, h * 0.035f, StoC27.Red, seg(sc, 0.55f, 0.8f) * gone, 3f * dp)
         tagAt(a.tag("shrinecall"), mid + Offset(0f, -h * 0.1f), seg(sc, 0.5f, 0.75f) * (1f - seg(lh, 0f, BEAT_OUT)), back = StoC27.Back, ink = Color(0xFFFFB0A0))
     }
     // the living man on the shore throws a rope
     if (lh > 0f) {
         val o = easeOut(seg(lh, 0.3f, 0.55f))
         val rescuer = Offset(w * 0.22f, sea + h * 0.02f)
-        val swimmer = Offset(w * 0.4f, sea + h * 0.12f + sin(t * 2f) * h * 0.005f)
         figure(rescuer, h * 0.17f, StoC27.Ink, o, arms = 0.9f)
-        drawCircle(StoC27.Ink, h * 0.017f, swimmer, alpha = o)
-        drawLine(StoC27.Ink, swimmer + Offset(-w * 0.01f, 0f), swimmer + Offset(-w * 0.03f, -h * 0.04f), 2f * dp, StrokeCap.Round, alpha = o)
+        // the rope reaches the boat, and the tick sits on the rope
         val throwF = easeOut(seg(lh, 0.5f, 0.8f))
         val hand = rescuer + Offset(-h * 0.17f * 0.28f + w * 0.03f, -h * 0.13f)
-        val end = hand + (swimmer + Offset(-w * 0.03f, -h * 0.04f) - hand) * throwF
-        drawPath(Path().apply { moveTo(hand.x, hand.y); quadraticTo((hand.x + end.x) / 2f, min(hand.y, end.y) - h * 0.05f, end.x, end.y) }, Color(0xFFC8A060), alpha = o, style = Stroke(1.8f * dp))
-        check21(swimmer + Offset(w * 0.04f, -h * 0.12f), h * 0.03f, StoC27.Green, seg(lh, 0.8f, 1f), 3f * dp)
+        val rail = bc + Offset(-w * 0.11f, -h * 0.03f)
+        val end = hand + (rail - hand) * throwF
+        val ctl = Offset((hand.x + end.x) / 2f, min(hand.y, end.y) - h * 0.05f)
+        drawPath(Path().apply { moveTo(hand.x, hand.y); quadraticTo(ctl.x, ctl.y, end.x, end.y) }, Color(0xFFC8A060), alpha = o, style = Stroke(2.2f * dp))
+        val midR = (hand + end) / 2f + Offset(0f, -h * 0.03f)
+        check21(midR + Offset(0f, -h * 0.05f), h * 0.03f, StoC27.Green, seg(lh, 0.8f, 1f), 3f * dp)
         tagAt(a.tag("livinghelp"), Offset(w * 0.3f, sea - h * 0.2f), seg(lh, 0.7f, 0.9f), back = StoC27.Back, ink = Color(0xFFA8F0C8))
     }
 }

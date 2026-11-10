@@ -160,12 +160,20 @@ private fun DrawScope.flockField(a: ArtCtx) {
         drawLine(FlockC11.Stake, foot + Offset(-tall * 0.25f, 0f), foot + Offset(-tall * 0.2f, -tall * 1.05f), 2f * dp, StrokeCap.Round)
         drawArc(FlockC11.Stake, 180f, 180f, false, topLeft = foot + Offset(-tall * 0.28f, -tall * 1.13f), size = Size(tall * 0.1f, tall * 0.1f), style = Stroke(2f * dp))
     }
-    // mercy: soft rain over the flock
-    if (mb > 0f) for (k in 0 until 50) {
-        val x = mix(w * 0.05f, w * 0.76f, w8Rnd(k, 5.5f))
-        val f = fract(w8Rnd(k, 2.2f) + t * 0.9f)
-        val y = mix(h * 0.1f, h * 0.9f, f)
-        drawLine(FlockC11.Rain, Offset(x, y), Offset(x - w * 0.004f, y + h * 0.03f), 1f * dp, alpha = 0.6f * seg(mb, 0f, 0.3f))
+    // mercy and punishment side by side: warm light over the flock held together; storm over the strays apart
+    if (mb > 0f) {
+        val on = seg(mb, 0f, 0.3f)
+        softGlow(Offset(w * 0.42f, h * 0.55f), w * 0.32f, FlockC11.Sun, 0.45f * on)
+        drawLine(Color(0x55FFFFFF), Offset(w * 0.78f, h * 0.12f), Offset(w * 0.78f, h * 0.95f), 1.4f * dp, alpha = on)
+        for (k in 0 until 2) sheep26(Offset(w * (0.84f + 0.1f * k), h * (0.84f + 0.05f * k)), w * 0.06f, Color(0xFFBDB8B0), on)
+        for (k in 0 until 30) {
+            val x = mix(w * 0.8f, w * 1.0f, w8Rnd(k, 5.5f))
+            val f = fract(w8Rnd(k, 2.2f) + t * 1.4f)
+            val y = mix(h * 0.15f, h * 0.95f, f)
+            drawLine(FlockC11.Rain, Offset(x, y), Offset(x - w * 0.008f, y + h * 0.04f), 1.2f * dp, alpha = 0.8f * on)
+        }
+        tagAt(a.tag("mercy", 0, 0), Offset(w * 0.42f, h * 0.3f), seg(mb, 0.2f, 0.45f), ink = ArtInk.Gold)
+        tagAt(a.tag("mercy", 0, 1), Offset(w * 0.89f, h * 0.3f), seg(mb, 0.35f, 0.6f), ink = Color(0xFFF0A090))
     }
 }
 

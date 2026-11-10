@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import kotlin.math.PI
 import kotlin.math.cos
+import kotlin.math.max
 import kotlin.math.sin
 
 /*
@@ -383,8 +384,16 @@ private fun DrawScope.healRoom(a: ArtCtx) {
         val f = easeOut(seg(hp, 0f, BEAT_IN)) * (1f - seg(lw, 0f, BEAT_OUT))
         val p = Offset(w * 0.5f, floor)
         sit12(p, h * 0.32f, HealC54.Person, f, 1f)
-        val spot = p + Offset(w * 0.03f, -h * 0.2f)
-        drawLine(HealC54.Person, p + Offset(0f, -h * 0.3f), spot, h * 0.02f, StrokeCap.Round, alpha = f)
+        // his hand rests on the place of pain at his side: shoulder, elbow, hand, all joined to the body
+        val tall = h * 0.32f
+        val shoulder = p + Offset(-tall * 0.03f, -tall * 0.37f)
+        val spot = p + Offset(tall * 0.07f, -tall * 0.2f)
+        val elbow = shoulder + Offset(tall * 0.14f, tall * 0.06f)
+        val sw = max(1.7f * dp, tall * 0.06f)
+        drawLine(HealC54.Person, shoulder, elbow, sw, StrokeCap.Round, alpha = f)
+        drawLine(HealC54.Person, elbow, spot, sw, StrokeCap.Round, alpha = f)
+        softGlow(spot, w * 0.04f, ArtInk.Gold, 0.6f * f * (0.7f + 0.3f * sin(t * 5f)))
+        tagAt(a.tag("handonpain"), spot + Offset(w * 0.16f, -h * 0.06f), f * seg(hp, 0.15f, 0.35f), ink = ArtInk.Gold)
         for (k in 0 until 10) {
             val g = seg(hp, 0.1f + 0.08f * k, 0.18f + 0.08f * k)
             val rr = w * (0.02f + 0.01f * (k % 5))

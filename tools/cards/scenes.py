@@ -739,7 +739,7 @@ SCENES = {
         I("فمن رغب عن الجماعة وفارقها فقد خلع ربقة الإسلام من عنقه", "رغب", kind="unloop"),
         I("وكان ضالا مضلا", "ضالا", kind="astray"),
         I("وأهل السنة حريصون على جمع كلمة المسلمين على الحق", None, "face-1", kind="gather"),
-        I("لعلمهم أن الاجتماع رحمة، وأن الفرقة عذاب", "لعلمهم", kind="mercy"),
+        I("لعلمهم أن الاجتماع رحمة، وأن الفرقة عذاب", "لعلمهم", sub="رَحْمَةٌ|عَذَابٌ", kind="mercy"),
     ], layout="flock"),
     "samaa-taa": S("art", [
         I("وجوب طاعة ولاة أمور المسلمين", "وجوب", "face-0", kind="heave"),
@@ -796,7 +796,7 @@ SCENES = {
     "shahada-muayyan": S("art", [
         I("ولا نشهد على أحد من أهل القبلة", "نشهد", "face-0", kind="seal"),
         I("نرجو للصالح ونخاف عليه", "نرجو", kind="scale"),
-        I("كل مؤمن في الجنة", "مؤمن", "face-1", sub="الْجَنَّةُ", kind="gate"),
+        I("كل مؤمن في الجنة", "مؤمن", "face-1", sub="الْجَنَّةُ|كُلُّ مُؤْمِنٍ", kind="gatein"),
         I("كالعشرة المبشرين بالجنة", "كالعشرة", "face-2", sub="الْعَشَرَةُ الْمُبَشَّرُونَ", kind="open"),
     ], layout="gate"),
     "tawba": S("art", [
@@ -1810,7 +1810,7 @@ SCENES = {
     "hisn-marid": S("art", [
         I("كان ﷺ إذا دخل على مريض يعوده", None, "face-0", sub="طهور", kind="nobas"),
         I("ومن عاد مريضا لم يحضر أجله فقال عنده سبع مرات", None, "face-1", kind="sevenvisits"),
-        I("ويضع المريض يده على موضع الألم", None, "face-2", kind="handonpain"),
+        I("ويضع المريض يده على موضع الألم", None, "face-2", sub="مَوْضِعُ الْأَلَمِ", kind="handonpain"),
         I("ومن كان آخر كلامه: لا إله إلا الله، دخل الجنة", None, "deep-2", sub="لا إله إلا الله", kind="lastword"),
     ], layout="healingbed"),
     "hisn-matar": S("art", [
@@ -2004,7 +2004,7 @@ SCENES = {
         I("الكتابة هنا شرعية دينية", None, "face-0", sub="كونية قدرية|وشرعية دينية", kind="twowritings"),
         I("فإذا ذبحتم فأحسنوا الذبحة", None, "face-2", sub="وليحد أحدكم شفرته|وليرح ذبيحته", kind="sharpenrest"),
         I("وفي الآلة الكالة تعذيب للحيوان", "الكالة", "deep-1", kind="bluntno"),
-        I("وذبح الحيوان مفسدة، لكنها مغمورة بمصلحة أعظم", None, "deep-2", kind="outweighharm"),
+        I("وذبح الحيوان مفسدة، لكنها مغمورة بمصلحة أعظم", None, "deep-2", sub="مَصْلَحَةٌ أَعْظَمُ|مَفْسَدَةٌ", kind="outweighharm"),
         I("فالإحسان لا يقف عند العبادة والناس", None, "deep-3", kind="reachesbeast"),
     ], layout="ihsaneverything"),
     "nw-18": S("art", [
@@ -2130,7 +2130,7 @@ SCENES = {
     "nw-34": S("art", [
         I("المنكر: ما علم نكره وحظره في الشرع", None, "face-0", sub="الشرك", kind="darkblots"),
         I("وتغييره ثلاث مراتب", None, "face-1", sub="باليد|باللسان|بالقلب", kind="handtongueheart"),
-        I("وقوله: وذلك أضعف الإيمان", None, "deep-0", sub="وذلك أضعف الإيمان", kind="dimbutlit"),
+        I("وقوله: وذلك أضعف الإيمان", None, "deep-0", sub="وَذَلِكَ أَضْعَفُ الْإِيمَانِ|بِيَدِهِ|بِلِسَانِهِ|بِقَلْبِهِ", kind="dimbutlit"),
         I("وفيه من أدلة أهل السنة", None, "deep-1", sub="يزيد وينقص", kind="faithgauge"),
         I("وقد ينقص الإيمان بسبب ليس من العبد", None, "deep-2", kind="barrierexcused"),
     ], layout="changeevil"),

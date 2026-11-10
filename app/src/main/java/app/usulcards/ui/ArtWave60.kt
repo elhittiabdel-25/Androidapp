@@ -325,7 +325,7 @@ private fun DrawScope.ihsanDay(a: ArtCtx) {
     }
     if (oh > 0f) {
         val f = easeOut(seg(oh, 0f, BEAT_IN)) * (1f - seg(rb, 0f, 0.4f))
-        val tilt = mix(-0.4f, 0.6f, easeInOut(seg(oh, 0.4f, 0.8f)))
+        val tilt = mix(0.35f * seg(oh, 0.1f, 0.25f), -0.6f, easeInOut(seg(oh, 0.4f, 0.8f)))
         val foot = Offset(w * 0.5f, ground)
         val s = h * 0.6f
         balance12(foot, s, tilt, IhsanC60.Weight, f)
@@ -333,6 +333,8 @@ private fun DrawScope.ihsanDay(a: ArtCtx) {
         drawRect(IhsanC60.Ink, Offset(rp.x - w * 0.025f, rp.y - h * 0.04f), Size(w * 0.05f, h * 0.035f), alpha = f * seg(oh, 0.1f, 0.25f))
         drawRect(IhsanC60.Gold, Offset(lp.x - w * 0.04f, lp.y - h * 0.06f), Size(w * 0.08f, h * 0.055f), alpha = f * seg(oh, 0.3f, 0.45f))
         softGlow(lp + Offset(0f, -h * 0.03f), w * 0.07f, IhsanC60.Gold, 0.5f * f * seg(oh, 0.3f, 0.6f))
+        tagAt(a.tag("outweighharm", 0, 1), rp + Offset(0f, h * 0.08f), f * seg(oh, 0.12f, 0.3f), ink = Color(0xFFF0A090))
+        tagAt(a.tag("outweighharm", 0, 0), lp + Offset(0f, h * 0.08f), f * seg(oh, 0.35f, 0.55f), ink = ArtInk.Gold)
     }
     if (rb > 0f) {
         val f = easeOut(seg(rb, 0f, 0.25f))

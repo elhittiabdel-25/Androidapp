@@ -491,10 +491,12 @@ private fun DrawScope.changeNight(a: ArtCtx) {
             val c = Offset(w * (0.75f - 0.25f * k), ground - h * 0.22f)
             val g = seg(dl, 0.08f + 0.2f * k, 0.25f + 0.2f * k)
             drawLine(ChangeC63.Lamp, c + Offset(0f, h * 0.05f), Offset(c.x, ground), 2f * dp, alpha = f * g)
-            drawOval(ChangeC63.Lamp, Offset(c.x - w * 0.03f, c.y - h * 0.03f), Size(w * 0.06f, h * 0.08f), alpha = f * g)
-            softGlow(c, w * (0.1f - 0.03f * k), ChangeC63.Gold, f * g * (1f - 0.3f * k) * (0.85f + 0.15f * sin(t * 4f + k)))
+            drawOval(ChangeC63.Lamp, Offset(c.x - w * 0.03f, c.y - h * 0.03f), Size(w * 0.06f, h * 0.08f), alpha = f * g * (1f - 0.3f * k))
+            softGlow(c, w * (0.1f - 0.035f * k), ChangeC63.Gold, f * g * listOf(1f, 0.6f, 0.22f)[k] * (0.85f + 0.15f * sin(t * 4f + k)))
+            // the hand (strongest), the tongue, the heart (weakest, yet still lit)
+            tagAt(a.tag("dimbutlit", 0, k + 1), Offset(c.x, ground - h * 0.06f), f * g, back = Back63, ink = if (k == 2) Color(0xFFD8C890) else ArtInk.Gold)
         }
-        tagAt(a.tag("dimbutlit"), Offset(w * 0.5f, h * 0.25f), f * seg(dl, 0.6f, 0.8f), back = Back63, ink = ArtInk.Gold)
+        tagAt(a.tag("dimbutlit"), Offset(w * 0.25f, h * 0.3f), f * seg(dl, 0.6f, 0.8f), back = Back63, ink = ArtInk.Gold)
     }
     if (fg > 0f) {
         val f = easeOut(seg(fg, 0f, BEAT_IN)) * (1f - seg(be, 0f, BEAT_OUT))

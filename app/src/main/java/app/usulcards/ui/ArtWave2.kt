@@ -639,9 +639,11 @@ internal fun DrawScope.gateScene(a: ArtCtx) {
     }
 
     // the gate
-    val gateA = if (a.count("gate") > 0) easeOut(a.b("gate")) else if (hasGate) 1f else 0f
+    // gatein: the gate opens part way and every believer walks in (shahada-muayyan)
+    val gi = a.b("gatein")
+    val gateA = if (a.count("gate") > 0) easeOut(a.b("gate")) else if (a.count("gatein") > 0) easeOut(seg(gi, 0f, 0.3f)) else if (hasGate) 1f else 0f
     val ps = a.b("pass")
-    val open = max(easeOut(a.b("open")), 0.35f * easeOut(seg(ps, 0.55f, 1f)))
+    val open = max(max(easeOut(a.b("open")), 0.35f * easeOut(seg(ps, 0.55f, 1f))), 0.55f * easeOut(seg(gi, 0.2f, 0.5f)))
     val j = w * 0.062f
     val r = j * 1.18f
     val cy = ground - h * 0.31f
@@ -684,6 +686,17 @@ internal fun DrawScope.gateScene(a: ArtCtx) {
             tagAt(tl, tc, seg(a.b("seal", k), 0.3f, 1f), back = TagBack, ink = ArtInk.Gold)
         }
         tagAt(a.tag("gate"), Offset(max(gateX, halfTag(a.tag("gate")) + 4f * dp), h * 0.1f), seg(a.b("gate"), 0.3f, 1f), back = TagBack, ink = ArtInk.Gold)
+        if (gi > 0f) {
+            val left = 1f - seg(a.b("open"), 0f, 0.3f)
+            for (k in 0 until 7) {
+                val u = easeInOut(seg(gi, 0.3f + 0.07f * k, 0.75f + 0.07f * k))
+                if (u <= 0f) continue
+                val c = Offset(mix(gateX + w * 0.42f, gateX, u), ground - w * 0.03f)
+                nameRoundel(c, w * 0.022f, null, Roundel.PlainFill, Roundel.PlainRim, left * (1f - seg(u, 0.85f, 1f)))
+            }
+            tagAt(a.tag("gatein"), Offset(max(gateX, halfTag(a.tag("gatein")) + 4f * dp), h * 0.1f), seg(gi, 0.2f, 0.5f), back = TagBack, ink = ArtInk.Gold)
+            tagAt(a.tag("gatein", 0, 1), Offset(gateX + w * 0.24f, ground - h * 0.16f), seg(gi, 0.45f, 0.7f) * left, back = TagBack, ink = ArtInk.Gold)
+        }
         tagAt(a.tag("open"), Offset(max(gateX, halfTag(a.tag("open")) + 4f * dp), cy - r - h * 0.07f), seg(a.b("open"), 0.3f, 1f), back = TagBack, ink = ArtInk.Jade)
     }
 
