@@ -932,8 +932,8 @@ private fun DrawScope.bridgeGorge(a: ArtCtx) {
     val bad = walker(0.0f, 0.86f, seg(bt, 0.25f, 1f), Color(0xFF4A3A4A), true, 2)
     walker(0.02f, 0.9f, sl, Color(0xFF3A3040), false, 0)
     val bothOn = 1f - seg(sl, 0f, 0.15f)
-    if (good != null) tagAt(a.tag("both", 0, 0), good + Offset(0f, -tall * 1.3f), seg(bt, 0.05f, 0.25f) * bothOn, ink = BridgeC11.White)
-    if (bad != null) tagAt(a.tag("both", 0, 1), bad + Offset(0f, -tall * 1.3f), seg(bt, 0.3f, 0.5f) * bothOn, ink = Color(0xFFD8B0A0))
+    if (good != null) tagAt(a.tag("both", 0, 0), good + Offset(tall * 0.3f, -tall * 1.12f), seg(bt, 0.05f, 0.25f) * bothOn, ink = BridgeC11.White)
+    if (bad != null) tagAt(a.tag("both", 0, 1), bad + Offset(-tall * 0.45f, -tall * 0.95f), seg(bt, 0.3f, 0.5f) * bothOn, ink = Color(0xFFD8B0A0))
     // keeping it back is cheating them: over the gap he fell through
     val red = Color(0xFFF0A090)
     tagAt(a.tag("silent"), gap + Offset(0f, -h * 0.2f), seg(sl, 0.6f, 0.8f) * (1f - seg(ur, 0f, BEAT_OUT)), ink = red)
