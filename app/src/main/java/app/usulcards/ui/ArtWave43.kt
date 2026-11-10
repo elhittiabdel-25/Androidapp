@@ -151,7 +151,7 @@ private fun DrawScope.bridgeNight(a: ArtCtx) {
         drawRect(Color(0xFFD8CCB0), Offset(dome.x - w * 0.04f, dome.y), Size(w * 0.08f, h * 0.04f), alpha = f)
         drawArc(BridgeC43.Dome, 180f, 180f, true, Offset(dome.x - w * 0.03f, dome.y - h * 0.03f), Size(w * 0.06f, h * 0.06f), alpha = f)
         softGlow(dome, w * 0.06f, ArtInk.Gold, 0.4f * f * swing)
-        tagAt(a.tag("qiblaturn", 0, 0), dome + Offset(0f, -h * 0.08f), f * seg(qt, 0.2f, 0.4f), ink = ArtInk.Gold)
+        tagAt(a.tag("qiblaturn", 0, 0), dome + Offset(-w * 0.15f, -h * 0.01f), f * seg(qt, 0.2f, 0.4f), ink = ArtInk.Gold)
         tagAt(a.tag("qiblaturn", 0, 1), c + Offset(0f, h * 0.14f), f * seg(qt, 0.5f, 0.7f), ink = Color(0xFFF0ECE4))
     }
 }

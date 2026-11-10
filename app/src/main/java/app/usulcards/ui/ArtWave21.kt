@@ -621,7 +621,7 @@ private fun DrawScope.forkPlain(a: ArtCtx) {
         if (look > 0f) glint(p + Offset(-w * 0.03f, -tall * 1.6f), w * 0.04f, Color.White, look)
         // but he rejects the religions: the book is named and crossed out
         val rej = seg(de, 0.45f, 0.7f) * (1f - seg(ag, 0f, 0.2f))
-        tagAt(a.tag("deist", 0, 1), book + Offset(0f, -h * 0.09f), rej, back = ForkC21.Back, ink = Color(0xFFF0A090))
+        tagAt(a.tag("deist", 0, 1), book + Offset(0f, h * 0.09f), rej, back = ForkC21.Back, ink = Color(0xFFF0A090))
         cross21(book, w * 0.04f, ForkC21.Red, rej, 3f * dp)
         tagAt(a.tag("deist"), p + Offset(0f, -tall * 1.25f), seg(de, 0.15f, 0.4f) * (1f - seg(ag, 0f, 0.2f)), back = ForkC21.Back, ink = ArtInk.Ivory)
     }
