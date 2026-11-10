@@ -1,0 +1,99 @@
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:117:5 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:117:8 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:117:9 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:117:12 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:117:14 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:117:16 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:117:18 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:117:18 Function declaration must have a name.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:118:29 Unresolved reference 'dt'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:118:59 Unresolved reference 'cr'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:119:9 Unresolved reference 'sun12'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:119:22 Unresolved reference 'w'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:119:33 Unresolved reference 'h'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:119:45 Unresolved reference 'w'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:120:27 Unresolved reference 'w'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:120:38 Unresolved reference 'ground'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:121:20 Unresolved reference 'h'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:122:29 Unresolved reference 'dt'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:124:25 Unresolved reference 'pray12'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:124:69 Unresolved reference 'bow12'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:125:9 Unresolved reference 'softGlow'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:125:51 Unresolved reference 'w'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:125:92 Unresolved reference 'dt'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:126:9 Unresolved reference 'tagAt'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:126:15 Unresolved reference 'a'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:126:40 Unresolved reference 'w'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:126:51 Unresolved reference 'h'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:126:70 Unresolved reference 'dt'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:128:5 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:128:8 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:128:9 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:128:12 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:128:14 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:128:16 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:128:18 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:128:18 Function declaration must have a name.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:129:29 Unresolved reference 'cr'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:129:59 Unresolved reference 'es'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:130:9 Unresolved reference 'drawRect'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:130:44 Unresolved reference 'ground'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:130:53 Unresolved reference 'h'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:130:70 Unresolved reference 'w'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:130:73 Unresolved reference 'h'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:132:21 Unresolved reference 'w'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:133:38 Unresolved reference 'cr'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:134:35 Unresolved reference 'w'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:134:53 Unresolved reference 'ground'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:134:62 Unresolved reference 'h'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:134:74 Unresolved reference 'h'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:136:43 Unresolved reference 'drawLine'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:136:98 Unresolved reference 'w'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:136:126 Unresolved reference 'w'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:136:139 Unresolved reference 'w'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:136:156 Unresolved reference 'dp'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:137:22 Unresolved reference 'drawOval'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:137:60 Unresolved reference 'w'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:137:77 Unresolved reference 'h'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:137:94 Unresolved reference 'w'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:137:105 Unresolved reference 'h'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:138:25 Unresolved reference 'drawCircle'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:138:52 Unresolved reference 'w'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:138:80 Unresolved reference 'w'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:141:9 Unresolved reference 'hands12'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:141:24 Unresolved reference 'w'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:141:34 Unresolved reference 'ground'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:141:43 Unresolved reference 'h'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:141:55 Unresolved reference 'h'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:143:5 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:143:8 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:143:9 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:143:12 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:143:14 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:143:16 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:143:18 Syntax error: Expecting a top level declaration.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:143:18 Function declaration must have a name.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:144:29 Unresolved reference 'es'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:145:29 Unresolved reference 'es'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:146:24 Unresolved reference 'ground'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:146:32 Unresolved reference 'h'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:147:9 Unresolved reference 'sun12'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:147:22 Unresolved reference 'w'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:147:55 Unresolved reference 'w'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:148:27 Unresolved reference 'w'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:148:37 Unresolved reference 'ground'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:149:9 Unresolved reference 'figure'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:149:22 Unresolved reference 'h'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:150:9 Unresolved reference 'jointDots62'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:150:27 Unresolved reference 'h'.
+e: file:///home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/ArtWave62.kt:152:1 Syntax error: Expecting a top level declaration.
+> Task :app:compileDebugKotlin FAILED
+* What went wrong:
+* Exception is:
+org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:compileDebugKotlin'.
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+Caused by: org.gradle.workers.internal.DefaultWorkerExecutor$WorkExecutionException: A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+Caused by: org.jetbrains.kotlin.gradle.tasks.CompilationErrorException: Compilation error. See log for more details
+	at org.jetbrains.kotlin.gradle.tasks.TasksUtilsKt.throwExceptionIfCompilationFailed(tasksUtils.kt:21)
+BUILD FAILED in 51s
