@@ -1744,7 +1744,10 @@ private fun DrawScope.ropeScene(a: ArtCtx) {
     val g1 = Offset(anchorG.x, h * 0.18f)
     val g2 = Offset(ring.x + (anchorG.x - ring.x) * 0.3f, ring.y - h * 0.12f)
     val firm = cubicPart(anchorG, g1, g2, ring, 0f, 1f)
-    val base = 0.18f + 0.3f * seg(cut, 0.2f, 0.7f)
+    val b0 = a.b("rope", 0)
+    val b1 = a.b("rope", 1)
+    val b2 = a.b("rope", 2)
+    val base = max(0.18f + 0.3f * seg(cut, 0.2f, 0.7f), 0.25f + 0.5f * seg(b2, 0.3f, 0.6f))
     val firmA = mix(base, 1f, hold)
     if (hold > 0f) drawPath(firm, ArtInk.Gold.copy(alpha = 0.3f * hold), style = Stroke(8f * dp, cap = StrokeCap.Round))
     drawPath(
@@ -1768,8 +1771,12 @@ private fun DrawScope.ropeScene(a: ArtCtx) {
         val p2 = ring + Offset((p0.x - ring.x) * 0.28f, -h * 0.11f)
         val q = easeInOut(seg(cut, 0.12f * k, 0.12f * k + 0.62f))
         val brk = 0.3f
+        val stampP = cubic(p0, p1, p2, ring, 0.7f)
         if (q <= 0f) {
-            braid(cubicPart(p0, p1, p2, ring, 0f, appear))
+            val dim = 1f - 0.4f * seg(b1, 0.5f, 0.8f) * (if (k < 2) 1f else 0f)
+            braid(cubicPart(p0, p1, p2, ring, 0f, appear), alpha = dim)
+            if (k < 2) tagAt(a.tag("rope", 1, 1), stampP, seg(b1, 0.45f, 0.7f) * (1f - seg(b2, 0f, 0.25f)), back = Color(0xE6B02A20), ink = Color.White)
+            tagAt(a.tag("rope", 2, 1), stampP, appear * seg(b2, 0.35f, 0.65f) * (1f - seg(cut, 0f, 0.15f)), back = Color(0xE6B02A20), ink = Color.White)
             frays(p0, p1, p2, ring, k, appear, t, 0.5f + 0.5f * seg(cut, 0f, 0.1f))
             val tagP = cubic(p0, p1, p2, ring, 0.42f)
             tagAt(a.tag("rope", k), tagP + Offset(if (k == 2) 22f * dp else -22f * dp, 0f), seg(a.b("rope", k), 0.35f, 0.9f), back = Color(0xCC4A1A10))
@@ -1778,11 +1785,24 @@ private fun DrawScope.ropeScene(a: ArtCtx) {
             val up = Offset(0f, -q * h * 0.12f)
             braid(cubicPart(p0, p1, p2, ring, 0f, brk, up), alpha = 1f - q)
             val fall = Offset((k - 1f) * q * w * 0.05f, q * q * h * 0.6f)
-            braid(cubicPart(p0, p1, p2, ring, brk, 1f, fall), alpha = (1f - q).pow(1.5f))
+            braid(cubicPart(p0, p1, p2, ring, brk, 1f, fall), alpha = max(0.35f, (1f - q).pow(1.5f)))
             val tagP = cubic(p0, p1, p2, ring, 0.42f) + fall
             tagAt(a.tag("rope", k), tagP + Offset(if (k == 2) 22f * dp else -22f * dp, 0f), 1f - q, back = Color(0xCC4A1A10))
         }
     }
+
+    if (cut > 0f) {
+        val sweep = easeInOut(seg(cut, 0.05f, 0.45f))
+        val bladeY = h * 0.2f
+        val bx = mix(-w * 0.05f, w * 1.05f, sweep)
+        val on = bump(seg(cut, 0.05f, 0.5f))
+        drawLine(ArtInk.Ivory, Offset(bx - w * 0.12f, bladeY + h * 0.02f), Offset(bx, bladeY), 2.4f * dp, StrokeCap.Round, alpha = on)
+        softGlow(Offset(bx, bladeY), w * 0.05f, ArtInk.Gold, 0.8f * on)
+        tagAt(a.tag("cut"), Offset(w * 0.5f, h * 0.1f), seg(cut, 0.05f, 0.25f) * (1f - seg(hold, 0f, 0.3f)), back = Color(0xCC4A1A10), ink = ArtInk.Ember)
+    }
+    // at the start: the true line, faint, tagged
+    tagAt(a.tag("rope", 0, 1), cubic(anchorG, g1, g2, ring, 0.4f) + Offset(40f * dp, 0f), seg(b0, 0.4f, 0.9f) * (1f - seg(b1, 0f, 0.2f)), back = Color(0xCC3A2808), ink = ArtInk.Gold)
+    tagAt(a.tag("rope", 2, 2), cubic(anchorG, g1, g2, ring, 0.4f) + Offset(40f * dp, 0f), seg(b2, 0.35f, 0.65f) * (1f - seg(cut, 0f, 0.15f)), back = Color(0xCC3A2808), ink = ArtInk.Gold)
 
     // the heart that hangs on them: unsteady, then steady and lit once it holds the firm one
     val hc = ring + Offset(0f, s * 1.9f)
@@ -1792,7 +1812,7 @@ private fun DrawScope.ropeScene(a: ArtCtx) {
 
     // tags: the firm handhold, then the meaning
     tagAt(a.tag("hold"), cubic(anchorG, g1, g2, ring, 0.58f) + Offset(44f * dp, 0f), seg(a.b("hold"), 0.3f, 0.9f), back = Color(0xCC3A2808), ink = ArtInk.Gold)
-    tagAt(a.tag("meaning", 0, 0), Offset(w * 0.2f, h * 0.84f), meaning, back = Color(0xCC4A1A10), ink = ArtInk.Ember)
+    tagAt(a.tag("meaning", 0, 0), Offset(w * 0.5f, h * 0.8f), meaning, back = Color(0xCC4A1A10), ink = ArtInk.Ember)
     tagAt(a.tag("meaning", 0, 1), Offset(w * 0.82f, h * 0.07f), meaning, back = Color(0xCC3A2808), ink = ArtInk.Gold)
 }
 

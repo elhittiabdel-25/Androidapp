@@ -318,6 +318,7 @@ private fun DrawScope.lawhBoard(a: ArtCtx) {
 // ═════════════ 3. plaza: the manners of the tongue (adab-alfadh) ═════════════
 
 private object PlazaC13 {
+    val TagBack = Color(0xE6201810)
     val SkyTop = Color(0xFF6A7AA8)
     val SkyLow = Color(0xFFF2C890)
     val House = Color(0xFFE2CCA4)
@@ -372,6 +373,14 @@ private fun DrawScope.plazaSquare(a: ArtCtx) {
         softGlow(gc, w * 0.12f, PlazaC13.GardenLight, 0.6f * jan)
         drawPath(horseshoe(gc.x, gc.y, w * 0.05f, w * 0.04f, gc.y + h * 0.14f), PlazaC13.Garden, alpha = jan)
         for (k in 0 until 5) drawCircle(PlazaC13.GardenLight, w * 0.012f, gc + Offset((k - 2f) * w * 0.018f, h * 0.08f), alpha = jan)
+        for (sd in listOf(-1f, 1f)) {
+            drawLine(Color(0xFF6A4A2A), gc + Offset(sd * w * 0.085f, h * 0.15f), gc + Offset(sd * w * 0.085f, h * 0.06f), 2.4f * dp, alpha = jan)
+            drawCircle(PlazaC13.Garden, w * 0.035f, gc + Offset(sd * w * 0.085f, h * 0.04f), alpha = jan)
+        }
+        drawPath(Path().apply {
+            moveTo(gc.x - w * 0.13f, gc.y + h * 0.18f)
+            for (i in 1..8) lineTo(gc.x - w * 0.13f + w * 0.0325f * i, gc.y + h * 0.18f + h * 0.008f * sin(i * 1.6f + t * 2f))
+        }, Color(0xFF6AB8E0), alpha = jan, style = Stroke(3f * dp, cap = StrokeCap.Round))
         tagAt(a.tag("askjanna"), gc + Offset(0f, -h * 0.13f), jan, back = Color(0xE6203018), ink = PlazaC13.GardenLight)
     }
     // the houses round the square and an awning
@@ -398,8 +407,8 @@ private fun DrawScope.plazaSquare(a: ArtCtx) {
     // what his hands do in each beat
     val fist = easeOut(seg(gu, 0.15f, 0.35f)) * (1f - easeOut(seg(gu, 0.55f, 0.7f)))
     val palmsUp = easeOut(seg(gu, 0.6f, 0.8f)) * (1f - seg(gr, 0f, 0.15f))
-    val greetUp = easeOut(seg(gr, 0.05f, 0.25f)) * (1f - easeOut(seg(gr, 0.45f, 0.6f)))
-    val greetNb = easeOut(seg(gr, 0.55f, 0.75f)) * (1f - seg(rs, 0f, 0.15f))
+    val greetUp = 0f
+    val greetNb = 0f
     val waver = easeOut(seg(rs, 0f, BEAT_IN)) * (1f - easeOut(seg(rs, 0.5f, 0.65f)))
     val firm = easeOut(seg(rs, 0.55f, 0.8f)) * (1f - seg(gv, 0f, BEAT_OUT))
     val askG = if (aj > 0f) firm.coerceAtLeast(easeOut(seg(aj, 0f, 0.2f))) * (1f - seg(gv, 0f, BEAT_OUT)) else 0f
@@ -416,8 +425,8 @@ private fun DrawScope.plazaSquare(a: ArtCtx) {
     fun arm(to: Offset, alpha: Float = 1f) = drawLine(PlazaC13.Ink, sh, to, sw0 * 0.9f, StrokeCap.Round, alpha = alpha)
     val restL = sh + Offset(-tall * 0.11f, tall * 0.28f)
     val restR = sh + Offset(tall * 0.11f, tall * 0.28f)
-    val upL = sh + Offset(-tall * 0.14f, -tall * 0.18f)
-    val upR = sh + Offset(tall * 0.14f, -tall * 0.18f)
+    val upL = sh + Offset(-tall * 0.17f, -tall * 0.02f)
+    val upR = sh + Offset(tall * 0.17f, -tall * 0.02f)
     val halfL = sh + Offset(-tall * 0.16f, tall * 0.02f)
     val halfR = sh + Offset(tall * 0.16f, tall * 0.02f)
     when {
@@ -453,7 +462,7 @@ private fun DrawScope.plazaSquare(a: ArtCtx) {
         }
     }
     // the neighbour he greets
-    if (gr > 0.4f && gv <= 0f) {
+    if (false) {
         val nb = Offset(w * 0.3f, h * 0.92f)
         withTransform({ scale(-1f, 1f, pivot = nb) }) { figure(nb, tall, PlazaC13.Ink, alpha = seg(gr, 0.4f, 0.55f) * (1f - seg(rs, 0f, BEAT_OUT)), arms = 0.6f * greetNb) }
         if (greetNb > 0.5f) softGlow(Offset(w * 0.37f, h * 0.92f - tall * 0.66f), tall * 0.15f, PlazaC13.Glow, 0.5f * greetNb)
@@ -471,16 +480,62 @@ private fun DrawScope.plazaSquare(a: ArtCtx) {
         val to = Offset(w * 0.78f, h * 0.36f)
         drawPath(cubicPart(from, from + Offset(0f, -h * 0.2f), to + Offset(-w * 0.1f, 0f), to, 0f, seg(aj, 0.3f, 0.7f)), PlazaC13.Glow, alpha = 0.8f, style = Stroke(1.6f * dp, cap = StrokeCap.Round))
     }
+    val red = Color(0xFFF0A090)
+    val green = Color(0xFF9AE0A0)
+    val bad = Color(0xE65A1A1A)
+    val good = Color(0xE61A4A2A)
+    val above = Offset(w * 0.4f, h * 0.4f)
+    // gust: an hourglass for time, the wind named; his curse at them struck out
+    if (gu > 0f) {
+        val f = 1f - seg(gr, 0f, BEAT_OUT)
+        val hg = Offset(w * 0.68f, h * 0.48f)
+        val hs = h * 0.07f
+        drawPath(Path().apply { moveTo(hg.x - hs * 0.5f, hg.y - hs); lineTo(hg.x + hs * 0.5f, hg.y - hs); lineTo(hg.x, hg.y); lineTo(hg.x + hs * 0.5f, hg.y + hs); lineTo(hg.x - hs * 0.5f, hg.y + hs); lineTo(hg.x, hg.y); close() }, Color(0xFFE8D8A8), alpha = f * seg(gu, 0.05f, 0.2f))
+        drawPath(Path().apply { moveTo(hg.x - hs * 0.5f, hg.y - hs); lineTo(hg.x + hs * 0.5f, hg.y - hs); lineTo(hg.x, hg.y); lineTo(hg.x + hs * 0.5f, hg.y + hs); lineTo(hg.x - hs * 0.5f, hg.y + hs); lineTo(hg.x, hg.y); close() }, Color(0xFF6A4A2A), alpha = f * seg(gu, 0.05f, 0.2f), style = Stroke(1.8f * dp))
+        tagAt(a.tag("gust", 0, 0), hg + Offset(0f, -hs * 1.6f), f * seg(gu, 0.1f, 0.3f), back = PlazaC13.TagBack, ink = Color.White)
+        tagAt(a.tag("gust", 0, 1), Offset(w * 0.2f, h * 0.36f), f * seg(gu, 0.15f, 0.35f), back = PlazaC13.TagBack, ink = Color.White)
+        val say = Offset(w * 0.48f, h * 0.36f)
+        tagAt(a.tag("gust", 0, 2), say, f * seg(gu, 0.25f, 0.4f), back = bad, ink = red)
+        strike13(say, a.tag("gust", 0, 2), seg(gu, 0.5f, 0.65f) * f)
+    }
+    // greet: «السلام على الله» struck; «التحيات لله» in green
+    if (gr > 0f) {
+        val f = 1f - seg(rs, 0f, BEAT_OUT)
+        tagAt(a.tag("greet", 0, 0), above, f * seg(gr, 0.08f, 0.25f), back = bad, ink = red)
+        strike13(above, a.tag("greet", 0, 0), f * seg(gr, 0.35f, 0.5f))
+        tagAt(a.tag("greet", 0, 1), above + Offset(w * 0.2f, -h * 0.1f), f * seg(gr, 0.55f, 0.75f), back = good, ink = green)
+    }
+    // resolve: «إن شئت» struck; «ليعزم المسألة» in green
+    if (rs > 0f) {
+        val f = 1f - seg(aj, 0f, BEAT_OUT)
+        tagAt(a.tag("resolve", 0, 0), above, f * seg(rs, 0.05f, 0.2f), back = bad, ink = red)
+        strike13(above, a.tag("resolve", 0, 0), f * seg(rs, 0.4f, 0.55f))
+        tagAt(a.tag("resolve", 0, 1), above + Offset(w * 0.2f, -h * 0.1f), f * seg(rs, 0.6f, 0.8f), back = good, ink = green)
+    }
+    // askjanna: the worldly things drifting by, named and struck
+    if (aj > 0.2f && gv <= 0f) {
+        val dc = Offset(w * 0.3f, h * 0.26f)
+        tagAt(a.tag("askjanna", 0, 1), dc, seg(aj, 0.3f, 0.5f), back = bad, ink = red)
+        strike13(dc, a.tag("askjanna", 0, 1), seg(aj, 0.55f, 0.7f))
+    }
     // give: one in need asks him by Allah, and he gives at once
     if (gv > 0f) {
         val come = easeInOut(seg(gv, 0f, 0.35f))
-        val nf = Offset(mix(w * 0.05f, w * 0.28f, come), h * 0.92f)
+        val nf = Offset(mix(w * 0.05f, w * 0.22f, come), h * 0.92f)
         withTransform({ scale(-1f, 1f, pivot = nf) }) { figure(nf, tall * 0.92f, Color(0xFF4A3A30), walk = if (come < 1f) t * 5f else 0f, arms = 0.8f, lean = 0.1f) }
         val handoff = nf + Offset(tall * 0.28f, -tall * 0.62f)
         val bread = (sh + Offset(-tall * 0.3f, tall * 0.08f)) + (handoff - (sh + Offset(-tall * 0.3f, tall * 0.08f))) * easeInOut(seg(gv, 0.55f, 0.85f))
         drawOval(Color(0xFFD9A55A), topLeft = bread - Offset(w * 0.02f, h * 0.014f), size = Size(w * 0.04f, h * 0.028f), alpha = seg(gv, 0.45f, 0.55f))
         if (gv > 0.85f) softGlow(handoff, tall * 0.15f, PlazaC13.Glow, 0.6f)
+        tagAt(a.tag("give"), nf + Offset(tall * 0.1f, -tall * 1.25f), seg(gv, 0.25f, 0.4f), back = good, ink = green)
     }
+}
+
+/** A red line drawn through the tag [tl] centred at [c], as far as [p]. */
+private fun DrawScope.strike13(c: Offset, tl: TextLayoutResult?, p: Float) {
+    if (tl == null || p <= 0.01f) return
+    val half = tl.size.width / 2f + 6f * density
+    drawLine(Color(0xFFE03A30), Offset(c.x + half, c.y), Offset(c.x + half - 2f * half * p.coerceIn(0f, 1f), c.y), 2.2f * density, StrokeCap.Round)
 }
 
 // ═════════════ 4. stall: the merchant who swears, and the covenant kept safe (taazim-yamin) ═════════════

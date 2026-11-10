@@ -177,6 +177,15 @@ internal fun DrawScope.obey4Scene(a: ArtCtx) {
         "asshown" to Shot(Offset(w * 0.45f, h * 0.58f), 1.15f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.12f) { obey4Yard(a) }
+    // the four matters, kept in view: four slots that fill one per beat (read right to left)
+    val g4 = a.b("guide4")
+    val kinds = listOf("obeycmd", "believe", "avoid", "asshown")
+    for (k in 0 until 4) {
+        val on = seg(a.b(kinds[k]), 0.05f, 0.25f)
+        val c = Offset(w * (0.86f - 0.24f * k), h * 0.07f)
+        if (on > 0f) softGlow(c, w * 0.06f, ArtInk.Gold, 0.35f * on)
+        tagAt(a.tag("guide4", 0, k), c, seg(g4, 0.1f + 0.15f * k, 0.3f + 0.15f * k) * (0.35f + 0.65f * on), back = ObeyC20.Back, ink = if (on > 0.5f) ArtInk.Gold else Color(0xFFD8D0C0))
+    }
 }
 
 private fun DrawScope.obey4Yard(a: ArtCtx) {
@@ -215,6 +224,7 @@ private fun DrawScope.obey4Yard(a: ArtCtx) {
             drawLine(ArtInk.Gold, lc, poor + Offset(0f, -tall * 0.5f), 2f * dp, StrokeCap.Round, alpha = 0.6f * ray)
             softGlow(poor + Offset(0f, -tall * 0.3f), tall * 0.4f, ArtInk.Gold, 0.5f * ray)
         }
+        tagAt(a.tag("obeycmd"), poor + Offset(0f, -tall * 1.05f), seg(oc, 0.15f, 0.35f) * (1f - seg(be, 0f, BEAT_OUT)), back = ObeyC20.Back, ink = ArtInk.Gold)
         val coin = easeOut(seg(oc, 0.5f, 0.7f))
         if (coin > 0f) {
             val c = poor + Offset(tall * 0.24f, -tall * 0.36f)
@@ -229,6 +239,7 @@ private fun DrawScope.obey4Yard(a: ArtCtx) {
         softGlow(jar + Offset(0f, -h * 0.04f), h * 0.1f, Color(0xFFD23C30), 0.6f * mark * (1f - seg(asb, 0f, BEAT_OUT)))
         drawOval(ObeyC20.Jug, topLeft = jar + Offset(-w * 0.025f, -h * 0.09f), size = Size(w * 0.05f, h * 0.08f), alpha = 1f - seg(asb, 0f, BEAT_OUT))
         drawRect(ObeyC20.Jug, topLeft = jar + Offset(-w * 0.008f, -h * 0.11f), size = Size(w * 0.016f, h * 0.025f), alpha = 1f - seg(asb, 0f, BEAT_OUT))
+        tagAt(a.tag("avoid"), jar + Offset(0f, -h * 0.18f), mark * (1f - seg(asb, 0f, BEAT_OUT)), back = ObeyC20.Back, ink = Color(0xFFF0A090))
         noSign11pub(jar + Offset(0f, -h * 0.06f), h * 0.07f, easeOut(seg(av, 0.5f, 0.75f)) * (1f - seg(asb, 0f, BEAT_OUT)))
     }
     // the man himself
@@ -247,6 +258,8 @@ private fun DrawScope.obey4Yard(a: ArtCtx) {
         // a whirl: one arm up, one down (two raised read as a dua being crossed out)
         for (sd in listOf(-1f, 1f)) drawLine(Color(0xFF5A4A5A), wf + Offset(0f, -tall * 0.7f), wf + Offset(sd * tall * 0.26f, -tall * (if (sd * spin > 0f) 0.98f else 0.5f)), max(1.6f * dp, tall * 0.055f), StrokeCap.Round, alpha = seg(asb, 0.25f, 0.45f))
         cross14(wf + Offset(0f, -tall * 1.15f), h * 0.04f, seg(asb, 0.5f, 0.8f))
+        tagAt(a.tag("asshown", 0, 1), wf + Offset(0f, -tall * 1.42f), seg(asb, 0.4f, 0.6f), back = ObeyC20.Back, ink = Color(0xFFF0A090))
+        tagAt(a.tag("asshown", 0, 0), foot + Offset(0f, h * 0.08f), seg(asb, 0.35f, 0.55f), back = ObeyC20.Back, ink = ArtInk.Gold)
     } else {
         val walking = (oc in 0.15f..0.55f) || (be in 0.01f..0.4f) || (av in 0.05f..0.6f)
         withTransform({ if (faceRight) scale(-1f, 1f, pivot = foot) }) {
@@ -272,6 +285,8 @@ private fun DrawScope.obey4Yard(a: ArtCtx) {
                 for (k in 0 until 3) drawCircle(Color(0xFF4E9A5A), h * 0.025f, bc + Offset(h * (-0.05f + 0.05f * k), -h * 0.015f), alpha = bub)
                 drawPath(horseshoe(bc.x, bc.y - h * 0.03f, h * 0.022f, h * 0.018f, bc.y + h * 0.015f), Color(0xFFF2DFA8).copy(alpha = bub))
             }
+            tagAt(a.tag("believe", 0, 0), Offset(w * 0.36f, h * 0.38f), bub, back = ObeyC20.Back, ink = ArtInk.Gold)
+            tagAt(a.tag("believe", 0, 1), foot + Offset(tall * 0.3f, -tall * 1.32f), seg(be, 0.65f, 0.85f) * (1f - seg(av, 0f, BEAT_OUT)), back = ObeyC20.Back, ink = Color(0xFF9AE0A0))
             tick14(foot + Offset(tall * 0.3f, -tall * 1.1f), h * 0.035f, seg(be, 0.6f, 0.85f) * (1f - seg(av, 0f, BEAT_OUT)))
         }
     }
