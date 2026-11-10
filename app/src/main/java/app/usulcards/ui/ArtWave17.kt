@@ -85,21 +85,30 @@ private fun DrawScope.riverDay(a: ArtCtx) {
     val bannerX = w * 0.42f
     val crownX = w * 0.54f
     val pierX = w * 0.74f
-    fun breakOf(b: Float) = easeOut(seg(b, 0.35f, 0.75f))
     // where each broken thing is: on the bank, falling, or carried off
     fun carried(home: Offset, br: Float, k: Int): Offset {
         if (br <= 0f) return home
         val fallIn = home + Offset(w * 0.02f, h * 0.14f)
-        val down = easeInOut(seg(lg, 0.05f, 0.9f))
+        val down = easeInOut(seg(lg, 0.45f, 1f))
         val drift = Offset(mix(0f, w * (0.92f - 0.05f * k) - fallIn.x, down), h * 0.03f * sin(t * 2f + k))
         return home + (fallIn - home) * br + drift
     }
-    val ib = breakOf(hi)
-    val bb = breakOf(hb)
-    val cb = breakOf(hc)
+    // each false hold stays on the bank while it is named, and falls only at «الكفر بالطاغوت»
+    val ib = easeOut(seg(lg, 0.1f, 0.4f))
+    val bb = easeOut(seg(lg, 0.2f, 0.5f))
+    val cb = easeOut(seg(lg, 0.3f, 0.6f))
     val idolP = carried(Offset(idolX, edge), ib, 0)
     val bannerP = carried(Offset(bannerX, edge), bb, 1)
     val crownP = carried(Offset(crownX, edge), cb, 2)
+    // the named one glows red while it is named
+    val namedGlow = listOf(
+        seg(hi, 0.1f, 0.4f) * (1f - seg(hb, 0f, 0.3f)),
+        seg(hb, 0.1f, 0.4f) * (1f - seg(hc, 0f, 0.3f)),
+        seg(hc, 0.1f, 0.4f) * (1f - seg(lg, 0f, 0.3f)),
+    )
+    fun drawHold(k: Int) {
+    if (k == 0) {
+    softGlow(idolP + Offset(0f, -h * 0.09f), h * 0.11f, Color(0xFFFF5A4A), 0.7f * namedGlow[0] * (1f - ib))
     // the idol
     withTransform({ rotate(100f * ib, idolP) }) {
         drawRect(RiverC17.Idol, topLeft = idolP + Offset(-w * 0.02f, -h * 0.035f), size = Size(w * 0.04f, h * 0.035f))
@@ -107,6 +116,8 @@ private fun DrawScope.riverDay(a: ArtCtx) {
         drawCircle(RiverC17.Idol, w * 0.016f, idolP + Offset(0f, -h * 0.14f))
         if (ib > 0f) drawLine(RiverC17.StoneDark, idolP + Offset(-w * 0.01f, -h * 0.11f), idolP + Offset(w * 0.008f, -h * 0.05f), 1.2f * dp)
     }
+    } else if (k == 1) {
+    softGlow(bannerP + Offset(w * 0.02f, -h * 0.17f), h * 0.11f, Color(0xFFFF5A4A), 0.7f * namedGlow[1] * (1f - bb))
     // the banner on its pole
     withTransform({ rotate(-80f * bb, bannerP) }) {
         drawLine(RiverC17.Pole, bannerP, bannerP + Offset(0f, -h * 0.22f), 2.2f * dp, StrokeCap.Round)
@@ -118,6 +129,8 @@ private fun DrawScope.riverDay(a: ArtCtx) {
             close()
         }, RiverC17.Banner)
     }
+    } else {
+    softGlow(crownP + Offset(0f, -h * 0.12f), h * 0.1f, Color(0xFFFF5A4A), 0.7f * namedGlow[2] * (1f - cb))
     // the crown on its post
     withTransform({ rotate(70f * cb, crownP) }) {
         drawLine(RiverC17.Pole, crownP, crownP + Offset(0f, -h * 0.1f), 2.6f * dp)
@@ -133,13 +146,17 @@ private fun DrawScope.riverDay(a: ArtCtx) {
             close()
         }, RiverC17.Crown)
     }
+    }
+    }
+    val brs = listOf(ib, bb, cb)
+    for (k in 0..2) if (brs[k] <= 0f) drawHold(k)
 
     // the river
     drawRect(Brush.verticalGradient(listOf(RiverC17.Water, RiverC17.WaterDeep), startY = edge, endY = h), topLeft = Offset(0f, edge), size = Size(w, h - edge))
 
     // the man, swept along; he reaches for each hold in turn
     val manX = when {
-        fh > 0f -> mix(w * 0.64f, pierX - w * 0.05f, easeOut(seg(fh, 0f, 0.4f)))
+        fh > 0f -> mix(w * 0.64f, pierX - w * 0.1f, easeOut(seg(fh, 0f, 0.4f)))
         lg > 0f -> mix(crownX + w * 0.02f, w * 0.64f, easeInOut(lg))
         hc > 0f -> mix(bannerX + w * 0.02f, crownX + w * 0.02f, easeOut(seg(hc, 0f, 0.35f)))
         hb > 0f -> mix(idolX + w * 0.02f, bannerX + w * 0.02f, easeOut(seg(hb, 0f, 0.35f)))
@@ -164,18 +181,20 @@ private fun DrawScope.riverDay(a: ArtCtx) {
     if (target != null) {
         val reach = when {
             fh > 0f -> easeOut(seg(fh, 0.1f, 0.4f))
-            hc > 0f -> easeOut(seg(hc, 0.05f, 0.35f)) * (1f - easeOut(seg(hc, 0.6f, 0.9f)))
-            hb > 0f -> easeOut(seg(hb, 0.05f, 0.35f)) * (1f - easeOut(seg(hb, 0.6f, 0.9f)))
-            else -> easeOut(seg(hi, 0.05f, 0.35f)) * (1f - easeOut(seg(hi, 0.6f, 0.9f)))
+            hc > 0f -> 0.75f * easeOut(seg(hc, 0.05f, 0.35f))
+            hb > 0f -> 0.75f * easeOut(seg(hb, 0.05f, 0.35f))
+            else -> 0.75f * easeOut(seg(hi, 0.05f, 0.35f))
         }
         val rest = neck + Offset(tall * 0.15f, tall * 0.12f)
         handA = rest + (target - rest) * reach
         handB = neck + Offset(-tall * 0.2f, -tall * 0.05f + tall * 0.08f * sin(t * 5f) * (1f - reach))
     } else {
-        val open = if (lg > 0f) 1f else 0f
-        handA = neck + Offset(tall * 0.2f, -tall * (0.12f + 0.12f * sin(t * 6f)) * thrash - tall * 0.15f * open)
-        handB = neck + Offset(-tall * 0.2f, -tall * (0.12f + 0.12f * sin(t * 6f + 2f)) * thrash - tall * 0.15f * open)
+        val push = if (lg > 0f) easeOut(seg(lg, 0f, 0.25f)) else 0f
+        handA = neck + Offset(mix(tall * 0.2f, -tall * 0.3f, push), -tall * (0.12f + 0.12f * sin(t * 6f)) * thrash + tall * 0.02f * push)
+        handB = neck + Offset(mix(-tall * 0.2f, -tall * 0.27f, push), -tall * (0.12f + 0.12f * sin(t * 6f + 2f)) * thrash + tall * 0.1f * push)
     }
+    // the rope from his hand to the thing he clings to, while it is named
+    if (target != null && fh <= 0f) drawLine(Color(0xFFE85A4A), handA, target, 1.6f * dp, StrokeCap.Round, alpha = 0.85f)
     if (tr > 0f) posed14(hip, neck, handA, handB, hip + Offset(-tall * 0.08f, tall * 0.4f), hip + Offset(tall * 0.08f, tall * 0.4f), tall, RiverC17.Ink, seg(tr, 0f, 0.1f))
     // the water over his body, foam round him, the current
     drawRect(RiverC17.Water, topLeft = Offset(0f, h * 0.55f), size = Size(w, h * 0.45f), alpha = 0.82f)
@@ -186,6 +205,26 @@ private fun DrawScope.riverDay(a: ArtCtx) {
         val held = fh > 0f && kotlin.math.abs(x - manX) < w * 0.05f && kotlin.math.abs(y - h * 0.56f) < h * 0.06f
         drawLine(RiverC17.Foam, Offset(x, y), Offset(x + w * 0.06f, y), 1.4f * dp, StrokeCap.Round, alpha = if (held) 0.2f else 0.55f)
     }
+    // his limit (حدّه): a dashed line in the water that the current takes him past
+    val lim = seg(tr, 0.05f, 0.3f) * (1f - seg(hi, 0f, 0.4f))
+    if (lim > 0f) {
+        val lx = w * 0.13f
+        var y = edge + h * 0.02f
+        while (y < h * 0.96f) {
+            drawLine(Color(0xFFFFE08A), Offset(lx, y), Offset(lx, min(y + h * 0.03f, h * 0.96f)), 2f * dp, StrokeCap.Round, alpha = lim)
+            y += h * 0.055f
+        }
+        tagAt(a.tag("torrent"), Offset(lx, h * 0.68f), lim, back = RiverC17.Back, ink = ArtInk.Gold)
+    }
+    // the fallen holds, carried on the water
+    for (k in 0..2) if (brs[k] > 0f) drawHold(k)
+    // each hold's name, from its beat until it falls
+    val gone = 1f - seg(lg, 0.05f, 0.3f)
+    val red = Color(0xFFF0A090)
+    tagAt(a.tag("holdidol"), Offset(idolX, h * 0.21f), seg(hi, 0.15f, 0.45f) * gone, back = RiverC17.Back, ink = red)
+    tagAt(a.tag("holdbanner"), Offset(bannerX + w * 0.03f, h * 0.16f), seg(hb, 0.15f, 0.45f) * gone, back = RiverC17.Back, ink = red)
+    tagAt(a.tag("holdcrown"), Offset(crownX + w * 0.01f, h * 0.22f), seg(hc, 0.15f, 0.45f) * gone, back = RiverC17.Back, ink = red)
+    tagAt(a.tag("letgo"), Offset(w * 0.42f, h * 0.24f), seg(lg, 0.2f, 0.45f) * (1f - seg(fh, 0f, BEAT_OUT)), back = RiverC17.Back, ink = red)
     if (tr > 0f) {
         val splash = if (fh > 0f) 0.5f else 1f
         for (k in 0 until 5) {
@@ -214,7 +253,8 @@ private fun DrawScope.riverDay(a: ArtCtx) {
     }
     // the two words
     if (tw > 0f) {
-        tagAt(a.tag("twowords", 0, 0), Offset(w * 0.88f, h * 0.44f), seg(tw, 0.05f, 0.4f), back = RiverC17.Back, ink = Color(0xFFF0A090))
+        val sunk = (idolP + bannerP + crownP) * (1f / 3f)
+        tagAt(a.tag("twowords", 0, 0), Offset(sunk.x, sunk.y - h * 0.12f), seg(tw, 0.05f, 0.4f), back = RiverC17.Back, ink = Color(0xFFF0A090))
         tagAt(a.tag("twowords", 0, 1), Offset(manX, h * 0.28f), seg(tw, 0.35f, 0.7f), back = RiverC17.Back, ink = ArtInk.Gold)
     }
 }
