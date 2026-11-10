@@ -205,7 +205,7 @@ private fun DrawScope.obey4Yard(a: ArtCtx) {
     drawRect(ObeyC20.Ground, topLeft = Offset(0f, ground), size = Size(w, h - ground))
 
     val lc = Offset(w * 0.78f, h * 0.22f)
-    sirajMunir(lc, 4.6f * dp, easeOut(seg(g4, 0f, 0.5f)).coerceAtLeast(if (oc > 0f) 1f else 0f), t, nameAt = lc + Offset(-w * 0.16f, 0f))
+    sirajMunir(lc, 4.6f * dp, easeOut(seg(g4, 0f, 0.5f)).coerceAtLeast(if (oc > 0f) 1f else 0f), t, nameAt = lc + Offset(-w * 0.04f, h * 0.11f))
     val tall = h * 0.34f
     // where the man is
     val give = easeInOut(seg(oc, 0.15f, 0.55f)) * (1f - easeInOut(seg(be, 0f, BEAT_OUT)))
@@ -277,7 +277,7 @@ private fun DrawScope.obey4Yard(a: ArtCtx) {
             }
             val bub = seg(be, 0.15f, 0.35f) * (1f - seg(av, 0f, BEAT_OUT))
             if (bub > 0f) {
-                val bc = Offset(w * 0.36f, h * 0.22f)
+                val bc = Offset(w * 0.34f, h * 0.31f)
                 drawCircle(Color.White, h * 0.11f, bc, alpha = 0.9f * bub)
                 for (k in 0 until 2) drawCircle(Color.White, h * (0.02f - 0.008f * k), bc + Offset(w * (0.05f + 0.03f * k), h * (0.12f + 0.05f * k)), alpha = 0.9f * bub)
                 // a garden beyond what he can see
@@ -285,7 +285,7 @@ private fun DrawScope.obey4Yard(a: ArtCtx) {
                 for (k in 0 until 3) drawCircle(Color(0xFF4E9A5A), h * 0.025f, bc + Offset(h * (-0.05f + 0.05f * k), -h * 0.015f), alpha = bub)
                 drawPath(horseshoe(bc.x, bc.y - h * 0.03f, h * 0.022f, h * 0.018f, bc.y + h * 0.015f), Color(0xFFF2DFA8).copy(alpha = bub))
             }
-            tagAt(a.tag("believe", 0, 0), Offset(w * 0.36f, h * 0.38f), bub, back = ObeyC20.Back, ink = ArtInk.Gold)
+            tagAt(a.tag("believe", 0, 0), Offset(w * 0.34f, h * 0.47f), bub, back = ObeyC20.Back, ink = ArtInk.Gold)
             tagAt(a.tag("believe", 0, 1), foot + Offset(tall * 0.3f, -tall * 1.32f), seg(be, 0.65f, 0.85f) * (1f - seg(av, 0f, BEAT_OUT)), back = ObeyC20.Back, ink = Color(0xFF9AE0A0))
             tick14(foot + Offset(tall * 0.3f, -tall * 1.1f), h * 0.035f, seg(be, 0.6f, 0.85f) * (1f - seg(av, 0f, BEAT_OUT)))
         }

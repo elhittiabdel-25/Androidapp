@@ -1771,7 +1771,7 @@ private fun DrawScope.ropeScene(a: ArtCtx) {
         val p2 = ring + Offset((p0.x - ring.x) * 0.28f, -h * 0.11f)
         val q = easeInOut(seg(cut, 0.12f * k, 0.12f * k + 0.62f))
         val brk = 0.3f
-        val stampP = cubic(p0, p1, p2, ring, 0.7f)
+        val stampP = cubic(p0, p1, p2, ring, listOf(0.38f, 0.66f, 0.55f)[k])
         if (q <= 0f) {
             val dim = 1f - 0.4f * seg(b1, 0.5f, 0.8f) * (if (k < 2) 1f else 0f)
             braid(cubicPart(p0, p1, p2, ring, 0f, appear), alpha = dim)
@@ -1802,7 +1802,7 @@ private fun DrawScope.ropeScene(a: ArtCtx) {
     }
     // at the start: the true line, faint, tagged
     tagAt(a.tag("rope", 0, 1), cubic(anchorG, g1, g2, ring, 0.4f) + Offset(40f * dp, 0f), seg(b0, 0.4f, 0.9f) * (1f - seg(b1, 0f, 0.2f)), back = Color(0xCC3A2808), ink = ArtInk.Gold)
-    tagAt(a.tag("rope", 2, 2), cubic(anchorG, g1, g2, ring, 0.4f) + Offset(40f * dp, 0f), seg(b2, 0.35f, 0.65f) * (1f - seg(cut, 0f, 0.15f)), back = Color(0xCC3A2808), ink = ArtInk.Gold)
+    tagAt(a.tag("rope", 2, 2), cubic(anchorG, g1, g2, ring, 0.72f) + Offset(30f * dp, -6f * dp), seg(b2, 0.35f, 0.65f) * (1f - seg(cut, 0f, 0.15f)), back = Color(0xCC3A2808), ink = ArtInk.Gold)
 
     // the heart that hangs on them: unsteady, then steady and lit once it holds the firm one
     val hc = ring + Offset(0f, s * 1.9f)
