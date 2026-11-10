@@ -689,10 +689,10 @@ internal fun DrawScope.gateScene(a: ArtCtx) {
         if (gi > 0f) {
             val left = 1f - seg(a.b("open"), 0f, 0.3f)
             for (k in 0 until 7) {
-                val u = easeInOut(seg(gi, 0.3f + 0.07f * k, 0.75f + 0.07f * k))
+                val u = easeInOut(seg(gi, 0.25f + 0.1f * k, 0.85f + 0.1f * k))
                 if (u <= 0f) continue
                 val c = Offset(mix(gateX + w * 0.42f, gateX, u), ground - w * 0.03f)
-                nameRoundel(c, w * 0.022f, null, Roundel.PlainFill, Roundel.PlainRim, left * (1f - seg(u, 0.85f, 1f)))
+                nameRoundel(c, w * 0.03f, null, Roundel.PlainFill, Roundel.PlainRim, left * (1f - seg(u, 0.85f, 1f)))
             }
             tagAt(a.tag("gatein"), Offset(max(gateX, halfTag(a.tag("gatein")) + 4f * dp), h * 0.1f), seg(gi, 0.2f, 0.5f), back = TagBack, ink = ArtInk.Gold)
             tagAt(a.tag("gatein", 0, 1), Offset(gateX + w * 0.24f, ground - h * 0.16f), seg(gi, 0.45f, 0.7f) * left, back = TagBack, ink = ArtInk.Gold)
