@@ -893,14 +893,20 @@ private fun DrawScope.bridgeGorge(a: ArtCtx) {
         }
         softGlow(gap, w * 0.03f, BridgeC11.Call, 0.6f * (0.6f + 0.4f * sin(t * 5f)))
     }
+    val scrollAt = gFoot + Offset(tall * (if (turnedAway) -0.16f else 0.14f), -tall * 0.62f)
+    if (ur <= 0.3f) {
+        if (!turnedAway) softGlow(scrollAt, tall * 0.25f, BridgeC11.Call, 0.8f * seg(wn, 0f, 0.3f))
+        drawRoundRect(if (turnedAway) Color(0xFF7A6A50) else BridgeC11.Call, topLeft = scrollAt - Offset(tall * 0.07f, tall * 0.1f), size = Size(tall * 0.14f, tall * 0.2f), cornerRadius = CornerRadius(tall * 0.03f), alpha = seg(wn, 0f, 0.3f))
+    }
+    tagAt(a.tag("warn"), gFoot + Offset(tall * 0.1f, -tall * 1.4f), seg(wn, 0.1f, 0.4f) * (1f - seg(sl, 0f, 0.15f)), ink = BridgeC11.Call)
     // the one who keeps silent: at the post, his face turned away, arms folded
     if (turnedAway && ur <= 0.3f) {
         withTransform({ scale(-1f, 1f, pivot = gFoot) }) { figure(gFoot, tall, BridgeC11.Ink, arms = 0f) }
         drawLine(BridgeC11.Ink, gFoot + Offset(-tall * 0.1f, -tall * 0.6f), gFoot + Offset(tall * 0.1f, -tall * 0.6f), max(1.6f * dp, tall * 0.06f), StrokeCap.Round)
     }
     // the travellers: each crosses step by step; at the gap they step over (warned) or fall in (not warned)
-    fun walker(start: Float, end: Float, beat: Float, color: Color, warned: Boolean, kit: Int) {
-        if (beat <= 0f) return
+    fun walker(start: Float, end: Float, beat: Float, color: Color, warned: Boolean, kit: Int): Offset? {
+        if (beat <= 0f) return null
         val u = mix(start, end, easeInOut(seg(beat, 0.05f, 0.95f)))
         val atGap = abs(u - (gapAt + 0.5f) / n) < 0.03f
         val fall = if (!warned) w8EaseIn(seg(beat, 0.55f, 0.75f)) else 0f
@@ -909,26 +915,33 @@ private fun DrawScope.bridgeGorge(a: ArtCtx) {
         if (warned && atGap) foot += Offset(0f, -h * 0.03f)
         foot += Offset(0f, tall * 0.9f * fall)
         val alpha = 1f - seg(ur, 0.2f, 0.4f)
-        if (alpha <= 0f) return
+        if (alpha <= 0f) return null
         withTransform({ scale(-1f, 1f, pivot = foot) }) {
             figure(foot, tall, color, alpha = alpha, walk = if (beat in 0.05f..0.95f && fall <= 0f) t * 6f else 0f, arms = if (fall > 0f) -1f else if (atGap) 0.9f else 0.1f)
         }
         if (kit == 1) for (b in 0 until 5) drawCircle(Color(0xFF6A4A2A), 1.2f * dp, foot + Offset(tall * 0.12f, -tall * (0.42f + 0.03f * b)), alpha = alpha)
         if (kit == 2) for (s in 0 until 3) drawCircle(BridgeC11.Stain, tall * 0.035f, foot + Offset(tall * 0.02f * s, -tall * (0.5f + 0.08f * s)), alpha = alpha)
         if (fall > 0f) {
-            // he hangs from the rope by his hands, lit against the dark of the gorge
-            softGlow(foot + Offset(0f, -tall * 0.5f), tall * 0.7f, Color(0xFFFFC890), 0.45f * fall * alpha)
-            for (k in 0 until 3) {
-                val f = fract(t * 2.2f + k / 3f)
-                drawArc(BridgeC11.Call, 200f, 140f, false, topLeft = foot + Offset(-tall * 0.25f, -tall * (1.25f + 0.1f * f)), size = Size(tall * 0.5f, tall * 0.3f), style = Stroke(1.4f * dp, cap = StrokeCap.Round), alpha = alpha * fall * (1f - f))
-            }
+            // he hangs from the rope by his hands over the dark gorge
             drawLine(color, foot + Offset(0f, -tall * 0.76f), gap + Offset(0f, -h * 0.005f), max(1.4f * dp, tall * 0.05f), StrokeCap.Round, alpha = alpha)
         }
+        return foot
     }
     walker(0.02f, 0.98f, wn, BridgeC11.Ink, true, 0)
-    walker(0.02f, 1.0f, seg(bt, 0f, 0.7f), BridgeC11.White, true, 1)
-    walker(0.0f, 0.86f, seg(bt, 0.25f, 1f), Color(0xFF4A3A4A), true, 2)
-    walker(0.02f, 0.9f, sl, Color(0xFFB8A6C8), false, 0)
+    val good = walker(0.02f, 1.0f, seg(bt, 0f, 0.7f), BridgeC11.White, true, 1)
+    val bad = walker(0.0f, 0.86f, seg(bt, 0.25f, 1f), Color(0xFF4A3A4A), true, 2)
+    walker(0.02f, 0.9f, sl, Color(0xFF3A3040), false, 0)
+    val bothOn = 1f - seg(sl, 0f, 0.15f)
+    if (good != null) tagAt(a.tag("both", 0, 0), good + Offset(0f, -tall * 1.3f), seg(bt, 0.05f, 0.25f) * bothOn, ink = BridgeC11.White)
+    if (bad != null) tagAt(a.tag("both", 0, 1), bad + Offset(0f, -tall * 1.3f), seg(bt, 0.3f, 0.5f) * bothOn, ink = Color(0xFFD8B0A0))
+    // keeping it back is cheating them: over the gap he fell through
+    val red = Color(0xFFF0A090)
+    tagAt(a.tag("silent"), gap + Offset(0f, -h * 0.2f), seg(sl, 0.6f, 0.8f) * (1f - seg(ur, 0f, BEAT_OUT)), ink = red)
+    // whom he betrayed: Allah's name highest, then His Messenger and the believers; the broken middle is the betrayal
+    tagAt(a.tag("unravel", 0, 0), Offset(w * 0.5f, h * 0.09f), seg(ur, 0.05f, 0.3f), ink = ArtInk.Gold)
+    tagAt(a.tag("unravel", 0, 1), Offset(w * 0.3f, h * 0.2f), seg(ur, 0.2f, 0.45f), ink = ArtInk.Gold)
+    tagAt(a.tag("unravel", 0, 2), Offset(w * 0.7f, h * 0.2f), seg(ur, 0.3f, 0.55f), ink = ArtInk.Gold)
+    tagAt(a.tag("unravel", 0, 3), gap + Offset(0f, h * 0.14f), seg(ur, 0.5f, 0.75f), ink = red)
 }
 
 // ═════════════ 7. refuge: the house at night while strife fills the street (fitna) ═════════════
