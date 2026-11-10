@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.withTransform
 import kotlin.math.PI
 import kotlin.math.cos
+import kotlin.math.max
 import kotlin.math.sin
 
 /*
@@ -155,9 +156,8 @@ private fun DrawScope.angerNight(a: ArtCtx) {
                 seat + Offset(0f, -tall * 0.38f)
             }
             else -> {
-                val pivot = Offset(w * 0.5f, ground - h * 0.02f)
-                withTransform({ rotate(-90f, pivot) }) { figure(pivot + Offset(tall * 0.5f, 0f), tall, AngerC60.Person, f) }
-                Offset(w * 0.5f - tall * 0.12f, ground - h * 0.06f)
+                lying60(Offset(w * 0.36f, ground - h * 0.035f), tall, AngerC60.Person, f)
+                Offset(w * 0.36f + tall * 0.3f, ground - h * 0.06f)
             }
         }
         val s = w * 0.022f * (1f - 0.35f * stage) * (1f - seg(sl, 0.85f, 1f))
@@ -179,7 +179,7 @@ private fun DrawScope.angerNight(a: ArtCtx) {
             val u = fract(t * 0.5f + k * 0.25f)
             drawCircle(AngerC60.Steam, w * 0.018f * (0.5f + u), me + Offset(w * 0.02f * sin(k * 2f), -tall * 0.7f - h * 0.12f * u), alpha = f * wet * (1f - u) * 0.6f)
         }
-        tagAt(a.tag("smokeandwater", 0, 0), Offset(w * 0.24f, h * 0.36f), f * seg(sw, 0.2f, 0.4f) * (1f - wet), back = Back60, ink = Color(0xFFC8B8D0))
+        tagAt(a.tag("smokeandwater", 0, 0), Offset(w * 0.24f, h * 0.36f), f * seg(sw, 0.2f, 0.4f), back = Back60, ink = Color(0xFFC8B8D0))
         tagAt(a.tag("smokeandwater", 0, 1), base + Offset(0f, -h * 0.12f), f * seg(sw, 0.25f, 0.45f) * (1f - wet), back = Back60, ink = AngerC60.Ember)
     }
     // not the wrestler who throws others down: the strong one holds his own flame down until it goes out
@@ -190,8 +190,7 @@ private fun DrawScope.angerNight(a: ArtCtx) {
         figure(Offset(w * 0.22f, ground), tall, AngerC60.Person, f, arms = 0.8f)
         if (throwP < 0.9f) figure(Offset(w * 0.32f, mix(ground, ground - h * 0.02f, throwP)), tall, AngerC60.Person, f * 0.7f, lean = 1.2f * throwP)
         else {
-            val pivot = Offset(w * 0.3f, ground - h * 0.015f)
-            withTransform({ rotate(-90f, pivot) }) { figure(pivot + Offset(tall * 0.5f, 0f), tall, AngerC60.Person, f * 0.7f) }
+            lying60(Offset(w * 0.3f, ground - h * 0.03f), tall, AngerC60.Person, f * 0.7f)
         }
         val calm = seg(ts, 0.45f, 0.9f)
         val me = Offset(w * 0.75f, ground)
@@ -201,6 +200,22 @@ private fun DrawScope.angerNight(a: ArtCtx) {
         softGlow(me + Offset(0f, -h * 0.2f), w * 0.1f, AngerC60.Gold, 0.5f * f * calm)
         tagAt(a.tag("trulystrong"), Offset(w * 0.5f, h * 0.2f), f * seg(ts, 0.55f, 0.75f), back = Back60, ink = ArtInk.Gold)
     }
+}
+
+/** A person lying on a mat, head at [head], body to the right, legs together, one knee a little raised. */
+private fun DrawScope.lying60(head: Offset, tall: Float, color: Color, alpha: Float) {
+    if (alpha <= 0.01f) return
+    val sw = max(1.7f * density, tall * 0.065f)
+    val y = head.y + tall * 0.04f
+    drawRoundRect(Color(0xFF4A3A44), topLeft = Offset(head.x - tall * 0.12f, y + sw), size = Size(tall * 1.05f, tall * 0.05f), cornerRadius = CornerRadius(tall * 0.02f), alpha = alpha)
+    drawCircle(color, tall * 0.09f, head, alpha = alpha)
+    val hip = Offset(head.x + tall * 0.5f, y)
+    drawLine(color, head + Offset(tall * 0.08f, tall * 0.02f), hip, sw, StrokeCap.Round, alpha = alpha)
+    drawLine(color, head + Offset(tall * 0.16f, tall * 0.03f), Offset(head.x + tall * 0.42f, y), sw * 0.85f, StrokeCap.Round, alpha = alpha)
+    val knee = hip + Offset(tall * 0.2f, -tall * 0.08f)
+    drawLine(color, hip, knee, sw, StrokeCap.Round, alpha = alpha)
+    drawLine(color, knee, hip + Offset(tall * 0.4f, 0f), sw, StrokeCap.Round, alpha = alpha)
+    drawLine(color, hip, hip + Offset(tall * 0.42f, 0f), sw, StrokeCap.Round, alpha = alpha)
 }
 
 /** A drawn question mark, centred at [c]. */

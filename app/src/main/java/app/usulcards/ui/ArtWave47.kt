@@ -442,8 +442,9 @@ private fun DrawScope.twoTents(a: ArtCtx) {
         val trip = fract(gw * 1.6f)
         val leg = (gw * 1.6f).toInt()
         val dir = if (leg % 2 == 0) 1f else -1f
-        val x = if (dir > 0f) mix(w * 0.34f, w * 0.66f, trip) else mix(w * 0.66f, w * 0.34f, trip)
-        val walker = f * (1f - seg(gw, 0.85f, 0.95f))
+        val x0 = if (dir > 0f) mix(w * 0.34f, w * 0.66f, trip) else mix(w * 0.66f, w * 0.34f, trip)
+        val x = if (gw > 0.75f) mix(x0, w * 0.5f, easeOut(seg(gw, 0.75f, 0.85f))) else x0
+        val walker = f
         figure(Offset(x, ground), h * 0.26f, MendC47.Person, walker, walk = t * 6f, arms = 0.6f)
         val b = Offset(x + dir * w * 0.05f, ground - h * 0.33f)
         softGlow(b, w * 0.05f, MendC47.Gold, 0.5f * walker)
@@ -476,22 +477,22 @@ private fun DrawScope.twoTents(a: ArtCtx) {
     // the debt: he swore not to do the good; the oath is struck out and half the pile goes back to the debtor
     if (db > 0f) {
         val f = easeOut(seg(db, 0f, 0.3f))
-        val owes = Offset(w * 0.22f, ground - h * 0.16f)
-        val owed = Offset(w * 0.78f, ground - h * 0.16f)
+        val owes = Offset(w * 0.28f, ground - h * 0.16f)
+        val owed = Offset(w * 0.72f, ground - h * 0.16f)
         nameRoundel(owes, w * 0.05f, null, Roundel.PlainFill, Roundel.PlainRim, f)
         nameRoundel(owed, w * 0.05f, null, Roundel.PlainFill, Roundel.PlainRim, f)
         tagAt(a.tag("debt", 0, 1), owes + Offset(0f, h * 0.13f), f, ink = Color(0xFFF0ECE4))
         tagAt(a.tag("debt", 0, 0), owed + Offset(0f, h * 0.13f), f, ink = Color(0xFFF0ECE4))
-        val oath = owed + Offset(-w * 0.04f, -h * 0.2f)
+        val oath = owed + Offset(-w * 0.08f, -h * 0.2f)
         val oathOn = seg(db, 0.12f, 0.3f)
-        bubble47(oath, w * 0.2f, h * 0.08f, Color(0xFF3A3040), f * oathOn)
+        bubble47(oath, w * 0.3f, h * 0.09f, Color(0xFF3A3040), f * oathOn)
         tagAt(a.tag("debt", 0, 2), oath, f * oathOn, back = Color(0x00000000), ink = Color(0xFFF0ECE4))
-        cross14(oath, h * 0.05f, seg(db, 0.5f, 0.62f))
+        cross14(oath + Offset(w * 0.15f, -h * 0.045f), h * 0.035f, seg(db, 0.5f, 0.62f))
         val back = easeInOut(seg(db, 0.6f, 0.92f))
         for (k in 0 until 8) {
             val half = k >= 4
             val base = Offset(w * 0.5f, ground - h * 0.03f - h * 0.025f * (k % 4))
-            val c = if (half) base + Offset(-w * 0.24f * back, 0f) else base
+            val c = if (half) base + Offset(-w * 0.13f * back, 0f) else base
             coin12(c, w * 0.022f, f)
         }
         sirajMunir(Offset(w * 0.5f, h * 0.2f), w * 0.01f, f * seg(db, 0.3f, 0.48f), t, nameAt = Offset(w * 0.5f, h * 0.08f))
