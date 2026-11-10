@@ -42,12 +42,12 @@ import app.usulcards.data.ProgressStore
 import app.usulcards.reminder.Reminders
 import java.util.Locale
 
-/** The daily reminder on the home screen: on/off, the time, and a test. Off until the reader turns it on. */
+/** The daily reminder on the home screen: on/off, the time, and a test. On from the first launch, at 20:30. */
 @Composable
 fun ReminderCard(repo: ContentRepo, progress: ProgressStore) {
     val pal = LocalPalette.current
     val ctx = LocalContext.current
-    var blocked by remember { mutableStateOf(false) }
+    var blocked by remember { mutableStateOf(progress.reminderOn && !NotificationManagerCompat.from(ctx).areNotificationsEnabled()) }
 
     fun enable() {
         progress.updateReminder(true)
@@ -79,7 +79,7 @@ fun ReminderCard(repo: ContentRepo, progress: ProgressStore) {
             Column(Modifier.weight(1f)) {
                 Text("تذكير يومي", fontFamily = Fonts.ui, fontWeight = FontWeight.SemiBold, fontSize = 15.sp, color = pal.ink)
                 Text(
-                    "إشعار في الوقت الذي تختاره يدلّك على بطاقتك التالية، ولا يأتي إذا أتممت هدف اليوم",
+                    "إشعار كل يوم في الوقت الذي تختاره يدلّك على بطاقتك التالية",
                     fontFamily = Fonts.ui, fontSize = 12.sp, lineHeight = 19.sp, color = pal.muted,
                 )
             }
@@ -122,6 +122,24 @@ fun ReminderCard(repo: ContentRepo, progress: ProgressStore) {
                     .clickable {
                         Reminders.saveHint(ctx, repo, progress)
                         blocked = !Reminders.show(ctx, test = true)
+                    }
+                    .padding(vertical = 4.dp, horizontal = 2.dp),
+            )
+        }
+
+        if (progress.reminderOn && !Reminders.exactAllowed(ctx) && Build.VERSION.SDK_INT >= 31) {
+            Text(
+                "ليصل التذكير في دقيقته: اسمح للتطبيق بضبط المنبهات",
+                fontFamily = Fonts.ui, fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = pal.accent,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(10.dp))
+                    .clickable {
+                        runCatching {
+                            ctx.startActivity(
+                                Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM, android.net.Uri.parse("package:" + ctx.packageName))
+                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+                            )
+                        }
                     }
                     .padding(vertical = 4.dp, horizontal = 2.dp),
             )

@@ -242,9 +242,9 @@ private fun DrawScope.obey4Yard(a: ArtCtx) {
         val wf = Offset(w * 0.2f, ground + h * 0.04f)
         val spin = sin(t * 6f)
         withTransform({ scale(if (spin > 0f) 1f else -1f, 1f, pivot = wf) }) {
-            figure(wf, tall * 0.92f, Color(0xFF5A4A5A), seg(asb, 0.25f, 0.45f), lean = 0.1f * spin)
+            figure(wf, tall * 0.92f, Color(0xFF5A4A5A), seg(asb, 0.25f, 0.45f), lean = 0.1f * spin, armsAlpha = 0f)
         }
-        for (sd in listOf(-1f, 1f)) drawLine(Color(0xFF5A4A5A), wf + Offset(0f, -tall * 0.7f), wf + Offset(sd * tall * 0.25f, -tall * (0.95f + 0.05f * spin * sd)), max(1.6f * dp, tall * 0.055f), StrokeCap.Round, alpha = seg(asb, 0.25f, 0.45f))
+        for (sd in listOf(-1f, 1f)) drawLine(Color(0xFF5A4A5A), wf + Offset(0f, -tall * 0.7f), wf + Offset(sd * tall * 0.26f, -tall * (if (sd * spin > 0f) 0.98f else 0.5f))   // a whirl: one arm up, one down (two raised read as a dua being crossed out), max(1.6f * dp, tall * 0.055f), StrokeCap.Round, alpha = seg(asb, 0.25f, 0.45f))
         cross14(wf + Offset(0f, -tall * 1.15f), h * 0.04f, seg(asb, 0.5f, 0.8f))
     } else {
         val walking = (oc in 0.15f..0.55f) || (be in 0.01f..0.4f) || (av in 0.05f..0.6f)

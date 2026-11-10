@@ -441,7 +441,7 @@ private fun DrawScope.damValley(a: ArtCtx) {
         val eFoot = Offset(w * 0.46f, h * 0.73f)
         val stand = seg(pk, 0.25f, 0.4f) * (1f - kneel)
         if (stand > 0f) {
-            figure(eFoot, tall * 1.02f, DamC11.Ink, alpha = stand)
+            figure(eFoot, tall * 1.02f, DamC11.Ink, alpha = stand, armsAlpha = 0f)
             for (sd in listOf(-1f, 1f)) drawLine(DamC11.Ink, eFoot + Offset(0f, -tall * 0.76f), eFoot + Offset(sd * tall * 0.3f, -tall * 0.72f), max(1.4f * dp, tall * 0.06f), StrokeCap.Round, alpha = stand)
         }
         if (kneel > 0.5f) w8Seated(eFoot, tall, DamC11.Ink, facing = -1f)
@@ -507,7 +507,7 @@ private fun DrawScope.damValley(a: ArtCtx) {
             val f = seg(fl, 0.4f + 0.08f * k, 1f)
             if (f <= 0f) continue
             val foot = Offset(w * (0.62f + 0.09f * k) + w * 0.06f * f, h * (0.66f - 0.015f * k) - h * 0.04f * f)
-            figure(foot, tall * 0.9f, DamC11.Ink, walk = t * 11f + k, lean = -0.25f, arms = -0.9f)
+            figure(foot, tall * 0.9f, DamC11.Ink, walk = t * 11f + k, lean = -0.25f, armsAlpha = 0f)
             for (sd in listOf(-1f, 1f)) drawLine(DamC11.Ink, foot + Offset(0f, -tall * 0.68f), foot + Offset(sd * tall * 0.14f, -tall * 1.02f), max(1.4f * dp, tall * 0.055f), StrokeCap.Round)
         }
     }

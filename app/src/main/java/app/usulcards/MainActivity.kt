@@ -29,6 +29,15 @@ class MainActivity : ComponentActivity() {
         player = AudioPlayer.get(this)
         if (savedInstanceState == null) openRequest.value = intent?.getStringExtra(Reminders.EXTRA_OPEN)
         if (progress.reminderOn) Reminders.schedule(this)
+        // the reminder is on from the first launch (20:30): Android 13+ must be asked once for notifications
+        val prefs = getSharedPreferences(ProgressStore.PREFS, MODE_PRIVATE)
+        if (progress.reminderOn && android.os.Build.VERSION.SDK_INT >= 33 && !prefs.getBoolean("askedNotify", false) &&
+            checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != android.content.pm.PackageManager.PERMISSION_GRANTED
+        ) {
+            prefs.edit().putBoolean("askedNotify", true).apply()
+            registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.RequestPermission()) { }
+                .launch(android.Manifest.permission.POST_NOTIFICATIONS)
+        }
         setContent { UsulApp(repo, progress, player, openRequest.value) { openRequest.value = null } }
     }
 

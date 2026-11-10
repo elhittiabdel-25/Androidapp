@@ -167,7 +167,7 @@ private fun DrawScope.saplingBench(a: ArtCtx) {
     // the gardener: he waters it, sets the bell, steps back with open hands; then stands between the two
     val gFoot = Offset(mix(w * 0.66f, w * 0.7f, easeOut(seg(cl, 0.6f, 0.9f))) - w * 0.1f * easeInOut(seg(ax, 0f, 0.3f)) * (1f - easeInOut(seg(pa, 0f, BEAT_OUT))) + w * 0.15f * easeInOut(seg(pa, 0f, 0.3f)), h * 0.98f)
     val open = easeOut(seg(cl, 0.6f, 0.9f))
-    figure(gFoot, tall, SaplingC12.Ink, arms = if (cl in 0.1f..0.6f) 0.9f else 0.2f)
+    figure(gFoot, tall, SaplingC12.Ink, arms = if (cl in 0.1f..0.6f) 0.9f else 0.2f, armsAlpha = if (open > 0f) 0f else 1f)
     if (open > 0f) for (sd in listOf(-1f, 1f)) drawLine(SaplingC12.Ink, gFoot + Offset(0f, -tall * 0.76f), gFoot + Offset(sd * tall * 0.2f, -tall * 0.62f), max(1.6f * dp, tall * 0.06f), StrokeCap.Round, alpha = open * (1f - seg(ax, 0f, BEAT_OUT)))
     if (rt > 0.3f && cl <= 0f) {
         // watering it

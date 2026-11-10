@@ -379,7 +379,7 @@ private fun DrawScope.heavensSky(a: ArtCtx) {
         val foot = Offset(w * 0.5f, h * 0.83f)
         val tall = h * 0.15f
         val raise = easeOut(seg(nc, 0f, 0.2f))
-        figure(foot, tall, HeavensC9.Ink, alpha = raise, lean = -0.05f * raise)
+        figure(foot, tall, HeavensC9.Ink, alpha = raise, lean = -0.05f * raise, armsAlpha = 0f)
         for (sd in listOf(-1f, 1f)) drawLine(HeavensC9.Ink, foot + Offset(0f, -tall * 0.76f), foot + Offset(sd * tall * 0.14f, -tall * (0.76f + 0.24f * raise)), max(1.6f * dp, tall * 0.06f), StrokeCap.Round, alpha = raise)
         // his call rises and fades out before it reaches them
         for (k in 0 until 4) {

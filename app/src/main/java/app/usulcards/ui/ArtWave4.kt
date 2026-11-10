@@ -156,7 +156,7 @@ internal fun DrawScope.checkMark(c: Offset, r: Float, color: Color, width: Float
  * A faceless figure in a few strokes, feet at [foot], [tall] high. [walk] is the stride phase (radians), [lean] tilts
  * the body (positive leans to the left), [arms] 0 hangs them, 1 reaches forward (to the left), -1 pulls back.
  */
-internal fun DrawScope.figure(foot: Offset, tall: Float, color: Color, alpha: Float = 1f, walk: Float = 0f, lean: Float = 0f, arms: Float = 0f, stride: Float = 1f) {
+internal fun DrawScope.figure(foot: Offset, tall: Float, color: Color, alpha: Float = 1f, walk: Float = 0f, lean: Float = 0f, arms: Float = 0f, stride: Float = 1f, armsAlpha: Float = 1f) {
     if (alpha <= 0.01f) return
     val sw = max(1.7f * density, tall * 0.065f)
     val hip = foot - Offset(0f, tall * 0.45f)
@@ -189,8 +189,10 @@ internal fun DrawScope.figure(foot: Offset, tall: Float, color: Color, alpha: Fl
             hand2 = shoulder + Offset(tall * 0.11f + swing * 0.7f, reach)
         }
     }
-    drawLine(color, shoulder, hand1, sw * 0.9f, cap = StrokeCap.Round, alpha = alpha)
-    drawLine(color, shoulder, hand2, sw * 0.9f, cap = StrokeCap.Round, alpha = alpha)
+    // [armsAlpha] 0 leaves the arms out, for a scene that draws its own (else the figure has four: users, 2026-11-10)
+    if (armsAlpha <= 0.01f) return
+    drawLine(color, shoulder, hand1, sw * 0.9f, cap = StrokeCap.Round, alpha = alpha * armsAlpha)
+    drawLine(color, shoulder, hand2, sw * 0.9f, cap = StrokeCap.Round, alpha = alpha * armsAlpha)
 }
 
 /** A glowing dot (a badge of light), dimmed by [lit] (0..1). */

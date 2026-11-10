@@ -128,7 +128,7 @@ private fun DrawScope.threadsPlain(a: ArtCtx) {
         withTransform({ scale(-1f, 1f, pivot = foot) }) { w8Worshipper(foot, tall, ThreadC15.Ink, 0f, min(1f, bow)) }
         heart = foot + Offset(tall * 0.14f * bow, -tall * (0.66f - 0.12f * bow))
     } else {
-        figure(foot, tall, ThreadC15.Ink, arms = 0.15f)
+        figure(foot, tall, ThreadC15.Ink, arms = 0.15f, armsAlpha = 1f - lift)
         if (lift > 0f) for (sd in listOf(-1f, 1f)) {
             drawLine(ThreadC15.Ink, foot + Offset(0f, -tall * 0.76f), foot + Offset(sd * tall * 0.2f, -tall * (0.76f + 0.22f * lift)), max(1.7f * dp, tall * 0.06f), StrokeCap.Round, alpha = lift)
         }
@@ -316,7 +316,7 @@ private fun DrawScope.carpetYard(a: ArtCtx) {
         val head = seat + Offset(-tall * 0.02f, -tall * 0.53f)
         drawLine(CarpetC15.Ink, seat + Offset(tall * 0.2f, -tall * 0.1f), head + Offset(tall * 0.08f, tall * 0.06f), max(1.7f * dp, tall * 0.06f), StrokeCap.Round)
     } else {
-        figure(foot, tall, CarpetC15.Ink, stand, walk = if (come in 0.01f..0.99f) t * 6f else 0f, lean = if (bs > 0.5f && to <= 0f) -0.1f else 0f)
+        figure(foot, tall, CarpetC15.Ink, stand, walk = if (come in 0.01f..0.99f) t * 6f else 0f, lean = if (bs > 0.5f && to <= 0f) -0.1f else 0f, armsAlpha = 1f - praise)
         if (praise > 0f) for (sd in listOf(-1f, 1f)) {
             drawLine(CarpetC15.Ink, foot + Offset(0f, -tall * 0.76f), foot + Offset(sd * tall * 0.2f, -tall * (0.76f + 0.24f * praise)), max(1.7f * dp, tall * 0.06f), StrokeCap.Round, alpha = praise)
         }

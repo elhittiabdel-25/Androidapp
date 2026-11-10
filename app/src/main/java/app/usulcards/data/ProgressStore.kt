@@ -50,7 +50,7 @@ class ProgressStore(ctx: Context) {
         private set
 
     /** The daily reminder (see reminder/Reminders.kt): off until the reader turns it on, 20:30 by default. */
-    var reminderOn by mutableStateOf(prefs.getBoolean("reminderOn", false))
+    var reminderOn by mutableStateOf(prefs.getBoolean("reminderOn", true))
         private set
     var reminderHour by mutableIntStateOf(prefs.getInt("reminderHour", 20))
         private set

@@ -25,16 +25,16 @@ import java.time.ZonedDateTime
 /**
  * The daily reminder, scheduled on the phone itself (the app has no server and no internet).
  *
- * Inexact alarms (the only kind an app may set without a special permission) can come late by a share of how far
- * away they are, so a reminder set a day ahead is approached in halves: each hop lands before the target, and only
- * the last one, under 10 minutes away, aims at it. A handful of tiny wake-ups a day, and the reminder comes on time.
+ * Two alarms aim at the chosen minute: one that may fire while the phone dozes, and one bound to a 10-minute window
+ * (or a single exact one where the phone allows exact alarms). Whichever comes first shows the reminder; the other is
+ * ignored. (Until v1.4 the reminder hopped toward its time on inexact alarms, which phones delayed by up to an hour or
+ * dropped, and it stayed silent once the day's goal was met: users reported that it never came.)
  */
 object Reminders {
     const val EXTRA_OPEN = "openCard"
     private const val CHANNEL = "daily"
     private const val ACTION_TICK = "app.usulcards.REMINDER_TICK"
     private const val NOTIFICATION_ID = 1
-    private const val LAST_HOP_MS = 10 * 60_000L
     private const val LATE_LIMIT_MS = 3 * 3_600_000L     // a reminder this late (phone was off) is skipped
 
     private fun prefs(ctx: Context) = ctx.getSharedPreferences(ProgressStore.PREFS, Context.MODE_PRIVATE)
@@ -42,55 +42,62 @@ object Reminders {
     /** Arms the reminder for the next occurrence of the chosen time, or clears it when the reminder is off. */
     fun schedule(ctx: Context) {
         val p = prefs(ctx)
-        if (!p.getBoolean("reminderOn", false)) {
+        if (!p.getBoolean("reminderOn", true)) {
             cancel(ctx)
             return
         }
         val now = ZonedDateTime.now()
         var at = now.with(LocalTime.of(p.getInt("reminderHour", 20), p.getInt("reminderMinute", 30)))
-        if (!at.isAfter(now.plusMinutes(1))) at = at.plusDays(1)
+        if (!at.isAfter(now.plusSeconds(5))) at = at.plusDays(1)
+        if (at.toInstant().toEpochMilli() <= p.getLong("shownFor", 0L)) at = at.plusDays(1)   // today's was shown
         val target = at.toInstant().toEpochMilli()
         p.edit().putLong("remindAt", target).apply()
-        hop(ctx, target)
+        arm(ctx, target)
     }
 
     fun cancel(ctx: Context) {
-        ctx.getSystemService(AlarmManager::class.java)?.cancel(tick(ctx))
+        val am = ctx.getSystemService(AlarmManager::class.java)
+        am?.cancel(tick(ctx, 0))
+        am?.cancel(tick(ctx, 2))
         prefs(ctx).edit().remove("remindAt").apply()
     }
 
-    private fun hop(ctx: Context, target: Long) {
-        val now = System.currentTimeMillis()
-        val left = target - now
-        val at = if (left > LAST_HOP_MS) now + left / 2 else target
-        ctx.getSystemService(AlarmManager::class.java)
-            ?.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, tick(ctx))
+    /** True when the phone lets this app set exact alarms (always before Android 12; a setting after it). */
+    fun exactAllowed(ctx: Context): Boolean =
+        Build.VERSION.SDK_INT < 31 || ctx.getSystemService(AlarmManager::class.java)?.canScheduleExactAlarms() == true
+
+    private fun arm(ctx: Context, target: Long) {
+        val am = ctx.getSystemService(AlarmManager::class.java) ?: return
+        try {
+            if (exactAllowed(ctx)) {
+                am.cancel(tick(ctx, 2))
+                am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, target, tick(ctx, 0))
+                return
+            }
+        } catch (_: SecurityException) {
+        }
+        am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, target, tick(ctx, 0))
+        am.setWindow(AlarmManager.RTC_WAKEUP, target, 10 * 60_000L, tick(ctx, 2))
     }
 
-    private fun tick(ctx: Context): PendingIntent = PendingIntent.getBroadcast(
-        ctx, 0, Intent(ctx, ReminderReceiver::class.java).setAction(ACTION_TICK),
+    private fun tick(ctx: Context, code: Int): PendingIntent = PendingIntent.getBroadcast(
+        ctx, code, Intent(ctx, ReminderReceiver::class.java).setAction(ACTION_TICK),
         PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
     )
 
     internal fun onTick(ctx: Context) {
         val p = prefs(ctx)
-        if (!p.getBoolean("reminderOn", false)) return
+        if (!p.getBoolean("reminderOn", true)) return
         val target = p.getLong("remindAt", 0L)
         val now = System.currentTimeMillis()
-        when {
-            target == 0L -> schedule(ctx)
-            now >= target - 30_000L -> {
-                if (now - target < LATE_LIMIT_MS) show(ctx, test = false)
-                schedule(ctx)                                     // tomorrow
-            }
-            else -> hop(ctx, target)
+        if (target != 0L && now >= target - 30_000L && p.getLong("shownFor", 0L) < target) {
+            p.edit().putLong("shownFor", target).apply()
+            if (now - target < LATE_LIMIT_MS) show(ctx, test = false)
         }
+        schedule(ctx)          // the same target again if this came early, else tomorrow's
     }
 
-    /**
-     * Posts the reminder. On a normal day it is skipped once the daily goal is met; [test] always posts it.
-     * Returns false when notifications are not allowed.
-     */
+    /** Posts the reminder (also when the day's goal is met: the text says so). False when notifications are not allowed. */
     fun show(ctx: Context, test: Boolean): Boolean {
         if (Build.VERSION.SDK_INT >= 33 &&
             ContextCompat.checkSelfPermission(ctx, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
@@ -101,7 +108,6 @@ object Reminders {
         val p = prefs(ctx)
         val today = LocalDate.now()
         val done = if (p.getString("day", "") == today.toString()) p.getInt("dayCount", 0) else 0
-        if (!test && done >= ProgressStore.DAILY_GOAL) return true
 
         ctx.getSystemService(NotificationManager::class.java)?.createNotificationChannel(
             NotificationChannel(CHANNEL, "تذكير يومي", NotificationManager.IMPORTANCE_DEFAULT).apply {
