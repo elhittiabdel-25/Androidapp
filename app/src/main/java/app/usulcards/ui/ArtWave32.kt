@@ -432,7 +432,7 @@ private fun DrawScope.detectorNight(a: ArtCtx) {
             softGlow(win, w * 0.05f, PlateC32.Ember, 0.6f * f)
         }
     }
-    tagAt(a.tag("embers"), Offset(w * 0.17f, h * 0.36f), seg(em, 0.4f, 0.65f) * (1f - seg(pl, 0f, BEAT_OUT)), back = Back32, ink = ArtInk.Gold)
+    tagAt(a.tag("embers"), Offset(w * 0.17f, h * 0.36f), seg(em, 0.4f, 0.65f) * (1f - seg(cg, 0f, BEAT_OUT)), back = Back32, ink = ArtInk.Gold)
     // the cage on show
     val cageC = Offset(w * 0.78f, ground)
     if (cg > 0f) {
@@ -441,7 +441,21 @@ private fun DrawScope.detectorNight(a: ArtCtx) {
         val ch = h * 0.3f
         drawRect(Color(0xFF242436), Offset(cageC.x - cw / 2f, cageC.y - ch), Size(cw, ch), alpha = 0.7f * f)
         val walkOut = easeInOut(seg(co, 0.35f, 0.9f))
-        figure(Offset(cageC.x - w * 0.15f * walkOut, ground), h * 0.2f, PlateC32.Man, f, walk = if (co in 0.35f..0.95f) t * 4f else 0f, arms = mix(0.1f, 0.5f, walkOut))
+        // the materialist view: the man shown beside an insect of his own size, «حشرة»
+        val bug = f * (1f - seg(co, 0f, 0.3f))
+        if (bug > 0f) {
+            val bc = Offset(cageC.x + w * 0.04f, ground - h * 0.1f)
+            val ink = Color(0xFF6A4A30)
+            for (sd in listOf(-1f, 1f)) for (k in 0 until 3) {
+                val y = bc.y - h * 0.03f + h * 0.03f * k
+                drawLine(ink, Offset(bc.x, y), Offset(bc.x + sd * w * 0.04f, y + h * 0.02f * (k - 1) + h * 0.02f), 1.8f * dp, StrokeCap.Round, alpha = bug)
+            }
+            drawOval(ink, Offset(bc.x - w * 0.022f, bc.y - h * 0.05f), Size(w * 0.044f, h * 0.12f), alpha = bug)
+            drawCircle(ink, w * 0.014f, bc + Offset(0f, -h * 0.07f), alpha = bug)
+            for (sd in listOf(-1f, 1f)) drawLine(ink, bc + Offset(0f, -h * 0.08f), bc + Offset(sd * w * 0.02f, -h * 0.11f), 1.4f * dp, StrokeCap.Round, alpha = bug)
+            tagAt(a.tag("cage"), Offset(cageC.x, ground - h * 0.37f), bug * seg(cg, 0.3f, 0.55f), back = Back32, ink = Color(0xFFF0A090))
+        }
+        figure(Offset(cageC.x - w * 0.035f * (1f - walkOut) - w * 0.15f * walkOut, ground), h * 0.2f, PlateC32.Man, f, walk = if (co in 0.35f..0.95f) t * 4f else 0f, arms = mix(0.1f, 0.5f, walkOut))
         val lift = easeInOut(seg(co, 0.15f, 0.45f))
         for (k in 0 until 7) {
             val x = cageC.x - cw / 2f + cw * k / 6f

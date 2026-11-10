@@ -10,6 +10,8 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.ui.graphics.drawscope.withTransform
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.max
@@ -161,14 +163,22 @@ private fun DrawScope.rightsTiles(a: ArtCtx) {
         val raise = easeOut(seg(rs, 0.1f, 0.35f))
         val hold = easeInOut(seg(rs, 0.4f, 0.7f))
         val a0 = Offset(w * 0.42f, ground)
-        figure(a0, h * 0.34f, RightsC47.Person, f, arms = -0.6f * raise * (1f - hold))
-        val handUp = a0 + Offset(w * 0.04f, -h * 0.36f)
-        val stickEnd = handUp + Offset(-w * 0.06f * (1f - hold), -h * 0.12f * raise * (1f - 0.6f * hold))
+        val dark = Color(0xFF2A2030)
+        withTransform({ scale(-1f, 1f, pivot = a0) }) { figure(a0, h * 0.34f, dark, f, arms = 0.2f) }
+        val handUp = a0 + Offset(-w * 0.05f, -h * 0.36f)
+        val shoulder = a0 + Offset(0f, -h * 0.26f)
+        drawLine(dark, shoulder, handUp, max(1.7f * dp, h * 0.022f), StrokeCap.Round, alpha = f * raise)
+        val stickEnd = handUp + Offset(-w * 0.05f * (1f - hold), -h * 0.1f * raise * (1f - 0.6f * hold))
         drawLine(RightsC47.Stick, handUp, stickEnd, 3f * dp, StrokeCap.Round, alpha = f * raise)
-        figure(Offset(w * 0.22f, ground), h * 0.32f, RightsC47.Person, f * 0.85f, lean = -0.1f * raise * (1f - hold))
-        val helper = Offset(w * (0.72f - 0.16f * hold), ground)
+        figure(Offset(w * 0.22f, ground), h * 0.32f, RightsC47.Person, f, lean = -0.1f * raise * (1f - hold))
+        val helper = Offset(w * (0.75f - 0.2f * hold), ground)
         figure(helper, h * 0.34f, RightsC47.Gold, f, walk = t * 6f * (1f - hold) * seg(rs, 0.3f, 0.4f), arms = hold)
+        // he catches the oppressor's raised arm from behind
+        if (hold > 0f) drawLine(RightsC47.Gold, helper + Offset(-w * 0.02f, -h * 0.26f), helper + Offset(-w * 0.02f, -h * 0.26f) + (handUp - (helper + Offset(-w * 0.02f, -h * 0.26f))) * hold, max(1.7f * dp, h * 0.022f), StrokeCap.Round, alpha = f)
         if (hold > 0.9f) softGlow(handUp, w * 0.04f, RightsC47.Gold, 0.5f * f)
+        tagAt(a.tag("restrain", 0, 0), a0 + Offset(0f, -h * 0.5f), f * seg(rs, 0.15f, 0.35f), ink = Color(0xFFF0A090))
+        tagAt(a.tag("restrain", 0, 1), Offset(w * 0.22f, ground - h * 0.46f), f * seg(rs, 0.2f, 0.4f), ink = Color(0xFFF0ECE4))
+        tagAt(a.tag("restrain", 0, 2), helper + Offset(w * 0.02f, -h * 0.48f), f * seg(rs, 0.55f, 0.8f), ink = ArtInk.Gold)
     }
 }
 

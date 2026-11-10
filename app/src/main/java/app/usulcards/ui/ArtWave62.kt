@@ -103,21 +103,16 @@ private fun DrawScope.jointDay(a: ArtCtx) {
         }
     }
     if (fs > 0f) {
+        // «فتعدل بين اثنين صدقة»: two at odds, a balance between them that comes to rest level
         val f = easeOut(seg(fs, 0f, BEAT_IN)) * (1f - seg(dt, 0f, BEAT_OUT))
-        for (k in 0 until 5) {
-            val g = seg(fs, 0.06f + 0.18f * k, 0.2f + 0.18f * k)
-            val x = w * (0.88f - 0.19f * k)
-            val foot = Offset(x, ground - h * 0.06f)
-            when (k) {
-                0 -> { nameRoundel(foot + Offset(-w * 0.04f, -h * 0.05f), w * 0.022f, null, Roundel.PlainFill, Roundel.PlainRim, f * g); nameRoundel(foot + Offset(w * 0.04f, -h * 0.05f), w * 0.022f, null, Roundel.PlainFill, Roundel.PlainRim, f * g); drawLine(JointC62.Gold, foot + Offset(-w * 0.02f, -h * 0.05f), foot + Offset(w * 0.02f, -h * 0.05f), 2f * dp, alpha = f * g) }
-                1 -> camel26(foot, h * 0.16f, JointC62.Camel, f * g, t)
-                2 -> voice12(foot + Offset(0f, -h * 0.06f), w * 0.03f, t, JointC62.Voice, f * g)
-                3 -> { mosque12(foot + Offset(-w * 0.03f, 0f), w * 0.06f, JointC62.Mosque, JointC62.Dome, f * g); for (j in 0 until 3) drawCircle(JointC62.Step, w * 0.005f, foot + Offset(w * (0.02f + 0.02f * j), h * 0.02f), alpha = f * g) }
-                else -> { val lift = seg(fs, 0.85f, 0.98f); drawCircle(JointC62.Stone, w * 0.02f, foot + Offset(0f, -h * 0.02f - h * 0.08f * lift), alpha = f * g) }
-            }
-            softGlow(foot + Offset(0f, -h * 0.06f), w * 0.06f, JointC62.Gold, 0.4f * f * g)
-            tagAt(a.tag("fivesadaqa", 0, k), Offset(w * 0.5f, h * 0.28f), f * g * (if (k < 4) 1f - seg(fs, 0.06f + 0.18f * (k + 1), 0.12f + 0.18f * (k + 1)) else 1f), back = Back62, ink = ArtInk.Gold)
-        }
+        val settle = easeInOut(seg(fs, 0.3f, 0.7f))
+        val apart = 1f - settle
+        nameRoundel(Offset(w * (0.3f - 0.04f * apart), ground - h * 0.2f), w * 0.045f, null, Roundel.PlainFill, Roundel.PlainRim, f * seg(fs, 0f, 0.15f))
+        nameRoundel(Offset(w * (0.7f + 0.04f * apart), ground - h * 0.2f), w * 0.045f, null, Roundel.PlainFill, Roundel.PlainRim, f * seg(fs, 0.05f, 0.2f))
+        balance12(Offset(w * 0.5f, ground), h * 0.42f, 0.45f * sin(t * 2.5f) * apart, JointC62.Gold, f * seg(fs, 0.1f, 0.3f))
+        softGlow(Offset(w * 0.5f, ground - h * 0.3f), w * 0.1f, JointC62.Gold, 0.5f * f * settle)
+        tagAt(a.tag("fivesadaqa", 0, 0), Offset(w * 0.5f, h * 0.18f), f * seg(fs, 0.2f, 0.45f), back = Back62, ink = ArtInk.Gold)
+    }
     }
     if (dt > 0f) {
         val f = easeOut(seg(dt, 0f, BEAT_IN)) * (1f - seg(cr, 0f, BEAT_OUT))

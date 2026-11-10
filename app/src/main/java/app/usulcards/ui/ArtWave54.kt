@@ -72,14 +72,18 @@ private fun DrawScope.roughDay(a: ArtCtx) {
     if (sm > 0f) {
         val f = easeOut(seg(sm, 0f, BEAT_IN)) * (1f - seg(nl, 0f, BEAT_OUT))
         val go = easeInOut(seg(sm, 0.1f, 0.95f))
+        // rough ground (الحَزْن) is made smooth under his feet as he goes; what is ahead is still rough
+        val manX = w * (0.08f + 0.6f * go)
+        drawLine(RoughC54.Smooth, Offset(0f, ground - h * 0.004f), Offset(manX, ground - h * 0.004f), h * 0.02f, StrokeCap.Round, alpha = f)
         for (k in 0 until 9) {
             val x = w * (0.12f + 0.09f * k)
-            val flat = seg(go * 1.2f - (k / 9f) * 0.9f, 0f, 0.2f)
+            val flat = seg(manX - x, -w * 0.04f, w * 0.03f)
             val ht = h * (0.06f + 0.05f * ((k * 7) % 3) / 2f) * (1f - flat)
             drawPath(Path().apply { moveTo(x - w * 0.045f, ground); lineTo(x - w * 0.01f, ground - ht); lineTo(x + w * 0.02f, ground - ht * 0.7f); lineTo(x + w * 0.045f, ground); close() }, lerpColor(RoughC54.Rock, RoughC54.Smooth, flat), alpha = f)
         }
-        figure(Offset(w * (0.08f + 0.8f * go), ground), h * 0.26f, RoughC54.Person, f, walk = t * 5f)
-        tagAt(a.tag("smoothed"), Offset(w * 0.6f, h * 0.48f), f * seg(sm, 0.15f, 0.3f), back = Back54, ink = ArtInk.Ivory)
+        figure(Offset(manX, ground), h * 0.26f, RoughC54.Person, f, walk = if (go < 0.99f) t * 5f else 0f)
+        tagAt(a.tag("smoothed", 0, 0), Offset(max(manX + w * 0.16f, w * 0.82f), ground - h * 0.16f), f * seg(sm, 0.1f, 0.25f), back = Back54, ink = Color(0xFFF0C8A0))
+        tagAt(a.tag("smoothed", 0, 1), Offset(max(manX - w * 0.2f, w * 0.14f), ground - h * 0.1f), f * seg(sm, 0.35f, 0.55f), back = Back54, ink = ArtInk.Gold)
     }
     if (nl > 0f) {
         val f = easeOut(seg(nl, 0f, BEAT_IN)) * (1f - seg(sw, 0f, 0.4f))

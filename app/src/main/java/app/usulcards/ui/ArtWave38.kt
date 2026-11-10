@@ -237,9 +237,10 @@ private fun DrawScope.sunPlain(a: ArtCtx) {
         for (r in 0 until 5) {
             val y = c.y - h * 0.09f + r * h * 0.045f
             drawLine(Color(0xFF8A8070), Offset(c.x - w * 0.06f, y), Offset(c.x + w * 0.02f, y), 1.2f * dp, alpha = f)
-            check21(Offset(c.x + w * 0.05f, y), w * 0.012f, Color(0xFF2E9A55), seg(ne, 0.2f + r * 0.06f, 0.4f + r * 0.06f), 2f * dp)
         }
-        tagAt(a.tag("noexam"), c + Offset(0f, h * 0.17f), seg(ne, 0.5f, 0.75f) * (1f - seg(td, 0f, BEAT_OUT)), back = Back38, ink = Color(0xFFFFE0D0))
+        // a faith forced on them would be no test at all: the exam sheet is struck out
+        cross21(c, w * 0.08f, Color(0xFFD23C30), seg(ne, 0.3f, 0.55f) * (1f - seg(td, 0f, BEAT_OUT)), 4f * dp)
+        tagAt(a.tag("noexam"), c + Offset(0f, h * 0.2f), seg(ne, 0.5f, 0.75f) * (1f - seg(td, 0f, BEAT_OUT)), back = Back38, ink = Color(0xFFFFE0D0))
     }
     // three doors, only one lit
     if (td > 0f) {

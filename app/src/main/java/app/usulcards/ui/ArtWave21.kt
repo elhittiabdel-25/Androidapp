@@ -594,7 +594,14 @@ private fun DrawScope.forkPlain(a: ArtCtx) {
             val side = if (k % 2 == 0) -1f else 1f
             val c = Offset(post.x + side * w * 0.07f, y)
             drawRoundRect(ForkC21.Plaque, c + Offset(-w * 0.065f, -h * 0.028f), Size(w * 0.13f, h * 0.056f), CornerRadius(h * 0.01f), alpha = ps)
-            val x = seg(dn, 0.2f + k * 0.14f, 0.3f + k * 0.14f).coerceAtLeast(if (at > 0f || de > 0f) 1f else 0f)
+            var x = seg(dn, 0.2f + k * 0.14f, 0.3f + k * 0.14f).coerceAtLeast(if (at > 0f || de > 0f) 1f else 0f)
+            // the deist believes in a Creator: for him «الخالق» is un-struck and ticked
+            val forDeist = if (k == 0) seg(de, 0.1f, 0.35f) * (1f - seg(ag, 0f, 0.2f)) else 0f
+            x *= 1f - forDeist
+            if (forDeist > 0f) {
+                softGlow(c, w * 0.08f, Color(0xFF6AD08A), 0.5f * forDeist)
+                tick14(c + Offset(-w * 0.08f, 0f), h * 0.03f, forDeist)
+            }
             struckTag21(a.tag("deny5", 0, k), c, ps, x, ForkC21.Red, back = Color.Transparent, ink = Color(0xFF2A2018))
         }
     }
@@ -614,6 +621,10 @@ private fun DrawScope.forkPlain(a: ArtCtx) {
         val look = bump(seg(de, 0.05f, 0.6f))
         figure(p, tall, ForkC21.Ink, easeOut(seg(de, 0f, 0.2f)).coerceAtLeast(if (all > 0f) 1f else 0f), walk = if (walk in 0.01f..0.99f) t * 5f else 0f, lean = -0.25f * look)
         if (look > 0f) glint(p + Offset(-w * 0.03f, -tall * 1.6f), w * 0.04f, Color.White, look)
+        // but he rejects the religions: the book is named and crossed out
+        val rej = seg(de, 0.45f, 0.7f) * (1f - seg(ag, 0f, 0.2f))
+        tagAt(a.tag("deist", 0, 1), book + Offset(0f, -h * 0.09f), rej, back = ForkC21.Back, ink = Color(0xFFF0A090))
+        cross21(book, w * 0.04f, ForkC21.Red, rej, 3f * dp)
         tagAt(a.tag("deist"), p + Offset(0f, -tall * 1.25f), seg(de, 0.15f, 0.4f) * (1f - seg(ag, 0f, 0.2f)), back = ForkC21.Back, ink = ArtInk.Ivory)
     }
     // 3. the agnostic: stands still where the paths part, a question over him
