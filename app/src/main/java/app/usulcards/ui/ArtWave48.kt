@@ -587,10 +587,14 @@ private fun DrawScope.guestNight(a: ArtCtx) {
             val side = if (k % 2 == 0) -1f else 1f
             val u = seg(nn, 0.1f + 0.18f * k, 0.5f + 0.18f * k)
             val come = bump(u)
-            val p = Offset(w * 0.5f + side * w * (0.42f - 0.24f * come), ground)
-            nameRoundel(p + Offset(0f, -h * 0.08f), w * 0.03f, null, Roundel.PlainFill, Roundel.PlainRim, f * seg(nn, 0.05f + 0.18f * k, 0.12f + 0.18f * k))
+            val p = Offset(w * 0.5f + side * w * (0.36f - 0.2f * come), ground)
+            nameRoundel(p + Offset(0f, -h * 0.08f), w * 0.04f, null, Roundel.PlainFill, Roundel.PlainRim, f * seg(nn, 0.05f + 0.18f * k, 0.12f + 0.18f * k))
             if (u > 0.5f) softGlow(p + Offset(0f, -h * 0.14f), w * 0.02f, ArtInk.Gold, 0.9f * f * (1f - seg(u, 0.9f, 1f)))
+            // what each asked for comes to him from the light
+            if (u in 0.3f..0.6f) drawLine(ArtInk.Gold, c, c + (p + Offset(0f, -h * 0.14f) - c) * seg(u, 0.3f, 0.5f), 2f * dp, StrokeCap.Round, alpha = 0.7f * f)
         }
+        struckTag21(a.tag("nevernot", 0, 0), Offset(w * 0.24f, h * 0.24f), f * seg(nn, 0.1f, 0.25f), seg(nn, 0.3f, 0.45f), Color(0xFFD23C30), Color(0xE6201810), Color(0xFFF0A090))
+        tagAt(a.tag("nevernot", 0, 1), Offset(w * 0.76f, h * 0.24f), f * seg(nn, 0.45f, 0.65f), ink = ArtInk.Gold)
     }
     // the lamp put out for the guest
     if (lo > 0f) {

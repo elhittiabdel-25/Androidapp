@@ -383,6 +383,8 @@ private fun DrawScope.jestDay(a: ArtCtx) {
             starPath(Offset(x, y), w * 0.01f).let { drawPath(it, JestC66.Spark, alpha = f * seg(tj, 0.2f + 0.02f * k, 0.3f + 0.02f * k)) }
         }
         tagAt(a.tag("truejoke"), Offset(w * 0.5f, h * 0.25f), f * seg(tj, 0.45f, 0.65f), back = Back66, ink = ArtInk.Gold)
+        tagAt(a.tag("truejoke", 0, 1), Offset(w * 0.5f, h * 0.5f), f * seg(tj, 0.3f, 0.5f), back = Back66, ink = ArtInk.Gold)
+        tagAt(a.tag("truejoke", 0, 2), Offset(w * 0.5f, h * 0.72f), f * seg(tj, 0.15f, 0.35f), back = Back66, ink = Color(0xFFF0ECE4))
     }
     if (lb > 0f) {
         val f = easeOut(seg(lb, 0f, BEAT_IN)) * (1f - seg(ec, 0f, BEAT_OUT))
@@ -445,6 +447,10 @@ private fun DrawScope.jestDay(a: ArtCtx) {
             val ang = k * PI.toFloat() / 4f + t * 0.3f
             starPath(c + Offset(cos(ang), sin(ang)) * (w * 0.16f), w * 0.012f).let { drawPath(it, JestC66.Spark, alpha = f * young) }
         }
+        tagAt(a.tag("youngagain", 0, 0), c + Offset(0f, h * 0.2f), f * (1f - young), back = Back66, ink = Color(0xFFC8C8C8))
+        tagAt(a.tag("youngagain", 0, 1), c + Offset(0f, h * 0.2f), f * young, back = Back66, ink = ArtInk.Gold)
+        tagAt(a.tag("youngagain", 0, 2), Offset(w * 0.5f, h * 0.14f), f * seg(ya, 0.1f, 0.3f) * (1f - seg(ya, 0.4f, 0.55f)), back = Back66, ink = Color(0xFFF0ECE4))
+        tagAt(a.tag("youngagain", 0, 3), Offset(w * 0.5f, h * 0.14f), f * seg(ya, 0.55f, 0.75f), back = Back66, ink = ArtInk.Gold)
     }
 }
 

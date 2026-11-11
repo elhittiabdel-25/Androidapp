@@ -414,8 +414,14 @@ private fun DrawScope.trayTop(a: ArtCtx) {
             val p = Offset(w * (0.2f + 0.2f * k), h * (0.5f + 0.25f * push))
             drawCircle(TrayC50.TrayRim, w * 0.07f, p, alpha = f * (1f - 0.3f * push))
             drawCircle(TrayC50.Food, w * 0.055f, p, alpha = f * (1f - 0.3f * push))
+            if (k == 1) tick14(p + Offset(0f, -w * 0.1f), w * 0.03f, seg(nb, 0.2f, 0.4f))
         }
+        // what he liked he ate, what he did not he simply left: never a word against food
+        tagAt(a.tag("noblame", 0, 0), Offset(w * 0.4f, h * 0.28f), f * seg(nb, 0.2f, 0.4f), ink = Color(0xFF9AE0A0))
+        tagAt(a.tag("noblame", 0, 1), Offset(w * 0.6f, h * 0.9f), f * seg(nb, 0.55f, 0.75f), ink = Color(0xFFF0ECE4))
+        tagAt(a.tag("noblame", 0, 2), Offset(w * 0.5f, h * 0.12f), f * seg(nb, 0.7f, 0.9f), ink = ArtInk.Gold)
     }
+    tagAt(a.tag("latename"), Offset(w * 0.5f, h * 0.14f), seg(ln, 0.4f, 0.6f) * (1f - seg(nb, 0f, BEAT_OUT)), ink = ArtInk.Gold)
     if (tb > 0f) {
         val f = easeOut(seg(tb, 0f, BEAT_IN)) * (1f - seg(rw, 0f, BEAT_OUT))
         val cup = Offset(w * 0.45f, h * 0.62f)
