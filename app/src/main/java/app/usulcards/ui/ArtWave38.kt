@@ -10,6 +10,8 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.withTransform
+import androidx.compose.ui.graphics.drawscope.scale
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -744,7 +746,7 @@ private fun DrawScope.madRoad(a: ArtCtx) {
     // where the walker is: he walks on, stops to answer, walks on again
     val walk1 = easeInOut(seg(sr, 0f, 1f)) * 0.15f + easeInOut(seg(rs, 0f, 0.6f)) * 0.1f
     val walk2 = easeInOut(seg(ig, 0f, 1f)) * 0.3f + easeInOut(seg(mi, 0f, 0.7f)) * 0.25f
-    val u = (0.12f + walk1 + walk2).coerceAtMost(0.95f)
+    val u = (0.12f + walk1 + walk2).coerceAtMost(0.8f)
     val foot = Offset(w * u, h * (0.91f - 0.2f * u))
     val moving = (sr in 0.01f..0.99f) || (ig in 0.01f..0.99f) || (mi in 0.01f..0.7f)
     val turned = bump(seg(mb, 0f, 1f))
@@ -757,15 +759,17 @@ private fun DrawScope.madRoad(a: ArtCtx) {
         drawArc(RoadC38.Shield, 180f, 180f, false, Offset(c.x - h * 0.15f, c.y - h * 0.15f), Size(h * 0.3f, h * 0.3f), alpha = 0.6f * dome, style = Stroke(2f * dp))
     }
     // the shouts from the roadside
-    val bush = Offset(w * 0.38f, h * 0.68f)
-    drawCircle(RoadC38.Bush, w * 0.05f, bush)
-    drawCircle(RoadC38.Bush, w * 0.04f, bush + Offset(w * 0.04f, h * 0.01f))
+    // the madman at the roadside, standing clear of the walker, calling with both arms up
+    val caller = Offset(w * 0.58f, h * 0.7f)
     val shoutOn = easeOut(seg(rs, 0.2f, 0.5f))
+    val callerOn = easeOut(seg(rs, 0.05f, 0.3f)) * (1f - 0.75f * easeOut(seg(ig, 0.1f, 0.8f)))
+    withTransform({ scale(-1f, 1f, pivot = caller) }) { figure(caller, h * 0.17f, RoadC38.Shout, callerOn, arms = 0.8f + 0.2f * sin(t * 7f), lean = 0.12f) }
+    val bush = caller + Offset(-w * 0.05f, -h * 0.12f)
     val many = 2 + (4f * easeOut(seg(mb, 0.2f, 0.8f))).toInt()
     val fade = 1f - easeOut(seg(ig, 0.1f, 0.8f))
     if (shoutOn > 0f) {
         for (k in 0 until many) {
-            val c = bush + Offset(w * (-0.06f + 0.05f * k), -h * (0.12f + 0.07f * (k % 3)))
+            val c = bush + Offset(-w * 0.045f * k, -h * (0.06f + 0.07f * (k % 3)))
             val s = w * (0.03f + 0.01f * (k % 2)) * (0.5f + 0.5f * fade) * (1f + 0.08f * sin(t * 8f + k))
             val p = Path()
             for (j in 0 until 10) {
@@ -778,9 +782,15 @@ private fun DrawScope.madRoad(a: ArtCtx) {
             drawPath(p, RoadC38.Shout, alpha = shoutOn * fade * 0.9f)
         }
     }
-    // the mirage ahead
+    val back = Color(0xE6201810)
+    tagAt(a.tag("roadshout"), caller + Offset(w * 0.08f, -h * 0.26f), shoutOn * (1f - seg(mb, 0f, BEAT_OUT)), back = back, ink = Color(0xFFE0C8D8))
+    tagAt(a.tag("morebubbles"), foot + Offset(-w * 0.08f, -h * 0.3f), seg(mb, 0.2f, 0.45f) * (1f - seg(ig, 0f, BEAT_OUT)), back = back, ink = Color(0xFFF0A090))
+    tagAt(a.tag("ignorefade"), foot + Offset(0f, -h * 0.3f), seg(ig, 0.2f, 0.45f) * (1f - seg(mi, 0f, BEAT_OUT)), back = back, ink = ArtInk.Gold)
+    // the mirage ahead: it shimmers, and when he reaches it only its dry outline is left
     if (mi > 0f) {
-        val c = Offset(w * 0.82f, h * 0.74f)
+        val c = Offset(w * 0.86f, h * 0.73f)
+        drawOval(Color(0xFFB89A6A), Offset(c.x - w * 0.12f, c.y - h * 0.025f), Size(w * 0.24f, h * 0.05f), alpha = easeOut(seg(mi, 0.55f, 0.85f)), style = Stroke(1.5f * dp, pathEffect = PathEffect.dashPathEffect(floatArrayOf(5f * dp, 5f * dp))))
+        tagAt(a.tag("mirage"), c + Offset(-w * 0.04f, -h * 0.12f), seg(mi, 0.1f, 0.3f), back = back, ink = Color(0xFFBFE0F2))
         val shimmer = 0.6f + 0.2f * sin(t * 3f)
         val gone = 1f - easeOut(seg(mi, 0.55f, 0.85f))
         drawOval(RoadC38.Mirage, Offset(c.x - w * 0.12f, c.y - h * 0.025f), Size(w * 0.24f, h * 0.05f), alpha = easeOut(seg(mi, 0f, 0.3f)) * shimmer * gone)

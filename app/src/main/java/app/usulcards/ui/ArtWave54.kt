@@ -95,23 +95,30 @@ private fun DrawScope.roughDay(a: ArtCtx) {
         tagAt(a.tag("nolaw", 0, 1), Offset(w * 0.66f, h * 0.3f), f * seg(nl, 0.6f, 0.8f), back = Back54, ink = ArtInk.Gold)
     }
     if (sw > 0f) {
+        // the strong believer carries the load upright on his shoulders; the weak one bends under a small one; both are lit
         val f = easeOut(seg(sw, 0f, 0.3f)) * (1f - seg(co, 0f, BEAT_OUT))
         for (k in 0 until 2) {
-            val p = Offset(w * (0.35f + 0.3f * k), ground)
+            val p = Offset(w * (0.68f - 0.36f * k), ground)
             val big = k == 0
-            figure(p, h * (if (big) 0.32f else 0.26f), RoughC54.Person, f, walk = t * 4f)
-            drawRoundRect(RoughC54.Load, Offset(p.x - w * 0.04f, p.y - h * (if (big) 0.46f else 0.36f)), Size(w * 0.08f, h * (if (big) 0.1f else 0.06f)), CornerRadius(3f * dp), alpha = f)
-            softGlow(p + Offset(0f, -h * 0.5f), w * (if (big) 0.06f else 0.04f), RoughC54.Gold, 0.7f * f * seg(sw, 0.3f + 0.2f * k, 0.5f + 0.2f * k))
+            val tall = h * 0.3f
+            figure(p, tall, RoughC54.Person, f, lean = if (big) 0f else 0.22f, arms = 1f)
+            val top = p + Offset(if (big) 0f else tall * 0.2f, -tall * (if (big) 1.02f else 0.9f))
+            drawRoundRect(RoughC54.Load, Offset(top.x - w * (if (big) 0.07f else 0.035f), top.y - h * (if (big) 0.12f else 0.05f)), Size(w * (if (big) 0.14f else 0.07f), h * (if (big) 0.12f else 0.05f)), CornerRadius(3f * dp), alpha = f)
+            softGlow(p + Offset(0f, -tall * 0.6f), w * (if (big) 0.1f else 0.06f), RoughC54.Gold, (if (big) 0.7f else 0.4f) * f * seg(sw, 0.3f + 0.2f * k, 0.5f + 0.2f * k))
+            tagAt(a.tag("strongweak", 0, k), p + Offset(0f, h * 0.08f), f * seg(sw, 0.2f + 0.2f * k, 0.4f + 0.2f * k), back = Back54, ink = if (big) ArtInk.Gold else ArtInk.Ivory)
         }
+        tagAt(a.tag("strongweak", 0, 2), Offset(w * 0.5f, h * 0.12f), f * seg(sw, 0.65f, 0.85f), back = Back54, ink = ArtInk.Gold)
     }
     if (co > 0f) {
+        // the whisper comes as dark smoke toward his head; he says the words, and it breaks up and is gone
         val f = easeOut(seg(co, 0f, 0.3f))
-        val c = Offset(w * 0.5f, ground)
+        val c = Offset(w * 0.45f, ground)
         figure(c, h * 0.32f, RoughC54.Person, f)
-        val cut = seg(co, 0.4f, 0.55f)
-        smoke12(Offset(w * 0.9f, h * 0.2f), c + Offset(w * 0.03f, -h * 0.3f), (0.3f + 0.6f * seg(co, 0.05f, 0.4f)) * (1f - cut), t, f * (1f - 0.7f * cut), RoughC54.Smoke)
-        if (cut > 0f) drawLine(RoughC54.Gold, Offset(w * 0.62f, h * 0.38f), Offset(w * 0.7f, h * 0.5f), 3f * dp * cut, StrokeCap.Round, alpha = f)
-        tagAt(a.tag("whispercut"), Offset(w * 0.5f, h * 0.2f), f * seg(co, 0.55f, 0.75f), back = Back54, ink = ArtInk.Gold)
+        val cut = seg(co, 0.45f, 0.7f)
+        smoke12(Offset(w * 0.92f, h * 0.25f), c + Offset(w * 0.05f, -h * 0.3f), (0.3f + 0.6f * seg(co, 0.05f, 0.4f)), t, f * (1f - cut), RoughC54.Smoke)
+        tagAt(a.tag("whispercut", 0, 1), Offset(w * 0.78f, h * 0.42f), f * seg(co, 0.1f, 0.3f) * (1f - cut), back = Back54, ink = Color(0xFFC8B8D0))
+        softGlow(c + Offset(0f, -h * 0.26f), w * 0.12f, RoughC54.Gold, 0.6f * f * cut)
+        tagAt(a.tag("whispercut"), Offset(w * 0.45f, h * 0.2f), f * seg(co, 0.4f, 0.6f), back = Back54, ink = ArtInk.Gold)
     }
 }
 

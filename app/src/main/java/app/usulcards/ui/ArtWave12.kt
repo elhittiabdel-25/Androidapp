@@ -203,6 +203,20 @@ private fun DrawScope.saplingBench(a: ArtCtx) {
         noSign11pub(brush + Offset(-w * 0.03f, -h * 0.01f), w * 0.04f, easeOut(seg(pa, 0.65f, 0.85f)))
         drawRect(Color(0xFF7A7A82), topLeft = foot + Offset(-tall * 0.12f, -tall * 0.25f), size = Size(w * 0.03f, h * 0.04f))
     }
+    // every part named: the plant is faith, its root the foundation; the drops are major sins; the three stances
+    val back = Color(0xE6201810)
+    val red = Color(0xFFF0A090)
+    tagAt(a.tag("rooted", 0, 0), pc + Offset(-w * 0.14f, -potH - h * 0.2f), seg(rt, 0.15f, 0.35f) * (1f - seg(ax, 0f, BEAT_OUT)), back = back, ink = ArtInk.Gold)
+    tagAt(a.tag("rooted", 0, 1), dry + Offset(w * 0.04f, -h * 0.2f), seg(rt, 0.4f, 0.6f) * (1f - seg(wl, 0f, BEAT_OUT)), back = back, ink = red)
+    tagAt(a.tag("wilt", 0, 0), Offset(pc.x + w * 0.1f, h * 0.16f), seg(wl, 0.1f, 0.3f) * (1f - seg(cl, 0f, BEAT_OUT)), back = back, ink = red)
+    tagAt(a.tag("wilt", 0, 1), pc + Offset(-w * 0.14f, -potH - h * 0.08f), seg(wl, 0.5f, 0.75f) * (1f - seg(cl, 0f, BEAT_OUT)), back = back, ink = Color(0xFFE8D890))
+    tagAt(a.tag("cloche"), Offset(pc.x, stemTop.y - h * 0.11f), seg(cl, 0.5f, 0.75f) * (1f - seg(ax, 0f, BEAT_OUT)), back = back, ink = ArtInk.Gold)
+    if (ax > 0f) {
+        val come = easeInOut(seg(ax, 0f, 0.4f))
+        tagAt(a.tag("axe", 0, 0), Offset(mix(-w * 0.08f, w * 0.3f, come), h * 0.98f - tall * 1.3f), seg(ax, 0.3f, 0.5f), back = back, ink = red)
+        tagAt(a.tag("axe", 0, 1), gFoot + Offset(0f, -tall * 1.12f), seg(ax, 0.5f, 0.7f), back = back, ink = ArtInk.Gold)
+    }
+    if (pa > 0f) tagAt(a.tag("paint"), Offset(w * 0.7f, h * 0.98f - tall * 1.3f), seg(pa, 0.25f, 0.45f), back = back, ink = red)
 }
 
 /** The red "not this" sign (shared). */

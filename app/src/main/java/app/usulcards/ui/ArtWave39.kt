@@ -53,7 +53,7 @@ internal fun DrawScope.trialroadScene(a: ArtCtx) {
         "trialworld" to Shot(Offset(w * 0.35f, h * 0.62f), 1.15f),
         "fishdry" to Shot(Offset(w * 0.75f, h * 0.75f), 1.4f),
         "freechoice" to Shot(Offset(w * 0.55f, h * 0.55f), 1.15f),
-        "syringe" to Shot(Offset(w * 0.25f, h * 0.3f), 1.4f),
+        "syringe" to Shot(Offset(w * 0.3f, h * 0.55f), 1.3f),
         "threadlong" to Shot(Offset(w * 0.5f, h * 0.2f), 1.1f),
     ))
     followBeats(a, shots, Shot(Offset(w * 0.5f, h * 0.5f), 1f), dim = 0.1f) { trialRoad(a) }
@@ -86,6 +86,9 @@ private fun DrawScope.trialRoad(a: ArtCtx) {
     val foot = Offset(w * (0.1f + go), h * (0.83f - 0.08f * go))
     val hop = bump(fract(go * 7.7f)) * h * 0.04f * (if (tw in 0.2f..0.99f) 1f else 0f)
     figure(foot + Offset(0f, -hop), h * 0.18f, TrialC39.Walker, road, walk = if (tw in 0.2f..0.99f) t * 7f else 0f)
+    val back = Color(0xE6201810)
+    tagAt(a.tag("trialworld", 0, 0), Offset(w * 0.36f, h * 0.36f), seg(tw, 0.3f, 0.5f) * (1f - seg(fd, 0f, BEAT_OUT)), back = back, ink = ArtInk.Gold)
+    tagAt(a.tag("trialworld", 0, 1), Offset(w * 0.38f, h * 0.62f), seg(tw, 0.15f, 0.35f) * (1f - seg(fd, 0f, BEAT_OUT)), back = back, ink = Color(0xFFF0D8B8))
     // the fish that never feels wet
     if (fd > 0f) {
         val f = easeOut(seg(fd, 0f, 0.3f))
@@ -107,18 +110,29 @@ private fun DrawScope.trialRoad(a: ArtCtx) {
         drawLine(TrialC39.Light, fork, Offset(w * 0.86f, h * 0.48f), w * 0.03f, StrokeCap.Round, alpha = f * 0.9f)
         drawLine(TrialC39.Dark, fork, Offset(w * 0.86f, h * 0.66f), w * 0.03f, StrokeCap.Round, alpha = f * 0.9f)
         softGlow(Offset(w * 0.86f, h * 0.48f), w * 0.06f, ArtInk.Gold, 0.5f * f)
+        val on = f * (1f - seg(sy, 0f, BEAT_OUT))
+        tagAt(a.tag("freechoice", 0, 0), Offset(w * 0.84f, h * 0.38f), on, back = back, ink = ArtInk.Gold)
+        tagAt(a.tag("freechoice", 0, 1), Offset(w * 0.86f, h * 0.76f), on, back = back, ink = Color(0xFFF0A090))
+        tagAt(a.tag("freechoice", 0, 2), foot + Offset(0f, -h * 0.27f), on * seg(fc, 0.5f, 0.7f), back = back, ink = Color(0xFFF0ECE4))
     }
     // the syringe and the father's love
     if (sy > 0f) {
         val f = easeOut(seg(sy, 0f, 0.35f)) * (1f - 0.6f * seg(tl, 0f, 0.4f))
-        val c = Offset(w * 0.2f, h * 0.3f)
-        drawRoundRect(TrialC39.Syringe, Offset(c.x - w * 0.08f, c.y - h * 0.02f), Size(w * 0.13f, h * 0.04f), CornerRadius(4f * dp), alpha = f)
-        drawRect(Color(0xFF8AC0E0), Offset(c.x - w * 0.07f, c.y - h * 0.012f), Size(w * 0.08f * (1f - seg(sy, 0.4f, 0.8f)), h * 0.024f), alpha = f)
-        drawLine(Color(0xFF9AA4B0), c + Offset(w * 0.05f, 0f), c + Offset(w * 0.1f, 0f), 1.5f * dp, alpha = f)
-        drawLine(Color(0xFF6A7480), c + Offset(-w * 0.08f, 0f), c + Offset(-w * 0.11f, 0f), 4f * dp, alpha = f)
-        val heart = c + Offset(w * 0.17f, -h * 0.04f)
+        // a father holds his child's hand while the child is given the shot; the heart is the father's
+        val dad = Offset(w * 0.16f, h * 0.76f)
+        val kid = Offset(w * 0.27f, h * 0.76f)
+        figure(dad, h * 0.24f, TrialC39.Walker, f, arms = 0.5f)
+        child12(kid, h * 0.15f, TrialC39.Walker, f)
+        val c = kid + Offset(w * 0.1f, -h * 0.09f)
+        drawRoundRect(TrialC39.Syringe, Offset(c.x - w * 0.02f, c.y - h * 0.015f), Size(w * 0.1f, h * 0.03f), CornerRadius(4f * dp), alpha = f)
+        drawRect(Color(0xFF8AC0E0), Offset(c.x - w * 0.015f, c.y - h * 0.009f), Size(w * 0.07f * (1f - seg(sy, 0.4f, 0.8f)), h * 0.018f), alpha = f)
+        drawLine(Color(0xFF9AA4B0), c + Offset(-w * 0.02f, 0f), kid + Offset(w * 0.025f, -h * 0.09f), 1.5f * dp, alpha = f)
+        drawLine(Color(0xFF6A7480), c + Offset(w * 0.08f, 0f), c + Offset(w * 0.11f, 0f), 4f * dp, alpha = f)
+        val heart = dad + Offset(0f, -h * 0.3f)
         drawPath(w8Heart(heart, w * 0.03f * easeOut(seg(sy, 0.3f, 0.6f))), TrialC39.Heart, alpha = f)
         softGlow(heart, w * 0.05f, TrialC39.Heart, 0.4f * f * seg(sy, 0.4f, 0.8f))
+        tagAt(a.tag("syringe", 0, 0), heart + Offset(0f, -h * 0.08f), f * seg(sy, 0.3f, 0.5f), back = back, ink = Color(0xFFFFC8B8))
+        tagAt(a.tag("syringe", 0, 1), c + Offset(w * 0.05f, h * 0.07f), f * seg(sy, 0.5f, 0.7f), back = back, ink = Color(0xFFDCE8F0))
     }
     // a short life, the start of an endless thread
     if (tl > 0f) {
@@ -129,6 +143,8 @@ private fun DrawScope.trialRoad(a: ArtCtx) {
         val run = easeInOut(seg(tl, 0.2f, 1f))
         drawLine(ArtInk.BrassLight, Offset(w * 0.2f, y), Offset(w * (0.2f + 0.85f * run), y), 2f * dp, alpha = f,
             pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f * dp, 6f * dp), -t * 30f))
+        tagAt(a.tag("threadlong", 0, 0), Offset(w * 0.14f, y + h * 0.08f), f * seg(tl, 0.1f, 0.3f), back = back, ink = ArtInk.Gold)
+        tagAt(a.tag("threadlong", 0, 1), Offset(w * 0.62f, y + h * 0.08f), f * seg(tl, 0.45f, 0.65f), back = back, ink = ArtInk.BrassLight)
     }
 }
 

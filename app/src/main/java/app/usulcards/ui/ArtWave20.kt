@@ -362,6 +362,11 @@ private fun DrawScope.triptychWall(a: ArtCtx) {
         }
         drawPath(arch, TriC20.Frame, style = Stroke(5f * dp))
         drawPath(arch, TriC20.FrameLight, style = Stroke(1.4f * dp))
+        // each window named, and its opposite named in red when it comes
+        val kind = listOf("rububiyya", "uluhiyya", "asma")[k]
+        val opp = listOf("rubopp", "ulopp", "asmopp")[k]
+        tagAt(a.tag(kind, 0, if (k == 2) 1 else 0), Offset(cx, top + h * 0.1f), seg(lit, 0.1f, 0.3f), ink = ArtInk.Gold)
+        tagAt(a.tag(opp), Offset(cx, bottom - h * 0.02f), seg(a.b(opp), 0.3f, 0.55f), back = Color(0xE65A1A1A), ink = Color(0xFFF0A090))
     }
 }
 
@@ -422,13 +427,13 @@ private fun DrawScope.uluhiyyaPane(cx: Float, hw: Float, ul: Float, uo: Float, t
     // one turns to an idol and bows to it
     if (uo > 0f) {
         val al = easeOut(seg(uo, 0f, 0.25f))
-        val idol = Offset(cx + hw * 0.85f, h * 0.79f)
-        drawRect(TriC20.Idol, topLeft = idol + Offset(-hw * 0.08f, -h * 0.03f), size = Size(hw * 0.16f, h * 0.03f), alpha = al)
-        drawRect(TriC20.Idol, topLeft = idol + Offset(-hw * 0.05f, -h * 0.1f), size = Size(hw * 0.1f, h * 0.07f), alpha = al)
-        drawCircle(TriC20.Idol, hw * 0.06f, idol + Offset(0f, -h * 0.12f), alpha = al)
-        val foot = Offset(cx - hw * 0.6f + 3 * hw * 0.36f, h * 0.79f)
+        val idol = Offset(cx + hw * 0.72f, h * 0.79f)
+        drawRect(TriC20.Idol, topLeft = idol + Offset(-hw * 0.13f, -h * 0.03f), size = Size(hw * 0.26f, h * 0.03f), alpha = al)
+        drawRect(TriC20.Idol, topLeft = idol + Offset(-hw * 0.08f, -h * 0.14f), size = Size(hw * 0.16f, h * 0.11f), alpha = al)
+        drawCircle(TriC20.Idol, hw * 0.09f, idol + Offset(0f, -h * 0.17f), alpha = al)
+        val foot = Offset(cx + hw * 0.3f, h * 0.79f)
         withTransform({ scale(-1f, 1f, pivot = foot) }) { w8Worshipper(foot, tall, Color(0xFF5A4A5A), 0f, easeOut(seg(uo, 0.15f, 0.45f)), 1f) }
-        noSign11pub(foot + Offset(hw * 0.2f, -tall * 0.5f), tall * 0.55f, easeOut(seg(uo, 0.4f, 0.7f)))
+        cross14(idol + Offset(0f, -h * 0.26f), h * 0.03f, seg(uo, 0.4f, 0.7f))
     }
 }
 
@@ -455,7 +460,7 @@ private fun DrawScope.asmaPane(a: ArtCtx, cx: Float, hw: Float, asm: Float, ao: 
         figure(foot, tall, Color(0xFF5A4A5A), al, arms = 1f, lean = 0.1f)
         val brush = foot + Offset(-tall * 0.28f, -tall * 0.76f)
         drawLine(Color(0xFF6A4A2A), brush, brush + Offset(-hw * 0.2f, -h * 0.04f), 1.8f * dp, StrokeCap.Round, alpha = al)
-        val smear = easeOut(seg(ao, 0.1f, 0.45f)) * (1f - easeOut(seg(ao, 0.55f, 0.9f)))
+        val smear = easeOut(seg(ao, 0.1f, 0.45f)) * (1f - 0.6f * easeOut(seg(ao, 0.7f, 0.95f)))
         if (smear > 0f) drawRect(TriC20.Smear, topLeft = pc + Offset(hw * 0.82f - hw * 1.64f * smear, -h * 0.03f), size = Size(hw * 1.64f * smear, h * 0.06f), alpha = 0.8f)
         noSign11pub(foot + Offset(0f, -tall * 0.55f), tall * 0.45f, easeOut(seg(ao, 0.5f, 0.8f)))
     }
