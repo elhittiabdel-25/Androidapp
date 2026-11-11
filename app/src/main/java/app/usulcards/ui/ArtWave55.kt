@@ -304,7 +304,7 @@ private fun DrawScope.sneezePage(a: ArtCtx) {
         val fl = (1f - out) * (1f + 0.15f * sin(t * 10f))
         drawOval(pp.bad, Offset(head.x - w * 0.015f * fl, head.y - h * 0.08f * fl), Size(w * 0.03f * fl, h * 0.08f * fl), alpha = f)
         val head2 = Offset(w * 0.62f, ground - h * 0.36f)
-        drawOval(pp.bad, Offset(head2.x - w * 0.015f, head2.y - h * 0.08f), Size(w * 0.03f, h * 0.08f), alpha = f)
+        drawOval(pp.bad, Offset(head2.x - w * 0.015f * fl, head2.y - h * 0.08f * fl), Size(w * 0.03f * fl, h * 0.08f * fl), alpha = f)
         // angry words between them
         for (k in 0 until 3) drawLine(pp.bad, Offset(w * (0.4f + 0.05f * k), ground - h * 0.3f), Offset(w * (0.43f + 0.05f * k), ground - h * (0.27f + 0.03f * (k % 2))), pen, StrokeCap.Round, alpha = f * (1f - out))
         note(a.tag("coolword", 0, 1), Offset(w * 0.47f, ground - h * 0.42f), f * seg(cw, 0.1f, 0.25f) * (1f - out), pp, pp.bad)
