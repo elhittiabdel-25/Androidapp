@@ -344,6 +344,9 @@ private fun DrawScope.pillarsDay(a: ArtCtx) {
         softGlow(r, w * 0.14f, PillarC57.Gold, 0.4f * f * g)
         for (k in 0 until 3) drawRect(PillarC57.Base, Offset(r.x - w * 0.09f + w * 0.065f * k, r.y + w * 0.12f), Size(w * 0.05f, h * 0.15f * seg(sd, 0.6f + 0.08f * k, 0.8f + 0.08f * k)), alpha = f)
         crossMark(l + Offset(0f, w * 0.16f), w * 0.03f, Color(0xFFB4492A), 3f * dp, f * seg(sd, 0.3f, 0.45f))
+        tagAt(a.tag("saidanddone", 0, 0), l, f * seg(sd, 0.12f, 0.3f), back = Back57, ink = Color(0xFFF0A090))
+        tagAt(a.tag("saidanddone", 0, 1), r, f * g, back = Back57, ink = ArtInk.Gold)
+        tagAt(a.tag("saidanddone", 0, 2), r + Offset(0f, w * 0.12f + h * 0.19f), f * seg(sd, 0.75f, 0.95f), back = Back57, ink = Color(0xFFF0ECE4))
     }
     if (ts > 0f) {
         val f = easeOut(seg(ts, 0f, BEAT_IN)) * (1f - seg(od, 0f, BEAT_OUT))
@@ -359,7 +362,7 @@ private fun DrawScope.pillarsDay(a: ArtCtx) {
         }
         val g2 = seg(ts, 0.45f, 0.7f)
         drawCircle(PillarC57.Gold, w * 0.17f * easeOut(g2), c + Offset(0f, h * 0.06f), alpha = f, style = Stroke(3f * dp))
-        for (k in 0 until 3) bow12(c + Offset(w * (0.06f * k - 0.04f), h * 0.14f), h * 0.12f, PillarC57.Ink, f * g2, 1f)
+        for (k in 0 until 3) bow12(c + Offset(w * (0.08f * k - 0.07f), h * 0.16f), h * 0.16f, PillarC57.Ink, f * g2, 1f)
         tagAt(a.tag("twoservitudes", 0, 0), c + Offset(0f, -w * 0.46f), f * g1, back = Back57)
         tagAt(a.tag("twoservitudes", 0, 1), c + Offset(0f, -h * 0.06f), f * g2, back = Back57, ink = ArtInk.Gold)
     }
@@ -367,11 +370,14 @@ private fun DrawScope.pillarsDay(a: ArtCtx) {
         val f = easeOut(seg(od, 0f, 0.25f))
         val y = h * 0.55f
         penLineDay(Offset(w * 0.08f, y), Offset(w * 0.92f, y), seg(od, 0.05f, 0.3f), PillarC57.Ink, 3f * dp, f)
+        // the prayer came first, in Makkah
+        kaaba29(Offset(w * 0.85f, y - h * 0.2f), w * 0.05f, f * seg(od, 0.1f, 0.25f))
+        tagAt(a.tag("orderofduty", 0, 4), Offset(w * 0.85f, y - h * 0.36f), f * seg(od, 0.12f, 0.28f), back = Back57, ink = Color(0xFFF0ECE4))
         for (k in 0 until 4) {
             val x = w * (0.85f - 0.24f * k)
             val g = seg(od, 0.15f + 0.2f * k, 0.3f + 0.2f * k)
             drawCircle(PillarC57.Gold, w * 0.018f, Offset(x, y), alpha = f * g)
-            tagAt(a.tag("orderofduty", 0, k), Offset(x, y + (if (k % 2 == 0) -1f else 1f) * h * 0.1f), f * g, back = Back57, ink = ArtInk.Gold)
+            tagAt(a.tag("orderofduty", 0, k), Offset(x, y + (if (k % 2 == 0) 1f else -1f) * h * 0.1f), f * g, back = Back57, ink = ArtInk.Gold)
         }
     }
 }

@@ -204,10 +204,15 @@ private fun DrawScope.sceptreLine(a: ArtCtx) {
         val lift = easeInOut(seg(ho, 0f, 0.7f))
         val rodAt = along + (goal + Offset(0f, h * 0.08f) - along) * lift - Offset(0f, sin(PI.toFloat() * lift) * h * 0.1f)
         val tilt = 0.4f * (1f - lift)
-        val tip = rodAt + Offset(sin(tilt) * h * 0.06f, -cos(tilt) * h * 0.06f)
+        val tip = rodAt + Offset(sin(tilt) * h * 0.11f, -cos(tilt) * h * 0.11f)
         val base = rodAt - Offset(sin(tilt) * h * 0.04f, -cos(tilt) * h * 0.04f)
-        drawLine(RodC34.Rod, base, tip, 3f * dp, StrokeCap.Round)
-        drawCircle(RodC34.Rod, w * 0.008f, tip)
+        drawLine(RodC34.Rod, base, tip, 5f * dp, StrokeCap.Round)
+        drawCircle(RodC34.Rod, w * 0.016f, tip)
+        tagAt(a.tag("sceptre", 0, 1), tip + Offset(0f, -h * 0.08f), seg(sc, 0.1f, 0.3f) * (1f - seg(ho, 0f, 0.2f)), back = Back34, ink = ArtInk.Gold)
+        // the line of prophethood in Israel breaks off at once: a gap, a red stroke, and its name
+        val cutAt = nodes[7] + Offset(w * 0.04f, 0f)
+        drawLine(Color(0xFFD23C30), cutAt + Offset(0f, -h * 0.05f), cutAt + Offset(0f, h * 0.05f), 3f * dp, StrokeCap.Round, alpha = seg(ld, 0.1f, 0.3f) * (1f - seg(us, 0f, BEAT_OUT)))
+        tagAt(a.tag("linedark"), Offset(w * 0.4f, nodes[3].y + h * 0.12f), seg(ld, 0.2f, 0.45f) * (1f - seg(us, 0f, BEAT_OUT)), back = Back34, ink = Color(0xFFF0A090))
         softGlow(tip, w * 0.03f, RodC34.Rod, 0.5f)
     }
     if (ho > 0f) {
@@ -220,10 +225,11 @@ private fun DrawScope.sceptreLine(a: ArtCtx) {
         val f = easeOut(seg(us, 0f, 0.2f))
         val open = easeOut(seg(us, 0.3f, 0.6f))
         val fall = w8EaseIn(seg(us, 0.5f, 1f))
-        val c = Offset(w * 0.75f, h * 0.72f + h * 0.1f * fall)
+        val c = Offset(w * 0.75f, h * 0.7f + h * 0.06f * fall)
+        softGlow(c, w * 0.14f, RodC34.Rod, 0.35f * f * open)
         for (s in listOf(-1f, 1f)) {
-            val ring = c + Offset(s * w * (0.035f + 0.03f * open), 0f)
-            drawArc(RodC34.Iron, if (s < 0) 30f + 60f * open else 210f + 60f * open, 300f, false, Offset(ring.x - w * 0.025f, ring.y - w * 0.025f), Size(w * 0.05f, w * 0.05f), alpha = f * (1f - 0.6f * fall), style = Stroke(3f * dp))
+            val ring = c + Offset(s * w * (0.06f + 0.04f * open), 0f)
+            drawArc(RodC34.Iron, if (s < 0) 30f + 60f * open else 210f + 60f * open, 300f, false, Offset(ring.x - w * 0.045f, ring.y - w * 0.045f), Size(w * 0.09f, w * 0.09f), alpha = f * (1f - 0.3f * fall), style = Stroke(3f * dp))
         }
         for (k in 0 until 4) {
             val u = k / 3f

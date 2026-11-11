@@ -187,6 +187,11 @@ private fun DrawScope.jannaNight(a: ArtCtx) {
         drawCircle(JannaC61.Dark, w * 0.035f, Offset(w * 0.62f, h * 0.55f), alpha = f * seg(hb, 0.45f, 0.55f))
         drawLine(JannaC61.Gold, heart, Offset(w * 0.3f, h * 0.48f), 1.5f * dp, alpha = f * 0.5f * take)
         drawLine(JannaC61.Gold, heart, Offset(w * 0.74f, h * 0.52f), 1.5f * dp, alpha = f * 0.5f * pull)
+        // the heart holds each as what it is; the hand takes the lawful and draws back from the forbidden
+        tagAt(a.tag("heldbelief", 0, 0), heart + Offset(0f, -h * 0.12f), f * seg(hb, 0.05f, 0.2f), ink = ArtInk.Gold)
+        tagAt(a.tag("heldbelief", 0, 1), Offset(w * 0.3f, h * 0.74f), f * take, ink = Color(0xFF9AE0A0))
+        tagAt(a.tag("heldbelief", 0, 2), Offset(w * 0.64f, h * 0.74f), f * seg(hb, 0.45f, 0.6f), ink = Color(0xFFF0A090))
+        cross14(Offset(w * 0.62f, h * 0.55f), w * 0.03f, pull)
     }
     if (mg > 0f) {
         val f = easeOut(seg(mg, 0f, BEAT_IN)) * (1f - seg(nl, 0f, BEAT_OUT))
@@ -205,10 +210,10 @@ private fun DrawScope.jannaNight(a: ArtCtx) {
     }
     if (nl > 0f) {
         val f = easeOut(seg(nl, 0f, BEAT_IN)) * (1f - seg(nd, 0f, BEAT_OUT))
-        for (k in 0 until 5) coin12(Offset(w * (0.25f + 0.03f * (k % 3)), ground - h * (0.03f + 0.03f * (k / 3))), w * 0.02f, f * 0.35f * seg(nl, 0.1f, 0.3f), JannaC61.Dim)
-        kaaba29(Offset(w * 0.7f, ground), w * 0.16f, f * 0.35f * seg(nl, 0.45f, 0.65f))
-        drawLine(JannaC61.Dim, Offset(w * 0.1f, h * 0.35f), Offset(w * 0.9f, h * 0.35f), 2f * dp, alpha = f * seg(nl, 0.6f, 0.8f))
-        drawCircle(JannaC61.Gold, w * 0.012f, Offset(w * 0.75f, h * 0.35f), alpha = f * seg(nl, 0.7f, 0.85f))
+        for (k in 0 until 5) coin12(Offset(w * (0.25f + 0.03f * (k % 3)), ground - h * (0.03f + 0.03f * (k / 3))), w * 0.02f, f * 0.8f * seg(nl, 0.1f, 0.3f), JannaC61.Dim)
+        kaaba29(Offset(w * 0.7f, ground), w * 0.16f, f * 0.7f * seg(nl, 0.45f, 0.65f))
+        tagAt(a.tag("notlisted", 0, 0), Offset(w * 0.28f, ground - h * 0.18f), f * seg(nl, 0.15f, 0.35f), ink = Color(0xFFF0ECE4))
+        tagAt(a.tag("notlisted", 0, 1), Offset(w * 0.7f, ground - h * 0.4f), f * seg(nl, 0.5f, 0.7f), ink = Color(0xFFF0ECE4))
     }
     if (nd > 0f) {
         val f = easeOut(seg(nd, 0f, 0.25f))
@@ -220,6 +225,13 @@ private fun DrawScope.jannaNight(a: ArtCtx) {
         drawOval(JannaC61.Lamp, Offset(c.x - w * 0.04f, c.y - h * 0.03f), Size(w * 0.08f, h * 0.09f), alpha = f)
         softGlow(c, w * 0.12f, JannaC61.Gold, f * (0.8f + 0.1f * sin(t * 3f)))
         sun12(Offset(w * (0.1f + 0.8f * cyc), h * 0.2f - h * 0.1f * day), w * 0.03f, f * day)
+        // day and night, well or ill: the prayer is kept. One stands on his mat, one prays seated
+        for (k in 0 until 2) {
+            val foot = Offset(w * (0.24f + 0.52f * k), ground)
+            drawRoundRect(Color(0xFF2E5A4A), Offset(foot.x - w * 0.07f, ground - h * 0.012f), Size(w * 0.14f, h * 0.025f), CornerRadius(3f * dp), alpha = f)
+            if (k == 0) pray12(foot, h * 0.26f, Color(0xFFF0ECE4), f) else sit12(foot + Offset(0f, -h * 0.015f), h * 0.26f, Color(0xFFF0ECE4), f, -1f)
+        }
+        tagAt(a.tag("neverdrops"), Offset(w * 0.5f, h * 0.36f), f * seg(nd, 0.2f, 0.4f), ink = ArtInk.Gold)
     }
 }
 
