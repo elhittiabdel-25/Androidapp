@@ -584,12 +584,15 @@ private fun DrawScope.childPilgrimDraw(a: ArtCtx) {
         val man = Offset(w * 0.62f, ground)
         val tall = h * 0.4f
         fqPilgrim(man, tall, p3, arms = 0.8f)
-        child12(Offset(w * 0.78f, ground), h * 0.18f, Fq.White, p3)
+        child12(man + Offset(w * 0.11f, 0f), h * 0.22f, Fq.White, p3)
+        tagAt(a.tag("throwsforhim", 0, 1), man + Offset(-w * 0.02f, -tall * 1.18f), p3 * seg(pb, 0.1f, 0.25f), back = Fq.Back, ink = ArtInk.Ivory)
+        tagAt(a.tag("throwsforhim", 0, 2), man + Offset(w * 0.2f, -h * 0.3f), p3 * seg(pb, 0.15f, 0.3f), back = Fq.Back, ink = ArtInk.Ivory)
+        tagAt(a.tag("throwsforhim", 0, 3), pil + Offset(w * 0.02f, -h * 0.52f), p3 * seg(pb, 0.05f, 0.2f), back = Fq.Back, ink = ArtInk.Ivory)
         for (k in 0 until 3) {
             val q = fract(seg(pb, 0.1f, 0.9f) * 3f - k) * (if (seg(pb, 0.1f, 0.9f) * 3f >= k) 1f else 0f)
             fqPebble(man + Offset(-tall * 0.3f, -tall * 0.75f), pil + Offset(0f, -h * 0.25f), q, w * 0.008f, p3)
         }
-        tagAt(a.tag("throwsforhim"), Offset(w * 0.5f, h * 0.15f), p3 * seg(pb, 0.2f, 0.35f), back = Fq.Back, ink = ArtInk.Gold)
+        tagAt(a.tag("throwsforhim"), Offset(w * 0.42f, h * 0.62f), p3 * seg(pb, 0.2f, 0.35f), back = Fq.Back, ink = ArtInk.Gold)
     }
     val p4 = fqIn(a, "carriedround", "guardianreward")
     if (p4 > 0f) {

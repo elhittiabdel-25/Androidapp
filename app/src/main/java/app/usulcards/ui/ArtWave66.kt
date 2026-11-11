@@ -387,7 +387,8 @@ private fun DrawScope.jestDay(a: ArtCtx) {
     if (lb > 0f) {
         val f = easeOut(seg(lb, 0f, BEAT_IN)) * (1f - seg(ec, 0f, BEAT_OUT))
         val kid = Offset(w * 0.6f, ground - h * 0.06f)
-        nameRoundel(kid, w * 0.035f, null, Roundel.PlainFill, Roundel.PlainRim, f)
+        nameRoundel(kid, w * 0.07f, a.tag("littlebird", 0, 1), Roundel.PlainFill, Roundel.PlainRim, f)
+        sirajMunir(Offset(w * 0.84f, h * 0.4f), w * 0.012f, f, t, nameAt = Offset(w * 0.8f, h * 0.53f))
         val hop = kotlin.math.abs(sin(t * 4f)) * h * 0.03f
         val b = Offset(w * 0.4f, ground - h * 0.03f - hop)
         drawOval(JestC66.Bird, Offset(b.x - w * 0.025f, b.y - h * 0.015f), Size(w * 0.05f, h * 0.03f), alpha = f)
@@ -405,15 +406,19 @@ private fun DrawScope.jestDay(a: ArtCtx) {
     }
     if (te > 0f) {
         val f = easeOut(seg(te, 0f, BEAT_IN)) * (1f - seg(nc, 0f, BEAT_OUT))
-        val c = Offset(w * 0.5f, h * 0.5f)
-        nameRoundel(c, w * 0.08f, null, Roundel.PlainFill, Roundel.PlainRim, f)
+        val c = Offset(w * 0.4f, h * 0.55f)
+        nameRoundel(c, w * 0.09f, a.tag("twoears", 0, 1), Roundel.PlainFill, Roundel.PlainRim, f)
+        val light = Offset(w * 0.82f, h * 0.4f)
+        sirajMunir(light, w * 0.012f, f, t, nameAt = light + Offset(-w * 0.02f, h * 0.13f))
+        // two ears on the roundel: the jest is simply true
+        for (sd in listOf(-1f, 1f)) drawArc(Roundel.PlainRim, if (sd < 0) 90f else -90f, 180f, false, Offset(c.x + sd * w * 0.09f - w * 0.02f, c.y - h * 0.035f), Size(w * 0.04f, h * 0.07f), alpha = f * seg(te, 0.25f, 0.45f), style = Stroke(3f * dp, cap = StrokeCap.Round))
         val g = seg(te, 0.2f, 0.45f)
         for (side in listOf(-1f, 1f)) for (k in 0 until 3) {
             val u = fract(t * 0.6f + k / 3f)
-            val r = w * (0.2f - 0.1f * u)
+            val r = w * (0.22f - 0.08f * u)
             drawArc(JestC66.Spark, if (side < 0) 150f else -30f, 60f, false, Offset(c.x - r, c.y - r), Size(r * 2f, r * 2f), alpha = f * g * u, style = Stroke(3f * dp, cap = StrokeCap.Round))
         }
-        tagAt(a.tag("twoears"), Offset(w * 0.5f, h * 0.25f), f * seg(te, 0.3f, 0.5f), back = Back66, ink = ArtInk.Gold)
+        tagAt(a.tag("twoears"), Offset(w * 0.62f, h * 0.24f), f * seg(te, 0.3f, 0.5f), back = Back66, ink = ArtInk.Gold)
     }
     if (nc > 0f) {
         val f = easeOut(seg(nc, 0f, BEAT_IN)) * (1f - seg(ya, 0f, BEAT_OUT))

@@ -2239,9 +2239,9 @@ SCENES = {
     ], layout="clearspeech"),
     "sira-mizah": S("art", [
         I("قالوا: يا رسول الله، إنك تداعبنا", None, "face-0", sub="لا أقول إلا حقا", kind="truejoke"),
-        I("وكان يخالطهم حتى يقول لأخ صغير لأنس مات طائره", None, "face-1", sub="يا أبا عمير، ما فعل النغير", kind="littlebird"),
+        I("وكان يخالطهم حتى يقول لأخ صغير لأنس مات طائره", None, "face-1", sub="يَا أَبَا عُمَيْرٍ، مَا فَعَلَ النُّغَيْرُ|أَبُو عُمَيْرٍ", kind="littlebird"),
         I("واستحمله رجل فقال: إني حاملك على ولد ناقة", None, "face-2", sub="وهل تلد الإبل إلا النوق", kind="everycamel"),
-        I("وكان يقول لأنس يمازحه", None, "deep-0", sub="يا ذا الأذنين", kind="twoears"),
+        I("وكان يقول لأنس يمازحه", None, "deep-0", sub="يَا ذَا الْأُذُنَيْنِ|أَنَسٌ", kind="twoears"),
         I("وكان زاهر من أهل البادية يحبه ﷺ", None, "deep-2", sub="زاهر|لكن عند الله لست بكاسد", kind="notcheap"),
         I("وقال لعجوز", None, "deep-3", kind="youngagain"),
     ], layout="truejest"),
@@ -2331,7 +2331,7 @@ SCENES = {
     "hajj-sabi": S("art", [
         I("يصح حج الصبي الصغير والجارية الصغيرة", None, "face-0", sub="يصح|لا يجزئهما عن حجة الإسلام", kind="validyoung"),
         I("نوى عنه وليه الإحرام", None, "face-1", sub="وليه|ولبى عنه", kind="guardianlabbayk"),
-        I("ويفعل الولي عنه ما عجز عنه كالرمي", "ويفعل", "face-2", sub="كالرمي", kind="throwsforhim"),
+        I("ويفعل الولي عنه ما عجز عنه كالرمي", "ويفعل", "face-2", sub="يَرْمِي عَنْهُ|الْوَلِيُّ|الصَّبِيُّ|الْجَمْرَةُ", kind="throwsforhim"),
         I("طيف بهما وسعي بهما محمولين", None, "deep-0", sub="محمولين", kind="carriedround"),
         I("فإن فعل فله أجر", None, "deep-3", sub="نفل|فله أجر", kind="guardianreward"),
     ], layout="childpilgrim"),

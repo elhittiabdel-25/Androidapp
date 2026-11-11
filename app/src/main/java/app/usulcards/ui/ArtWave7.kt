@@ -151,6 +151,12 @@ internal fun DrawScope.nameRoundel(c: Offset, r: Float, name: TextLayoutResult?,
         val ang = k * PI.toFloat() / 8f
         drawCircle(rim, rr * 0.035f, c + Offset(cos(ang) * rr * 0.9f, sin(ang) * rr * 0.9f), alpha = g * 0.8f)
     }
+    if (name == null) {
+        // no name: a plain, faceless person sign (head and shoulders), so the disc reads as "someone"
+        val sign = rim.copy(alpha = 0.85f * g)
+        drawCircle(sign, rr * 0.2f, c + Offset(0f, -rr * 0.22f))
+        drawArc(sign, 180f, 180f, true, topLeft = c + Offset(-rr * 0.42f, rr * 0.08f), size = Size(rr * 0.84f, rr * 0.8f))
+    }
     if (name != null) {
         val sc = min(rr * 1.35f / max(1f, name.size.width.toFloat()), rr * 0.95f / max(1f, name.size.height.toFloat()))
         bigText(name, c, sc, ink, g)
