@@ -1169,6 +1169,16 @@ private fun DrawScope.studyRoom(a: ArtCtx) {
             }
         }
     }
+    // la-qiyas: the words themselves. No analogy and no parables set against the Sunnah; following, with desire left behind; bare reason with no text
+    val back = Color(0xE62B303E)
+    val red = Color(0xFFD23C30)
+    val b1 = (1f - seg(tb, 0f, BEAT_OUT))
+    struckTag21(a.tag("tread", 0, 2), Offset(w * 0.72f, h * 0.2f), seg(db, 0.15f, 0.35f) * b1, seg(db, 0.45f, 0.65f), red, back, Color(0xFFF0A090))
+    struckTag21(a.tag("tread", 0, 3), Offset(w * 0.72f, h * 0.33f), seg(db, 0.25f, 0.45f) * b1, seg(db, 0.55f, 0.75f), red, back, Color(0xFFF0A090))
+    val b2 = (1f - seg(gb, 0f, BEAT_OUT))
+    tagAt(a.tag("tread", 0, 0), Offset(w * 0.5f, h * 0.26f), seg(tb, 0.3f, 0.5f) * b2, back = back, ink = ArtInk.Gold)
+    tagAt(a.tag("tread", 0, 1), Offset(w * 0.14f, h * 0.5f), seg(tb, 0.4f, 0.6f) * b2 * 0.7f, back = back, ink = Color(0xFFB0A8B8))
+    tagAt(a.tag("guess"), Offset(w * 0.38f, h * 0.36f), seg(gb, 0.3f, 0.5f) * (1f - seg(dvb, 0f, BEAT_OUT)), back = back, ink = Color(0xFFF0A090))
 }
 
 // ═════════════ 4. canyon: a desert at dawn (bida-sighar) ═════════════
