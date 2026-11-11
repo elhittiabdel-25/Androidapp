@@ -421,7 +421,7 @@ private fun DrawScope.trayTop(a: ArtCtx) {
         tagAt(a.tag("noblame", 0, 1), Offset(w * 0.6f, h * 0.9f), f * seg(nb, 0.55f, 0.75f), ink = Color(0xFFF0ECE4))
         tagAt(a.tag("noblame", 0, 2), Offset(w * 0.5f, h * 0.12f), f * seg(nb, 0.7f, 0.9f), ink = ArtInk.Gold)
     }
-    tagAt(a.tag("latename"), Offset(w * 0.5f, h * 0.14f), seg(ln, 0.4f, 0.6f) * (1f - seg(nb, 0f, BEAT_OUT)), ink = ArtInk.Gold)
+    tagAt(a.tag("latename"), Offset(w * 0.5f, h * 0.46f), seg(ln, 0.4f, 0.6f) * (1f - seg(nb, 0f, BEAT_OUT)), ink = ArtInk.Gold)
     if (tb > 0f) {
         val f = easeOut(seg(tb, 0f, BEAT_IN)) * (1f - seg(rw, 0f, BEAT_OUT))
         val cup = Offset(w * 0.45f, h * 0.62f)

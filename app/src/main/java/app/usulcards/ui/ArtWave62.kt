@@ -130,11 +130,11 @@ private fun DrawScope.jointDay(a: ArtCtx) {
         for (k in 0 until 3) {
             val x = w * (0.7f - 0.2f * k)
             val lift = easeInOut(seg(cr, 0.3f + 0.2f * k, 0.5f + 0.2f * k))
-            val c = Offset(mix(x, w * 0.95f, lift), ground - h * 0.02f - h * 0.15f * sin(PI.toFloat() * lift))
+            val c = Offset(mix(x, w * (0.97f - 0.03f * k), lift), ground - h * 0.02f - h * 0.15f * sin(PI.toFloat() * lift))
             when (k) {
-                0 -> for (j in 0 until 5) drawLine(JointC62.Thorn, c, c + Offset(cos(j * 1.3f) * w * 0.05f, -kotlin.math.abs(sin(j * 1.3f)) * w * 0.05f - w * 0.01f), 3f * dp, StrokeCap.Round, alpha = f * (1f - lift))
-                1 -> drawOval(JointC62.Thorn, Offset(c.x - w * 0.06f, c.y - h * 0.03f), Size(w * 0.12f, h * 0.04f), alpha = f * (1f - lift))
-                else -> drawCircle(JointC62.Stone, w * 0.05f, c + Offset(0f, -w * 0.04f), alpha = f * (1f - lift))
+                0 -> for (j in 0 until 5) drawLine(JointC62.Thorn, c, c + Offset(cos(j * 1.3f) * w * 0.05f, -kotlin.math.abs(sin(j * 1.3f)) * w * 0.05f - w * 0.01f), 3f * dp, StrokeCap.Round, alpha = f * (1f - 0.25f * lift))
+                1 -> drawOval(JointC62.Thorn, Offset(c.x - w * 0.06f, c.y - h * 0.03f), Size(w * 0.12f, h * 0.04f), alpha = f * (1f - 0.25f * lift))
+                else -> drawCircle(JointC62.Stone, w * 0.05f, c + Offset(0f, -w * 0.04f), alpha = f * (1f - 0.25f * lift))
             }
         }
         figure(Offset(w * 0.86f, ground - h * 0.02f), h * 0.3f, JointC62.Person, f, arms = 0.7f, lean = 0.15f)

@@ -111,9 +111,9 @@ D'autres chapitres de fiqh et des livres de tafsir et de sîra arriveront dans l
  },
 }
 NOTES = {
- "ar": "مشاهد أوضح: أعدنا رسم 24 مشهدًا حتى تقول الصورة ما تقوله الكلمات، منها: الطاغوت، والنصيحة، ومعنى «لا إله إلا الله»، ومعنى شهادة أن محمدًا رسول الله ﷺ، وآداب الألفاظ. وصار كل ما يُذكر في المشهد مكتوبًا باسمه، وما يُنهى عنه مشطوبًا بالأحمر.",
- "en": "Clearer scenes: 24 scenes redrawn so the picture says what the words say, among them taghut, sincere advice, the meaning of «lā ilāha illa Allāh» and of the testimony that Muhammad ﷺ is the Messenger of Allah, and the etiquette of speech. What a scene names is now written on it, and what is forbidden is struck through in red.",
- "fr": "Scènes plus claires : 24 scènes redessinées pour que l'image dise ce que disent les mots, dont le tâghût, le bon conseil, le sens de « lâ ilâha illa Allâh » et du témoignage que Muhammad ﷺ est le Messager d'Allah, et les règles du langage. Ce qu'une scène nomme y est désormais écrit, et ce qui est interdit est barré en rouge.",
+ "ar": "مشاهد أوضح: 29 مشهدًا آخر صار كل ما فيها مكتوبًا باسمه، منها أنواع التوحيد، وأهل القبلة، وأذكار النوم، وعبادته ﷺ، ومزاحه ﷺ، وحج الصبي. والدوائر التي بلا اسم صارت تحمل علامة شخص حتى تُفهم. شكرًا لمن أرسل لنا ملاحظاته.",
+ "en": "Clearer scenes: in 29 more scenes everything shown is now named, among them the kinds of tawhid, the people of the qibla, the adhkar of sleep, his ﷺ worship and his ﷺ humour, and the child's hajj. Discs without a name now carry a person sign so they can be understood. Thank you to those who sent us their remarks.",
+ "fr": "Scènes plus claires : dans 29 scènes de plus, tout ce qui est montré est désormais nommé, dont les catégories du tawhîd, les gens de la qibla, les invocations du coucher, son adoration ﷺ et son humour ﷺ, et le hajj de l'enfant. Les disques sans nom portent maintenant un signe de personne pour être compris. Merci à ceux qui nous ont envoyé leurs remarques.",
 }
 if __name__ == "__main__":
     lim = {"title": 30, "short": 80, "full": 4000}
