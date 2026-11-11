@@ -584,7 +584,7 @@ private fun DrawScope.childPilgrimDraw(a: ArtCtx) {
         val man = Offset(w * 0.62f, ground)
         val tall = h * 0.4f
         fqPilgrim(man, tall, p3, arms = 0.8f)
-        child12(man + Offset(w * 0.11f, 0f), h * 0.22f, Fq.White, p3)
+        child12(man + Offset(w * 0.12f, 0f), h * 0.3f, Fq.White, p3)
         tagAt(a.tag("throwsforhim", 0, 1), man + Offset(-w * 0.02f, -tall * 1.18f), p3 * seg(pb, 0.1f, 0.25f), back = Fq.Back, ink = ArtInk.Ivory)
         tagAt(a.tag("throwsforhim", 0, 2), man + Offset(w * 0.2f, -h * 0.3f), p3 * seg(pb, 0.15f, 0.3f), back = Fq.Back, ink = ArtInk.Ivory)
         tagAt(a.tag("throwsforhim", 0, 3), pil + Offset(w * 0.02f, -h * 0.52f), p3 * seg(pb, 0.05f, 0.2f), back = Fq.Back, ink = ArtInk.Ivory)
