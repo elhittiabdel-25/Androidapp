@@ -1923,8 +1923,8 @@ private fun DrawScope.caravanNight(a: ArtCtx) {
     if (ar > 0f) {
         val g = easeOut(seg(ar, 0.45f, 0.95f))
         drawPath(cubicPart(road(0.45f), road(0.5f) + Offset(0f, -h * 0.07f), road(0.6f) + Offset(0f, -h * 0.07f), road(0.67f), 0f, g), Night.Line, alpha = 0.7f, style = Stroke(1.6f * dp, pathEffect = PathEffect.dashPathEffect(floatArrayOf(2f * dp, 4f * dp))))
-        tagAt(a.tag("around", 0, 0), road(0.56f) + Offset(0f, h * 0.09f), seg(ar, 0.1f, 0.3f), back = Color(0xE6201810), ink = Color(0xFFF0A090))
-        tagAt(a.tag("around", 0, 1), road(0.56f) + Offset(0f, -h * 0.2f), seg(ar, 0.5f, 0.75f), back = Color(0xE6201810), ink = ArtInk.Gold)
+        tagAt(a.tag("around", 0, 0), road(0.56f) + Offset(0f, h * 0.15f), seg(ar, 0.1f, 0.3f), back = Color(0xE6201810), ink = Color(0xFFF0A090))
+        tagAt(a.tag("around", 0, 1), road(0.56f) + Offset(0f, -h * 0.36f), seg(ar, 0.5f, 0.75f), back = Color(0xE6201810), ink = ArtInk.Gold)
     }
     figure(helper, tallN, Night.Line, walk = if (ar <= 0f) walkPh + 1f else 0f, lean = 0.22f * reach, arms = reach)
     // the one who slips: he trips, falls into the hollow, sits
@@ -1949,7 +1949,7 @@ private fun DrawScope.caravanNight(a: ArtCtx) {
     if (df > 0f) {
         drawPath(cubicPart(leave, leave + Offset(-w * 0.02f, -h * 0.07f), darkEnd + Offset(w * 0.07f, h * 0.03f), darkEnd, 0f, go), Night.Cold, alpha = 0.6f, style = Stroke(2f * dp, pathEffect = PathEffect.dashPathEffect(floatArrayOf(3f * dp, 3f * dp))))
         softGlow(front + Offset(0f, -tallN * 0.5f), w * 0.11f, Night.Cold, 0.45f * go)
-        tagAt(a.tag("defy"), darkEnd + Offset(w * 0.06f, -h * 0.12f), seg(df, 0.4f, 0.65f), back = Color(0xE6201810), ink = Color(0xFFF0A090))
+        tagAt(a.tag("defy"), darkEnd + Offset(w * 0.16f, -h * 0.02f), seg(df, 0.4f, 0.65f), back = Color(0xE6201810), ink = Color(0xFFF0A090))
     }
     val beckon = if (df > 0f) (0.5f + 0.5f * sin(t * 4f)) * seg(df, 0.3f, 0.4f) * (1f - seg(df, 0.75f, 0.9f)) else 0f
     figure(front, tallN * mix(1f, 0.85f, go), Night.Line, walk = if (df <= 0f || go < 1f) walkPh + 0.5f else 0f, lean = -0.12f * beckon, arms = if (df > 0f && go >= 1f) -0.3f - 0.7f * beckon else 0f)

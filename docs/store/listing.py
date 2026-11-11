@@ -111,9 +111,9 @@ D'autres chapitres de fiqh et des livres de tafsir et de sîra arriveront dans l
  },
 }
 NOTES = {
- "ar": "مشاهد أوضح: 29 مشهدًا آخر صار كل ما فيها مكتوبًا باسمه، منها أنواع التوحيد، وأهل القبلة، وأذكار النوم، وعبادته ﷺ، ومزاحه ﷺ، وحج الصبي. والدوائر التي بلا اسم صارت تحمل علامة شخص حتى تُفهم. شكرًا لمن أرسل لنا ملاحظاته.",
- "en": "Clearer scenes: in 29 more scenes everything shown is now named, among them the kinds of tawhid, the people of the qibla, the adhkar of sleep, his ﷺ worship and his ﷺ humour, and the child's hajj. Discs without a name now carry a person sign so they can be understood. Thank you to those who sent us their remarks.",
- "fr": "Scènes plus claires : dans 29 scènes de plus, tout ce qui est montré est désormais nommé, dont les catégories du tawhîd, les gens de la qibla, les invocations du coucher, son adoration ﷺ et son humour ﷺ, et le hajj de l'enfant. Les disques sans nom portent maintenant un signe de personne pour être compris. Merci à ceux qui nous ont envoyé leurs remarques.",
+ "ar": "مشاهد أوضح: أكثر من 40 مشهدًا آخر صار ما فيها مكتوبًا باسمه، منها الأمر بالمعروف، والتوبة، والإسراء والمعراج، وقراءته ﷺ وكلامه، وحق الجار، وآفات اللسان، وأذكار اللباس والعطاس. وصححنا علامات كانت تبقى على الشاشة بعد انتهاء موضعها.",
+ "en": "Clearer scenes: in more than 40 more scenes what is shown is now named, among them enjoining good, repentance, the Night Journey, his ﷺ recitation and speech, the neighbour's right, the harms of the tongue, and the adhkar of dress and sneezing. Marks that stayed on screen after their moment now leave with it.",
+ "fr": "Scènes plus claires : dans plus de 40 scènes de plus, ce qui est montré est désormais nommé, dont l'ordonnance du bien, le repentir, le Voyage nocturne, sa récitation ﷺ et sa parole, le droit du voisin, les méfaits de la langue, et les invocations du vêtement et de l'éternuement. Les marques qui restaient à l'écran après leur moment disparaissent maintenant avec lui.",
 }
 if __name__ == "__main__":
     lim = {"title": 30, "short": 80, "full": 4000}
