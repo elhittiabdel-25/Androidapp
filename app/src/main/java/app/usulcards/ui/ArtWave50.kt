@@ -414,7 +414,7 @@ private fun DrawScope.trayTop(a: ArtCtx) {
             val p = Offset(w * (0.2f + 0.2f * k), h * (0.5f + 0.25f * push))
             drawCircle(TrayC50.TrayRim, w * 0.07f, p, alpha = f * (1f - 0.3f * push))
             drawCircle(TrayC50.Food, w * 0.055f, p, alpha = f * (1f - 0.3f * push))
-            if (k == 1) tick14(p + Offset(0f, -w * 0.1f), w * 0.03f, seg(nb, 0.2f, 0.4f))
+            if (k == 1) tick14(p + Offset(0f, -w * 0.1f), w * 0.03f, seg(nb, 0.2f, 0.4f) * (1f - seg(tb, 0f, BEAT_OUT)))
         }
         // what he liked he ate, what he did not he simply left: never a word against food
         tagAt(a.tag("noblame", 0, 0), Offset(w * 0.4f, h * 0.28f), f * seg(nb, 0.2f, 0.4f), ink = Color(0xFF9AE0A0))

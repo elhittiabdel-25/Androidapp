@@ -576,7 +576,7 @@ private fun DrawScope.shieldDay(a: ArtCtx) {
         // she is asked: her own yes (a tick) comes before the contract is sealed
         val her = Offset(c.x - w * 0.17f, c.y + h * 0.15f)
         woman12(her, h * 0.26f, Color(0xFF5A4A6A), f)
-        tick14(her + Offset(w * 0.05f, -h * 0.3f), h * 0.035f, seg(co, 0.3f, 0.5f))
+        tick14(her + Offset(w * 0.05f, -h * 0.3f), h * 0.035f, seg(co, 0.3f, 0.5f) * (1f - seg(ha, 0f, 0.3f)))
         tagAt(a.tag("consent"), her + Offset(0f, -h * 0.38f), f * seg(co, 0.2f, 0.4f), back = Back44, ink = ArtInk.Gold)
         val stamp = easeOut(seg(co, 0.55f, 0.75f))
         drawCircle(Color(0xFFC8384A), w * 0.025f * (1.6f - 0.6f * stamp), c + Offset(w * 0.04f, h * 0.08f), alpha = f * stamp)

@@ -191,7 +191,7 @@ private fun DrawScope.jannaNight(a: ArtCtx) {
         tagAt(a.tag("heldbelief", 0, 0), heart + Offset(0f, -h * 0.12f), f * seg(hb, 0.05f, 0.2f), ink = ArtInk.Gold)
         tagAt(a.tag("heldbelief", 0, 1), Offset(w * 0.3f, h * 0.74f), f * take, ink = Color(0xFF9AE0A0))
         tagAt(a.tag("heldbelief", 0, 2), Offset(w * 0.64f, h * 0.74f), f * seg(hb, 0.45f, 0.6f), ink = Color(0xFFF0A090))
-        cross14(Offset(w * 0.62f, h * 0.55f), w * 0.03f, pull)
+        cross14(Offset(w * 0.62f, h * 0.55f), w * 0.03f, pull * (1f - seg(mg, 0f, BEAT_OUT)))
     }
     if (mg > 0f) {
         val f = easeOut(seg(mg, 0f, BEAT_IN)) * (1f - seg(nl, 0f, BEAT_OUT))

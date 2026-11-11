@@ -91,7 +91,7 @@ private fun DrawScope.trialRoad(a: ArtCtx) {
     tagAt(a.tag("trialworld", 0, 1), Offset(w * 0.38f, h * 0.62f), seg(tw, 0.15f, 0.35f) * (1f - seg(fd, 0f, BEAT_OUT)), back = back, ink = Color(0xFFF0D8B8))
     // the fish that never feels wet
     if (fd > 0f) {
-        val f = easeOut(seg(fd, 0f, 0.3f))
+        val f = easeOut(seg(fd, 0f, 0.3f)) * (1f - seg(fc, 0f, 0.3f))
         val pond = Offset(w * 0.76f, h * 0.78f)
         drawOval(TrialC39.Water, Offset(pond.x - w * 0.18f, pond.y - h * 0.07f), Size(w * 0.36f, h * 0.14f), alpha = f)
         val fx = pond.x + w * 0.08f * sin(t * 0.8f)
