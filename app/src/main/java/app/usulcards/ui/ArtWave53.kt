@@ -539,7 +539,12 @@ private fun DrawScope.campPlain(a: ArtCtx) {
     daySky12(CampC53.SkyTop, CampC53.Sky, ground, CampC53.Ground)
     if (tb > 0f) {
         val f = easeOut(seg(tb, 0f, BEAT_IN)) * (1f - seg(cf, 0f, BEAT_OUT))
-        for (k in 0 until 3) drawPath(Path().apply { val x = w * (0.12f + 0.08f * k); moveTo(x - w * 0.05f, ground); lineTo(x, ground - h * 0.12f); lineTo(x + w * 0.05f, ground); close() }, CampC53.Tent, alpha = f)
+        for (k in 0 until 3) {
+            val x = w * (0.1f + 0.11f * k)
+            drawPath(Path().apply { moveTo(x - w * 0.05f, ground); lineTo(x, ground - h * 0.13f); lineTo(x + w * 0.05f, ground); close() }, CampC53.Tent, alpha = f)
+            drawPath(Path().apply { moveTo(x - w * 0.013f, ground); lineTo(x, ground - h * 0.07f); lineTo(x + w * 0.013f, ground); close() }, Color(0xFF2A2020), alpha = f)
+            drawLine(CampC53.Tent, Offset(x, ground - h * 0.13f), Offset(x, ground - h * 0.17f), 1.5f * dp, alpha = f)
+        }
         val come = easeOut(seg(tb, 0.05f, 0.5f))
         val back = easeInOut(seg(tb, 0.6f, 1f))
         val mass = Offset(w * (0.9f - 0.3f * come + 0.4f * back), ground - h * 0.08f)
@@ -585,7 +590,7 @@ private fun DrawScope.campPlain(a: ArtCtx) {
         for (k in 0 until 5) {
             val x = w * (0.55f + 0.08f * k)
             val down = seg(tw, 0.2f + 0.1f * k, 0.5f + 0.1f * k)
-            rotate(60f * down + 6f * sin(t * 6f + k) * (1f - down), Offset(x, ground)) {
+            rotate(38f * down + 6f * sin(t * 6f + k), Offset(x, ground)) {
                 drawPath(Path().apply { moveTo(x - w * 0.045f, ground); lineTo(x, ground - h * 0.16f); lineTo(x + w * 0.045f, ground); close() }, CampC53.Tent, alpha = f)
                 drawPath(Path().apply { moveTo(x - w * 0.012f, ground); lineTo(x, ground - h * 0.07f); lineTo(x + w * 0.012f, ground); close() }, Color(0xFF2A2020), alpha = f)
             }

@@ -115,8 +115,8 @@ private fun DrawScope.roughDay(a: ArtCtx) {
         val c = Offset(w * 0.45f, ground)
         figure(c, h * 0.32f, RoughC54.Person, f)
         val cut = seg(co, 0.45f, 0.7f)
-        smoke12(Offset(w * 0.92f, h * 0.25f), c + Offset(w * 0.05f, -h * 0.3f), (0.3f + 0.6f * seg(co, 0.05f, 0.4f)), t, f * (1f - cut), RoughC54.Smoke)
-        tagAt(a.tag("whispercut", 0, 1), Offset(w * 0.78f, h * 0.42f), f * seg(co, 0.1f, 0.3f) * (1f - cut), back = Back54, ink = Color(0xFFC8B8D0))
+        smoke12(Offset(w * 0.92f, h * 0.25f), c + Offset(w * 0.05f, -h * 0.3f), (0.3f + 0.6f * seg(co, 0.05f, 0.4f)), t, f * (1f - 0.7f * cut), RoughC54.Smoke)
+        tagAt(a.tag("whispercut", 0, 1), Offset(w * 0.78f, h * 0.42f), f * seg(co, 0.1f, 0.3f) * (1f - 0.5f * cut), back = Back54, ink = Color(0xFFC8B8D0))
         softGlow(c + Offset(0f, -h * 0.26f), w * 0.12f, RoughC54.Gold, 0.6f * f * cut)
         tagAt(a.tag("whispercut"), Offset(w * 0.45f, h * 0.2f), f * seg(co, 0.4f, 0.6f), back = Back54, ink = ArtInk.Gold)
     }

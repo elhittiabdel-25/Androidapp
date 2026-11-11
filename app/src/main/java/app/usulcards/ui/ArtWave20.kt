@@ -366,7 +366,7 @@ private fun DrawScope.triptychWall(a: ArtCtx) {
         val kind = listOf("rububiyya", "uluhiyya", "asma")[k]
         val opp = listOf("rubopp", "ulopp", "asmopp")[k]
         tagAt(a.tag(kind, 0, if (k == 2) 1 else 0), Offset(cx, top + h * 0.1f), seg(lit, 0.1f, 0.3f), ink = ArtInk.Gold)
-        tagAt(a.tag(opp), Offset(cx, bottom - h * 0.02f), seg(a.b(opp), 0.3f, 0.55f), back = Color(0xE65A1A1A), ink = Color(0xFFF0A090))
+        tagAt(a.tag(opp), Offset(cx, bottom - h * 0.02f), seg(a.b(opp), 0.3f, 0.55f) * (if (k < 2) 1f - seg(a.b(listOf("uluhiyya", "asma")[k]), 0f, 0.2f) else 1f), back = Color(0xE65A1A1A), ink = Color(0xFFF0A090))
     }
 }
 

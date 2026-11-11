@@ -77,7 +77,7 @@ private fun DrawScope.trialRoad(a: ArtCtx) {
     for (k in 0 until 4) {
         val x = w * (0.18f + 0.13f * k)
         val y = h * 0.8f - h * 0.03f * k
-        val g = road * seg(tw, 0.1f + 0.1f * k, 0.3f + 0.1f * k)
+        val g = road * seg(tw, 0.1f + 0.1f * k, 0.3f + 0.1f * k) * (1f - seg(fc, 0f, 0.3f))
         drawLine(TrialC39.Hurdle, Offset(x - w * 0.03f, y), Offset(x - w * 0.03f, y - h * 0.05f), 2f * dp, alpha = g)
         drawLine(TrialC39.Hurdle, Offset(x + w * 0.03f, y), Offset(x + w * 0.03f, y - h * 0.05f), 2f * dp, alpha = g)
         drawLine(TrialC39.Hurdle, Offset(x - w * 0.035f, y - h * 0.05f), Offset(x + w * 0.035f, y - h * 0.05f), 4f * dp, StrokeCap.Round, alpha = g)
@@ -106,13 +106,13 @@ private fun DrawScope.trialRoad(a: ArtCtx) {
     // the fork: free to choose
     if (fc > 0f) {
         val f = easeOut(seg(fc, 0.1f, 0.5f))
-        val fork = Offset(w * 0.6f, h * 0.68f)
-        drawLine(TrialC39.Light, fork, Offset(w * 0.86f, h * 0.48f), w * 0.03f, StrokeCap.Round, alpha = f * 0.9f)
-        drawLine(TrialC39.Dark, fork, Offset(w * 0.86f, h * 0.66f), w * 0.03f, StrokeCap.Round, alpha = f * 0.9f)
-        softGlow(Offset(w * 0.86f, h * 0.48f), w * 0.06f, ArtInk.Gold, 0.5f * f)
+        val fork = Offset(w * 0.67f, h * 0.76f)
+        drawLine(TrialC39.Light, fork, Offset(w * 0.9f, h * 0.5f), w * 0.02f, StrokeCap.Round, alpha = f * 0.9f)
+        drawLine(TrialC39.Dark, fork, Offset(w * 0.92f, h * 0.9f), w * 0.02f, StrokeCap.Round, alpha = f * 0.9f)
+        softGlow(Offset(w * 0.9f, h * 0.5f), w * 0.06f, ArtInk.Gold, 0.5f * f)
         val on = f * (1f - seg(sy, 0f, BEAT_OUT))
         tagAt(a.tag("freechoice", 0, 0), Offset(w * 0.84f, h * 0.38f), on, back = back, ink = ArtInk.Gold)
-        tagAt(a.tag("freechoice", 0, 1), Offset(w * 0.86f, h * 0.76f), on, back = back, ink = Color(0xFFF0A090))
+        tagAt(a.tag("freechoice", 0, 1), Offset(w * 0.8f, h * 0.93f), on, back = back, ink = Color(0xFFF0A090))
         tagAt(a.tag("freechoice", 0, 2), foot + Offset(0f, -h * 0.27f), on * seg(fc, 0.5f, 0.7f), back = back, ink = Color(0xFFF0ECE4))
     }
     // the syringe and the father's love
