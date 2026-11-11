@@ -355,9 +355,13 @@ private fun DrawScope.alley(a: ArtCtx) {
             if (u <= 0f) continue
             val p = Offset(w * (0.42f + 0.22f * u), ground - h * (0.32f + 0.1f * sin(PI.toFloat() * u)) + h * 0.3f * u * u)
             rotate(360f * u, p) {
-                for (j in 0 until 3) drawLine(AlleyC46.Thorn, p, p + Offset(cos(j * 2.1f), sin(j * 2.1f)) * (w * 0.015f), 1.8f * dp, StrokeCap.Round, alpha = f)
+                for (j in 0 until 5) drawLine(AlleyC46.Thorn, p, p + Offset(cos(j * 1.26f), sin(j * 1.26f)) * (w * 0.03f), 2.6f * dp, StrokeCap.Round, alpha = f)
             }
         }
+        nameRoundel(Offset(w * 0.82f, ground - h * 0.06f + h * 0.008f * sin(t * 14f) * dark), w * 0.035f, null, Roundel.PlainFill, Roundel.PlainRim, f)
+        tagAt(a.tag("harm", 0, 0), Offset(w * 0.54f, ground - h * 0.5f), f * seg(hm, 0.2f, 0.4f), back = Color(0xE6201810), ink = Color(0xFFF0A090))
+        tagAt(a.tag("harm", 0, 1), Offset(w * 0.3f, ground - h * 0.56f), f * seg(hm, 0.6f, 0.8f), back = Color(0xE6201810), ink = Color(0xFFF0A090))
+        tagAt(a.tag("harm", 0, 2), Offset(w * 0.82f, ground + h * 0.07f), f * seg(hm, 0.5f, 0.7f), back = Color(0xE6201810), ink = Color(0xFFF0ECE4))
     }
     // three doors; the gift goes to the nearest
     if (nr > 0f) {
@@ -372,7 +376,11 @@ private fun DrawScope.alley(a: ArtCtx) {
         val to = Offset(w * 0.35f, ground - h * 0.02f)
         val p = from + (to - from) * go
         figure(p, h * 0.2f, AlleyC46.Person, f, walk = t * 6f * (1f - seg(nr, 0.6f, 0.65f)), arms = 0.6f)
-        drawOval(AlleyC46.Plate, Offset(p.x - w * 0.045f, p.y - h * 0.13f), Size(w * 0.04f, h * 0.015f), alpha = f)
+        drawOval(AlleyC46.Plate, Offset(p.x + w * 0.02f, p.y - h * 0.15f), Size(w * 0.07f, h * 0.03f), alpha = f)
+        softGlow(Offset(p.x + w * 0.055f, p.y - h * 0.15f), w * 0.03f, ArtInk.Gold, 0.5f * f)
+        softGlow(Offset(w * 0.4f, ground - h * 0.05f), w * 0.07f, ArtInk.Gold, 0.6f * f * seg(nr, 0.5f, 0.8f))
+        tagAt(a.tag("nearest", 0, 0), Offset(w * 0.4f, ground - h * 0.36f), f * seg(nr, 0.5f, 0.75f), back = Color(0xE6201810), ink = ArtInk.Gold)
+        tagAt(a.tag("nearest", 0, 1), p + Offset(w * 0.05f, -h * 0.24f), f * seg(nr, 0.1f, 0.3f), back = Color(0xE6201810), ink = Color(0xFFF0ECE4))
     }
     // the broth with more water
     if (br > 0f) {
