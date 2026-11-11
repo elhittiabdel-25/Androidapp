@@ -1535,10 +1535,10 @@ SCENES = {
         I("إنما المسكين الذي يتعفف فلا يفطن له", "إنما", "deep-2", kind="quietpoor"),
     ], layout="orphangarden"),
     "riyad-ahl": S("art", [
-        I("أكمل المؤمنين إيمانا أحسنهم خلقا", None, "face-0", kind="bestrank"),
+        I("أكمل المؤمنين إيمانا أحسنهم خلقا", None, "face-0", sub="الْإِيمَانُ|أَحْسَنُهُمْ خُلُقًا", kind="bestrank"),
         I("أن تطعمها إذا طعمت، وتكسوها إذا اكتسيت", "أن", "face-1", kind="sharetable"),
         I("إن كره منها خلقا رضي منها آخر", "إن", "face-2", sub="خلقا|آخر", kind="weighflaw"),
-        I("وكان ﷺ في بيته في مهنة أهله", None, "deep-0", kind="homelight"),
+        I("وكان ﷺ في بيته في مهنة أهله", None, "deep-0", sub="فِي مِهْنَةِ أَهْلِهِ", kind="homelight"),
         I("وأعظم الدنانير أجرا دينار أنفقته على أهلك", None, "deep-2", sub="على أهلك", kind="firstdinar"),
     ], layout="homeledger"),
     # ── v1.2: Riyad al-Salihin, «حقوق وصلات» and «مكارم الأخلاق» (wave 47) ──
@@ -1643,8 +1643,8 @@ SCENES = {
         I("ليس المؤمن بالطعان، ولا اللعان، ولا الفاحش، ولا البذي", None, "face-0", sub="بالطعان|ولا اللعان|ولا الفاحش|ولا البذي", kind="fournot"),
         I("ومن رمى أخاه بالفسق أو الكفر ارتدت عليه", "ومن", "face-1", kind="boomerang"),
         I("صعدت اللعنة إلى السماء فأغلقت أبوابها دونها", "صعدت", "deep-0", kind="shutgates"),
-        I("خذوا ما عليها ودعوها", "خذوا", "deep-1", kind="freecamel"),
-        I("لا تقولوا هذا، لا تعينوا عليه الشيطان", "أخزاك", "deep-2", kind="noaid"),
+        I("خذوا ما عليها ودعوها", "خذوا", "deep-1", sub="خُذُوا مَا عَلَيْهَا|دَعُوهَا", kind="freecamel"),
+        I("لا تقولوا هذا، لا تعينوا عليه الشيطان", "أخزاك", "deep-2", sub="لَا تُعِينُوا عَلَيْهِ الشَّيْطَانَ", kind="noaid"),
     ], layout="cursereturn"),
     # ── v1.2: Riyad al-Salihin, «آفات اللسان» and «آداب يومية» (wave 50) ──
     "riyad-hijran": S("art", [
@@ -1664,8 +1664,8 @@ SCENES = {
         I("الاستئذان ثلاث، فإن أذن لك وإلا فارجع", None, "face-0", sub="1|2|3", kind="threetimes"),
         I("وإنما جعل الاستئذان من أجل البصر", None, "face-1", kind="aside"),
         I("وصيغته كما علمها ﷺ", None, "face-2", sub="السلام عليكم|أأدخل", kind="askin"),
-        I("فالسنة أن يسمي المستأذن نفسه بما يعرف به", None, "deep-1", sub="أنا", kind="sayname"),
-        I("وحتى الأطفال إذا بلغوا الحلم أمروا أن يستأذنوا كما يستأذن الكبار", None, "deep-3", kind="grownchild"),
+        I("فالسنة أن يسمي المستأذن نفسه بما يعرف به", None, "deep-1", sub="أَنَا|يُسَمِّي نَفْسَهُ", kind="sayname"),
+        I("وحتى الأطفال إذا بلغوا الحلم أمروا أن يستأذنوا كما يستأذن الكبار", None, "deep-3", sub="بَلَغَ الْحُلُمَ: يَسْتَأْذِنُ", kind="grownchild"),
     ], layout="threeknocks"),
     "riyad-taam": S("art", [
         I("يا غلام، سم الله، وكل بيمينك، وكل مما يليك", None, "face-0", sub="سم الله|وكل بيمينك|وكل مما يليك", kind="yourside"),
@@ -1864,10 +1864,10 @@ SCENES = {
         I("أيعجز أحدكم أن يكسب كل يوم 1000 حسنة", "أيعجز", "deep-2", sub="1000 حسنة", kind="thousandgood"),
     ], layout="lightheavy"),
     "hisn-salat-nabi": S("art", [
-        I("من صلى على النبي ﷺ صلاة صلى الله عليه بها عشرا", None, "face-0", kind="tenback"),
+        I("من صلى على النبي ﷺ صلاة صلى الله عليه بها عشرا", None, "face-0", sub="صَلَاةٌ وَاحِدَةٌ|عَشْرًا", kind="tenback"),
         I("والبخيل من ذكر النبي ﷺ عنده فلم يصل عليه", None, "face-1", sub="البخيل", kind="misertag"),
         I("فإن صلاتكم تبلغني حيث كنتم", "فإن", "face-2", kind="fromeverywhere"),
-        I("وأولى الناس به ﷺ يوم القيامة أكثرهم عليه صلاة", None, "deep-0", kind="nearestmost"),
+        I("وأولى الناس به ﷺ يوم القيامة أكثرهم عليه صلاة", None, "deep-0", sub="أَكْثَرُهُمْ عَلَيْهِ صَلَاةً", kind="nearestmost"),
         I("علمهم الصلاة الإبراهيمية التي تقال في التشهد", "علمهم", "deep-2", sub="الصلاة الإبراهيمية", kind="abrahamic"),
     ], layout="tenfold"),
     "hisn-istighfar": S("art", [
@@ -1933,7 +1933,7 @@ SCENES = {
         I("والنصيحة تعتمد على شيئين", None, "face-1", sub="السلامة من الغش|وبذل المجهود", kind="cleanfull"),
         I("وهي لله، ولكتابه، ولرسوله، ولأئمة المسلمين، وعامتهم", None, "face-2", sub="لله|ولكتابه|ولرسوله|ولأئمة المسلمين|وعامتهم", kind="fiveto"),
         I("ولكتابه: الإيمان بمحكمه ومتشابهه", None, "deep-1", kind="bookfirst"),
-        I("ولرسوله: الإيمان به وطاعته وتوقيره ومحبته", None, "deep-2", kind="measuringline"),
+        I("ولرسوله: الإيمان به وطاعته وتوقيره ومحبته", None, "deep-2", sub="الْإِيمَانُ بِهِ|طَاعَتُهُ|تَوْقِيرُهُ|مَحَبَّتُهُ", kind="measuringline"),
         I("ولعامتهم: دلالتهم على طرق الخير", None, "deep-4", kind="pointgood"),
     ], layout="fivecounsel"),
     "nw-08": S("art", [
@@ -2056,7 +2056,7 @@ SCENES = {
         I("والظلم وضع الشيء في غير موضعه", None, "face-1", sub="وضع الشيء في غير موضعه", kind="wrongplace"),
         I("وقرر في أثنائه حاجة العباد إلى ربهم", None, "face-2", sub="الهداية|والطعام|والكسوة|والمغفرة", kind="fourneeds"),
         I("والعباد يخطئون بالليل والنهار", None, "deep-1", kind="curedone"),
-        I("ولو أن أولهم وآخرهم وإنسهم وجنهم", None, "deep-2", sub="فهو الغني بذاته", kind="nothingadded"),
+        I("ولو أن أولهم وآخرهم وإنسهم وجنهم", None, "deep-2", sub="فَهُوَ الْغَنِيُّ بِذَاتِهِ|الْإِنْسُ|الْجِنُّ", kind="nothingadded"),
     ], layout="noinjustice"),
     "nw-25": S("art", [
         I("شكا فقراء المهاجرين", None, "face-0", kind="richpoor"),
@@ -2170,7 +2170,7 @@ SCENES = {
         I("فالمعاقبة على ذنب فعل نسيانا أو من غير قصد ممتنعة", None, "face-1", kind="accidentspill"),
         I("ومن فعل شيئا مكرها ملجأ إليه", None, "face-2", sub="وقلبه مطمئن بالإيمان", kind="forcedcalmheart"),
         I("ومنه دعاء المؤمنين في خاتمة البقرة", None, "deep-0", sub="إن نسوا أو أخطئوا", kind="answeredbaqara"),
-        I("ورفع الإثم عند أهل العلم لا يسقط حقوق العباد", None, "deep-1", sub="ضمنه", kind="stillowes"),
+        I("ورفع الإثم عند أهل العلم لا يسقط حقوق العباد", None, "deep-1", sub="ضَمِنَهُ|حُقُوقُ الْعِبَادِ", kind="stillowes"),
     ], layout="pardoned"),
     "nw-40": S("art", [
         I("أخذ ﷺ بمنكب ابن عمر", None, "face-0", sub="ابن عمر|كأنك غريب أو عابر سبيل", kind="shoulderword"),
@@ -2227,8 +2227,8 @@ SCENES = {
         I("قالت عائشة", None, "face-0", sub="التمر والماء", kind="coldhearth"),
         I("وكان يبيت الليالي المتتابعة طاويا", None, "face-1", sub="خبز الشعير", kind="barleynights"),
         I("ولما أكل هو وصاحباه عند أبي الهيثم رطبا", None, "face-2", sub="أبي الهيثم|هذا من النعيم الذي تسألون عنه", kind="coolshade"),
-        I("وكان له جيران من الأنصار لهم منائح", None, "deep-1", kind="milkfromneighbors"),
-        I("ولم تكن لهم مناخل", None, "deep-2", kind="chaffblown"),
+        I("وكان له جيران من الأنصار لهم منائح", None, "deep-1", sub="جِيرَانٌ مِنَ الْأَنْصَارِ", kind="milkfromneighbors"),
+        I("ولم تكن لهم مناخل", None, "deep-2", sub="بِلَا مَنَاخِلَ", kind="chaffblown"),
     ], layout="simpleliving"),
     "sira-kalam": S("art", [
         I("ما كان ﷺ يسرد الكلام سردا", None, "face-0", sub="كَلَامٌ بَيِّنٌ فَصْلٌ|يَحْفَظُهُ مَنْ جَلَسَ إِلَيْهِ", kind="spacedwords"),

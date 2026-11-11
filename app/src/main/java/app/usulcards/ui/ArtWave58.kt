@@ -267,6 +267,7 @@ private fun DrawScope.counselNight(a: ArtCtx) {
             }
             drawPath(p, if (off) CounselC58.Paper else CounselC58.Page, alpha = f * seg(ml, 0.3f + 0.05f * k, 0.4f + 0.05f * k) * (1f - 0.7f * fall), style = Stroke(h * 0.03f))
         }
+        for (k in 0 until 4) tagAt(a.tag("measuringline", 0, k), Offset(w * (0.82f - 0.21f * k), h * (0.44f + 0.1f * (k % 2))), f * seg(ml, 0.3f + 0.12f * k, 0.45f + 0.12f * k), back = Color(0xE6201810), ink = ArtInk.Gold)
     }
     if (pg > 0f) {
         val f = easeOut(seg(pg, 0f, 0.25f))

@@ -597,6 +597,8 @@ private fun DrawScope.homePage(a: ArtCtx) {
         penLine(listOf(top + Offset(-w * 0.012f, h * 0.06f), top + Offset(-w * 0.012f, h * 0.02f), top + Offset(w * 0.012f, h * 0.02f), top + Offset(w * 0.012f, h * 0.06f)), seg(br, 0.75f, 0.9f), pp.amber, pen, f)
         drawPath(starPath(top + Offset(w * 0.11f, -h * 0.06f), w * 0.02f), pp.amber, alpha = f * seg(br, 0.85f, 1f))
         arrowHead(Offset(x1 + w * 0.02f, h * 0.24f), Offset(1f, 0f), w * 0.015f, pp.amber, pen, f * g)
+        note(a.tag("bestrank", 0, 0), Offset(w * 0.24f, h * 0.55f), f * seg(br, 0.3f, 0.5f), pp, pp.ink)
+        note(a.tag("bestrank", 0, 1), Offset(w * 0.44f, h * 0.13f), f * seg(br, 0.55f, 0.75f), pp, pp.good)
     }
     // his plate and hers, his robe and hers
     if (st > 0f) {
@@ -647,6 +649,7 @@ private fun DrawScope.homePage(a: ArtCtx) {
             val u = fract(t * 0.6f + k / 3f)
             drawCircle(pp.amber, w * 0.03f + w * 0.08f * u, m + Offset(0f, -h * 0.3f), alpha = f * seg(hl, 0.4f, 0.55f) * (1f - u) * 0.5f, style = Stroke(1.2f * dp))
         }
+        note(a.tag("homelight"), house + Offset(0f, -h * 0.34f), f * seg(hl, 0.3f, 0.5f), pp, pp.good)
     }
     // the dinar spent on the family
     if (fd > 0f) {

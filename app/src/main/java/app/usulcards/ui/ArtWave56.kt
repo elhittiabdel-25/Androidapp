@@ -201,6 +201,8 @@ private fun DrawScope.tenNight(a: ArtCtx) {
             val c = Offset(mix(w * 0.5f, x, d), mix(h * 0.15f, ground - h * 0.1f - h * 0.05f * (k % 2), d))
             softGlow(c, w * 0.022f, TenC56.Gold, 0.9f * f * seg(tb, 0.42f + 0.03f * k, 0.5f + 0.03f * k))
         }
+        tagAt(a.tag("tenback", 0, 0), Offset(w * 0.5f, ground - h * 0.14f), f * seg(tb, 0.05f, 0.2f) * (1f - seg(tb, 0.4f, 0.5f)), back = Color(0xE6201810), ink = Color(0xFFF0ECE4))
+        tagAt(a.tag("tenback", 0, 1), Offset(w * 0.5f, h * 0.12f), f * seg(tb, 0.6f, 0.8f), back = Color(0xE6201810), ink = ArtInk.Gold)
     }
     if (ms > 0f) {
         val f = easeOut(seg(ms, 0f, BEAT_IN)) * (1f - seg(fe, 0f, BEAT_OUT))
@@ -247,6 +249,7 @@ private fun DrawScope.tenNight(a: ArtCtx) {
                 drawCircle(TenC56.Gold, w * 0.004f, c + Offset(cos(ang), sin(ang)) * (w * 0.045f), alpha = f * seg(nm, 0.1f + 0.02f * j, 0.25f + 0.02f * j))
             }
         }
+        tagAt(a.tag("nearestmost"), light + Offset(w * 0.26f, h * 0.14f), f * seg(nm, 0.6f, 0.8f), back = Color(0xE6201810), ink = ArtInk.Gold)
     }
     if (ab > 0f) {
         val f = easeOut(seg(ab, 0f, 0.25f))

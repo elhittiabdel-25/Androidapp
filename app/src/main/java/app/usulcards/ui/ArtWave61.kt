@@ -437,6 +437,8 @@ private fun DrawScope.justNight(a: ArtCtx) {
             drawCircle(JustC61.Peg, w * 0.012f, c, alpha = f * (1f - 0.1f * r))
         }
         tagAt(a.tag("nothingadded"), Offset(w * 0.5f, h * 0.18f), f * seg(na, 0.3f, 0.5f), back = Back61, ink = ArtInk.Gold)
+        tagAt(a.tag("nothingadded", 0, 1), Offset(w * 0.75f, h * 0.4f), f * seg(na, 0.2f, 0.4f), back = Color(0xE6201810), ink = Color(0xFFF0ECE4))
+        tagAt(a.tag("nothingadded", 0, 2), Offset(w * 0.25f, h * 0.4f), f * seg(na, 0.3f, 0.5f), back = Color(0xE6201810), ink = Color(0xFFF0ECE4))
     }
 }
 

@@ -216,6 +216,7 @@ private fun DrawScope.livingRoom(a: ArtCtx) {
             val u = easeInOut(seg(mf, 0.2f + 0.3f * k, 0.5f + 0.3f * k))
             cup12(Offset(mix(n.x, w * 0.5f + side * w * 0.08f, u), floor - h * 0.05f - h * 0.08f * sin(PI.toFloat() * u)), w * 0.05f, LivingC66.Plate, f, LivingC66.Milk)
         }
+        tagAt(a.tag("milkfromneighbors"), Offset(w * 0.5f, floor - h * 0.52f), f * seg(mf, 0.3f, 0.5f), back = Color(0xE6201810), ink = ArtInk.Gold)
     }
     if (cb > 0f) {
         val f = easeOut(seg(cb, 0f, 0.25f))
@@ -228,6 +229,7 @@ private fun DrawScope.livingRoom(a: ArtCtx) {
             val u = fract(t * 0.6f + k / 12f) * blow
             drawOval(LivingC66.Chaff, Offset(c.x - w * 0.05f - w * 0.4f * u + w * 0.08f * sin(k * 1.3f), c.y - h * 0.05f - h * 0.3f * u * (1f - u) * 2f), Size(w * 0.012f, h * 0.005f), alpha = f * (1f - u))
         }
+        tagAt(a.tag("chaffblown"), c + Offset(0f, -h * 0.22f), f * seg(cb, 0.3f, 0.5f), back = Color(0xE6201810), ink = ArtInk.Gold)
     }
 }
 

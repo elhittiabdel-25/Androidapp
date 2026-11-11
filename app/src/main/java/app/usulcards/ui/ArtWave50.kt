@@ -318,6 +318,7 @@ private fun DrawScope.knockDay(a: ArtCtx) {
         tagAt(a.tag("sayname"), Offset(w * 0.3f, h * 0.28f), f * seg(sn, 0.35f, 0.5f), back = Back50, ink = ArtInk.Ivory)
         qMark14(Offset(w * 0.45f, h * 0.22f), h * 0.1f, KnockC50.Red, f * seg(sn, 0.5f, 0.65f) * (1f - seg(sn, 0.75f, 0.85f)))
         tick14(Offset(w * 0.45f, h * 0.22f), w * 0.03f, seg(sn, 0.85f, 1f) * f)
+        tagAt(a.tag("sayname", 0, 1), Offset(w * 0.38f, ground - h * 0.32f), f * seg(sn, 0.5f, 0.7f), back = Color(0xE6201810), ink = Color(0xFF9AE0A0))
     }
     if (gc > 0f) {
         val f = easeOut(seg(gc, 0f, 0.3f))
@@ -326,6 +327,7 @@ private fun DrawScope.knockDay(a: ArtCtx) {
         figure(Offset(w * 0.38f, ground), h * (0.16f + 0.14f * grow), KnockC50.Person, f, arms = 0.7f * seg(gc, 0.6f, 0.7f))
         val k = seg(gc, 0.7f, 0.95f)
         if (k > 0f && k < 1f) drawCircle(KnockC50.Gold, w * (0.02f + 0.05f * k), sill + Offset(-w * 0.05f, -h * 0.22f), alpha = f * (1f - k), style = Stroke(2f * dp))
+        tagAt(a.tag("grownchild"), Offset(w * 0.38f, ground - h * 0.44f), f * seg(gc, 0.6f, 0.8f), back = Color(0xE6201810), ink = ArtInk.Gold)
     }
 }
 

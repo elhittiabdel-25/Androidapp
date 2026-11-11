@@ -565,11 +565,13 @@ private fun DrawScope.curseNight(a: ArtCtx) {
     if (fc > 0f) {
         val f = easeOut(seg(fc, 0f, BEAT_IN)) * (1f - seg(na, 0f, BEAT_OUT))
         val go = easeInOut(seg(fc, 0.55f, 1f))
-        val foot = Offset(w * (0.55f + 0.3f * go), ground)
+        val foot = Offset(w * (0.5f + 0.24f * go), ground)
         camel26(foot, h * 0.3f, CurseC49.Camel, f, t, t * 3f * go)
         val off = easeInOut(seg(fc, 0.15f, 0.45f))
         drawRoundRect(CurseC49.Load, Offset(w * 0.5f - w * 0.25f * off, ground - h * 0.27f + h * 0.2f * off), Size(w * 0.12f, h * 0.08f), CornerRadius(3f * dp), alpha = f)
         figure(Offset(w * 0.25f, ground), h * 0.28f, CurseC49.Person, f, arms = 0.5f * (1f - off))
+        tagAt(a.tag("freecamel", 0, 0), Offset(w * 0.3f, ground - h * 0.42f), f * seg(fc, 0.15f, 0.35f), back = Color(0xE6201810), ink = ArtInk.Gold)
+        tagAt(a.tag("freecamel", 0, 1), foot + Offset(0f, -h * 0.44f), f * seg(fc, 0.55f, 0.75f), back = Color(0xE6201810), ink = Color(0xFFF0ECE4))
     }
     if (na > 0f) {
         val f = easeOut(seg(na, 0f, 0.3f))
@@ -581,5 +583,6 @@ private fun DrawScope.curseNight(a: ArtCtx) {
         for (k in 0 until 2) figure(Offset(w * (0.18f + 0.62f * k), ground), h * 0.28f, CurseC49.Person, f * 0.8f, arms = if (k == 0) 0.6f else -0.6f)
         val kind = seg(na, 0.55f, 0.75f)
         softGlow(heart, w * 0.05f, ArtInk.Gold, 0.6f * f * kind)
+        tagAt(a.tag("noaid"), fallen + Offset(0f, -h * 0.5f), f * seg(na, 0.4f, 0.6f), back = Color(0xE6201810), ink = ArtInk.Gold)
     }
 }

@@ -455,6 +455,7 @@ private fun DrawScope.pardonNight(a: ArtCtx) {
         val give = easeInOut(seg(so, 0.45f, 0.8f))
         coin12(Offset(mix(w * 0.3f, w * 0.8f, give), h * 0.55f - h * 0.08f * sin(PI.toFloat() * give)), w * 0.025f, f * seg(so, 0.4f, 0.5f), PardonC64.Coin)
         tagAt(a.tag("stillowes"), Offset(w * 0.5f, h * 0.25f), f * seg(so, 0.5f, 0.7f), back = Back64, ink = ArtInk.Gold)
+        tagAt(a.tag("stillowes", 0, 1), jar + Offset(0f, -h * 0.44f), f * seg(so, 0.5f, 0.7f), back = Color(0xE6201810), ink = ArtInk.Gold)
     }
 }
 
