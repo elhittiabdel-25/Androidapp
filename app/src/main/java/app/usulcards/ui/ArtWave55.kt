@@ -290,6 +290,8 @@ private fun DrawScope.sneezePage(a: ArtCtx) {
             val c = Offset(w * (0.8f - 0.3f * k), h * (0.35f + 0.15f * k))
             penLine(listOf(c + Offset(-w * 0.09f, -h * 0.05f), c + Offset(w * 0.09f, -h * 0.05f), c + Offset(w * 0.09f, h * 0.05f), c + Offset(-w * 0.09f, h * 0.05f), c + Offset(-w * 0.09f, -h * 0.05f)), seg(np, 0.05f + 0.1f * k, 0.2f + 0.1f * k), pp.faint, pen, f, dash = androidx.compose.ui.graphics.PathEffect.dashPathEffect(floatArrayOf(5f * dp, 4f * dp)))
         }
+        note(a.tag("nopraise", 0, 0), Offset(w * 0.8f, h * 0.35f), f * seg(np, 0.15f, 0.3f), pp, pp.bad)
+        note(a.tag("nopraise", 0, 1), Offset(w * 0.5f, h * 0.5f), f * seg(np, 0.3f, 0.45f), pp, pp.ink)
         crossMark(Offset(w * 0.5f, h * 0.5f), w * 0.08f, pp.bad, pen * 1.6f, f * seg(np, 0.5f, 0.7f))
     }
     if (cw > 0f) {
@@ -301,6 +303,11 @@ private fun DrawScope.sneezePage(a: ArtCtx) {
         val head = Offset(w * 0.32f, ground - h * 0.36f)
         val fl = (1f - out) * (1f + 0.15f * sin(t * 10f))
         drawOval(pp.bad, Offset(head.x - w * 0.015f * fl, head.y - h * 0.08f * fl), Size(w * 0.03f * fl, h * 0.08f * fl), alpha = f)
+        val head2 = Offset(w * 0.62f, ground - h * 0.36f)
+        drawOval(pp.bad, Offset(head2.x - w * 0.015f, head2.y - h * 0.08f), Size(w * 0.03f, h * 0.08f), alpha = f)
+        // angry words between them
+        for (k in 0 until 3) drawLine(pp.bad, Offset(w * (0.4f + 0.05f * k), ground - h * 0.3f), Offset(w * (0.43f + 0.05f * k), ground - h * (0.27f + 0.03f * (k % 2))), pen, StrokeCap.Round, alpha = f * (1f - out))
+        note(a.tag("coolword", 0, 1), Offset(w * 0.47f, ground - h * 0.42f), f * seg(cw, 0.1f, 0.25f) * (1f - out), pp, pp.bad)
         note(a.tag("coolword"), Offset(w * 0.5f, h * 0.2f), f * seg(cw, 0.35f, 0.55f), pp, pp.good, boxed = true)
     }
     if (tp > 0f) {

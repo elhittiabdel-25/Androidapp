@@ -204,6 +204,7 @@ private fun DrawScope.robeRoom(a: ArtCtx) {
             val c = Offset(w * (0.22f + 0.28f * k), h * 0.52f)
             val g = easeOut(seg(tg, 0.1f + 0.25f * k, 0.3f + 0.25f * k))
             softGlow(c, w * 0.1f, RobeC51.Gold, 0.35f * f * g)
+            tagAt(a.tag("threegarments", 0, k), c + Offset(0f, h * 0.28f), f * g, back = Color(0xE6201810), ink = ArtInk.Gold)
             when (k) {
                 0 -> { drawOval(RobeC51.Turban, Offset(c.x - w * 0.07f, c.y - h * 0.06f), Size(w * 0.14f, h * 0.12f), alpha = f * g); for (j in 0 until 3) drawArc(RobeC51.BackDark, 200f, 140f, false, Offset(c.x - w * 0.06f, c.y - h * 0.05f + h * 0.025f * j), Size(w * 0.12f, h * 0.06f), alpha = f * g, style = Stroke(1.2f * dp)) }
                 1 -> robe51(c, h * 0.36f, RobeC51.Robe, f * g)
@@ -218,6 +219,9 @@ private fun DrawScope.robeRoom(a: ArtCtx) {
         for (k in 0 until 6) drawLine(RobeC51.RobeOld, Offset(w * (0.33f + 0.025f * k), h * (0.72f - 0.05f * fray)), Offset(w * (0.33f + 0.025f * k), h * (0.75f + 0.04f * fray)), 1.2f * dp, alpha = f * fray * (1f - seg(wr, 0.45f, 0.65f)))
         val n = easeOut(seg(wr, 0.5f, 0.85f))
         robe51(Offset(w * 0.6f, h * 0.52f), h * 0.5f * n, RobeC51.Robe, f * n)
+        robe51(Offset(w * 0.4f, h * 0.52f), h * 0.5f, RobeC51.RobeOld, f * 0.35f * seg(wr, 0.45f, 0.65f), 1f)
+        tagAt(a.tag("wornrenewed", 0, 0), Offset(w * 0.36f, h * 0.86f), f * seg(wr, 0.15f, 0.35f), back = Color(0xE6201810), ink = Color(0xFFC8C0B0))
+        tagAt(a.tag("wornrenewed", 0, 1), Offset(w * 0.64f, h * 0.86f), f * n, back = Color(0xE6201810), ink = ArtInk.Gold)
     }
     if (ct > 0f) {
         val f = easeOut(seg(ct, 0f, BEAT_IN)) * (1f - seg(rs, 0f, 0.4f))

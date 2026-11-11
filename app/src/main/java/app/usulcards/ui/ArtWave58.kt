@@ -118,11 +118,12 @@ private fun DrawScope.himaDay(a: ArtCtx) {
         val f = easeOut(seg(ts, 0f, BEAT_IN)) * (1f - seg(sd, 0f, BEAT_OUT))
         drawRect(HimaC58.Haram, Offset(fenceL, fenceY - h * 0.15f), Size(fenceR - fenceL, h * 0.12f), alpha = f * 0.25f)
         fence(f)
-        val spots = listOf(Offset(w * 0.3f, fenceY - h * 0.04f), Offset(w * 0.55f, h * 0.88f), Offset(w * 0.88f, h * 0.92f))
+        val spots = listOf(Offset(w * 0.3f, fenceY - h * 0.02f), Offset(w * 0.55f, fenceY + h * 0.14f), Offset(w * 0.86f, h * 0.94f))
         for (k in 0 until 3) {
             val g = seg(ts, 0.1f + 0.25f * k, 0.3f + 0.25f * k)
             figure(spots[k], h * (0.22f + 0.02f * k), HimaC58.Person, f * g)
             if (k == 2) softGlow(spots[k] + Offset(0f, -h * 0.12f), w * 0.07f, HimaC58.Gold, 0.5f * f * g)
+            tagAt(a.tag("threeshepherds", 0, k), spots[k] + Offset(0f, -h * 0.32f), f * g, back = Color(0xE6201810), ink = listOf(Color(0xFFF0A090), Color(0xFFE8D890), ArtInk.Gold)[k])
         }
     }
     if (sd > 0f) {
@@ -134,7 +135,9 @@ private fun DrawScope.himaDay(a: ArtCtx) {
         drawLine(HimaC58.Haram, mid, bot, h * 0.025f, StrokeCap.Round, alpha = f)
         val u = easeIn58(seg(sd, 0.2f, 0.85f))
         val p = if (u < 0.5f) top + (mid - top) * (u * 2f) else mid + (bot - mid) * ((u - 0.5f) * 2f)
-        drawCircle(HimaC58.Person, w * 0.025f, p + Offset(0f, -h * 0.03f), alpha = f)
+        figure(p, h * 0.2f, HimaC58.Person, f, lean = -0.3f * u)
+        tagAt(a.tag("slopedown", 0, 0), p + Offset(0f, -h * 0.28f), f * seg(sd, 0.1f, 0.3f), back = Color(0xE6201810), ink = Color(0xFFF0ECE4))
+        tagAt(a.tag("slopedown", 0, 1), bot + Offset(w * 0.1f, -h * 0.1f), f * seg(sd, 0.5f, 0.7f), back = Color(0xE6201810), ink = Color(0xFFF0A090))
     }
     if (lf > 0f) {
         val f = easeOut(seg(lf, 0f, 0.25f))

@@ -328,7 +328,8 @@ private fun DrawScope.proofTrust29(a: ArtCtx, r: Rect, p: Float, t: Float) {
             drawRect(ProofC29.Gold, Offset(box.x - w * 0.018f, box.y - h * 0.03f * set), Size(w * 0.036f, h * 0.005f))
         }
     }
-    tagAt(a.tag("trusted"), light + Offset(w * 0.2f, -h * 0.2f), seg(p, 0.5f, 0.7f), back = ProofC29.Back, ink = ArtInk.BrassLight)
+    tagAt(a.tag("trusted"), Offset(r.left + r.width * 0.72f, r.top + r.height * 0.3f), seg(p, 0.5f, 0.7f), back = ProofC29.Back, ink = ArtInk.BrassLight)
+    tagAt(a.tag("trusted", 0, 1), light + Offset(w * 0.11f, h * 0.1f), seg(p, 0.4f, 0.6f), back = ProofC29.Back, ink = ArtInk.Ivory)
 }
 
 private fun DrawScope.proofSpread29(a: ArtCtx, r: Rect, p: Float, t: Float) {
@@ -394,10 +395,11 @@ private fun DrawScope.proofRider29(a: ArtCtx, r: Rect, p: Float, t: Float) {
     for (k in 0 until 4) sheep26(Offset(r.left + r.width * (0.4f + 0.05f * k), r.top + r.height * (0.85f - 0.02f * (k % 2))), w * 0.025f, Color(0xFFF2EEE4), 1f)
     // the lone rider, at peace
     val go = easeInOut(seg(p, 0.2f, 1f))
-    val pos = from + (to - from) * go - Offset(0f, h * 0.005f)
-    camel26(pos, h * 0.16f, Color(0xFF7A5A3A), 1f, t, if (go in 0.01f..0.99f) t * 4f else 0f)
-    drawCircle(ProofC29.Ink, h * 0.016f, pos + Offset(w * 0.005f, -h * 0.19f))
-    drawLine(ProofC29.Ink, pos + Offset(w * 0.005f, -h * 0.175f), pos + Offset(w * 0.005f, -h * 0.13f), h * 0.012f, StrokeCap.Round)
+    val pos = from + (to - from) * (0.1f + 0.62f * go) - Offset(0f, h * 0.005f)
+    camel26(pos, h * 0.24f, Color(0xFF7A5A3A), 1f, t, if (go in 0.01f..0.99f) t * 4f else 0f)
+    tagAt(a.tag("saferider", 0, 2), pos + Offset(0f, -h * 0.4f), seg(p, 0.45f, 0.65f), back = ProofC29.Back, ink = ArtInk.Gold)
+    drawCircle(ProofC29.Ink, h * 0.024f, pos + Offset(w * 0.005f, -h * 0.29f))
+    drawLine(ProofC29.Ink, pos + Offset(w * 0.005f, -h * 0.265f), pos + Offset(w * 0.005f, -h * 0.19f), h * 0.018f, StrokeCap.Round)
 }
 
 // ═════════════ 3. the palace and its last brick (khatm-nubuwwa) ═════════════

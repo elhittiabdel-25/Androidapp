@@ -557,7 +557,10 @@ private fun DrawScope.guardDay(a: ArtCtx) {
         val down = easeInOut(seg(ow, 0.35f, 0.6f))
         val pick = seg(ow, 0.65f, 0.85f)
         val whipY = mix(ground - h * 0.3f, ground - h * 0.01f, fall) - h * 0.2f * pick
-        drawLine(GuardC60.Whip, Offset(w * 0.4f, whipY), Offset(w * 0.46f, whipY - h * 0.01f), 3f * dp, StrokeCap.Round, alpha = f)
+        drawLine(GuardC60.Whip, Offset(w * 0.34f, whipY), Offset(w * 0.44f, whipY - h * 0.015f), 4f * dp, StrokeCap.Round, alpha = f)
+        drawLine(GuardC60.Whip, Offset(w * 0.34f, whipY), Offset(w * 0.3f, whipY + h * 0.03f), 1.6f * dp, StrokeCap.Round, alpha = f)
+        tagAt(a.tag("ownwhip", 0, 0), Offset(w * 0.26f, whipY - h * 0.08f), f * seg(ow, 0.12f, 0.3f), back = Color(0xE6201810), ink = Color(0xFFF0ECE4))
+        tagAt(a.tag("ownwhip", 0, 1), Offset(w * 0.5f, h * 0.14f), f * seg(ow, 0.6f, 0.8f), back = Color(0xE6201810), ink = ArtInk.Gold)
         if (down < 0.5f) sit12(camel + Offset(0f, -h * 0.28f), h * 0.2f, GuardC60.Person, f * (1f - 2f * down), 1f)
         else figure(Offset(w * 0.42f, ground), h * 0.26f, GuardC60.Person, f * (2f * down - 1f), arms = 0.4f * pick)
     }
@@ -579,7 +582,8 @@ private fun DrawScope.guardDay(a: ArtCtx) {
             val u = easeIn60(seg(mh, 0.15f + 0.35f * k, 0.45f + 0.35f * k))
             val x = if (k == 0) mix(w * 0.42f, w * 0.3f, u) else w * 0.5f
             val y = mix(h * 0.12f, if (k == 0) ground + h * 0.05f else ground - h * 0.08f, u)
-            drawCircle(GuardC60.Drop, w * 0.012f, Offset(x, y), alpha = f * seg(mh, 0.1f + 0.35f * k, 0.15f + 0.35f * k))
+            drawCircle(GuardC60.Drop, w * 0.022f, Offset(x, y), alpha = f * seg(mh, 0.1f + 0.35f * k, 0.15f + 0.35f * k))
+            tagAt(a.tag("missandhit", 0, k), if (k == 0) Offset(w * 0.24f, ground - h * 0.12f) else cup + Offset(w * 0.2f, -h * 0.2f), f * u, back = Color(0xE6201810), ink = if (k == 0) Color(0xFFC8C8D8) else ArtInk.Gold)
             if (k == 1 && u >= 1f) softGlow(cup + Offset(0f, -h * 0.06f), w * 0.06f, GuardC60.Drop, 0.6f * f)
         }
     }
