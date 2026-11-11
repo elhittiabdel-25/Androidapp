@@ -751,6 +751,8 @@ private fun DrawScope.soukStreet(a: ArtCtx) {
     val iFoot = Offset(w * 0.4f, h * 0.88f)
     val stop = easeOut(seg(sh, 0.3f, 0.5f))
     spot(iFoot + Offset(0f, -tall * 0.6f), 0)
+    val threeOn = 1f - seg(sh, 0f, BEAT_OUT)
+    tagAt(a.tag("three", 0, 0), iFoot + Offset(0f, -tall * 1.25f), seg(th, 0.05f, 0.2f) * threeOn, back = Color(0xE6201810), ink = ArtInk.Gold)
     if (sh > 0.25f) {
         // he turns to the youth and takes hold of his sword arm
         figure(iFoot, tall * 1.04f, Color(0xFF1E3A4A), arms = 0.3f + 0.7f * stop)
@@ -760,6 +762,7 @@ private fun DrawScope.soukStreet(a: ArtCtx) {
     // the one who speaks: tongue
     val tFoot = Offset(w * 0.66f, h * 0.9f)
     spot(tFoot + Offset(0f, -tall * 0.6f), 1)
+    tagAt(a.tag("three", 0, 1), tFoot + Offset(0f, -tall * 1.25f), seg(th, 0.36f, 0.5f) * threeOn, back = Color(0xE6201810), ink = ArtInk.Gold)
     figure(tFoot, tall, SoukC11.Ink, arms = if (th in 0.34f..0.7f) 0.6f else 0.1f)
     if (th in 0.34f..0.8f) for (k in 0 until 3) {
         val f = fract(t * 1.2f + k / 3f)
@@ -769,6 +772,10 @@ private fun DrawScope.soukStreet(a: ArtCtx) {
     // the old woman passing: heart
     val wFoot = Offset(w * 0.86f, h * 0.92f)
     spot(wFoot + Offset(0f, -tall * 0.6f), 2)
+    tagAt(a.tag("three", 0, 2), wFoot + Offset(0f, -tall * 1.25f), seg(th, 0.68f, 0.82f) * threeOn, back = Color(0xE6201810), ink = ArtInk.Gold)
+    softGlow(wFoot + Offset(0f, -tall * 0.6f), tall * 0.12f, Color(0xFFE8705A), 0.8f * seg(th, 0.68f, 0.82f) * threeOn)
+    // «بلا سيف»: the words, struck through, over the hand that is held back
+    struckTag21(a.tag("sheathe"), Offset(w * 0.36f, h * 0.3f), seg(sh, 0.3f, 0.45f), seg(sh, 0.5f, 0.7f), Color(0xFFD23C30), Color(0xE6201810), Color(0xFFF0A090))
     val shake = if (th > 0.66f) sin(t * 8f) * tall * 0.02f else 0f
     figure(wFoot, tall * 0.9f, Color(0xFF3A2A3A), arms = 0.1f)
     drawPath(Path().apply { moveTo(wFoot.x - tall * 0.12f, wFoot.y - tall * 0.4f); lineTo(wFoot.x + tall * 0.12f, wFoot.y - tall * 0.4f); lineTo(wFoot.x + tall * 0.08f, wFoot.y - tall * 0.02f); lineTo(wFoot.x - tall * 0.08f, wFoot.y - tall * 0.02f); close() }, Color(0xFF3A2A3A))

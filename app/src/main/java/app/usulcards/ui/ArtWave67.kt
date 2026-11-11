@@ -109,8 +109,12 @@ private fun DrawScope.reciteNight(a: ArtCtx) {
         val f = easeOut(seg(ll, 0f, BEAT_IN)) * (1f - seg(hn, 0f, BEAT_OUT))
         sirajMunir(light, w * 0.012f, f, t, nameAt = light + Offset(0f, -h * 0.1f))
         val loud = 0.5f + 0.5f * sin(t * 1.3f)
-        wave(light + Offset(-w * 0.06f, h * 0.02f), w * 0.5f, h * (0.005f + 0.03f * loud), f * seg(ll, 0.2f, 0.4f))
-        nameRoundel(Offset(w * 0.22f, h * 0.65f), w * 0.08f, a.big("loudorlow", 0, 0), Roundel.Fills[2], Roundel.Rim, f * seg(ll, 0.05f, 0.2f))
+        // two waves side by side: a low one (quiet) and a high one (aloud)
+        wave(light + Offset(-w * 0.06f, -h * 0.06f), w * 0.5f, h * 0.006f, f * seg(ll, 0.2f, 0.4f))
+        wave(light + Offset(-w * 0.06f, h * 0.1f), w * 0.5f, h * 0.035f, f * seg(ll, 0.3f, 0.5f))
+        tagAt(a.tag("loudorlow", 0, 2), light + Offset(-w * 0.62f, -h * 0.06f), f * seg(ll, 0.2f, 0.4f), back = Back67, ink = Color(0xFFDCE8F0))
+        tagAt(a.tag("loudorlow", 0, 3), light + Offset(-w * 0.62f, h * 0.1f), f * seg(ll, 0.3f, 0.5f), back = Back67, ink = Color(0xFFDCE8F0))
+        nameRoundel(Offset(w * 0.22f, h * 0.78f), w * 0.07f, a.big("loudorlow", 0, 0), Roundel.Fills[2], Roundel.Rim, f * seg(ll, 0.05f, 0.2f))
         tagAt(a.tag("loudorlow", 0, 1), Offset(w * 0.6f, h * 0.75f), f * seg(ll, 0.45f, 0.65f), back = Back67, ink = ArtInk.Gold)
     }
     if (hn > 0f) {
@@ -126,6 +130,8 @@ private fun DrawScope.reciteNight(a: ArtCtx) {
         drawRect(ReciteC67.Bed, Offset(bed.x - w * 0.1f, bed.y), Size(w * 0.2f, h * 0.03f), alpha = f)
         for (k in 0 until 2) drawLine(ReciteC67.Bed, Offset(bed.x - w * 0.09f + w * 0.18f * k, bed.y), Offset(bed.x - w * 0.09f + w * 0.18f * k, ground - h * 0.16f), 3f * dp, alpha = f)
         nameRoundel(bed + Offset(0f, -h * 0.08f), w * 0.07f, a.big("heardatnight"), Roundel.Fills[3], Roundel.Rim, f * seg(hn, 0.1f, 0.3f))
+        tagAt(a.tag("heardatnight", 0, 1), bed + Offset(w * 0.02f, h * 0.09f), f * seg(hn, 0.2f, 0.4f), back = Back67, ink = Color(0xFFF0ECE4))
+        tagAt(a.tag("heardatnight", 0, 2), Offset(w * 0.52f, ground - h * 0.42f), f * seg(hn, 0.4f, 0.6f), back = Back67, ink = ArtInk.Gold)
     }
 }
 

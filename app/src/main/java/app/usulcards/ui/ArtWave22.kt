@@ -432,7 +432,9 @@ private fun DrawScope.cosmosEnergy(a: ArtCtx) {
         val col = lerpColor(CosC22.Hot, Color(0xFF8AA0C0), cool)
         drawRoundRect(Color(0xFFEDE6DA), cup + Offset(-w * 0.05f, -h * 0.1f), Size(w * 0.1f, h * 0.12f), CornerRadius(w * 0.01f), alpha = later)
         drawArc(Color(0xFFEDE6DA), -90f, 180f, false, cup + Offset(w * 0.035f, -h * 0.08f), Size(w * 0.04f, h * 0.06f), alpha = later, style = Stroke(w * 0.008f))
-        drawRect(col, cup + Offset(-w * 0.045f, -h * 0.095f), Size(w * 0.09f, h * 0.02f), alpha = later)
+        drawRect(col, cup + Offset(-w * 0.045f, -h * 0.095f), Size(w * 0.09f, h * 0.11f), alpha = later)
+        tagAt(a.tag("cooling", 0, 0), cup + Offset(0f, -h * 0.3f), later * seg(co, 0.1f, 0.3f) * (1f - seg(db, 0f, BEAT_OUT)), ink = Color(0xFFF0ECE4))
+        tagAt(a.tag("cooling", 0, 1), cup + Offset(0f, h * 0.08f), later * seg(co, 0.5f, 0.7f) * (1f - seg(db, 0f, BEAT_OUT)), ink = Color(0xFFBFD0E8))
         for (k in 0 until 3) {
             val f = fract(t * 0.6f + k / 3f)
             val p = cup + Offset(w * (-0.02f + 0.02f * k) + sin(f * 6f + k) * w * 0.006f, -h * 0.12f - f * h * 0.12f)
@@ -451,7 +453,9 @@ private fun DrawScope.cosmosEnergy(a: ArtCtx) {
         galaxy22(ours, w * 0.07f, t * 0.3f, f)
         drawCircle(Color(0xFF3A3E48), w * 0.075f, dead, alpha = f)
         drawCircle(Color(0xFF22252C), w * 0.075f, dead, alpha = f, style = Stroke(2f * dp))
-        cross21(dead, w * 0.05f, CosC22.Red, seg(db, 0.4f, 0.8f), 3f * dp)
+        tagAt(a.tag("deadborn", 0, 0), dead + Offset(0f, h * 0.17f), f * seg(db, 0.3f, 0.5f), ink = Color(0xFFC8C8D0))
+        tagAt(a.tag("deadborn", 0, 1), ours + Offset(0f, h * 0.17f), f * seg(db, 0.5f, 0.7f), ink = ArtInk.Gold)
+        tagAt(a.tag("deadborn", 0, 2), dead + Offset(0f, -h * 0.17f), f * seg(db, 0.15f, 0.35f), ink = Color(0xFFF0A090))
     }
 }
 

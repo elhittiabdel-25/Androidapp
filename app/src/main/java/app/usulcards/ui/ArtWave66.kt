@@ -289,6 +289,9 @@ private fun DrawScope.speechNight(a: ArtCtx) {
                 nameRoundel(c + Offset(0f, h * 0.15f), w * 0.025f, null, Roundel.PlainFill, Roundel.PlainRim, f)
                 softGlow(c + Offset(0f, h * 0.15f), w * 0.04f, SpeechC66.Gold, 0.5f * f * g)
             }
+            // each word on its own, and those sitting with him keep it
+            tagAt(a.tag("spacedwords", 0, 0), Offset(w * 0.5f, h * 0.42f), f * seg(sw, 0.3f, 0.5f), back = Back66, ink = ArtInk.Gold)
+            tagAt(a.tag("spacedwords", 0, 1), Offset(w * 0.5f, h * 0.84f), f * seg(sw, 0.6f, 0.8f), back = Back66, ink = Color(0xFFF0ECE4))
         } else {
             for (k in 0 until 3) {
                 val g = seg(tt, 0.1f + 0.25f * k, 0.3f + 0.25f * k)
@@ -312,6 +315,8 @@ private fun DrawScope.speechNight(a: ArtCtx) {
         val come = easeInOut(seg(nb, 0.1f, 0.5f))
         nameRoundel(Offset(mix(w * 0.15f, w * 0.38f, come), h * 0.6f), w * 0.08f, a.big("neverbarred"), Roundel.Fills[2], Roundel.Rim, f)
         warmRings66(Offset(w * 0.38f, h * 0.6f), w * 0.09f, w * 0.2f, f * seg(nb, 0.5f, 0.7f), t)
+        tagAt(a.tag("neverbarred", 0, 1), sill + Offset(0f, -h * 0.44f), f * seg(nb, 0.3f, 0.5f), back = Back66, ink = ArtInk.Gold)
+        tagAt(a.tag("neverbarred", 0, 2), Offset(w * 0.38f, h * 0.82f), f * seg(nb, 0.55f, 0.75f), back = Back66, ink = ArtInk.Gold)
     }
     if (ar > 0f) {
         val f = easeOut(seg(ar, 0f, 0.25f))

@@ -90,8 +90,8 @@ private fun DrawScope.mankindEarth(a: ArtCtx) {
 
     // the two ends of the way, once the messenger has come
     val ends = easeOut(seg(se, 0.35f, 0.7f))
-    val gate = Offset(w * 0.92f, h * 0.66f)
-    val pit = Offset(w * 0.08f, h * 0.72f)
+    val gate = Offset(w * 0.84f, h * 0.66f)
+    val pit = Offset(w * 0.16f, h * 0.72f)
     if (ends > 0f) {
         softGlow(gate + Offset(0f, -h * 0.08f), w * 0.12f, ManC20.Garden, 0.7f * ends)
         drawOval(ManC20.GardenDark, topLeft = gate + Offset(-w * 0.1f, -h * 0.02f), size = Size(w * 0.2f, h * 0.05f), alpha = ends)
@@ -104,6 +104,8 @@ private fun DrawScope.mankindEarth(a: ArtCtx) {
             drawCircle(ManC20.Fire, (1.5f + 2f * (1f - f)) * dp, pit + Offset((k - 2) * w * 0.025f, -h * 0.02f - f * h * 0.08f), alpha = ends * (1f - f))
         }
     }
+    tagAt(a.tag("obeyed"), gate + Offset(0f, -h * 0.22f), ends * seg(ob, 0.1f, 0.3f).coerceAtLeast(if (di > 0f) 1f else 0f), back = Color(0xE6201810), ink = Color(0xFF9AE0A0))
+    tagAt(a.tag("disobeyed"), pit + Offset(0f, -h * 0.18f), ends * seg(di, 0.1f, 0.3f), back = Color(0xE6201810), ink = Color(0xFFF0A090))
     // his ﷺ light over the middle of the plain
     val lc = Offset(w * 0.5f, mix(horizon + h * 0.02f, h * 0.36f, easeOut(seg(se, 0f, 0.4f))))
     if (se > 0f) {

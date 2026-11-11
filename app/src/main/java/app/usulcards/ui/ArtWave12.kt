@@ -350,6 +350,11 @@ private fun DrawScope.returnRoad(a: ArtCtx) {
             val hc = foot + Offset(0f, -tall * (if (kneel > 0.5f) 0.42f else 0.62f))
             softGlow(hc, tall * 0.12f, ReturnC12.Heart, 0.8f * seg(tq, 0.1f, 0.4f) * alpha)
             drawPath(w8Heart(hc, tall * 0.05f), ReturnC12.Heart, alpha = seg(tq, 0.1f, 0.4f) * alpha)
+            val bk = Color(0xE6201810)
+            tagAt(a.tag("turnquit", 0, 0), hc + Offset(tall * 0.5f, -tall * 0.5f), seg(tq, 0.15f, 0.35f) * (1f - seg(rr, 0f, BEAT_OUT)) * alpha, back = bk, ink = ArtInk.Gold)
+            tagAt(a.tag("turnquit", 0, 1), foot + Offset(-tall * 0.5f, tall * 0.2f), seg(tq, 0.6f, 0.8f) * (1f - seg(rr, 0f, BEAT_OUT)) * alpha, back = bk, ink = Color(0xFFF0ECE4))
+            tagAt(a.tag("regretresolve", 0, 0), foot + Offset(-tall * 0.45f, -tall * 0.9f), seg(rr, 0.05f, 0.2f) * (1f - seg(rr, 0.5f, 0.6f)) * alpha, back = bk, ink = Color(0xFFC8C8D8))
+            tagAt(a.tag("regretresolve", 0, 1), foot + Offset(tall * 0.3f, -tall * 1.2f), seg(rr, 0.6f, 0.75f) * (1f - seg(ws, 0f, BEAT_OUT)) * alpha, back = bk, ink = ArtInk.Gold)
         }
     }
     // the sack: on his back, then dropped, melting into smoke

@@ -636,14 +636,16 @@ private fun DrawScope.nightjourneySky(a: ArtCtx) {
     }
     // the lote tree at the top: a great tree of soft light
     val tree = easeOut(seg(lt, 0.1f, 0.6f)).coerceAtLeast(if (ff > 0f) 1f else 0f)
-    val treeC = Offset(col, h * 0.1f)
+    val treeC = Offset(col, h * 0.14f)
     if (tree > 0f) {
         softGlow(treeC, w * 0.16f, Color(0xFFF2FFE6), 0.5f * tree)
         drawLine(Color(0xFFE8F4D8), treeC + Offset(0f, h * 0.07f), treeC + Offset(0f, -h * 0.01f), w * 0.008f, StrokeCap.Round, alpha = tree)
         for (k in 0 until 7) {
             val ang = PI.toFloat() * (1.1f + 0.8f * k / 6f)
-            drawOval(Color(0xFFE8F4D8), Offset(treeC.x + cos(ang) * w * 0.07f - w * 0.035f, treeC.y + sin(ang) * h * 0.05f - h * 0.02f), Size(w * 0.07f, h * 0.04f), alpha = 0.55f * tree)
+            drawOval(Color(0xFFE8F4D8), Offset(treeC.x + cos(ang) * w * 0.09f - w * 0.045f, treeC.y + sin(ang) * h * 0.07f - h * 0.025f), Size(w * 0.09f, h * 0.05f), alpha = 0.7f * tree)
+            drawCircle(Color(0xFFFFE08A), w * 0.006f, Offset(treeC.x + cos(ang) * w * 0.09f, treeC.y + sin(ang) * h * 0.07f + h * 0.02f), alpha = tree)
         }
+        tagAt(a.tag("lotetop"), treeC + Offset(w * 0.2f, -h * 0.02f), seg(lt, 0.3f, 0.6f) * (1f - seg(ff, 0f, BEAT_OUT)), back = NightC29.Back, ink = ArtInk.Gold)
     }
     // his light: from the Kaaba to Bayt al-Maqdis, then up
     val ride = easeInOut(seg(nr, 0.2f, 0.85f))
