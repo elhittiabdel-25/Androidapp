@@ -89,6 +89,8 @@ private fun DrawScope.measureNight(a: ArtCtx) {
             }
         }
         drawRect(MeasureC45.Stone, Offset(base.x - w * 0.3f, ground - h * 0.03f), Size(w * 0.6f, h * 0.03f), alpha = f)
+        tagAt(a.tag("courtfall", 0, 0), base + Offset(0f, -h * 0.62f), f * seg(cf, 0.1f, 0.3f), back = Color(0xE6201810), ink = Color(0xFFF0ECE4))
+        tagAt(a.tag("courtfall", 0, 1), base + Offset(0f, h * 0.07f), f * seg(cf, 0.5f, 0.7f), back = Color(0xE6201810), ink = Color(0xFFF0A090))
     }
     // the book is a book, loved or not
     if (sb > 0f) {

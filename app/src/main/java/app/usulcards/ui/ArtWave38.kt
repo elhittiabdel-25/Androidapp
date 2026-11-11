@@ -642,6 +642,8 @@ private fun DrawScope.popMind(a: ArtCtx) {
             val p = mind + Offset(w * 0.11f * sin(k * 1.7f), -w * 0.12f - h * 0.28f * u)
             drawCircle(PopC38.Bubble, w * (0.02f + 0.015f * u), p, alpha = mf * (1f - u) * (1f - 0.7f * seg(sa, 0f, 0.5f)))
         }
+        tagAt(a.tag("popthoughts", 0, 0), mind + Offset(0f, -h * 0.44f), mf * seg(pt, 0.2f, 0.4f) * (1f - seg(sa, 0f, 0.4f)), back = Color(0xE6201810), ink = Color(0xFFF0A090))
+        tagAt(a.tag("popthoughts", 0, 1), mind, mf * seg(pt, 0.05f, 0.2f) * (1f - seg(sa, 0f, 0.4f)), back = Color(0xE6201810), ink = Color(0xFFF0ECE4))
     }
     // a doubt is one question: answered, and gone
     if (oq > 0f) {
@@ -687,6 +689,7 @@ private fun DrawScope.popMind(a: ArtCtx) {
         drawRect(PopC38.Can, Offset(can.x - w * 0.03f, can.y - h * 0.05f), Size(w * 0.06f, h * 0.1f), alpha = f)
         val pour = seg(fu, 0.4f, 0.75f)
         if (pour > 0f) drawLine(Color(0xFFE8D27A), can + Offset(-w * 0.03f, -h * 0.04f), can + Offset(-w * 0.03f - w * 0.04f * tilt, h * 0.2f * pour), 2f * dp, alpha = f * 0.8f)
+        tagAt(a.tag("fuelfire"), fire + Offset(-w * 0.16f, -h * 0.32f), f * seg(fu, 0.3f, 0.5f), back = Color(0xE6201810), ink = Color(0xFFF0A090))
     }
     // the calm core: faith that hates these thoughts
     if (sa > 0f) {

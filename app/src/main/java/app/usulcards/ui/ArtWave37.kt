@@ -425,6 +425,7 @@ private fun DrawScope.skylineDesert(a: ArtCtx) {
             drawCircle(SkyC37.Node, w * 0.008f, n, alpha = f)
             softGlow(n, w * 0.02f, SkyC37.Node, 0.6f * f)
         }
+        tagAt(a.tag("markets"), Offset(w * 0.5f, h * 0.34f), f * seg(mk, 0.3f, 0.5f), back = Color(0xE6201810), ink = ArtInk.Gold)
     }
     // a flood carrying foam
     if (fo > 0f) {
@@ -547,6 +548,7 @@ private fun DrawScope.arabiaMap(a: ArtCtx) {
             drawRect(if (k % 2 == 0) ArabC37.Gold else ArabC37.Silver, Offset(x - w * 0.015f, top), Size(w * 0.03f, base - top), alpha = f)
             if (rise >= 1f) glint(Offset(x - w * 0.006f, top + h * 0.02f), w * 0.005f, Color.White, f)
         }
+        tagAt(a.tag("goldpillars"), Offset(w * 0.81f, h * 0.12f), f * seg(gp, 0.3f, 0.5f), back = Color(0xE6201810), ink = ArtInk.Gold)
     }
     // the price line through zero
     if (bz > 0f) {
@@ -565,5 +567,6 @@ private fun DrawScope.arabiaMap(a: ArtCtx) {
         }
         drawPath(path, ArabC37.Line, alpha = f, style = Stroke(2.5f * dp, cap = StrokeCap.Round))
         tagAt(a.tag("belowzero"), Offset(box.x + w * 0.2f, zero + h * 0.08f), seg(bz, 0.7f, 0.95f), back = Back37, ink = Color(0xFFFFB0A0))
+        tagAt(a.tag("belowzero", 0, 1), box + Offset(w * 0.15f, h * 0.05f), f * seg(bz, 0.1f, 0.3f), back = Color(0xE6201810), ink = Color(0xFFF0ECE4))
     }
 }

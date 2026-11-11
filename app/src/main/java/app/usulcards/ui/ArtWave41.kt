@@ -614,11 +614,15 @@ private fun DrawScope.stairsDay(a: ArtCtx) {
         val c = Offset(w * (0.44f + 0.12f * climb), ground - h * 0.07f * (climb + 1) - h * 0.04f)
         drawPath(Path().apply { moveTo(c.x - w * 0.02f, c.y - h * 0.03f); lineTo(c.x + w * 0.02f, c.y - h * 0.03f); lineTo(c.x + w * 0.012f, c.y + h * 0.02f); lineTo(c.x - w * 0.012f, c.y + h * 0.02f); close() }, StepC41.Cup, alpha = f)
         if (climb == 3) cross21(c, w * 0.035f, StepC41.Red, seg(gr, 0.85f, 1f) * f, 3f * dp)
+        tagAt(a.tag("graduated", 0, 0), Offset(w * 0.62f, ground - h * 0.48f), f * seg(gr, 0.3f, 0.5f), back = Color(0xE6201810), ink = ArtInk.Gold)
+        tagAt(a.tag("graduated", 0, 1), Offset(w * 0.3f, ground - h * 0.1f), f * seg(gr, 0.1f, 0.3f), back = Color(0xE6201810), ink = Color(0xFFF0ECE4))
+        tagAt(a.tag("graduated", 0, 2), Offset(w * 0.9f, ground - h * 0.36f), f * seg(gr, 0.5f, 0.7f), back = Color(0xE6201810), ink = Color(0xFFF0A090))
     }
     // still in force: every line of the Book lit
     if (st > 0f) {
         val f = easeOut(seg(st, 0f, 0.35f)) * (1f - 0.5f * seg(wt, 0f, 0.4f))
         openBook21(Offset(w * 0.5f, h * 0.24f), w * 0.2f, Color(0xFFF6EED8), Color(0xFF8A6A3A), f, glow = f * seg(st, 0.3f, 0.8f))
+        tagAt(a.tag("stilltrue"), Offset(w * 0.5f, h * 0.44f), f * seg(st, 0.3f, 0.6f), back = Color(0xE6201810), ink = ArtInk.Gold)
     }
     // a third
     if (wt > 0f) {

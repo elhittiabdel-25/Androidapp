@@ -682,5 +682,6 @@ private fun DrawScope.spineSoil(a: ArtCtx) {
             drawCircle(SpineC35.Dot, w * 0.0022f, c + Offset(cos(ang) * r, sin(ang) * r), alpha = 0.9f)
         }
         tagAt(a.tag("joints"), c, seg(jt, 0.6f, 0.9f), back = Back35, ink = ArtInk.Gold)
+        tagAt(a.tag("joints", 0, 1), Offset(w * 0.5f, h * 0.64f), seg(jt, 0.3f, 0.5f), back = Color(0xE6201810), ink = Color(0xFFF0ECE4))
     }
 }

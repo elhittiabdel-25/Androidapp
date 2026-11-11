@@ -550,6 +550,8 @@ private fun DrawScope.seaShore(a: ArtCtx) {
         if (bring < 1f) drawCircle(SeaC39.Figure, w * 0.018f, swim + Offset(0f, -h * 0.02f), alpha = f)
         else figure(Offset(shore.x - w * 0.05f - w * 0.25f * walkAway, shore.y + h * 0.02f), h * 0.16f, SeaC39.Figure, f, walk = if (walkAway in 0.01f..0.99f) t * 6f else 0f)
         if (bring >= 1f) figure(shore + Offset(w * 0.02f, h * 0.02f), h * 0.09f, SeaC39.Child, f)
+        tagAt(a.tag("rescue", 0, 0), child + Offset(0f, -h * 0.12f), f * seg(rs, 0.1f, 0.3f), back = Color(0xE6201810), ink = Color(0xFFF0ECE4))
+        tagAt(a.tag("rescue", 0, 1), shore + Offset(0f, -h * 0.36f), f * seg(rs, 0.65f, 0.85f), back = Color(0xE6201810), ink = ArtInk.Gold)
     }
     // worship is for us: the light comes back to the worshipper
     if (fu > 0f) {
@@ -576,6 +578,7 @@ private fun DrawScope.seaShore(a: ArtCtx) {
             val to = Offset(w * 0.27f + w * 0.015f * k, h * 0.66f)
             drawCircle(SeaC39.Fruit, w * 0.013f, from + (to - from) * fall, alpha = f)
         }
+        tagAt(a.tag("fruitprayer"), trunk + Offset(w * 0.14f, -h * 0.52f), f * seg(fp, 0.3f, 0.5f), back = Color(0xE6201810), ink = ArtInk.Gold)
     }
 }
 
