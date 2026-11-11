@@ -283,6 +283,8 @@ private fun DrawScope.lossNight(a: ArtCtx) {
             softGlow(Offset(w * 0.5f, ground - h * 0.1f), w * 0.1f, LossC54.Better, 0.6f * f * rise)
             cup12(Offset(w * 0.5f, ground - h * 0.01f), w * 0.13f * rise, LossC54.Better, f)
         }
+        tagAt(a.tag("brokenjar", 0, 0), Offset(w * 0.28f, h * 0.36f), f * seg(bj, 0.25f, 0.4f), back = Color(0xE6201810), ink = Color(0xFFF0A090))
+        tagAt(a.tag("brokenjar", 0, 1), Offset(w * 0.72f, h * 0.36f), f * seg(bj, 0.6f, 0.8f), back = Color(0xE6201810), ink = ArtInk.Gold)
     }
     if (us > 0f) {
         val f = easeOut(seg(us, 0f, BEAT_IN)) * (1f - seg(tg, 0f, BEAT_OUT))
@@ -316,6 +318,7 @@ private fun DrawScope.lossNight(a: ArtCtx) {
         val u = seg(vg, 0.2f, 0.9f)
         softGlow(Offset(w * (0.08f + 0.84f * u), ground - h * 0.12f), w * 0.05f, LossC54.Gold, 0.6f * f * bump(u))
         tagAt(a.tag("visitgraves"), Offset(w * 0.5f, h * 0.35f), f * seg(vg, 0.25f, 0.45f), back = Back54, ink = ArtInk.Ivory)
+        tagAt(a.tag("visitgraves", 0, 1), Offset(w * 0.5f, h * 0.92f), f * seg(vg, 0.2f, 0.4f), back = Color(0xE6201810), ink = Color(0xFFF0ECE4))
     }
 }
 

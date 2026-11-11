@@ -446,6 +446,8 @@ private fun DrawScope.mercyDay(a: ArtCtx) {
         rain12(w * 0.08f, w * 0.42f, h * 0.26f, ground, t * 0.7f, MercyC48.Rain, f * rainP * 0.8f, 20)
         val green = seg(mr, 0.5f, 0.95f)
         for (k in 0 until 9) drawLine(MercyC48.Green, Offset(w * (0.06f + 0.045f * k), ground), Offset(w * (0.06f + 0.045f * k), ground - h * 0.07f * (0.3f + green) * (0.6f + 0.4f * (k % 3) / 2f)), 2f * dp, StrokeCap.Round, alpha = f)
+        tagAt(a.tag("mirrorrain", 0, 0), Offset(w * 0.25f, h * 0.14f), f * seg(mr, 0.2f, 0.4f), back = Color(0xE6201810), ink = Color(0xFF9AE0A0))
+        tagAt(a.tag("mirrorrain", 0, 1), Offset(w * 0.76f, h * 0.14f), f * seg(mr, 0.5f, 0.7f), back = Color(0xE6201810), ink = Color(0xFFF0A090))
     }
     // the prayer cut short for a crying child
     if (bc > 0f) {
@@ -469,6 +471,8 @@ private fun DrawScope.mercyDay(a: ArtCtx) {
         }
         val long = 1f - 0.6f * easeInOut(seg(bc, 0.4f, 0.75f))
         drawArc(ArtInk.Gold, 200f, 140f * long, false, Offset(w * 0.08f, h * 0.18f), Size(w * 0.44f, h * 0.36f), alpha = f, style = Stroke(3f * dp, cap = StrokeCap.Round))
+        tagAt(a.tag("babycry", 0, 0), Offset(w * 0.3f, h * 0.36f), f * seg(bc, 0.2f, 0.4f), back = Color(0xE6201810), ink = Color(0xFFF0A090))
+        tagAt(a.tag("babycry", 0, 1), Offset(w * 0.68f, h * 0.36f), f * seg(bc, 0.5f, 0.7f), back = Color(0xE6201810), ink = ArtInk.Gold)
     }
     // hearts of stone, and one that is warm
     if (sh > 0f) {
