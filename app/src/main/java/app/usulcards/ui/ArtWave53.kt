@@ -75,18 +75,20 @@ private fun DrawScope.bedNight(a: ArtCtx) {
     val floor = h * 0.8f
     drawRect(BedC53.Wall, Offset.Zero, Size(w, floor))
     drawRect(BedC53.Floor, Offset(0f, floor), Size(w, h - floor))
-    drawRect(BedC53.Night, Offset(w * 0.7f, h * 0.15f), Size(w * 0.16f, h * 0.24f))
+    drawRoundRect(Color(0xFF8A7458), Offset(w * 0.69f, h * 0.14f), Size(w * 0.18f, h * 0.26f), CornerRadius(w * 0.09f, w * 0.09f))
+    drawRoundRect(BedC53.Night, Offset(w * 0.7f, h * 0.15f), Size(w * 0.16f, h * 0.24f), CornerRadius(w * 0.08f, w * 0.08f))
     crescent12(Offset(w * 0.78f, h * 0.25f), w * 0.02f, Color(0xFFF2EEDC), BedC53.Night, 1f)
     val matY = floor - h * 0.02f
     if (ts > 0f) {
         val f = easeOut(seg(ts, 0f, BEAT_IN)) * (1f - seg(wt, 0f, BEAT_OUT))
         drawRect(BedC53.Mat, Offset(w * 0.3f, matY), Size(w * 0.4f, h * 0.03f), alpha = f)
-        val light = Offset(w * 0.22f, h * 0.48f)
+        val light = Offset(w * 0.24f, h * 0.62f)
         sirajMunir(light, w * 0.013f, f, t, nameAt = light + Offset(0f, -h * 0.12f))
         for (k in 0 until 3) {
             val g = seg(ts, 0.1f + 0.15f * k, 0.25f + 0.15f * k)
-            scroll14(Offset(w * (0.4f + 0.1f * k), h * 0.4f), w * 0.06f, h * 0.05f, 1f, f * g)
-            softGlow(Offset(w * (0.4f + 0.1f * k), h * 0.4f), w * 0.04f, BedC53.Gold, 0.4f * f * g)
+            scroll14(Offset(w * (0.62f - 0.2f * k), h * 0.38f), w * 0.07f, h * 0.06f, 1f, f * g)
+            softGlow(Offset(w * (0.62f - 0.2f * k), h * 0.38f), w * 0.04f, BedC53.Gold, 0.4f * f * g)
+            tagAt(a.tag("threesurahs", 0, k), Offset(w * (0.62f - 0.2f * k), h * 0.26f), f * g, back = Back53, ink = ArtInk.Gold)
         }
         val pass = fract(seg(ts, 0.55f, 1f) * 3f)
         if (ts > 0.55f) softGlow(Offset(w * (0.32f + 0.36f * pass), matY - h * 0.02f), w * 0.05f, BedC53.Gold, 0.5f * f)
@@ -109,6 +111,11 @@ private fun DrawScope.bedNight(a: ArtCtx) {
             drawRoundRect(BedC53.Verse, Offset(w * 0.3f, y), Size(w * 0.4f, h * 0.012f), CornerRadius(h * 0.006f), alpha = f * 0.8f)
             softGlow(Offset(w * 0.5f, y), w * 0.08f, BedC53.Gold, 0.25f * f)
         }
+        // the two verses come down and lie over him as a cover of light: they suffice him
+        val cover = seg(tv, 0.7f, 0.95f)
+        drawRoundRect(BedC53.Gold, Offset(w * 0.3f, matY - h * 0.09f), Size(w * 0.4f, h * 0.08f), CornerRadius(h * 0.03f), alpha = 0.28f * f * cover)
+        tagAt(a.tag("twoverses", 0, 0), Offset(w * 0.5f, h * 0.2f), f * seg(tv, 0.1f, 0.3f), back = Back53, ink = ArtInk.Gold)
+        tagAt(a.tag("twoverses", 0, 1), Offset(w * 0.5f, matY - h * 0.17f), f * cover, back = Back53, ink = ArtInk.Gold)
     }
     if (rs > 0f) {
         val f = easeOut(seg(rs, 0f, BEAT_IN)) * (1f - seg(ct, 0f, BEAT_OUT))
@@ -116,6 +123,10 @@ private fun DrawScope.bedNight(a: ArtCtx) {
         val head = Offset(w * 0.66f, matY - h * 0.03f)
         drawLine(BedC53.Person, head + Offset(-w * 0.03f, 0f), head + Offset(-w * 0.3f, h * 0.01f), w * 0.04f, StrokeCap.Round, alpha = f)
         drawCircle(BedC53.Person, w * 0.03f, head, alpha = f)
+        // his right hand under his cheek, knees a little drawn up: lying on the right side
+        drawLine(BedC53.Person, head + Offset(-w * 0.05f, h * 0.005f), head + Offset(w * 0.005f, h * 0.035f), w * 0.016f, StrokeCap.Round, alpha = f)
+        drawLine(BedC53.Person, head + Offset(-w * 0.2f, h * 0.008f), head + Offset(-w * 0.25f, -h * 0.03f), w * 0.035f, StrokeCap.Round, alpha = f)
+        tagAt(a.tag("rightside"), Offset(w * 0.5f, matY - h * 0.2f), f * seg(rs, 0.3f, 0.55f), back = Back53, ink = ArtInk.Gold)
         drawArc(BedC53.Gold, 180f, 180f, false, Offset(w * 0.28f, matY - h * 0.3f), Size(w * 0.44f, h * 0.6f), alpha = f * seg(rs, 0.3f, 0.6f) * 0.6f, style = Stroke(2f * dp))
     }
     if (ct > 0f) {
@@ -531,7 +542,14 @@ private fun DrawScope.campPlain(a: ArtCtx) {
         for (k in 0 until 3) drawPath(Path().apply { val x = w * (0.12f + 0.08f * k); moveTo(x - w * 0.05f, ground); lineTo(x, ground - h * 0.12f); lineTo(x + w * 0.05f, ground); close() }, CampC53.Tent, alpha = f)
         val come = easeOut(seg(tb, 0.05f, 0.5f))
         val back = easeInOut(seg(tb, 0.6f, 1f))
-        dustMass53(Offset(w * (0.9f - 0.35f * come + 0.4f * back), ground - h * 0.08f), w * 0.14f, CampC53.Mass, f * (1f - 0.6f * back), t)
+        val mass = Offset(w * (0.9f - 0.3f * come + 0.4f * back), ground - h * 0.08f)
+        dustMass53(mass, w * 0.14f, CampC53.Mass, f * (1f - 0.6f * back), t)
+        // the camp is named, the people he feared are named, and his light ﷺ stands before the camp with the dua
+        val light = Offset(w * 0.36f, ground - h * 0.3f)
+        sirajMunir(light, w * 0.012f, f, t, nameAt = light + Offset(0f, -h * 0.12f))
+        tagAt(a.tag("turnsback", 0, 0), mass + Offset(-w * 0.04f, -h * 0.2f), f * seg(tb, 0.15f, 0.35f) * (1f - back), ink = Color(0xFFF0A090))
+        tagAt(a.tag("turnsback", 0, 1), Offset(w * 0.5f, h * 0.12f), f * seg(tb, 0.4f, 0.6f), ink = ArtInk.Gold)
+        tagAt(a.tag("turnsback", 0, 2), Offset(w * 0.18f, ground + h * 0.08f), f * seg(tb, 0.05f, 0.2f), ink = Color(0xFFF0ECE4))
     }
     if (cf > 0f) {
         val f = easeOut(seg(cf, 0f, BEAT_IN)) * (1f - seg(sf, 0f, BEAT_OUT))
@@ -553,6 +571,12 @@ private fun DrawScope.campPlain(a: ArtCtx) {
             val x = w * fract(t * 0.6f + k * 0.13f)
             drawLine(CampC53.Wind, Offset(x, y), Offset(x + w * 0.1f, y), 1.5f * dp, StrokeCap.Round, alpha = f * seg(sf, 0.2f, 0.4f) * 0.7f)
         }
+        // a shield of light between the believers and the threat, which is swept away
+        val sh = Offset(w * 0.34f, ground - h * 0.2f)
+        drawArc(ArtInk.Gold, -70f, 140f, false, Offset(sh.x - w * 0.12f, sh.y - h * 0.26f), Size(w * 0.24f, h * 0.52f), alpha = f * seg(sf, 0.1f, 0.3f), style = Stroke(4f * dp, cap = StrokeCap.Round))
+        softGlow(sh + Offset(w * 0.1f, 0f), w * 0.1f, ArtInk.Gold, 0.4f * f * seg(sf, 0.1f, 0.3f))
+        for (k in 0 until 3) nameRoundel(Offset(w * (0.12f + 0.07f * k), ground - h * 0.07f), w * 0.028f, null, Roundel.PlainFill, Roundel.PlainRim, f)
+        tagAt(a.tag("suffice"), Offset(w * 0.4f, h * 0.16f), f * seg(sf, 0.15f, 0.35f), ink = ArtInk.Gold)
     }
     if (tw > 0f) {
         val f = easeOut(seg(tw, 0f, BEAT_IN)) * (1f - seg(nb, 0f, BEAT_OUT))
@@ -562,14 +586,18 @@ private fun DrawScope.campPlain(a: ArtCtx) {
             val x = w * (0.55f + 0.08f * k)
             val down = seg(tw, 0.2f + 0.1f * k, 0.5f + 0.1f * k)
             rotate(60f * down + 6f * sin(t * 6f + k) * (1f - down), Offset(x, ground)) {
-                drawPath(Path().apply { moveTo(x - w * 0.04f, ground); lineTo(x, ground - h * 0.12f); lineTo(x + w * 0.04f, ground); close() }, CampC53.Tent, alpha = f)
+                drawPath(Path().apply { moveTo(x - w * 0.045f, ground); lineTo(x, ground - h * 0.16f); lineTo(x + w * 0.045f, ground); close() }, CampC53.Tent, alpha = f)
+                drawPath(Path().apply { moveTo(x - w * 0.012f, ground); lineTo(x, ground - h * 0.07f); lineTo(x + w * 0.012f, ground); close() }, Color(0xFF2A2020), alpha = f)
             }
         }
         for (k in 0 until 12) {
             val y = h * (0.2f + 0.05f * k)
             val x = w * fract(t * 0.9f + k * 0.17f)
-            drawLine(CampC53.Wind, Offset(x, y), Offset(x + w * 0.12f, y), 1.2f * dp, StrokeCap.Round, alpha = f * 0.5f)
+            drawLine(CampC53.Wind, Offset(x, y), Offset(x + w * 0.12f, y), 2f * dp, StrokeCap.Round, alpha = f * 0.7f)
         }
+        tagAt(a.tag("trenchwind", 0, 0), Offset(w * 0.72f, ground - h * 0.26f), f * seg(tw, 0.1f, 0.3f), ink = Color(0xFFF0A090))
+        tagAt(a.tag("trenchwind", 0, 1), Offset(w * 0.3f, h * 0.3f), f * seg(tw, 0.3f, 0.5f), ink = Color(0xFFDCE8F0))
+        tagAt(a.tag("trenchwind", 0, 2), Offset(w * 0.3f, ground + h * 0.08f), f * seg(tw, 0.05f, 0.2f), ink = Color(0xFFF0ECE4))
     }
     if (nb > 0f) {
         val f = easeOut(seg(nb, 0f, 0.3f))
@@ -581,5 +609,7 @@ private fun DrawScope.campPlain(a: ArtCtx) {
             drawRect(Color(0xFF4A3E3E), Offset(w * 0.58f, ground - h * 0.64f), Size(w * 0.16f, h * 0.05f), alpha = f)
         }
         guardDome12(house, w * 0.16f, seg(nb, 0.2f, 0.5f), t, f)
+        tagAt(a.tag("neighbour", 0, 0), Offset(w * 0.7f, ground - h * 0.7f), f * seg(nb, 0.1f, 0.3f), ink = Color(0xFFF0A090))
+        tagAt(a.tag("neighbour", 0, 1), house + Offset(0f, -h * 0.42f), f * seg(nb, 0.35f, 0.55f), ink = ArtInk.Gold)
     }
 }

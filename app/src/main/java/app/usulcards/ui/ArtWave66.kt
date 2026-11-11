@@ -504,6 +504,9 @@ private fun DrawScope.nightPray(a: ArtCtx) {
         val light = Offset(w * 0.5f, ground - h * 0.3f)
         sirajMunir(light, w * 0.013f, f, t, nameAt = light + Offset(0f, -h * 0.12f))
         val sweep = seg(tn, 0.05f, 0.9f)
+        // the prayer mat under the light: he stands the night long while the moon crosses the sky
+        drawRoundRect(Color(0xFF2E5A4A), Offset(light.x - w * 0.09f, ground - h * 0.015f), Size(w * 0.18f, h * 0.03f), CornerRadius(3f * dp), alpha = f)
+        tagAt(a.tag("thankfulnight", 0, 1), Offset(w * 0.2f, h * 0.5f), f * seg(tn, 0.15f, 0.35f), back = Back66, ink = Color(0xFFDCE8F0))
         for (k in 0 until 12) {
             val ang = PI.toFloat() * (1.05f + 0.9f * fract(k * 0.137f + sweep * 0.5f))
             val r = w * (0.4f + 0.04f * (k % 3))
@@ -530,7 +533,13 @@ private fun DrawScope.nightPray(a: ArtCtx) {
         sirajMunir(light, w * 0.013f, f, t, nameAt = light + Offset(0f, -h * 0.12f))
         val tired = seg(ls, 0.3f, 0.8f)
         val sway = sin(t * 2f) * w * 0.02f * tired
-        nameRoundel(Offset(w * 0.3f + sway, h * 0.5f + h * 0.08f * tired), w * 0.08f, a.big("longstanding"), Roundel.Fills[2], Roundel.Rim, f * seg(ls, 0.05f, 0.2f))
+        nameRoundel(Offset(w * 0.3f + sway, h * 0.5f + h * 0.14f * tired), w * 0.08f, a.big("longstanding"), Roundel.Fills[2], Roundel.Rim, f * seg(ls, 0.05f, 0.2f))
+        drawRoundRect(Color(0xFF2E5A4A), Offset(light.x - w * 0.09f, ground - h * 0.015f), Size(w * 0.18f, h * 0.03f), CornerRadius(3f * dp), alpha = f)
+        // the standing goes on and on: a bar of time that keeps growing
+        drawLine(NightPrayC66.Line, Offset(w * 0.9f, h * 0.14f), Offset(w * 0.1f, h * 0.14f), h * 0.02f, StrokeCap.Round, alpha = f * 0.5f)
+        drawLine(NightPrayC66.Gold, Offset(w * 0.9f, h * 0.14f), Offset(mix(w * 0.9f, w * 0.1f, seg(ls, 0.1f, 0.95f)), h * 0.14f), h * 0.02f, StrokeCap.Round, alpha = f)
+        tagAt(a.tag("longstanding", 0, 1), Offset(w * 0.5f, h * 0.22f), f * seg(ls, 0.25f, 0.45f), back = Back66, ink = ArtInk.Gold)
+        tagAt(a.tag("longstanding", 0, 2), Offset(w * 0.3f, h * 0.8f), f * seg(ls, 0.6f, 0.8f), back = Back66, ink = Color(0xFFF0ECE4))
     }
     if (np > 0f) {
         val f = easeOut(seg(np, 0f, BEAT_IN)) * (1f - seg(ha, 0f, BEAT_OUT))
@@ -545,6 +554,9 @@ private fun DrawScope.nightPray(a: ArtCtx) {
         drawLine(NightPrayC66.Gold, Offset(p1, y), Offset(mix(p1, p2, seg(np, 0.45f, 0.7f)), y), h * 0.06f, StrokeCap.Round, alpha = f * 0.7f)
         softGlow(Offset(mix(p2, x1, 0.5f), y), w * 0.06f, NightPrayC66.Gold, f * seg(np, 0.75f, 0.9f))
         moon12(Offset(w * 0.75f, h * 0.25f), w * 0.03f, f)
+        tagAt(a.tag("nightplan", 0, 0), Offset((x0 + p1) / 2f, y + h * 0.1f), f * seg(np, 0.3f, 0.45f), back = Back66, ink = Color(0xFFC8C8D8))
+        tagAt(a.tag("nightplan", 0, 1), Offset((p1 + p2) / 2f, y - h * 0.1f), f * seg(np, 0.5f, 0.7f), back = Back66, ink = ArtInk.Gold)
+        tagAt(a.tag("nightplan", 0, 2), Offset(mix(p2, x1, 0.5f) + w * 0.03f, y + h * 0.1f), f * seg(np, 0.75f, 0.9f), back = Back66, ink = ArtInk.Gold)
     }
     if (ha > 0f) {
         val f = easeOut(seg(ha, 0f, BEAT_IN)) * (1f - seg(sd, 0f, BEAT_OUT))
@@ -558,6 +570,8 @@ private fun DrawScope.nightPray(a: ArtCtx) {
         val heart = Offset(w * 0.5f, h * 0.48f)
         heart12(heart, w * 0.06f, NightPrayC66.Gold, f, fill = true)
         softGlow(heart, w * 0.14f, NightPrayC66.Gold, 0.6f * f * (0.85f + 0.15f * sin(t * 2f)))
+        tagAt(a.tag("heartawake", 0, 1), Offset(w * 0.75f, h * 0.36f), f * seg(ha, 0.3f, 0.5f), back = Back66, ink = Color(0xFFC8C8D8))
+        tagAt(a.tag("heartawake", 0, 2), heart + Offset(0f, -h * 0.14f), f * seg(ha, 0.45f, 0.65f), back = Back66, ink = ArtInk.Gold)
         tagAt(a.tag("heartawake"), Offset(w * 0.5f, h * 0.8f), f * seg(ha, 0.3f, 0.5f), back = Back66, ink = ArtInk.Gold)
     }
     if (sd > 0f) {
@@ -567,7 +581,14 @@ private fun DrawScope.nightPray(a: ArtCtx) {
         drawRect(NightPrayC66.Water, Offset(c.x - w * 0.09f, c.y - h * 0.3f * fill), Size(w * 0.18f, h * 0.3f * fill), alpha = f * 0.8f)
         drawRoundRect(NightPrayC66.Jar, Offset(c.x - w * 0.1f, c.y - h * 0.32f), Size(w * 0.2f, h * 0.32f), CornerRadius(12f * dp), alpha = f, style = Stroke(4f * dp))
         val u = fract(t * 1.5f)
-        drawCircle(NightPrayC66.Water, w * 0.008f, Offset(c.x, mix(h * 0.15f, c.y - h * 0.3f * fill, u)), alpha = f)
+        drawCircle(NightPrayC66.Water, w * 0.008f, Offset(c.x, mix(h * 0.2f, c.y - h * 0.3f * fill, u)), alpha = f)
+        // one small drop a day; the days tick by beside the jar as it fills
+        for (k in 0 until 7) {
+            val on = fill > (k + 1) / 8f
+            val y = c.y - h * 0.3f * (k + 1) / 8f
+            drawLine(if (on) NightPrayC66.Gold else NightPrayC66.Line, Offset(c.x + w * 0.12f, y), Offset(c.x + w * 0.16f, y), 2f * dp, StrokeCap.Round, alpha = f)
+        }
+        tagAt(a.tag("steadydrops", 0, 1), Offset(c.x + w * 0.27f, c.y - h * 0.15f), f * seg(sd, 0.3f, 0.5f), back = Back66, ink = Color(0xFFF0ECE4))
         tagAt(a.tag("steadydrops"), Offset(w * 0.5f, h * 0.12f), f * seg(sd, 0.2f, 0.4f), back = Back66, ink = ArtInk.Gold)
     }
 }

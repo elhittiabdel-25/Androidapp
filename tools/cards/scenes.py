@@ -1753,10 +1753,10 @@ SCENES = {
     ], layout="noharm"),
     # ── v1.2: Hisn al-Muslim, «أذكار اليوم والليلة» and «أذكار الأحوال» (wave 53) ──
     "hisn-nawm": S("art", [
-        I("كان ﷺ إذا أوى إلى فراشه جمع كفيه فنفث فيهما", None, "face-0", kind="threesurahs"),
+        I("كان ﷺ إذا أوى إلى فراشه جمع كفيه فنفث فيهما", None, "face-0", sub="الْإِخْلَاصُ|الْفَلَقُ|النَّاسُ", kind="threesurahs"),
         I("لم يزل عليه من الله حافظ، ولا يقربه شيطان حتى يصبح", "يزل", "face-1", kind="watcher"),
-        I("ومن قرأ الآيتين من آخر سورة البقرة في ليلة كفتاه", None, "face-2", kind="twoverses"),
-        I("ويضطجع على شقه الأيمن", "ويضطجع", "deep-1", kind="rightside"),
+        I("ومن قرأ الآيتين من آخر سورة البقرة في ليلة كفتاه", None, "face-2", sub="آخِرُ الْبَقَرَةِ|كَفَتَاهُ", kind="twoverses"),
+        I("ويضطجع على شقه الأيمن", "ويضطجع", "deep-1", sub="الشِّقُّ الْأَيْمَنُ", kind="rightside"),
         I("وعلم عليا وفاطمة عند النوم التسبيح 33، والتحميد 33، والتكبير 34", None, "deep-3", sub="33|33|34", kind="tasbihcols"),
     ], layout="bedtime"),
     "hisn-layl": S("art", [
@@ -1781,11 +1781,11 @@ SCENES = {
         I("فنجاه الله من الغم", "فنجاه", "deep-2", kind="shore"),
     ], layout="deepsea"),
     "hisn-aduw": S("art", [
-        I("كان ﷺ إذا خاف قوما قال", None, "face-0", kind="turnsback"),
+        I("كان ﷺ إذا خاف قوما قال", None, "face-0", sub="قَوْمٌ يُخَافُونَ|اللَّهُمَّ إِنَّا نَجْعَلُكَ فِي نُحُورِهِمْ|الْمُسْلِمُونَ", kind="turnsback"),
         I("وحسبنا الله ونعم الوكيل قالها إبراهيم حين ألقي في النار", None, "face-1", sub="إبراهيم", kind="coolfire"),
-        I("اللهم اكفنيهم بما شئت", "اللهم", "face-2", kind="suffice"),
-        I("ومن دعائه ﷺ على الأحزاب", None, "deep-1", kind="trenchwind"),
-        I("ومن خاف ظلم ذي سلطان استجار بالله", None, "deep-2", kind="neighbour"),
+        I("اللهم اكفنيهم بما شئت", "اللهم", "face-2", sub="اكْفِنِيهِمْ بِمَا شِئْتَ", kind="suffice"),
+        I("ومن دعائه ﷺ على الأحزاب", None, "deep-1", sub="الْأَحْزَابُ|رِيحٌ|الْخَنْدَقُ", kind="trenchwind"),
+        I("ومن خاف ظلم ذي سلطان استجار بالله", None, "deep-2", sub="ظُلْمُ ذِي سُلْطَانٍ|كُنْ لِي جَارًا", kind="neighbour"),
     ], layout="campguard"),
     # ── v1.2: Hisn al-Muslim, «أذكار الأحوال» (wave 54) ──
     "hisn-istisab": S("art", [
@@ -2246,12 +2246,12 @@ SCENES = {
         I("وقال لعجوز", None, "deep-3", kind="youngagain"),
     ], layout="truejest"),
     "sira-ibada": S("art", [
-        I("صلى ﷺ حتى انتفخت قدماه", None, "face-0", sub="أفلا أكون عبدا شكورا", kind="thankfulnight"),
+        I("صلى ﷺ حتى انتفخت قدماه", None, "face-0", sub="أفلا أكون عبدا شكورا|قِيَامُ اللَّيْلِ", kind="thankfulnight"),
         I("وصلى معه حذيفة ليلة", None, "face-1", sub="حذيفة|البقرة|وآل عمران|والنساء", kind="threesuras"),
-        I("وقال ابن مسعود: صليت معه ليلة", None, "face-2", sub="ابن مسعود", kind="longstanding"),
-        I("وكان ينام أول الليل ثم يقوم", None, "deep-0", kind="nightplan"),
-        I("وسألته عائشة: أتنام قبل أن توتر", None, "deep-2", sub="إن عيني تنامان ولا ينام قلبي", kind="heartawake"),
-        I("وكان أحب العمل إليه ما ديم عليه وإن قل", None, "deep-4", sub="ما ديم عليه وإن قل", kind="steadydrops"),
+        I("وقال ابن مسعود: صليت معه ليلة", None, "face-2", sub="ابن مسعود|فَلَمْ يَزَلْ قَائِمًا|هَمَمْتُ أَنْ أَقْعُدَ", kind="longstanding"),
+        I("وكان ينام أول الليل ثم يقوم", None, "deep-0", sub="يَنَامُ أَوَّلَهُ|ثُمَّ يَقُومُ|الْوِتْرُ", kind="nightplan"),
+        I("وسألته عائشة: أتنام قبل أن توتر", None, "deep-2", sub="إن عيني تنامان ولا ينام قلبي|الْعَيْنَانِ|الْقَلْبُ", kind="heartawake"),
+        I("وكان أحب العمل إليه ما ديم عليه وإن قل", None, "deep-4", sub="ما ديم عليه وإن قل|كُلَّ يَوْمٍ", kind="steadydrops"),
     ], layout="gratefulservant"),
     # ── v1.2: «مختصر الشمائل» (wave 67) ──
     "sira-qiraa": S("art", [
