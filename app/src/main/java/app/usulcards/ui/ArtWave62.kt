@@ -130,15 +130,15 @@ private fun DrawScope.jointDay(a: ArtCtx) {
         for (k in 0 until 3) {
             val x = w * (0.7f - 0.2f * k)
             val lift = easeInOut(seg(cr, 0.3f + 0.2f * k, 0.5f + 0.2f * k))
-            val c = Offset(mix(x, w * (0.97f - 0.03f * k), lift), ground - h * 0.02f - h * 0.15f * sin(PI.toFloat() * lift))
+            val c = Offset(mix(x, w * (0.2f - 0.07f * k) + w * 0.02f, lift), ground - h * 0.02f - h * 0.15f * sin(PI.toFloat() * lift) + h * 0.09f * lift)
             when (k) {
                 0 -> for (j in 0 until 5) drawLine(JointC62.Thorn, c, c + Offset(cos(j * 1.3f) * w * 0.05f, -kotlin.math.abs(sin(j * 1.3f)) * w * 0.05f - w * 0.01f), 3f * dp, StrokeCap.Round, alpha = f * (1f - 0.25f * lift))
                 1 -> drawOval(JointC62.Thorn, Offset(c.x - w * 0.06f, c.y - h * 0.03f), Size(w * 0.12f, h * 0.04f), alpha = f * (1f - 0.25f * lift))
                 else -> drawCircle(JointC62.Stone, w * 0.05f, c + Offset(0f, -w * 0.04f), alpha = f * (1f - 0.25f * lift))
             }
         }
-        figure(Offset(w * 0.86f, ground - h * 0.02f), h * 0.3f, JointC62.Person, f, arms = 0.7f, lean = 0.15f)
-        tagAt(a.tag("clearroad", 0, 0), Offset(w * 0.4f, ground - h * 0.3f), f * seg(cr, 0.05f, 0.25f), back = Back62, ink = Color(0xFFF0A090))
+        figure(Offset(w * 0.3f, ground - h * 0.02f), h * 0.3f, JointC62.Person, f, arms = 0.7f, lean = -0.15f)
+        tagAt(a.tag("clearroad", 0, 0), Offset(w * 0.6f, ground - h * 0.3f), f * seg(cr, 0.05f, 0.25f), back = Back62, ink = Color(0xFFF0A090))
         tagAt(a.tag("clearroad", 0, 1), Offset(w * 0.5f, h * 0.16f), f * seg(cr, 0.6f, 0.8f), back = Back62, ink = ArtInk.Gold)
     }
     if (es > 0f) {

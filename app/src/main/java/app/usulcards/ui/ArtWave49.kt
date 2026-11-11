@@ -196,9 +196,8 @@ private fun DrawScope.tongueNight(a: ArtCtx) {
         val c = Offset(w * 0.5f, ground)
         figure(c, h * 0.34f, TongueC49.Gold, f)
         drawOval(TongueC49.Gold, Offset(c.x - w * 0.36f, c.y - h * 0.08f), Size(w * 0.72f, h * 0.16f), alpha = f * 0.5f * seg(sr, 0.4f, 0.7f), style = Stroke(1.5f * dp))
-        for (k in 0 until 6) {
-            val ang = k * PI.toFloat() / 3f
-            val p = Offset(c.x + cos(ang + 0.5f) * w * 0.36f, ground + sin(ang + 0.5f) * h * 0.06f)
+        for (k in 0 until 4) {
+            val p = Offset(c.x + listOf(-0.36f, -0.2f, 0.2f, 0.36f)[k] * w, ground + h * 0.03f * (k % 2))
             figure(p, h * 0.2f, TongueC49.Person, f)
         }
         // thorns that never leave him: drawn and then struck away
@@ -363,7 +362,7 @@ private fun DrawScope.biteNight(a: ArtCtx) {
         if (drop < 1f) drawCircle(BiteC49.Ink, w * 0.03f, Offset(w * 0.5f, h * 0.15f + (sea - h * 0.15f) * drop), alpha = f)
         sirajMunir(Offset(w * 0.8f, h * 0.2f), w * 0.012f, f, t, nameAt = Offset(w * 0.8f, h * 0.33f))
         tagAt(a.tag("inkdrop", 0, 0), Offset(w * 0.34f, h * 0.2f), f * seg(ik, 0.02f, 0.15f), back = Color(0xE6201810), ink = Color(0xFFF0A090))
-        tagAt(a.tag("inkdrop", 0, 1), Offset(w * 0.5f, sea + h * 0.2f), f * seg(ik, 0.6f, 0.85f), back = Color(0xE6201810), ink = Color(0xFFF0ECE4))
+        tagAt(a.tag("inkdrop", 0, 1), Offset(w * 0.5f, sea - h * 0.1f), f * seg(ik, 0.6f, 0.85f), back = Color(0xE6201810), ink = Color(0xFFF0ECE4))
         val spread = easeOut(seg(ik, 0.3f, 0.95f))
         drawOval(Brush.radialGradient(listOf(BiteC49.Ink.copy(alpha = 0.95f), BiteC49.Ink.copy(alpha = 0.7f), Color.Transparent), Offset(w * 0.5f, sea + h * 0.1f), w * 0.8f * spread + 1f), Offset(w * 0.5f - w * 0.8f * spread, sea), Size(w * 1.6f * spread + 1f, h * 0.5f), alpha = f)
     }

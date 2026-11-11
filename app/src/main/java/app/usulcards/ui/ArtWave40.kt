@@ -195,7 +195,7 @@ private fun DrawScope.classRoom(a: ArtCtx) {
         drawOval(Color(0xFFF4EEDC), Offset(eye.x - w * 0.06f, eye.y - h * 0.035f), Size(w * 0.12f, h * 0.07f), alpha = f)
         drawCircle(Color(0xFF2A2430), h * 0.025f, eye, alpha = f)
         tagAt(a.tag("cutstrings", 0, 0), eye + Offset(0f, h * 0.1f), f * seg(cs, 0.1f, 0.3f), ink = ArtInk.Gold)
-        cross21(Offset(w * 0.22f, h * 0.14f), w * 0.04f, Color(0xFFD23C30), seg(cs, 0.6f, 0.8f) * away, 3f * dp)
+        cross21(Offset(w * 0.22f, h * 0.14f), w * 0.04f, Color(0xFFD23C30), seg(cs, 0.6f, 0.8f) * (if (f > 0.4f) 1f else 0f), 3f * dp)
         tagAt(a.tag("cutstrings", 0, 1), Offset(w * 0.22f, h * 0.26f), f * seg(cs, 0.6f, 0.8f), ink = Color(0xFFF0A090))
     }
     // the teacher's board: he knew, he did not force
