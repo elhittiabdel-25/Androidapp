@@ -239,6 +239,15 @@ private fun DrawScope.locksWall(a: ArtCtx) {
         }
         val key = easeOut(seg(ar, 0.6f, 1f))
         softGlow(c + Offset(0f, -r), w * 0.05f, ArtInk.Gold, 0.6f * key)
+        // rote learning: a loose heap that holds nothing up, crossed; certainty: the arch, built stone on stone
+        val heapOn = easeOut(seg(ar, 0.05f, 0.25f)) * (1f - seg(tl, 0f, BEAT_OUT))
+        val hc = Offset(w * 0.4f, h * 0.9f)
+        for (k in 0 until 5) withTransform({ rotate(25f * (k - 2), hc + Offset(w * 0.035f * (k - 2), -h * 0.012f * (k % 2))) }) {
+            drawRoundRect(Color(0xFF9A9088), hc + Offset(w * 0.035f * (k - 2) - w * 0.018f, -h * 0.012f * (k % 2) - h * 0.03f), Size(w * 0.036f, h * 0.06f), CornerRadius(w * 0.004f), alpha = heapOn)
+        }
+        cross21(hc + Offset(0f, -h * 0.02f), w * 0.05f, LockC21.Red, seg(ar, 0.3f, 0.5f) * (1f - seg(tl, 0f, BEAT_OUT)), 3f * density)
+        tagAt(a.tag("arch", 0, 1), hc + Offset(0f, -h * 0.13f), heapOn, back = LockC21.Back, ink = Color(0xFFF0A090))
+        tagAt(a.tag("arch", 0, 0), c + Offset(0f, -r - h * 0.09f), key * (1f - seg(tl, 0f, BEAT_OUT)), back = LockC21.Back, ink = ArtInk.Gold)
     }
     // the board of ten locks
     val board = easeOut(seg(tl, 0f, 0.15f)).coerceAtLeast(if (el > 0f || mk > 0f) 1f else 0f)

@@ -87,6 +87,12 @@ private fun DrawScope.bridgeNight(a: ArtCtx) {
     val away = easeInOut(seg(sa, 0.4f, 0.8f)) * (1f - easeInOut(seg(ex, 0f, BEAT_OUT)))
     val scroll = Offset(w * 0.4f + w * 0.5f * away, ground - h * 0.12f - h * 0.2f * away)
     scroll14(scroll, w * 0.08f, h * 0.18f, 1f, bf * (1f - 0.7f * away))
+    // the Quran named, the Sunnah (the scroll) named as it is pushed away, and those who push it away
+    val t0 = bf * (1f - seg(ex, 0f, BEAT_OUT))
+    tagAt(a.tag("scrollaway", 0, 0), book + Offset(0f, -h * 0.18f), t0, ink = ArtInk.Gold)
+    tagAt(a.tag("scrollaway", 0, 1), scroll + Offset(0f, -h * 0.16f), t0 * seg(sa, 0.15f, 0.35f), ink = ArtInk.Gold)
+    for (k in 0 until 3) nameRoundel(Offset(w * (0.3f + 0.09f * k), ground - h * 0.02f), w * 0.03f, null, Roundel.PlainFill, Roundel.PlainRim, t0 * seg(sa, 0.3f + 0.1f * k, 0.45f + 0.1f * k))
+    tagAt(a.tag("scrollaway", 0, 2), Offset(w * 0.39f, ground + h * 0.09f), t0 * seg(sa, 0.5f, 0.7f), ink = Color(0xFFF0A090))
     if (ex > 0f) {
         val g = easeOut(seg(ex, 0.3f, 0.6f))
         drawLine(ArtInk.Gold, book + Offset(w * 0.08f, 0f), scroll + Offset(-w * 0.04f, 0f), 2f * dp, alpha = g)

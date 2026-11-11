@@ -117,8 +117,8 @@ private fun DrawScope.kunafaLand(a: ArtCtx) {
         val from = Offset(w * 0.75f, -h * 0.1f)
         val p = from + (strike - from) * fall
         if (fall < 1f) {
-            drawLine(Color(0xFFFFC07A), p, p + (from - p) * 0.25f, 4f * dp, StrokeCap.Round, alpha = 0.7f)
-            drawCircle(KunC25.Rock, w * 0.012f, p)
+            drawLine(Color(0xFFFFC07A), p, p + (from - p) * 0.4f, 8f * dp, StrokeCap.Round, alpha = 0.7f)
+            drawCircle(KunC25.Rock, w * 0.03f, p)
             softGlow(p, w * 0.03f, KunC25.Lava, 0.7f)
         }
         val cloud = (if (me >= 1f) 0.8f else bump(seg(me, 0.3f, 1.3f))) * (1f - easeOut(seg(ra, 0f, BEAT_OUT)))
@@ -128,6 +128,13 @@ private fun DrawScope.kunafaLand(a: ArtCtx) {
         }
     }
     // the heap of flour, then dough under the rain
+    tagAt(a.tag("meteor", 0, 0), Offset(w * 0.72f, h * 0.14f), seg(me, 0.05f, 0.2f) * (1f - seg(ra, 0f, BEAT_OUT)), ink = Color(0xFFFFC07A))
+    tagAt(a.tag("meteor", 0, 1), strike + Offset(0f, -h * 0.2f), seg(me, 0.45f, 0.65f) * (1f - seg(ra, 0f, BEAT_OUT)), ink = Color(0xFFF0ECE4))
+    if (ra > 0f && lb <= 0f) {
+        for (k in 0 until 3) drawCircle(Color(0xFFC8D0DC), w * (0.05f - 0.008f * k), Offset(strike.x + w * 0.05f * (k - 1), h * 0.26f), alpha = seg(ra, 0f, 0.2f))
+        tagAt(a.tag("rainmix", 0, 0), Offset(strike.x + w * 0.18f, h * 0.26f), seg(ra, 0.1f, 0.3f), ink = Color(0xFFBFE0F2))
+        tagAt(a.tag("rainmix", 0, 1), strike + Offset(0f, h * 0.09f), seg(ra, 0.5f, 0.7f), ink = Color(0xFFF0ECE4))
+    }
     val heap = easeOut(seg(me, 0.5f, 0.9f)).coerceAtLeast(if (ra > 0f) 1f else 0f)
     if (heap > 0f) {
         val dough = easeOut(seg(ra, 0.3f, 0.9f))
@@ -137,7 +144,7 @@ private fun DrawScope.kunafaLand(a: ArtCtx) {
             drawArc(Color(0xFFB8925A), 200f, 140f, false, Offset(strike.x - w * 0.03f, strike.y - h * 0.035f), Size(w * 0.06f, h * 0.04f), alpha = heap * dough, style = Stroke(1.6f * dp, cap = StrokeCap.Round))
             drawOval(Color.White, Offset(strike.x - w * 0.03f, strike.y - h * 0.04f), Size(w * 0.025f, h * 0.012f), alpha = 0.5f * heap * dough)
         }
-        if (ra in 0.01f..0.8f) for (k in 0 until 12) {
+        if (ra > 0.01f && lb <= 0f) for (k in 0 until 12) {
             val f = fract(t * 1.8f + k * 0.11f)
             val x = strike.x + w * (-0.06f + 0.011f * k)
             drawLine(Color(0xFF6AA0D8), Offset(x, h * 0.35f + f * h * 0.3f), Offset(x - w * 0.003f, h * 0.37f + f * h * 0.3f), 1.4f * dp, alpha = 0.7f)

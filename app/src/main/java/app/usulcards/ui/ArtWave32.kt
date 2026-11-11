@@ -459,14 +459,15 @@ private fun DrawScope.detectorNight(a: ArtCtx) {
         val lift = easeInOut(seg(co, 0.15f, 0.45f))
         for (k in 0 until 7) {
             val x = cageC.x - cw / 2f + cw * k / 6f
-            drawLine(PlateC32.Bars, Offset(x, cageC.y - ch - ch * lift), Offset(x, cageC.y - ch * lift), 2f * dp, alpha = f * (1f - 0.7f * lift))
+            drawLine(PlateC32.Bars, Offset(x, cageC.y - ch - ch * 0.5f * lift), Offset(x, cageC.y - ch * 0.5f * lift), 2f * dp, alpha = f * (1f - 0.7f * lift))
         }
         drawLine(PlateC32.Bars, Offset(cageC.x - cw / 2f, cageC.y - ch), Offset(cageC.x + cw / 2f, cageC.y - ch), 3f * dp, alpha = f)
         // the ember's light reaching it
         if (co > 0f) {
             val reach = easeOut(seg(co, 0f, 0.35f))
             val from = Offset(w * 0.6f, ground - h * 0.08f)
-            drawLine(PlateC32.Ember, from, from + (cageC - Offset(0f, h * 0.15f) - from) * reach, 2f * dp, StrokeCap.Round, alpha = 0.6f)
+            for (k in 0 until 5) softGlow(from + (cageC - Offset(0f, h * 0.15f) - from) * (reach * k / 4f), w * 0.03f, PlateC32.Ember, 0.35f)
+            tagAt(a.tag("cageopen"), cageC + Offset(-w * 0.2f, -h * 0.42f), seg(co, 0.4f, 0.6f) * (1f - seg(pl, 0f, BEAT_OUT)), back = Back32, ink = ArtInk.Gold)
             softGlow(cageC - Offset(0f, h * 0.15f), w * 0.1f, PlateC32.Ember, 0.4f * reach)
         }
     }

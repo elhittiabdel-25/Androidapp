@@ -190,6 +190,13 @@ private fun DrawScope.classRoom(a: ArtCtx) {
             drawLine(ClassC40.Cord, top, mid + Offset(0f, h * 0.05f * cut), 1.2f * dp, alpha = f)
             drawLine(ClassC40.Cord, mid + Offset(0f, h * 0.04f + h * 0.08f * cut), bottom, 1.2f * dp, alpha = f * (1f - cut))
         }
+        // knowledge (an open eye) is not compulsion (puppet strings, which are cut and struck out)
+        val eye = Offset(w * 0.5f, h * 0.2f)
+        drawOval(Color(0xFFF4EEDC), Offset(eye.x - w * 0.06f, eye.y - h * 0.035f), Size(w * 0.12f, h * 0.07f), alpha = f)
+        drawCircle(Color(0xFF2A2430), h * 0.025f, eye, alpha = f)
+        tagAt(a.tag("cutstrings", 0, 0), eye + Offset(0f, h * 0.1f), f * seg(cs, 0.1f, 0.3f), ink = ArtInk.Gold)
+        cross21(Offset(w * 0.22f, h * 0.14f), w * 0.04f, Color(0xFFD23C30), seg(cs, 0.6f, 0.8f) * away, 3f * dp)
+        tagAt(a.tag("cutstrings", 0, 1), Offset(w * 0.22f, h * 0.26f), f * seg(cs, 0.6f, 0.8f), ink = Color(0xFFF0A090))
     }
     // the teacher's board: he knew, he did not force
     if (te > 0f) {
@@ -231,11 +238,14 @@ private fun DrawScope.classRoom(a: ArtCtx) {
     if (wi > 0f) {
         val f = easeOut(seg(wi, 0f, 0.4f))
         val c = Offset(w * 0.5f, h * 0.42f)
-        softGlow(c, w * 0.4f * f, Color(0xFFFFF0C8), 0.45f * f)
-        drawCircle(Color(0xFFFFF4D8), w * 0.3f * f, c, alpha = 0.25f * f)
+        softGlow(c, w * 0.4f * f, Color(0xFFFFF0C8), 0.2f * f)
+        drawCircle(Color(0xFFFFF4D8), w * 0.3f * f, c, alpha = 0.1f * f)
+        drawCircle(Color(0xFFFFF4D8), w * 0.3f * f, c, alpha = f, style = Stroke(2.5f * dp))
         val s = easeOut(seg(wi, 0.3f, 0.7f))
         drawCircle(ArtInk.Gold, w * 0.06f * s, c, alpha = f, style = Stroke(3f * dp))
         drawCircle(ArtInk.Gold, w * 0.06f * s, c, alpha = 0.25f * f)
+        tagAt(a.tag("willinside", 0, 0), c + Offset(0f, -w * 0.3f + h * 0.08f), f, ink = Color(0xFFFFF4D8))
+        tagAt(a.tag("willinside", 0, 1), c + Offset(0f, w * 0.06f + h * 0.07f), f * s, ink = ArtInk.Gold)
     }
 }
 

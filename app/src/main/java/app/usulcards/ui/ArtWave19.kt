@@ -132,6 +132,8 @@ private fun DrawScope.pitroadSide(a: ArtCtx) {
     }
 
     // the traveller: walks to each pit as it opens and steps round it
+    // the title over the road, until the first pitfall
+    tagAt(a.tag("road10"), Offset(w * 0.5f, h * 0.16f), seg(rd, 0.1f, 0.35f) * (1f - seg(a.b("pitfall", 0), 0f, BEAT_OUT)), ink = ArtInk.Gold)
     if (rd > 0f) {
         var s = 0.01f + 0.03f * easeOut(seg(rd, 0.3f, 1f))
         var hop = 0f

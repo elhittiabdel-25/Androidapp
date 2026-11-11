@@ -600,7 +600,7 @@ private fun DrawScope.guestNight(a: ArtCtx) {
     if (lo > 0f) {
         val f = easeOut(seg(lo, 0f, BEAT_IN)) * (1f - seg(oc, 0f, BEAT_OUT))
         val dark = seg(lo, 0.35f, 0.5f)
-        drawRect(lerpColor(GuestC48.Room, Color(0xFF0E0C12), dark * 0.7f), Offset(w * 0.08f, h * 0.2f), Size(w * 0.84f, ground - h * 0.2f), alpha = f)
+        drawRect(lerpColor(GuestC48.Room, Color(0xFF0E0C12), dark * 0.4f), Offset(w * 0.08f, h * 0.2f), Size(w * 0.84f, ground - h * 0.2f), alpha = f)
         val lamp = Offset(w * 0.5f, ground - h * 0.04f)
         val fl = (1f - dark) * (1f + 0.08f * sin(t * 9f))
         drawOval(GuestC48.Flame, Offset(lamp.x - w * 0.006f, lamp.y - h * 0.05f * fl), Size(w * 0.012f, h * 0.04f * fl), alpha = f * (1f - dark))
@@ -608,9 +608,15 @@ private fun DrawScope.guestNight(a: ArtCtx) {
         drawOval(Color(0xFF8A5A3A), Offset(lamp.x - w * 0.025f, lamp.y - h * 0.01f), Size(w * 0.05f, h * 0.02f), alpha = f)
         nameRoundel(Offset(w * 0.3f, ground - h * 0.08f), w * 0.04f, null, Roundel.PlainFill, Roundel.PlainRim, f)
         cup12(Offset(w * 0.38f, ground), w * 0.06f, Color(0xFFC8A87A), f, GuestC48.Food)
-        nameRoundel(Offset(w * 0.64f, ground - h * 0.08f + h * 0.01f * sin(t * 3f) * dark), w * 0.04f, null, Roundel.PlainFill, Roundel.PlainRim, f * 0.8f)
-        nameRoundel(Offset(w * 0.75f, ground - h * 0.08f), w * 0.04f, null, Roundel.PlainFill, Roundel.PlainRim, f * 0.8f)
-        for (k in 0 until 2) drawOval(GuestC48.Person, Offset(w * (0.8f + 0.05f * k), ground - h * 0.03f), Size(w * 0.05f, h * 0.025f), alpha = f * 0.6f)
+        nameRoundel(Offset(w * 0.64f, ground - h * 0.08f + h * 0.01f * sin(t * 3f) * dark), w * 0.04f, null, Roundel.PlainFill, Roundel.PlainRim, f)
+        nameRoundel(Offset(w * 0.75f, ground - h * 0.08f), w * 0.04f, null, Roundel.PlainFill, Roundel.PlainRim, f)
+        for (k in 0 until 2) drawOval(GuestC48.Person, Offset(w * (0.82f + 0.06f * k), ground - h * 0.03f), Size(w * 0.05f, h * 0.025f), alpha = f)
+        // the lamp put out: a wisp of smoke where the flame was; everyone named
+        for (k in 0 until 3) { val u = fract(t * 0.5f + k / 3f); drawCircle(Color(0xFFB8B4C0), w * 0.01f * (0.6f + u), lamp + Offset(w * 0.01f * sin(u * 6f + k), -h * 0.06f - h * 0.1f * u), alpha = f * dark * (1f - u) * 0.7f) }
+        tagAt(a.tag("lampout", 0, 0), Offset(w * 0.3f, ground - h * 0.24f), f * seg(lo, 0.1f, 0.25f), back = Color(0xE6201810), ink = Color(0xFFF0ECE4))
+        tagAt(a.tag("lampout", 0, 1), Offset(w * 0.5f, ground - h * 0.34f), f * dark, back = Color(0xE6201810), ink = ArtInk.Gold)
+        tagAt(a.tag("lampout", 0, 2), Offset(w * 0.7f, ground - h * 0.24f), f * seg(lo, 0.55f, 0.75f), back = Color(0xE6201810), ink = Color(0xFFF0ECE4))
+        tagAt(a.tag("lampout", 0, 3), Offset(w * 0.85f, ground + h * 0.06f), f * seg(lo, 0.2f, 0.35f), back = Color(0xE6201810), ink = Color(0xFFC8C8D8))
     }
     // one cloth, equal shares
     if (oc > 0f) {

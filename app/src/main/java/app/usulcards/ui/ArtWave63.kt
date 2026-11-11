@@ -516,6 +516,10 @@ private fun DrawScope.changeNight(a: ArtCtx) {
         softGlow(Offset(w * 0.18f, ground - h * 0.25f), w * 0.06f, ChangeC63.Gold, 0.6f * f)
         figure(Offset(x, ground), h * 0.3f, ChangeC63.Person, f, walk = t * 5f * (1f - stop))
         softGlow(Offset(x, ground - h * 0.18f), w * 0.07f, ChangeC63.Gold, 0.5f * f * seg(be, 0.5f, 0.75f))
+        // he is kept from the good he was walking to by a wall he did not build
+        tagAt(a.tag("barrierexcused", 0, 0), Offset(w * 0.45f, ground - h * 0.48f), f * seg(be, 0.3f, 0.45f), back = Back63, ink = Color(0xFFF0ECE4))
+        tagAt(a.tag("barrierexcused", 0, 1), Offset(w * 0.18f, ground - h * 0.4f), f * seg(be, 0.1f, 0.25f), back = Back63, ink = ArtInk.Gold)
+        tagAt(a.tag("barrierexcused", 0, 2), Offset(x + w * 0.1f, ground - h * 0.42f), f * seg(be, 0.55f, 0.75f), back = Back63, ink = ArtInk.Gold)
     }
 }
 
