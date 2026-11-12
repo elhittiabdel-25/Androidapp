@@ -5,9 +5,9 @@ source voice/train.cfg
 git clone -q --depth 1 https://github.com/rhasspy/piper piper || exit 1
 python -m pip install -q "pip<24.1"
 pip install -q --extra-index-url https://download.pytorch.org/whl/cpu "torch==1.13.1+cpu" "pytorch-lightning==1.7.7" \
-  "torchmetrics==0.11.4" "numpy<1.24" "librosa==0.9.2" "numba<0.57" "cython<1" "onnxruntime<1.17" "onnx<1.16" six "tensorboard<2.12" "protobuf<4" || exit 1
+  "torchmetrics==0.11.4" "numpy<1.24" "librosa==0.9.2" "numba<0.57" "cython<1" "onnxruntime==1.20.1" "onnx<1.16" six "tensorboard<2.12" "protobuf<4" || exit 1
 python -c "import torch, pytorch_lightning; print('torch', torch.__version__, 'lightning', pytorch_lightning.__version__)" || exit 1
-(cd piper/src/python && bash build_monotonic_align.sh && python -c "import piper_train.vits.lightning, piper_train.__main__; print(\"piper_train imports\")") || exit 1
+(cd piper/src/python && bash build_monotonic_align.sh && python -c "import piper_train.vits.lightning, piper_train.__main__; import onnxruntime; print(\"piper_train imports, onnxruntime\", onnxruntime.__version__)") || exit 1
 H=https://huggingface.co/datasets/rhasspy/piper-checkpoints/resolve/main/ar/ar_JO/kareem/medium
 curl -sfL -o kareem.json "$H/config.json" || exit 1
 if [ "$RESUME" = "1" ] && gh release download voice-ft -p last.ckpt -D . ; then mv last.ckpt start.ckpt

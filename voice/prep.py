@@ -2,6 +2,7 @@
 normalized audio and spectrograms cached the way piper_train.preprocess does, dataset.jsonl, and Kareem's config."""
 import json, sys
 from pathlib import Path
+import piper_train.vits.lightning  # noqa: F401  (fail early)
 from piper_train.norm_audio import cache_norm_audio, make_silence_detector
 
 src, out, cfg = Path(sys.argv[1]), Path(sys.argv[2]), Path(sys.argv[3])
