@@ -249,6 +249,15 @@ fun CategoryGlyph(kind: String, color: Color, size: Dp = 26.dp) {
                 }
                 drawLine(color, Offset(w * 0.5f, h * 0.3f), Offset(w * 0.5f, h * 0.82f), sw, StrokeCap.Round)
             }
+            "voice" -> {   // a point of articulation and three widening waves: tajwid, the sound of recitation
+                val c = Offset(w * 0.8f, h * 0.5f)
+                drawCircle(color, radius = w * 0.08f, center = c)
+                for (k in 1..3) {
+                    val r = w * 0.2f * k
+                    drawArc(color, 130f, 100f, false, Offset(c.x - r, c.y - r),
+                        androidx.compose.ui.geometry.Size(r * 2f, r * 2f), style = line)
+                }
+            }
             else -> {   // "path": a road that winds up to a point
                 val road = Path().apply {
                     moveTo(w * 0.18f, h * 0.92f)

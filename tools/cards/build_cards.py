@@ -24,6 +24,9 @@ from cards_batch14 import NEW14, BOOKS14
 from cards_batch15 import NEW15, BOOKS15
 from cards_batch16 import NEW16, BOOKS16
 from cards_batch17 import NEW17, BOOKS17
+from cards_batch18 import NEW18, BOOKS18
+from cards_batch19 import NEW19, BOOKS19
+from cards_batch20 import NEW20, BOOKS20
 H = re.compile(r'[ً-ْٰـ]')
 def shown(s): return re.sub(r'\{[^}]*\}', '', re.sub(r'\[([^|\]]*)\|([^\]]*)\]', r'\1', s))
 def plain(s): return H.sub('', shown(s))
@@ -45,6 +48,7 @@ books = dict(OLD_BOOKS); books.update(BOOKS2); books.update(BOOKS3); books.updat
 books.update(BOOKS9); books.update(BOOKS10); books.update(BOOKS11)
 books.update(BOOKS12); books.update(BOOKS13); books.update(BOOKS14); books.update(BOOKS15)
 books.update(BOOKS16); books.update(BOOKS17)
+books.update(BOOKS18); books.update(BOOKS19); books.update(BOOKS20)
 for c in OLD:                                   # first 16 cards: same text and audio, extra sources merged in
     c = copy.deepcopy(c)
     for e in c["evidence"]:
@@ -54,7 +58,7 @@ for c in OLD:                                   # first 16 cards: same text and 
     add_sources(c, MERGE_SOURCES4.get(c["id"], []))
     add_sources(c, MERGE_SOURCES5.get(c["id"], []))
     cards.append(c)
-for c in NEW + NEW3 + NEW4 + NEW5 + NEW6 + NEW7 + NEW8 + NEW9 + NEW10 + NEW11 + NEW12 + NEW13 + NEW14 + NEW15 + NEW16 + NEW17:
+for c in NEW + NEW3 + NEW4 + NEW5 + NEW6 + NEW7 + NEW8 + NEW9 + NEW10 + NEW11 + NEW12 + NEW13 + NEW14 + NEW15 + NEW16 + NEW17 + NEW18 + NEW19 + NEW20:
     ev = [quran_ev(q) if isinstance(q, str) else quran_ev(*q) for q in c["quran"]]
     ev += [{"kind": "hadith", "text": plain(t), "takhrij": tk} for t, tk in c["hadith"]]
     out = {"id": c["id"], "type": c["type"], "topic": c["topic"], "path": c["path"], "order": c["order"],
