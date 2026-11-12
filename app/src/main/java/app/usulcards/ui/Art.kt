@@ -628,6 +628,57 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "recitemanners" -> recitemannersScene(a)
         "tilawasujud" -> tilawasujudScene(a)
         "sujuddhikr" -> sujuddhikrScene(a)
+        "ttmafhum" -> ttmafhumScene(a)
+        "tttanawwu" -> tttanawwuScene(a)
+        "tttadadd" -> tttadaddScene(a)
+        "ttasbab" -> ttasbabScene(a)
+        "ttlafz" -> ttlafzScene(a)
+        "tttabaqat" -> tttabaqatScene(a)
+        "tthushirat" -> tthushiratScene(a)
+        "ttnaba" -> ttnabaScene(a)
+        "ttzuwwijat" -> ttzuwwijatScene(a)
+        "ttfajr" -> ttfajrScene(a)
+        "ttshaf" -> ttshafScene(a)
+        "ttquran" -> ttquranScene(a)
+        "tttin" -> tttinScene(a)
+        "ttqadr" -> ttqadrScene(a)
+        "ttfalaq" -> ttfalaqScene(a)
+        "tzmujadila" -> tzmujadilaScene(a)
+        "tzhashr" -> tzhashrScene(a)
+        "tzmumtahana" -> tzmumtahanaScene(a)
+        "tzsaff" -> tzsaffScene(a)
+        "tzjumua" -> tzjumuaScene(a)
+        "tzmunafiqun" -> tzmunafiqunScene(a)
+        "tztaghabun" -> tztaghabunScene(a)
+        "tztalaq" -> tztalaqScene(a)
+        "tztahrim" -> tztahrimScene(a)
+        "tzmulk" -> tzmulkScene(a)
+        "tzqalam" -> tzqalamScene(a)
+        "tzhaqqa" -> tzhaqqaScene(a)
+        "tzmaarij" -> tzmaarijScene(a)
+        "tznuh" -> tznuhScene(a)
+        "tzjinn" -> tzjinnScene(a)
+        "tzmuzzammil" -> tzmuzzammilScene(a)
+        "tzmuddaththir" -> tzmuddaththirScene(a)
+        "tzqiyama" -> tzqiyamaScene(a)
+        "tzinsan" -> tzinsanScene(a)
+        "tzmursalat" -> tzmursalatScene(a)
+        "tanun" -> tanunScene(a)
+        "taidgham" -> taidghamScene(a)
+        "taiqlab" -> taiqlabScene(a)
+        "tamim" -> tamimScene(a)
+        "talam" -> talamScene(a)
+        "tamithlan" -> tamithlanScene(a)
+        "tamadd" -> tamaddScene(a)
+        "tamaddahkam" -> tamaddahkamScene(a)
+        "jzwajib" -> jzwajibScene(a)
+        "jzmakharij" -> jzmakharijScene(a)
+        "jzsifat" -> jzsifatScene(a)
+        "jztajwid" -> jztajwidScene(a)
+        "jztarqiq" -> jztarqiqScene(a)
+        "jzwaqf" -> jzwaqfScene(a)
+        "jzwasl" -> jzwaslScene(a)
+        "jzrawm" -> jzrawmScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -1240,6 +1291,23 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "basmala" -> 5500
     "honorall", "raiselower", "sunnahnot", "sameaswalat" -> 5750
     "manyhadith", "intercedes", "tenfold", "harfclimb", "mawla", "allhours", "slowrecite", "respond", "khatm", "withbarrier", "tafsirpage", "devices", "junub", "istiadha", "tadabbur", "oneverse", "shaytanweeps", "imamled", "wajhisajad", "nocondition", "takbiroutside" -> 6000
+    // wave 94
+    "jzwajib2" -> 2250
+    "jzmakharij4", "jztarqiq3" -> 2500
+    "jzrawm3" -> 2750
+    "tzmulk0" -> 3000
+    "tamadd0" -> 3250
+    "taidgham2" -> 3500
+    "ttfajr2" -> 3750
+    "tamim2", "jzwasl2" -> 4000
+    "ttmafhum0", "jztajwid1", "jztarqiq0", "jzwaqf1" -> 4250
+    "ttnaba3", "tamithlan3", "jztajwid0", "jzwasl1", "jzrawm0" -> 4500
+    "ttzuwwijat3", "ttfajr1", "tzmujadila3", "tanun1", "tamim3", "jzsifat3" -> 4750
+    "tzmunafiqun2", "tztaghabun0", "tamithlan0", "tamadd2", "tamaddahkam0", "jzmakharij0" -> 5000
+    "tzmunafiqun1", "tzqalam3", "taiqlab1", "talam0", "tamithlan2", "jzwajib3" -> 5250
+    "ttlafz1", "ttzuwwijat0", "ttfajr3", "ttqadr3", "tzmursalat3", "jztajwid3", "jzwaqf0" -> 5500
+    "ttshaf0", "tztalaq1", "talam2", "jztarqiq1", "jzrawm2" -> 5750
+    "ttmafhum1", "ttmafhum2", "ttmafhum3", "tttanawwu0", "tttanawwu1", "tttanawwu2", "tttanawwu3", "tttadadd0", "tttadadd1", "tttadadd2", "tttadadd3", "ttasbab0", "ttasbab1", "ttasbab2", "ttasbab3", "ttlafz0", "ttlafz2", "ttlafz3", "tttabaqat0", "tttabaqat1", "tttabaqat2", "tttabaqat3", "tthushirat0", "tthushirat1", "tthushirat2", "tthushirat3", "ttnaba0", "ttnaba1", "ttnaba2", "ttzuwwijat1", "ttzuwwijat2", "ttfajr0", "ttshaf1", "ttshaf2", "ttquran0", "ttquran1", "ttquran2", "ttquran3", "tttin0", "tttin1", "tttin2", "tttin3", "ttqadr0", "ttqadr1", "ttqadr2", "ttfalaq0", "ttfalaq1", "ttfalaq2", "ttfalaq3", "tzmujadila0", "tzmujadila1", "tzmujadila2", "tzhashr0", "tzhashr1", "tzhashr2", "tzhashr3", "tzmumtahana0", "tzmumtahana1", "tzmumtahana2", "tzmumtahana3", "tzsaff0", "tzsaff1", "tzsaff2", "tzsaff3", "tzjumua0", "tzjumua1", "tzjumua2", "tzjumua3", "tzmunafiqun0", "tzmunafiqun3", "tztaghabun1", "tztaghabun2", "tztaghabun3", "tztalaq0", "tztalaq2", "tztalaq3", "tztahrim0", "tztahrim1", "tztahrim2", "tztahrim3", "tzmulk1", "tzmulk2", "tzmulk3", "tzqalam0", "tzqalam1", "tzqalam2", "tzhaqqa0", "tzhaqqa1", "tzhaqqa2", "tzhaqqa3", "tzmaarij0", "tzmaarij1", "tzmaarij2", "tzmaarij3", "tznuh0", "tznuh1", "tznuh2", "tznuh3", "tzjinn0", "tzjinn1", "tzjinn2", "tzjinn3", "tzmuzzammil0", "tzmuzzammil1", "tzmuzzammil2", "tzmuzzammil3", "tzmuddaththir0", "tzmuddaththir1", "tzmuddaththir2", "tzmuddaththir3", "tzqiyama0", "tzqiyama1", "tzqiyama2", "tzqiyama3", "tzinsan0", "tzinsan1", "tzinsan2", "tzinsan3", "tzmursalat0", "tzmursalat1", "tzmursalat2", "tanun0", "tanun2", "tanun3", "taidgham0", "taidgham1", "taidgham3", "taiqlab0", "taiqlab2", "taiqlab3", "tamim0", "tamim1", "talam1", "talam3", "tamithlan1", "tamadd1", "tamadd3", "tamaddahkam1", "tamaddahkam2", "tamaddahkam3", "jzwajib0", "jzwajib1", "jzmakharij1", "jzmakharij2", "jzmakharij3", "jzsifat0", "jzsifat1", "jzsifat2", "jztajwid2", "jztarqiq2", "jzwaqf2", "jzwaqf3", "jzwasl0", "jzwasl3", "jzrawm1" -> 6000
     else -> 1000
 }
 
