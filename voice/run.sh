@@ -22,7 +22,7 @@ timeout ${MINUTES}m python -m piper_train --dataset-dir ../../../ds --accelerato
   --resume_from_checkpoint ../../../start.ckpt --checkpoint-epochs 1 --precision 32 \
   --max-phoneme-ids 800 --quality medium --log_every_n_steps 5
 echo "train exit $?"
-C=$(ls -t lightning_logs/version_*/checkpoints/*.ckpt 2>/dev/null | head -1)
+C=$(ls -t ../../../ds/lightning_logs/version_*/checkpoints/*.ckpt lightning_logs/version_*/checkpoints/*.ckpt 2>/dev/null | head -1)
 echo "last checkpoint: $C"
 if [ -n "$C" ]; then
   mkdir -p ../../../pub && cp "$C" ../../../pub/last.ckpt
