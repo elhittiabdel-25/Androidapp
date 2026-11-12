@@ -141,7 +141,7 @@ private fun DrawScope.beat94(a: ArtCtx, b: Bt94, al: Float) {
 private fun DrawScope.item94(a: ArtCtx, kind: String, it: It94, c: Offset, s: Float, al: Float, mp: Float) {
     if (al <= 0.01f) return
     val tl = if (it.part >= 0) a.tag(kind, 0, it.part) else null
-    var mc = c + Offset(-s * 0.5f, -s * 0.52f)
+    var mc = c + Offset(-s * 0.54f, -s * 0.7f)   // the mark sits on the card's corner, clear of its symbol
     when (it.icon) {
         "fig" -> {
             figure(Offset(c.x, c.y + s * 0.6f), s * 1.3f, Qn.Person, al)
