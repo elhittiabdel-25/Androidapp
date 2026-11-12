@@ -20,49 +20,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
-      - name: Piper training code
-        run: |
-          git clone -q --depth 1 https://github.com/rhasspy/piper piper
-          pip install -q "torch==1.13.1" --index-url https://download.pytorch.org/whl/cpu
-          pip install -q "pytorch-lightning==1.7.7" "numpy<1.24" "librosa==0.9.2" "cython<1" onnxruntime onnx
-          cd piper/src/python && bash build_monotonic_align.sh
-      - name: Kareem's checkpoint
+      - name: Train
         env:
           GH_TOKEN: ${{ github.token }}
-        run: |
-          source voice/train.cfg
-          H=https://huggingface.co/datasets/rhasspy/piper-checkpoints/resolve/main/ar/ar_JO/kareem/medium
-          curl -sfL -o kareem.json "$H/config.json"
-          if [ "$RESUME" = "1" ] && gh release download voice-ft -p last.ckpt -D . 2>/dev/null; then
-            echo "resuming from the last fine-tuned checkpoint"; mv last.ckpt start.ckpt
-          else
-            curl -sfL -o start.ckpt "$H/epoch%3D5079-step%3D1682020.ckpt"
-          fi
-          ls -la start.ckpt kareem.json
-      - name: Dataset
-        run: PYTHONPATH=piper/src/python python voice/prep.py voice/data ds kareem.json
-      - name: Train
-        run: |
-          source voice/train.cfg
-          E0=$(python -c "import torch; print(torch.load('start.ckpt', map_location='cpu')['epoch'])")
-          echo "start epoch $E0"
-          cd piper/src/python
-          timeout ${MINUTES}m python -m piper_train --dataset-dir ../../../ds --accelerator cpu --devices 1 \
-            --batch-size $BATCH --validation-split 0 --num-test-examples 0 --max_epochs $((E0 + EPOCHS)) \
-            --resume_from_checkpoint ../../../start.ckpt --checkpoint-epochs 1 --precision 32 \
-            --max-phoneme-ids 800 --quality medium --log_every_n_steps 5 2>&1 | tee ../../../train.log || true
-      - name: Export and publish
+        run: bash voice/run.sh 2>&1 | tee run.log
+      - name: Publish
         if: always()
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          C=$(ls -t piper/src/python/lightning_logs/version_*/checkpoints/*.ckpt 2>/dev/null | head -1)
-          echo "last checkpoint: $C"
-          mkdir -p pub && cp train.log pub/ 2>/dev/null || true
-          if [ -n "$C" ]; then
-            cp "$C" pub/last.ckpt
-            cd piper/src/python && python -m piper_train.export_onnx "../../../pub/last.ckpt" ../../../pub/kareem-ft.onnx && cd ../../..
-            cp kareem.json pub/kareem-ft.onnx.json
-          fi
+          mkdir -p pub && cp run.log pub/ 2>/dev/null || true
           gh release view voice-ft >/dev/null 2>&1 || gh release create voice-ft --prerelease --target voice-train --title "Fine-tuned voice" --notes "Kareem fine-tuned on the owner's reading."
           gh release upload voice-ft pub/* --clobber
