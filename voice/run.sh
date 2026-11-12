@@ -3,7 +3,7 @@
 set -x
 source voice/train.cfg
 git clone -q --depth 1 https://github.com/rhasspy/piper piper || exit 1
-python -m pip install -q --upgrade pip
+python -m pip install -q "pip<24.1"
 pip install -q "torch==1.13.1+cpu" --extra-index-url https://download.pytorch.org/whl/cpu || pip install -q "torch==1.13.1" || exit 1
 pip install -q "pytorch-lightning==1.7.7" "numpy<1.24" "librosa==0.9.2" "cython<1" onnxruntime onnx || exit 1
 (cd piper/src/python && bash build_monotonic_align.sh) || exit 1
