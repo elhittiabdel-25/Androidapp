@@ -679,6 +679,45 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "jzwaqf" -> jzwaqfScene(a)
         "jzwasl" -> jzwaslScene(a)
         "jzrawm" -> jzrawmScene(a)
+        "sbnasab" -> sbnasabScene(a)
+        "sbmawlid" -> sbmawlidScene(a)
+        "sbridaa" -> sbridaaScene(a)
+        "sbsharh" -> sbsharhScene(a)
+        "sbyutm" -> sbyutmScene(a)
+        "sbhifz" -> sbhifzScene(a)
+        "sbkaaba" -> sbkaabaScene(a)
+        "sbkhadija" -> sbkhadijaScene(a)
+        "mdhira" -> mdhiraScene(a)
+        "mdmudd" -> mdmuddScene(a)
+        "mdmaratib" -> mdmaratibScene(a)
+        "mdsirr" -> mdsirrScene(a)
+        "mdjahr" -> mdjahrScene(a)
+        "mdadha" -> mdadhaScene(a)
+        "mdhabasha" -> mdhabashaScene(a)
+        "mdshib" -> mdshibScene(a)
+        "mdtaif" -> mdtaifScene(a)
+        "mdaqaba" -> mdaqabaScene(a)
+        "mdhijra" -> mdhijraScene(a)
+        "mbmasjid" -> mbmasjidScene(a)
+        "mbmuakhat" -> mbmuakhatScene(a)
+        "mbwathiqa" -> mbwathiqaScene(a)
+        "mbism" -> mbismScene(a)
+        "mbsukkan" -> mbsukkanScene(a)
+        "mbidhn" -> mbidhnScene(a)
+        "gzbadr" -> gzbadrScene(a)
+        "gzuhud" -> gzuhudScene(a)
+        "gzkhandaq" -> gzkhandaqScene(a)
+        "gzhuday" -> gzhudayScene(a)
+        "gzkhaybar" -> gzkhaybarScene(a)
+        "gzmutah" -> gzmutahScene(a)
+        "gzfath" -> gzfathScene(a)
+        "gzhunayn" -> gzhunaynScene(a)
+        "gztabuk" -> gztabukScene(a)
+        "wdwufud" -> wdwufudScene(a)
+        "wdbaraa" -> wdbaraaScene(a)
+        "wdwada" -> wdwadaScene(a)
+        "wdmarad" -> wdmaradScene(a)
+        "wdwafat" -> wdwafatScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -1308,6 +1347,17 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "ttlafz1", "ttzuwwijat0", "ttfajr3", "ttqadr3", "tzmursalat3", "jztajwid3", "jzwaqf0" -> 5500
     "ttshaf0", "tztalaq1", "talam2", "jztarqiq1", "jzrawm2" -> 5750
     "ttmafhum1", "ttmafhum2", "ttmafhum3", "tttanawwu0", "tttanawwu1", "tttanawwu2", "tttanawwu3", "tttadadd0", "tttadadd1", "tttadadd2", "tttadadd3", "ttasbab0", "ttasbab1", "ttasbab2", "ttasbab3", "ttlafz0", "ttlafz2", "ttlafz3", "tttabaqat0", "tttabaqat1", "tttabaqat2", "tttabaqat3", "tthushirat0", "tthushirat1", "tthushirat2", "tthushirat3", "ttnaba0", "ttnaba1", "ttnaba2", "ttzuwwijat1", "ttzuwwijat2", "ttfajr0", "ttshaf1", "ttshaf2", "ttquran0", "ttquran1", "ttquran2", "ttquran3", "tttin0", "tttin1", "tttin2", "tttin3", "ttqadr0", "ttqadr1", "ttqadr2", "ttfalaq0", "ttfalaq1", "ttfalaq2", "ttfalaq3", "tzmujadila0", "tzmujadila1", "tzmujadila2", "tzhashr0", "tzhashr1", "tzhashr2", "tzhashr3", "tzmumtahana0", "tzmumtahana1", "tzmumtahana2", "tzmumtahana3", "tzsaff0", "tzsaff1", "tzsaff2", "tzsaff3", "tzjumua0", "tzjumua1", "tzjumua2", "tzjumua3", "tzmunafiqun0", "tzmunafiqun3", "tztaghabun1", "tztaghabun2", "tztaghabun3", "tztalaq0", "tztalaq2", "tztalaq3", "tztahrim0", "tztahrim1", "tztahrim2", "tztahrim3", "tzmulk1", "tzmulk2", "tzmulk3", "tzqalam0", "tzqalam1", "tzqalam2", "tzhaqqa0", "tzhaqqa1", "tzhaqqa2", "tzhaqqa3", "tzmaarij0", "tzmaarij1", "tzmaarij2", "tzmaarij3", "tznuh0", "tznuh1", "tznuh2", "tznuh3", "tzjinn0", "tzjinn1", "tzjinn2", "tzjinn3", "tzmuzzammil0", "tzmuzzammil1", "tzmuzzammil2", "tzmuzzammil3", "tzmuddaththir0", "tzmuddaththir1", "tzmuddaththir2", "tzmuddaththir3", "tzqiyama0", "tzqiyama1", "tzqiyama2", "tzqiyama3", "tzinsan0", "tzinsan1", "tzinsan2", "tzinsan3", "tzmursalat0", "tzmursalat1", "tzmursalat2", "tanun0", "tanun2", "tanun3", "taidgham0", "taidgham1", "taidgham3", "taiqlab0", "taiqlab2", "taiqlab3", "tamim0", "tamim1", "talam1", "talam3", "tamithlan1", "tamadd1", "tamadd3", "tamaddahkam1", "tamaddahkam2", "tamaddahkam3", "jzwajib0", "jzwajib1", "jzmakharij1", "jzmakharij2", "jzmakharij3", "jzsifat0", "jzsifat1", "jzsifat2", "jztajwid2", "jztarqiq2", "jzwaqf2", "jzwaqf3", "jzwasl0", "jzwasl3", "jzrawm1" -> 6000
+    // wave 95
+    "sbridaa3" -> 3750
+    "sbkaaba3", "mbmasjid3" -> 4000
+    "mbmuakhat3", "gzuhud3" -> 4250
+    "mdsirr2", "mbidhn1", "wdwufud1", "wdwada2" -> 4500
+    "wdwufud3" -> 4750
+    "mbmuakhat2", "mbsukkan2" -> 5000
+    "sbyutm3", "mdmaratib0", "gzhunayn3" -> 5250
+    "mbmasjid2", "gzmutah2" -> 5500
+    "sbridaa2", "mdmudd2", "mdmaratib2" -> 5750
+    "sbnasab0", "sbnasab1", "sbnasab2", "sbnasab3", "sbmawlid0", "sbmawlid1", "sbmawlid2", "sbmawlid3", "sbridaa0", "sbridaa1", "sbsharh0", "sbsharh1", "sbsharh2", "sbsharh3", "sbyutm0", "sbyutm1", "sbyutm2", "sbhifz0", "sbhifz1", "sbhifz2", "sbhifz3", "sbkaaba0", "sbkaaba1", "sbkaaba2", "sbkhadija0", "sbkhadija1", "sbkhadija2", "sbkhadija3", "mdhira0", "mdhira1", "mdhira2", "mdhira3", "mdmudd0", "mdmudd1", "mdmudd3", "mdmaratib1", "mdmaratib3", "mdsirr0", "mdsirr1", "mdsirr3", "mdjahr0", "mdjahr1", "mdjahr2", "mdjahr3", "mdadha0", "mdadha1", "mdadha2", "mdadha3", "mdhabasha0", "mdhabasha1", "mdhabasha2", "mdhabasha3", "mdshib0", "mdshib1", "mdshib2", "mdshib3", "mdtaif0", "mdtaif1", "mdtaif2", "mdtaif3", "mdaqaba0", "mdaqaba1", "mdaqaba2", "mdaqaba3", "mdhijra0", "mdhijra1", "mdhijra2", "mdhijra3", "mbmasjid0", "mbmasjid1", "mbmuakhat0", "mbmuakhat1", "mbwathiqa0", "mbwathiqa1", "mbwathiqa2", "mbwathiqa3", "mbism0", "mbism1", "mbism2", "mbism3", "mbsukkan0", "mbsukkan1", "mbsukkan3", "mbidhn0", "mbidhn2", "mbidhn3", "gzbadr0", "gzbadr1", "gzbadr2", "gzbadr3", "gzuhud0", "gzuhud1", "gzuhud2", "gzkhandaq0", "gzkhandaq1", "gzkhandaq2", "gzkhandaq3", "gzhuday0", "gzhuday1", "gzhuday2", "gzhuday3", "gzkhaybar0", "gzkhaybar1", "gzkhaybar2", "gzkhaybar3", "gzmutah0", "gzmutah1", "gzmutah3", "gzfath0", "gzfath1", "gzfath2", "gzfath3", "gzhunayn0", "gzhunayn1", "gzhunayn2", "gztabuk0", "gztabuk1", "gztabuk2", "gztabuk3", "wdwufud0", "wdwufud2", "wdbaraa0", "wdbaraa1", "wdbaraa2", "wdbaraa3", "wdwada0", "wdwada1", "wdwada3", "wdmarad0", "wdmarad1", "wdmarad2", "wdmarad3", "wdwafat0", "wdwafat1", "wdwafat2", "wdwafat3" -> 6000
     else -> 1000
 }
 
