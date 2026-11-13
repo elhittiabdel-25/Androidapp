@@ -157,7 +157,7 @@ private fun DrawScope.item94(a: ArtCtx, kind: String, it: It94, c: Offset, s: Fl
             qFit(tl, Offset(c.x, o.y + bh / 2f), bw * 0.86f, bh * 0.72f, ArtInk.Ivory, al)
             mc = Offset(o.x + 3f * density, o.y + 3f * density)
         }
-        else -> glyphCard(c, s, tl, al, rim = it.tone, lit = if (it.mark == 1) mp else 0f) { cc, sz, aa -> qIcon(it.icon, cc, sz, it.tone, aa, a.t) }
+        else -> glyphCard(c, s, tl, al, rim = it.tone, lit = if (it.mark == 1) mp else 0f) { cc, sz, aa -> qIcon95(it.icon, cc, sz, it.tone, aa, a.t) }
     }
     if (it.mark == 1 && mp > 0f) tick14(mc, s * 0.16f, mp) else if (it.mark == 2 && mp > 0f) cross14(mc, s * 0.16f, mp)
 }
