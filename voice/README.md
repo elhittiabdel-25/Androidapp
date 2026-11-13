@@ -7,5 +7,6 @@ pronunciation rules. Private: the owner's voice, for this app only.
 
 Push a change to `train.cfg` to start a run (.github/workflows/voice-train.yml); results go to the `voice-ft` release.
 
-Run 8 on: every clip lowered from the owner's reading pitch (about 175 Hz) to Kareem's (about 110 Hz) with
-rubberband (pitch 0.632, formants preserved), so the voice learns the delivery without moving up to the owner's register.
+Run 9 on: every clip lowered to Kareem's register in two passes of rubberband: pitch and timbre (formants)
+together by 0.85, then pitch alone by 0.744 (pitch about 175 -> 110 Hz, formants -15%), so the voice learns the
+reader's delivery (rhythm, pauses, melody) without taking on a higher, feminine register or timbre.
