@@ -7,7 +7,7 @@ HERE=$(cd "$(dirname "$0")" && pwd); W=/kaggle/working; T=/tmp/rv; mkdir -p $T $
 nvidia-smi -L
 pip install -q uv && uv venv -q -p 3.10 --seed venv || exit 1
 . venv/bin/activate
-python -m pip install -q "pip<24.1"
+python -m pip install -q "pip<24.1" "setuptools<70" wheel
 pip install -q --extra-index-url https://download.pytorch.org/whl/cu117 "torch==1.13.1+cu117" "pytorch-lightning==1.7.7" \
   "torchmetrics==0.11.4" "numpy<1.24" "librosa==0.9.2" "numba<0.57" "cython<1" "onnxruntime==1.20.1" "onnx<1.16" six "tensorboard<2.12" "protobuf<4" "setuptools<70" wheel || exit 1
 python -c "import torch; print('torch', torch.__version__, 'cuda', torch.cuda.is_available(), torch.cuda.get_device_name(0))" || exit 1

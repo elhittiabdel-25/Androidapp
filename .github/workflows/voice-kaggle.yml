@@ -37,7 +37,7 @@ jobs:
           python - <<'P'
           import json, os
           ku = os.environ["KU"]
-          src = ["!bash $(find /kaggle/input -name run_kaggle.sh | head -1) 2>&1 | tee /kaggle/working/train.log | "
+          src = ["!bash $(grep -l 'setuptools<70' $(find /kaggle/input -name run_kaggle.sh) | head -1) 2>&1 | tee /kaggle/working/train.log | "
                  "grep -E --line-buffered 'torch|start epoch|utterances|Epoch [0-9]+:.*100%|stage|DONE|Error|error'"]
           nb = {"cells": [{"cell_type": "code", "execution_count": None, "metadata": {}, "outputs": [], "source": src}],
                 "metadata": {"kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"}},
