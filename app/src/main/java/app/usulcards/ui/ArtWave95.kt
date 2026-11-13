@@ -236,7 +236,7 @@ internal fun DrawScope.mbidhnScene(a: ArtCtx) = board94(a, 1, B_MBIDHN)
 private val B_GZBADR = listOf(
     Bt94("gzbadr0", ROW94, listOf(It94("crescent", 0), It94("people", 1, 0, Qn.Jade)), head = 2),
     Bt94("gzbadr1", VS94, listOf(It94("people", 0, 0, Qn.Jade), It94("people", 1, 0, Qn.Ember))),
-    Bt94("gzbadr2", ROW94, listOf(It94("txt", 0), It94("check", 1), It94("lock", 2))),
+    Bt94("gzbadr2", ROW94, listOf(It94("txt", 0), It94("people", 1, 0, Qn.Ember), It94("lock", 2))),
     Bt94("gzbadr3", FLOW94, listOf(It94("lock", 0), It94("pen", 1), It94("child", 2))),
 )
 
