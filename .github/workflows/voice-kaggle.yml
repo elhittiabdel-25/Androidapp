@@ -3,13 +3,11 @@ name: voice-kaggle
 # KAGGLE_JSON secret). start: uploads voice/data + scripts as the private dataset <user>/reiman-voice and pushes the
 # private GPU notebook <user>/reiman-voice-train (it runs on Kaggle, up to 12 h, no Actions minutes).
 # status: prints the notebook's state. fetch: downloads its outputs and publishes the .onnx files to "voice-ft".
+# The action is the first word of voice/kaggle.cmd; pushing a change to that file runs it.
 on:
-  workflow_dispatch:
-    inputs:
-      action:
-        description: "start | status | fetch"
-        required: true
-        default: status
+  push:
+    branches: [voice-train]
+    paths: ["voice/kaggle.cmd"]
 permissions:
   contents: write
 jobs:
@@ -18,6 +16,8 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+      - name: Action
+        run: echo "ACT=$(awk '{print $1; exit}' voice/kaggle.cmd)" >> $GITHUB_ENV
       - name: Kaggle CLI
         env:
           KAGGLE_JSON: ${{ secrets.KAGGLE_JSON }}
@@ -27,7 +27,7 @@ jobs:
           pip install -q kaggle
           echo "KU=$(python -c "import json,os;print(json.load(open(os.path.expanduser('~/.kaggle/kaggle.json')))['username'])")" >> $GITHUB_ENV
       - name: Start
-        if: inputs.action == 'start'
+        if: env.ACT == 'start'
         run: |
           set -x
           mkdir -p ds nb && cp -r voice/data voice/prep.py voice/run_kaggle.sh ds/
@@ -50,10 +50,10 @@ jobs:
           P
           kaggle kernels push -p nb
       - name: Status
-        if: inputs.action != 'fetch'
+        if: env.ACT != 'fetch'
         run: kaggle kernels status "$KU/reiman-voice-train" || true
       - name: Fetch
-        if: inputs.action == 'fetch'
+        if: env.ACT == 'fetch'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
