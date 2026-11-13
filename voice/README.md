@@ -6,3 +6,6 @@
 pronunciation rules. Private: the owner's voice, for this app only.
 
 Push a change to `train.cfg` to start a run (.github/workflows/voice-train.yml); results go to the `voice-ft` release.
+
+Run 8 on: every clip lowered from the owner's reading pitch (about 175 Hz) to Kareem's (about 110 Hz) with
+rubberband (pitch 0.632, formants preserved), so the voice learns the delivery without moving up to the owner's register.
