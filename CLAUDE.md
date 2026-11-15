@@ -22,6 +22,13 @@ Read this instead of exploring. Keep replies short; the owner is a visual learne
 - Reminder: reminder/Reminders.kt + ui/ReminderCard.kt. Summary overlay: ui/Scenes.kt (SceneRecap). Seasons: ui/Seasons.kt.
 - Scene review backlog, worst first: tools/cards/REVIEW-2026-11.md (groups 24-29 not yet reviewed).
 
+## Voice
+- New cards (from 2026-11-15) use the enhanced Kareem: `kareem-ft-e399.onnx` (+ `.onnx.json`) from the `voice-ft`
+  release (fine-tuned on the owner's 51 min of reading, 400 epochs; as clear as Kareem, the owner's melody). Before
+  voicing, download it over `$TTS_TOOLS/vits-piper-ar_JO-kareem-medium/ar_JO-kareem-medium.onnx` (keep the original
+  as `.base.onnx`). Old cards keep their clips (REUSE_AUDIO) until the owner asks to re-voice them all.
+- Training: branch `voice-train`, workflow voice-kaggle (Kaggle GPU via secret KAGGLE_JSON; push voice/kaggle.cmd).
+
 ## Saving tokens
 - Never read whole ArtWave files or cards.json; grep for the layout/kind and read ~40 lines.
 - Check Kotlin locally with kc/check.sh before any CI run; use the previews workflow only for a final look, and view at
