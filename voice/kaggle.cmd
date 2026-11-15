@@ -1,1 +1,1 @@
-status reiman-voice-train2 x060907
+fetch reiman-voice-train2 x080815
