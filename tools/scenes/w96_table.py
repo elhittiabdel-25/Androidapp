@@ -3,7 +3,7 @@
 M = dict(R="ROW94", F="FLOW94", V="VS94", N="FAN94", T="TILES94", C="TRACT94", W="WAVE94")
 TONE = dict(gold="Qn.Gold", jade="Qn.Jade", ember="Qn.Ember", rose="Qn.Rose", light="Qn.GoldLight")
 NB = "light:النَّبِيُّ ﷺ:t"
-NB = "light:النبي ﷺ:t"
+NB = "light:النَّبِيُّ ﷺ:t"
 S = [
 # ── أمهات المؤمنين ──
 ("um-khasais", "umkhasais", 0, [
@@ -12,7 +12,7 @@ S = [
  ("face-2", "ولسن كالأمهات في المحرمية", "V", ["check:التعظيم:t:jade", "cross:المحرمية:x"], None, None),
  ("deep-1", "المطهرات المبرآت من كل سوء", "R", ["drop:المطهرات", "star:المبرآت"], "الترضي عنهن", None)]),
 ("um-sawda", "umsawda", 1, [
- ("face-0", "وهاجرا إلى الحبشة", "F", ["kaaba:مكة", "crown:الحبشة"], "سودة", None),
+ ("face-0", "وهاجرا إلى الحبشة", "F", ["kaaba:مَكَّةُ", "crown:الحبشة"], "سودة", None),
  ("face-1", "فكانت أول امرأة تزوجها بعدها", "R", ["txt:خديجة", "txt:سودة:t"], None, None),
  ("face-2", "وهبت يومها وليلتها لعائشة", "F", ["txt:سودة", "sun:يومها", "txt:عائشة"], None, None),
  ("deep-1", "حب النبي ﷺ", "R", ["heart:آثرت", NB], None, None)]),
@@ -37,8 +37,8 @@ S = [
  ("face-2", "أن ينحر ويحلق", "F", ["lips:أشارت", "people:فتبعوه::jade"], "يوم الحديبية", None),
  ("deep-1", "مقتل الحسين", "R", ["txt:الحسين", "drop:فحزنت::rose"], None, None)]),
 ("um-zaynab-j", "umzaynabj", 1, [
- ("face-0", "تحت زيد بن حارثة", "R", ["txt:زينب", "txt:زيد بن حارثة"], None, None),
- ("face-1", "من أحكام التبني", "V", ["scroll:التبني:x:ember", "book:أبطل:t:jade"], None, None),
+ ("face-0", "تحت زيد بن حارثة", "R", ["txt:زَيْنَبُ", "txt:زيد بن حارثة"], None, None),
+ ("face-1", "من أحكام التبني", "V", ["scroll:التبني:x:ember", "book:أَبْطَلَ:t:jade"], None, None),
  ("face-2", "من فوق سبع سماوات", "V", ["people:زوجكن أهاليكن", "star:من فوق سبع سماوات:t"], None, None),
  ("deep-2", "أطولهن يدا بالصدقة", "R", ["hands:أطولهن يدا", "coin:بالصدقة"], None, None)]),
 ("um-juwayriya", "umjuway", 2, [
@@ -47,7 +47,7 @@ S = [
  ("face-2", "مائة أهل بيت", "N", ["house:-", "house:-", "house:-", "key:مائة أهل بيت:t:jade"], "أصهار رسول الله ﷺ", None),
  ("deep-0", "وكان اسمها برة", "F", ["txt:برة", "txt:جويرية:t"], None, None)]),
 ("um-habiba", "umhabiba", 3, [
- ("face-0", "إلى الحبشة", "F", ["kaaba:مكة", "crown:الحبشة"], "أم حبيبة", None),
+ ("face-0", "إلى الحبشة", "F", ["kaaba:مَكَّةُ", "crown:الحبشة"], "أم حبيبة", None),
  ("face-1", "وأصدقها عنه أربعمائة دينار", "R", ["crown:النجاشي", "coin:أربعمائة دينار"], None, None),
  ("face-2", "طوت عنه فراش رسول الله ﷺ", "V", ["txt:أبو سفيان", "bed:فراش رسول الله ﷺ:t"], None, None),
  ("deep-1", "سنة أربع وأربعين", "R", ["hourglass:سنة أربع وأربعين"], None, None)]),
@@ -73,7 +73,7 @@ S = [
  ("face-2", "أحب الناس إليه", "R", ["heart:أحب الناس إليه", "txt:عائشة"], None, None),
  ("deep-1", "ولم يتزوج عليها غيرها", "R", ["txt:خديجة", "lock:حتى ماتت"], None, None)]),
 ("tm-banat", "tmbanat", 3, [
- ("face-0", "كان للنبي ﷺ أربع بنات", "T", ["txt:زينب", "txt:رقية", "txt:أم كلثوم", "txt:فاطمة:t"], None, None),
+ ("face-0", "كان للنبي ﷺ أربع بنات", "T", ["txt:زَيْنَبُ", "txt:رُقَيَّةُ", "txt:أُمُّ كُلْثُومٍ", "txt:فاطمة:t"], None, None),
  ("face-1", "مرحبا بابنتي", "R", [NB, "lips:مرحبا بابنتي", "txt:فاطمة"], None, None),
  ("face-2", "فهذا خير لكما من خادم", "V", ["star:التسبيح:t:jade", "people:خادم"], None, None),
  ("deep-0", "أنقذي نفسك من النار", "R", ["flame:من النار::ember", "txt:فاطمة"], None, None)]),

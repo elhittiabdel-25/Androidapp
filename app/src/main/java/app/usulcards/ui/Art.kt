@@ -718,6 +718,30 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "wdwada" -> wdwadaScene(a)
         "wdmarad" -> wdmaradScene(a)
         "wdwafat" -> wdwafatScene(a)
+        "umkhasais" -> umkhasaisScene(a)
+        "umsawda" -> umsawdaScene(a)
+        "umaisha" -> umaishaScene(a)
+        "umhafsa" -> umhafsaScene(a)
+        "umzaynabk" -> umzaynabkScene(a)
+        "umsalama" -> umsalamaScene(a)
+        "umzaynabj" -> umzaynabjScene(a)
+        "umjuway" -> umjuwayScene(a)
+        "umhabiba" -> umhabibaScene(a)
+        "umsafiyya" -> umsafiyyaScene(a)
+        "ummaymuna" -> ummaymunaScene(a)
+        "tmahl" -> tmahlScene(a)
+        "tmwafa" -> tmwafaScene(a)
+        "tmbanat" -> tmbanatScene(a)
+        "tmahfad" -> tmahfadScene(a)
+        "tmjar" -> tmjarScene(a)
+        "tmkhadam" -> tmkhadamScene(a)
+        "tmbala" -> tmbalaScene(a)
+        "tmkuffar" -> tmkuffarScene(a)
+        "tmjadid" -> tmjadidScene(a)
+        "tmusat" -> tmusatScene(a)
+        "tmnisa" -> tmnisaScene(a)
+        "tmkibar" -> tmkibarScene(a)
+        "tmsighar" -> tmsigharScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -1358,6 +1382,18 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "mbmasjid2", "gzmutah2" -> 5500
     "sbridaa2", "mdmudd2", "mdmaratib2" -> 5750
     "sbnasab0", "sbnasab1", "sbnasab2", "sbnasab3", "sbmawlid0", "sbmawlid1", "sbmawlid2", "sbmawlid3", "sbridaa0", "sbridaa1", "sbsharh0", "sbsharh1", "sbsharh2", "sbsharh3", "sbyutm0", "sbyutm1", "sbyutm2", "sbhifz0", "sbhifz1", "sbhifz2", "sbhifz3", "sbkaaba0", "sbkaaba1", "sbkaaba2", "sbkhadija0", "sbkhadija1", "sbkhadija2", "sbkhadija3", "mdhira0", "mdhira1", "mdhira2", "mdhira3", "mdmudd0", "mdmudd1", "mdmudd3", "mdmaratib1", "mdmaratib3", "mdsirr0", "mdsirr1", "mdsirr3", "mdjahr0", "mdjahr1", "mdjahr2", "mdjahr3", "mdadha0", "mdadha1", "mdadha2", "mdadha3", "mdhabasha0", "mdhabasha1", "mdhabasha2", "mdhabasha3", "mdshib0", "mdshib1", "mdshib2", "mdshib3", "mdtaif0", "mdtaif1", "mdtaif2", "mdtaif3", "mdaqaba0", "mdaqaba1", "mdaqaba2", "mdaqaba3", "mdhijra0", "mdhijra1", "mdhijra2", "mdhijra3", "mbmasjid0", "mbmasjid1", "mbmuakhat0", "mbmuakhat1", "mbwathiqa0", "mbwathiqa1", "mbwathiqa2", "mbwathiqa3", "mbism0", "mbism1", "mbism2", "mbism3", "mbsukkan0", "mbsukkan1", "mbsukkan3", "mbidhn0", "mbidhn2", "mbidhn3", "gzbadr0", "gzbadr1", "gzbadr2", "gzbadr3", "gzuhud0", "gzuhud1", "gzuhud2", "gzkhandaq0", "gzkhandaq1", "gzkhandaq2", "gzkhandaq3", "gzhuday0", "gzhuday1", "gzhuday2", "gzhuday3", "gzkhaybar0", "gzkhaybar1", "gzkhaybar2", "gzkhaybar3", "gzmutah0", "gzmutah1", "gzmutah3", "gzfath0", "gzfath1", "gzfath2", "gzfath3", "gzhunayn0", "gzhunayn1", "gzhunayn2", "gztabuk0", "gztabuk1", "gztabuk2", "gztabuk3", "wdwufud0", "wdwufud2", "wdbaraa0", "wdbaraa1", "wdbaraa2", "wdbaraa3", "wdwada0", "wdwada1", "wdwada3", "wdmarad0", "wdmarad1", "wdmarad2", "wdmarad3", "wdwafat0", "wdwafat1", "wdwafat2", "wdwafat3" -> 6000
+    // wave 96
+    "tmkhadam2" -> 2500
+    "tmwafa3", "tmjar2", "tmjadid2" -> 3250
+    "umzaynabk3" -> 3500
+    "umsalama3", "umsafiyya3" -> 3750
+    "umhabiba3" -> 4500
+    "umkhasais3", "umhafsa1", "umzaynabk0", "umzaynabj3", "ummaymuna1", "tmjar3", "tmkibar1", "tmkibar3" -> 4750
+    "umsawda3", "umzaynabk2", "umsalama0", "tmnisa1" -> 5000
+    "umhafsa3", "umsalama2", "umjuway3", "umsafiyya1" -> 5250
+    "umkhasais2", "umjuway0", "tmahl1", "tmahl2", "tmkuffar1", "tmusat3" -> 5500
+    "umkhasais0", "umaisha3", "umsafiyya2", "tmwafa1", "tmusat2", "tmkibar2", "tmsighar0" -> 5750
+    "umkhasais1", "umsawda0", "umsawda1", "umsawda2", "umaisha0", "umaisha1", "umaisha2", "umhafsa0", "umhafsa2", "umzaynabk1", "umsalama1", "umzaynabj0", "umzaynabj1", "umzaynabj2", "umjuway1", "umjuway2", "umhabiba0", "umhabiba1", "umhabiba2", "umsafiyya0", "ummaymuna0", "ummaymuna2", "ummaymuna3", "tmahl0", "tmahl3", "tmwafa0", "tmwafa2", "tmbanat0", "tmbanat1", "tmbanat2", "tmbanat3", "tmahfad0", "tmahfad1", "tmahfad2", "tmahfad3", "tmjar0", "tmjar1", "tmkhadam0", "tmkhadam1", "tmkhadam3", "tmbala0", "tmbala1", "tmbala2", "tmbala3", "tmkuffar0", "tmkuffar2", "tmkuffar3", "tmjadid0", "tmjadid1", "tmjadid3", "tmusat0", "tmusat1", "tmnisa0", "tmnisa2", "tmnisa3", "tmkibar0", "tmsighar1", "tmsighar2", "tmsighar3" -> 6000
     else -> 1000
 }
 
