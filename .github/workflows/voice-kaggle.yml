@@ -17,7 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Action
-        run: echo "ACT=$(awk '{print $1; exit}' voice/kaggle.cmd)" >> $GITHUB_ENV
+        run: |
+          echo "ACT=$(awk '{print $1; exit}' voice/kaggle.cmd)" >> $GITHUB_ENV
           K=$(awk '{print $2; exit}' voice/kaggle.cmd); case "$K" in reiman-*) ;; *) K=reiman-voice-train;; esac; echo "KID=$K" >> $GITHUB_ENV
           echo "STAGES=$(awk '{print $3; exit}' voice/kaggle.cmd | grep -E '^[0-9]+$' || echo 3)" >> $GITHUB_ENV
       - name: Kaggle CLI
