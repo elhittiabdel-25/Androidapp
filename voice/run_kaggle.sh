@@ -15,6 +15,7 @@ python -c "import torch; print('torch', torch.__version__, 'cuda', torch.cuda.is
 (cd piper/src/python && bash build_monotonic_align.sh) || exit 1
 H=https://huggingface.co/datasets/rhasspy/piper-checkpoints/resolve/main/ar/ar_JO/kareem/medium
 curl -sfL -o kareem.json "$H/config.json" || exit 1
+R=$(find /kaggle/input -name last.ckpt 2>/dev/null | head -1); [ -n "$R" ] && cp "$R" start.ckpt && echo "resuming from $R"
 [ -f start.ckpt ] || curl -sfL -o start.ckpt "$H/epoch%3D5079-step%3D1682020.ckpt" || exit 1
 DATA=$(dirname "$(find "$HERE" /kaggle/input -name metadata.jsonl | head -1)")
 PYTHONPATH=piper/src/python python "$HERE/prep.py" "$DATA" ds kareem.json || exit 1
@@ -30,7 +31,7 @@ for k in $(seq 1 $STAGES); do
   C=$(ls -t $T/ds/lightning_logs/version_*/checkpoints/*.ckpt 2>/dev/null | head -1); echo "stage $k checkpoint: $C"
   [ -z "$C" ] && break
   cp "$C" $W/last.ckpt; CK=$W/last.ckpt
-  N=$(printf "%03d" $((PER * k)))
+  N=$(printf "%03d" $((E0 - 5079 + PER * k)))
   python -m piper_train.export_onnx $W/last.ckpt $W/kareem-ft-e$N.onnx && cp $T/kareem.json $W/kareem-ft-e$N.onnx.json
   ls -la $W
 done

@@ -18,6 +18,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Action
         run: echo "ACT=$(awk '{print $1; exit}' voice/kaggle.cmd)" >> $GITHUB_ENV
+          K=$(awk '{print $2; exit}' voice/kaggle.cmd); case "$K" in reiman-*) ;; *) K=reiman-voice-train;; esac; echo "KID=$K" >> $GITHUB_ENV
+          echo "STAGES=$(awk '{print $3; exit}' voice/kaggle.cmd | grep -E '^[0-9]+$' || echo 3)" >> $GITHUB_ENV
       - name: Kaggle CLI
         env:
           KAGGLE_JSON: ${{ secrets.KAGGLE_JSON }}
@@ -39,28 +41,29 @@ jobs:
           python - <<'P'
           import json, os
           ku = os.environ["KU"]
-          src = ["!S=$(grep -l 'setuptools<70' $(find /kaggle/input -name run_kaggle.sh) | head -1); echo script: $S; [ -n \"$S\" ] && bash $S 2>&1 | tee /kaggle/working/train.log | "
+          src = ["!S=$(grep -l 'setuptools<70' $(find /kaggle/input -name run_kaggle.sh) | head -1); echo script: $S; [ -n \"$S\" ] && STAGES=" + os.environ["STAGES"] + " bash $S 2>&1 | tee /kaggle/working/train.log | "
                  "grep -E --line-buffered 'torch|start epoch|utterances|Epoch [0-9]+:.*100%|stage|DONE|Error|error'"]
           nb = {"cells": [{"cell_type": "code", "execution_count": None, "metadata": {}, "outputs": [], "source": src}],
                 "metadata": {"kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"}},
                 "nbformat": 4, "nbformat_minor": 4}
           json.dump(nb, open("nb/train.ipynb", "w"))
-          json.dump({"id": f"{ku}/reiman-voice-train", "title": "reiman-voice-train", "code_file": "train.ipynb",
+          kid = os.environ["KID"]
+          json.dump({"id": f"{ku}/{kid}", "title": kid, "code_file": "train.ipynb",
                      "language": "python", "kernel_type": "notebook", "is_private": True, "enable_gpu": True,
                      "enable_internet": True, "dataset_sources": [f"{ku}/reiman-voice"], "competition_sources": [],
-                     "kernel_sources": []}, open("nb/kernel-metadata.json", "w"))
+                     "kernel_sources": [f"{ku}/reiman-voice-train"] if kid != "reiman-voice-train" else []}, open("nb/kernel-metadata.json", "w"))
           P
           kaggle kernels push -p nb
       - name: Status
         if: env.ACT != 'fetch'
-        run: kaggle kernels status "$KU/reiman-voice-train" || true
+        run: kaggle kernels status "$KU/$KID" || true
       - name: Fetch
         if: env.ACT == 'fetch'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          kaggle kernels status "$KU/reiman-voice-train"
-          mkdir -p out && kaggle kernels output "$KU/reiman-voice-train" -p out
+          kaggle kernels status "$KU/$KID"
+          mkdir -p out && kaggle kernels output "$KU/$KID" -p out
           ls -la out; tail -40 out/train.log 2>/dev/null | cut -c1-200
           gh release view voice-ft >/dev/null 2>&1 || gh release create voice-ft --prerelease --target voice-train --title "Fine-tuned voice" --notes "Kareem fine-tuned on the reader."
           for f in out/*.onnx out/*.onnx.json out/train.log; do [ -f "$f" ] && gh release upload voice-ft "$f" --clobber; done; true
