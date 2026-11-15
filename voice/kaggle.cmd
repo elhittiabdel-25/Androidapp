@@ -1,1 +1,1 @@
-start reiman-voice-train2 2 x055246
+status reiman-voice-train2 x060907
