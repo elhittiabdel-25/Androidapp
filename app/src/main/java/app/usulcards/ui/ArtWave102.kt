@@ -250,7 +250,7 @@ internal fun DrawScope.umzaynabkScene(a: ArtCtx) {
         { p, f ->
             mother102(Offset(w * 0.5f, h * 0.24f), w * 0.085f, a, "umzaynabk0", 2, 3, f * seg(p, 0.05f, 0.25f))
             house12(Offset(w * 0.3f, ground), w * 0.14f, Color(0xFFE2CCA0), Color(0xFF8A6A40), f, lit = 0.5f)
-            for (k in 0 until 5) figure(Offset(w * (0.5f + 0.08f * k), ground), h * 0.08f, Color(0xFF9A8A80), f * seg(p, 0.3f + 0.04f * k, 0.45f + 0.04f * k))
+            for (k in 0 until 5) person99(Offset(w * (0.5f + 0.08f * k), ground), h * 0.08f, Color(0xFF9A8A80), f * seg(p, 0.3f + 0.04f * k, 0.45f + 0.04f * k))
             for (k in 0 until 5) qIcon("wheat", Offset(mix(w * 0.36f, w * (0.5f + 0.08f * k), easeInOut(seg(p, 0.5f, 0.85f))), ground - h * 0.12f), w * 0.035f, Qn.Gold, f * seg(p, 0.45f, 0.55f), a.t)
             tagAt(a.tag("umzaynabk0", 0, 0), Offset(w * 0.5f, h * 0.42f), f * seg(p, 0.3f, 0.45f), back = Color(0xCC1A3020), ink = ArtInk.Jade)
             tagAt(a.tag("umzaynabk0", 0, 1), Offset(w * 0.66f, ground - h * 0.2f), f * seg(p, 0.7f, 0.85f), ink = ArtInk.Gold)
@@ -304,7 +304,7 @@ internal fun DrawScope.umsalamaScene(a: ArtCtx) {
             sirajMunir(Offset(w * 0.5f, ground - h * 0.18f), w * 0.028f, f, a.t, named = false)
             mother102(Offset(w * 0.25f, h * 0.3f), w * 0.07f, a, "umsalama0", 2, 4, f * seg(p, 0.05f, 0.2f))
             val follow = easeInOut(seg(p, 0.45f, 0.85f))
-            for (k in 0 until 8) figure(Offset(mix(w * (0.62f + 0.045f * k), w * (0.56f + 0.045f * k), follow), ground), h * 0.08f, Color(0xFFC8E8D0), f, arms = 0.6f * follow)
+            for (k in 0 until 8) person99(Offset(mix(w * (0.62f + 0.045f * k), w * (0.56f + 0.045f * k), follow), ground), h * 0.08f, Color(0xFFC8E8D0), f, arms = 0.6f * follow)
             tagAt(a.tag("umsalama2", 0, 2), Offset(w * 0.5f, h * 0.12f), f * seg(p, 0f, 0.15f), ink = ArtInk.Gold)
             tagAt(a.tag("umsalama2", 0, 0), Offset(w * 0.25f, h * 0.45f), f * seg(p, 0.2f, 0.35f), ink = ArtInk.Ivory)
             tagAt(a.tag("umsalama2", 0, 1), Offset(w * 0.76f, ground - h * 0.18f), f * seg(p, 0.6f, 0.75f), back = Color(0xCC1A3020), ink = ArtInk.Jade)
@@ -345,7 +345,7 @@ internal fun DrawScope.umzaynabjScene(a: ArtCtx) {
         { p, f ->
             for (k in 0 until 7) drawArc(Qn.GoldLight, 200f, 140f, false, Offset(w * 0.5f - w * 0.06f * (k + 2), h * 0.02f + h * 0.012f * k), Size(w * 0.12f * (k + 2), h * 0.1f + h * 0.02f * k), alpha = 0.35f * f * seg(p, 0.35f + 0.04f * k, 0.5f + 0.04f * k), style = Stroke(1.2f * density))
             tagAt(a.tag("umzaynabj2", 0, 1), Offset(w * 0.5f, h * 0.1f), f * seg(p, 0.55f, 0.7f), ink = ArtInk.Gold)
-            for (k in 0 until 4) figure(Offset(w * (0.12f + 0.06f * k), ground), h * 0.08f, Color(0xFF9A8AB0), f * seg(p, 0.05f, 0.2f))
+            for (k in 0 until 4) person99(Offset(w * (0.12f + 0.06f * k), ground), h * 0.08f, Color(0xFF9A8AB0), f * seg(p, 0.05f, 0.2f))
             tagAt(a.tag("umzaynabj2", 0, 0), Offset(w * 0.21f, ground - h * 0.2f), f * seg(p, 0.1f, 0.25f), ink = ArtInk.Ivory)
             mother102(Offset(w * 0.68f, h * 0.55f), w * 0.085f, a, "umzaynabj0", 0, 5, f * seg(p, 0.3f, 0.5f))
         },
@@ -458,7 +458,7 @@ internal fun DrawScope.umsafiyyaScene(a: ArtCtx) {
         { p, f ->
             veil102(f)
             qIcon("book", Offset(w * 0.5f, h * 0.4f), w * 0.11f, Qn.Jade, f * seg(p, 0.05f, 0.25f), a.t)
-            for (k in 0 until 12) figure(Offset(w * (0.08f + 0.077f * k), ground), h * 0.06f, Color(0xFFB8B4C0), f * seg(p, 0.3f + 0.03f * k, 0.45f + 0.03f * k))
+            for (k in 0 until 12) person99(Offset(w * (0.08f + 0.077f * k), ground), h * 0.06f, Color(0xFFB8B4C0), f * seg(p, 0.3f + 0.03f * k, 0.45f + 0.03f * k))
             tagAt(a.tag("umsafiyya2", 0, 0), Offset(w * 0.5f, h * 0.58f), f * seg(p, 0.2f, 0.35f), back = Color(0xCC1A3020), ink = ArtInk.Jade)
         },
         { p, f ->
@@ -481,7 +481,7 @@ internal fun DrawScope.ummaymunaScene(a: ArtCtx) {
             kaaba29(Offset(w * 0.5f, ground), w * 0.1f, f)
             for (k in 0 until 10) {
                 val ang = a.t * 0.5f + k * 0.63f
-                figure(Offset(w * 0.5f + cos(ang) * w * 0.25f, ground + sin(ang) * h * 0.03f), h * 0.07f, Color(0xFFF2EEE4), f * seg(p, 0.1f, 0.3f))
+                person99(Offset(w * 0.5f + cos(ang) * w * 0.25f, ground + sin(ang) * h * 0.03f), h * 0.07f, Color(0xFFF2EEE4), f * seg(p, 0.1f, 0.3f))
             }
             tagAt(a.tag("ummaymuna0", 0, 0), Offset(w * 0.5f, h * 0.36f), f * seg(p, 0.1f, 0.25f), ink = ArtInk.Gold)
             tagAt(a.tag("ummaymuna0", 0, 1), Offset(w * 0.5f, h * 0.18f), f * seg(p, 0.45f, 0.6f), ink = ArtInk.Ivory)

@@ -23,7 +23,7 @@ private val Pil101 = Color(0xFFF2EEE4)
 
 private fun DrawScope.group101(c: Offset, n: Int, color: Color, alpha: Float, walk: Float = 0f) {
     if (alpha <= 0.01f) return
-    for (k in 0 until n) figure(Offset(c.x + (k - (n - 1) / 2f) * size.width * 0.03f, c.y - (k % 2) * size.height * 0.01f), size.height * 0.07f, color, alpha, walk = walk + k)
+    for (k in 0 until n) person99(Offset(c.x + (k - (n - 1) / 2f) * size.width * 0.03f, c.y - (k % 2) * size.height * 0.01f), size.height * 0.07f, color, alpha, walk = walk + k)
 }
 
 private fun DrawScope.mount101(c: Offset, w: Float, hgt: Float, color: Color, alpha: Float) {
@@ -137,7 +137,7 @@ internal fun DrawScope.wdwadaScene(a: ArtCtx) {
             mount101(Offset(w * 0.15f, ground), w * 0.3f, h * 0.14f, Color(0xFF8A7058), f)
             kaaba29(Offset(w * 0.85f, ground), w * 0.08f, f)
             val go = easeInOut(seg(p, 0.15f, 0.9f))
-            for (k in 0 until 10) figure(Offset(mix(w * 0.1f, w * 0.6f, go) + k * w * 0.025f, ground), h * 0.07f, Pil101, f, walk = a.t * 2f)
+            for (k in 0 until 10) person99(Offset(mix(w * 0.1f, w * 0.6f, go) + k * w * 0.025f, ground), h * 0.07f, Pil101, f, walk = a.t * 2f)
             sirajMunir(Offset(mix(w * 0.18f, w * 0.72f, go), ground - h * 0.14f), w * 0.022f, f, a.t, named = false)
             tagAt(a.tag("wdwada0", 0, 0), Offset(w * 0.15f, ground - h * 0.22f), f * seg(p, 0f, 0.15f), ink = ArtInk.Ivory)
             tagAt(a.tag("wdwada0", 0, 1), Offset(w * 0.85f, ground - h * 0.24f), f * seg(p, 0.5f, 0.65f), ink = ArtInk.Gold)
@@ -145,7 +145,7 @@ internal fun DrawScope.wdwadaScene(a: ArtCtx) {
         { p, f ->
             val mt = Offset(w * 0.5f, ground)
             mount101(mt, w * 0.5f, h * 0.2f, Color(0xFF9A7E5E), f)
-            for (k in 0 until 24) figure(Offset(w * (0.04f + 0.04f * k), ground + h * 0.02f * (k % 3)), h * 0.05f, Pil101, f, arms = 0.8f * seg(p, 0.6f, 0.8f))
+            for (k in 0 until 24) person99(Offset(w * (0.04f + 0.04f * k), ground + h * 0.02f * (k % 3)), h * 0.05f, Pil101, f, arms = 0.8f * seg(p, 0.6f, 0.8f))
             sirajMunir(Offset(w * 0.47f, ground - h * 0.22f), w * 0.035f, f, a.t, nameAt = Offset(w * 0.47f, h * 0.12f))
             for (k in 0 until 3) drawArc(Qn.GoldLight, -60f, 120f, false, Offset(w * 0.47f - w * 0.06f * (k + 1), ground - h * 0.22f - h * 0.05f * (k + 1)), Size(w * 0.12f * (k + 1), h * 0.1f * (k + 1)), alpha = 0.4f * f * seg(p, 0.3f + 0.06f * k, 0.45f + 0.06f * k), style = Stroke(1.4f * density))
             tagAt(a.tag("wdwada1", 0, 0), Offset(w * 0.22f, h * 0.36f), f * seg(p, 0.05f, 0.2f), ink = ArtInk.Ivory)
@@ -163,7 +163,7 @@ internal fun DrawScope.wdwadaScene(a: ArtCtx) {
             val go = easeInOut(seg(p, 0.2f, 0.9f))
             mount101(Offset(w * 0.88f, ground), w * 0.3f, h * 0.12f, Color(0xFF6A5A58), f)
             qIcon95("flag", Offset(mix(w * 0.15f, w * 0.5f, go), ground - h * 0.22f), w * 0.08f, Qn.Gold, f, a.t)
-            for (k in 0 until 7) figure(Offset(mix(w * 0.12f, w * 0.48f, go) - k * w * 0.035f, ground), h * 0.08f, Jd101, f, walk = a.t * 2f)
+            for (k in 0 until 7) person99(Offset(mix(w * 0.12f, w * 0.48f, go) - k * w * 0.035f, ground), h * 0.08f, Jd101, f, walk = a.t * 2f)
             plain97(Offset(w * 0.3f, h * 0.3f), w * 0.075f, a, "wdwada3", 1, f * seg(p, 0.05f, 0.25f))
             tagAt(a.tag("wdwada3", 0, 0), Offset(w * 0.55f, h * 0.14f), f * seg(p, 0.3f, 0.45f), ink = ArtInk.Gold)
             tagAt(a.tag("wdwada3", 0, 2), Offset(w * 0.88f, ground - h * 0.2f), f * seg(p, 0.6f, 0.75f), ink = ArtInk.Ivory)
@@ -234,7 +234,7 @@ internal fun DrawScope.wdwafatScene(a: ArtCtx) {
         },
         { p, f ->
             drawRect(Color(0xFF14102A), alpha = 0.5f * f)
-            for (k in 0 until 12) figure(Offset(w * (0.08f + 0.075f * k), ground), h * 0.08f, Color(0xFFB8B4C0), f, lean = 0.08f)
+            for (k in 0 until 12) person99(Offset(w * (0.08f + 0.075f * k), ground), h * 0.08f, Color(0xFFB8B4C0), f, lean = 0.08f)
             close97(Offset(w * 0.5f, h * 0.56f), w * 0.08f, a, "wdwafat2", 2, 0, f * seg(p, 0.05f, 0.25f))
             tagAt(a.tag("wdwafat2", 0, 0), Offset(w * 0.5f, h * 0.38f), f * seg(p, 0.25f, 0.4f) * (1f - 0.5f * seg(p, 0.55f, 0.7f)), ink = ArtInk.Ivory)
             softGlow(Offset(w * 0.5f, h * 0.15f), w * 0.2f, Qn.Jade, 0.3f * f * seg(p, 0.55f, 0.8f))

@@ -81,7 +81,7 @@ internal fun DrawScope.fork104(c: Offset, open: Int, u: Float, alpha: Float) {
     }
 }
 
-private fun DrawScope.hills104(ground: Float, color: Color, alpha: Float = 1f) {
+internal fun DrawScope.hills104(ground: Float, color: Color, alpha: Float = 1f) {
     val w = size.width
     val h = size.height
     drawPath(Path().apply {
@@ -90,7 +90,7 @@ private fun DrawScope.hills104(ground: Float, color: Color, alpha: Float = 1f) {
     }, color, alpha = alpha)
 }
 
-private fun DrawScope.tree104(foot: Offset, s: Float, leaf: Color, fruit: Color, alpha: Float, grow: Float = 1f) {
+internal fun DrawScope.tree104(foot: Offset, s: Float, leaf: Color, fruit: Color, alpha: Float, grow: Float = 1f) {
     if (alpha <= 0.01f) return
     drawLine(Color(0xFF6A4A30), foot, foot + Offset(0f, -s * grow), s * 0.1f, StrokeCap.Round, alpha = alpha)
     drawCircle(leaf, s * 0.45f * grow, foot + Offset(0f, -s * grow), alpha = alpha)
@@ -100,7 +100,7 @@ private fun DrawScope.tree104(foot: Offset, s: Float, leaf: Color, fruit: Color,
     }
 }
 
-private fun DrawScope.dawn104(u: Float, ground: Float) {
+internal fun DrawScope.dawn104(u: Float, ground: Float) {
     val w = size.width
     val h = size.height
     drawRect(Brush.verticalGradient(listOf(lerpColor(Color(0xFF0E1530), Color(0xFF6A8AC0), u), lerpColor(Color(0xFF2A3560), Color(0xFFF2C08A), u)), endY = ground))
@@ -409,7 +409,7 @@ internal fun DrawScope.tthushiratScene(a: ArtCtx) {
             for (k in 0 until 14) {
                 val home = Offset(w * (0.1f + 0.06f * k), ground)
                 val swirl = Offset(w * 0.5f + cos(k * 0.9f + a.t) * w * 0.25f, ground)
-                figure(Offset(mix(home.x, swirl.x, mixu), ground), h * 0.08f, if (k % 2 == 0) Color(0xFFD8C8E8) else Color(0xFFC8E8D0), f, walk = a.t * 2f * mixu)
+                person99(Offset(mix(home.x, swirl.x, mixu), ground), h * 0.08f, if (k % 2 == 0) Color(0xFFD8C8E8) else Color(0xFFC8E8D0), f, walk = a.t * 2f * mixu)
             }
             tagAt(a.tag("tthushirat2", 0, 0), Offset(w * 0.55f, h * 0.36f), f * seg(p, 0.35f, 0.5f), ink = ArtInk.Gold)
             tagAt(a.tag("tthushirat2", 0, 1), Offset(w * 0.55f, h * 0.24f), f * seg(p, 0.6f, 0.75f), ink = ArtInk.Ivory)
@@ -437,7 +437,7 @@ internal fun DrawScope.ttnabaScene(a: ArtCtx) {
             nightSky(a.t, S97.Dusk, S97.DuskLow, ground, 0.6f)
             dunes97(ground, S97.SandDark, Color(0xFF6A5236))
             kaaba29(Offset(w * 0.8f, ground), w * 0.06f, f)
-            for (k in 0 until 6) figure(Offset(w * (0.12f + 0.08f * k), ground), h * 0.08f, Color(0xFF8A7A6A), f, lean = 0.1f * sin(a.t * 2f + k))
+            for (k in 0 until 6) person99(Offset(w * (0.12f + 0.08f * k), ground), h * 0.08f, Color(0xFF8A7A6A), f, lean = 0.1f * sin(a.t * 2f + k))
             qIcon("scroll", Offset(w * 0.36f, h * 0.4f), w * 0.08f, T104.Page, f * seg(p, 0.3f, 0.45f), a.t)
             for (k in 0 until 4) drawCircle(Qn.GoldLight, w * 0.006f, Offset(w * (0.2f + 0.08f * k), h * 0.56f - h * 0.03f * sin(a.t * 3f + k)), alpha = f * seg(p, 0.4f, 0.6f))
             tagAt(a.tag("ttnaba0", 0, 0), Offset(w * 0.32f, ground - h * 0.18f), f * seg(p, 0.05f, 0.2f), back = Color(0xCC401A20), ink = ArtInk.Ivory)
@@ -454,7 +454,7 @@ internal fun DrawScope.ttnabaScene(a: ArtCtx) {
             plain97(Offset(w * 0.25f, h * 0.3f), w * 0.07f, a, "ttnaba2", 1, f * seg(p, 0.05f, 0.25f))
             val rise = easeOut(seg(p, 0.3f, 0.8f))
             drawRect(Color(0xFF3A2C22), Offset(0f, h * 0.78f), Size(w, h * 0.22f), alpha = f)
-            for (k in 0 until 7) figure(Offset(w * (0.4f + 0.08f * k), h * 0.78f + h * 0.08f * (1f - rise)), h * 0.07f, Color(0xFFE8E4DA), f * rise)
+            for (k in 0 until 7) person99(Offset(w * (0.4f + 0.08f * k), h * 0.78f + h * 0.08f * (1f - rise)), h * 0.07f, Color(0xFFE8E4DA), f * rise)
             qIcon("hourglass", Offset(w * 0.65f, h * 0.36f), w * 0.07f, Qn.GoldLight, f * seg(p, 0.2f, 0.35f), a.t)
             tagAt(a.tag("ttnaba2", 0, 0), Offset(w * 0.65f, h * 0.24f), f * seg(p, 0.3f, 0.45f), ink = ArtInk.Gold)
         },
@@ -499,7 +499,7 @@ internal fun DrawScope.ttzuwwijatScene(a: ArtCtx) {
             val down = easeInOut(seg(p, 0.3f, 0.75f))
             for (k in 0 until 5) {
                 val x = w * (0.2f + 0.15f * k)
-                figure(Offset(x, h * 0.82f), h * 0.1f, Color(0xFFB8B4C0), f * seg(p, 0.15f, 0.3f))
+                person99(Offset(x, h * 0.82f), h * 0.1f, Color(0xFFB8B4C0), f * seg(p, 0.15f, 0.3f))
                 drawCircle(Color(0xFFE8F0FF), w * 0.015f, Offset(x, mix(h * 0.32f, h * 0.7f, down)), alpha = f * (1f - 0.7f * seg(p, 0.75f, 0.9f)))
             }
             tagAt(a.tag("ttzuwwijat2", 0, 0), Offset(w * 0.85f, h * 0.34f), f * seg(p, 0.25f, 0.4f), ink = ArtInk.Ivory)
@@ -510,8 +510,8 @@ internal fun DrawScope.ttzuwwijatScene(a: ArtCtx) {
             drawLine(Color(0xFF8A8494), Offset(w * 0.5f, h * 0.25f), Offset(w * 0.5f, h * 0.85f), 1.5f * density, alpha = f)
             val gather = easeInOut(seg(p, 0.15f, 0.6f))
             for (k in 0 until 6) {
-                figure(Offset(mix(w * (0.05f + 0.15f * k), w * (0.15f + 0.05f * k), gather), h * 0.8f), h * 0.08f, Qn.Ember, f * if (k < 3) 1f else 0f)
-                figure(Offset(mix(w * (0.95f - 0.15f * (k - 3)), w * (0.85f - 0.05f * (k - 3)), gather), h * 0.8f), h * 0.08f, Qn.Jade, f * if (k >= 3) 1f else 0f)
+                person99(Offset(mix(w * (0.05f + 0.15f * k), w * (0.15f + 0.05f * k), gather), h * 0.8f), h * 0.08f, Qn.Ember, f * if (k < 3) 1f else 0f)
+                person99(Offset(mix(w * (0.95f - 0.15f * (k - 3)), w * (0.85f - 0.05f * (k - 3)), gather), h * 0.8f), h * 0.08f, Qn.Jade, f * if (k >= 3) 1f else 0f)
             }
             tagAt(a.tag("ttzuwwijat3", 0, 0), Offset(w * 0.25f, h * 0.5f), f * seg(p, 0.2f, 0.35f), back = Color(0xCC401A20), ink = ArtInk.Ivory)
             tagAt(a.tag("ttzuwwijat3", 0, 1), Offset(w * 0.75f, h * 0.5f), f * seg(p, 0.45f, 0.6f), back = Color(0xCC1A3020), ink = ArtInk.Jade)

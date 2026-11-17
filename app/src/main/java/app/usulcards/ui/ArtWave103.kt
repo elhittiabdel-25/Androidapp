@@ -37,7 +37,7 @@ private fun DrawScope.room103(a: ArtCtx, ground: Float) {
     dunes97(ground, Color(0xFF4A3A2A), Color(0xFF3A2E24))
 }
 
-private fun DrawScope.kid103(foot: Offset, alpha: Float, walk: Float = 0f) = figure(foot, size.height * 0.055f, Kid103, alpha, walk = walk)
+private fun DrawScope.kid103(foot: Offset, alpha: Float, walk: Float = 0f) = person99(foot, size.height * 0.055f, Kid103, alpha, walk = walk)
 
 /** Two tags facing each other across a line: the wrong way (crossed, left) and the right way (lit, right). */
 private fun DrawScope.vs103(a: ArtCtx, kind: String, wrong: Int, right: Int, p: Float, f: Float, iconL: String, iconR: String) {
@@ -119,7 +119,7 @@ internal fun DrawScope.tmwafaScene(a: ArtCtx) {
             for (k in 0 until 3) {
                 val go = easeInOut(seg(p, 0.15f + 0.15f * k, 0.5f + 0.15f * k))
                 qIcon("cup", Offset(mix(w * 0.25f, w * (0.5f + 0.15f * k), go), ground - h * 0.14f), w * 0.035f, Qn.GoldLight, f * seg(p, 0.1f, 0.2f), a.t)
-                figure(Offset(w * (0.5f + 0.15f * k), ground), h * 0.08f, Qn.Rose, f)
+                person99(Offset(w * (0.5f + 0.15f * k), ground), h * 0.08f, Qn.Rose, f)
             }
             tagAt(a.tag("tmwafa1", 0, 0), Offset(w * 0.65f, h * 0.3f), f * seg(p, 0.35f, 0.5f), ink = ArtInk.Gold)
         },
@@ -298,7 +298,7 @@ internal fun DrawScope.tmbalaScene(a: ArtCtx) {
         { street103(a, ground) },
         { p, f ->
             sirajMunir(Offset(w * 0.32f, ground - h * 0.16f), w * 0.028f, f, a.t, named = false)
-            figure(Offset(w * 0.6f, ground), h * 0.09f, Color(0xFF9A8A80), f, lean = 0.15f)
+            person99(Offset(w * 0.6f, ground), h * 0.09f, Color(0xFF9A8A80), f, lean = 0.15f)
             qIcon("heart", Offset(w * 0.46f, ground - h * 0.28f), w * 0.06f, Qn.Rose, f * seg(p, 0.15f, 0.3f), a.t)
             tagAt(a.tag("tmbala0", 0, 0), Offset(w * 0.32f, h * 0.3f), f * seg(p, 0.15f, 0.3f), ink = ArtInk.Ivory)
             tagAt(a.tag("tmbala0", 0, 1), Offset(w * 0.68f, ground - h * 0.2f), f * seg(p, 0.5f, 0.65f), ink = ArtInk.Ivory)
@@ -326,8 +326,8 @@ internal fun DrawScope.tmkuffarScene(a: ArtCtx) {
         { room103(a, ground) },
         { p, f ->
             balance12(Offset(w * 0.5f, h * 0.68f), w * 0.16f, 0.02f * sin(a.t), Qn.GoldLight, f * seg(p, 0.05f, 0.25f))
-            figure(Offset(w * 0.2f, ground), h * 0.09f, Color(0xFFC8E8D0), f)
-            figure(Offset(w * 0.8f, ground), h * 0.09f, Color(0xFF9A8AB0), f)
+            person99(Offset(w * 0.2f, ground), h * 0.09f, Color(0xFFC8E8D0), f)
+            person99(Offset(w * 0.8f, ground), h * 0.09f, Color(0xFF9A8AB0), f)
             tagAt(a.tag("tmkuffar0", 0, 0), Offset(w * 0.5f, h * 0.24f), f * seg(p, 0.3f, 0.45f), back = Color(0xCC1A3020), ink = ArtInk.Jade)
         },
         { p, f ->
@@ -371,7 +371,7 @@ internal fun DrawScope.tmjadidScene(a: ArtCtx) {
         },
         { p, f ->
             sirajMunir(Offset(w * 0.3f, ground - h * 0.16f), w * 0.028f, f, a.t, named = false)
-            figure(Offset(w * 0.55f, ground), h * 0.1f, Color(0xFFC8E8D0), f)
+            person99(Offset(w * 0.55f, ground), h * 0.1f, Color(0xFFC8E8D0), f)
             pray12(Offset(w * 0.75f, ground), h * 0.1f, Color(0xFFC8E8D0), f * seg(p, 0.3f, 0.5f))
             qIcon("hands", Offset(w * 0.6f, h * 0.36f), w * 0.07f, Qn.GoldLight, f * seg(p, 0.55f, 0.7f), a.t)
             tagAt(a.tag("tmjadid1", 0, 0), Offset(w * 0.75f, ground - h * 0.2f), f * seg(p, 0.3f, 0.45f), back = Color(0xCC1A3020), ink = ArtInk.Jade)
@@ -388,7 +388,7 @@ internal fun DrawScope.tmjadidScene(a: ArtCtx) {
         { p, f ->
             plain97(Offset(w * 0.25f, h * 0.3f), w * 0.07f, a, "tmjadid3", 0, f * seg(p, 0.05f, 0.25f))
             val go = easeInOut(seg(p, 0.3f, 0.85f))
-            for (k in 0 until 5) figure(Offset(mix(w * 0.2f, w * 0.7f, go) - k * w * 0.04f, ground), h * 0.08f, Color(0xFFC8E8D0), f, walk = a.t * 2f)
+            for (k in 0 until 5) person99(Offset(mix(w * 0.2f, w * 0.7f, go) - k * w * 0.04f, ground), h * 0.08f, Color(0xFFC8E8D0), f, walk = a.t * 2f)
             house12(Offset(w * 0.85f, ground), w * 0.12f, Warm103, Trim103, f, lit = seg(p, 0.7f, 0.9f))
             tagAt(a.tag("tmjadid3", 0, 1), Offset(w * 0.85f, ground - h * 0.22f), f * seg(p, 0.65f, 0.8f), ink = ArtInk.Ivory)
         },
@@ -411,20 +411,20 @@ internal fun DrawScope.tmusatScene(a: ArtCtx) {
         { p, f ->
             val near = easeInOut(seg(p, 0.1f, 0.45f))
             sirajMunir(Offset(w * 0.32f, ground - h * 0.16f), w * 0.03f, f, a.t, nameAt = Offset(w * 0.32f, h * 0.14f))
-            figure(Offset(mix(w * 0.8f, w * 0.5f, near), ground), h * 0.1f, Color(0xFFB8B4C0), f, walk = a.t * 2f * (1f - near))
+            person99(Offset(mix(w * 0.8f, w * 0.5f, near), ground), h * 0.1f, Color(0xFFB8B4C0), f, walk = a.t * 2f * (1f - near))
             for (k in 0 until 3) drawArc(Qn.GoldLight, -40f, 80f, false, Offset(w * 0.34f - w * 0.03f * (k + 1), ground - h * 0.16f - h * 0.03f * (k + 1)), Size(w * 0.06f * (k + 1), h * 0.06f * (k + 1)), alpha = 0.5f * f * seg(p, 0.5f + 0.06f * k, 0.65f + 0.06f * k), style = Stroke(1.3f * density))
             tagAt(a.tag("tmusat1", 0, 2), Offset(w * 0.6f, ground - h * 0.18f), f * seg(p, 0.1f, 0.25f), ink = ArtInk.Ivory)
             tagAt(a.tag("tmusat1", 0, 1), Offset(w * 0.5f, h * 0.36f), f * seg(p, 0.55f, 0.7f), ink = ArtInk.Gold)
         },
         { p, f ->
             sirajMunir(Offset(w * 0.42f, ground - h * 0.16f), w * 0.03f, f, a.t, named = false)
-            figure(Offset(w * 0.52f, ground), h * 0.1f, Color(0xFFB8B4C0), f)
+            person99(Offset(w * 0.52f, ground), h * 0.1f, Color(0xFFB8B4C0), f)
             softGlow(Offset(w * 0.52f, ground - h * 0.08f), w * 0.1f, Qn.GoldLight, 0.5f * f * seg(p, 0.2f, 0.5f))
             qIcon("hands", Offset(w * 0.5f, h * 0.36f), w * 0.08f, Qn.Jade, f * seg(p, 0.4f, 0.6f), a.t)
             tagAt(a.tag("tmusat2", 0, 0), Offset(w * 0.5f, h * 0.24f), f * seg(p, 0.5f, 0.65f), back = Color(0xCC1A3020), ink = ArtInk.Jade)
         },
         { p, f ->
-            for (k in 0 until 14) figure(Offset(w * (0.08f + 0.065f * k), ground), h * 0.08f, Color(0xFFB8B4C0), f)
+            for (k in 0 until 14) person99(Offset(w * (0.08f + 0.065f * k), ground), h * 0.08f, Color(0xFFB8B4C0), f)
             sirajMunir(Offset(w * 0.5f, h * 0.3f), w * 0.035f, f, a.t, named = false)
             for (k in 0 until 3) drawArc(Qn.GoldLight, 30f, 120f, false, Offset(w * 0.5f - w * 0.1f * (k + 1), h * 0.3f - h * 0.05f * (k + 1)), Size(w * 0.2f * (k + 1), h * 0.1f * (k + 1)), alpha = 0.45f * f * seg(p, 0.3f + 0.08f * k, 0.45f + 0.08f * k), style = Stroke(1.4f * density))
             tagAt(a.tag("tmusat3", 0, 0), Offset(w * 0.5f, ground - h * 0.18f), f * seg(p, 0.1f, 0.25f), ink = ArtInk.Ivory)
@@ -442,15 +442,15 @@ internal fun DrawScope.tmnisaScene(a: ArtCtx) {
         { daySky12(Qn.DayTop, Color(0xFFF2E2B8), ground, Color(0xFFB8A070)) },
         { p, f ->
             kaaba29(Offset(w * 0.2f, ground), w * 0.07f, f)
-            for (k in 0 until 16) figure(Offset(w * (0.32f + 0.04f * k), ground + h * 0.02f * (k % 2)), h * 0.05f, Color(0xFFF2EEE4), f)
+            for (k in 0 until 16) person99(Offset(w * (0.32f + 0.04f * k), ground + h * 0.02f * (k % 2)), h * 0.05f, Color(0xFFF2EEE4), f)
             sirajMunir(Offset(w * 0.6f, h * 0.4f), w * 0.035f, f, a.t, named = false)
             tagAt(a.tag("tmnisa0", 0, 0), Offset(w * 0.2f, ground - h * 0.22f), f * seg(p, 0.05f, 0.2f), ink = ArtInk.Gold)
             tagAt(a.tag("tmnisa0", 0, 1), Offset(w * 0.6f, h * 0.24f), f * seg(p, 0.35f, 0.5f), ink = ArtInk.Ivory)
         },
         { p, f ->
             veil103(f)
-            for (k in 0 until 3) figure(Offset(w * (0.2f + 0.07f * k), h * 0.7f), h * 0.1f, Qn.Rose, f * seg(p, 0.05f, 0.25f))
-            for (k in 0 until 3) figure(Offset(w * (0.66f + 0.07f * k), h * 0.7f), h * 0.1f, Color(0xFFB8C8E0), f * seg(p, 0.2f, 0.4f))
+            for (k in 0 until 3) person99(Offset(w * (0.2f + 0.07f * k), h * 0.7f), h * 0.1f, Qn.Rose, f * seg(p, 0.05f, 0.25f))
+            for (k in 0 until 3) person99(Offset(w * (0.66f + 0.07f * k), h * 0.7f), h * 0.1f, Color(0xFFB8C8E0), f * seg(p, 0.2f, 0.4f))
             balance12(Offset(w * 0.5f, h * 0.62f), w * 0.1f, 0f, Qn.GoldLight, f * seg(p, 0.45f, 0.6f))
             tagAt(a.tag("tmnisa1", 0, 0), Offset(w * 0.27f, h * 0.52f), f * seg(p, 0.1f, 0.25f), ink = ArtInk.Ivory)
             tagAt(a.tag("tmnisa1", 0, 1), Offset(w * 0.73f, h * 0.52f), f * seg(p, 0.25f, 0.4f), ink = ArtInk.Ivory)
@@ -487,8 +487,8 @@ internal fun DrawScope.tmkibarScene(a: ArtCtx) {
         { street103(a, ground) },
         { p, f ->
             kid103(Offset(w * 0.22f, ground), f * seg(p, 0.05f, 0.2f))
-            figure(Offset(w * 0.5f, ground), h * 0.09f, Qn.Rose, f * seg(p, 0.25f, 0.4f))
-            figure(Offset(w * 0.78f, ground), h * 0.085f, Color(0xFFD0CCC4), f * seg(p, 0.45f, 0.6f), lean = 0.2f)
+            person99(Offset(w * 0.5f, ground), h * 0.09f, Qn.Rose, f * seg(p, 0.25f, 0.4f))
+            person99(Offset(w * 0.78f, ground), h * 0.085f, Color(0xFFD0CCC4), f * seg(p, 0.45f, 0.6f), lean = 0.2f)
             for (k in 0 until 3) tagAt(a.tag("tmkibar0", 0, k), Offset(w * (0.22f + 0.28f * k), ground - h * 0.2f), f * seg(p, 0.05f + 0.2f * k, 0.2f + 0.2f * k), ink = ArtInk.Ivory)
             drawArc(Qn.GoldLight, 200f, 140f, false, Offset(w * 0.12f, ground - h * 0.4f), Size(w * 0.76f, h * 0.3f), alpha = 0.6f * f * seg(p, 0.65f, 0.85f), style = Stroke(2f * density))
             tagAt(a.tag("tmkibar0", 0, 3), Offset(w * 0.5f, h * 0.18f), f * seg(p, 0.7f, 0.85f), ink = ArtInk.Gold)
@@ -496,14 +496,14 @@ internal fun DrawScope.tmkibarScene(a: ArtCtx) {
         { p, f ->
             veil103(f)
             kid103(Offset(w * 0.3f, h * 0.7f), f * seg(p, 0.05f, 0.2f))
-            figure(Offset(w * 0.7f, h * 0.7f), h * 0.11f, Color(0xFFD0CCC4), f * seg(p, 0.4f, 0.55f), lean = 0.2f)
+            person99(Offset(w * 0.7f, h * 0.7f), h * 0.11f, Color(0xFFD0CCC4), f * seg(p, 0.4f, 0.55f), lean = 0.2f)
             qIcon("heart", Offset(w * 0.3f, h * 0.38f), w * 0.07f, Qn.Rose, f * seg(p, 0.15f, 0.3f), a.t)
             qIcon("crown", Offset(w * 0.7f, h * 0.38f), w * 0.07f, Qn.GoldLight, f * seg(p, 0.5f, 0.65f), a.t)
             tagAt(a.tag("tmkibar1", 0, 0), Offset(w * 0.3f, h * 0.5f), f * seg(p, 0.15f, 0.3f), ink = ArtInk.Ivory)
             tagAt(a.tag("tmkibar1", 0, 1), Offset(w * 0.7f, h * 0.5f), f * seg(p, 0.5f, 0.65f), ink = ArtInk.Gold)
         },
         { p, f ->
-            for (k in 0 until 3) figure(Offset(w * (0.3f + 0.1f * k), ground), h * (0.08f + 0.01f * k), Color(0xFFB8B4C0), f * if (k == 2) 1f else 0.6f)
+            for (k in 0 until 3) person99(Offset(w * (0.3f + 0.1f * k), ground), h * (0.08f + 0.01f * k), Color(0xFFB8B4C0), f * if (k == 2) 1f else 0.6f)
             sirajMunir(Offset(w * 0.75f, ground - h * 0.16f), w * 0.028f, f, a.t, named = false)
             for (k in 0 until 2) drawArc(Qn.GoldLight, 150f, 60f, false, Offset(w * 0.73f - w * 0.04f * (k + 1), ground - h * 0.16f - h * 0.04f * (k + 1)), Size(w * 0.08f * (k + 1), h * 0.08f * (k + 1)), alpha = 0.5f * f * seg(p, 0.2f, 0.4f), style = Stroke(1.3f * density))
             tagAt(a.tag("tmkibar2", 0, 0), Offset(w * 0.6f, h * 0.36f), f * seg(p, 0.3f, 0.45f), ink = ArtInk.Gold)

@@ -262,7 +262,7 @@ S = [
  ("deep-2", "مائة وسبعة", "T", ["txt:مائة وسبعة"], "وأبياتها", None)]),
 ]
 # Cards redrawn in the illustrated style (wave 104 on): their scene function lives in ArtWave104+, not here.
-REDRAWN = {"tt-mafhum", "tt-tanawwu", "tt-tadadd", "tt-asbab", "tt-lafz", "tt-tabaqat", "tt-hushirat", "tt-naba", "tt-zuwwijat", "tt-fajr", "tt-shaf", "tt-quran", "tt-tin", "tt-qadr", "tt-falaq"}
+REDRAWN = {"tz-mujadila", "tz-hashr", "tz-mumtahana", "tz-saff", "tz-jumua", "tz-munafiqun", "tz-taghabun", "tz-talaq", "tz-tahrim", "tz-mulk", "tz-qalam", "tz-haqqa", "tz-maarij", "tz-nuh", "tz-jinn", "tz-muzzammil", "tz-muddaththir", "tz-qiyama", "tz-insan", "tz-mursalat", "tt-mafhum", "tt-tanawwu", "tt-tadadd", "tt-asbab", "tt-lafz", "tt-tabaqat", "tt-hushirat", "tt-naba", "tt-zuwwijat", "tt-fajr", "tt-shaf", "tt-quran", "tt-tin", "tt-qadr", "tt-falaq"}
 kt, sc, meta = [], [], []
 for cid, lay, sky, beats in S:
     rows, kinds, fig, kb = [], [], False, []

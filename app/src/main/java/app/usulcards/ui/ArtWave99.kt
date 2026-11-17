@@ -20,6 +20,17 @@ import kotlin.math.sin
 
 private val Palm99 = Color(0xFF6A4A30)
 
+/**
+ * A faceless figure for waves 99 on: a third taller than [figure] and with a soft dark shadow pass, so it reads on
+ * daylight sand as well as at night.
+ */
+internal fun DrawScope.person99(foot: Offset, tall: Float, color: Color, alpha: Float = 1f, walk: Float = 0f, lean: Float = 0f, arms: Float = 0f) {
+    if (alpha <= 0.01f) return
+    val t = tall * 1.35f
+    figure(foot + Offset(density * 1.2f, density * 1.2f), t, Color(0xFF2A2018), alpha * 0.45f, walk = walk, lean = lean, arms = arms)
+    figure(foot, t, color, alpha, walk = walk, lean = lean, arms = arms)
+}
+
 /** The first mosque: palm-trunk pillars, a roof of fronds, mud-brick walls; [build] 0..1 raises it. */
 private fun DrawScope.masjid99(foot: Offset, s: Float, build: Float, alpha: Float) {
     if (alpha <= 0.01f) return
@@ -49,14 +60,14 @@ internal fun DrawScope.mbmasjidScene(a: ArtCtx) {
     film98(a, "mbmasjid", listOf(Shot(Offset(w * 0.5f, h * 0.6f), 1f), Shot(Offset(w * 0.4f, h * 0.6f), 1.08f), Shot(Offset(w * 0.5f, h * 0.55f), 1.05f), Shot(Offset(w * 0.5f, h * 0.55f), 1f)),
         { madinah99(ground, a.t) },
         { p, f ->
-            camel26(Offset(w * 0.5f, ground), h * 0.16f, Color(0xFF7A5A3A), f, a.t)
-            sirajMunir(Offset(w * 0.5f, ground - h * 0.27f), w * 0.025f, f, a.t, named = false)
+            camel26(Offset(w * 0.5f, ground), h * 0.26f, Color(0xFF7A5A3A), f, a.t)
+            sirajMunir(Offset(w * 0.5f, ground - h * 0.34f), w * 0.025f, f, a.t, named = false)
             drawCircle(Qn.GoldLight, w * 0.08f * easeOut(seg(p, 0.3f, 0.7f)), Offset(w * 0.5f, ground), alpha = 0.6f * f, style = Stroke(2f * density))
             tagAt(a.tag("mbmasjid0", 0, 1), Offset(w * 0.5f, h * 0.1f), f * seg(p, 0f, 0.15f), ink = ArtInk.Gold)
             tagAt(a.tag("mbmasjid0", 0, 0), Offset(w * 0.5f, ground + h * 0.06f), f * seg(p, 0.5f, 0.65f), ink = ArtInk.Ivory)
         },
         { p, f ->
-            for (k in 0 until 2) figure(Offset(w * (0.24f + 0.07f * k), ground), h * 0.09f, Qn.Person, f)
+            for (k in 0 until 2) person99(Offset(w * (0.24f + 0.07f * k), ground), h * 0.09f, Qn.Person, f)
             fqCoins(Offset(w * 0.6f, ground - h * 0.02f), w * 0.02f, 4, f * seg(p, 0.4f, 0.6f))
             sirajMunir(Offset(w * 0.7f, ground - h * 0.2f), w * 0.025f, f, a.t, named = false)
             tagAt(a.tag("mbmasjid1", 0, 0), Offset(w * 0.27f, ground - h * 0.18f), f * seg(p, 0.1f, 0.25f), ink = ArtInk.Ivory)
@@ -67,7 +78,7 @@ internal fun DrawScope.mbmasjidScene(a: ArtCtx) {
             val carry = ((a.t * 0.5f) % 1f)
             for (k in 0 until 4) {
                 val x = w * (0.12f + 0.2f * k)
-                figure(Offset(x, ground), h * 0.11f, Qn.Person, f, arms = 0.8f, walk = a.t * 2f)
+                person99(Offset(x, ground), h * 0.11f, Qn.Person, f, arms = 0.8f, walk = a.t * 2f)
                 drawRoundRect(Color(0xFF9A7A5A), Offset(x - w * 0.015f, ground - h * 0.15f), Size(w * 0.03f, h * 0.025f), CornerRadius(2f * density), alpha = f)
             }
             sirajMunir(Offset(w * (0.2f + 0.6f * carry), ground - h * 0.3f), w * 0.025f, f, a.t, nameAt = Offset(w * 0.5f, h * 0.12f))
@@ -92,8 +103,8 @@ internal fun DrawScope.mbmuakhatScene(a: ArtCtx) {
         { p, f ->
             val meet = easeInOut(seg(p, 0.1f, 0.6f))
             for (k in 0 until 4) {
-                figure(Offset(mix(w * 0.05f, w * 0.38f, meet) - k * w * 0.05f, ground), h * 0.11f, Color(0xFFD8C8E8), f, walk = a.t * 2f * (1f - meet))
-                figure(Offset(mix(w * 0.95f, w * 0.62f, meet) + k * w * 0.05f, ground), h * 0.11f, Color(0xFFC8E8D0), f, walk = a.t * 2f * (1f - meet))
+                person99(Offset(mix(w * 0.05f, w * 0.38f, meet) - k * w * 0.05f, ground), h * 0.11f, Color(0xFFD8C8E8), f, walk = a.t * 2f * (1f - meet))
+                person99(Offset(mix(w * 0.95f, w * 0.62f, meet) + k * w * 0.05f, ground), h * 0.11f, Color(0xFFC8E8D0), f, walk = a.t * 2f * (1f - meet))
             }
             for (k in 0 until 4) drawLine(Qn.GoldLight, Offset(mix(w * 0.05f, w * 0.38f, meet) - k * w * 0.05f, ground - h * 0.07f), Offset(mix(w * 0.95f, w * 0.62f, meet) + k * w * 0.05f, ground - h * 0.07f), 1.2f * density, alpha = 0.6f * f * seg(p, 0.6f, 0.8f))
             tagAt(a.tag("mbmuakhat0", 0, 2), Offset(w * 0.5f, h * 0.12f), f * seg(p, 0f, 0.15f), ink = ArtInk.Gold)
@@ -103,7 +114,7 @@ internal fun DrawScope.mbmuakhatScene(a: ArtCtx) {
         { p, f ->
             drawRect(Color(0xFF1E2234), alpha = 0.45f * f)
             house12(Offset(w * 0.5f, ground), w * 0.3f, Color(0xFFE2CCA0), Color(0xFF8A6A40), f, lit = 0.5f)
-            for (k in 0 until 2) figure(Offset(w * (0.42f + 0.16f * k), ground), h * 0.13f, if (k == 0) Color(0xFFD8C8E8) else Color(0xFFC8E8D0), f)
+            for (k in 0 until 2) person99(Offset(w * (0.42f + 0.16f * k), ground), h * 0.13f, if (k == 0) Color(0xFFD8C8E8) else Color(0xFFC8E8D0), f)
             qIcon("heart", Offset(w * 0.5f, h * 0.36f), w * 0.08f, Qn.Rose, f * seg(p, 0.1f, 0.3f), a.t)
             fqCoins(Offset(w * 0.5f, ground - h * 0.01f), w * 0.02f, 3, f * seg(p, 0.45f, 0.65f))
             tagAt(a.tag("mbmuakhat1", 0, 0), Offset(w * 0.5f, h * 0.2f), f * seg(p, 0.2f, 0.35f), ink = ArtInk.Gold)
@@ -114,7 +125,7 @@ internal fun DrawScope.mbmuakhatScene(a: ArtCtx) {
             val move = easeInOut(seg(p, 0.3f, 0.75f))
             fqCoins(Offset(mix(w * 0.3f, w * 0.7f, move), ground - h * 0.1f), w * 0.025f, 3, f)
             house12(Offset(w * 0.75f, ground), w * 0.22f, Color(0xFFE2CCA0), Color(0xFF8A6A40), f, lit = seg(p, 0.6f, 0.85f))
-            for (k in 0 until 3) figure(Offset(w * (0.68f + 0.07f * k), ground), h * 0.09f, Qn.Person, f * seg(p, 0.6f, 0.8f))
+            for (k in 0 until 3) person99(Offset(w * (0.68f + 0.07f * k), ground), h * 0.09f, Qn.Person, f * seg(p, 0.6f, 0.8f))
             tagAt(a.tag("mbmuakhat2", 0, 0), Offset(w * 0.3f, h * 0.36f), f * seg(p, 0.1f, 0.25f), ink = ArtInk.Ivory)
             tagAt(a.tag("mbmuakhat2", 0, 1), Offset(w * 0.75f, ground - h * 0.32f), f * seg(p, 0.65f, 0.8f), ink = ArtInk.Gold)
         },
@@ -143,9 +154,9 @@ internal fun DrawScope.mbwathiqaScene(a: ArtCtx) {
     film98(a, "mbwathiqa", listOf(Shot(Offset(w * 0.5f, h * 0.6f), 1f), Shot(Offset(w * 0.5f, h * 0.5f), 1.05f), Shot(Offset(w * 0.5f, h * 0.6f), 1f), Shot(Offset(w * 0.5f, h * 0.5f), 1f)),
         { madinah99(ground, a.t) },
         { p, f ->
-            for (k in 0 until 3) figure(Offset(w * (0.42f + 0.06f * k), ground), h * 0.11f, Color(0xFFC8E8D0), f)
-            for (k in 0 until 5) figure(Offset(w * (0.05f + 0.06f * k), ground), h * 0.11f, Color(0xFF9A8A9A), f * seg(p, 0.3f, 0.5f))
-            for (k in 0 until 5) figure(Offset(w * (0.7f + 0.06f * k), ground), h * 0.11f, Color(0xFF8A7A6A), f * seg(p, 0.5f, 0.7f))
+            for (k in 0 until 3) person99(Offset(w * (0.42f + 0.06f * k), ground), h * 0.11f, Color(0xFFC8E8D0), f)
+            for (k in 0 until 5) person99(Offset(w * (0.05f + 0.06f * k), ground), h * 0.11f, Color(0xFF9A8A9A), f * seg(p, 0.3f, 0.5f))
+            for (k in 0 until 5) person99(Offset(w * (0.7f + 0.06f * k), ground), h * 0.11f, Color(0xFF8A7A6A), f * seg(p, 0.5f, 0.7f))
             tagAt(a.tag("mbwathiqa0", 0, 0), Offset(w * 0.48f, ground - h * 0.22f), f * seg(p, 0.1f, 0.25f), back = Color(0xCC1A3020), ink = ArtInk.Jade)
             tagAt(a.tag("mbwathiqa0", 0, 1), Offset(w * 0.17f, ground - h * 0.22f), f * seg(p, 0.35f, 0.5f), ink = ArtInk.Ivory)
             tagAt(a.tag("mbwathiqa0", 0, 2), Offset(w * 0.82f, ground - h * 0.22f), f * seg(p, 0.55f, 0.7f), ink = ArtInk.Ivory)
@@ -233,7 +244,7 @@ internal fun DrawScope.mbsukkanScene(a: ArtCtx) {
             val c = Offset(w * 0.62f, h * 0.45f)
             softGlow(c, w * 0.1f, Qn.GoldLight, 0.6f * f * seg(p, 0.1f, 0.4f))
             plain97(c, w * 0.08f, a, "mbsukkan0", 1, f * seg(p, 0.3f, 0.55f))
-            for (k in 0 until 5) figure(Offset(w * (0.12f + 0.18f * k), ground), h * 0.09f, Qn.Person, f * seg(p, 0.5f, 0.7f), arms = 0.9f)
+            for (k in 0 until 5) person99(Offset(w * (0.12f + 0.18f * k), ground), h * 0.09f, Qn.Person, f * seg(p, 0.5f, 0.7f), arms = 0.9f)
             tagAt(a.tag("mbsukkan0", 0, 0), Offset(w * 0.62f, h * 0.18f), f * seg(p, 0.1f, 0.25f), ink = ArtInk.Gold)
         },
         { p, f ->
@@ -247,14 +258,14 @@ internal fun DrawScope.mbsukkanScene(a: ArtCtx) {
             masjid99(Offset(w * 0.28f, ground), w * 0.16f, 1f, f)
             for (k in 0 until 5) house12(Offset(w * (0.55f + 0.09f * k), ground), w * 0.08f, Color(0xFFE2CCA0), Color(0xFF8A6A40), f, lit = 0.4f)
             val stay = seg(p, 0.5f, 0.8f)
-            for (k in 0 until 4) figure(Offset(mix(w * (0.6f + 0.08f * k), w * (0.4f + 0.04f * k), 0.5f * seg(p, 0.1f, 0.4f) * (1f - stay)), ground), h * 0.09f, Qn.Person, f)
+            for (k in 0 until 4) person99(Offset(mix(w * (0.6f + 0.08f * k), w * (0.4f + 0.04f * k), 0.5f * seg(p, 0.1f, 0.4f) * (1f - stay)), ground), h * 0.09f, Qn.Person, f)
             tagAt(a.tag("mbsukkan2", 0, 2), Offset(w * 0.72f, h * 0.2f), f * seg(p, 0f, 0.15f), ink = ArtInk.Ivory)
             tagAt(a.tag("mbsukkan2", 0, 0), Offset(w * 0.28f, h * 0.38f), f * seg(p, 0.2f, 0.35f), back = Color(0xCC401A20), ink = ArtInk.Ivory)
             tagAt(a.tag("mbsukkan2", 0, 1), Offset(w * 0.72f, ground - h * 0.2f), f * seg(p, 0.6f, 0.75f), back = Color(0xCC1A3020), ink = ArtInk.Jade)
         },
         { p, f ->
             drawRect(Color(0xFF1E2234), alpha = 0.5f * f)
-            for (k in 0 until 18) figure(Offset(w * (0.12f + 0.085f * (k % 9)), h * (0.6f + 0.18f * (k / 9))), h * 0.08f, Qn.Person, f * seg(p, 0.02f * k, 0.1f + 0.02f * k))
+            for (k in 0 until 18) person99(Offset(w * (0.12f + 0.085f * (k % 9)), h * (0.6f + 0.18f * (k / 9))), h * 0.08f, Qn.Person, f * seg(p, 0.02f * k, 0.1f + 0.02f * k))
             drawRoundRect(Color(0xFFEFE2C0), Offset(w * 0.38f, h * 0.12f), Size(w * 0.24f, h * 0.28f), CornerRadius(6f * density), alpha = f * seg(p, 0.4f, 0.6f))
             for (k in 0 until 4) drawLine(Color(0xFF6A5030), Offset(w * 0.42f, h * (0.18f + 0.05f * k)), Offset(w * 0.58f, h * (0.18f + 0.05f * k)), 1.4f * density, alpha = f * seg(p, 0.5f + 0.08f * k, 0.6f + 0.08f * k))
             tagAt(a.tag("mbsukkan3", 0, 0), Offset(w * 0.5f, h * 0.46f), f * seg(p, 0.6f, 0.75f), ink = ArtInk.Gold)
@@ -270,9 +281,9 @@ internal fun DrawScope.mbidhnScene(a: ArtCtx) {
     film98(a, "mbidhn", listOf(Shot(Offset(w * 0.5f, h * 0.55f), 1f), Shot(Offset(w * 0.5f, h * 0.5f), 1.05f), Shot(Offset(w * 0.5f, h * 0.55f), 1f), Shot(Offset(w * 0.5f, h * 0.55f), 1f)),
         { nightSky(a.t, S97.Night, S97.NightLow, ground); dunes97(ground, S97.SandDark, Color(0xFF5A4630)) },
         { p, f ->
-            for (k in 0 until 6) figure(Offset(w * (0.06f + 0.06f * k), ground), h * 0.11f, Color(0xFF6A5A6A), f, arms = 0.6f)
+            for (k in 0 until 6) person99(Offset(w * (0.06f + 0.06f * k), ground), h * 0.11f, Color(0xFF6A5A6A), f, arms = 0.6f)
             masjid99(Offset(w * 0.75f, ground), w * 0.14f, 1f, f)
-            for (k in 0 until 3) figure(Offset(w * (0.68f + 0.07f * k), ground), h * 0.1f, Color(0xFFC8E8D0), f)
+            for (k in 0 until 3) person99(Offset(w * (0.68f + 0.07f * k), ground), h * 0.1f, Color(0xFFC8E8D0), f)
             tagAt(a.tag("mbidhn0", 0, 2), Offset(w * 0.5f, h * 0.14f), f * seg(p, 0.05f, 0.2f), back = Color(0xCC401A20), ink = ArtInk.Ivory)
             tagAt(a.tag("mbidhn0", 0, 0), Offset(w * 0.22f, ground - h * 0.22f), f * seg(p, 0.15f, 0.3f), back = Color(0xCC401A20), ink = ArtInk.Ivory)
             tagAt(a.tag("mbidhn0", 0, 1), Offset(w * 0.75f, ground - h * 0.32f), f * seg(p, 0.35f, 0.5f), back = Color(0xCC1A3020), ink = ArtInk.Jade)
@@ -288,7 +299,7 @@ internal fun DrawScope.mbidhnScene(a: ArtCtx) {
         { p, f ->
             val go = easeInOut(seg(p, 0.1f, 0.8f))
             qIcon95("flag", Offset(mix(w * 0.15f, w * 0.6f, go), ground - h * 0.25f), w * 0.08f, Qn.Gold, f, a.t)
-            for (k in 0 until 6) figure(Offset(mix(w * 0.1f, w * 0.55f, go) - k * w * 0.04f, ground), h * 0.1f, Qn.Person, f, walk = a.t * 2f)
+            for (k in 0 until 6) person99(Offset(mix(w * 0.1f, w * 0.55f, go) - k * w * 0.04f, ground), h * 0.1f, Qn.Person, f, walk = a.t * 2f)
             close97(Offset(w * 0.8f, h * 0.36f), w * 0.08f, a, "mbidhn2", 1, 3, f * seg(p, 0.3f, 0.5f))
             tagAt(a.tag("mbidhn2", 0, 0), Offset(w * 0.4f, h * 0.18f), f * seg(p, 0.15f, 0.3f), ink = ArtInk.Gold)
         },

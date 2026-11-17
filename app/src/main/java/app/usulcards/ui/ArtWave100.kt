@@ -25,7 +25,7 @@ private fun DrawScope.army100(x0: Float, x1: Float, ground: Float, n: Int, color
     if (alpha <= 0.01f) return
     for (k in 0 until n) {
         val u = if (n == 1) 0.5f else k / (n - 1f)
-        figure(Offset(mix(x0, x1, u), ground - (k % 2) * size.height * 0.015f), size.height * tall, color, alpha, walk = walk + k * 0.3f)
+        person99(Offset(mix(x0, x1, u), ground - (k % 2) * size.height * 0.015f), size.height * tall, color, alpha, walk = walk + k * 0.3f)
     }
 }
 
@@ -85,8 +85,8 @@ internal fun DrawScope.gzbadrScene(a: ArtCtx) {
         },
         { p, f ->
             drawRect(Color(0xFF1E2234), alpha = 0.5f * f)
-            figure(Offset(w * 0.32f, ground), h * 0.14f, Em100, f)
-            for (k in 0 until 4) figure(Offset(w * (0.5f + 0.1f * k), ground), h * 0.08f, Qn.Person, f * seg(p, 0.25f + 0.05f * k, 0.4f + 0.05f * k))
+            person99(Offset(w * 0.32f, ground), h * 0.14f, Em100, f)
+            for (k in 0 until 4) person99(Offset(w * (0.5f + 0.1f * k), ground), h * 0.08f, Qn.Person, f * seg(p, 0.25f + 0.05f * k, 0.4f + 0.05f * k))
             qIcon("pen", Offset(w * 0.42f, h * 0.48f), w * 0.07f, Qn.GoldLight, f * seg(p, 0.2f, 0.4f), a.t)
             qIcon("lock", Offset(w * 0.32f, h * 0.48f), w * 0.05f, Qn.GoldLight, f * (1f - seg(p, 0.65f, 0.85f)), a.t)
             tagAt(a.tag("gzbadr3", 0, 0), Offset(w * 0.32f, h * 0.36f), f * seg(p, 0.05f, 0.2f), ink = ArtInk.Ivory)
@@ -113,7 +113,7 @@ internal fun DrawScope.gzuhudScene(a: ArtCtx) {
             tagAt(a.tag("gzuhud0", 0, 2), Offset(w * 0.76f, h * 0.14f), f * seg(p, 0.6f, 0.75f), ink = ArtInk.Ivory)
         },
         { p, f ->
-            for (k in 0 until 5) figure(Offset(w * (0.22f + 0.04f * k), ground - h * (0.14f + 0.04f * (2 - kotlin.math.abs(k - 2)))), h * 0.06f, Jd100, f * seg(p, 0.05f + 0.04f * k, 0.2f + 0.04f * k))
+            for (k in 0 until 5) person99(Offset(w * (0.22f + 0.04f * k), ground - h * (0.14f + 0.04f * (2 - kotlin.math.abs(k - 2)))), h * 0.06f, Jd100, f * seg(p, 0.05f + 0.04f * k, 0.2f + 0.04f * k))
             army100(w * 0.5f, w * 0.75f, ground, 6, Jd100, f)
             sirajMunir(Offset(w * 0.62f, ground - h * 0.17f), w * 0.022f, f, a.t, named = false)
             tagAt(a.tag("gzuhud1", 0, 0), Offset(w * 0.3f, h * 0.3f), f * seg(p, 0.2f, 0.35f), back = Color(0xCC1A3020), ink = ArtInk.Jade)
@@ -121,10 +121,10 @@ internal fun DrawScope.gzuhudScene(a: ArtCtx) {
         },
         { p, f ->
             val down = easeInOut(seg(p, 0.05f, 0.4f))
-            for (k in 0 until 4) figure(Offset(w * (0.22f + 0.04f * k) + down * w * 0.1f, mix(ground - h * 0.17f, ground, down)), h * 0.06f, Jd100, f, walk = a.t * 2f * down)
-            figure(Offset(w * 0.3f, ground - h * 0.18f), h * 0.06f, Jd100, f)
+            for (k in 0 until 4) person99(Offset(w * (0.22f + 0.04f * k) + down * w * 0.1f, mix(ground - h * 0.17f, ground, down)), h * 0.06f, Jd100, f, walk = a.t * 2f * down)
+            person99(Offset(w * 0.3f, ground - h * 0.18f), h * 0.06f, Jd100, f)
             val ride = easeInOut(seg(p, 0.45f, 0.95f))
-            for (k in 0 until 5) figure(Offset(mix(w * -0.05f, w * 0.2f, ride) - k * w * 0.04f, ground), h * 0.08f, Em100, f * seg(p, 0.4f, 0.55f), walk = a.t * 3f)
+            for (k in 0 until 5) person99(Offset(mix(w * -0.05f, w * 0.2f, ride) - k * w * 0.04f, ground), h * 0.08f, Em100, f * seg(p, 0.4f, 0.55f), walk = a.t * 3f)
             tagAt(a.tag("gzuhud2", 0, 0), Offset(w * 0.4f, h * 0.36f), f * seg(p, 0.15f, 0.3f), back = Color(0xCC401A20), ink = ArtInk.Ivory)
             plain97(Offset(w * 0.14f, h * 0.36f), w * 0.07f, a, "gzuhud2", 1, f * seg(p, 0.55f, 0.75f))
         },
@@ -161,7 +161,7 @@ internal fun DrawScope.gzkhandaqScene(a: ArtCtx) {
             val dig = easeInOut(seg(p, 0.15f, 0.75f))
             drawRect(Color(0xFF3A2A1C), Offset(trenchX - w * 0.03f, ground - h * 0.01f), Size(w * 0.06f, h * 0.16f * dig), alpha = f)
             drawLine(Qn.Jade, Offset(trenchX, ground - h * 0.4f * dig), Offset(trenchX, ground), 1.5f * density, alpha = 0.5f * f)
-            for (k in 0 until 3) figure(Offset(w * (0.3f + 0.06f * k), ground), h * 0.08f, Jd100, f, arms = 0.5f + 0.5f * sin(a.t * 4f + k))
+            for (k in 0 until 3) person99(Offset(w * (0.3f + 0.06f * k), ground), h * 0.08f, Jd100, f, arms = 0.5f + 0.5f * sin(a.t * 4f + k))
             army100(w * 0.62f, w * 0.95f, ground, 7, Em100, f)
             plain97(Offset(w * 0.2f, h * 0.36f), w * 0.07f, a, "gzkhandaq1", 2, f * seg(p, 0.05f, 0.25f))
             tagAt(a.tag("gzkhandaq1", 0, 1), Offset(trenchX, h * 0.36f), f * seg(p, 0.5f, 0.65f), back = Color(0xCC1A3020), ink = ArtInk.Jade)
@@ -222,7 +222,7 @@ internal fun DrawScope.gzhudayScene(a: ArtCtx) {
             sirajMunir(Offset(w * 0.4f, ground - h * 0.16f), w * 0.028f, f, a.t, named = false)
             for (k in 0 until 8) {
                 val x = w * (0.08f + 0.1f * k + if (k >= 3) 0.12f else 0f)
-                figure(Offset(x, ground), h * 0.09f, Jd100, f * seg(p, 0.05f * k, 0.15f + 0.05f * k), arms = 0.7f * seg(p, 0.4f, 0.6f))
+                person99(Offset(x, ground), h * 0.09f, Jd100, f * seg(p, 0.05f * k, 0.15f + 0.05f * k), arms = 0.7f * seg(p, 0.4f, 0.6f))
             }
             tagAt(a.tag("gzhuday1", 0, 2), Offset(w * 0.5f, h * 0.12f), f * seg(p, 0.05f, 0.2f), ink = ArtInk.Gold)
             tagAt(a.tag("gzhuday1", 0, 0), Offset(w * 0.4f, h * 0.36f), f * seg(p, 0.2f, 0.35f), ink = ArtInk.Ivory)
@@ -272,7 +272,7 @@ internal fun DrawScope.gzkhaybarScene(a: ArtCtx) {
             kaaba29(Offset(w * 0.5f, ground), w * 0.1f, f)
             for (k in 0 until 10) {
                 val ang = a.t * 0.5f + k * 0.63f
-                figure(Offset(w * 0.5f + kotlin.math.cos(ang) * w * 0.25f, ground + kotlin.math.sin(ang) * h * 0.03f), h * 0.07f, Color(0xFFF2EEE4), f * seg(p, 0.1f, 0.3f))
+                person99(Offset(w * 0.5f + kotlin.math.cos(ang) * w * 0.25f, ground + kotlin.math.sin(ang) * h * 0.03f), h * 0.07f, Color(0xFFF2EEE4), f * seg(p, 0.1f, 0.3f))
             }
             qIcon("hourglass", Offset(w * 0.18f, h * 0.2f), w * 0.06f, Qn.GoldLight, f * seg(p, 0.4f, 0.55f), a.t)
             tagAt(a.tag("gzkhaybar2", 0, 1), Offset(w * 0.18f, h * 0.3f), f * seg(p, 0.45f, 0.6f), ink = ArtInk.Gold)
@@ -282,8 +282,8 @@ internal fun DrawScope.gzkhaybarScene(a: ArtCtx) {
             drawRect(Color(0xFF1E2234), alpha = 0.5f * f)
             val give = easeInOut(seg(p, 0.35f, 0.8f))
             qIcon("scroll", Offset(mix(w * 0.3f, w * 0.7f, give), h * 0.45f), w * 0.1f, Color(0xFFEFE2C0), f, a.t)
-            for (k in 0 until 2) figure(Offset(w * (0.22f + 0.06f * k), ground), h * 0.1f, Jd100, f)
-            for (k in 0 until 3) figure(Offset(w * (0.68f + 0.06f * k), ground), h * 0.1f, Color(0xFF9A8A9A), f, arms = 0.8f * give)
+            for (k in 0 until 2) person99(Offset(w * (0.22f + 0.06f * k), ground), h * 0.1f, Jd100, f)
+            for (k in 0 until 3) person99(Offset(w * (0.68f + 0.06f * k), ground), h * 0.1f, Color(0xFF9A8A9A), f, arms = 0.8f * give)
             tagAt(a.tag("gzkhaybar3", 0, 0), Offset(w * 0.5f, h * 0.24f), f * seg(p, 0.1f, 0.25f), ink = ArtInk.Ivory)
             tagAt(a.tag("gzkhaybar3", 0, 1), Offset(w * 0.75f, ground - h * 0.2f), f * seg(p, 0.65f, 0.8f), back = Color(0xCC1A3020), ink = ArtInk.Jade)
         },
@@ -405,10 +405,10 @@ internal fun DrawScope.gzhunaynScene(a: ArtCtx) {
             for (k in 0 until 14) {
                 val base = w * (0.12f + 0.055f * k)
                 val dir = if (k % 2 == 0) -1f else 1f
-                figure(Offset(base + dir * scat * w * (0.05f + 0.01f * k), ground), h * 0.08f, Jd100, f * (1f - 0.4f * scat), walk = a.t * 3f * scat, lean = 0.2f * dir * scat)
+                person99(Offset(base + dir * scat * w * (0.05f + 0.01f * k), ground), h * 0.08f, Jd100, f * (1f - 0.4f * scat), walk = a.t * 3f * scat, lean = 0.2f * dir * scat)
             }
-            for (k in 0 until 4) figure(Offset(w * (0.06f + 0.02f * k), ground - h * 0.14f), h * 0.05f, Em100, f * seg(p, 0.35f, 0.5f))
-            for (k in 0 until 4) figure(Offset(w * (0.88f + 0.02f * k), ground - h * 0.14f), h * 0.05f, Em100, f * seg(p, 0.35f, 0.5f))
+            for (k in 0 until 4) person99(Offset(w * (0.06f + 0.02f * k), ground - h * 0.14f), h * 0.05f, Em100, f * seg(p, 0.35f, 0.5f))
+            for (k in 0 until 4) person99(Offset(w * (0.88f + 0.02f * k), ground - h * 0.14f), h * 0.05f, Em100, f * seg(p, 0.35f, 0.5f))
             tagAt(a.tag("gzhunayn1", 0, 0), Offset(w * 0.5f, h * 0.2f), f * seg(p, 0.05f, 0.2f), ink = ArtInk.Ivory)
             tagAt(a.tag("gzhunayn1", 0, 1), Offset(w * 0.12f, h * 0.48f), f * seg(p, 0.3f, 0.45f), ink = ArtInk.Ivory)
             tagAt(a.tag("gzhunayn1", 0, 2), Offset(w * 0.5f, h * 0.48f), f * seg(p, 0.65f, 0.8f), back = Color(0xCC401A20), ink = ArtInk.Ivory)
@@ -420,7 +420,7 @@ internal fun DrawScope.gzhunaynScene(a: ArtCtx) {
             val gather = easeInOut(seg(p, 0.4f, 0.9f))
             for (k in 0 until 10) {
                 val from = if (k % 2 == 0) w * (0.02f + 0.04f * k) else w * (0.98f - 0.04f * k)
-                figure(Offset(mix(from, w * (0.32f + 0.036f * k), gather), ground), h * 0.08f, Jd100, f, walk = a.t * 3f * (1f - gather))
+                person99(Offset(mix(from, w * (0.32f + 0.036f * k), gather), ground), h * 0.08f, Jd100, f, walk = a.t * 3f * (1f - gather))
             }
             tagAt(a.tag("gzhunayn2", 0, 2), Offset(w * 0.78f, h * 0.38f), f * seg(p, 0.7f, 0.85f), back = Color(0xCC1A3020), ink = ArtInk.Jade)
         },
@@ -453,14 +453,14 @@ internal fun DrawScope.gztabukScene(a: ArtCtx) {
             drawRect(Color(0xFF1E2234), alpha = 0.5f * f)
             close97(Offset(w * 0.22f, h * 0.36f), w * 0.08f, a, "gztabuk1", 0, 0, f * seg(p, 0.05f, 0.25f))
             close97(Offset(w * 0.5f, h * 0.36f), w * 0.08f, a, "gztabuk1", 1, 2, f * seg(p, 0.3f, 0.5f))
-            for (k in 0 until 3) figure(Offset(w * (0.72f + 0.06f * k), ground), h * 0.09f, Qn.Rose, f * seg(p, 0.55f, 0.7f))
+            for (k in 0 until 3) person99(Offset(w * (0.72f + 0.06f * k), ground), h * 0.09f, Qn.Rose, f * seg(p, 0.55f, 0.7f))
             for (k in 0 until 3) fqCoins(Offset(w * (0.22f + 0.28f * k), h * 0.58f), w * 0.018f, 3 + k, f * seg(p, 0.15f + 0.25f * k, 0.3f + 0.25f * k), Qn.GoldLight)
             tagAt(a.tag("gztabuk1", 0, 2), Offset(w * 0.78f, ground - h * 0.18f), f * seg(p, 0.6f, 0.75f), ink = ArtInk.Ivory)
         },
         { p, f ->
             val go = easeInOut(seg(p, 0.05f, 0.9f))
             army100(mix(w * -0.3f, w * 0.1f, go), mix(w * 0.3f, w * 0.7f, go), ground, 18, Jd100, f, walk = a.t * 2f)
-            for (k in 0 until 3) figure(Offset(w * (0.88f + 0.04f * k), ground), h * 0.08f, Color(0xFF8A8494), f * seg(p, 0.5f, 0.65f) * (1f - 0.5f * seg(p, 0.7f, 0.9f)), walk = a.t * 2f)
+            for (k in 0 until 3) person99(Offset(w * (0.88f + 0.04f * k), ground), h * 0.08f, Color(0xFF8A8494), f * seg(p, 0.5f, 0.65f) * (1f - 0.5f * seg(p, 0.7f, 0.9f)), walk = a.t * 2f)
             tagAt(a.tag("gztabuk2", 0, 0), Offset(w * 0.4f, h * 0.2f), f * seg(p, 0.15f, 0.3f), back = Color(0xCC1A3020), ink = ArtInk.Jade)
             tagAt(a.tag("gztabuk2", 0, 1), Offset(w * 0.9f, ground - h * 0.16f), f * seg(p, 0.6f, 0.75f), ink = ArtInk.Ivory)
         },
