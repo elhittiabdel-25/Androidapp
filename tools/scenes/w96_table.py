@@ -129,6 +129,8 @@ S = [
  ("deep-1", "فعلمه برفق", "F", ["tree:نخل الأنصار", "child:غلام", "heart:برفق"], None, None)]),
 ]
 
+# Cards redrawn in the illustrated style (wave 102 on): their scene function lives in ArtWave102+, not here.
+REDRAWN = {"um-khasais", "um-sawda", "um-aisha", "um-hafsa", "um-zaynab-k", "um-salama", "um-zaynab-j", "um-juwayriya", "um-habiba", "um-safiyya", "um-maymuna"}
 kt, sc, meta = [], [], []
 for cid, lay, sky, beats in S:
     rows, kinds, fig, kb = [], [], False, []
@@ -153,7 +155,7 @@ for cid, lay, sky, beats in S:
         if foot: extra += f", foot = {part(foot)}"
         kb.append(f'    Bt94("{kind}", {M[mode]}, listOf({", ".join(its)}){extra}),')
         rows.append(f'        I("{label}", None, "{at}", sub="{"|".join(parts)}", kind="{kind}"),')
-    kt.append(f"private val B_{lay.upper()} = listOf(\n" + "\n".join(kb) + f"\n)\n\ninternal fun DrawScope.{lay}Scene(a: ArtCtx) = board94(a, {sky}, B_{lay.upper()})\n")
+    if cid not in REDRAWN: kt.append(f"private val B_{lay.upper()} = listOf(\n" + "\n".join(kb) + f"\n)\n\ninternal fun DrawScope.{lay}Scene(a: ArtCtx) = board94(a, {sky}, B_{lay.upper()})\n")
     sc.append(f'    "{cid}": S("art", [\n' + "\n".join(rows) + f'\n    ], layout="{lay}"),')
     meta.append(f'    "{lay}": dict({"figure=True, " if fig else ""}kinds={kinds!r}),')
 R = "/home/claude/androidapp"
