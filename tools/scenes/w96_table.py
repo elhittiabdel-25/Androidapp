@@ -130,7 +130,7 @@ S = [
 ]
 
 # Cards redrawn in the illustrated style (wave 102 on): their scene function lives in ArtWave102+, not here.
-REDRAWN = {"um-khasais", "um-sawda", "um-aisha", "um-hafsa", "um-zaynab-k", "um-salama", "um-zaynab-j", "um-juwayriya", "um-habiba", "um-safiyya", "um-maymuna"}
+REDRAWN = {"tm-ahl", "tm-wafa", "tm-banat", "tm-ahfad", "tm-jar", "tm-khadam", "tm-bala", "tm-kuffar", "tm-jadid", "tm-usat", "tm-nisa", "tm-kibar", "tm-sighar", "um-khasais", "um-sawda", "um-aisha", "um-hafsa", "um-zaynab-k", "um-salama", "um-zaynab-j", "um-juwayriya", "um-habiba", "um-safiyya", "um-maymuna"}
 kt, sc, meta = [], [], []
 for cid, lay, sky, beats in S:
     rows, kinds, fig, kb = [], [], False, []

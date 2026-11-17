@@ -18,7 +18,7 @@ import kotlin.math.sin
  */
 
 /** One colour per Mother of the Believers, in the order of the path: Khadija's is Roundel.Fills[0], as in wave 97. */
-private val MotherFill = listOf(
+internal val MotherFill = listOf(
     Color(0xFF2E6B5E), // سودة
     Color(0xFF8A3E5A), // عائشة
     Color(0xFF2E4E7A), // حفصة
@@ -31,7 +31,7 @@ private val MotherFill = listOf(
     Color(0xFF3E4A7A), // ميمونة
 )
 
-private fun DrawScope.mother102(c: Offset, r: Float, a: ArtCtx, kind: String, part: Int, m: Int, grow: Float) {
+internal fun DrawScope.mother102(c: Offset, r: Float, a: ArtCtx, kind: String, part: Int, m: Int, grow: Float) {
     if (grow > 0.01f) softGlow(c, r * 1.6f, MotherFill[m], 0.35f * grow)
     nameRoundel(c, r, a.big(kind, 0, part) ?: a.tag(kind, 0, part), MotherFill[m], Roundel.Rim, grow)
 }
@@ -48,7 +48,7 @@ private fun DrawScope.home102(a: ArtCtx, ground: Float, night: Boolean) {
 private fun DrawScope.veil102(alpha: Float) = drawRect(Color(0xFF14102A), alpha = 0.55f * alpha)
 
 /** Years as a row of beads with the last one lit: [n] beads, [lit] 0..1. */
-private fun DrawScope.years102(c: Offset, n: Int, lit: Float, alpha: Float) {
+internal fun DrawScope.years102(c: Offset, n: Int, lit: Float, alpha: Float) {
     val w = size.width
     for (k in 0 until n) {
         val x = c.x + (k - (n - 1) / 2f) * w * 0.05f
