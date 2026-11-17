@@ -2,7 +2,7 @@
 
 For every card with a scene, each beat's playing time is estimated from the voice as in beatdur.py. A beat whose
 beatMillis is more than 10% longer than the shortest estimate for its kind is set to that estimate (rounded down
-to 250 ms, never under 800 ms); beats are never lengthened. Edits Art.kt in place and prints what changed.
+to 250 ms, never under 800 ms nor under 70% of its old time, the voice being about 22% quicker); beats are never lengthened. Edits Art.kt in place and prints what changed.
 
     python3 tools/scenes/retime.py            (from the repo root)
 """
@@ -69,7 +69,7 @@ def fix(m):
     keep, moved = [], []
     for k in kinds:
         if k in est:
-            new = max(800, int(min(est[k]) // 250 * 250))
+            new = max(800, int(max(min(est[k]), 0.7 * ms) // 250 * 250))
             if ms > new * 1.1:
                 moved.append(k); changed[k] = (ms, new); continue
         keep.append(k)

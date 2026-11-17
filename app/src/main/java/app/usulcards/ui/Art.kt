@@ -762,17 +762,15 @@ internal const val BEAT_IN = 0.1f
 
 /** How long each kind of beat takes to play out. */
 internal fun beatMillis(kind: String): Int = when (kind) {
-    "open" -> 2600
     "cut" -> 1700
     "hold" -> 1500
-    "storm", "storm2" -> 2200
     "later", "trumpet", "scrolls", "takbir" -> 1800
-    "house", "pillars", "excess", "forget", "stone", "steps", "show", "shut", "fall" -> 1600
-    "rise", "dome", "feast", "door", "gold", "bridge" -> 2200
-    "pass", "idol" -> 2400
+    "house", "pillars", "excess", "stone", "steps", "show", "shut" -> 1600
+    "rise", "dome", "feast", "door", "bridge" -> 2200
+    "pass" -> 2400
     "rival", "light", "lock", "filter", "scale", "copy", "near", "out", "tree", "names", "shirk", "bind", "lower", "gaze", "hidden", "swap" -> 1400
-    "charm", "wall", "many", "raise", "level", "cloud", "roll", "shrink", "quake", "truth", "nocall", "adorn", "shoot", "guide", "credit", "rain", "challenge", "breath" -> 1600
-    "nights", "grain", "sun" -> 3200
+    "charm", "wall", "many", "raise", "level", "cloud", "roll", "shrink", "quake", "truth", "nocall", "shoot", "guide", "credit", "rain", "challenge", "breath" -> 1600
+    "nights" -> 3200
     "descend", "recite", "keep", "write", "follow", "false", "first", "cup" -> 1400
     "will", "equal", "sever", "drain" -> 2000
     "create", "journey", "ascend", "garden", "pit", "fire", "palace" -> 2400
@@ -786,604 +784,201 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "cross" -> 1600
     "seed", "pin", "void", "less" -> 2000
     "breaker" -> 1100
-    "walker" -> 2400
-    "forced" -> 2600
-    "fog", "pray", "eyes", "shout" -> 2400
-    "shield", "wisp", "returned", "deny" -> 2200
-    "close", "left", "kufr" -> 1800
+    "fog", "pray" -> 2400
+    "shield", "deny" -> 2200
+    "close" -> 1800
     "march" -> 3000
-    "arrive", "thank" -> 2600
-    "quiet", "khafi", "camp", "tabuk", "other", "self" -> 2000
+    "thank" -> 2600
+    "quiet", "camp", "tabuk", "other", "self" -> 2000
     "joke" -> 2400
     "rank", "node" -> 1200
     "lit" -> 1400
     "pure", "ijma", "slaves", "swear" -> 1800
     "pair", "knotted", "unlike", "foe", "hate" -> 2000
-    "pardon" -> 2200
-    "snip", "same", "veil", "allowed", "topple", "plea", "kin" -> 2400
-    "hang", "page", "stones", "fake", "reward", "tasbih", "love" -> 2600
-    "cure", "branch", "banned" -> 3000
+    "snip", "same", "veil", "kin" -> 2400
+    "hang", "reward", "tasbih", "love" -> 2600
+    "cure", "branch" -> 3000
     "burn" -> 3200
     // wave 7
     "inscribe" -> 3000
-    "lean" -> 4600
     "base", "caliphs", "pile", "single" -> 2800
     "sheet" -> 1800
-    "lens" -> 3400
-    "match", "add", "liken" -> 2400
-    "fit", "freehand", "extend", "old", "slip" -> 2600
-    "around" -> 3000
+    "match", "liken" -> 2400
+    "fit", "freehand", "extend", "slip" -> 2600
     "defy" -> 6000
     "stack" -> 3600
     "carve" -> 4200
     "trapped" -> 4400
-    "bury", "derive" -> 3600
-    "spiral", "tread" -> 2800
     "doubt" -> 3800
     "guess" -> 3000
     // wave 8 (round 1 of the redraw): each beat lasts about as long as the words it goes with
-    "dawnlight", "eras" -> 3600
-    "prints" -> 2400
-    "sidepath" -> 2600
+    "dawnlight" -> 3600
     "oneriver", "fray", "ebb", "veer", "coolwell", "sortout" -> 5000
-    "fork", "trace", "differ", "leave", "onekept" -> 4300
+    "fork", "leave", "onekept" -> 4300
     "knots72" -> 6000
     "caliphs4" -> 7000
     "spout" -> 5400
-    "pipe", "against" -> 3200
-    "drink", "behind", "mend", "regret" -> 4400
+    "drink", "behind", "regret" -> 4400
     "horizon" -> 7600
-    "scoop" -> 5200
-    "yield", "clasp" -> 3000
-    "climb" -> 5400
+    "clasp" -> 3000
     "sow" -> 7600
-    "harvest", "winnow", "lonewindow" -> 3800
     // wave 9 (round 2): «براهين التوحيد»
     "chisel" -> 2400
-    "steal" -> 1800
-    "unheard" -> 3600
     "daughter" -> 7000
-    "nothing" -> 2600
-    "heights" -> 5000
-    "tremble" -> 3200
     "stillness" -> 3600
-    "relay" -> 2200
-    "callup" -> 3800
-    "bedside" -> 6000
     "call" -> 5000
-    "sway" -> 6500
     "verse" -> 3000
     "padlock" -> 3200
-    "guideway" -> 5200
     "towers" -> 2400
     "furl" -> 6500
-    "crumble" -> 4200
-    "ruins" -> 4800
     // wave 10 (round 3): «ترك الجدال والأهواء»
     "quarrel" -> 4500
-    "tawqif" -> 4000
-    "flint" -> 5500
-    "refer" -> 5000
-    "settle" -> 2200
-    "knock" -> 4000
-    "teach" -> 2800
-    "debater" -> 3200
-    "tug" -> 6500
-    "mindfog" -> 5000
-    "doubtspark" -> 5000
     "revealed" -> 5500
-    "creation" -> 6000
     "sinner" -> 5000
     "unharmed" -> 3800
     "zealot" -> 5500
-    "getup" -> 5500
     "sound" -> 4500
     // wave 11 (round 4): «الجماعة وولاة الأمر»
     "fold" -> 2400
-    "unloop" -> 5500
-    "astray" -> 2200
-    "gather" -> 4500
-    "mercy" -> 4500
-    "heave" -> 4000
-    "badorder" -> 4000
-    "refuse" -> 2400
     "carryon" -> 5500
-    "pledge" -> 3500
     "picks" -> 6000
-    "repent" -> 5000
-    "incline" -> 3000
     "breach" -> 6000
-    "flood" -> 6500
     "rows" -> 7000
-    "scatter" -> 6000
-    "regroup" -> 2800
     "cheat" -> 5500
-    "three" -> 3000
-    "sheathe" -> 4000
-    "swords" -> 6000
-    "warn" -> 3500
-    "both" -> 4500
     "silent" -> 6500
-    "unravel" -> 3000
-    "strife" -> 2000
-    "stayin" -> 4200
-    "banners" -> 2200
     "melee" -> 7000
-    "shutters" -> 3200
     "seated" -> 4000
     // wave 12 (round 5): «الحكم على أهل القبلة»
     "rooted" -> 5000
-    "wilt" -> 5500
     "cloche" -> 4000
-    "axe" -> 5000
     "paint" -> 4000
     "opendoor" -> 8000
     "turnquit" -> 3600
-    "regretresolve" -> 5200
     "westsun" -> 4500
-    "doorshut" -> 2500
     // wave 13 (round 6): «ألفاظ وأحكام تمس التوحيد»
-    "shelves" -> 3000
-    "swaptags" -> 4500
-    "obeyfollow" -> 3000
-    "dais" -> 4200
-    "explained" -> 4500
-    "oath" -> 2200
-    "wawa" -> 4500
     "thumma" -> 3800
-    "lawla" -> 2600
-    "gust" -> 4500
-    "greet" -> 3000
-    "resolve" -> 3800
     "askjanna" -> 3000
-    "give" -> 2800
-    "oathsell" -> 7000
-    "dust" -> 2200
     "alone" -> 5000
-    "fortress" -> 7000
     "keepseal" -> 4000
-    "praise" -> 2000
-    "reply" -> 3800
     "whisper" -> 5500
     "station" -> 6500
     // wave 14 (round 7: الإيمان بالقدر)
     "ringgeneral" -> 6500
-    "ringcovenant" -> 6000
-    "ringlife" -> 7500
-    "ringyear" -> 3000
-    "ringday" -> 2400
-    "marionette" -> 4800
-    "jitter" -> 3200
-    "selfmade" -> 8500
-    "sower" -> 6500
-    "praised" -> 3000
-    "noprice" -> 3200
-    "blame" -> 5500
-    "decree" -> 2600
-    "repented" -> 7200
     "twoways" -> 4000
-    "bothways" -> 4300
-    "pry" -> 7800
-    "sealed" -> 2100
     "submit" -> 3100
-    "followsaid" -> 6000
-    "hush" -> 2100
     // wave 15 (round 8: أعمال القلوب)
-    "pedestal" -> 4000
-    "putfirst" -> 5000
-    "beloved" -> 4600
-    "family" -> 3000
-    "wail" -> 7500
     "backside" -> 3300
-    "despair" -> 7000
-    "turnover" -> 2600
-    "hamd" -> 4600
     "wingfear" -> 700
-    "winghope" -> 900
-    "headlove" -> 4500
-    "loveonly" -> 3200
-    "fearonly" -> 2800
-    "hopeonly" -> 2600
-    "soar" -> 4800
     // wave 16 (round 9: فضل التوحيد وتحقيقه)
     "pureheart" -> 5000
     "earthful" -> 2100
     "forgiven" -> 3000
-    "unmixed" -> 4800
-    "safeway" -> 2400
     "refine" -> 4400
-    "straightin" -> 6000
-    "noruqya" -> 1400
-    "nocautery" -> 1300
-    "noomen" -> 1500
-    "rely" -> 2500
-    "siraj" -> 6000
     // wave 17 (round 10: ما يضاد التوحيد)
     "torrent" -> 4800
-    "holdidol" -> 1000
-    "holdbanner" -> 1000
-    "holdcrown" -> 1200
-    "letgo" -> 1500
-    "firmhold" -> 1900
-    "twowords" -> 2500
     "outmilla" -> 2600
-    "inmilla" -> 4200
     "belie" -> 1900
-    "conceal" -> 1300
     "haughty" -> 2200
-    "twoface" -> 1800
     // wave 18 (round 11: السحر والكهانة والتنجيم)
     "fortune" -> 4200
-    "cutoff" -> 5000
-    "askonly" -> 3300
-    "unaccepted" -> 4500
     "crowfly" -> 3400
     "turnhome" -> 5400
     "goodword" -> 2900
-    "liked" -> 4600
     // wave 19 (round 12: نواقض الإسلام)
     "road10" -> 9000
-    "pitfall" -> 2600
     "beware" -> 4000
     // wave 20 (round 13: أساسيات التوحيد)
     "created" -> 2100
-    "worshiponly" -> 1500
-    "sent" -> 4000
-    "obeyed" -> 2200
-    "disobeyed" -> 2600
     "guide4" -> 1000
-    "obeycmd" -> 1700
-    "believe" -> 2000
-    "avoid" -> 2700
-    "asshown" -> 3300
     "rububiyya" -> 6000
-    "rubopp" -> 5000
-    "uluhiyya" -> 6000
-    "ulopp" -> 1800
     "asma" -> 7000
-    "asmopp" -> 2200
     // «بصائر»، الجزء الأول
-    "itself" -> 1200
-    "whence" -> 1500
     "atheist", "fromnothing" -> 1800
-    "tworoads", "noproduce" -> 2000
-    "tenlocks" -> 2200
-    "masterkey", "sincere", "allfour", "hascreator", "twoboxes", "cooling", "nobullet", "notmade" -> 2500
-    "volumes", "arch", "eleventh", "tafsir", "nextyear", "indifferent", "trustlost", "nothingness", "emptytable", "whomade", "solid", "rainmix", "fuse" -> 3000
-    "deist", "agnostic", "newcoat", "dice", "nodice", "energyfloor", "zerosum", "deadborn", "fuzzy", "steady", "regress", "frames", "balance", "nomatter", "inject", "insideonly", "quotecard", "counts", "list180" -> 3500
-    "calmheart", "ages", "thinkers", "monolith", "bubblestart", "notempty", "sealedbox", "insidebox", "formula", "noclock", "balltrace", "civ", "orchid", "care", "tiny", "forest", "sandchip", "gapsbridge", "meteor", "lavabake", "pantry", "twotrays", "potato" -> 4000
-    "wird", "twist", "bang", "blurorder", "made", "thrift", "planets", "readout", "infoblocks", "labfail", "prize", "target", "designer", "eyerow", "othercause", "pool", "glands", "graph" -> 4500
-    "deny5", "bubbles", "pairs", "domino", "soldiers", "vast", "forgeiron", "trust", "letters", "helix", "livecell", "chasm", "waitdoor", "scramble", "baker", "loop", "beaks", "lineage", "shrinklist" -> 5000
+    "tworoads" -> 2000
+    "masterkey", "sincere", "allfour", "hascreator", "twoboxes", "cooling" -> 2500
+    "volumes", "eleventh", "tafsir", "nextyear", "indifferent", "trustlost", "nothingness", "emptytable", "whomade", "solid", "rainmix", "fuse" -> 3000
+    "deist", "agnostic", "newcoat", "dice", "nodice", "zerosum", "deadborn", "fuzzy", "frames", "balance", "nomatter", "inject", "insideonly", "quotecard", "counts", "list180" -> 3500
+    "calmheart", "thinkers", "monolith", "bubblestart", "notempty", "sealedbox", "insidebox", "formula", "noclock", "balltrace", "civ", "orchid", "care", "tiny", "forest", "sandchip", "gapsbridge", "lavabake", "pantry", "twotrays", "potato" -> 4000
+    "wird", "twist", "bang", "blurorder", "made", "thrift", "planets", "readout", "infoblocks", "labfail", "prize", "target", "designer", "eyerow", "pool", "glands", "graph" -> 4500
+    "deny5", "bubbles", "pairs", "domino", "soldiers", "vast", "forgeiron", "trust", "letters", "helix", "livecell", "chasm", "waitdoor", "scramble", "baker", "beaks", "lineage" -> 5000
     "race", "steps3", "satchel" -> 6000
     // round 14: «الصفات واليوم الآخر»
-    "notmixed" -> 2500
-    "sealdoor", "denyknown", "tenring" -> 3000
-    "above", "mushaf", "byopinion", "known", "claim", "threeq", "rawda", "hufra" -> 3500
-    "reciters", "memorize", "infer", "horn", "arise", "onlyallah" -> 4000
-    "veiled", "emptied", "twoangels" -> 4500
-    "withall", "scrollsfly", "weigh", "husna", "tashbih", "fromtext", "awwal", "sinkings", "yemenfire" -> 5000
-    "sendown", "lookup", "sirat", "idolnames", "qadim" -> 6000
-    "moonwalk" -> 6500
-    "answers" -> 8500
-    "sixsigns" -> 9000
+    "above" -> 3500
+    "scrollsfly", "husna", "awwal" -> 5000
+    "idolnames", "qadim" -> 6000
     // round 15: «الشرك ووسائله»
-    "refugeonly", "refused" -> 1800
-    "shrinecall", "permit" -> 2000
-    "pleased" -> 2250
-    "takbirsunan", "featherpair" -> 2500
-    "vowbreak", "nofeast" -> 3000
-    "bowidols" -> 3250
     "sunanpath" -> 3750
-    "noidol", "joinpagans" -> 4000
-    "lotetree", "cursed" -> 4500
-    "twopaths" -> 4750
-    "rulethree", "vowkeep", "sealedgate" -> 5000
-    "oldprints" -> 5250
-    "rulefour", "ikhlasopen" -> 5500
-    "duasea" -> 5750
-    "ruletwo", "firmgroup" -> 6000
-    "ruleone" -> 6750
-    "askanwat" -> 7000
-    "nodome" -> 7250
-    "rulebook" -> 7750
+    "lotetree" -> 4500
     "livinghelp" -> 9000
     // round 16: «أركان الإيمان»
-    "sinkdrop", "lawfulcrack" -> 1800
-    "written", "allcreated" -> 2000
-    "nohow" -> 2250
-    "court5", "court6", "court1", "unequal" -> 2500
-    "nobend", "heartonly" -> 2750
-    "allknown" -> 3000
-    "mustard" -> 3250
-    "threeroots", "fillup", "jibril", "mikail" -> 3750
-    "dimtwo", "burnaway" -> 4000
-    "threemore", "willed", "tongueonly" -> 4500
-    "israfil" -> 5750
-    "brightthree" -> 6250
-    "affirmverse", "scribes" -> 7500
-    "samelight" -> 7750
-    "branchout", "enter", "threeparts" -> 8500
-    "stillfaith", "nodeeds", "ranks" -> 9000
+    "ranks" -> 9000
     // round 17: «معرفة النبي ﷺ»
-    "lotetop" -> 2250
-    "sealofall", "palacegap" -> 3500
-    "crossover", "lastone" -> 4750
-    "neverclosed", "excused" -> 5500
-    "ledprayer" -> 6250
-    "liars", "nightride" -> 7000
-    "reproach" -> 7750
-    "fewtomany" -> 8000
-    "saferider" -> 8250
-    "toall" -> 8750
-    "refusegold", "trusted", "sevenheavens", "fiftytofive" -> 9000
+    "sevenheavens" -> 9000
     // round 18: «منهج أهل السنة»
-    "evenkin", "theten", "allcompanions" -> 1800
-    "holdtongue", "keeprows" -> 2500
-    "tworewards" -> 4000
-    "nobond" -> 4250
-    "believer", "loveandhate", "onewall" -> 4500
-    "nosaving" -> 5250
-    "bestgens" -> 5500
-    "notlahab" -> 5750
-    "mothers" -> 6750
-    "bidgood" -> 7000
-    "fourfirst" -> 7750
-    "withleaders" -> 8500
-    "household", "noexcess" -> 9000
     // round 19: «السنة والبدعة»
-    "nosincere", "nofollow" -> 4000
-    "sideroad" -> 7750
     "twowings" -> 9000
     // «بصائر»، الجزء الثاني
-    "fourq", "ishmaellight", "fulfilled", "lastlit", "handover", "onelight", "daily", "heartrise", "rights", "secret", "sixmonths", "certain", "alarm" -> 3500
-    "fearstorm", "grandeur", "ownsource", "fromabove", "spring", "muddy", "witness", "blindsix", "overview", "pullout", "parts", "plateglow", "cage", "plate", "cageopen", "embers", "twopoles", "safahill", "samethread", "witnessed", "impossible", "wonder", "align", "sunsea", "ringclose", "twobranch", "falsefade", "likemusa", "tin", "paran", "sinai", "seir", "names3", "quietstreet", "kedarhomes", "eyesopen", "servant", "selasong", "welling", "newkeepers", "cornerset", "rejected", "fillearth", "handless", "kingdoms", "unshackle", "sceptre", "linedark", "throne", "yathrib", "cell", "ezra", "strikethree", "striketwo", "strikeone", "overbook", "clean", "manyverses", "radiator", "sevenhorses", "beacon", "dukhan", "primalsea", "breathe", "moonfade", "waterlife", "innerwave", "curdle", "extract", "stages", "mixing", "sinks", "streak", "coccyx", "openquran", "offers", "returns", "fussilat", "dare", "pearls", "spears", "depth", "links", "topofhundred", "swapstone", "daybreak", "darkvale", "martyrs", "twobricks", "quds", "aman", "constantinople", "shepherds", "skyward", "foam", "markets", "belowzero", "goldpillars", "greening" -> 5000
-    "sameday", "sparks", "converge", "pot", "pilgrims", "dayandnight", "flocks", "vineyard", "statue", "twelve", "gatethree", "gatetwo", "gateone", "fabric", "widen", "condense", "joints", "everyhouse", "dense", "hira", "fleet", "twocamps", "threelands", "buriedrivers" -> 7000
+    "fourq", "ishmaellight", "onelight", "heartrise", "rights", "secret", "certain", "alarm" -> 3500
+    "fearstorm", "witness", "overview", "parts", "cage", "plate", "cageopen", "embers", "twopoles", "samethread", "impossible", "wonder", "sunsea", "ringclose", "twobranch", "falsefade", "likemusa", "tin", "names3", "quietstreet", "servant", "selasong", "welling", "newkeepers", "cornerset", "fillearth", "kingdoms", "yathrib", "cell", "ezra", "strikethree", "striketwo", "strikeone", "overbook", "clean", "manyverses", "radiator", "beacon", "breathe", "moonfade", "waterlife", "innerwave", "curdle", "mixing", "streak", "openquran", "offers", "returns", "dare", "pearls", "links", "topofhundred", "swapstone", "darkvale", "twobricks", "quds", "aman", "constantinople", "shepherds", "markets", "belowzero", "goldpillars", "greening" -> 5000
+    "sameday", "converge", "pilgrims", "vineyard", "statue", "joints", "dense", "hira", "fleet", "twocamps" -> 7000
     // batch 8 (2026-10-27): «بصائر»، الجزء الثالث
-    "exactscale" -> 1500
-    "morebubbles", "fruitprayer", "cloudangel", "erasedpage", "fewnine" -> 2750
-    "deadleaf", "fuelfire", "idolhorns", "restored" -> 3000
-    "heartsun", "mirage", "trialworld", "fishdry", "safewall", "standingfor" -> 3250
-    "ignorefade", "onlygod", "sunorbit" -> 3500
-    "threethermo", "foxhole", "movedots", "voicechain", "bothright", "mustardgrain", "materialscale", "marwantest", "twoconds" -> 3750
-    "twodoors", "threadlong", "doctorfree", "palmtrunk" -> 4000
-    "doubtsfall", "sarih", "rescue", "classify", "harmony", "spirit" -> 4250
-    "glassbox", "eyewitness", "leftlittle" -> 4500
-    "pillarhawa", "diploma", "orderlyworld", "qarawiyyin", "fourrakah", "coverveil" -> 4750
-    "fewfog", "dimheart", "roadshout", "nomodel", "onerakah" -> 5000
-    "braingears", "threequestions", "verseorder", "quarters", "justicecond" -> 5250
-    "hydra", "howtools", "tatarmosques", "twocopies", "olderbooks", "ownpurse", "ownbox" -> 5500
-    "seekpath", "claimscroll", "allbow", "rebuilt" -> 5750
-    "forward", "ransomram", "willthird", "praiseheart", "cloak", "plusminus" -> 6000
-    "dividedblessings", "needdua", "messengersfirst", "witnessgate", "springwater", "sharedship", "khatma" -> 6250
-    "willinside", "blank", "notisolated", "eastwest", "behindhill", "exemptions", "onlyone", "lifestages" -> 6500
-    "innocentwall", "prescription", "meccankahf", "inhearts", "bondvs" -> 6750
-    "reaction", "breaknorm", "twohorns", "serveother", "medinamarks", "selfsaw" -> 7000
-    "twoages", "mechanism", "goldaway", "samebook" -> 7250
-    "shouldnot", "fairscales", "forkroads", "onmount", "boulder", "failgrade", "tradeledger", "khadijaonly", "executor" -> 7500
-    "askingsky", "whysilent", "sevenbranches", "roadsign" -> 7750
-    "oneq", "fourways", "stepmore", "messengers", "qudsraised", "stilltrue", "statues", "fourwitness" -> 8000
-    "mediapile", "seizurewave", "missinglink", "filterpaper" -> 8250
-    "twentythousand" -> 8500
-    "syringe", "opendoors", "isnadchain", "dottedpapyrus", "nostatue", "longestciv", "muezzin", "swapped", "onlydoor" -> 8750
-    "threedoors", "citadel", "civculture", "envoys", "rooms" -> 9000
-    "threeorigins", "noexam", "equalnights" -> 9250
-    "threefogs", "farchurch", "danielram", "uhudlesson", "sahifa", "jahilidark" -> 9500
-    "threepillars", "freechoice", "shieldspend", "aboveref" -> 9750
-    "popthoughts", "shaqaiq", "stonesbow" -> 10000
-    "sumthermo", "forus", "whychain", "delayed", "fiveconditions", "threecures", "sunnabridge" -> 10250
-    "proofsealed", "seekrefuge", "ceilingall", "qubaturn", "eighthundred" -> 10500
-    "greatestway", "teacher", "wingsfaith", "courtfall", "tvset" -> 10750
-    "addict", "cutstrings", "mosquefind", "tilted", "penfield" -> 11000
-    "trainride" -> 11250
-    "twocompanions", "bilaldebt", "springmass", "innate" -> 11500
-    "amateur", "centuryanswer" -> 11750
-    "cellglow", "latescroll", "prophetsrow" -> 12000
-    "timeline629", "choosebranches", "graduated" -> 12250
-    "turnaway", "obligations", "tunecosmos" -> 12500
-    "amanah" -> 12750
-    "boilpot" -> 13000
-    "dustworks", "wisdoms", "manyproofs" -> 13500
-    "readybefore", "rootqara", "everyletter", "travel" -> 13750
-    "qiblaturn" -> 14000
-    "eclipse", "noask" -> 14500
-    "cradle" -> 14750
-    "scrollaway", "truthsame" -> 15000
-    "fourcamels" -> 15250
-    "steles" -> 15750
-    "jabirflask", "claim200", "fiftytwo", "closest" -> 16000
-    "explains", "consent" -> 20000
     // v1.2: Riyad al-Salihin (waves 46-48)
-    "fihima" -> 1750
-    "mendword", "basinfill" -> 2750
-    "restrain" -> 3250
-    "weighflaw" -> 3500
-    "nearest" -> 3750
-    "quietpoor", "strongman" -> 4000
-    "rainvsflood" -> 4250
-    "reconnect" -> 4500
-    "signposts", "stoneheart" -> 4750
-    "orchard" -> 5250
-    "justice", "speck", "fourcalls", "nevernot" -> 5500
-    "sharetable", "fastrank" -> 5750
-    "bestdeeds", "mother3", "rughim", "midgate", "hangs", "widens", "twofold", "counsel", "harm", "broth", "beam", "together", "threeranks", "weakroots", "twodaughters", "bestrank", "homelight", "firstdinar", "sixfirst", "sixrest", "onebody", "building", "visit", "threeacts", "angels", "whispers", "village", "debt", "heaviest", "twokeys", "threetraits", "twohouses", "twotraits", "bucket", "zanahu", "threenever", "mountains", "beautyok", "levelout", "childrenlead", "sinkdown", "toberr", "tofujur", "market", "bedrank", "kiss", "mirrorrain", "babycry", "twolights", "lampout", "onecloth", "shoulder" -> 6000
+    "bestdeeds", "mother3", "rughim", "hangs", "counsel", "broth", "beam", "together", "threeranks", "weakroots", "twodaughters", "homelight", "firstdinar", "sixfirst", "sixrest", "onebody", "building", "visit", "threeacts", "angels", "village", "debt", "twokeys", "twohouses", "bucket", "zanahu", "threenever", "mountains", "beautyok", "levelout", "childrenlead", "sinkdown", "toberr", "tofujur", "market", "bedrank", "kiss", "mirrorrain", "babycry", "twolights", "lampout", "onecloth" -> 6000
     // v1.2 waves 49-68: Hisn al-Muslim, the Forty of al-Nawawi, Mukhtasar al-Shama'il
-    "keptsafe", "sealedfast" -> 2000
-    "sevenrings", "shore", "rainaround" -> 2250
-    "wornrenewed", "abu", "bluntno" -> 2500
-    "absent", "suffice", "calmfast" -> 2750
-    "smallgood", "heldup", "endless" -> 3250
-    "goodnews", "latename", "repaid", "norecline", "atforty" -> 3500
-    "rightsleeve", "onename", "tenletters", "fivelocked" -> 3750
-    "organs", "sieve", "gooddoor", "moist", "fromeverywhere", "threetimesword" -> 4000
-    "falsedream", "threetimes", "namedwater", "twoears" -> 4250
-    "updown", "chatterdoor", "steadydrops" -> 4500
-    "threesit", "curtain", "notreturned3" -> 4750
-    "safering", "fournot", "nopraise", "faithbranch" -> 5000
-    "bounce", "boatheld", "abrahamic", "clearroad", "noharmneighbor", "betweencalls" -> 5250
-    "fallword", "sowing", "plateall", "wakeup", "sleepsister", "lastword", "kanz", "nearestsujud", "hiddenknot" -> 5500
-    "halfdate", "listen", "inkdrop", "twograins", "aside", "eightdoors", "venomback", "noghulul" -> 5750
-    "drawnear", "twolocks", "riseword", "twoverdicts", "coal", "shieldback", "passedon", "fourmarks", "boomerang", "shutgates", "freecamel", "noaid", "backs", "greetfirst", "records", "lovechain", "whofirst", "tens", "quietnight", "askin", "sayname", "grownchild", "yourside", "noblame", "threebreaths", "rightward", "nosupper", "makeroom", "atedge", "clearing", "remembered", "nightwake", "lastten", "comesdown", "threegarments", "inout", "twopure", "threewords", "threegifts", "homegreet", "pitfalls", "rightin", "leftout", "fourlights", "manylights", "salamturn", "hundred", "nobarrier", "threeasks", "nojadd", "likesurah", "tworakah", "consulted", "closedoor", "bookends", "dawnguard", "threeshields", "mulk", "tillsunrise", "fourparts", "dayornight", "fivesteps", "dayshukr", "scorpion", "threecontent", "threesurahs", "watcher", "twoverses", "rightside", "tasbihcols", "callin", "shutdoors", "coverjars", "lastpage", "lampfire", "cloudlift", "bowedtags", "springheart", "eightpairs", "praisestars", "dhunnun", "turnsback", "coolfire", "trenchwind", "neighbour", "smoothed", "nolaw", "strongweak", "whispercut", "comestoali", "mountainpaid", "heavyload", "workandask", "brokenjar", "ummsalama", "takengiven", "visitgraves", "nobas", "sevenvisits", "handonpain", "usefulrain", "notthestar", "strongwind", "thunderhush", "mounted", "piety", "homecoming", "keptboth", "guestdua", "rootsdrink", "angelsover", "firstdates", "threeanswers", "coolword", "twopraises", "blessit", "tworings", "hasanayn", "fatherofprophets", "thanksgift", "twotrees", "outweighs", "featherwords", "seafoam", "fourwords", "thousandgood", "tenback", "misertag", "nearestmost", "seventyplus", "turnall", "washpray", "tallyhundred", "lastthird", "duaworship", "nohaste", "forbrother", "twogoods", "openwith", "twopillarsof", "innerouter", "samewash", "hijraroads", "fourquestions", "nestedranks", "pairsplit", "tworungs", "toweringup", "fivebuild", "basefirst", "saidanddone", "twoservitudes", "orderofduty", "threestages", "fourwrit", "endings", "nesteddecree", "bounceback", "twogatesmeet", "bothreturned", "twomothers", "threezones", "stepclear", "nearhima", "threeshepherds", "slopedown", "limbsfollow", "thriceword", "cleanfull", "fiveto", "bookfirst", "measuringline", "pointgood", "threelit", "bloodwealth", "sevenconds", "iqal", "outerjudged", "shutandclimb", "sitpray", "manyquestions", "partwater", "pureonly", "eatandwork", "blockeddua", "fourcauses", "rayhanatan", "murkyclear", "widermargin", "steadyjitter", "betterless", "passby", "enjoinstill", "twobaskets", "anasyears", "baseremains", "mirrorgood", "faiththread", "warmnet", "threesacred", "tonguehearthand", "farewellday", "partmissing", "speakorstill", "rightscount", "guestwelcome", "neighborcounsel", "threehostdays", "repeatnoanger", "pulledoff", "emberquench", "sitthenlie", "smokeandwater", "trulystrong", "twowritings", "sharpenrest", "outweighharm", "reachesbeast", "muadhabudharr", "shieldsecret", "patchtear", "tworanks", "fourmanners", "ridebehind", "keepbounds", "crowdcannot", "ownwhip", "easethenhard", "missandhit", "oldprophecy", "sternword", "hayagauge", "pullsback", "placebadr", "sufyanasks", "fouralong", "safeend", "bothsides", "fourticks", "heldbelief", "mercygate", "notlisted", "neverdrops", "halffilled", "praisefills", "lightproofglow", "patiencethree", "proofforagainst", "forbadeself", "wrongplace", "fourneeds", "curedone", "nothingadded", "richpoor", "dhikrcoins", "spreadsgood", "selfcharity", "maruftiers", "jointslight", "dutyorextra", "fivesadaqa", "duhatwo", "eachsunrise", "birrring", "consultheart", "answeredfirst", "revealedlit", "movingsermon", "linkedrings", "onelitway", "tightgrip", "notbeforeus", "greatyeteasy", "tentparts", "shieldandwater", "polefalls", "sealtongue", "keepduties", "boundsfences", "silentmercy", "fourquads", "knowingsilence", "twoloves", "stepaside", "handvsheart", "zuhdrungs", "noshunhalal", "poetfour", "harmwall", "twoharms", "fourchapters", "openpasture", "threadsstrong", "bareclaims", "proofoath", "twoaimsqada", "halfwaymeet", "halfdebt", "bothcontent", "darkblots", "handtongueheart", "dimbutlit", "faithgauge", "barrierexcused", "twelvephrases", "envysmoke", "lightmytoo", "firstenvy", "backturned", "fournots", "liftweight", "smallvsbig", "helpedhelper", "givetime", "cloaked", "knowledgeroad", "twocolumns", "multiply", "badleft", "camelseven", "mercywins", "upright", "twotiersawliya", "fardthennafl", "guidedsteps", "answereddua", "threeforgiven", "accidentspill", "forcedcalmheart", "answeredbaqara", "stillowes", "shoulderword", "takesonly", "dontwait", "storeahead", "needlealigns", "lovesdoes", "smallandlarge", "datestone", "threecauses", "cloudstosky", "earthfulpardon", "elixirdrop", "firstlastpage", "neithertall", "moonnotsword", "brighterthanmoon", "silvercast", "lastwhosaw", "gradedmarks", "shirtstripes", "whitecloths", "perfumekept", "namednew", "tablelifted", "basmalabless", "firstandlast", "threesips", "milkbless", "threenames", "lastnames", "yearsline", "mercynames", "coldhearth", "barleynights", "coolshade", "milkfromneighbors", "chaffblown", "spacedwords", "warmsmile", "neverbarred", "aliriding", "truejoke", "littlebird", "everycamel", "notcheap", "youngagain", "thankfulnight", "threesuras", "longstanding", "nightplan", "heartawake", "drawnout", "readtome", "simmering", "loudorlow", "heardatnight", "servantmessenger", "anystreet", "homechores", "smallgift", "plainsaddle", "walkingvisit", "neveruff", "shyerthan", "pardonsback", "chooseseasier", "windgiving", "giftreturned", "curtainlift", "noagony", "mondayrest", "zumarverse", "citylitdark", "answercall", "radeetu", "twohayya", "highstation" -> 6000
+    "drawnear", "twolocks", "riseword", "coal", "passedon", "fourmarks", "boomerang", "shutgates", "noaid", "backs", "greetfirst", "records", "lovechain", "whofirst", "tens", "quietnight", "sayname", "yourside", "noblame", "threebreaths", "rightward", "nosupper", "makeroom", "atedge", "clearing", "remembered", "nightwake", "lastten", "comesdown", "threegarments", "inout", "threewords", "homegreet", "pitfalls", "rightin", "fourlights", "salamturn", "hundred", "nobarrier", "likesurah", "consulted", "bookends", "dawnguard", "threeshields", "mulk", "tillsunrise", "fourparts", "dayornight", "fivesteps", "dayshukr", "scorpion", "threecontent", "threesurahs", "rightside", "tasbihcols", "callin", "coverjars", "lastpage", "lampfire", "cloudlift", "bowedtags", "springheart", "eightpairs", "praisestars", "dhunnun", "turnsback", "coolfire", "trenchwind", "neighbour", "smoothed", "nolaw", "strongweak", "whispercut", "comestoali", "mountainpaid", "heavyload", "workandask", "brokenjar", "ummsalama", "takengiven", "visitgraves", "nobas", "sevenvisits", "handonpain", "notthestar", "strongwind", "thunderhush", "mounted", "piety", "homecoming", "keptboth", "guestdua", "angelsover", "firstdates", "threeanswers", "coolword", "twopraises", "blessit", "tworings", "hasanayn", "thanksgift", "outweighs", "featherwords", "seafoam", "fourwords", "thousandgood", "tenback", "seventyplus", "turnall", "washpray", "tallyhundred", "lastthird", "duaworship", "twogoods", "openwith", "twopillarsof", "innerouter", "samewash", "hijraroads", "fourquestions", "nestedranks", "pairsplit", "tworungs", "toweringup", "fivebuild", "basefirst", "saidanddone", "twoservitudes", "orderofduty", "threestages", "fourwrit", "endings", "nesteddecree", "twogatesmeet", "bothreturned", "twomothers", "threezones", "stepclear", "nearhima", "threeshepherds", "slopedown", "limbsfollow", "thriceword", "cleanfull", "fiveto", "bookfirst", "measuringline", "pointgood", "threelit", "bloodwealth", "sevenconds", "iqal", "outerjudged", "shutandclimb", "sitpray", "manyquestions", "partwater", "pureonly", "eatandwork", "blockeddua", "fourcauses", "rayhanatan", "murkyclear", "widermargin", "steadyjitter", "betterless", "passby", "enjoinstill", "twobaskets", "anasyears", "baseremains", "mirrorgood", "faiththread", "warmnet", "threesacred", "tonguehearthand", "farewellday", "partmissing", "speakorstill", "rightscount", "guestwelcome", "threehostdays", "repeatnoanger", "pulledoff", "emberquench", "sitthenlie", "twowritings", "outweighharm", "reachesbeast", "muadhabudharr", "shieldsecret", "patchtear", "tworanks", "fourmanners", "ridebehind", "keepbounds", "crowdcannot", "easethenhard", "missandhit", "oldprophecy", "sternword", "hayagauge", "pullsback", "placebadr", "sufyanasks", "fouralong", "safeend", "bothsides", "fourticks", "heldbelief", "mercygate", "notlisted", "neverdrops", "halffilled", "praisefills", "lightproofglow", "patiencethree", "proofforagainst", "forbadeself", "wrongplace", "fourneeds", "curedone", "nothingadded", "richpoor", "dhikrcoins", "spreadsgood", "selfcharity", "maruftiers", "jointslight", "dutyorextra", "fivesadaqa", "duhatwo", "eachsunrise", "birrring", "consultheart", "answeredfirst", "movingsermon", "linkedrings", "onelitway", "tightgrip", "notbeforeus", "greatyeteasy", "tentparts", "shieldandwater", "polefalls", "sealtongue", "keepduties", "boundsfences", "silentmercy", "fourquads", "twoloves", "stepaside", "handvsheart", "zuhdrungs", "noshunhalal", "poetfour", "harmwall", "twoharms", "fourchapters", "openpasture", "threadsstrong", "bareclaims", "proofoath", "twoaimsqada", "halfwaymeet", "halfdebt", "bothcontent", "darkblots", "handtongueheart", "dimbutlit", "faithgauge", "barrierexcused", "twelvephrases", "envysmoke", "lightmytoo", "firstenvy", "fournots", "liftweight", "smallvsbig", "givetime", "cloaked", "knowledgeroad", "twocolumns", "multiply", "badleft", "camelseven", "mercywins", "upright", "twotiersawliya", "fardthennafl", "guidedsteps", "answereddua", "threeforgiven", "accidentspill", "forcedcalmheart", "answeredbaqara", "stillowes", "shoulderword", "takesonly", "dontwait", "storeahead", "needlealigns", "lovesdoes", "smallandlarge", "datestone", "threecauses", "cloudstosky", "earthfulpardon", "elixirdrop", "firstlastpage", "neithertall", "moonnotsword", "brighterthanmoon", "silvercast", "lastwhosaw", "gradedmarks", "shirtstripes", "whitecloths", "perfumekept", "namednew", "tablelifted", "basmalabless", "firstandlast", "threesips", "milkbless", "threenames", "lastnames", "yearsline", "mercynames", "coldhearth", "barleynights", "coolshade", "milkfromneighbors", "chaffblown", "spacedwords", "warmsmile", "neverbarred", "aliriding", "truejoke", "littlebird", "everycamel", "notcheap", "youngagain", "thankfulnight", "threesuras", "longstanding", "heartawake", "drawnout", "readtome", "simmering", "loudorlow", "heardatnight", "servantmessenger", "anystreet", "homechores", "plainsaddle", "neveruff", "shyerthan", "pardonsback", "windgiving", "curtainlift", "noagony", "mondayrest", "zumarverse", "citylitdark", "answercall", "radeetu", "twohayya", "highstation" -> 6000
     // v1.3 fiqh: hajj (waves 69-70)
-    "umrahdone" -> 2000
-    "behindmaqam" -> 3750
-    "norafath" -> 4000
-    "throwsforhim" -> 4250
-    "passmiqat", "todaynames", "nohunt", "sevencircuits" -> 4500
-    "hastenhajj", "tawbanasuh" -> 4750
-    "rightsback" -> 5250
-    "fifthpillar", "oncelife", "umrahspan", "debtledger", "cleanpurse", "goodcompany", "washscent", "twowhites", "labbayk", "keephair", "mountride", "threemiqat", "twomiqat", "fromhome", "tohill", "umrahsteps", "threeroads", "tamattu", "hajjmonths", "ifheld", "validyoung", "guardianlabbayk", "carriedround", "guardianreward", "nocutscent", "nosewn", "mayshade", "blackstone", "safamarwa", "tarwiya", "arafastand", "muzdalifanight", "mashardawn", "fourrites", "noharaj", "tashriqthree", "deputythrow", "hadyshare", "pureearning", "tenfast", "arafaopen", "fourdays", "stayworship", "doubledhere", "farewelltawaf", "walkonward", "madinahmosque" -> 6000
+    "fifthpillar", "oncelife", "umrahspan", "debtledger", "cleanpurse", "goodcompany", "washscent", "twowhites", "labbayk", "keephair", "mountride", "threemiqat", "fromhome", "tohill", "umrahsteps", "threeroads", "tamattu", "ifheld", "validyoung", "guardianlabbayk", "guardianreward", "nocutscent", "nosewn", "mayshade", "blackstone", "safamarwa", "tarwiya", "arafastand", "muzdalifanight", "mashardawn", "fourrites", "noharaj", "tashriqthree", "deputythrow", "hadyshare", "pureearning", "tenfast", "arafaopen", "fourdays", "stayworship", "farewelltawaf", "walkonward", "madinahmosque" -> 6000
     // v1.3 fiqh: udhiya (wave 71)
-    "agecheck" -> 3750
-    "notmorethan7" -> 5500
-    "fourteen" -> 5750
-    "adhadef", "twokabsh", "sunnahor", "betterthanprice", "familyall", "anam", "fourdefects", "timewindow", "owned", "rankkinds", "bestshape", "amlah", "disliked", "onesheep", "seventh", "notshared", "eatgivegive", "thirds", "nosale", "designated", "noclip", "onlyhim", "tawbanokaffara", "likepilgrim", "dhakatconds" -> 6000
+    "adhadef", "twokabsh", "sunnahor", "betterthanprice", "familyall", "anam", "fourdefects", "timewindow", "owned", "rankkinds", "amlah", "disliked", "onesheep", "seventh", "notshared", "thirds", "nosale", "designated", "noclip", "onlyhim", "tawbanokaffara", "likepilgrim", "dhakatconds" -> 6000
     // v1.3 fiqh: fasting 1 (wave 72)
-    "sighting" -> 1750
-    "chainedsmoke" -> 2000
-    "narshut" -> 2500
-    "thirtydays" -> 2750
-    "year2" -> 3750
-    "jannahopen" -> 5250
-    "forgivenpast" -> 5750
-    "threespans", "beyondcount", "secretheart", "muskscent", "fastshield", "twojoys", "rayyangate", "onewitness", "monthlength", "fiveconds", "childtrain", "feedperday", "newmuslim", "liftedpen", "travelchoice", "easierway", "sickgauge", "nofaultfound", "medicaldoctor", "makeupdays", "nursingfear", "beforenext", "rescuer" -> 6000
+    "threespans", "beyondcount", "secretheart", "muskscent", "fastshield", "twojoys", "monthlength", "childtrain", "feedperday", "newmuslim", "liftedpen", "travelchoice", "easierway", "sickgauge", "nofaultfound", "medicaldoctor", "makeupdays", "nursingfear", "beforenext", "rescuer" -> 6000
     // v1.3 fiqh: fasting 2 (wave 73)
-    "fourharms" -> 3250
-    "predawnmeal", "plainshot" -> 3500
-    "nearfajr", "sunsethaste", "forgotate" -> 3750
-    "nutritivedrip" -> 4250
-    "wakefamily" -> 4750
-    "threerings" -> 5000
-    "movingnight", "hiddenseek", "surplus" -> 5500
-    "prayontime" -> 5750
-    "twotiers", "sleptprayer", "earseyetongue", "ratabtamrwater", "thirstgone", "eatdrink", "scentok", "holdandrepay", "didntknow", "notbreakers", "rememberstop", "lasttennights", "oddnights", "everysoul", "onesaa", "beforeeidprayer", "foodnotvalue" -> 6000
+    "twotiers", "sleptprayer", "earseyetongue", "eatdrink", "scentok", "holdandrepay", "didntknow", "notbreakers", "lasttennights", "oddnights", "beforeeidprayer", "foodnotvalue" -> 6000
     // v1.3 fiqh: tarawih (wave 74)
-    "afterisha" -> 1750
-    "imamcare" -> 3000
-    "noadhan", "twobytwo" -> 3250
-    "subhanmalik" -> 3500
-    "heartbest" -> 3750
-    "singlewitr" -> 4000
-    "firstnight" -> 4500
-    "elevenrakat" -> 4750
-    "twentyrakat" -> 5000
-    "nightrows" -> 5750
-    "confirmedsunnah", "firsttolast", "twoimams", "evenitout", "rowsfill", "apartjoined", "twowitrforms", "witrsurahs", "qunutsunnah", "afterbow", "wordsfree", "aminecho", "notoverlong" -> 6000
+    "confirmedsunnah", "firsttolast", "twoimams", "evenitout", "rowsfill", "apartjoined", "twowitrforms", "qunutsunnah", "wordsfree" -> 6000
     // v1.3 fiqh: itikaf (wave 75)
-    "cutties" -> 3250
-    "staymosque", "knockdoor" -> 3750
-    "nocrowd" -> 5000
-    "sunnahvow", "lasttenstay", "threemosques", "mosqueandintent", "amoment", "fastoptional", "nothome", "hotelhall", "insidewall", "enterssunset", "entersdawn", "leavesforeid", "vowthree", "outvoid", "needout", "onlyneed", "statedcondition", "phonejail", "silencespeechsight", "notebook" -> 6000
+    "sunnahvow", "lasttenstay", "threemosques", "mosqueandintent", "amoment", "nothome", "hotelhall", "insidewall", "enterssunset", "entersdawn", "leavesforeid", "vowthree", "outvoid", "needout", "onlyneed", "statedcondition", "notebook" -> 6000
     // v1.3 fiqh: purification 1 (wave 76)
-    "orderflow" -> 2000
-    "onceorthrice" -> 3500
-    "keyofprayer", "rightfootout" -> 3750
-    "anytime" -> 4750
-    "minormajor" -> 5250
-    "goldpatch", "dryspot" -> 5500
-    "twopurities", "fourwaters", "threechanges", "allvessels", "goldsilver", "otherspots", "silverpatch", "leftfootin", "noqibla", "waterorstones", "fourmoments", "aracktwig", "fitrafive", "siwakbenefits", "wuduneeded", "sixfard", "wuduconds", "rewardnoblame", "startsunnahs", "rightthrice", "allthreeways" -> 6000
+    "fourwaters", "threechanges", "allvessels", "goldsilver", "otherspots", "silverpatch", "leftfootin", "noqibla", "waterorstones", "aracktwig", "fitrafive", "siwakbenefits", "wuduneeded", "sixfard", "wuduconds", "rewardnoblame", "startsunnahs", "rightthrice", "allthreeways" -> 6000
     // v1.3 fiqh: purification 2 (wave 77)
-    "clockstarts" -> 4500
-    "groundwash", "sevenwash" -> 5000
-    "trimexcess", "needmeasure" -> 5500
     "wuduglowbreaks", "deepsleep", "doubtstay", "camelmeat", "khuffallowed", "wipeperiod", "wipetop", "wipeends", "castonarm", "nolimit", "wholebody", "newmuslimwash", "twoghusl", "perfectsteps", "noewater", "strikeearth", "waterfound", "liftshadath", "waterremoves", "sprinkle", "rubwring" -> 6000
     // v1.3 fiqh: natural blood (wave 78)
-    "readbyheart" -> 4000
-    "dhikrallowed" -> 5750
-    "monthrhythm", "seednourish", "nolimits", "usualyears", "easerule", "shiftingdays", "tintedcells", "whitesign", "pregnantrule", "noprayermakeup", "onerakahtime", "fastmakeup", "ritesbutawaf", "purifiedwash", "aftersunset", "farewellwaived", "unbrokenline", "knownhabit", "wudueachprayer", "threecases", "cradlebegins", "pureearly", "fortymark", "washatforty" -> 6000
+    "monthrhythm", "seednourish", "nolimits", "usualyears", "easerule", "shiftingdays", "whitesign", "pregnantrule", "noprayermakeup", "onerakahtime", "fastmakeup", "ritesbutawaf", "purifiedwash", "aftersunset", "farewellwaived", "unbrokenline", "knownhabit", "wudueachprayer", "threecases", "cradlebegins", "pureearly", "fortymark", "washatforty" -> 6000
     // v1.3 fiqh: zakat (wave 79)
-    "anyclass" -> 4250
-    "lastfour" -> 5750
-    "growsprout", "thirdpillar", "threewisdoms", "bondnet", "twokinds", "firstislam", "nisabowned", "fullyear", "fourwealth", "debtzakat", "quarterten", "twonisabs", "nocombine", "fiveof200", "jewelry", "shopshelf", "threetradeconds", "valueatyearend", "inheritedno", "rentincome", "storedgrains", "tenthorhalf", "ripenow", "threehundredsaa", "buriedfifth", "threeherds", "herdnisab", "grazingfree", "mostlyfed", "onesheepdue", "firstfour", "poorneedy", "notdependents" -> 6000
+    "growsprout", "thirdpillar", "threewisdoms", "bondnet", "firstislam", "nisabowned", "fullyear", "fourwealth", "debtzakat", "quarterten", "twonisabs", "nocombine", "fiveof200", "jewelry", "shopshelf", "threetradeconds", "valueatyearend", "inheritedno", "rentincome", "storedgrains", "tenthorhalf", "ripenow", "threehundredsaa", "buriedfifth", "threeherds", "herdnisab", "grazingfree", "mostlyfed", "firstfour", "poorneedy", "notdependents" -> 6000
     // v1.3 fiqh: prayer 1 (wave 80)
-    "secondpillar" -> 4750
-    "zuhrshadow" -> 5500
-    "miraj", "openclose", "ontimeanyway", "sevenyears", "announcetime", "kifaya", "fifteenphrases", "turnrightleft", "nostepout", "asryellow", "maghribisha", "fajrline", "middleprayer", "purityandtime", "threemoreconds", "intentheart", "condsvspillars", "smallsteps", "waitdhikr", "straightrows", "rightfootmosque", "widestance", "facequibla", "raisehands", "handsonchest", "farapartsins", "alternate" -> 6000
+    "miraj", "openclose", "ontimeanyway", "sevenyears", "announcetime", "kifaya", "fifteenphrases", "turnrightleft", "maghribisha", "fajrline", "middleprayer", "purityandtime", "threemoreconds", "intentheart", "condsvspillars", "smallsteps", "waitdhikr", "straightrows", "rightfootmosque", "widestance", "facequibla", "raisehands", "farapartsins", "alternate" -> 6000
     // v1.3 fiqh: prayer 2 (wave 81)
-    "tawarruk" -> 2750
-    "rabbighfirli" -> 3500
-    "aminloudlow" -> 5750
-    "fatihakey", "midlength", "longshort", "thirdfourth", "flatback", "threetasbih", "riseupsami", "fillheavens", "handsafterrise", "kneesfirst", "sevenlimbs", "nearestbow", "armsapart", "greatestpillar", "iftirash", "vertebrae", "followimam", "restsit", "indexpoint", "tahiyyat", "salamsides", "fourrefuge", "threetiers", "fourteenpillars", "somepillars", "sittingside", "calmness" -> 6000
+    "midlength", "longshort", "thirdfourth", "flatback", "riseupsami", "fillheavens", "handsafterrise", "kneesfirst", "sevenlimbs", "armsapart", "greatestpillar", "iftirash", "vertebrae", "followimam", "restsit", "indexpoint", "tahiyyat", "fourrefuge", "fourteenpillars", "somepillars", "sittingside", "calmness" -> 6000
     // v1.3 fiqh: prayer 3 (wave 82)
-    "buildonless", "houseinjannah" -> 4750
-    "lastnightwitnessed" -> 5000
-    "returnifnotup" -> 5750
     "eightduties", "transitions", "extrareward", "threetoten", "followerpraise", "gazedown", "fidgets", "distractions", "ornatewall", "presentheart", "threeaims", "sahwcauses", "alertimam", "istighfarthree", "thirtythree", "kursiyshield", "tentimes", "imamturns", "twelvearches", "aroundprayers", "travelkeeps", "strongestnafl", "witrwindow", "oneto13", "ninejoined" -> 6000
     // v1.3 fiqh: prayer 4 (wave 83)
-    "duhanafl", "twotoeight", "duhawindow", "threecounsels", "hotsand", "versebow", "listenerkinds", "bowsubhan", "sajadawajhi", "fromstanding", "twodawnbans", "threedaybans", "allowedwithcause", "shadowstops", "rowsduty", "evenwar", "benefits4", "stepreward", "familyneighbors", "rankorder", "readerfaqih", "hostfirst", "drawlots", "unknownfault", "hardshipease", "standsitside", "nodlower", "bentstand", "sickjoin" -> 6000
+    "duhanafl", "twotoeight", "duhawindow", "threecounsels", "versebow", "listenerkinds", "bowsubhan", "sajadawajhi", "twodawnbans", "threedaybans", "allowedwithcause", "shadowstops", "rowsduty", "evenwar", "benefits4", "stepreward", "familyneighbors", "rankorder", "readerfaqih", "hostfirst", "unknownfault", "hardshipease", "standsitside", "nodlower", "bentstand", "sickjoin" -> 6000
     // v1.3 fiqh: prayer 5 (wave 84)
-    "kahfread" -> 4250
-    "nofajrjoin" -> 4750
-    "catchonerakah" -> 5500
-    "fourtotwo", "takerukhsa", "fourdaysrule", "charitygift", "homemissed", "twopairs", "movingorresting", "rainmudwind", "delaytoasr", "advancewithzuhr", "fardayn", "notobligedbutvalid", "twokhutbas", "nostepping", "earlyfriday", "silentlisten", "tworakatenter", "noreserve", "eidkifaya", "eidtime", "sevenfive", "datesbefore", "otherwayback" -> 6000
+    "fourtotwo", "takerukhsa", "fourdaysrule", "charitygift", "homemissed", "twopairs", "rainmudwind", "delaytoasr", "advancewithzuhr", "fardayn", "notobligedbutvalid", "twokhutbas", "nostepping", "earlyfriday", "silentlisten", "tworakatenter", "noreserve", "eidkifaya", "eidtime", "sevenfive", "datesbefore", "otherwayback" -> 6000
     // Wave 85 (2026-11-03): v1.3 fiqh, prayer 6: eclipse, rain prayer, washing, funeral prayer, burial
-    "sundarkens", "eclipsewindow", "tworukuperrakah", "longthenshorter", "secondless", "drought", "tworakatground", "repentfirst", "cloakturn", "rainarrives", "visitremind", "washdeceased", "threewhite", "dustinstead", "fourtakbir", "foursteps", "latejoin", "duaall", "qirats", "hastenbier", "lahdniche", "spanmound", "standdua", "taziya" -> 6000
+    "sundarkens", "eclipsewindow", "tworukuperrakah", "longthenshorter", "secondless", "drought", "tworakatground", "repentfirst", "cloakturn", "rainarrives", "visitremind", "washdeceased", "threewhite", "fourtakbir", "foursteps", "latejoin", "duaall", "qirats", "hastenbier", "lahdniche", "spanmound", "standdua", "taziya" -> 6000
     // Wave 86 (2026-11-04): v1.4 the Quran 1: al-Fatiha, al-Falaq and al-Nas, al-Ikhlas, al-Masad
-    "faithsaves" -> 5000
-    "ikhlasistiana" -> 5500
-    "nurtureall", "generalcare", "specialcare", "rabbduas", "needaid", "shortholds", "fatihacontents", "everyrakah", "twohidayas", "allevils", "rabbmalikilah", "whisperretreat", "jinnins", "ahadunique", "samadneed", "nochild", "asmathree", "asmasifat", "revealedalive", "foretoldtwo", "cametrue", "wealthnohelp" -> 6000
+    "nurtureall", "rabbduas", "needaid", "shortholds", "fatihacontents", "everyrakah", "twohidayas", "allevils", "rabbmalikilah", "whisperretreat", "jinnins", "ahadunique", "samadneed", "nochild", "asmathree", "revealedalive", "foretoldtwo", "cametrue", "wealthnohelp" -> 6000
     // Wave 87 (2026-11-04): v1.4 the Quran 2: al-Nasr, al-Kafirun, al-Kawthar, al-Ma'un, al-Fil and Quraysh
-    "branchcut" -> 4250
-    "gladtidings", "tasbihistighfar", "sealedwith", "nasrgrows", "subhanaka", "disown", "mixedcup", "twicesaid", "keybaraa", "purecup", "muchgood", "riverhawd", "whitesweet", "prayersacrifice", "orphanhonor", "prayerguard", "lendsmall", "sahun", "sahwfi", "yearborn", "forquraysh", "twojourneys", "worshiplord" -> 6000
+    "gladtidings", "tasbihistighfar", "sealedwith", "nasrgrows", "subhanaka", "disown", "mixedcup", "twicesaid", "muchgood", "riverhawd", "whitesweet", "prayersacrifice", "orphanhonor", "prayerguard", "lendsmall", "sahun", "sahwfi", "yearborn", "forquraysh", "twojourneys", "worshiplord" -> 6000
     // Wave 88 (2026-11-04): v1.4 the Quran 3: al-Humaza, al-'Asr, al-Takathur, al-Qari'a, al-Zalzala
-    "nogiving" -> 2500
-    "hutama" -> 5000
-    "slanderers", "countcoins", "timepasses", "fourtraits", "selfothers", "asrprofit", "rivalry", "allkinds", "graveguests", "barzakhpass", "stingy", "selfwitness", "qariastrike", "guidedgive", "earthspeaks", "obeysorder", "atomspeck", "evensmall" -> 6000
+    "slanderers", "timepasses", "fourtraits", "selfothers", "rivalry", "allkinds", "graveguests", "barzakhpass", "stingy", "selfwitness", "qariastrike", "earthspeaks", "atomspeck", "evensmall" -> 6000
     // Wave 89 (2026-11-04): v1.4 the Quran 4: al-Bayyina, al-Qadr, al-'Alaq, al-Tin, al-Sharh
-    "fromalaq" -> 4500
-    "darknesslight" -> 5000
-    "messengerbook", "purepages", "seekerclear", "greatworth", "exalted", "witrnights", "itikafnight", "firstrevealed", "commandsforbid", "forbidder", "figolive", "sinaimakkah", "threeplaces", "bestform", "chestopen", "withhardship", "oneandtwo", "lizardhole" -> 6000
+    "messengerbook", "purepages", "seekerclear", "greatworth", "exalted", "witrnights", "itikafnight", "firstrevealed", "commandsforbid", "forbidder", "figolive", "sinaimakkah", "threeplaces", "chestopen", "withhardship", "oneandtwo" -> 6000
     // Wave 90 (2026-11-04): v1.4 the Quran 5: al-Duha, al-Layl, al-Shams, al-Balad, al-Fajr
-    "forhisface" -> 3000
-    "nafsroads" -> 4500
-    "gaveguarded", "purifiedfail" -> 5500
-    "twoaskers" -> 5750
-    "notleft", "perfectstate", "teacherkind", "husnameaning", "easeall", "subtlesoul", "innerlife", "toil", "restwork", "wasted", "tradedgod", "dawnoath", "tennights", "lifeafter", "besttwo" -> 6000
+    "notleft", "perfectstate", "teacherkind", "easeall", "subtlesoul", "innerlife", "toil", "restwork", "wasted", "tradedgod", "dawnoath", "tennights", "besttwo" -> 6000
     // Wave 91 (2026-11-04): v1.4 the Quran 6: al-Ghashiya, al-A'la, al-Tariq, al-Buruj, al-Inshiqaq
-    "comesbynight" -> 5000
-    "goodtalk", "kindmanners", "flatround", "bigflat", "sabbih", "guideall", "remindtwo", "fearkeeps", "piercingstar", "allstars", "guardian", "mansions", "wadud", "ghafurwadud", "lostmount", "rightbook", "sinveiled", "reckonstages", "underrule" -> 6000
+    "goodtalk", "kindmanners", "flatround", "bigflat", "sabbih", "guideall", "remindtwo", "fearkeeps", "piercingstar", "guardian", "mansions", "wadud", "ghafurwadud", "lostmount", "rightbook", "sinveiled", "reckonstages", "underrule" -> 6000
     // Wave 92 (2026-11-04): v1.4 the Quran 7: al-Mutaffifin, al-Infitar, al-Takwir, 'Abasa, al-Nazi'at, al-Naba'
-    "eachknows" -> 5000
-    "speakright" -> 5250
-    "fairmeasure", "fairargument", "rayn", "tasnim", "ghurur", "noblescribes", "abrar", "sunfolded", "asifseen", "noblemessenger", "twocome", "gentlereproach", "knownrule", "welcomeseeker", "angelsobey", "sixpillars", "pharaoh", "nofear", "rowsstand", "nofalsehood", "greatnews" -> 6000
+    "fairmeasure", "fairargument", "rayn", "tasnim", "ghurur", "noblescribes", "abrar", "sunfolded", "asifseen", "noblemessenger", "twocome", "gentlereproach", "knownrule", "welcomeseeker", "angelsobey", "nofear", "rowsstand", "nofalsehood" -> 6000
     // Wave 93 (2026-11-04): v1.4 the virtues of the Quran and the etiquette of reciting it
-    "eachletter" -> 2750
-    "fifteen" -> 3000
-    "notlineage" -> 4750
-    "learnteach" -> 5000
-    "ruined" -> 5250
-    "basmala" -> 5500
-    "honorall", "raiselower", "sunnahnot", "sameaswalat" -> 5750
-    "manyhadith", "intercedes", "tenfold", "harfclimb", "mawla", "allhours", "slowrecite", "respond", "khatm", "withbarrier", "tafsirpage", "devices", "junub", "istiadha", "tadabbur", "oneverse", "shaytanweeps", "imamled", "wajhisajad", "nocondition", "takbiroutside" -> 6000
+    "manyhadith", "intercedes", "harfclimb", "mawla", "allhours", "respond", "khatm", "withbarrier", "junub", "istiadha", "tadabbur", "oneverse", "shaytanweeps", "imamled", "wajhisajad", "nocondition", "takbiroutside" -> 6000
     // wave 94
-    "jzwajib2" -> 2250
-    "jzmakharij4", "jztarqiq3" -> 2500
-    "jzrawm3" -> 2750
-    "tzmulk0" -> 3000
-    "tamadd0" -> 3250
-    "taidgham2" -> 3500
-    "ttfajr2" -> 3750
-    "tamim2", "jzwasl2" -> 4000
-    "ttmafhum0", "jztajwid1", "jztarqiq0", "jzwaqf1" -> 4250
-    "ttnaba3", "tamithlan3", "jztajwid0", "jzwasl1", "jzrawm0" -> 4500
-    "ttzuwwijat3", "ttfajr1", "tzmujadila3", "tanun1", "tamim3", "jzsifat3" -> 4750
-    "tzmunafiqun2", "tztaghabun0", "tamithlan0", "tamadd2", "tamaddahkam0", "jzmakharij0" -> 5000
-    "tzmunafiqun1", "tzqalam3", "taiqlab1", "talam0", "tamithlan2", "jzwajib3" -> 5250
-    "ttlafz1", "ttzuwwijat0", "ttfajr3", "ttqadr3", "tzmursalat3", "jztajwid3", "jzwaqf0" -> 5500
-    "ttshaf0", "tztalaq1", "talam2", "jztarqiq1", "jzrawm2" -> 5750
-    "ttmafhum1", "ttmafhum2", "ttmafhum3", "tttanawwu0", "tttanawwu1", "tttanawwu2", "tttanawwu3", "tttadadd0", "tttadadd1", "tttadadd2", "tttadadd3", "ttasbab0", "ttasbab1", "ttasbab2", "ttasbab3", "ttlafz0", "ttlafz2", "ttlafz3", "tttabaqat0", "tttabaqat1", "tttabaqat2", "tttabaqat3", "tthushirat0", "tthushirat1", "tthushirat2", "tthushirat3", "ttnaba0", "ttnaba1", "ttnaba2", "ttzuwwijat1", "ttzuwwijat2", "ttfajr0", "ttshaf1", "ttshaf2", "ttquran0", "ttquran1", "ttquran2", "ttquran3", "tttin0", "tttin1", "tttin2", "tttin3", "ttqadr0", "ttqadr1", "ttqadr2", "ttfalaq0", "ttfalaq1", "ttfalaq2", "ttfalaq3", "tzmujadila0", "tzmujadila1", "tzmujadila2", "tzhashr0", "tzhashr1", "tzhashr2", "tzhashr3", "tzmumtahana0", "tzmumtahana1", "tzmumtahana2", "tzmumtahana3", "tzsaff0", "tzsaff1", "tzsaff2", "tzsaff3", "tzjumua0", "tzjumua1", "tzjumua2", "tzjumua3", "tzmunafiqun0", "tzmunafiqun3", "tztaghabun1", "tztaghabun2", "tztaghabun3", "tztalaq0", "tztalaq2", "tztalaq3", "tztahrim0", "tztahrim1", "tztahrim2", "tztahrim3", "tzmulk1", "tzmulk2", "tzmulk3", "tzqalam0", "tzqalam1", "tzqalam2", "tzhaqqa0", "tzhaqqa1", "tzhaqqa2", "tzhaqqa3", "tzmaarij0", "tzmaarij1", "tzmaarij2", "tzmaarij3", "tznuh0", "tznuh1", "tznuh2", "tznuh3", "tzjinn0", "tzjinn1", "tzjinn2", "tzjinn3", "tzmuzzammil0", "tzmuzzammil1", "tzmuzzammil2", "tzmuzzammil3", "tzmuddaththir0", "tzmuddaththir1", "tzmuddaththir2", "tzmuddaththir3", "tzqiyama0", "tzqiyama1", "tzqiyama2", "tzqiyama3", "tzinsan0", "tzinsan1", "tzinsan2", "tzinsan3", "tzmursalat0", "tzmursalat1", "tzmursalat2", "tanun0", "tanun2", "tanun3", "taidgham0", "taidgham1", "taidgham3", "taiqlab0", "taiqlab2", "taiqlab3", "tamim0", "tamim1", "talam1", "talam3", "tamithlan1", "tamadd1", "tamadd3", "tamaddahkam1", "tamaddahkam2", "tamaddahkam3", "jzwajib0", "jzwajib1", "jzmakharij1", "jzmakharij2", "jzmakharij3", "jzsifat0", "jzsifat1", "jzsifat2", "jztajwid2", "jztarqiq2", "jzwaqf2", "jzwaqf3", "jzwasl0", "jzwasl3", "jzrawm1" -> 6000
+    "ttmafhum1", "ttmafhum2", "ttmafhum3", "tttanawwu1", "tttanawwu2", "tttanawwu3", "tttadadd0", "tttadadd2", "tttadadd3", "ttasbab0", "ttasbab2", "ttasbab3", "ttlafz0", "ttlafz2", "tttabaqat0", "tttabaqat1", "tttabaqat2", "tttabaqat3", "tthushirat0", "tthushirat1", "tthushirat2", "tthushirat3", "ttnaba1", "ttzuwwijat1", "ttfajr0", "ttshaf1", "ttshaf2", "ttquran0", "ttquran1", "ttquran3", "tttin0", "tttin1", "tttin2", "tttin3", "ttqadr0", "ttqadr1", "ttqadr2", "ttfalaq0", "ttfalaq1", "ttfalaq2", "ttfalaq3", "tzmujadila0", "tzmujadila1", "tzmujadila2", "tzhashr0", "tzhashr1", "tzhashr2", "tzhashr3", "tzmumtahana1", "tzmumtahana2", "tzmumtahana3", "tzsaff0", "tzsaff1", "tzsaff3", "tzjumua0", "tzjumua1", "tzjumua2", "tzjumua3", "tzmunafiqun0", "tzmunafiqun3", "tztaghabun1", "tztaghabun2", "tztaghabun3", "tztalaq0", "tztalaq2", "tztalaq3", "tztahrim0", "tztahrim1", "tztahrim2", "tztahrim3", "tzmulk1", "tzmulk2", "tzmulk3", "tzqalam1", "tzqalam2", "tzhaqqa0", "tzhaqqa1", "tzhaqqa2", "tzhaqqa3", "tzmaarij3", "tznuh0", "tznuh1", "tznuh2", "tznuh3", "tzjinn0", "tzjinn1", "tzjinn2", "tzjinn3", "tzmuzzammil0", "tzmuzzammil1", "tzmuzzammil2", "tzmuzzammil3", "tzmuddaththir0", "tzmuddaththir2", "tzqiyama0", "tzqiyama1", "tzqiyama2", "tzinsan0", "tzinsan3", "tzmursalat0", "tzmursalat1", "tanun0", "tanun3", "taidgham0", "taidgham1", "taidgham3", "taiqlab0", "taiqlab3", "tamim0", "talam1", "tamadd1", "tamaddahkam1", "tamaddahkam2", "tamaddahkam3", "jzwajib1", "jzmakharij1", "jzmakharij2", "jzsifat0", "jzsifat1", "jztarqiq2", "jzwaqf2", "jzwasl3" -> 6000
     // wave 95
-    "sbridaa3" -> 3750
-    "sbkaaba3", "mbmasjid3" -> 4000
-    "mbmuakhat3", "gzuhud3" -> 4250
-    "mdsirr2", "mbidhn1", "wdwufud1", "wdwada2" -> 4500
-    "wdwufud3" -> 4750
-    "mbmuakhat2", "mbsukkan2" -> 5000
-    "sbyutm3", "mdmaratib0", "gzhunayn3" -> 5250
-    "mbmasjid2", "gzmutah2" -> 5500
-    "sbridaa2", "mdmudd2", "mdmaratib2" -> 5750
-    "sbnasab0", "sbnasab1", "sbnasab2", "sbnasab3", "sbmawlid0", "sbmawlid1", "sbmawlid2", "sbmawlid3", "sbridaa0", "sbridaa1", "sbsharh0", "sbsharh1", "sbsharh2", "sbsharh3", "sbyutm0", "sbyutm1", "sbyutm2", "sbhifz0", "sbhifz1", "sbhifz2", "sbhifz3", "sbkaaba0", "sbkaaba1", "sbkaaba2", "sbkhadija0", "sbkhadija1", "sbkhadija2", "sbkhadija3", "mdhira0", "mdhira1", "mdhira2", "mdhira3", "mdmudd0", "mdmudd1", "mdmudd3", "mdmaratib1", "mdmaratib3", "mdsirr0", "mdsirr1", "mdsirr3", "mdjahr0", "mdjahr1", "mdjahr2", "mdjahr3", "mdadha0", "mdadha1", "mdadha2", "mdadha3", "mdhabasha0", "mdhabasha1", "mdhabasha2", "mdhabasha3", "mdshib0", "mdshib1", "mdshib2", "mdshib3", "mdtaif0", "mdtaif1", "mdtaif2", "mdtaif3", "mdaqaba0", "mdaqaba1", "mdaqaba2", "mdaqaba3", "mdhijra0", "mdhijra1", "mdhijra2", "mdhijra3", "mbmasjid0", "mbmasjid1", "mbmuakhat0", "mbmuakhat1", "mbwathiqa0", "mbwathiqa1", "mbwathiqa2", "mbwathiqa3", "mbism0", "mbism1", "mbism2", "mbism3", "mbsukkan0", "mbsukkan1", "mbsukkan3", "mbidhn0", "mbidhn2", "mbidhn3", "gzbadr0", "gzbadr1", "gzbadr2", "gzbadr3", "gzuhud0", "gzuhud1", "gzuhud2", "gzkhandaq0", "gzkhandaq1", "gzkhandaq2", "gzkhandaq3", "gzhuday0", "gzhuday1", "gzhuday2", "gzhuday3", "gzkhaybar0", "gzkhaybar1", "gzkhaybar2", "gzkhaybar3", "gzmutah0", "gzmutah1", "gzmutah3", "gzfath0", "gzfath1", "gzfath2", "gzfath3", "gzhunayn0", "gzhunayn1", "gzhunayn2", "gztabuk0", "gztabuk1", "gztabuk2", "gztabuk3", "wdwufud0", "wdwufud2", "wdbaraa0", "wdbaraa1", "wdbaraa2", "wdbaraa3", "wdwada0", "wdwada1", "wdwada3", "wdmarad0", "wdmarad1", "wdmarad2", "wdmarad3", "wdwafat0", "wdwafat1", "wdwafat2", "wdwafat3" -> 6000
+    "sbnasab0", "sbmawlid0", "sbmawlid1", "sbmawlid2", "sbmawlid3", "sbridaa0", "sbridaa1", "sbsharh3", "sbyutm0", "sbyutm1", "sbyutm2", "sbhifz0", "sbhifz1", "sbhifz2", "sbhifz3", "sbkaaba0", "sbkaaba2", "sbkhadija0", "sbkhadija1", "sbkhadija2", "sbkhadija3", "mdhira0", "mdhira1", "mdhira2", "mdhira3", "mdmudd1", "mdmudd3", "mdmaratib1", "mdmaratib3", "mdsirr1", "mdsirr3", "mdjahr1", "mdjahr2", "mdadha0", "mdadha1", "mdadha3", "mdhabasha0", "mdhabasha1", "mdshib0", "mdshib1", "mdshib2", "mdshib3", "mdtaif0", "mdtaif1", "mdaqaba0", "mdaqaba1", "mdaqaba2", "mdhijra0", "mdhijra1", "mdhijra2", "mbmasjid0", "mbmasjid1", "mbmuakhat0", "mbwathiqa0", "mbwathiqa1", "mbwathiqa2", "mbism0", "mbism1", "mbism2", "mbsukkan0", "mbsukkan1", "mbidhn0", "mbidhn2", "mbidhn3", "gzbadr0", "gzbadr1", "gzbadr2", "gzbadr3", "gzuhud0", "gzuhud1", "gzuhud2", "gzkhandaq0", "gzkhandaq1", "gzkhandaq2", "gzhuday0", "gzhuday1", "gzhuday2", "gzhuday3", "gzkhaybar0", "gzkhaybar1", "gzkhaybar2", "gzmutah0", "gzmutah1", "gzmutah3", "gzfath0", "gzfath1", "gzfath2", "gzfath3", "gzhunayn0", "gzhunayn1", "gzhunayn2", "gztabuk0", "gztabuk1", "gztabuk2", "wdwufud0", "wdwufud2", "wdbaraa0", "wdbaraa2", "wdbaraa3", "wdwada0", "wdwada1", "wdwada3", "wdmarad0", "wdmarad1", "wdmarad3", "wdwafat0", "wdwafat1", "wdwafat2", "wdwafat3" -> 6000
     // wave 96
-    "tmkhadam2" -> 2500
     "tmwafa3", "tmjar2", "tmjadid2" -> 3250
     "umzaynabk3" -> 3500
     "umsalama3", "umsafiyya3" -> 3750
@@ -1394,6 +989,55 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "umkhasais2", "umjuway0", "tmahl1", "tmahl2", "tmkuffar1", "tmusat3" -> 5500
     "umkhasais0", "umaisha3", "umsafiyya2", "tmwafa1", "tmusat2", "tmkibar2", "tmsighar0" -> 5750
     "umkhasais1", "umsawda0", "umsawda1", "umsawda2", "umaisha0", "umaisha1", "umaisha2", "umhafsa0", "umhafsa2", "umzaynabk1", "umsalama1", "umzaynabj0", "umzaynabj1", "umzaynabj2", "umjuway1", "umjuway2", "umhabiba0", "umhabiba1", "umhabiba2", "umsafiyya0", "ummaymuna0", "ummaymuna2", "ummaymuna3", "tmahl0", "tmahl3", "tmwafa0", "tmwafa2", "tmbanat0", "tmbanat1", "tmbanat2", "tmbanat3", "tmahfad0", "tmahfad1", "tmahfad2", "tmahfad3", "tmjar0", "tmjar1", "tmkhadam0", "tmkhadam1", "tmkhadam3", "tmbala0", "tmbala1", "tmbala2", "tmbala3", "tmkuffar0", "tmkuffar2", "tmkuffar3", "tmjadid0", "tmjadid1", "tmjadid3", "tmusat0", "tmusat1", "tmnisa0", "tmnisa2", "tmnisa3", "tmkibar0", "tmsighar1", "tmsighar2", "tmsighar3" -> 6000
+    // shortened for the enhanced voice (retime.py)
+    "holdbanner", "holdcrown", "holdidol", "winghope" -> 800
+    "adorn", "conceal", "fall", "forget", "itself", "nocautery", "whence" -> 1000
+    "afterisha", "allcompanions", "chainedsmoke", "evenkin", "exactscale", "fihima", "khafi", "kufr", "lawfulcrack", "left", "letgo", "noomen", "noproduce", "noruqya", "permit", "praise", "refugeonly", "refused", "sealedfast", "sighting", "sinkdrop", "steal", "strife", "theten", "twoface", "ulopp", "worshiponly" -> 1250
+    "add", "allcreated", "asmopp", "astray", "banners", "dust", "firmhold", "gold", "hush", "idol", "keptsafe", "nohow", "oath", "obeycmd", "orderflow", "pardon", "pleased", "rainaround", "refuse", "relay", "returned", "safeway", "sealed", "settle", "sevenrings", "shore", "shout", "shrinecall", "storm", "storm2", "topple", "umrahdone", "walker", "written" -> 1500
+    "arrive", "believe", "bluntno", "cloudangel", "decree", "disobeyed", "doorshut", "featherpair", "forced", "give", "heartonly", "keeprows", "lawla", "narshut", "nogiving", "notmixed", "obeyed", "old", "open", "pitfall", "plea", "rely", "ringday", "suffice", "takbirsunan", "tenlocks", "tread", "twowords", "unequal", "wisp" -> 1750
+    "absent", "allowed", "around", "basinfill", "calmfast", "court1", "court5", "court6", "debater", "erasedpage", "eyes", "fake", "fewnine", "fruitprayer", "grain", "holdtongue", "hopeonly", "incline", "jzmakharij4", "jzrawm3", "jztarqiq3", "jzwajib2", "lotetop", "mendword", "morebubbles", "nobend", "nobullet", "noprice", "notmade", "obeyfollow", "page", "prints", "restored", "sealdoor", "shutters", "sidepath", "spiral", "stones", "sun", "tawarruk", "tenring", "thirtydays", "three", "wornrenewed", "yield" -> 2000
+    "abu", "against", "arch", "avoid", "banned", "byopinion", "claim", "daily", "deadleaf", "denyknown", "eachletter", "fearonly", "fifteen", "forhisface", "fuelfire", "fulfilled", "heartsun", "hufra", "idolhorns", "imamcare", "jitter", "known", "lastlit", "mushaf", "mustard", "nothing", "pipe", "pledge", "praised", "ringyear", "shelves", "smallgood", "tamadd0", "teach", "tmkhadam2", "tremble", "trialworld", "turnover", "twobytwo", "unravel", "vowbreak" -> 2250
+    "allknown", "asshown", "bowidols", "bury", "cutties", "endless", "eras", "family", "fishdry", "fourharms", "goodnews", "greet", "heldup", "ignorefade", "latename", "lonewindow", "mirage", "noadhan", "nofeast", "onceorthrice", "plainshot", "predawnmeal", "rawda", "regroup", "repaid", "resolve", "restrain", "safewall", "sealofall", "sixmonths", "standingfor", "subhanmalik", "threeq", "tzmulk0", "weighflaw" -> 2500
+    "agecheck", "askonly", "atforty", "behindmaqam", "bothright", "crumble", "fivelocked", "fromeverywhere", "heartbest", "horn", "jibril", "keyofprayer", "knockdoor", "loveonly", "materialscale", "mbmasjid3", "memorize", "meteor", "mikail", "moist", "movedots", "mustardgrain", "nearest", "nearfajr", "onename", "onlyallah", "onlygod", "palacegap", "rabbighfirli", "reciters", "regress", "rightsleeve", "sheathe", "sunorbit", "taidgham2", "tawqif", "tenletters", "threadlong", "threethermo", "twoconds", "twodoors", "voicechain", "warn", "winnow", "year2" -> 2750
+    "ages", "beloved", "both", "branchcut", "callup", "dais", "derive", "dimtwo", "doctorfree", "energyfloor", "falsedream", "fillup", "forgotate", "foxhole", "gooddoor", "gust", "handover", "harmony", "joinpagans", "lean", "lens", "liked", "nofollow", "norecline", "nosincere", "nutritivedrip", "onewall", "organs", "palmtrunk", "quietpoor", "rainvsflood", "readbyheart", "reply", "rightfootout", "sbkaaba3", "sbridaa3", "spirit", "staymosque", "steady", "strongman", "sunsethaste", "swaptags", "tamim2", "threeroots", "threetimesword", "throwsforhim", "todaynames", "ttfajr2", "twoangels", "tworewards", "unaccepted", "unheard", "veiled", "wawa" -> 3000
+    "anyclass", "arise", "badorder", "believer", "burnaway", "classify", "clockstarts", "cursed", "doubtsfall", "elevenrakat", "explained", "fromalaq", "glassbox", "gzuhud3", "harvest", "heave", "jztajwid0", "jztajwid1", "jzwasl2", "kahfread", "knock", "loveandhate", "marwantest", "mbidhn1", "mercy", "nafsroads", "nobond", "norafath", "passmiqat", "reconnect", "rescue", "sarih", "secondpillar", "sent", "sieve", "singlewitr", "tongueonly", "ttmafhum0", "twoears", "twopaths", "tzmujadila3" -> 3250
+    "anytime", "betweencalls", "blindsix", "bothways", "coverveil", "curtain", "cutoff", "darknesslight", "daybreak", "doubtspark", "dukhan", "eyesopen", "eyewitness", "fewfog", "firstnight", "fourrakah", "fussilat", "houseinjannah", "hutama", "infer", "inmilla", "jzrawm0", "jzsifat3", "jztarqiq0", "jzwaqf1", "jzwasl1", "kedarhomes", "lastone", "leftlittle", "linedark", "martyrs", "mbmuakhat3", "mdsirr2", "namedwater", "nohunt", "noidol", "notlineage", "orderlyworld", "paran", "pedestal", "plateglow", "primalsea", "pullout", "qarawiyyin", "rejected", "safahill", "safering", "sealedgate", "seir", "sevencircuits", "sevenhorses", "sinai", "sinks", "skyward", "spears", "spring", "stages", "stayin", "steadydrops", "stoneheart", "tamim3", "tamithlan3", "tanun1", "threemore", "threetimes", "throne", "trace", "ttnaba3", "ttzuwwijat3", "twentyrakat", "unshackle", "updown", "vowkeep", "wdwada2", "wdwufud1", "withall", "yemenfire" -> 3500
+    "abrahamic", "align", "axe", "buildonless", "chatterdoor", "crossover", "differ", "dimheart", "diploma", "eachknows", "faithsaves", "flint", "fromtext", "getup", "grandeur", "groundwash", "handless", "hastenhajj", "headlove", "ikhlasopen", "jzwajib3", "lastnightwitnessed", "learnteach", "mbmasjid2", "mbmuakhat2", "mdmaratib0", "mend", "neverclosed", "nocrowd", "nofajrjoin", "nomodel", "oldprints", "onerakah", "pillarhawa", "regretresolve", "roadshout", "sbyutm3", "sceptre", "sevenwash", "signposts", "speakright", "tamadd2", "tamithlan0", "tawbanasuh", "threequestions", "ttfajr1", "tzmunafiqun2", "tztaghabun0", "verseorder", "wakefamily", "wdwufud3", "weigh", "willed", "witnessed" -> 3750
+    "basmala", "boatheld", "bounce", "claimscroll", "clearroad", "creation", "depth", "dryspot", "eightdoors", "emptied", "excused", "extract", "faithbranch", "fallword", "fastrank", "followsaid", "fourcalls", "fromabove", "gather", "gaveguarded", "guideway", "hamd", "hiddenseek", "hydra", "jannahopen", "justicecond", "jzwaqf0", "kanz", "marionette", "mindfog", "minormajor", "noharmneighbor", "nopraise", "nosaving", "olderbooks", "orchard", "othercause", "ownsource", "prayontime", "purifiedfail", "putfirst", "quarters", "rebuilt", "refer", "ruined", "ruins", "sbnasab1", "sbnasab3", "shrinklist", "sinkings", "sirat", "sowing", "speck", "straightin", "taiqlab1", "talam0", "tamaddahkam0", "tamithlan2", "threerings", "threesit", "tzqalam3", "wakeup", "zuhrshadow" -> 4000
+    "aminloudlow", "aside", "braingears", "catchonerakah", "comesbynight", "forgivenpast", "goldpatch", "gzhunayn3", "gzmutah2", "hajjmonths", "hiddenknot", "howtools", "ikhlasistiana", "inkdrop", "justice", "jzmakharij0", "jzrawm2", "jzsifat2", "jztajwid3", "jztarqiq1", "lastword", "mbsukkan2", "mdhabasha3", "mdmaratib2", "movingnight", "needdua", "needmeasure", "nevernot", "nightrows", "noghulul", "notlahab", "notreturned3", "ownpurse", "plateall", "plusminus", "repent", "rightsback", "rulefour", "rulethree", "ruletwo", "sameaswalat", "sbsharh2", "soar", "surplus", "talam2", "tashbih", "tatarmosques", "threeasks", "trimexcess", "ttlafz1", "ttqadr3", "ttquran2", "ttzuwwijat0", "twocopies", "twograins", "tzmunafiqun1", "tzmursalat3", "unmixed", "venomback", "wilt" -> 4250
+    "backturned", "bestgens", "blame", "chooseseasier", "cloak", "coccyx", "dhikrallowed", "doubledhere", "duasea", "eatgivegive", "everysoul", "firmgroup", "fiveconds", "foam", "fournot", "fourteen", "giftreturned", "gztabuk3", "halfdate", "heights", "honorall", "husnameaning", "israfil", "jzwajib0", "khatma", "ledprayer", "lifeafter", "listen", "loop", "mdjahr0", "mdmudd2", "messengersfirst", "moonwalk", "muddy", "nearestsujud", "nostepout", "onesheepdue", "ownwhip", "phonejail", "ransomram", "returnifnotup", "rubopp", "sbkaaba1", "sbridaa2", "scoop", "seekpath", "sharetable", "shoulder", "silencespeechsight", "sleepsister", "specialcare", "sunnahnot", "tamithlan1", "ttfajr3", "ttnaba0", "ttnaba2", "ttshaf0", "twoaskers", "twomiqat", "twopurities", "twotraits", "twoverses", "uluhiyya", "walkingvisit", "watcher", "willthird" -> 4500
+    "afterbow", "allbow", "asmasifat", "asryellow", "bedside", "brightthree", "climb", "condense", "dayandnight", "devices", "dividedblessings", "fabric", "fatherofprophets", "flocks", "forward", "gatethree", "gatetwo", "greatnews", "gzkhandaq3", "gzkhaybar3", "heaviest", "jztajwid2", "keybaraa", "knowingsilence", "lastfour", "leftout", "lizardhole", "mdhabasha2", "midgate", "nightplan", "nojadd", "notisolated", "notmorethan7", "onlyone", "ownbox", "pharaoh", "pot", "praiseheart", "raiselower", "ratabtamrwater", "rememberstop", "sbnasab2", "scatter", "sharedship", "shieldback", "sixpillars", "smokeandwater", "sparks", "springwater", "swords", "tafsirpage", "taiqlab2", "tamim1", "threegifts", "threelands", "tintedcells", "trulystrong", "tttanawwu0", "ttzuwwijat2", "twelve", "twofold", "twokinds", "twopure", "tzinsan2", "tzmuddaththir1", "tzmumtahana0", "tzsaff2", "tztalaq1", "unloop", "wdbaraa1", "whispers", "widen", "witnessgate", "witrsurahs" -> 4750
+    "allstars", "aminecho", "askanwat", "bestshape", "blank", "closedoor", "drawlots", "eastwest", "fatihakey", "fourmoments", "gateone", "generalcare", "goldaway", "grownchild", "guidedgive", "handsonchest", "helpedhelper", "hotsand", "jzrawm1", "jzwaqf3", "jzwasl0", "lifestages", "mdhijra3", "mdmudd0", "mdsirr0", "misertag", "mothers", "nearestbow", "nightride", "nodome", "obeysorder", "onewitness", "purecup", "rayyangate", "ringcovenant", "rootsdrink", "ruleone", "sbsharh0", "sharpenrest", "slowrecite", "smallgift", "sway", "talam3", "tanun2", "thirstgone", "threetiers", "ttlafz3", "tttadadd1", "tworakah", "twotrees", "twoverdicts", "tzmaarij0", "tzmaarij2", "tzmuddaththir3", "tzmursalat2", "tzqiyama3", "willinside" -> 5000
+    "askin", "asrprofit", "behindhill", "bestform", "bestrank", "bidgood", "bondvs", "bounceback", "breaknorm", "carriedround", "countcoins", "dustinstead", "exemptions", "fastoptional", "forbrother", "freecamel", "fromstanding", "harm", "inhearts", "innocentwall", "jzmakharij3", "liars", "lookup", "manylights", "mbism3", "mbmuakhat1", "mbsukkan3", "mbwathiqa3", "mdadha2", "mdaqaba3", "mdjahr3", "mdtaif2", "mdtaif3", "meccankahf", "mechanism", "medinamarks", "movingorresting", "nearestmost", "neighborcounsel", "nohaste", "notoverlong", "onesaa", "prescription", "revealedlit", "salamsides", "sbsharh1", "sendown", "serveother", "shutdoors", "siraj", "tamadd3", "tenfold", "threetasbih", "threetraits", "tradeledger", "ttasbab1", "tzinsan1", "tzmaarij1", "tzqalam0", "usefulrain", "wdmarad2", "widens" -> 5250
+    "executor", "fairscales", "flood", "khadijaonly", "reaction", "roadsign", "samebook", "selfsaw", "sevenbranches", "twoages", "twohorns" -> 5500
+    "affirmverse", "everyhouse", "failgrade", "forkroads", "fourwitness", "messengers", "onmount", "samelight", "scribes", "shouldnot", "sower", "statues", "tug" -> 5750
+    "askingsky", "boulder", "buriedrivers", "despair", "fortress", "isnadchain", "oneq", "qudsraised", "reproach", "rulebook", "sideroad", "stepmore" -> 6000
+    "filterpaper", "fourfirst", "fourways", "missinglink", "oathsell", "repented", "saferider", "stilltrue", "twentythousand", "whysilent" -> 6250
+    "branchout", "dottedpapyrus", "enter", "envoys", "fewtomany", "longestciv", "mediapile", "nostatue", "ringlife", "seizurewave", "swapped", "threeparts", "toall", "withleaders" -> 6500
+    "citadel", "farchurch", "onlydoor", "pry", "syringe", "threedoors", "wail" -> 6750
+    "freechoice", "muezzin", "noexcess", "popthoughts", "refusegold", "rooms", "sixsigns", "threeorigins" -> 7000
+    "civculture", "danielram", "jahilidark", "noexam", "opendoors", "sahifa", "seekrefuge", "selfmade", "shaqaiq", "shieldspend", "sunnabridge", "threefogs", "threepillars", "uhudlesson" -> 7250
+    "aboveref", "answers", "equalnights", "household", "proofsealed", "stonesbow" -> 7500
+    "fiveconditions", "forus", "tilted", "whychain" -> 7750
+    "ceilingall", "centuryanswer", "delayed", "fiftytofive", "mosquefind", "nodeeds", "qubaturn", "stillfaith", "sumthermo", "threecures", "trusted" -> 8000
+    "courtfall", "eighthundred", "teacher", "trainride", "tvset", "twocompanions", "wingsfaith" -> 8250
+    "cutstrings", "greatestway" -> 8500
+    "amateur", "innate", "penfield", "springmass" -> 8750
+    "bilaldebt", "cellglow", "choosebranches", "latescroll", "prophetsrow" -> 9000
+    "addict", "timeline629" -> 9250
+    "graduated", "turnaway" -> 9500
+    "amanah", "boilpot", "manyproofs", "obligations", "tunecosmos" -> 9750
+    "rootqara" -> 10000
+    "dustworks", "everyletter", "travel", "wisdoms" -> 10250
+    "readybefore" -> 10500
+    "qiblaturn" -> 10750
+    "closest", "cradle", "truthsame" -> 11000
+    "scrollaway" -> 11250
+    "fourcamels", "noask" -> 11500
+    "eclipse" -> 11750
+    "claim200", "fiftytwo", "jabirflask", "steles" -> 12000
+    "consent" -> 14250
+    "explains" -> 14750
     else -> 1000
 }
 
