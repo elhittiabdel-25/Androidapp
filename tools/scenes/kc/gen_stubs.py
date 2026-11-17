@@ -3,7 +3,7 @@ usage: python3 gen_stubs.py SKIP_FILE... > ProjectStubs.kt   (SKIP: the new file
 import glob, os, re, sys
 UI = '/home/claude/androidapp/app/src/main/java/app/usulcards/ui'
 skip = {os.path.basename(s) for s in sys.argv[1:]}
-KEEP_BLOCKS = {'object ArtInk', 'object Roundel', 'class Shot', 'class ArtCtx', 'class Paper'}
+KEEP_BLOCKS = {'object ArtInk', 'object Roundel', 'class Shot', 'class ArtCtx', 'class Paper', 'object Qn', 'object S97'}
 out = ['@file:Suppress("unused", "UNUSED_PARAMETER")', 'package app.usulcards.ui', '',
        'import androidx.compose.ui.geometry.*', 'import androidx.compose.ui.graphics.*',
        'import androidx.compose.ui.graphics.drawscope.*', 'import androidx.compose.ui.text.TextLayoutResult', '',
@@ -67,7 +67,9 @@ for f in sorted(glob.glob(f'{UI}/*.kt')):
             if sig in seen: continue
             seen.add(sig)
             if ch == '=' and not ret:
-                continue                     # expression body without a declared type: skip
+                if not h.startswith('internal fun DrawScope.'):
+                    continue                 # expression body without a declared type: skip
+                ret = False                  # a drawing helper: assume it returns Unit
             out.append(sig + (' = TODO()' if ret else ' {}'))
         elif kind == 'val':
             mm = re.match(r'(\w+)\s*:\s*([^=]+?)\s*=', rest)
