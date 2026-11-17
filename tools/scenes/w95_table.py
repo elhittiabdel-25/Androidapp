@@ -207,7 +207,7 @@ S = [
 ]
 
 # Cards redrawn in the illustrated style (wave 97 on): their scene function lives in ArtWave97+, not here.
-REDRAWN = {"mb-masjid", "mb-muakhat", "mb-wathiqa", "mb-ism", "mb-sukkan", "mb-idhn", "md-hira", "md-muddaththir", "md-maratib", "md-sirr", "md-jahr", "md-adha", "md-habasha", "md-shib", "md-taif", "md-aqaba", "md-hijra", "sb-nasab", "sb-mawlid", "sb-ridaa", "sb-sharh", "sb-yutm", "sb-hifz", "sb-kaaba", "sb-khadija"}
+REDRAWN = {"gz-badr", "gz-uhud", "gz-khandaq", "gz-hudaybiya", "gz-khaybar", "gz-mutah", "gz-fath", "gz-hunayn", "gz-tabuk", "mb-masjid", "mb-muakhat", "mb-wathiqa", "mb-ism", "mb-sukkan", "mb-idhn", "md-hira", "md-muddaththir", "md-maratib", "md-sirr", "md-jahr", "md-adha", "md-habasha", "md-shib", "md-taif", "md-aqaba", "md-hijra", "sb-nasab", "sb-mawlid", "sb-ridaa", "sb-sharh", "sb-yutm", "sb-hifz", "sb-kaaba", "sb-khadija"}
 kt, sc, meta = [], [], []
 for cid, lay, sky, beats in S:
     rows, kinds, fig, kb = [], [], False, []

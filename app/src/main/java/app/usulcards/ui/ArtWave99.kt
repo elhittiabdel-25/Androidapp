@@ -289,7 +289,7 @@ internal fun DrawScope.mbidhnScene(a: ArtCtx) {
             val go = easeInOut(seg(p, 0.1f, 0.8f))
             qIcon95("flag", Offset(mix(w * 0.15f, w * 0.6f, go), ground - h * 0.25f), w * 0.08f, Qn.Gold, f, a.t)
             for (k in 0 until 6) figure(Offset(mix(w * 0.1f, w * 0.55f, go) - k * w * 0.04f, ground), h * 0.1f, Qn.Person, f, walk = a.t * 2f)
-            close97(Offset(w * 0.8f, h * 0.36f), w * 0.08f, a, "mbidhn2", 1, 2, f * seg(p, 0.3f, 0.5f))
+            close97(Offset(w * 0.8f, h * 0.36f), w * 0.08f, a, "mbidhn2", 1, 3, f * seg(p, 0.3f, 0.5f))
             tagAt(a.tag("mbidhn2", 0, 0), Offset(w * 0.4f, h * 0.18f), f * seg(p, 0.15f, 0.3f), ink = ArtInk.Gold)
         },
         { p, f ->
