@@ -52,8 +52,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: app/src/main/assets/quran
-          key: quran-${{ env.QURAN_OPUS_KBPS }}-${{ hashFiles('app/src/main/assets/content/cards.json') }}
-          restore-keys: quran-${{ env.QURAN_OPUS_KBPS }}-
+          key: quran-loud25-${{ env.QURAN_OPUS_KBPS }}-${{ hashFiles('app/src/main/assets/content/cards.json') }}
+          restore-keys: quran-loud25-${{ env.QURAN_OPUS_KBPS }}-
 
       - name: Fetch verse recitations and Uthmani text
         run: |
