@@ -120,6 +120,7 @@ fun categoryTone(p: Palette, id: String, index: Int): Pair<Color, Color> = when 
     "iman" -> p.ok to p.okSoft
     "manhaj" -> p.gold to p.goldSoft
     "book" -> p.gold to p.goldSoft
+    "chain" -> p.accent to p.accentSoft
     else -> listOf(p.accent to p.accentSoft, p.gold to p.goldSoft, p.ok to p.okSoft, p.warn to p.warnSoft)[index % 4]
 }
 
@@ -185,6 +186,12 @@ fun CategoryGlyph(kind: String, color: Color, size: Dp = 26.dp) {
                     close()
                 }
                 drawPath(p, color, style = line)
+            }
+            "chain" -> {   // a chain of three linked rings: the isnad of the hadith
+                for (i in 0 until 3) {
+                    val c = Offset(w * (0.22f + 0.28f * i), h * (0.3f + 0.2f * i))
+                    drawOval(color, topLeft = c - Offset(w * 0.17f, h * 0.11f), size = androidx.compose.ui.geometry.Size(w * 0.34f, h * 0.22f), style = line)
+                }
             }
             "beads" -> {   // prayer beads: a ring of beads with a short tassel
                 val r = w * 0.3f
