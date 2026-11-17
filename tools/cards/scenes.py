@@ -4224,4 +4224,35 @@ SCENES = {
         I("تعس الشيطان", None, "face-2", sub="تعس الشيطان|بسم الله", kind="hdalfadh2"),
         I("خبثت نفسي", None, "deep-0", sub="خبثت نفسي|لقست نفسي", kind="hdalfadh3"),
     ], layout="hdalfadh"),
+    # ── v1.5: the Sira, «كيف ندرس السيرة؟» (wave 112) ──
+    "ss-masadir": S("art", [
+        I("مصادر أصلية", None, "face-0", sub="القرآن الكريم|الحديث الشريف|الدلائل والشمائل|كتب السيرة", kind="ssmasadir0"),
+        I("مصادر تكميلية", None, "face-1", sub="الْأَدَبُ وَالشِّعْرُ|الرجال والأنساب|الجغرافيا", kind="ssmasadir1"),
+        I("تتباين قوة وضعفا", None, "face-2", sub="آية أو حديث صحيح|رِوَايَةٌ تَارِيخِيَّةٌ", kind="ssmasadir2"),
+        I("الشاذ والغريب والضعيف", None, "deep-0", sub="التشكيك في السيرة", kind="ssmasadir3"),
+    ], layout="ssmasadir"),
+    "ss-quran": S("art", [
+        I("القرآن الكريم في مقدمة مصادر السيرة", None, "face-0", sub="بدر|أحد|الخندق|حنين", kind="ssquran0"),
+        I("الْأَبْعَادُ النَّفْسِيَّةُ", None, "face-1", sub="الظروف والأجواء|الْأَبْعَادُ النَّفْسِيَّةُ", kind="ssquran1"),
+        I("ليس كتاب تاريخ", None, "face-2", sub="ليس كتاب تاريخ|بل هو دستور للحياة", kind="ssquran2"),
+        I("كتب التفسير الموثقة", None, "deep-1", sub="تفسير الطبري|تَفْسِيرُ ابْنِ كَثِيرٍ", kind="ssquran3"),
+    ], layout="ssquran"),
+    "ss-naqd": S("art", [
+        I("وجود الأسانيد", None, "face-0", sub="الْإِسْنَادُ|علم الرجال", kind="ssnaqd0"),
+        I("متدينين ضابطين إلى شاهد العيان", None, "face-1", sub="شاهد العيان|بلا شذوذ ولا علة", kind="ssnaqd1"),
+        I("الصحيحة ثم الحسنة", None, "face-2", sub="الصَّحِيحُ|الْحَسَنُ|ما يعتضد من الضعيف", kind="ssnaqd2"),
+        I("التشدد فيما يتعلق بالعقيدة أو الشريعة", None, "deep-1", sub="العقيدة|الشريعة", kind="ssnaqd3"),
+    ], layout="ssnaqd"),
+    "ss-maghazi": S("art", [
+        I("ابن شهاب الزهري", None, "face-0", sub="الزهري|أول من جمع الأسانيد", kind="ssmaghazi0"),
+        I("موسى بن عقبة", None, "face-1", sub="موسى بن عقبة|أصح المغازي", kind="ssmaghazi1"),
+        I("قال الشافعي", None, "face-2", sub="مع صغره", kind="ssmaghazi2"),
+        I("ومن تلاميذ الزهري أيضا", None, "deep-1", sub="معمر بن راشد|محمد بن إسحاق", kind="ssmaghazi3"),
+    ], layout="ssmaghazi"),
+    "ss-ibnishaq": S("art", [
+        I("محمد بن إسحاق إمام في المغازي", None, "face-0", sub="ابن إسحاق|حسن إذا صرح بالتحديث", kind="ssibnishaq0"),
+        I("حجة في المغازي", None, "face-1", sub="حجة في المغازي|وله مناكير", kind="ssibnishaq1"),
+        I("أما الواقدي", None, "face-2", sub="الواقدي|ضعيف عند المحدثين", kind="ssibnishaq2"),
+        I("وسيرة ابن هشام", None, "deep-0", sub="ابن إسحاق|البكائي|ابن هشام", kind="ssibnishaq3"),
+    ], layout="ssibnishaq"),
 }
