@@ -776,6 +776,17 @@ private fun DrawScope.drawLayout(layout: String, a: ArtCtx, fallback: Color) {
         "mntaa" -> mntaaScene(a)
         "mnmasajid" -> mnmasajidScene(a)
         "mnawlad" -> mnawladScene(a)
+        "hdasbab" -> hdasbabScene(a)
+        "hdharam" -> hdharamScene(a)
+        "hdhumma" -> hdhummaScene(a)
+        "hdtaun" -> hdtaunScene(a)
+        "hdayn" -> hdaynScene(a)
+        "hdruqya" -> hdruqyaScene(a)
+        "hdkarb" -> hdkarbScene(a)
+        "hdmanam" -> hdmanamScene(a)
+        "hdwaswasa" -> hdwaswasaScene(a)
+        "hdasma" -> hdasmaScene(a)
+        "hdalfadh" -> hdalfadhScene(a)
         else -> drawRect(fallback)
     }
 }
@@ -1106,6 +1117,15 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "mntazim1" -> 5250
     "mntazim2" -> 5500
     "mntazim0", "mntazim3", "mntaa0", "mntaa1", "mntaa3", "mnmasajid0", "mnmasajid2", "mnmasajid3", "mnawlad0", "mnawlad2" -> 6000
+    // wave 111: من هديه ﷺ 2 (مختصر زاد المعاد)
+    "hdtaun2" -> 3000
+    "hdasbab1" -> 4250
+    "hdharam1" -> 4500
+    "hdhumma2", "hdwaswasa1" -> 4750
+    "hdharam2" -> 5000
+    "hdmanam0", "hdalfadh1" -> 5500
+    "hdhumma0", "hdmanam2" -> 5750
+    "hdasbab0", "hdasbab2", "hdasbab3", "hdharam0", "hdharam3", "hdhumma1", "hdhumma3", "hdtaun0", "hdtaun1", "hdtaun3", "hdayn0", "hdayn1", "hdayn2", "hdayn3", "hdruqya0", "hdruqya1", "hdruqya2", "hdruqya3", "hdkarb0", "hdkarb1", "hdkarb2", "hdkarb3", "hdmanam1", "hdmanam3", "hdwaswasa0", "hdwaswasa2", "hdwaswasa3", "hdasma0", "hdasma1", "hdasma2", "hdasma3", "hdalfadh0", "hdalfadh2", "hdalfadh3" -> 6000
     else -> 1000
 }
 
@@ -1173,7 +1193,7 @@ internal class ArtCtx(
 }
 
 /** Scenes that write their tags large (see ArtCtx.big). */
-internal val BIG_TEXT_LAYOUTS = setOf("tanun", "taidgham", "taiqlab", "tamim", "talam", "tamithlan", "tamadd", "tamaddahkam", "jzwajib", "jzmakharij", "jzsifat", "jztajwid", "jztarqiq", "jzwaqf", "jzwasl", "jzrawm", "tzmujadila", "tzhashr", "tzmumtahana", "tzsaff", "tzjumua", "tzmunafiqun", "tztaghabun", "tztalaq", "tztahrim", "tzmulk", "tzqalam", "tzhaqqa", "tzmaarij", "tznuh", "tzjinn", "tzmuzzammil", "tzmuddaththir", "tzqiyama", "tzinsan", "tzmursalat", "ttmafhum", "tttanawwu", "tttadadd", "ttasbab", "ttlafz", "tttabaqat", "tthushirat", "ttnaba", "ttzuwwijat", "ttfajr", "ttshaf", "ttquran", "tttin", "ttqadr", "ttfalaq", "tmahl", "tmwafa", "tmbanat", "tmahfad", "tmjar", "tmkhadam", "tmbala", "tmkuffar", "tmjadid", "tmusat", "tmnisa", "tmkibar", "tmsighar", "umkhasais", "umsawda", "umaisha", "umhafsa", "umzaynabk", "umsalama", "umzaynabj", "umjuway", "umhabiba", "umsafiyya", "ummaymuna", "wdwufud", "wdbaraa", "wdwada", "wdmarad", "wdwafat", "gzbadr", "gzuhud", "gzkhandaq", "gzhuday", "gzkhaybar", "gzmutah", "gzfath", "gzhunayn", "gztabuk", "mbmasjid", "mbmuakhat", "mbwathiqa", "mbism", "mbsukkan", "mbidhn", "ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent", "omenroad", "triptych", "heights", "revelation", "gaze", "nameswall", "register", "unseen", "fourrules", "twoseals", "storm", "sixroots", "verseguard", "decree", "threelives", "twolands", "proofscroll", "allegiance", "companions", "household", "morningevening", "mercyrain", "deepsea", "mountaindebt", "betterjar", "healingbed", "weddinglights", "alivetree", "tenfold", "radd", "threeshown", "doubtfree", "likeforbrother", "taqwaeverywhere", "guardhim", "modesty", "straightpath", "noinjustice", "askyourheart", "headofmatter", "proofonclaimant", "awliya", "stranger", "moonface", "simpleliving", "clearspeech", "truejest", "gratefulservant", "recitelight", "onlyaservant", "noblemanners", "lastday", "rabbgarden", "fatihaseven", "falaqnas", "samadneeds", "masadsign", "nasrdawn", "baraa", "kawtharriver", "maunhouse", "filquraysh", "humazawealth", "asrhourglass", "visitors", "qariaday", "atomweight", "bayyinascroll", "qadrnight", "iqrafirst", "tinmap", "usryusrayn", "duhamorning", "layleasy", "nafsmirror", "kabad", "fajrten", "ghashiyaearth", "alaguide", "tariqstar", "burujsky", "easyreckon", "raynheart", "kiram", "takwir", "abasa", "naziat", "naba", "shafibook", "harfgood", "ruinhouse", "nightrecite", "mushaftouch", "recitemanners", "tilawasujud", "sujuddhikr", "sbnasab", "sbmawlid", "sbridaa", "sbsharh", "sbyutm", "sbhifz", "sbkaaba", "sbkhadija", "mdhira", "mdmudd", "mdmaratib", "mdsirr", "mdjahr", "mdadha", "mdhabasha", "mdshib", "mdtaif", "mdaqaba", "mdhijra", "hdshaar", "hdlihya", "hdkhatam", "hdnaal", "hdisbal", "hdtib", "hdnawm", "hdyaqza", "hdsawm", "hdbika", "hdmirath", "ahtufayl", "ahadab", "ahahabb", "ahansar", "ahtaam", "ahmakka", "ahayyam", "ahtayammun", "ahfal", "ahyakrah", "ahummati", "ahdahik", "ahmulaaba", "ahghadab", "ahfarah", "ahhuzn", "ahtafakkur", "ahtahfiz", "ahtazir", "mntazim", "mntaa", "mnmasajid", "mnawlad")
+internal val BIG_TEXT_LAYOUTS = setOf("tanun", "taidgham", "taiqlab", "tamim", "talam", "tamithlan", "tamadd", "tamaddahkam", "jzwajib", "jzmakharij", "jzsifat", "jztajwid", "jztarqiq", "jzwaqf", "jzwasl", "jzrawm", "tzmujadila", "tzhashr", "tzmumtahana", "tzsaff", "tzjumua", "tzmunafiqun", "tztaghabun", "tztalaq", "tztahrim", "tzmulk", "tzqalam", "tzhaqqa", "tzmaarij", "tznuh", "tzjinn", "tzmuzzammil", "tzmuddaththir", "tzqiyama", "tzinsan", "tzmursalat", "ttmafhum", "tttanawwu", "tttadadd", "ttasbab", "ttlafz", "tttabaqat", "tthushirat", "ttnaba", "ttzuwwijat", "ttfajr", "ttshaf", "ttquran", "tttin", "ttqadr", "ttfalaq", "tmahl", "tmwafa", "tmbanat", "tmahfad", "tmjar", "tmkhadam", "tmbala", "tmkuffar", "tmjadid", "tmusat", "tmnisa", "tmkibar", "tmsighar", "umkhasais", "umsawda", "umaisha", "umhafsa", "umzaynabk", "umsalama", "umzaynabj", "umjuway", "umhabiba", "umsafiyya", "ummaymuna", "wdwufud", "wdbaraa", "wdwada", "wdmarad", "wdwafat", "gzbadr", "gzuhud", "gzkhandaq", "gzhuday", "gzkhaybar", "gzmutah", "gzfath", "gzhunayn", "gztabuk", "mbmasjid", "mbmuakhat", "mbwathiqa", "mbism", "mbsukkan", "mbidhn", "ink", "map", "lens", "loom", "atelier", "chamber", "scroll", "hilltop", "shelfshop", "lawh", "tent", "omenroad", "triptych", "heights", "revelation", "gaze", "nameswall", "register", "unseen", "fourrules", "twoseals", "storm", "sixroots", "verseguard", "decree", "threelives", "twolands", "proofscroll", "allegiance", "companions", "household", "morningevening", "mercyrain", "deepsea", "mountaindebt", "betterjar", "healingbed", "weddinglights", "alivetree", "tenfold", "radd", "threeshown", "doubtfree", "likeforbrother", "taqwaeverywhere", "guardhim", "modesty", "straightpath", "noinjustice", "askyourheart", "headofmatter", "proofonclaimant", "awliya", "stranger", "moonface", "simpleliving", "clearspeech", "truejest", "gratefulservant", "recitelight", "onlyaservant", "noblemanners", "lastday", "rabbgarden", "fatihaseven", "falaqnas", "samadneeds", "masadsign", "nasrdawn", "baraa", "kawtharriver", "maunhouse", "filquraysh", "humazawealth", "asrhourglass", "visitors", "qariaday", "atomweight", "bayyinascroll", "qadrnight", "iqrafirst", "tinmap", "usryusrayn", "duhamorning", "layleasy", "nafsmirror", "kabad", "fajrten", "ghashiyaearth", "alaguide", "tariqstar", "burujsky", "easyreckon", "raynheart", "kiram", "takwir", "abasa", "naziat", "naba", "shafibook", "harfgood", "ruinhouse", "nightrecite", "mushaftouch", "recitemanners", "tilawasujud", "sujuddhikr", "sbnasab", "sbmawlid", "sbridaa", "sbsharh", "sbyutm", "sbhifz", "sbkaaba", "sbkhadija", "mdhira", "mdmudd", "mdmaratib", "mdsirr", "mdjahr", "mdadha", "mdhabasha", "mdshib", "mdtaif", "mdaqaba", "mdhijra", "hdshaar", "hdlihya", "hdkhatam", "hdnaal", "hdisbal", "hdtib", "hdnawm", "hdyaqza", "hdsawm", "hdbika", "hdmirath", "ahtufayl", "ahadab", "ahahabb", "ahansar", "ahtaam", "ahmakka", "ahayyam", "ahtayammun", "ahfal", "ahyakrah", "ahummati", "ahdahik", "ahmulaaba", "ahghadab", "ahfarah", "ahhuzn", "ahtafakkur", "ahtahfiz", "ahtazir", "mntazim", "mntaa", "mnmasajid", "mnawlad", "hdasbab", "hdharam", "hdhumma", "hdtaun", "hdayn", "hdruqya", "hdkarb", "hdmanam", "hdwaswasa", "hdasma", "hdalfadh")
 
 // ───────────── shared helpers ─────────────
 

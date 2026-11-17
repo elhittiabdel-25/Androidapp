@@ -660,6 +660,17 @@ ART_KINDS = {
     "mntaa": {"mntaa0", "mntaa1", "mntaa2", "mntaa3"},
     "mnmasajid": {"mnmasajid0", "mnmasajid1", "mnmasajid2", "mnmasajid3"},
     "mnawlad": {"mnawlad0", "mnawlad1", "mnawlad2", "mnawlad3"},
+    "hdasbab": {"hdasbab0", "hdasbab1", "hdasbab2", "hdasbab3"},
+    "hdharam": {"hdharam0", "hdharam1", "hdharam2", "hdharam3"},
+    "hdhumma": {"hdhumma0", "hdhumma1", "hdhumma2", "hdhumma3"},
+    "hdtaun": {"hdtaun0", "hdtaun1", "hdtaun2", "hdtaun3"},
+    "hdayn": {"hdayn0", "hdayn1", "hdayn2", "hdayn3"},
+    "hdruqya": {"hdruqya0", "hdruqya1", "hdruqya2", "hdruqya3"},
+    "hdkarb": {"hdkarb0", "hdkarb1", "hdkarb2", "hdkarb3"},
+    "hdmanam": {"hdmanam0", "hdmanam1", "hdmanam2", "hdmanam3"},
+    "hdwaswasa": {"hdwaswasa0", "hdwaswasa1", "hdwaswasa2", "hdwaswasa3"},
+    "hdasma": {"hdasma0", "hdasma1", "hdasma2", "hdasma3"},
+    "hdalfadh": {"hdalfadh0", "hdalfadh1", "hdalfadh2", "hdalfadh3"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
