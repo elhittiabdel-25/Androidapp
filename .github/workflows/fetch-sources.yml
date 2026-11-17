@@ -42,10 +42,22 @@ jobs:
           done
           cat sources/raw/log.txt
 
+      - name: Keep files GitHub can hold (text layer of any file over 95 MB instead)
+        run: |
+          sudo apt-get install -y -qq poppler-utils >/dev/null
+          mkdir -p sources/text
+          for f in sources/raw/*; do
+            if [ "$(stat -c %s "$f")" -gt 95000000 ]; then
+              id=$(basename "${f%.*}")
+              [ "${f##*.}" = pdf ] && pdftotext -layout "$f" "sources/text/$id.txt" && echo "TOOBIG $id: text layer kept" >> sources/raw/log.txt
+              rm -f "$f"
+            fi
+          done
+
       - name: Commit the files to this branch
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add sources/raw
+          git add sources/raw sources/text
           git commit -m "Fetched source files" || echo "nothing to commit"
           git push
