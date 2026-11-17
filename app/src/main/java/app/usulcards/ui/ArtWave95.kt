@@ -8,60 +8,6 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
  * never drawn. Generated from the table in tools/scenes/w95_table.py; edit the table, not this file.
  */
 
-private val B_MBMASJID = listOf(
-    Bt94("mbmasjid0", ROW94, listOf(It94("mat", 0, 1)), head = 1),
-    Bt94("mbmasjid1", FLOW94, listOf(It94("child", 0), It94("coin", 1, 1, Qn.Jade))),
-    Bt94("mbmasjid2", ROW94, listOf(It94("light", 0, 1), It94("house", 1))),
-    Bt94("mbmasjid3", ROW94, listOf(It94("key", 0))),
-)
-
-internal fun DrawScope.mbmasjidScene(a: ArtCtx) = board94(a, 1, B_MBMASJID)
-
-private val B_MBMUAKHAT = listOf(
-    Bt94("mbmuakhat0", ROW94, listOf(It94("people", 0), It94("hands", -1), It94("people", 1, 0, Qn.Jade)), head = 2),
-    Bt94("mbmuakhat1", ROW94, listOf(It94("heart", 0), It94("coin", 1))),
-    Bt94("mbmuakhat2", FLOW94, listOf(It94("coin", 0), It94("house", 1))),
-    Bt94("mbmuakhat3", FAN94, listOf(It94("people", -1), It94("people", -1), It94("people", -1), It94("chain", 0, 1, Qn.Jade))),
-)
-
-internal fun DrawScope.mbmuakhatScene(a: ArtCtx) = board94(a, 3, B_MBMUAKHAT)
-
-private val B_MBWATHIQA = listOf(
-    Bt94("mbwathiqa0", ROW94, listOf(It94("people", 0, 0, Qn.Jade), It94("people", 1), It94("people", 2))),
-    Bt94("mbwathiqa1", ROW94, listOf(It94("scroll", 0), It94("cross", 1), It94("shield", 2, 1, Qn.Jade))),
-    Bt94("mbwathiqa2", ROW94, listOf(It94("house", -1), It94("check", 0, 1, Qn.Jade), It94("house", -1))),
-    Bt94("mbwathiqa3", ROW94, listOf(It94("chain", 0, 2, Qn.Ember))),
-)
-
-internal fun DrawScope.mbwathiqaScene(a: ArtCtx) = board94(a, 2, B_MBWATHIQA)
-
-private val B_MBISM = listOf(
-    Bt94("mbism0", FLOW94, listOf(It94("txt", 0, 2), It94("txt", 1, 1, Qn.Jade))),
-    Bt94("mbism1", TILES94, listOf(It94("txt", 0), It94("txt", 1))),
-    Bt94("mbism2", VS94, listOf(It94("kaaba", 0), It94("house", 1)), head = 2),
-    Bt94("mbism3", FLOW94, listOf(It94("heart", 0), It94("house", 1))),
-)
-
-internal fun DrawScope.mbismScene(a: ArtCtx) = board94(a, 0, B_MBISM)
-
-private val B_MBSUKKAN = listOf(
-    Bt94("mbsukkan0", ROW94, listOf(It94("child", 0), It94("txt", 1))),
-    Bt94("mbsukkan1", FLOW94, listOf(It94("txt", 0), It94("light", 1, 1), It94("hands", 2))),
-    Bt94("mbsukkan2", VS94, listOf(It94("mat", 0, 2), It94("house", 1, 1, Qn.Jade)), head = 2),
-    Bt94("mbsukkan3", ROW94, listOf(It94("people", -1), It94("scroll", 0))),
-)
-
-internal fun DrawScope.mbsukkanScene(a: ArtCtx) = board94(a, 4, B_MBSUKKAN)
-
-private val B_MBIDHN = listOf(
-    Bt94("mbidhn0", VS94, listOf(It94("people", 0, 0, Qn.Ember), It94("people", 1, 0, Qn.Jade)), head = 2),
-    Bt94("mbidhn1", ROW94, listOf(It94("book", 0, 1))),
-    Bt94("mbidhn2", ROW94, listOf(It94("flag", 0), It94("txt", 1))),
-    Bt94("mbidhn3", ROW94, listOf(It94("txt", 0), It94("txt", 1, 2)), foot = 2),
-)
-
-internal fun DrawScope.mbidhnScene(a: ArtCtx) = board94(a, 1, B_MBIDHN)
-
 private val B_GZBADR = listOf(
     Bt94("gzbadr0", ROW94, listOf(It94("crescent", 0), It94("people", 1, 0, Qn.Jade)), head = 2),
     Bt94("gzbadr1", VS94, listOf(It94("people", 0, 0, Qn.Jade), It94("people", 1, 0, Qn.Ember))),
