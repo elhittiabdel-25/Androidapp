@@ -20,7 +20,7 @@ import kotlin.math.sin
  * of the Believers are calligraphy roundels; ancestors are names on a golden thread; no figure stands for anyone named.
  */
 
-private object S97 {
+internal object S97 {
     val Sand = Color(0xFFC9A46A)
     val SandDark = Color(0xFF8A6A3E)
     val Dusk = Color(0xFF2A2348)
@@ -31,7 +31,7 @@ private object S97 {
 }
 
 /** A desert floor with two dune lines at [ground]. */
-private fun DrawScope.dunes97(ground: Float, near: Color, far: Color, alpha: Float = 1f) {
+internal fun DrawScope.dunes97(ground: Float, near: Color, far: Color, alpha: Float = 1f) {
     val w = size.width
     val h = size.height
     drawPath(Path().apply {
@@ -47,7 +47,7 @@ private fun DrawScope.dunes97(ground: Float, near: Color, far: Color, alpha: Flo
 }
 
 /** A name hung on the golden thread: a small gold bead and the name beside it. */
-private fun DrawScope.bead97(c: Offset, tl: TextLayoutResult?, alpha: Float, glow: Float = 0f) {
+internal fun DrawScope.bead97(c: Offset, tl: TextLayoutResult?, alpha: Float, glow: Float = 0f) {
     if (alpha <= 0.01f) return
     if (glow > 0f) softGlow(c, size.width * 0.05f, Qn.GoldLight, glow * alpha)
     drawCircle(S97.Thread, size.width * 0.012f, c, alpha = alpha)
@@ -55,11 +55,11 @@ private fun DrawScope.bead97(c: Offset, tl: TextLayoutResult?, alpha: Float, glo
 }
 
 /** A companion or a Mother of the Believers: her or his name in calligraphy in a roundel of its own colour. */
-private fun DrawScope.close97(c: Offset, r: Float, a: ArtCtx, kind: String, part: Int, k: Int, grow: Float) =
+internal fun DrawScope.close97(c: Offset, r: Float, a: ArtCtx, kind: String, part: Int, k: Int, grow: Float) =
     nameRoundel(c, r, a.big(kind, 0, part) ?: a.tag(kind, 0, part), Roundel.Fills[k % 4], Roundel.Rim, grow)
 
 /** Anyone else named (not one of the closest companions): the plainer roundel, one muted colour. */
-private fun DrawScope.plain97(c: Offset, r: Float, a: ArtCtx, kind: String, part: Int, grow: Float) =
+internal fun DrawScope.plain97(c: Offset, r: Float, a: ArtCtx, kind: String, part: Int, grow: Float) =
     nameRoundel(c, r, a.big(kind, 0, part) ?: a.tag(kind, 0, part), Roundel.PlainFill, Roundel.PlainRim, grow)
 
 // ═════════════ sb-nasab: his lineage ═════════════
