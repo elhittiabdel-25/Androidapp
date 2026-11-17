@@ -214,7 +214,10 @@ class DeckController(
                 if (e.kind == "quran") {
                     repo.recitationFiles(e).forEach { items += PlayItem(it, "ev-$i") }
                 } else {
-                    card.audio.firstOrNull { it.key == "had-$hadith" }?.let { items += PlayItem(it.file, "ev-$i") }
+                    card.audio.firstOrNull { it.key == "had-$hadith" }?.let {
+                        items += PlayItem(e.leadAudio, "ev-$i")
+                        items += PlayItem(it.file, "ev-$i")
+                    }
                     hadith++
                 }
             }

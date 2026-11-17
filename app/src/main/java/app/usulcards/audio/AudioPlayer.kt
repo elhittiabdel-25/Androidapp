@@ -2,6 +2,7 @@ package app.usulcards.audio
 
 import android.content.Context
 import android.content.Intent
+import android.media.audiofx.LoudnessEnhancer
 import android.net.Uri
 import androidx.annotation.OptIn
 import androidx.compose.runtime.getValue
@@ -14,6 +15,7 @@ import androidx.media3.common.MediaMetadata
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.common.util.Util
 import androidx.media3.exoplayer.ExoPlayer
 
 /** One clip to play from the app's assets; [key] tells the UI which sentence to highlight. */
@@ -63,11 +65,25 @@ class AudioPlayer private constructor(private val app: Context) : PlaybackView {
     private var lastQueued: String? = null
     private var voiceSpeed = 1f                         // the listener's choice, for the card voice only
 
-    /** The card voice plays at the chosen speed; a Quran recitation always plays at its own pace (×1). */
+    /*
+     * The voice clips are mastered quietly (about -25 LUFS) while speech apps sit near -16; the verses are brought to
+     * -16 LUFS at build time (tools/fetch_quran.py). The voice is lifted to the same level here, on playback, so
+     * the 4,900 clips are not re-encoded (owner feedback 2026-11-17: the reading was weaker than the recitation).
+     */
+    private val boost: LoudnessEnhancer? = try {
+        val id = Util.generateAudioSessionIdV21(app)
+        exo.setAudioSessionId(id)
+        LoudnessEnhancer(id).apply { setTargetGain(VOICE_GAIN_MB); enabled = true }
+    } catch (e: Throwable) {
+        null
+    }
+
+    /** The card voice plays at the chosen speed and lifted gain; a Quran recitation at its own pace (×1), no gain. */
     private fun applySpeed(item: MediaItem?) {
         val verse = item?.localConfiguration?.uri?.path?.contains("/quran/") == true
         val s = if (verse) 1f else voiceSpeed
         if (exo.playbackParameters.speed != s) exo.setPlaybackSpeed(s)
+        try { boost?.setTargetGain(if (verse) 0 else VOICE_GAIN_MB) } catch (e: Throwable) { }
     }
 
     init {
@@ -237,6 +253,8 @@ class AudioPlayer private constructor(private val app: Context) : PlaybackView {
         private var instance: AudioPlayer? = null
 
         /** The app's single player (created on the main thread). */
+        private const val VOICE_GAIN_MB = 900   // +9 dB: -25 LUFS clips to about -16
+
         fun get(context: Context): AudioPlayer =
             instance ?: synchronized(this) {
                 instance ?: AudioPlayer(context.applicationContext).also { instance = it }

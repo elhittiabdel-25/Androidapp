@@ -13,7 +13,24 @@ data class Evidence(
     val text: String,          // verse text (simple script) or hadith text
     val takhrij: String,
     val note: String,
-)
+) {
+    /** A hadith in the Prophet's own words (most) opens with «قال النبي ﷺ:»; a companion's report of what he did
+     *  opens with «في الحديث:». Owner feedback 2026-11-17: nothing told the reader the line was a hadith. */
+    val prophetSaid: Boolean
+        get() = kind == "hadith" && !NARRATION.containsMatchIn(text.replace(HARAKAT, "").trim())
+
+    val lead: String
+        get() = if (prophetSaid) "قَالَ النَّبِيُّ ﷺ:" else "وَفِي الْحَدِيثِ:"
+
+    /** The shared spoken lead-in played before the hadith clip. */
+    val leadAudio: String
+        get() = if (prophetSaid) "audio/_lead/nabi.ogg" else "audio/_lead/hadith.ogg"
+
+    private companion object {
+        val HARAKAT = Regex("[\u064B-\u0652\u0670]")
+        val NARRATION = Regex("^(كان |كان ﷺ|كانت النفساء|كنا|قلت|أن رجلا|أن امرأة|أن النبي|جاء|خرج رسول|سئل|فرض|ضحى|كفن|رأيت|خدمت|قال جابر|ولا والله|فإن خلق|من كل الليل|ثلاث ساعات|إنما كان يكفيك|أمر الناس)")
+    }
+}
 
 data class SourceRef(val book: String, val pages: String)
 data class Flag(val level: String, val text: String)

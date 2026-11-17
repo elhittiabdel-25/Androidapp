@@ -245,6 +245,7 @@ private fun DeepLayer(
                         Box(Modifier.width(3.dp).height(64.dp).background(pal.gold))
                         Spacer(Modifier.width(10.dp))
                         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Text(e.lead, color = pal.gold, fontSize = 15.sp, fontFamily = Fonts.naskh)
                             Text(
                                 "«${shown("hadith:$h", e.text)}»",
                                 style = TextStyle(fontFamily = Fonts.naskh, fontSize = 18.sp, lineHeight = 34.sp, color = pal.ink),

@@ -16,9 +16,9 @@ RECITER = "ar.alafasy"          # Mishary Rashid Alafasy
 # as NNNNNN.ogg: only once AlQuran.cloud has allowed it in writing (32 kbps chosen by ear: 67 MB -> ~41 MB).
 OPUS = int(os.environ.get("QURAN_OPUS_KBPS", "0") or 0)
 EXT = "ogg" if OPUS else "mp3"
-# Each verse is brought to the loudness of the card voice (about -25 LUFS), so a recitation never starts louder than
-# the reading before it (owner feedback 2026-11-17).
-LOUD = "loudnorm=I=-25:TP=-2:LRA=11"
+# Each verse is brought to -16 LUFS; the card voice is lifted to the same level on playback (AudioPlayer
+# VOICE_GAIN_MB), so a recitation never starts louder than the reading before it (owner feedback 2026-11-17).
+LOUD = "loudnorm=I=-16:TP=-1.5:LRA=11"
 cards = json.load(open(f"{ASSETS}/content/cards.json", encoding="utf-8"))["cards"]
 ayat = set()
 for c in cards:
