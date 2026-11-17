@@ -36,6 +36,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
@@ -132,6 +133,7 @@ fun SceneHost(card: Card, scene: Scene, player: PlaybackView, showDiacritics: Bo
 
     val film = LocalFilm.current
     if (film != null) shown = film.shown
+    SideEffect { SceneNow.shown[card.id] = shown }
     if (film == null) LaunchedEffect(card.id, replay, following) {
         if (following) {
             wasFollowing = true

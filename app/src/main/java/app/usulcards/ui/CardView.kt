@@ -36,6 +36,8 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -97,6 +99,7 @@ fun CardView(
     val pal = LocalPalette.current
     val learned = card.id in progress.learned
     val saved = card.id in progress.saved
+    var sharing by remember(card.id) { mutableStateOf(false) }
     // highlight only this card's own voice (in continuous listening the next card may already be speaking)
     val playingKey = player.currentKey.takeIf { player.owner == null || player.owner == card.id }
     fun shown(target: String, plain: String) = if (progress.showDiacritics) card.diac[target] ?: plain else plain
@@ -149,11 +152,16 @@ fun CardView(
                 modifier = Modifier.onGloballyPositioned { follow?.placeFace(card.id, it.positionInRoot().y) },
             )
 
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                Modifier.horizontalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically,
+            ) {
                 ActionButton(if (deepOpen) "إخفاء التفاصيل" else "تعمّق", filled = true, onClick = onToggleDeep)
                 ActionButton(if (player.isPlaying) "إيقاف" else "استمع", active = player.isPlaying, onClick = onListen, playing = player.isPlaying)
                 ActionButton(if (saved) "محفوظة" else "احفظ", active = saved, onClick = onSave)
+                ActionButton("شارك", onClick = { sharing = true })
             }
+            if (sharing) ShareSheet(card, repo, progress.showDiacritics) { sharing = false }
 
             AnimatedVisibility(
                 visible = deepOpen,
