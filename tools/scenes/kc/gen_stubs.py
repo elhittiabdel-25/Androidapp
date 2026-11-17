@@ -70,6 +70,7 @@ for f in sorted(glob.glob(f'{UI}/*.kt')):
                 if not h.startswith('internal fun DrawScope.'):
                     continue                 # expression body without a declared type: skip
                 ret = False                  # a drawing helper: assume it returns Unit
+            sig = re.sub(r'= [A-Za-z_][\w.]*(?=\s*[,)])', '= TODO()', sig)   # private constants as defaults
             out.append(sig + (' = TODO()' if ret else ' {}'))
         elif kind == 'val':
             mm = re.match(r'(\w+)\s*:\s*([^=]+?)\s*=', rest)
@@ -83,5 +84,5 @@ for f in sorted(glob.glob(f'{UI}/*.kt')):
             if key in KEEP_BLOCKS and key not in seen:
                 seen.add(key)
                 out.append(block(src, m.start()))
-BAD = re.compile(r'\b(Scene|Quiz|Card|Twinkle|Modifier|Composable|FilmFrame|Camera|ImageBitmap|TextMeasurer|Typeface|Font)\b')
+BAD = re.compile(r'\b(Scene|Quiz|Card|Twinkle|Modifier|Composable|FilmFrame|Camera|ImageBitmap|TextMeasurer|Typeface|Font|Season|ProgressStore|AudioPlayer|ContentRepo|Context|Bt94)\b')
 print('\n'.join(l for l in out if not BAD.search(l)))
