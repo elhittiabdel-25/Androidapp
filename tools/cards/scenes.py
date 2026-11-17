@@ -4360,4 +4360,47 @@ SCENES = {
         I("من غير تعرض منه لحمدهم", None, "face-2", sub="من غير تعرض|التعرض مذموم", kind="jrbushra2"),
         I("ليس على النفس شيء أشق من الإخلاص", None, "deep-0", sub="أَشَقُّ شَيْءٍ|الإخلاص", kind="jrbushra3"),
     ], layout="jrbushra"),
+    # ── v2.0: Akhlaq, al-Adab al-Mufrad (wave 116) ──
+    "am-layyin": S("art", [
+        I("جاء طيسلة إلى ابن عمر", None, "face-0", sub="ابن عمر|طيسلة", kind="amlayyin0"),
+        I("لو ألنت لها الكلام", None, "face-1", sub="لِينُ الْكَلَامِ|إِطْعَامُ الطَّعَامِ|لتدخلن الجنة", kind="amlayyin1"),
+        I("وبكاء الوالدين من العقوق", None, "face-2", sub="بكاء الوالدين من العقوق", kind="amlayyin2"),
+        I("وعد معها", None, "deep-0", sub="الإشراك بالله|قتل النفس|الفرار من الزحف|أكل الربا", kind="amlayyin3"),
+    ], layout="amlayyin"),
+    "am-jaza": S("art", [
+        I("لا يجزي ولد والده", None, "face-0", sub="لا يجزي ولد والده", kind="amjaza0"),
+        I("يطوف بالبيت", None, "face-1", sub="يطوف بالبيت|حمل أمه", kind="amjaza1"),
+        I("أتراني جزيتها", None, "face-2", sub="أتراني جزيتها|ولا بزفرة واحدة", kind="amjaza2"),
+        I("ارجع إليهما", None, "had-0", sub="فأضحكهما كما أبكيتهما", kind="amjaza3"),
+    ], layout="amjaza"),
+    "am-dawa": S("art", [
+        I("ثلاث دعوات مستجابات", None, "face-0", sub="المظلوم|المسافر|الوالد", kind="amdawa0"),
+        I("نادت أم جريج ابنها", None, "face-1", sub="أُمِّي وَصَلَاتِي", kind="amdawa1"),
+        I("فدعت عليه", None, "face-2", sub="هدمت صومعته", kind="amdawa2"),
+        I("فسأل جريج الصغير", None, "deep-0", sub="تكلم في المهد|فبرأه الله", kind="amdawa3"),
+    ], layout="amdawa"),
+    "am-rahim": S("art", [
+        I("قامت الرحم", None, "face-0", sub="الرحم|مقام العائذ بك من القطيعة", kind="amrahim0"),
+        I("ألا ترضين", None, "face-1", sub="أصل من وصلك|وأقطع من قطعك", kind="amrahim1"),
+        I("من البغي وقطيعة الرحم", None, "face-2", sub="البغي|قطيعة الرحم", kind="amrahim2"),
+        I("بإنذار عشيرته", None, "deep-1", sub="أنقذوا أنفسكم من النار|فاطمة", kind="amrahim3"),
+    ], layout="amrahim"),
+    "am-banat": S("art", [
+        I("من كان له ثلاث بنات", None, "face-0", sub="صبر عليهن|كساهن|حِجَابٌ مِنَ النَّارِ", kind="ambanat0"),
+        I("ومن آواهن", None, "face-1", sub="آواهن|كفاهن|رحمهن|واثنتين", kind="ambanat1"),
+        I("وتمنى رجل", None, "face-2", sub="ابن عمر|أنت ترزقهن", kind="ambanat2"),
+        I("من يلي من هذه البنات", None, "had-0", sub="سترا من النار", kind="ambanat3"),
+    ], layout="ambanat"),
+    "am-rahma": S("art", [
+        I("لا يرحم الله من لا يرحم الناس", None, "face-0", sub="من لا يرحم الناس لا يرحمه الله", kind="amrahma0"),
+        I("وقال أعرابي", None, "face-1", sub="تقبلون الصبيان", kind="amrahma1"),
+        I("جعل الله الرحمة", None, "face-2", sub="100|99|1", kind="amrahma2"),
+        I("فمن ذلك الجزء", None, "deep-0", sub="تتراحم الخلائق", kind="amrahma3"),
+    ], layout="amrahma"),
+    "am-jar": S("art", [
+        I("ليس المؤمن الذي يشبع", None, "face-0", sub="ليس المؤمن الذي يشبع وجاره جائع", kind="amjar0"),
+        I("إذا طبخت مرقة", None, "face-1", sub="أكثر ماءها|وتعاهد جيرانك", kind="amjar1"),
+        I("لا تحقرن جارة", None, "face-2", sub="ولو فرسن شاة", kind="amjar2"),
+        I("إن لي جارين", None, "deep-1", sub="عائشة|أقربهما منك بابا", kind="amjar3"),
+    ], layout="amjar"),
 }

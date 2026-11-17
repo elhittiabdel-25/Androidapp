@@ -693,6 +693,13 @@ ART_KINDS = {
     "jrniyya": {"jrniyya0", "jrniyya1", "jrniyya2", "jrniyya3"},
     "jrriya": {"jrriya0", "jrriya1", "jrriya2", "jrriya3"},
     "jrbushra": {"jrbushra0", "jrbushra1", "jrbushra2", "jrbushra3"},
+    "amlayyin": {"amlayyin0", "amlayyin1", "amlayyin2", "amlayyin3"},
+    "amjaza": {"amjaza0", "amjaza1", "amjaza2", "amjaza3"},
+    "amdawa": {"amdawa0", "amdawa1", "amdawa2", "amdawa3"},
+    "amrahim": {"amrahim0", "amrahim1", "amrahim2", "amrahim3"},
+    "ambanat": {"ambanat0", "ambanat1", "ambanat2", "ambanat3"},
+    "amrahma": {"amrahma0", "amrahma1", "amrahma2", "amrahma3"},
+    "amjar": {"amjar0", "amjar1", "amjar2", "amjar3"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
