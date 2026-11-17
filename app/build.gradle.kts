@@ -83,4 +83,6 @@ dependencies {
     implementation("androidx.media3:media3-exoplayer:1.6.1")
     implementation("androidx.media3:media3-session:1.6.1")
     implementation("com.google.android.play:review:2.0.2")
+    // the Play review library brings an old Fragment; 1.3+ is required by registerForActivityResult (lint)
+    implementation("androidx.fragment:fragment:1.8.5")
 }
