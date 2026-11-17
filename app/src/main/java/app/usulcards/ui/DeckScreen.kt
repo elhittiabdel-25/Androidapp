@@ -80,6 +80,7 @@ fun ModuleScreen(
     val pal = LocalPalette.current
     val scope = rememberCoroutineScope()
     val ctl = remember { DeckController(repo, deck, player, progress, scope) }
+    val ctxReview = androidx.compose.ui.platform.LocalContext.current
     val scroll = rememberScrollState()
     val follow = remember { FollowState() }
     DisposableEffect(Unit) { onDispose { player.stop() } }
@@ -194,6 +195,7 @@ fun ModuleScreen(
                                     confetti.burst(at, listOf(pal.ok, pal.gold, pal.accent))
                                     if (moduleCards.all { it.id in progress.learned }) {
                                         scope.launch { snackbar.showSnackbar("أتممت مسار «$module»") }
+                                        scope.launch { delay(1500); maybeAskReview(ctxReview, progress, player) }
                                     } else if (progress.dailyCount == progress.dailyGoal) {
                                         scope.launch { snackbar.showSnackbar("أحسنت! أتممت هدف اليوم") }
                                     }
@@ -219,10 +221,12 @@ fun ModuleScreen(
                         // the quiz: a right answer marks the card learned at once; «التالية» then moves on,
                         // and after a wrong answer the card comes back three cards later
                         onAnswer = { right, at ->
+                            if (right) scope.launch { delay(1500); maybeAskReview(ctxReview, progress, player) }
                             if (right && progress.markLearned(card.id)) {
                                 confetti.burst(at, listOf(pal.ok, pal.gold, pal.accent))
                                 if (moduleCards.all { it.id in progress.learned }) {
                                     scope.launch { snackbar.showSnackbar("أتممت مسار «$module»") }
+                                    scope.launch { delay(1500); maybeAskReview(ctxReview, progress, player) }
                                 } else if (progress.dailyCount == progress.dailyGoal) {
                                     scope.launch { snackbar.showSnackbar("أحسنت! أتممت هدف اليوم") }
                                 }

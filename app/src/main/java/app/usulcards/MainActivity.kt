@@ -26,6 +26,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         repo = ContentRepo.load(this)
         progress = ProgressStore(this)
+        progress.noteUseDay()
         player = AudioPlayer.get(this)
         if (savedInstanceState == null) openRequest.value = intent?.getStringExtra(Reminders.EXTRA_OPEN)
         if (progress.reminderOn) Reminders.schedule(this)

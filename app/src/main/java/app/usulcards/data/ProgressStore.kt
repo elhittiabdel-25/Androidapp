@@ -94,6 +94,21 @@ class ProgressStore(ctx: Context) {
         return true
     }
 
+    /** Counts each calendar day the app is opened (for the rating prompt's "2 distinct days"). */
+    fun noteUseDay() {
+        val today = LocalDate.now().toString()
+        if (prefs.getString("useDayLast", "") == today) return
+        prefs.edit().putString("useDayLast", today).putInt("useDays", prefs.getInt("useDays", 0) + 1).apply()
+    }
+
+    /** The Play rating prompt is due: 2+ days of use, 5+ finished cards, and never asked before. */
+    fun reviewDue(): Boolean =
+        !prefs.getBoolean("reviewAsked", false) && prefs.getInt("useDays", 0) >= 2 && learned.size >= 5
+
+    fun markReviewAsked() {
+        prefs.edit().putBoolean("reviewAsked", true).apply()
+    }
+
     fun toggleSaved(id: String): Boolean {
         saved = if (id in saved) saved - id else saved + id
         prefs.edit().putStringSet("saved", saved).apply()

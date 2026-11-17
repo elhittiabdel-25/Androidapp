@@ -82,4 +82,5 @@ dependencies {
     // playback that goes on with the screen locked, with lock-screen controls (media session)
     implementation("androidx.media3:media3-exoplayer:1.6.1")
     implementation("androidx.media3:media3-session:1.6.1")
+    implementation("com.google.android.play:review:2.0.2")
 }
