@@ -4329,4 +4329,35 @@ SCENES = {
         I("ويعرف كونه صحابيا بالتواتر", None, "face-2", sub="التواتر|الاستفاضة|إِخْبَارُ الصَّحَابَةِ|ثقات التابعين", kind="mhsahabi2"),
         I("والصحابة كلهم عدول", None, "deep-1", sub="كلهم عدول", kind="mhsahabi3"),
     ], layout="mhsahabi"),
+    # ── v2.0: Hadith, Jami' al-Ulum wal-Hikam (wave 115) ──
+    "jr-jawami": S("art", [
+        I("خُصَّ النَّبِيُّ ﷺ بِجَوَامِعِ الْكَلِمِ", None, "face-0", sub="جوامع الكلم", kind="jrjawami0"),
+        I("ما هو في القرآن", None, "face-1", sub="في القرآن", kind="jrjawami1"),
+        I("ما هو في كلامه", None, "face-2", sub="في كلامه ﷺ", kind="jrjawami2"),
+        I("الأحاديث الكلية", None, "deep-0", sub="ابْنُ الصَّلَاحِ 26|النَّوَوِيُّ 42|ابْنُ رَجَبٍ 50", kind="jrjawami3"),
+    ], layout="jrjawami"),
+    "jr-usul": S("art", [
+        I("جَمَعَ أَمْرَ الْآخِرَةِ فِي كَلِمَةٍ", None, "face-0", sub="أمر الآخرة|من أحدث في أمرنا", kind="jrusul0"),
+        I("وجمع أمر الدنيا كله في كلمة", None, "face-1", sub="أمر الدنيا|إنما الأعمال بالنيات", kind="jrusul1"),
+        I("أربعة أحاديث", None, "face-2", sub="4000|4", kind="jrusul2"),
+        I("الحلال بين والحرام بين", None, "deep-0", sub="الحلال بين|إنما الأعمال بالنيات|إن الله طيب|تَرْكُ مَا لَا يَعْنِيهِ", kind="jrusul3"),
+    ], layout="jrusul"),
+    "jr-niyya": S("art", [
+        I("النِّيَّةُ تَقَعُ بِمَعْنَيَيْنِ", None, "face-0", sub="النية", kind="jrniyya0"),
+        I("تمييز العبادات", None, "face-1", sub="عِبَادَةٌ أَمْ عَادَةٌ|فَرْضٌ أَمْ نَفْلٌ", kind="jrniyya1"),
+        I("تمييز المقصود بالعمل", None, "face-2", sub="لله وحده|أم لغيره", kind="jrniyya2"),
+        I("فَالْإِمْسَاكُ عَنِ الطَّعَامِ يَقَعُ حِمْيَةً، أَوْ عَجْزًا", None, "deep-0", sub="حمية|عَجْزٌ|لله", kind="jrniyya3"),
+    ], layout="jrniyya"),
+    "jr-riya": S("art", [
+        I("رِيَاءٌ مَحْضٌ", None, "face-0", sub="رِيَاءٌ مَحْضٌ|مراءاة المخلوقين", kind="jrriya0"),
+        I("حابط", None, "face-1", sub="حابط", kind="jrriya1"),
+        I("ويشاركه الرياء من أصله", None, "face-2", sub="لله|ويشاركه الرياء", kind="jrriya2"),
+        I("أنا أغنى الشركاء عن الشرك", None, "had-0", sub="أنا أغنى الشركاء عن الشرك|تركته وشركه", kind="jrriya3"),
+    ], layout="jrriya"),
+    "jr-bushra": S("art", [
+        I("عَمِلَ لِلَّهِ خَالِصًا", None, "face-0", sub="لله خالصا|الثناء الحسن", kind="jrbushra0"),
+        I("تلك عاجل بشرى المؤمن", None, "face-1", sub="عاجل بشرى المؤمن", kind="jrbushra1"),
+        I("من غير تعرض منه لحمدهم", None, "face-2", sub="من غير تعرض|التعرض مذموم", kind="jrbushra2"),
+        I("ليس على النفس شيء أشق من الإخلاص", None, "deep-0", sub="أَشَقُّ شَيْءٍ|الإخلاص", kind="jrbushra3"),
+    ], layout="jrbushra"),
 }
