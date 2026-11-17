@@ -105,6 +105,14 @@ private fun DrawScope.tears107(c: Offset, s: Float, t: Float, alpha: Float, n: I
     }
 }
 
+/** A plain mattress and pillow (no sleeper drawn), centred at [c], [s] wide. */
+private fun DrawScope.mattress107(c: Offset, s: Float, alpha: Float) {
+    if (alpha <= 0.01f) return
+    drawRoundRect(Color(0xFF8A6A48), c + Offset(-s / 2f, 0f), Size(s, s * 0.12f), CornerRadius(s * 0.03f), alpha = alpha)
+    drawRoundRect(Color(0xFFD8CCB4), c + Offset(-s / 2f, -s * 0.06f), Size(s, s * 0.08f), CornerRadius(s * 0.04f), alpha = alpha)
+    drawRoundRect(Color(0xFFF2EEE4), c + Offset(s * 0.22f, -s * 0.12f), Size(s * 0.24f, s * 0.08f), CornerRadius(s * 0.04f), alpha = alpha)
+}
+
 // ═════════════ hd-shaar ═════════════
 internal fun DrawScope.hdshaarScene(a: ArtCtx) {
     val w = size.width
@@ -171,10 +179,10 @@ internal fun DrawScope.hdlihyaScene(a: ArtCtx) {
         { p, f ->
             veil107(f)
             // trimmed (short strands) beside left full (long strands)
-            strands107(Offset(w * 0.18f, h * 0.36f), Offset(w * 0.38f, h * 0.36f), 10, h * 0.03f, 0, f * seg(p, 0.1f, 0.25f), a.t * 0.3f)
-            strands107(Offset(w * 0.6f, h * 0.3f), Offset(w * 0.82f, h * 0.3f), 12, mix(h * 0.03f, h * 0.2f, easeInOut(seg(p, 0.5f, 0.8f))), 0, f * seg(p, 0.45f, 0.55f), a.t * 0.3f)
-            tagAt(a.tag("hdlihya0", 0, 0), Offset(w * 0.28f, h * 0.6f), f * seg(p, 0.15f, 0.3f), ink = ArtInk.Ivory)
-            tagAt(a.tag("hdlihya0", 0, 1), Offset(w * 0.71f, h * 0.6f), f * seg(p, 0.55f, 0.7f), back = Color(0xCC1A3020), ink = ArtInk.Jade)
+            strands107(Offset(w * 0.62f, h * 0.36f), Offset(w * 0.82f, h * 0.36f), 10, h * 0.03f, 0, f * seg(p, 0.1f, 0.25f), a.t * 0.3f)
+            strands107(Offset(w * 0.18f, h * 0.3f), Offset(w * 0.4f, h * 0.3f), 12, mix(h * 0.03f, h * 0.2f, easeInOut(seg(p, 0.5f, 0.8f))), 0, f * seg(p, 0.45f, 0.55f), a.t * 0.3f)
+            tagAt(a.tag("hdlihya0", 0, 0), Offset(w * 0.72f, h * 0.6f), f * seg(p, 0.15f, 0.3f), ink = ArtInk.Ivory)
+            tagAt(a.tag("hdlihya0", 0, 1), Offset(w * 0.29f, h * 0.6f), f * seg(p, 0.55f, 0.7f), back = Color(0xCC1A3020), ink = ArtInk.Jade)
         },
         { p, f ->
             veil107(f)
@@ -342,7 +350,7 @@ internal fun DrawScope.hdisbalScene(a: ArtCtx) {
         { p, f ->
             veil107(f)
             for (k in 0 until 3) {
-                val c = Offset(w * (0.2f + 0.3f * k), h * 0.45f)
+                val c = Offset(w * (0.8f - 0.3f * k), h * 0.45f)
                 tagAt(a.tag("hdisbal3", 0, k), c, f * seg(p, 0.15f + 0.2f * k, 0.3f + 0.2f * k), back = Color(0xCC401A20), ink = ArtInk.Ivory)
             }
             drawLine(Color(0xFF8A8494), Offset(w * 0.1f, h * 0.3f), Offset(w * 0.9f, h * 0.3f), 1.2f * density, alpha = f * seg(p, 0.05f, 0.2f))
@@ -362,7 +370,7 @@ internal fun DrawScope.hdtibScene(a: ArtCtx) {
             sirajMunir(Offset(w * 0.5f, h * 0.36f), w * 0.04f, f, a.t, nameAt = Offset(w * 0.5f, h * 0.14f))
             scent107(Offset(w * 0.5f, h * 0.3f), w * 0.06f, a.t, f * seg(p, 0.6f, 0.75f))
             for (k in 0 until 2) {
-                val c = Offset(w * (0.18f + 0.64f * k), h * 0.48f)
+                val c = Offset(w * (0.82f - 0.64f * k), h * 0.48f)
                 drawRoundRect(if (k == 0) Color(0xFFD8B8D0) else Color(0xFFC8A060), c + Offset(-w * 0.08f, -h * 0.03f), Size(w * 0.16f, h * 0.06f), CornerRadius(8f * density), alpha = f * seg(p, 0.1f + 0.15f * k, 0.25f + 0.15f * k) * (1f - 0.5f * seg(p, 0.55f, 0.7f)))
                 tagAt(a.tag("hdtib0", 0, k), c + Offset(0f, h * 0.08f), f * seg(p, 0.1f + 0.15f * k, 0.25f + 0.15f * k), ink = ArtInk.Ivory)
             }
@@ -371,7 +379,7 @@ internal fun DrawScope.hdtibScene(a: ArtCtx) {
         { p, f ->
             veil107(f)
             sirajMunir(Offset(w * 0.25f, h * 0.42f), w * 0.03f, f, a.t, named = false)
-            qIcon("bed", Offset(w * 0.25f, h * 0.52f), w * 0.1f, Qn.Lapis, f * seg(p, 0.05f, 0.2f), a.t)
+            mattress107(Offset(w * 0.25f, h * 0.5f), w * 0.24f, f * seg(p, 0.05f, 0.2f))
             plain97(Offset(w * 0.72f, h * 0.3f), w * 0.075f, a, "hdtib1", 0, f * seg(p, 0.15f, 0.35f))
             bottle107(Offset(w * 0.72f, h * 0.52f), w * 0.07f, seg(p, 0.35f, 0.8f), f * seg(p, 0.3f, 0.4f))
             scent107(Offset(w * 0.72f, h * 0.48f), w * 0.04f, a.t, f * seg(p, 0.7f, 0.85f))
@@ -391,7 +399,7 @@ internal fun DrawScope.hdtibScene(a: ArtCtx) {
         { p, f ->
             veil107(f)
             for (k in 0 until 2) {
-                val c = Offset(w * (0.32f + 0.36f * k), h * 0.42f)
+                val c = Offset(w * (0.68f - 0.36f * k), h * 0.42f)
                 drawOval(if (k == 0) White107 else Color(0xFFB07AA0), c + Offset(-w * 0.06f, -h * 0.035f), Size(w * 0.12f, h * 0.07f), alpha = f * seg(p, 0.05f + 0.15f * k, 0.2f + 0.15f * k))
                 cross107(c, w * 0.07f, f * seg(p, 0.45f, 0.55f))
                 tagAt(a.tag("hdtib3", 0, k), c + Offset(0f, h * 0.12f), f * seg(p, 0.1f + 0.15f * k, 0.25f + 0.15f * k), ink = ArtInk.Ivory)
@@ -408,7 +416,7 @@ internal fun DrawScope.hdnawmScene(a: ArtCtx) {
     film98(a, "hdnawm", List(4) { Shot(Offset(w * 0.5f, h * 0.5f), 1f) },
         { night107(a, ground); moon12(Offset(w * 0.82f, h * 0.14f), w * 0.04f, 0.8f) },
         { p, f ->
-            qIcon("bed", Offset(w * 0.5f, h * 0.5f), w * 0.2f, Qn.Lapis, f * seg(p, 0.05f, 0.2f), a.t)
+            mattress107(Offset(w * 0.5f, h * 0.52f), w * 0.4f, f * seg(p, 0.05f, 0.2f))
             sirajMunir(Offset(w * 0.62f, h * 0.44f), w * 0.03f, f, a.t, named = false)
             drawLine(Qn.Jade, Offset(w * 0.3f, h * 0.62f), Offset(w * 0.7f, h * 0.62f), 2f * density, StrokeCap.Round, alpha = f * seg(p, 0.15f, 0.3f))
             tagAt(a.tag("hdnawm0", 0, 0), Offset(w * 0.5f, h * 0.7f), f * seg(p, 0.15f, 0.3f), back = Color(0xCC1A3020), ink = ArtInk.Jade)
@@ -428,7 +436,7 @@ internal fun DrawScope.hdnawmScene(a: ArtCtx) {
             veil107(f)
             val icons = listOf("drop", "bed", "cross")
             for (k in 0 until 3) {
-                val c = Offset(w * (0.2f + 0.3f * k), h * 0.42f)
+                val c = Offset(w * (0.8f - 0.3f * k), h * 0.42f)
                 val on = f * seg(p, 0.1f + 0.25f * k, 0.25f + 0.25f * k)
                 val shake = if (k == 1) sin(a.t * 18f) * w * 0.006f * seg(p, 0.4f, 0.6f) else 0f
                 qIcon(icons[k], c + Offset(shake, 0f), w * 0.08f, if (k == 2) Qn.Ember else Qn.Jade, on, a.t)
@@ -439,8 +447,8 @@ internal fun DrawScope.hdnawmScene(a: ArtCtx) {
             veil107(f)
             // the dhikr above, the two roundels below it (the Name is never placed low)
             for (k in 0 until 3) tagAt(a.tag("hdnawm3", 0, 2 + k), Offset(w * 0.5f, h * (0.2f + 0.1f * k)), f * seg(p, 0.35f + 0.15f * k, 0.5f + 0.15f * k), ink = ArtInk.Gold)
-            close97(Offset(w * 0.33f, h * 0.64f), w * 0.07f, a, "hdnawm3", 0, 3, f * seg(p, 0.05f, 0.2f))
-            close97(Offset(w * 0.67f, h * 0.64f), w * 0.07f, a, "hdnawm3", 1, 3, f * seg(p, 0.1f, 0.25f))
+            close97(Offset(w * 0.67f, h * 0.64f), w * 0.07f, a, "hdnawm3", 0, 3, f * seg(p, 0.05f, 0.2f))
+            close97(Offset(w * 0.33f, h * 0.64f), w * 0.07f, a, "hdnawm3", 1, 3, f * seg(p, 0.1f, 0.25f))
         },
     )
 }
@@ -522,7 +530,7 @@ internal fun DrawScope.hdsawmScene(a: ArtCtx) {
             plain97(Offset(w * 0.5f, h * 0.22f), w * 0.075f, a, "hdsawm2", 0, f * seg(p, 0.05f, 0.2f))
             val icons = listOf("crescent", "sun", "moon")
             for (k in 0 until 3) {
-                val c = Offset(w * (0.2f + 0.3f * k), h * 0.48f)
+                val c = Offset(w * (0.8f - 0.3f * k), h * 0.48f)
                 val on = f * seg(p, 0.25f + 0.2f * k, 0.4f + 0.2f * k)
                 qIcon(icons[k], c, w * 0.07f, Qn.GoldLight, on, a.t)
                 tagAt(a.tag("hdsawm2", 0, 1 + k), c + Offset(0f, h * 0.13f), on, ink = ArtInk.Ivory)
@@ -532,7 +540,7 @@ internal fun DrawScope.hdsawmScene(a: ArtCtx) {
             veil107(f)
             for (k in 0 until 6) {
                 val row = k / 3
-                val c = Offset(w * (0.22f + 0.28f * (k % 3)), h * (0.34f + 0.2f * row))
+                val c = Offset(w * (0.78f - 0.28f * (k % 3)), h * (0.34f + 0.2f * row))
                 tagAt(a.tag("hdsawm3", 0, k), c, f * seg(p, 0.05f + 0.12f * k, 0.15f + 0.12f * k), back = if (row == 0) Color(0xCC3A2A10) else Color(0xCC1A2A40), ink = ArtInk.Ivory)
             }
         },
@@ -607,7 +615,7 @@ internal fun DrawScope.hdmirathScene(a: ArtCtx) {
             veil107(f)
             close97(Offset(w * 0.5f, h * 0.28f), w * 0.085f, a, "hdmirath2", 0, 0, f * seg(p, 0.05f, 0.25f))
             for (k in 0 until 3) {
-                val c = Offset(w * (0.22f + 0.28f * k), h * 0.6f)
+                val c = Offset(w * (0.78f - 0.28f * k), h * 0.6f)
                 val on = f * seg(p, 0.3f + 0.12f * k, 0.45f + 0.12f * k)
                 drawLine(Qn.GoldLight, Offset(w * 0.5f, h * 0.36f), c + Offset(0f, -h * 0.06f), 1.2f * density, alpha = 0.6f * on)
                 qIcon("house", c, w * 0.06f, Color(0xFFE2CCA0), on, a.t)
@@ -621,7 +629,7 @@ internal fun DrawScope.hdmirathScene(a: ArtCtx) {
                 val row = if (k < 4) 0 else 1
                 val col = if (row == 0) k else k - 4
                 val n = if (row == 0) 4 else 3
-                val c = Offset(w * (0.5f + (col - (n - 1) / 2f) * 0.22f), h * (0.34f + 0.24f * row))
+                val c = Offset(w * (0.5f - (col - (n - 1) / 2f) * 0.22f), h * (0.34f + 0.24f * row))
                 val g = f * seg(p, 0.05f + 0.1f * k, 0.2f + 0.1f * k)
                 when (k) {
                     0, 1 -> close97(c, w * 0.07f, a, "hdmirath3", k, k + 1, g)
