@@ -997,6 +997,11 @@ internal fun beatMillis(kind: String): Int = when (kind) {
     "fifthpillar", "oncelife", "umrahspan", "debtledger", "cleanpurse", "goodcompany", "washscent", "twowhites", "labbayk", "keephair", "mountride", "threemiqat", "fromhome", "tohill", "umrahsteps", "threeroads", "tamattu", "ifheld", "validyoung", "guardianlabbayk", "guardianreward", "nocutscent", "nosewn", "mayshade", "blackstone", "safamarwa", "tarwiya", "arafastand", "muzdalifanight", "mashardawn", "fourrites", "noharaj", "tashriqthree", "deputythrow", "hadyshare", "pureearning", "tenfast", "arafaopen", "fourdays", "stayworship", "farewelltawaf", "walkonward", "madinahmosque" -> 6000
     // v1.3 fiqh: udhiya (wave 71)
     "adhadef", "twokabsh", "sunnahor", "betterthanprice", "familyall", "anam", "fourdefects", "timewindow", "owned", "rankkinds", "amlah", "disliked", "onesheep", "seventh", "notshared", "thirds", "nosale", "designated", "noclip", "onlyhim", "tawbanokaffara", "likepilgrim", "dhakatconds" -> 6000
+    else -> beatMillisB(kind)
+}
+
+// Split in two: one when with all kinds was over the JVM 64 KB method limit.
+internal fun beatMillisB(kind: String): Int = when (kind) {
     // v1.3 fiqh: fasting 1 (wave 72)
     "threespans", "beyondcount", "secretheart", "muskscent", "fastshield", "twojoys", "monthlength", "childtrain", "feedperday", "newmuslim", "liftedpen", "travelchoice", "easierway", "sickgauge", "nofaultfound", "medicaldoctor", "makeupdays", "nursingfear", "beforenext", "rescuer" -> 6000
     // v1.3 fiqh: fasting 2 (wave 73)
