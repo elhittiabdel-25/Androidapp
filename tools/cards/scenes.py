@@ -4710,4 +4710,41 @@ SCENES = {
         I("من همزه ونفخه ونفثه", None, "face-2", sub="هَمْزِهِ|نَفْخِهِ|نَفْثِهِ", kind="ikistiadha2"),
         I("والهمز", None, "deep-0", sub="الْمُوتَةُ|الْكِبْرُ|الشِّعْرُ", kind="ikistiadha3"),
     ], layout="ikistiadha"),
+    # ── v2.0: Quran, Zubdat al-Tafsir, al-Baqara (wave 124) ──
+    "zb-taqwa": S("art", [
+        I("وهو هدى للمتقين", None, "face-0", sub="هُدًى لِلْمُتَّقِينَ", kind="zbtaqwa0"),
+        I("الدلالة الموصلة إلى البغية", None, "face-1", sub="يَحْذَرُونَ عُقُوبَتَهُ|يَرْجُونَ رَحْمَتَهُ", kind="zbtaqwa1"),
+        I("هل وجدت طريقا ذا شوك", None, "face-2", sub="طَرِيقًا ذَا شَوْكٍ", kind="zbtaqwa2"),
+        I("إذا رأيت الشوك عدلت عنه", None, "deep-0", sub="عَدَلْتُ عَنْهُ|جَاوَزْتُهُ|قَصُرْتُ عَنْهُ", kind="zbtaqwa3"),
+    ], layout="zbtaqwa"),
+    "zb-khatm": S("art", [
+        I("ذكر الله في أول السورة المؤمنين", None, "face-0", sub="الْمُؤْمِنِينَ|الْكَفَرَةَ|الْمُنَافِقِينَ", kind="zbkhatm0"),
+        I("لن يفيدهم الإنذار شيئا", None, "face-1", sub="لَنْ يُفِيدَهُمُ الْإِنْذَارُ", kind="zbkhatm1"),
+        I("إن الذنوب إذا تتابعت على القلوب أغلفتها", None, "face-2", sub="أَغْلَفَتْهَا", kind="zbkhatm2"),
+        I("والغشاوة", None, "deep-0", sub="غِشَاوَةٌ", kind="zbkhatm3"),
+    ], layout="zbkhatm"),
+    "zb-nar": S("art", [
+        I("إن ناسا دخلوا في الإسلام", None, "face-0", sub="ثُمَّ نَافَقُوا", kind="zbnar0"),
+        I("فأوقد نارا", None, "face-1", sub="فَأَبْصَرَ مَا يَتَّقِي", kind="zbnar1"),
+        I("إذ طفئت ناره", None, "face-2", sub="طَفِئَتْ نَارُهُ", kind="zbnar2"),
+        I("فبقوا صما بكما عميا", None, "deep-2", sub="صُمًّا|بُكْمًا|عُمْيًا", kind="zbnar3"),
+    ], layout="zbnar"),
+    "zb-khalifa": S("art", [
+        I("الخليفة", None, "face-0", sub="الْخَلِيفَةُ|آدَمُ", kind="zbkhalifa0"),
+        I("وخاطب الله الملائكة بهذا الخطاب", None, "face-1", sub="لِاسْتِخْرَاجِ مَا عِنْدَهُمْ", kind="zbkhalifa1"),
+        I("لأنهم لا يعلمون الغيب", None, "face-2", sub="لَا يَعْلَمُونَ الْغَيْبَ", kind="zbkhalifa2"),
+        I("وأبى إبليس السجود", None, "deep-0", sub="أَبَى إِبْلِيسُ|آدَمُ", kind="zbkhalifa3"),
+    ], layout="zbkhalifa"),
+    "zb-khawf": S("art", [
+        I("من قبل هدى الله وعمل به", None, "face-0", sub="لَا خَوْفٌ|وَلَا حُزْنٌ", kind="zbkhawf0"),
+        I("والخوف لا يكون إلا مما في المستقبل", None, "face-1", sub="الْمُسْتَقْبَلِ|ضِدُّ السُّرُورِ", kind="zbkhawf1"),
+        I("والذين كفروا ولم يقبلوا هدايته", None, "face-2", sub="الِاقْتِرَانِ وَالْمُلَازَمَةِ", kind="zbkhawf2"),
+        I("وإسرائيل", None, "deep-0", sub="إِسْرَائِيلُ|يَعْقُوبُ", kind="zbkhawf3"),
+    ], layout="zbkhawf"),
+    "zb-hitta": S("art", [
+        I("أن يدخلوا باب بيت المقدس سجدا", None, "face-0", sub="سُجَّدًا", kind="zbhitta0"),
+        I("وأن يقولوا", None, "face-1", sub="حِطَّةٌ|التَّوْبَةِ وَالْخُضُوعِ", kind="zbhitta1"),
+        I("فبدلوا", None, "face-2", sub="فَبَدَّلُوا", kind="zbhitta2"),
+        I("والمن والسلوى", None, "deep-0", sub="الْمَنُّ وَالسَّلْوَى", kind="zbhitta3"),
+    ], layout="zbhitta"),
 }
