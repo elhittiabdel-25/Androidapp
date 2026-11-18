@@ -4440,4 +4440,47 @@ SCENES = {
         I("ومثل الذكر", None, "face-2", sub="حِصْنٍ حَصِينٍ", kind="wshisn2"),
         I("كذلك العبد لا يحرز نفسه", None, "deep-0", sub="بِذِكْرِ اللَّهِ", kind="wshisn3"),
     ], layout="wshisn"),
+    # ── v2.0: Adhkar, al-Wabil al-Sayyib 2 (wave 118) ──
+    "ws-jubba": S("art", [
+        I("مثل البخيل والمتصدق", None, "face-0", sub="الْمُتَصَدِّقِ|الْبَخِيلِ", kind="wsjubba0"),
+        I("فكلما تصدق المتصدق بصدقة انبسطت عنه", None, "face-1", sub="انْبَسَطَتْ عَنْهُ", kind="wsjubba1"),
+        I("وكلما هم البخيل بصدقة قلصت", None, "face-2", sub="قَلَصَتْ", kind="wsjubba2"),
+        I("فالبخيل ضيق الصدر", None, "deep-0", sub="ضَيِّقُ الصَّدْرِ|انْشَرَحَ لَهَا قَلْبُهُ", kind="wsjubba3"),
+    ], layout="wsjubba"),
+    "ws-mufarridun": S("art", [
+        I("على جبل يقال له جمدان", None, "face-0", sub="جُمْدَانُ|سَبَقَ الْمُفَرِّدُونَ", kind="wsmufarridun0"),
+        I("الذاكرون الله كثيرا والذاكرات", None, "face-1", sub="الذَّاكِرُونَ اللَّهَ كَثِيرًا وَالذَّاكِرَاتُ", kind="wsmufarridun1"),
+        I("مثل الحي والميت", None, "face-2", sub="الْحَيِّ|الْمَيِّتِ", kind="wsmufarridun2"),
+        I("ألا أنبئكم بخير أعمالكم", None, "had-0", sub="خَيْرِ أَعْمَالِكُمْ|ذِكْرُ اللَّهِ", kind="wsmufarridun3"),
+    ], layout="wsmufarridun"),
+    "ws-majlis": S("art", [
+        I("إلا قاموا عن مثل جيفة حمار", None, "face-0", sub="حَسْرَةً", kind="wsmajlis0"),
+        I("إلا كان عليهم ترة", None, "face-1", sub="تِرَةً", kind="wsmajlis1"),
+        I("إلا حفتهم الملائكة", None, "face-2", sub="حَفَّتْهُمُ الْمَلَائِكَةُ|السَّكِينَةُ", kind="wsmajlis2"),
+        I("وذكرهم الله فيمن عنده", None, "had-0", sub="ذَكَرَهُمُ اللَّهُ فِيمَنْ عِنْدَهُ", kind="wsmajlis3"),
+    ], layout="wsmajlis"),
+    "ws-sada": S("art", [
+        I("إن القلب يصدأ", None, "face-0", sub="كَالْمِرْآةِ الْبَيْضَاءِ", kind="wssada0"),
+        I("وصدأ القلب بأمرين", None, "face-1", sub="الْغَفْلَةِ|الذَّنْبِ|الِاسْتِغْفَارِ|الذِّكْرِ", kind="wssada1"),
+        I("يرى الباطل في صورة الحق", None, "face-2", sub="الْحَقِّ|الْبَاطِلَ", kind="wssada2"),
+        I("فإذا أراد العبد أن يقتدي برجل", None, "deep-2", sub="أَهْلِ الذِّكْرِ|أَهْلِ الْغَفْلَةِ", kind="wssada3"),
+    ], layout="wssada"),
+    "ws-fawaid": S("art", [
+        I("ذكر ابن القيم أن في الذكر", None, "face-0", sub="100", kind="wsfawaid0"),
+        I("أنه يطرد الشيطان", None, "face-1", sub="يَطْرُدُ الشَّيْطَانَ|يُرْضِي الرَّحْمَنَ|يُزِيلُ الْهَمَّ", kind="wsfawaid1"),
+        I("ويجلب للقلب الفرح والسرور", None, "face-2", sub="يُنَوِّرُ الْوَجْهَ|يُقَوِّي الْقَلْبَ|يَجْلِبُ الرِّزْقَ", kind="wsfawaid2"),
+        I("ولا سبيل للغافل", None, "deep-2", sub="كَمَا لَا سَبِيلَ لِلْقَاعِدِ", kind="wsfawaid3"),
+    ], layout="wsfawaid"),
+    "ws-ghiras": S("art", [
+        I("الذكر غراس الجنة", None, "face-0", sub="قِيعَانٌ", kind="wsghiras0"),
+        I("وغراسها", None, "face-1", sub="سُبْحَانَ اللَّهِ|الْحَمْدُ لِلَّهِ|لَا إِلَهَ إِلَّا اللَّهُ|اللَّهُ أَكْبَرُ", kind="wsghiras1"),
+        I("سبحان الله وبحمده", None, "face-2", sub="سُبْحَانَ اللَّهِ وَبِحَمْدِهِ|نَخْلَةٌ فِي الْجَنَّةِ", kind="wsghiras2"),
+        I("فكل تسبيحة وتحميدة", None, "deep-1", sub="شَجَرَةٌ تُغْرَسُ لَهُ", kind="wsghiras3"),
+    ], layout="wsghiras"),
+    "ws-jannat": S("art", [
+        I("إن في الدنيا جنة", None, "face-0", sub="ابْنُ تَيْمِيَّةَ|جَنَّةً فِي الدُّنْيَا", kind="wsjannat0"),
+        I("ما يصنع أعدائي بي", None, "face-1", sub="جَنَّتِي فِي صَدْرِي", kind="wsjannat1"),
+        I("أنا حبسي خلوة", None, "face-2", sub="حَبْسِي خَلْوَةٌ|قَتْلِي شَهَادَةٌ|إِخْرَاجِي سِيَاحَةٌ", kind="wsjannat2"),
+        I("وكنا إذا اشتد بنا الخوف", None, "deep-1", sub="ابْنُ تَيْمِيَّةَ|فَيَذْهَبُ ذَلِكَ كُلُّهُ", kind="wsjannat3"),
+    ], layout="wsjannat"),
 }
