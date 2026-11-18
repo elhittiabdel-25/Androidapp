@@ -4612,4 +4612,53 @@ SCENES = {
         I("قد يتحيل على فسخ البيع", None, "face-2", sub="يَتَحَيَّلُ عَلَى فَسْخِ الْبَيْعِ", kind="bmqabd2"),
         I("وما يتناول باليد", None, "deep-1", sub="تَنَاوُلُهُ|نَقْلُهُ|التَّخْلِيَةُ", kind="bmqabd3"),
     ], layout="bmqabd"),
+    # ── v2.0: Hadith, Mukhtasar Sahih al-Bukhari (wave 122) ──
+    "mb-wahy": S("art", [
+        I("مثل فلق الصبح", None, "face-0", sub="فَلَقِ الصُّبْحِ", kind="mbwahy0"),
+        I("فكان يخلو بغار حراء", None, "face-1", sub="غَارِ حِرَاءٍ", kind="mbwahy1"),
+        I("فجاءه الملك", None, "face-2", sub="اقْرَأْ|مَا أَنَا بِقَارِئٍ", kind="mbwahy2"),
+        I("فرجع بها إلى خديجة", None, "deep-1", sub="زَمِّلُونِي", kind="mbwahy3"),
+    ], layout="mbwahy"),
+    "mb-khadija": S("art", [
+        I("قالت خديجة", None, "face-0", sub="خَدِيجَةُ|مَا يُخْزِيكَ اللَّهُ أَبَدًا", kind="mbkhadija0"),
+        I("إنك لتصل الرحم", None, "face-1", sub="تَصِلُ الرَّحِمَ|تَحْمِلُ الْكَلَّ|تَكْسِبُ الْمَعْدُومَ|تَقْرِي الضَّيْفَ|تُعِينُ عَلَى نَوَائِبِ الْحَقِّ", kind="mbkhadija1"),
+        I("فانطلقت به إلى ورقة", None, "face-2", sub="النَّامُوسُ|وَرَقَةُ", kind="mbkhadija2"),
+        I("يا ليتني فيها جذعا", None, "deep-1", sub="يَا لَيْتَنِي فِيهَا جَذَعًا|وَرَقَةُ", kind="mbkhadija3"),
+    ], layout="mbkhadija"),
+    "mb-thalatha": S("art", [
+        I("أقبل ثلاثة نفر", None, "face-0", sub="ثَلَاثَةُ نَفَرٍ", kind="mbthalatha0"),
+        I("فرأى فرجة في الحلقة", None, "face-1", sub="جَلَسَ فِيهَا|جَلَسَ خَلْفَهُمْ|أَدْبَرَ ذَاهِبًا", kind="mbthalatha1"),
+        I("فآوى إلى الله فآواه الله", None, "face-2", sub="فَآوَاهُ اللَّهُ|فَاسْتَحْيَا اللَّهُ مِنْهُ|فَأَعْرَضَ اللَّهُ عَنْهُ", kind="mbthalatha2"),
+        I("ففيه فضل مجالس العلم", None, "deep-0", sub="سَدُّ الْفُرْجَةِ", kind="mbthalatha3"),
+    ], layout="mbthalatha"),
+    "mb-hasad": S("art", [
+        I("لا حسد إلا في اثنتين", None, "face-0", sub="لَا حَسَدَ إِلَّا فِي اثْنَتَيْنِ", kind="mbhasad0"),
+        I("فسلطه على هلكته في الحق", None, "face-1", sub="هَلَكَتِهِ فِي الْحَقِّ", kind="mbhasad1"),
+        I("آتاه الله الحكمة", None, "face-2", sub="يَقْضِي بِهَا وَيُعَلِّمُهَا", kind="mbhasad2"),
+        I("والحسد هنا", None, "deep-0", sub="الْغِبْطَةُ", kind="mbhasad3"),
+    ], layout="mbhasad"),
+    "mb-musa": S("art", [
+        I("أي الناس أعلم", None, "face-0", sub="مُوسَى|أَيُّ النَّاسِ أَعْلَمُ", kind="mbmusa0"),
+        I("فعتب الله عليه", None, "face-1", sub="إِذْ لَمْ يَرُدَّ الْعِلْمَ إِلَيْهِ", kind="mbmusa1"),
+        I("بمجمع البحرين", None, "face-2", sub="مَجْمَعِ الْبَحْرَيْنِ", kind="mbmusa2"),
+        I("فانطلق هو وفتاه", None, "deep-1", sub="مُوسَى|يُوشَعُ بْنُ نُونٍ", kind="mbmusa3"),
+    ], layout="mbmusa"),
+    "mb-ghayth": S("art", [
+        I("كمثل الغيث الكثير", None, "face-0", sub="الْغَيْثِ الْكَثِيرِ", kind="mbghayth0"),
+        I("فكان منها نقية", None, "face-1", sub="نَقِيَّةٌ|أَجَادِبُ", kind="mbghayth1"),
+        I("إنما هي قيعان", None, "face-2", sub="قِيعَانٌ", kind="mbghayth2"),
+        I("فذلك مثل من فقه", None, "deep-0", sub="فَعَلِمَ وَعَلَّمَ", kind="mbghayth3"),
+    ], layout="mbghayth"),
+    "mb-salouni": S("art", [
+        I("فلما أكثروا عليه المسألة غضب", None, "face-0", sub="أَكْثَرُوا عَلَيْهِ الْمَسْأَلَةَ", kind="mbsalouni0"),
+        I("فبرك عمر على ركبتيه", None, "face-1", sub="رَضِينَا بِاللَّهِ رَبًّا|وَبِالْإِسْلَامِ دِينًا|وَبِمُحَمَّدٍ ﷺ نَبِيًّا|عُمَرُ", kind="mbsalouni1"),
+        I("فسكت", None, "face-2", sub="فَسَكَتَ", kind="mbsalouni2"),
+        I("أعادها ثلاثا", None, "deep-0", sub="أَعَادَهَا ثَلَاثًا", kind="mbsalouni3"),
+    ], layout="mbsalouni"),
+    "mb-niswa": S("art", [
+        I("فاجعل لنا يوما", None, "face-0", sub="فَاجْعَلْ لَنَا يَوْمًا", kind="mbniswa0"),
+        I("فوعدهن يوما", None, "face-1", sub="فَوَعَظَهُنَّ وَأَمَرَهُنَّ وَعَلَّمَهُنَّ", kind="mbniswa1"),
+        I("إلا كانوا لها حجابا من النار", None, "face-2", sub="حِجَابًا مِنَ النَّارِ", kind="mbniswa2"),
+        I("وكانت عائشة لا تسمع شيئا", None, "deep-1", sub="رَاجَعَتْ فِيهِ حَتَّى تَعْرِفَهُ|عَائِشَةُ", kind="mbniswa3"),
+    ], layout="mbniswa"),
 }
