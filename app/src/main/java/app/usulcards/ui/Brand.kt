@@ -121,6 +121,7 @@ fun categoryTone(p: Palette, id: String, index: Int): Pair<Color, Color> = when 
     "manhaj" -> p.gold to p.goldSoft
     "book" -> p.gold to p.goldSoft
     "chain" -> p.accent to p.accentSoft
+    "scale" -> p.gold to p.goldSoft
     else -> listOf(p.accent to p.accentSoft, p.gold to p.goldSoft, p.ok to p.okSoft, p.warn to p.warnSoft)[index % 4]
 }
 
@@ -191,6 +192,16 @@ fun CategoryGlyph(kind: String, color: Color, size: Dp = 26.dp) {
                 for (i in 0 until 3) {
                     val c = Offset(w * (0.22f + 0.28f * i), h * (0.3f + 0.2f * i))
                     drawOval(color, topLeft = c - Offset(w * 0.17f, h * 0.11f), size = androidx.compose.ui.geometry.Size(w * 0.34f, h * 0.22f), style = line)
+                }
+            }
+            "scale" -> {   // a balance: a post, a beam and two hanging pans (fair trade)
+                drawLine(color, Offset(w * 0.5f, h * 0.14f), Offset(w * 0.5f, h * 0.88f), sw, StrokeCap.Round)
+                drawLine(color, Offset(w * 0.32f, h * 0.88f), Offset(w * 0.68f, h * 0.88f), sw, StrokeCap.Round)
+                drawLine(color, Offset(w * 0.12f, h * 0.24f), Offset(w * 0.88f, h * 0.24f), sw, StrokeCap.Round)
+                for (x in listOf(0.2f, 0.8f)) {
+                    drawLine(color, Offset(w * x, h * 0.24f), Offset(w * (x - 0.12f), h * 0.56f), sw * 0.7f, StrokeCap.Round)
+                    drawLine(color, Offset(w * x, h * 0.24f), Offset(w * (x + 0.12f), h * 0.56f), sw * 0.7f, StrokeCap.Round)
+                    drawArc(color, 0f, 180f, false, Offset(w * (x - 0.15f), h * 0.46f), androidx.compose.ui.geometry.Size(w * 0.3f, h * 0.2f), style = line)
                 }
             }
             "beads" -> {   // prayer beads: a ring of beads with a short tassel

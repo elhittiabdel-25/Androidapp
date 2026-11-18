@@ -4569,4 +4569,47 @@ SCENES = {
         I("يتوضأ نحو وضوئي هذا", None, "face-2", sub="نَحْوَ وُضُوئِي هَذَا|عُثْمَانُ", kind="uauthman2"),
         I("ثم صلى ركعتين لا يحدث فيهما نفسه", None, "had-0", sub="غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ", kind="uauthman3"),
     ], layout="uauthman"),
+    # ── v2.0: Transactions, al-Ifham fi Sharh Bulugh al-Maram (wave 121) ──
+    "bm-kasb": S("art", [
+        I("أي الكسب أطيب", None, "face-0", sub="عَمَلُ الرَّجُلِ بِيَدِهِ|كُلُّ بَيْعٍ مَبْرُورٍ", kind="bmkasb0"),
+        I("مبادلة مال بمال", None, "face-1", sub="مُبَادَلَةُ مَالٍ بِمَالٍ", kind="bmkasb1"),
+        I("وله تسع صور", None, "face-2", sub="بَيْعُ الدَّيْنِ بِالدَّيْنِ", kind="bmkasb2"),
+        I("واختلف في أطيب الكسب", None, "deep-1", sub="الزِّرَاعَةُ|التِّجَارَةُ|عَمَلُ الرَّجُلِ بِيَدِهِ", kind="bmkasb3"),
+    ], layout="bmkasb"),
+    "bm-khiyar": S("art", [
+        I("فكل واحد منهما بالخيار", None, "face-0", sub="بِالْخِيَارِ مَا لَمْ يَتَفَرَّقَا", kind="bmkhiyar0"),
+        I("ففيه إثبات خيار المجلس", None, "face-1", sub="التَّفَرُّقُ بِالْأَبْدَانِ", kind="bmkhiyar1"),
+        I("وإذا أسقط المتبايعان خيار المجلس", None, "face-2", sub="سَقَطَ الْخِيَارُ", kind="bmkhiyar2"),
+        I("والخيار أنواع كثيرة", None, "deep-2", sub="خِيَارُ الْمَجْلِسِ|خِيَارُ الشَّرْطِ|خِيَارُ الْغَبْنِ", kind="bmkhiyar3"),
+    ], layout="bmkhiyar"),
+    "bm-gharar": S("art", [
+        I("عن بيع الحصاة", None, "face-0", sub="بَيْعِ الْحَصَاةِ|بَيْعِ الْغَرَرِ", kind="bmgharar0"),
+        I("ارم بهذه الحصاة", None, "face-1", sub="فَعَلَى أَيِّ ثَوْبٍ وَقَعَتْ", kind="bmgharar1"),
+        I("ومن الغرر", None, "face-2", sub="السَّمَكِ فِي الْمَاءِ|الطَّيْرِ فِي الْهَوَاءِ", kind="bmgharar2"),
+        I("بيع الزرع الأخضر", None, "deep-1", sub="قَبْلَ أَنْ يَشْتَدَّ حَبُّهُ", kind="bmgharar3"),
+    ], layout="bmgharar"),
+    "bm-hadir": S("art", [
+        I("عن تلقي الجلب", None, "face-0", sub="تَلَقِّي الْجَلَبِ", kind="bmhadir0"),
+        I("ونهى أن يبيع حاضر لباد", None, "face-1", sub="سِمْسَارًا", kind="bmhadir1"),
+        I("ففي النهي عن تلقي الركبان مصلحة القادم", None, "face-2", sub="مَصْلَحَةُ الْقَادِمِ|مَصْلَحَةُ أَهْلِ الْبَلَدِ", kind="bmhadir2"),
+        I("وأما بيع المزايدة", None, "deep-2", sub="بَيْعُ الْمُزَايَدَةِ", kind="bmhadir3"),
+    ], layout="bmhadir"),
+    "bm-ghish": S("art", [
+        I("على صبرة طعام", None, "face-0", sub="صُبْرَةِ طَعَامٍ", kind="bmghish0"),
+        I("ما هذا يا صاحب الطعام", None, "face-1", sub="أَصَابَتْهُ السَّمَاءُ", kind="bmghish1"),
+        I("من غش فليس مني", None, "face-2", sub="مَنْ غَشَّ فَلَيْسَ مِنِّي", kind="bmghish2"),
+        I("والحديث دليل على تحريم الغش", None, "deep-0", sub="تَحْرِيمِ الْغِشِّ", kind="bmghish3"),
+    ], layout="bmghish"),
+    "bm-riba": S("art", [
+        I("آكل الربا وموكله", None, "face-0", sub="هُمْ سَوَاءٌ", kind="bmriba0"),
+        I("والربا في اللغة", None, "face-1", sub="الزِّيَادَةُ", kind="bmriba1"),
+        I("لا تبيعوا الذهب بالذهب إلا مثلا بمثل", None, "face-2", sub="مِثْلًا بِمِثْلٍ", kind="bmriba2"),
+        I("وأثم الكاتب والشاهد", None, "deep-1", sub="الْمَحْظُورِ", kind="bmriba3"),
+    ], layout="bmriba"),
+    "bm-qabd": S("art", [
+        I("من ابتاع طعاما فلا يبعه حتى يكتاله", None, "face-0", sub="حَتَّى يَسْتَوْفِيَهُ", kind="bmqabd0"),
+        I("قبل أن يحوزه إلى رحله", None, "face-1", sub="إِلَى رَحْلِهِ", kind="bmqabd1"),
+        I("قد يتحيل على فسخ البيع", None, "face-2", sub="يَتَحَيَّلُ عَلَى فَسْخِ الْبَيْعِ", kind="bmqabd2"),
+        I("وما يتناول باليد", None, "deep-1", sub="تَنَاوُلُهُ|نَقْلُهُ|التَّخْلِيَةُ", kind="bmqabd3"),
+    ], layout="bmqabd"),
 }
