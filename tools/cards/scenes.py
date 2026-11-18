@@ -4747,4 +4747,47 @@ SCENES = {
         I("فبدلوا", None, "face-2", sub="فَبَدَّلُوا", kind="zbhitta2"),
         I("والمن والسلوى", None, "deep-0", sub="الْمَنُّ وَالسَّلْوَى", kind="zbhitta3"),
     ], layout="zbhitta"),
+    # ── v2.0: Quran, Aysar al-Tafasir, al-Dukhan to al-Ahqaf (wave 125) ──
+    "ay-qadr": S("art", [
+        I("أنزل الله القرآن في ليلة مباركة", None, "face-0", sub="لَيْلَةٍ مُبَارَكَةٍ|لَيْلَةُ الْقَدْرِ", kind="ayqadr0"),
+        I("وفي تلك الليلة يفصل كل أمر محكم", None, "face-1", sub="كِتَابِ الْمَقَادِيرِ", kind="ayqadr1"),
+        I("من الموت والحياة", None, "face-2", sub="الْمَوْتِ وَالْحَيَاةِ|الْغِنَى وَالْفَقْرِ|الصِّحَّةِ وَالْمَرَضِ|التَّوْلِيَةِ وَالْعَزْلِ", kind="ayqadr2"),
+        I("حتى إن الرجل ليتزوج", None, "deep-0", sub="وَهُوَ فِي عِدَادِ مَنْ يَمُوتُ", kind="ayqadr3"),
+    ], layout="ayqadr"),
+    "ay-dukhan": S("art", [
+        I("ما كان يراه الرجل من قريش من شدة الجوع", None, "face-0", sub="مِنْ شِدَّةِ الْجُوعِ", kind="aydukhan0"),
+        I("يغشى أبصارهم من شدة الجهد", None, "face-1", sub="إِنْ كَشَفْتَ عَنَّا الْعَذَابَ آمَنَّا", kind="aydukhan1"),
+        I("وكيف يتذكرون", None, "face-2", sub="مُعَلَّمٌ مَجْنُونٌ", kind="aydukhan2"),
+        I("والبطشة الكبرى", None, "deep-1", sub="يَوْمَ بَدْرٍ", kind="aydukhan3"),
+    ], layout="aydukhan"),
+    "ay-zaqqum": S("art", [
+        I("شجرة الزقوم طعام الأثيم", None, "face-0", sub="طَعَامُ الْأَثِيمِ", kind="ayzaqqum0"),
+        I("تغلي في البطون كدردي الزيت", None, "face-1", sub="كَدُرْدِيِّ الزَّيْتِ", kind="ayzaqqum1"),
+        I("وكان أبو جهل يجمع أولاده", None, "face-2", sub="تَزَقَّمُوا", kind="ayzaqqum2"),
+        I("فيقال له تهكما به", None, "deep-1", sub="ذُقْ", kind="ayzaqqum3"),
+    ], layout="ayzaqqum"),
+    "ay-sharia": S("art", [
+        I("أن يلزم الشريعة ويسير على طريقها", None, "face-0", sub="الشَّرِيعَةَ|سَعَادَةِ الدَّارَيْنِ", kind="aysharia0"),
+        I("ونهي عن اتباع أهواء الذين لا يعلمون", None, "face-1", sub="أَهْوَاءِ الَّذِينَ لَا يَعْلَمُونَ", kind="aysharia1"),
+        I("فإنهم لا يدفعون عنه من العذاب شيئا", None, "face-2", sub="لَا يَدْفَعُونَ عَنْهُ شَيْئًا", kind="aysharia2"),
+        I("والقرآن أنوار هداية", None, "deep-1", sub="لِأَهْلِ الْيَقِينِ", kind="aysharia3"),
+    ], layout="aysharia"),
+    "ay-dahr": S("art", [
+        I("قال منكرو البعث", None, "face-0", sub="مُرُورُ الزَّمَانِ", kind="aydahr0"),
+        I("وهذا إلحاد كامل", None, "face-1", sub="إِلْحَادٌ كَامِلٌ", kind="aydahr1"),
+        I("فإذا سئلوا من خلقهم", None, "face-2", sub="الْخَلْقَ وَهُوَ أَصْعَبُ|الْإِمَاتَةَ وَهِيَ أَهْوَنُ", kind="aydahr2"),
+        I("ومن هداية الآيات", None, "deep-2", sub="تَقْرِيرُ الْبَعْثِ وَالْجَزَاءِ|الرَّدُّ عَلَى الدَّهْرِيِّينَ", kind="aydahr3"),
+    ], layout="aydahr"),
+    "ay-sabaquna": S("art", [
+        I("قال الكفار للمؤمنين", None, "face-0", sub="لَوْ كَانَ فِيهِ خَيْرٌ", kind="aysabaquna0"),
+        I("والمقصود الاعتذار عن قبول الإسلام", None, "face-1", sub="لَا فَائِدَةَ مِنْهُ فِي دُنْيَاهُمْ", kind="aysabaquna1"),
+        I("والتوراة والقرآن يصدق بعضهما بعضا", None, "face-2", sub="التَّوْحِيدِ|الْبَعْثِ|مَكَارِمِ الْأَخْلَاقِ", kind="aysabaquna2"),
+        I("ومن ظلم نفسه بالكفر والمعاصي", None, "deep-1", sub="حُرِمَ الْهِدَايَةَ", kind="aysabaquna3"),
+    ], layout="aysabaquna"),
+    "ay-tayyibat": S("art", [
+        I("ووالداه يستغيثان الله أن يهديه", None, "face-0", sub="يَسْتَغِيثَانِ اللَّهَ", kind="aytayyibat0"),
+        I("ففيه بيان حنان الوالدين", None, "face-1", sub="حَنَانِ الْوَالِدَيْنِ", kind="aytayyibat1"),
+        I("ويقال للكفار يوم القيامة", None, "face-2", sub="اسْتَوْفَيْتُمْ طَيِّبَاتِكُمْ", kind="aytayyibat2"),
+        I("وكان عمر يقول", None, "deep-1", sub="أَسْتَبْقِي طَيِّبَاتِي|عُمَرُ", kind="aytayyibat3"),
+    ], layout="aytayyibat"),
 }
