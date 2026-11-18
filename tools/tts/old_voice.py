@@ -15,6 +15,11 @@ def git(*a):
     return subprocess.run(["git", "-C", ROOT, *a], capture_output=True, text=True, check=True).stdout
 
 
+try:
+    git("cat-file", "-e", OLD_REF + "^{commit}")
+except subprocess.CalledProcessError:   # a shallow clone (CI): keep the list as committed
+    print("old_voice: no", OLD_REF, "here, old-kareem.txt left as it is")
+    raise SystemExit(0)
 old_blob = {}
 for line in git("ls-tree", "-r", OLD_REF, "--", AUDIO).splitlines():
     meta, path = line.split("\t", 1)
