@@ -31,7 +31,7 @@ def session():
         o = ort.SessionOptions()
         o.intra_op_num_threads = int(os.environ.get("TTS_THREADS", "2"))
         o.inter_op_num_threads = 1
-        _sess = ort.InferenceSession(os.path.join(M, "ar_JO-kareem-medium.onnx"), o, providers=["CPUExecutionProvider"])
+        _sess = ort.InferenceSession(os.environ.get("KAREEM_MODEL", os.path.join(M, "ar_JO-kareem-medium.onnx")), o, providers=["CPUExecutionProvider"])
     return _sess
 
 
