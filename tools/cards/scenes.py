@@ -4661,4 +4661,53 @@ SCENES = {
         I("إلا كانوا لها حجابا من النار", None, "face-2", sub="حِجَابًا مِنَ النَّارِ", kind="mbniswa2"),
         I("وكانت عائشة لا تسمع شيئا", None, "deep-1", sub="رَاجَعَتْ فِيهِ حَتَّى تَعْرِفَهُ|عَائِشَةُ", kind="mbniswa3"),
     ], layout="mbniswa"),
+    # ── v2.0: Quran, Tafsir Ibn Kathir (wave 123) ──
+    "ik-harf": S("art", [
+        I("خشي عثمان اختلاف الناس في القراءة", None, "face-0", sub="تَفَرُّقِ الْأُمَّةِ", kind="ikharf0"),
+        I("على العرضة الأخيرة", None, "face-1", sub="الْعَرْضَةِ الْأَخِيرَةِ", kind="ikharf1"),
+        I("وعزم عليهم ألا يقرؤوا بغيرها", None, "face-2", sub="أَلَّا يَقْرَؤُوا بِغَيْرِهَا|عُثْمَانُ", kind="ikharf2"),
+        I("والقراءات السبع", None, "deep-0", sub="الْقِرَاءَاتُ السَّبْعُ|حَرْفٍ وَاحِدٍ", kind="ikharf3"),
+    ], layout="ikharf"),
+    "ik-taghanni": S("art", [
+        I("التغني بالقرآن", None, "face-0", sub="تَحْسِينُ الصَّوْتِ|الِاسْتِغْنَاءُ بِهِ", kind="iktaghanni0"),
+        I("والمطلوب شرعا تحسين الصوت", None, "face-1", sub="تَدَبُّرِ الْقُرْآنِ وَالْخُشُوعِ", kind="iktaghanni1"),
+        I("فأما الأصوات بالنغمات المحدثة", None, "face-2", sub="يُنَزَّهُ عَنْ هَذَا", kind="iktaghanni2"),
+        I("ليس منا من لم يتغن بالقرآن", None, "had-0", sub="لَيْسَ مِنَّا مَنْ لَمْ يَتَغَنَّ بِالْقُرْآنِ", kind="iktaghanni3"),
+    ], layout="iktaghanni"),
+    "ik-taahud": S("art", [
+        I("تعاهدوا القرآن", None, "face-0", sub="تَعَاهَدُوا الْقُرْآنَ", kind="iktaahud0"),
+        I("أشد تفلتا من الصدور", None, "face-1", sub="أَشَدُّ تَفَلُّتًا", kind="iktaahud1"),
+        I("ففيه الترغيب في كثرة تلاوة القرآن", None, "face-2", sub="كَثْرَةِ تِلَاوَةِ الْقُرْآنِ", kind="iktaahud2"),
+        I("فإن الإعراض عن تلاوته", None, "deep-0", sub="تَفْرِيطٌ شَدِيدٌ", kind="iktaahud3"),
+    ], layout="iktaahud"),
+    "ik-nusiya": S("art", [
+        I("لقد أذكرني آية", None, "face-0", sub="أَذْكَرَنِي آيَةً", kind="iknusiya0"),
+        I("بئس ما لأحدهم أن يقول", None, "face-1", sub="نَسِيتُ|نُسِّيَ", kind="iknusiya1"),
+        I("فحصول النسيان ليس بنقص", None, "face-2", sub="لَيْسَ بِنَقْصٍ", kind="iknusiya2"),
+        I("ولهذا قال", None, "deep-2", sub="مَبْنِيًّا لِمَا لَمْ يُسَمَّ فَاعِلُهُ", kind="iknusiya3"),
+    ], layout="iknusiya"),
+    "ik-madd": S("art", [
+        I("كانت مدا", None, "face-0", sub="كَانَتْ مَدًّا", kind="ikmadd0"),
+        I("يمد بسم الله", None, "face-1", sub="بِسْمِ اللَّهِ|بِالرَّحْمَنِ|بِالرَّحِيمِ", kind="ikmadd1"),
+        I("ورآه عبد الله بن مغفل على ناقته", None, "face-2", sub="سُورَةَ الْفَتْحِ|يُرَجِّعُ", kind="ikmadd2"),
+        I("لحبرتها لك تحبيرا", None, "deep-2", sub="لَحَبَّرْتُهَا لَكَ تَحْبِيرًا|أَبُو مُوسَى", kind="ikmadd3"),
+    ], layout="ikmadd"),
+    "ik-khatm": S("art", [
+        I("اقرأ القرآن في شهر", None, "face-0", sub="فِي شَهْرٍ", kind="ikkhatm0"),
+        I("فاقرأه في سبع", None, "face-1", sub="فِي سَبْعٍ", kind="ikkhatm1"),
+        I("أقرأ القرآن في ثلاث", None, "face-2", sub="فِي ثَلَاثٍ", kind="ikkhatm2"),
+        I("وهذا محمول على أنهم كانوا يفهمون", None, "deep-2", sub="يَفْهَمُونَ وَيَتَفَكَّرُونَ", kind="ikkhatm3"),
+    ], layout="ikkhatm"),
+    "ik-itlaf": S("art", [
+        I("ما ائتلفت عليه قلوبكم", None, "face-0", sub="مَا ائْتَلَفَتْ عَلَيْهِ قُلُوبُكُمْ", kind="ikitlaf0"),
+        I("فحض على التلاوة", None, "face-1", sub="مُتَدَبِّرَةً", kind="ikitlaf1"),
+        I("لا في حال شغلها وملالها", None, "face-2", sub="فَقُومُوا عَنْهُ", kind="ikitlaf2"),
+        I("وأحب الأعمال إلى الله", None, "deep-1", sub="مَا دَاوَمَ عَلَيْهِ صَاحِبُهُ", kind="ikitlaf3"),
+    ], layout="ikitlaf"),
+    "ik-istiadha": S("art", [
+        I("أن الاستعاذة تكون قبل التلاوة", None, "face-0", sub="قَبْلَ التِّلَاوَةِ", kind="ikistiadha0"),
+        I("ومعنى الأمر بها إذا قرأت", None, "face-1", sub="إِذَا أَرَدْتَ الْقِرَاءَةَ", kind="ikistiadha1"),
+        I("من همزه ونفخه ونفثه", None, "face-2", sub="هَمْزِهِ|نَفْخِهِ|نَفْثِهِ", kind="ikistiadha2"),
+        I("والهمز", None, "deep-0", sub="الْمُوتَةُ|الْكِبْرُ|الشِّعْرُ", kind="ikistiadha3"),
+    ], layout="ikistiadha"),
 }
