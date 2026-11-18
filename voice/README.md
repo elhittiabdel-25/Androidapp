@@ -9,3 +9,8 @@ pronunciation rules. The test cards ahl-sunna, thr-tahara and ram-fadl are kept 
 The earlier recordings (a feminine voice, runs up to 9) were removed and are not used.
 
 Push a change to `train.cfg` to start a run (.github/workflows/voice-train.yml); results go to the `voice-ft` release.
+
+Run 12 (2026-11-18, clarity): `c0000-c0355.wav` add 294 lines (37 min) voiced by the ORIGINAL Kareem for the texts where
+the speech check understood it well (WER <= 0.1) and the enhanced voice badly (WER >= 0.2); each is the take Whisper
+understood best, kept only at WER <= 0.1 (tools/tts/clarity_set.py on batch5). Resumes from run 11 (epoch 499) in
+stages of 50 epochs; the result replaces kareem-ft-e399 only if tools/tts/voice_eval.py finds it clearer.
