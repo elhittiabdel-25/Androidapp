@@ -7,7 +7,7 @@ plugins {
 }
 
 // Every CI build gets a higher versionCode (Play requires it to grow with each upload), and the
-// version people see carries the same number: build 69 is version 1.0.69.
+// version people see follows it: builds up to 100 were 1.0.<build>; from build 101 on it is 1.1.<build - 100>.
 val buildNumber = (System.getenv("GITHUB_RUN_NUMBER") ?: "1").toInt()
 
 // The upload key never lives in the repository: CI writes it from the repository secrets
@@ -24,7 +24,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = buildNumber
-        versionName = "1.0.$buildNumber"
+        versionName = if (buildNumber > 100) "1.1.${buildNumber - 100}" else "1.0.$buildNumber"
     }
 
     signingConfigs {
