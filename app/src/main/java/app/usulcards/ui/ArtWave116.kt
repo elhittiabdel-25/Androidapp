@@ -204,9 +204,9 @@ internal fun DrawScope.amdawaScene(a: ArtCtx) {
             drawOval(Color(0xFFF3E6C4), Offset(c.x - w * 0.1f, c.y - h * 0.035f), Size(w * 0.2f, h * 0.07f), alpha = f)
             drawCircle(Color(0xFFF3E6C4), w * 0.035f, Offset(c.x + w * 0.11f, c.y - h * 0.01f), alpha = f)
             speech116(Offset(c.x + w * 0.15f, c.y - h * 0.02f), w * 0.05f, 1f, Qn.GoldLight, f * seg(p, 0.15f, 0.3f), a.t)
-            tagAt(a.tag("amdawa3", 0, 0), Offset(w * 0.5f, h * 0.3f), f * seg(p, 0.2f, 0.35f), ink = ArtInk.Ivory)
+            tagAt(a.tag("amdawa3", 0, 0), Offset(w * 0.5f, h * 0.75f), f * seg(p, 0.2f, 0.35f), ink = ArtInk.Ivory)
             softGlow(c, w * 0.25f, Qn.GoldLight, 0.4f * f * seg(p, 0.55f, 0.75f))
-            tagAt(a.tag("amdawa3", 0, 1), Offset(w * 0.5f, h * 0.75f), f * seg(p, 0.6f, 0.75f), ink = ArtInk.Gold)
+            tagAt(a.tag("amdawa3", 0, 1), Offset(w * 0.5f, h * 0.2f), f * seg(p, 0.6f, 0.75f), ink = ArtInk.Gold)
         },
     )
 }
