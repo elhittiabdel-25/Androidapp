@@ -28,7 +28,9 @@ Read this instead of exploring. Keep replies short; the owner is a visual learne
 - New cards (from 2026-11-15) use the enhanced Kareem: `kareem-ft-e399.onnx` (+ `.onnx.json`) from the `voice-ft`
   release (fine-tuned on the owner's 51 min of reading, 400 epochs; as clear as Kareem, the owner's melody). Before
   voicing, download it over `$TTS_TOOLS/vits-piper-ar_JO-kareem-medium/ar_JO-kareem-medium.onnx` (keep the original
-  as `.base.onnx`). Old cards keep their clips (REUSE_AUDIO) until the owner asks to re-voice them all.
+  as `.base.onnx`). About 2000 older clips are still the old Kareem (kept where the speech check heard them better); it is slower,
+  so the app plays the clips listed in assets/audio/old-kareem.txt at 1.25x (tools/tts/old_voice.py, run by
+  finish_pack.py). The speed menu still shows x1.
 - Training: branch `voice-train`, workflow voice-kaggle (Kaggle GPU via secret KAGGLE_JSON; push voice/kaggle.cmd).
 
 ## Saving tokens

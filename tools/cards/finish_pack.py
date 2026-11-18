@@ -1066,3 +1066,6 @@ def build(path):
 if __name__ == "__main__":
     default = os.path.join(HERE, "..", "..", "app", "src", "main", "assets", "content", "cards.json")
     build(sys.argv[1] if len(sys.argv) > 1 else default)
+    # the clips still in the old Kareem voice, which the app plays 1.25x faster
+    import subprocess
+    subprocess.run([sys.executable, os.path.join(HERE, "..", "tts", "old_voice.py")], check=True)

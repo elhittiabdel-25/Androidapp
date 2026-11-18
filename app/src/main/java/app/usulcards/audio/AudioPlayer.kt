@@ -24,6 +24,9 @@ data class PlayItem(val asset: String, val key: String)
 /** The card to play after the current one in continuous listening: its id, title and clips. */
 data class NextCard(val owner: String, val title: String, val items: List<PlayItem>)
 
+/** The old Kareem voice is slower than the enhanced one: its clips play this much faster at the same chosen speed. */
+private const val OLD_VOICE_RATE = 1.25f
+
 /**
  * Plays a queue of short clips one after another (one per sentence, or one per verse), exposing the key
  * of the clip being played so the matching sentence can be highlighted.
@@ -78,10 +81,21 @@ class AudioPlayer private constructor(private val app: Context) : PlaybackView {
         null
     }
 
+    /** Clips still in the old Kareem voice (assets/audio/old-kareem.txt): it speaks slower, so it plays 1.25x faster. */
+    private val oldVoice: Set<String> by lazy {
+        try {
+            app.assets.open("audio/old-kareem.txt").bufferedReader().readLines().filter { it.isNotBlank() }.toSet()
+        } catch (e: Exception) {
+            emptySet()
+        }
+    }
+
     /** The card voice plays at the chosen speed and lifted gain; a Quran recitation at its own pace (×1), no gain. */
     private fun applySpeed(item: MediaItem?) {
-        val verse = item?.localConfiguration?.uri?.path?.contains("/quran/") == true
-        val s = if (verse) 1f else voiceSpeed
+        val path = item?.localConfiguration?.uri?.path.orEmpty()
+        val verse = path.contains("/quran/")
+        val old = path.removePrefix("/") in oldVoice
+        val s = if (verse) 1f else voiceSpeed * (if (old) OLD_VOICE_RATE else 1f)
         if (exo.playbackParameters.speed != s) exo.setPlaybackSpeed(s)
         try { boost?.setTargetGain(if (verse) 0 else VOICE_GAIN_MB) } catch (e: Throwable) { }
     }
