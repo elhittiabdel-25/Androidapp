@@ -1,1 +1,1 @@
-status reiman-voice-train3 3 reiman-voice-train2 50 x222949
+status reiman-voice-train3 3 reiman-voice-train2 50 x000208
