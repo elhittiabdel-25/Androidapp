@@ -47,6 +47,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
@@ -60,6 +61,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -100,6 +102,7 @@ fun CardView(
     val learned = card.id in progress.learned
     val saved = card.id in progress.saved
     var sharing by remember(card.id) { mutableStateOf(false) }
+    val glossOpen = remember(card.id) { mutableStateOf<String?>(null) }   // the hard word whose bubble is open
     // highlight only this card's own voice (in continuous listening the next card may already be speaking)
     val playingKey = player.currentKey.takeIf { player.owner == null || player.owner == card.id }
     fun shown(target: String, plain: String) = if (progress.showDiacritics) card.diac[target] ?: plain else plain
@@ -145,8 +148,16 @@ fun CardView(
                     withStyle(SpanStyle(background = bg)) { append(shown("face:$i", s)) }
                 }
             }
-            Text(
+            // hard words: each one is marked once on the card, at its first place (face, then the deeper layer)
+            val (faceHits, deepHits) = remember(card.id, progress.showDiacritics) {
+                val taken = HashSet<String>()
+                findGlosses(face.text, card.gloss, taken) to
+                    card.deeper.mapIndexed { i, d -> findGlosses(shown("deeper:$i", d), card.gloss, taken) }
+            }
+            GlossText(
                 face,
+                faceHits,
+                glossOpen,
                 style = TextStyle(fontFamily = Fonts.naskh, fontSize = 19.sp, lineHeight = 36.sp, color = pal.ink),
                 onTextLayout = { follow?.faceText(card.id, it, starts) },
                 modifier = Modifier.onGloballyPositioned { follow?.placeFace(card.id, it.positionInRoot().y) },
@@ -168,7 +179,7 @@ fun CardView(
                 enter = expandVertically(tween(320)) + fadeIn(tween(320)),
                 exit = shrinkVertically(tween(220)) + fadeOut(tween(160)),
             ) {
-                DeepLayer(card, repo, progress, playingKey, follow, { t: String, p: String -> shown(t, p) }, onRelated, onPlayVerse)
+                DeepLayer(card, repo, progress, playingKey, follow, { t: String, p: String -> shown(t, p) }, onRelated, onPlayVerse, glossOpen, deepHits)
             }
 
             if (card.quiz.choices.size >= 2) {
@@ -193,6 +204,8 @@ private fun DeepLayer(
     shown: (String, String) -> String,
     onRelated: (String) -> Unit,
     onPlayVerse: (List<String>, String) -> Unit,
+    glossOpen: MutableState<String?>,
+    deepHits: List<List<GlossHit>>,
 ) {
     val pal = LocalPalette.current
     val ctx = LocalContext.current
@@ -207,8 +220,10 @@ private fun DeepLayer(
                 ) {
                     Text("•", color = pal.accent, fontSize = 18.sp, modifier = Modifier.padding(top = 4.dp))
                     Spacer(Modifier.width(8.dp))
-                    Text(
-                        shown("deeper:$i", d),
+                    GlossText(
+                        AnnotatedString(shown("deeper:$i", d)),
+                        deepHits.getOrElse(i) { emptyList() },
+                        glossOpen,
                         style = TextStyle(fontFamily = Fonts.naskh, fontSize = 17.sp, lineHeight = 32.sp, color = pal.ink),
                         modifier = Modifier
                             .clip(RoundedCornerShape(6.dp))

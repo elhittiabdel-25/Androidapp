@@ -19,6 +19,7 @@ from scenes import SCENES                      # noqa: E402
 from categories import CATEGORIES              # noqa: E402
 from shelf import SHELF                        # noqa: E402
 from quiz_choices import QUIZ                  # noqa: E402
+from gloss import GLOSS                        # noqa: E402
 from build_content import spoken, letters      # noqa: E402
 from variety import codex_errors, variety_report, STRICT   # noqa: E402
 
@@ -1016,6 +1017,42 @@ def vowelled(cid, s, texts, vocab):
     return v
 
 
+HARAKAT = re.compile(r"[\u064b-\u0652\u0670\u0640]")
+LETTER = re.compile(r"[\u0621-\u064a\u0671]")
+
+
+def add_glosses(pack, cards):
+    """Hard words of each card (tools/cards/gloss.py): each must appear in the card's face or deeper text as a whole
+    word (one prefix letter و ف ب ل ك allowed), have full tashkeel, and its explanation must be one short sentence."""
+    for cid, items in GLOSS.items():
+        c = cards.get(cid)
+        if c is None:
+            err("gloss", f"{cid}: no such card"); continue
+        text = HARAKAT.sub("", " ".join([c["face"]] + c["deeper"]))
+        out, seen = [], set()
+        for w, d in items:
+            bare = HARAKAT.sub("", w)
+            if bare in seen:
+                err("gloss", f"{cid}: «{w}» twice"); continue
+            seen.add(bare)
+            found = False
+            for m in re.finditer(re.escape(bare), text):
+                a, b = m.start(), m.end()
+                pre = text[a - 1] if a else " "
+                start_ok = not LETTER.match(pre) or (pre in "وفبلك" and (a < 2 or not LETTER.match(text[a - 2])))
+                end_ok = b >= len(text) or not LETTER.match(text[b])
+                if start_ok and end_ok:
+                    found = True; break
+            if not found:
+                err("gloss", f"{cid}: «{w}» is not a word of the card's text")
+            if not re.search(r"[\u064b-\u0652]", w) or len(re.findall(r"[\u064b-\u0652]", d)) < len(LETTER.findall(d)) // 2:
+                err("gloss", f"{cid}: «{w}» needs tashkeel on the word and its explanation")
+            if not d.endswith(".") or len(d) > 140 or re.search(r"[٠-٩]", d):
+                err("gloss", f"{cid}: «{w}» explanation must be one short sentence ending with . (Western digits)")
+            out.append({"w": w, "d": d})
+        c["gloss"] = out
+
+
 def build(path):
     pack = json.load(open(path, encoding="utf-8"))
     speech = json.load(open(os.path.join(HERE, "..", "tts", "speech.json"), encoding="utf-8"))
@@ -1144,6 +1181,7 @@ def build(path):
     for b in shelf:
         if b["book"] not in pack["books"]:
             err("shelf", f"book {b['id']}: source {b['book']} is not in the pack's books")
+    add_glosses(pack, cards)
     pack["categories"] = CATEGORIES
     pack["shelf"] = shelf
     problems, summary = variety_report(pack["cards"], SCENES)

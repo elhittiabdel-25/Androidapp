@@ -39,6 +39,9 @@ data class AudioSeg(val key: String, val target: String, val layer: String, val 
  *  With no choices the card falls back to the older self-graded flip. */
 data class Quiz(val q: String, val a: String, val choices: List<String> = emptyList())
 
+/** A hard word of the card and its short explanation, shown in a bubble when the word is tapped. */
+data class Gloss(val word: String, val def: String)
+
 /**
  * One element of a card animation. It appears when the card's audio reaches clip [at]
  * (e.g. "face-0") and that clip has played [frac] of its length; with no audio the scene previews by itself.
@@ -101,6 +104,7 @@ data class Card(
     val audio: List<AudioSeg>,
     val diac: Map<String, String>,   // vowelled text by target ("title", "face:0", "deeper:1", "hadith:0")
     val scene: Scene?,
+    val gloss: List<Gloss> = emptyList(),
 ) {
     val needsReview: Boolean get() = verify.any { it.level == "review" }
     val books: List<String> get() = sources.map { it.book }.distinct()
@@ -245,6 +249,7 @@ class ContentRepo(
                 },
                 diac = diacJson.keys().asSequence().associateWith { diacJson.getString(it) },
                 scene = o.optJSONObject("scene")?.let { parseScene(it) },
+                gloss = (o.optJSONArray("gloss") ?: JSONArray()).objects().map { Gloss(it.getString("w"), it.getString("d")) },
             )
         }
 
