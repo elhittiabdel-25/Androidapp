@@ -126,5 +126,26 @@ jobs:
             --notes-file notes.md \
             --latest
 
+      # Google Play: the same .aab goes straight to the production track, with the notes in
+      # distribution/whatsnew (whatsnew-ar, whatsnew-en-US, 500 characters each). Skipped until the
+      # repository secret PLAY_SERVICE_ACCOUNT_JSON (a Play Console service account key) exists.
+      - name: Is Google Play upload set up?
+        id: play
+        env:
+          PLAY_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        run: |
+          if [ -n "$PLAY_JSON" ] && [ -n "$UPLOAD_KEYSTORE_PATH" ]; then echo "ready=yes" >> "$GITHUB_OUTPUT"; else echo "ready=no" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Send to Google Play (production)
+        if: steps.play.outputs.ready == 'yes'
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: app.reiman
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          track: production
+          status: completed
+          whatsNewDirectory: distribution/whatsnew
+
       # No artifact copy: the release above is the delivery, and release files are not counted in the
       # Actions storage quota (500 MB on the free plan), where 136 MB copies of every build filled it.

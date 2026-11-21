@@ -6,7 +6,9 @@ Read this instead of exploring. Keep replies short; the owner is a visual learne
 - Western digits only (0-9), everywhere. «توحيد الألوهية», never «الإلهية». Contact: Reiman.app@gmail.com.
 - Work on branch `batch5`; intermediate commits end the subject with `[skip ci]`. Release = one push to `main` without it
   (`git push origin HEAD:main HEAD:batch5`); CI builds the .aab into GitHub Releases. Then send release notes (ar + en,
-  `<ar>…</ar><en-US>…</en-US>`) and remind: publish on internal AND closed (Alpha) tracks.
+  `<ar>…</ar><en-US>…</en-US>`). Testing tracks are paused: releases go to Production. Before a release, write the
+  notes into distribution/whatsnew/whatsnew-ar and whatsnew-en-US (≤500 chars); once the secret
+  PLAY_SERVICE_ACCOUNT_JSON exists, CI uploads the .aab to Production itself, else the owner uploads it by hand.
 - Cards on a science (mustalah, transactions, inheritance, tajwid, usul): the owner finds them hard, so each one also
   gets plain explanation and worked examples ("مِثَالُهُ: …") from the same source pages, not only definitions.
 - Visual codex: tools/cards/CODEX.md (Allah never drawn; the Prophet ﷺ only a named light; companions = roundels).
