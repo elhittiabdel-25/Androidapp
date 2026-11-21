@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Status-bar icon for the daily reminder: the app's mark, cropped to 24dp (the system tints it). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="56"
+    android:viewportHeight="56">
+    <group android:translateX="-26" android:translateY="-26">
+        <path
+            android:pathData="M73.745,42.6 A22.8,22.8 0 1,1 54,31.2"
+            android:strokeColor="#FFFFFFFF"
+            android:strokeWidth="5"
+            android:strokeLineCap="round" />
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M61.2,31.2 L52.8,24.96 L52.8,37.44 Z" />
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M45.09,45.09 L62.91,45.09 L62.91,62.91 L45.09,62.91 Z" />
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M54,41.4 L66.6,54 L54,66.6 L41.4,54 Z" />
+    </group>
+</vector>

@@ -1,0 +1,1205 @@
+"""Finish the app's content pack (run after tools/tts/build_content.py): add the module categories from
+categories.py, the card animations from scenes.py and the quizzes from quiz_choices.py.
+
+    python3 tools/cards/finish_pack.py [path/to/cards.json]     (default: the app's assets, edited in place)
+
+Categories: every path used by a card must be in exactly one category.
+
+For each item it finds the cue word in the spoken text of its clip and stores how far into the clip it is
+(`frac`, a little early so the item lands with the word). Labels written without harakat are copied, vowelled,
+from the card's own text. Fails on a missing cue, an unknown clip, items out of time order, or text it
+cannot vowel; prints a note when a hand-vowelled word differs from the same word in the card.
+"""
+import json, os, re, sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+sys.path.insert(0, os.path.join(HERE, "..", "tts"))
+from scenes import SCENES                      # noqa: E402
+from categories import CATEGORIES              # noqa: E402
+from shelf import SHELF                        # noqa: E402
+from quiz_choices import QUIZ                  # noqa: E402
+from gloss import GLOSS                        # noqa: E402
+from build_content import spoken, letters      # noqa: E402
+from variety import codex_errors, variety_report, STRICT   # noqa: E402
+
+MARKS = "ًٌٍَُِّْٰ"
+HARAKA = re.compile(f"[{MARKS}]")
+LEAD = 0.03          # show each item slightly before its word
+TYPES = {"steps", "sides", "chain", "timeline", "circles", "meter", "transform", "moon", "stars", "art"}
+# illustrated scenes: the beats each one needs (kind: how many), or for shared templates the kinds it knows
+ART = {
+    "key": {"key": 1, "tooth": 7, "open": 1},
+    "rope": {"rope": 3, "cut": 1, "hold": 1, "meaning": 1},
+    "ship": {"lord": 1, "ease": 1, "storm": 1, "later": 1, "storm2": 1},
+}
+ART_KINDS = {
+    "lantern": {"lamp", "gust", "glass", "dome", "grow", "dim", "ember", "out", "shatter", "say", "gaze", "hidden",
+                "return", "charm", "bind", "untie", "many", "bond", "sever"},
+    "trail": {"origin", "up", "lamp", "mark", "good", "bad", "follow", "follow2", "hole", "stray", "idols", "keep",
+              "omen", "turn", "word", "goal", "lands", "open", "stuck", "walk", "show", "door", "swap", "light"},
+    "ridge": {"stone", "pit", "lean", "walk"},
+    "tree": {"root", "trunk", "crown", "fruit", "storm", "hold", "calm", "shed", "bad", "wail"},
+    "streams": {"basin", "stream", "divert", "curse", "block", "near"},
+    "building": {"base", "pillars", "course", "roof", "glow", "light", "house", "rival", "fall", "crack", "lock",
+                 "lower", "wall", "name", "raise", "word", "level", "palace", "brick", "siraj"},
+    "gate": {"trumpet", "rise", "lights", "filter", "scrolls", "scale", "bridge", "pass", "trait", "gate", "gatein", "seal",
+             "shut", "open", "noprice"},
+    "shrine": {"lamp", "excess", "names", "out", "stone", "idol", "forget", "dome", "feast", "tree", "rock", "shirk",
+               "steps", "copy", "takbir", "ask", "garden", "pit"},
+    "hourglass": {"glass", "gold"},
+    "night": {"book", "cloud", "nights", "towers", "roll", "shrink", "note", "layers", "quake", "calm", "truth", "nocall",
+              "adorn", "shoot", "guide", "credit", "rain", "descend", "recite", "keep", "write", "will", "create",
+              "trumpet", "ring", "name", "reject", "smoke", "sunwest", "sink", "fire", "journey", "ascend", "fifty"},
+    "grain": {"grain", "challenge", "breath"},
+    "vessels": {"cup", "equal", "first", "drain", "seal"},
+    "cave": {"cave", "sun", "follow", "false"},
+    "chart": {"axis", "gain", "loss", "floor", "sins", "cross", "seed"},
+    "circuit": {"power", "breaker", "trip", "guard"},
+    "verdict": {"walker", "forced", "void", "less", "will", "echo"},
+    "board": {"core", "pin"},
+    "watch": {"fog", "shield", "wisp", "close"},
+    "crowd": {"march", "shout", "arrive", "quiet"},
+    "deeds": {"pray", "eyes", "khafi", "returned", "left"},
+    "camp": {"camp", "kufr", "joke", "tabuk"},
+    "gifts": {"other", "self", "deny", "thank"},
+    "amulet": {"hang", "snip", "page", "pure"},
+    "knots": {"stones", "pair", "knotted", "fake", "cure"},
+    "lights": {"same", "unlike", "lit", "burn"},
+    "ranks": {"rank", "veil", "reward"},
+    "pillars": {"node", "branch"},
+    "neon": {"ijma", "banned", "slaves", "allowed"},
+    "oath": {"swear", "pardon", "topple", "plea", "tasbih"},
+    "kin": {"self", "foe", "kin", "love", "hate"},
+    "ink": {"inscribe", "lean", "base"},
+    "lens": {"sheet", "lens", "match", "add"},
+    "zellige": {"liken", "fit", "freehand", "extend"},
+    "study": {"doubt", "tread", "guess", "derive"},
+    "canyon": {"carve", "trapped", "bury"},
+    "map": {"spiral", "old", "caliphs"},
+    "books": {"pile", "single", "stack"},
+    "caravan": {"slip", "around", "defy"},
+    # round 1 of the redraw
+    "athar": {"dawnlight", "prints", "sidepath", "eras"}, "delta": {"oneriver", "fork", "fray", "onekept"},
+    "loom": {"knots72", "caliphs4", "ebb"}, "sabil": {"spout", "pipe", "drink"}, "shore": {"horizon", "scoop", "yield"},
+    "ruler": {"sortout", "trace", "veer"}, "mosque": {"differ", "clasp", "behind", "leave"},
+    "maze": {"coolwell", "climb", "regret"}, "field": {"sow", "harvest", "winnow"},
+    "street": {"against", "mend", "lonewindow"},
+    # round 2
+    "atelier": {"chisel", "steal", "unheard", "daughter", "nothing"}, "heavens": {"heights", "tremble", "stillness", "relay", "callup"},
+    "chamber": {"bedside", "call", "sway", "verse", "padlock", "guideway"}, "scroll": {"towers", "furl", "crumble", "ruins"},
+    # round 3
+    "majlis": {"quarrel", "tawqif", "flint", "refer", "settle"}, "lane": {"knock", "teach", "debater", "tug"},
+    "hilltop": {"mindfog", "doubtspark", "revealed", "creation"}, "wayside": {"sinner", "unharmed", "zealot", "getup", "sound"},
+    # round 4
+    "flock": {"fold", "unloop", "astray", "gather", "mercy"}, "deck": {"heave", "badorder", "refuse", "carryon", "pledge"},
+    "dam": {"picks", "repent", "incline", "breach", "flood"}, "aerial": {"rows", "scatter", "regroup"},
+    "souk": {"cheat", "three", "sheathe", "swords"}, "bridge": {"warn", "both", "silent", "unravel"},
+    "refuge": {"strife", "stayin", "banners", "melee", "shutters", "seated"},
+    # round 5
+    "sapling": {"rooted", "wilt", "cloche", "axe", "paint"}, "return": {"opendoor", "turnquit", "regretresolve", "westsun", "doorshut"},
+    # round 6
+    "shelfshop": {"shelves", "swaptags", "obeyfollow", "dais", "explained"}, "lawh": {"oath", "wawa", "thumma", "lawla"},
+    "plaza": {"gust", "greet", "resolve", "askjanna", "give"}, "stall": {"oathsell", "dust", "alone", "fortress", "keepseal"},
+    "tent": {"praise", "reply", "whisper", "station"},
+    "astrolabe": {"ringgeneral", "ringcovenant", "ringlife", "ringyear", "ringday"},
+    "stage": {"marionette", "jitter", "selfmade", "sower", "praised"},
+    "eden": {"blame", "decree", "repented", "twoways", "bothways"},
+    "casket": {"pry", "sealed", "submit", "followsaid", "hush"},
+    "threads": {"pedestal", "putfirst", "beloved", "family"},
+    "carpet": {"backside", "despair", "turnover", "hamd"},
+    "bird": {"wingfear", "winghope", "headlove", "loveonly", "fearonly", "hopeonly", "soar"},
+    "globe": {"pureheart", "earthful", "forgiven", "unmixed", "safeway"},
+    "plain": {"refine", "straightin", "noruqya", "nocautery", "noomen", "rely"},
+    "river": {"torrent", "holdidol", "holdbanner", "holdcrown", "letgo", "firmhold", "twowords"},
+    "milla": {"outmilla", "inmilla", "belie", "conceal", "haughty", "twoface"},
+    "booth": {"fortune", "cutoff", "askonly", "unaccepted"},
+    "omenroad": {"crowfly", "turnhome", "goodword", "liked"},
+    "pitroad": {"road10", "pitfall", "beware"},
+    "mankind": {"created", "worshiponly", "sent", "obeyed", "disobeyed"},
+    "obey4": {"guide4", "obeycmd", "believe", "avoid", "asshown"},
+    "triptych": {"rububiyya", "rubopp", "uluhiyya", "ulopp", "asma", "asmopp"},
+    # the books section: «بصائر»، الجزء الأول
+    "locks": {"volumes", "arch", "tenlocks", "eleventh", "masterkey"},
+    "roads": {"tworoads", "wird", "tafsir", "nextyear", "calmheart", "race", "sincere", "steps3", "satchel"},
+    "fork": {"deny5", "atheist", "deist", "agnostic", "indifferent", "allfour"},
+    "centuries": {"ages", "twist", "trustlost", "thinkers", "newcoat"},
+    "cosmos": {"monolith", "nothingness", "bang", "fromnothing", "itself", "hascreator", "bubbles", "bubblestart", "dice",
+               "nodice", "twoboxes", "notempty", "energyfloor", "pairs", "sealedbox", "insidebox", "zerosum", "cooling", "deadborn"},
+    "billiard": {"formula", "noclock", "emptytable", "balltrace", "noproduce"},
+    "dominoes": {"domino", "blurorder", "fuzzy", "steady", "civ", "whomade", "regress", "soldiers", "nobullet"},
+    "panels": {"frames", "made", "orchid", "care"},
+    "forge": {"thrift", "vast", "forgeiron"},
+    "scales": {"tiny", "balance", "trust"},
+    "desert": {"planets", "forest", "sandchip", "letters"},
+    "cell": {"helix", "readout", "nomatter", "whence", "livecell", "inject", "insideonly", "notmade"},
+    "planks": {"chasm", "gapsbridge", "solid", "infoblocks"},
+    "lab": {"waitdoor", "labfail", "prize"},
+    "screen": {"scramble", "target", "designer"},
+    "kunafa": {"eyerow", "meteor", "rainmix", "lavabake", "baker"},
+    "sieve": {"quotecard", "loop", "othercause"},
+    "kitchen": {"pool", "pantry", "twotrays", "beaks"},
+    "karyotype": {"counts", "fuse", "potato", "lineage"},
+    "anatomy": {"list180", "shrinklist", "glands", "graph"},
+    # round 14: «الصفات واليوم الآخر»
+    "heights": {"above", "withall", "notmixed", "moonwalk"},
+    "revelation": {"sendown", "reciters", "memorize", "mushaf"},
+    "gaze": {"lookup", "veiled", "infer"},
+    "resurrection": {"horn", "arise", "scrollsfly", "weigh", "sirat"},
+    "nameswall": {"husna", "idolnames", "tashbih", "emptied"},
+    "register": {"fromtext", "byopinion", "qadim", "awwal"},
+    "unseen": {"known", "sealdoor", "denyknown", "claim", "onlyallah"},
+    "tensigns": {"tenring", "sixsigns", "sinkings", "yemenfire"},
+    "barzakh": {"twoangels", "threeq", "answers", "rawda", "hufra"},
+    # round 15: «الشرك ووسائله»
+    "fourrules": {"rulebook", "ruleone", "ruletwo", "rulethree", "rulefour"},
+    "anwat": {"lotetree", "sunanpath", "askanwat", "takbirsunan"},
+    "offering": {"twopaths", "cursed", "vowkeep", "vowbreak"},
+    "storm": {"duasea", "refugeonly", "shrinecall", "livinghelp"},
+    "twoseals": {"sealedgate", "permit", "pleased", "refused", "ikhlasopen"},
+    "plaingrave": {"nodome", "nofeast", "noidol"},
+    "footsteps": {"oldprints", "featherpair", "joinpagans", "bowidols", "firmgroup"},
+    # round 16: «أركان الإيمان»
+    "sixroots": {"threeroots", "threemore", "branchout"},
+    "courts": {"enter", "court5", "court6", "court1"},
+    "verseguard": {"affirmverse", "nobend", "nohow"},
+    "heartjar": {"fillup", "sinkdrop", "stillfaith", "lawfulcrack", "mustard"},
+    "decree": {"allknown", "written", "willed", "allcreated"},
+    "wholeman": {"threeparts", "nodeeds", "tongueonly", "heartonly"},
+    "heartlights": {"samelight", "unequal", "brightthree", "dimtwo", "burnaway"},
+    "threelives": {"ranks", "jibril", "mikail", "israfil", "scribes"},
+    # round 17: «معرفة النبي ﷺ»
+    "twolands": {"crossover", "neverclosed", "excused"},
+    "proofscroll": {"refusegold", "trusted", "fewtomany", "reproach", "saferider"},
+    "lastbrick": {"sealofall", "liars", "palacegap", "lastone", "toall"},
+    "nightjourney": {"nightride", "ledprayer", "sevenheavens", "lotetop", "fiftytofive"},
+    # round 18: «منهج أهل السنة»
+    "allegiance": {"believer", "nobond", "evenkin", "loveandhate"},
+    "companions": {"fourfirst", "theten", "allcompanions", "holdtongue", "tworewards", "bestgens"},
+    "jamaa": {"bidgood", "keeprows", "withleaders", "onewall"},
+    "household": {"household", "mothers", "notlahab", "noexcess", "nosaving"},
+    # round 19: «السنة والبدعة»
+    "twowings": {"sideroad", "twowings", "nosincere", "nofollow"},
+    # «بصائر»، الجزء الثاني (batch 7)
+    "dawnfear": {"fearstorm", "fourq", "sameday", "grandeur", "ownsource"},
+    "spring": {"spring", "muddy", "witness", "fromabove"},
+    "elephant": {"blindsix", "parts", "pullout", "overview"},
+    "detector": {"embers", "cage", "cageopen", "plate", "plateglow"},
+    "safa": {"twopoles", "safahill", "witnessed", "samethread"},
+    "mistpath": {"impossible", "wonder", "align", "sunsea"},
+    "tawatur": {"sparks", "converge", "pot", "ringclose"},
+    "brethren": {"twobranch", "ishmaellight", "likemusa", "falsefade", "fulfilled"},
+    "threepeaks": {"sinai", "seir", "paran", "names3", "tin"},
+    "kedar": {"servant", "quietstreet", "eyesopen", "kedarhomes", "selasong"},
+    "openhouse": {"flocks", "dayandnight", "welling", "pilgrims"},
+    "vineyard": {"vineyard", "newkeepers", "rejected", "cornerset", "lastlit"},
+    "statue": {"statue", "handless", "fillearth", "kingdoms"},
+    "sceptre": {"sceptre", "handover", "linedark", "unshackle"},
+    "awaited": {"yathrib", "cell", "throne", "twelve"},
+    "overseer": {"overbook", "strikeone", "striketwo", "strikethree", "ezra"},
+    "myths": {"manyverses", "radiator", "sevenhorses", "clean"},
+    "gates": {"beacon", "gateone", "gatetwo", "gatethree"},
+    "nebula": {"primalsea", "dukhan", "condense", "fabric", "widen"},
+    "earthmoon": {"breathe", "moonfade", "innerwave", "waterlife"},
+    "twowaters": {"curdle", "mixing", "extract", "stages"},
+    "spine": {"coccyx", "streak", "sinks", "joints"},
+    "nightglobe": {"openquran", "onelight", "everyhouse", "daily"},
+    "listener": {"offers", "fussilat", "returns", "heartrise"},
+    "challenge": {"dare", "spears", "pearls", "depth"},
+    "lifeline": {"dense", "links", "topofhundred"},
+    "darkvale": {"darkvale", "swapstone", "daybreak", "rights"},
+    "foretold": {"secret", "sixmonths", "fleet", "hira", "martyrs"},
+    "siffin": {"twobricks", "twocamps", "alarm", "certain"},
+    "conquests": {"quds", "threelands", "constantinople", "aman"},
+    "skyline": {"shepherds", "skyward", "markets", "foam"},
+    "greenarabia": {"greening", "buriedrivers", "goldpillars", "belowzero"},
+    "fogstones": {"twoages", "fewfog", "threeorigins", "cellglow"},
+    "sunproof": {"askingsky", "heartsun", "seekpath", "noexam", "threedoors"},
+    "postman": {"pillarhawa", "dimheart", "doubtsfall", "twodoors"},
+    "acidbase": {"shouldnot", "reaction", "braingears", "threepillars", "innocentwall"},
+    "clinic": {"threefogs", "diploma", "prescription", "proofsealed", "deadleaf"},
+    "popcorn": {"popthoughts", "oneq", "hydra", "fuelfire", "sarih"},
+    "madroad": {"seekrefuge", "roadshout", "morebubbles", "ignorefade", "mirage"},
+    "trialroad": {"trialworld", "fishdry", "freechoice", "syringe", "threadlong"},
+    "thermo": {"threethermo", "sumthermo", "mediapile", "dividedblessings", "needdua"},
+    "fourgates": {"fourways", "foxhole", "greatestway", "readybefore"},
+    "examtrain": {"amanah", "nomodel", "trainride", "threequestions"},
+    "lifeguard": {"doctorfree", "rescue", "forus", "fruitprayer"},
+    "howwhy": {"orderlyworld", "howtools", "whysilent", "onlygod", "jabirflask"},
+    "twopaths": {"citadel", "fairscales", "forkroads", "addict", "stepmore"},
+    "teacherdesk": {"cutstrings", "teacher", "forward", "messengers", "willinside"},
+    "steadyrevelation": {"seizurewave", "blank", "verseorder", "onmount", "eclipse"},
+    "isolatedbox": {"breaknorm", "glassbox", "notisolated", "qudsraised", "latescroll"},
+    "stormcause": {"cloudangel", "whychain", "mechanism", "boilpot", "wingsfaith"},
+    "datedscrolls": {"claimscroll", "timeline629", "meccankahf", "farchurch"},
+    "tworams": {"eastwest", "idolhorns", "twohorns", "danielram", "opendoors"},
+    "dotsvoice": {"movedots", "amateur", "voicechain", "rootqara"},
+    "palimpsest": {"mosquefind", "erasedpage", "inhearts", "isnadchain"},
+    "sevenstreams": {"sevenbranches", "twocompanions", "bothright", "choosebranches", "dottedpapyrus"},
+    "stairsteps": {"ransomram", "graduated", "stilltrue", "willthird", "fewnine"},
+    "sunbow": {"sunorbit", "ceilingall", "allbow", "behindhill"},
+    "caveboulder": {"boulder", "delayed", "centuryanswer", "tatarmosques"},
+    "wagesroom": {"serveother", "failgrade", "dustworks"},
+    "justscale": {"exactscale", "mustardgrain", "praiseheart", "messengersfirst"},
+    "templesands": {"statues", "nostatue", "steles", "medinamarks"},
+    "twoladders": {"materialscale", "civculture", "longestciv", "qarawiyyin", "uhudlesson"},
+    "bridgegap": {"scrollaway", "onerakah", "sunnabridge", "explains", "qiblaturn"},
+    "scrollrack": {"claim200", "sahifa", "twocopies", "fiftytwo", "twentythousand"},
+    "chainlinks": {"everyletter", "fiveconditions", "missinglink", "travel"},
+    "onemessenger": {"classify", "eyewitness", "qubaturn", "envoys", "muezzin"},
+    "cloakfull": {"closest", "cloak", "marwantest", "eighthundred"},
+    "hundredswap": {"olderbooks", "swapped", "restored", "witnessgate"},
+    "courtgate": {"exemptions", "turnaway", "safewall", "fourwitness", "coverveil"},
+    "emptyhouse": {"leftlittle", "bilaldebt", "fourcamels", "goldaway"},
+    "lamphouses": {"onlyone", "wisdoms", "rooms"},
+    "threeparts": {"quarters", "jahilidark", "lifestages", "ownpurse", "shaqaiq"},
+    "shieldtent": {"standingfor", "shieldspend", "ownbox", "consent", "harmony"},
+    "ledgerscale": {"tradeledger", "cradle", "obligations", "roadsign"},
+    "fairhouses": {"bondvs", "justicecond", "tilted", "equalnights", "khadijaonly"},
+    "truemeasure": {"courtfall", "samebook", "truthsame", "selfsaw", "aboveref"},
+    "brainset": {"executor", "penfield", "filterpaper", "tvset", "spirit"},
+    "falsewaves": {"tunecosmos", "noask", "threecures", "springmass", "plusminus"},
+    "whymuslim": {"innate", "manyproofs", "onlydoor", "palmtrunk", "springwater", "rebuilt"},
+    "surrender": {"prophetsrow", "twoconds", "fourrakah", "stonesbow", "sharedship", "khatma"},
+    "parentsgate": {"bestdeeds", "mother3", "rughim", "fihima", "midgate"},
+    "kinthreads": {"hangs", "widens", "reconnect", "twofold"},
+    "neighbors": {"counsel", "harm", "nearest", "broth", "beam"},
+    "orphangarden": {"together", "threeranks", "weakroots", "twodaughters", "quietpoor"},
+    "homeledger": {"bestrank", "sharetable", "weighflaw", "homelight", "firstdinar"},
+    "sixrights": {"sixfirst", "sixrest", "onebody", "building", "restrain"},
+    "sickroom": {"visit", "orchard", "threeacts", "angels"},
+    "reconcile": {"whispers", "justice", "mendword", "village", "debt"},
+    "heavyscale": {"heaviest", "twokeys", "threetraits", "fastrank", "twohouses"},
+    "gentlerain": {"twotraits", "rainvsflood", "bucket", "signposts", "zanahu"},
+    "pardonbook": {"threenever", "strongman", "mountains"},
+    "townsquare": {"speck", "beautyok", "levelout", "childrenlead", "sinkdown"},
+    "truthroad": {"toberr", "tofujur", "fourcalls", "market", "bedrank"},
+    "mercyrain": {"kiss", "mirrorrain", "babycry", "stoneheart"},
+    "guestnight": {"basinfill", "twolights", "nevernot", "lampout", "onecloth", "shoulder"},
+    "brightface": {"smallgood", "halfdate", "drawnear", "listen", "goodnews"},
+    "tonguegate": {"safering", "twolocks", "fallword", "riseword", "organs"},
+    "backbite": {"absent", "twoverdicts", "coal", "inkdrop", "shieldback"},
+    "rumorchain": {"sieve", "falsedream", "passedon", "fourmarks", "twograins"},
+    "cursereturn": {"fournot", "boomerang", "shutgates", "freecamel", "noaid"},
+    "turnback": {"backs", "greetfirst", "records", "sowing"},
+    "salamstreet": {"lovechain", "plateall", "whofirst", "tens", "quietnight"},
+    "threeknocks": {"threetimes", "aside", "askin", "sayname", "grownchild"},
+    "sharedtray": {"yourside", "latename", "noblame", "threebreaths", "rightward", "nosupper"},
+    "majlisring": {"makeroom", "atedge", "clearing", "threesit", "remembered"},
+    "wakedawn": {"wakeup", "sleepsister", "nightwake", "lastten"},
+    "newrobe": {"comesdown", "threegarments", "wornrenewed", "curtain", "rightsleeve"},
+    "eightgates": {"inout", "namedwater", "eightdoors", "twopure"},
+    "threewords": {"threewords", "threegifts", "homegreet", "pitfalls"},
+    "rightfoot": {"rightin", "leftout", "fourlights", "keptsafe", "manylights"},
+    "afterprayer": {"salamturn", "hundred", "nobarrier", "threeasks", "nojadd"},
+    "twodoors": {"likesurah", "tworakah", "consulted", "gooddoor", "closedoor"},
+    "morningevening": {"bookends", "dawnguard", "threeshields", "mulk", "tillsunrise"},
+    "covenant": {"fourparts", "dayornight", "abu", "fivesteps", "dayshukr"},
+    "noharm": {"bounce", "scorpion", "threecontent", "heldup", "sevenrings"},
+    "bedtime": {"threesurahs", "watcher", "twoverses", "rightside", "tasbihcols"},
+    "nightdoors": {"callin", "shutdoors", "coverjars", "lastpage", "lampfire"},
+    "springheart": {"cloudlift", "bowedtags", "springheart", "eightpairs", "endless"},
+    "deepsea": {"praisestars", "boatheld", "dhunnun", "onename", "shore"},
+    "campguard": {"turnsback", "coolfire", "suffice", "trenchwind", "neighbour"},
+    "roughground": {"smoothed", "nolaw", "strongweak", "whispercut"},
+    "mountaindebt": {"comestoali", "mountainpaid", "heavyload", "workandask", "repaid"},
+    "betterjar": {"brokenjar", "ummsalama", "takengiven", "visitgraves"},
+    "healingbed": {"nobas", "sevenvisits", "handonpain", "lastword"},
+    "rainwind": {"usefulrain", "notthestar", "strongwind", "rainaround", "thunderhush"},
+    "journey": {"mounted", "piety", "homecoming", "keptboth", "updown"},
+    "iftar": {"guestdua", "rootsdrink", "angelsover", "calmfast", "firstdates"},
+    "sneezebook": {"threeanswers", "nopraise", "coolword", "twopraises", "blessit"},
+    "weddinglights": {"tworings", "hasanayn", "fatherofprophets", "venomback", "thanksgift"},
+    "alivetree": {"twotrees", "outweighs", "moist", "tenletters"},
+    "lightheavy": {"featherwords", "seafoam", "fourwords", "kanz", "thousandgood"},
+    "tenfold": {"tenback", "misertag", "fromeverywhere", "nearestmost", "abrahamic"},
+    "seventyhundred": {"seventyplus", "turnall", "washpray", "tallyhundred", "lastthird"},
+    "raisedhands": {"duaworship", "nohaste", "forbrother", "twogoods", "nearestsujud"},
+    "intentlamp": {"openwith", "twopillarsof", "innerouter", "samewash", "hijraroads"},
+    "questioner": {"fourquestions", "nestedranks", "pairsplit", "tworungs", "fivelocked", "toweringup"},
+    "fivepillars": {"fivebuild", "basefirst", "saidanddone", "twoservitudes", "orderofduty"},
+    "fourwrit": {"threestages", "fourwrit", "endings", "nesteddecree"},
+    "radd": {"bounceback", "twogatesmeet", "bothreturned", "twomothers"},
+    "himaedge": {"threezones", "stepclear", "nearhima", "threeshepherds", "slopedown", "limbsfollow"},
+    "fivecounsel": {"thriceword", "cleanfull", "fiveto", "bookfirst", "measuringline", "pointgood"},
+    "threeshown": {"threelit", "sealedfast", "bloodwealth", "sevenconds", "iqal", "outerjudged"},
+    "canbear": {"shutandclimb", "sitpray", "manyquestions", "partwater"},
+    "goodonly": {"pureonly", "eatandwork", "blockeddua", "fourcauses", "noghulul"},
+    "doubtfree": {"rayhanatan", "murkyclear", "widermargin", "steadyjitter"},
+    "notmyconcern": {"betterless", "passby", "enjoinstill", "twobaskets", "chatterdoor"},
+    "likeforbrother": {"anasyears", "baseremains", "mirrorgood", "faiththread", "warmnet"},
+    "inviolable": {"threesacred", "tonguehearthand", "farewellday", "partmissing"},
+    "goodorsilent": {"speakorstill", "rightscount", "guestwelcome", "neighborcounsel", "threehostdays"},
+    "angerember": {"repeatnoanger", "pulledoff", "emberquench", "sitthenlie", "smokeandwater", "trulystrong"},
+    "ihsaneverything": {"twowritings", "sharpenrest", "bluntno", "outweighharm", "reachesbeast"},
+    "taqwaeverywhere": {"muadhabudharr", "shieldsecret", "patchtear", "tworanks", "fourmanners"},
+    "guardhim": {"ridebehind", "keepbounds", "crowdcannot", "ownwhip", "easethenhard", "missandhit"},
+    "modesty": {"oldprophecy", "sternword", "hayagauge", "pullsback", "placebadr", "faithbranch"},
+    "straightpath": {"sufyanasks", "fouralong", "safeend", "bothsides"},
+    "intojanna": {"fourticks", "heldbelief", "mercygate", "notlisted", "neverdrops"},
+    "halfofiman": {"halffilled", "praisefills", "lightproofglow", "patiencethree", "proofforagainst"},
+    "noinjustice": {"forbadeself", "wrongplace", "fourneeds", "curedone", "nothingadded"},
+    "notonlywealth": {"richpoor", "dhikrcoins", "spreadsgood", "selfcharity", "maruftiers"},
+    "everyjoint": {"jointslight", "dutyorextra", "fivesadaqa", "duhatwo", "clearroad", "eachsunrise"},
+    "askyourheart": {"birrring", "hiddenknot", "consultheart", "answeredfirst", "revealedlit"},
+    "holdfast": {"movingsermon", "linkedrings", "onelitway", "tightgrip", "notbeforeus"},
+    "headofmatter": {"greatyeteasy", "tentparts", "shieldandwater", "polefalls", "sealtongue"},
+    "fourrulings": {"keepduties", "boundsfences", "silentmercy", "fourquads", "knowingsilence"},
+    "zuhdlove": {"twoloves", "stepaside", "handvsheart", "zuhdrungs", "noshunhalal", "poetfour"},
+    "harmblocked": {"harmwall", "twoharms", "fourchapters", "openpasture", "noharmneighbor", "threadsstrong"},
+    "proofonclaimant": {"bareclaims", "proofoath", "twoaimsqada", "halfwaymeet", "halfdebt", "bothcontent"},
+    "changeevil": {"darkblots", "handtongueheart", "dimbutlit", "faithgauge", "barrierexcused"},
+    "nojealousy": {"twelvephrases", "envysmoke", "lightmytoo", "firstenvy", "backturned", "fournots"},
+    "relievegrief": {"liftweight", "smallvsbig", "helpedhelper", "givetime", "cloaked", "knowledgeroad"},
+    "recordbook": {"twocolumns", "multiply", "badleft", "camelseven", "mercywins"},
+    "awliya": {"upright", "twotiersawliya", "fardthennafl", "guidedsteps", "answereddua"},
+    "pardoned": {"threeforgiven", "accidentspill", "forcedcalmheart", "answeredbaqara", "stillowes"},
+    "stranger": {"shoulderword", "takesonly", "dontwait", "storeahead"},
+    "followsrevealed": {"needlealigns", "lovesdoes", "smallandlarge", "datestone"},
+    "skyhighforgive": {"threecauses", "cloudstosky", "earthfulpardon", "elixirdrop", "firstlastpage"},
+    "moonface": {"neithertall", "moonnotsword", "brighterthanmoon", "silvercast", "lastwhosaw", "gradedmarks"},
+    "garments": {"shirtstripes", "whitecloths", "perfumekept", "namednew", "notreturned3"},
+    "humbletable": {"norecline", "tablelifted", "basmalabless", "firstandlast", "threesips", "milkbless"},
+    "namesring": {"threenames", "lastnames", "yearsline", "mercynames", "atforty"},
+    "simpleliving": {"coldhearth", "barleynights", "coolshade", "milkfromneighbors", "chaffblown"},
+    "clearspeech": {"spacedwords", "threetimesword", "warmsmile", "neverbarred", "aliriding"},
+    "truejest": {"truejoke", "littlebird", "everycamel", "twoears", "notcheap", "youngagain"},
+    "gratefulservant": {"thankfulnight", "threesuras", "longstanding", "nightplan", "heartawake", "steadydrops"},
+    "recitelight": {"drawnout", "readtome", "simmering", "loudorlow", "heardatnight"},
+    "onlyaservant": {"servantmessenger", "anystreet", "homechores", "smallgift", "plainsaddle", "walkingvisit"},
+    "noblemanners": {"neveruff", "shyerthan", "pardonsback", "chooseseasier", "windgiving", "giftreturned"},
+    "lastday": {"curtainlift", "noagony", "mondayrest", "zumarverse", "citylitdark"},
+    "echoadhan": {"answercall", "radeetu", "twohayya", "highstation", "betweencalls"},
+    "hajjpillar": {"fifthpillar", "hastenhajj", "oncelife", "umrahspan"},
+    "beforehajj": {"debtledger", "tawbanasuh", "rightsback", "cleanpurse", "goodcompany"},
+    "miqatwhite": {"washscent", "twowhites", "labbayk", "keephair", "mountride"},
+    "fivemiqat": {"threemiqat", "twomiqat", "passmiqat", "fromhome", "todaynames", "tohill"},
+    "threenusuk": {"umrahsteps", "threeroads", "tamattu", "hajjmonths", "ifheld"},
+    "childpilgrim": {"validyoung", "guardianlabbayk", "throwsforhim", "carriedround", "guardianreward"},
+    "ihramlimits": {"nocutscent", "nosewn", "nohunt", "norafath", "mayshade"},
+    "sevenrounds": {"blackstone", "sevencircuits", "behindmaqam", "safamarwa", "umrahdone"},
+    "arafatday": {"tarwiya", "arafastand", "muzdalifanight", "mashardawn"},
+    "nahrday": {"fourrites", "noharaj", "tashriqthree", "deputythrow"},
+    "hadyoffer": {"hadyshare", "pureearning", "tenfast", "arafaopen", "fourdays"},
+    "farewellhouse": {"stayworship", "doubledhere", "farewelltawaf", "walkonward", "madinahmosque"},
+    "eidoffering": {"adhadef", "twokabsh", "sunnahor", "betterthanprice", "familyall"},
+    "fourconditions": {"anam", "agecheck", "fourdefects", "timewindow", "owned"},
+    "bestoffering": {"rankkinds", "bestshape", "amlah", "disliked", "fourteen"},
+    "whocovers": {"onesheep", "seventh", "notshared", "notmorethan7"},
+    "threethirds": {"eatgivegive", "thirds", "nosale", "designated"},
+    "dhulhijjanails": {"noclip", "onlyhim", "tawbanokaffara", "likepilgrim", "dhakatconds"},
+    "ramadangates": {"jannahopen", "narshut", "chainedsmoke", "forgivenpast", "threespans"},
+    "fastsecret": {"beyondcount", "secretheart", "muskscent", "fastshield", "twojoys", "rayyangate"},
+    "hilalwatch": {"year2", "sighting", "thirtydays", "onewitness", "monthlength"},
+    "whomustfast": {"fiveconds", "childtrain", "feedperday", "newmuslim", "liftedpen"},
+    "travelersick": {"travelchoice", "easierway", "sickgauge", "nofaultfound", "medicaldoctor"},
+    "excusedays": {"makeupdays", "nursingfear", "beforenext", "rescuer"},
+    "fastmanners": {"twotiers", "prayontime", "fourharms", "sleptprayer", "earseyetongue"},
+    "suhooriftar": {"predawnmeal", "nearfajr", "sunsethaste", "ratabtamrwater", "thirstgone"},
+    "fastbreakers": {"eatdrink", "nutritivedrip", "plainshot", "scentok", "holdandrepay"},
+    "forgotfast": {"threerings", "forgotate", "didntknow", "notbreakers", "rememberstop"},
+    "lastten": {"lasttennights", "wakefamily", "oddnights", "movingnight", "hiddenseek"},
+    "fitrsaa": {"everysoul", "onesaa", "surplus", "beforeeidprayer", "foodnotvalue"},
+    "tarawihnight": {"nightrows", "afterisha", "confirmedsunnah", "firstnight", "noadhan"},
+    "rakatcount": {"twentyrakat", "elevenrakat", "twobytwo", "imamcare", "heartbest"},
+    "withimam": {"firsttolast", "twoimams", "evenitout", "rowsfill"},
+    "witrclose": {"singlewitr", "apartjoined", "twowitrforms", "witrsurahs", "subhanmalik"},
+    "qunuthands": {"qunutsunnah", "afterbow", "wordsfree", "aminecho", "notoverlong"},
+    "itikafstay": {"staymosque", "cutties", "sunnahvow", "lasttenstay", "threemosques"},
+    "mosqueonly": {"mosqueandintent", "amoment", "fastoptional", "nothome", "hotelhall", "insidewall"},
+    "itikaftimes": {"enterssunset", "entersdawn", "leavesforeid", "vowthree"},
+    "leavingmosque": {"outvoid", "needout", "onlyneed", "statedcondition"},
+    "seclusionadvice": {"knockdoor", "nocrowd", "phonejail", "silencespeechsight", "notebook"},
+    "purewater": {"keyofprayer", "twopurities", "minormajor", "fourwaters", "threechanges"},
+    "vesselrules": {"allvessels", "goldsilver", "otherspots", "silverpatch", "goldpatch"},
+    "restroomway": {"leftfootin", "rightfootout", "noqibla", "waterorstones"},
+    "miswak": {"anytime", "fourmoments", "aracktwig", "fitrafive", "siwakbenefits"},
+    "wudusix": {"wuduneeded", "sixfard", "orderflow", "wuduconds", "dryspot"},
+    "wudusunnahs": {"rewardnoblame", "startsunnahs", "rightthrice", "onceorthrice", "allthreeways"},
+    "wudubreakers": {"wuduglowbreaks", "deepsleep", "doubtstay", "camelmeat"},
+    "khuffwipe": {"khuffallowed", "wipeperiod", "wipetop", "clockstarts", "wipeends"},
+    "castwipe": {"castonarm", "nolimit", "trimexcess", "needmeasure"},
+    "fullwash": {"wholebody", "newmuslimwash", "twoghusl", "perfectsteps"},
+    "dryablution": {"noewater", "strikeearth", "waterfound", "liftshadath"},
+    "impurities": {"waterremoves", "groundwash", "sevenwash", "sprinkle", "rubwring"},
+    "naturalcycle": {"monthrhythm", "seednourish", "nolimits", "usualyears", "easerule"},
+    "cyclechanges": {"shiftingdays", "tintedcells", "whitesign", "pregnantrule"},
+    "excusedprayer": {"noprayermakeup", "onerakahtime", "dhikrallowed", "readbyheart"},
+    "excusedfast": {"fastmakeup", "ritesbutawaf", "purifiedwash", "aftersunset", "farewellwaived"},
+    "continuousflow": {"unbrokenline", "knownhabit", "wudueachprayer", "threecases"},
+    "afterbirth": {"cradlebegins", "pureearly", "fortymark", "washatforty"},
+    "zakatgrowth": {"growsprout", "thirdpillar", "threewisdoms", "bondnet", "twokinds"},
+    "zakatconds": {"firstislam", "nisabowned", "fullyear", "fourwealth", "debtzakat"},
+    "goldnisab": {"quarterten", "twonisabs", "nocombine", "fiveof200", "jewelry"},
+    "tradegoods": {"shopshelf", "threetradeconds", "valueatyearend", "inheritedno", "rentincome"},
+    "harvestshare": {"storedgrains", "tenthorhalf", "ripenow", "threehundredsaa", "buriedfifth"},
+    "livestockzakat": {"threeherds", "herdnisab", "grazingfree", "mostlyfed", "onesheepdue"},
+    "eightrecipients": {"firstfour", "lastfour", "anyclass", "poorneedy", "notdependents"},
+    "prayerrank": {"secondpillar", "miraj", "openclose", "ontimeanyway", "sevenyears"},
+    "adhancall": {"announcetime", "kifaya", "fifteenphrases", "turnrightleft", "nostepout"},
+    "fivetimes": {"zuhrshadow", "asryellow", "maghribisha", "fajrline", "middleprayer"},
+    "prayerconds": {"purityandtime", "threemoreconds", "intentheart", "condsvspillars"},
+    "walktoprayer": {"smallsteps", "waitdhikr", "straightrows", "rightfootmosque", "widestance"},
+    "openingtakbir": {"facequibla", "raisehands", "handsonchest", "farapartsins", "alternate"},
+    "recitation": {"fatihakey", "aminloudlow", "midlength", "longshort", "thirdfourth"},
+    "bowing": {"flatback", "threetasbih", "riseupsami", "fillheavens", "handsafterrise"},
+    "prostration": {"kneesfirst", "sevenlimbs", "nearestbow", "armsapart", "greatestpillar"},
+    "betweensujud": {"iftirash", "rabbighfirli", "vertebrae", "followimam", "restsit"},
+    "tashahhud": {"indexpoint", "tahiyyat", "salamsides", "fourrefuge", "tawarruk"},
+    "pillarsofprayer": {"threetiers", "fourteenpillars", "somepillars", "sittingside", "calmness"},
+    "wajibatprayer": {"eightduties", "transitions", "extrareward", "threetoten", "followerpraise"},
+    "dislikedacts": {"gazedown", "fidgets", "distractions", "ornatewall", "presentheart"},
+    "forgetfulness": {"threeaims", "sahwcauses", "buildonless", "returnifnotup", "alertimam"},
+    "postprayerdhikr": {"istighfarthree", "thirtythree", "kursiyshield", "tentimes", "imamturns"},
+    "twelverakat": {"twelvearches", "aroundprayers", "travelkeeps", "houseinjannah"},
+    "witrnight": {"strongestnafl", "witrwindow", "oneto13", "ninejoined", "lastnightwitnessed"},
+    "forenoon": {"duhanafl", "twotoeight", "duhawindow", "threecounsels", "hotsand"},
+    "recitationbow": {"versebow", "listenerkinds", "bowsubhan", "sajadawajhi", "fromstanding"},
+    "forbiddentimes": {"twodawnbans", "threedaybans", "allowedwithcause", "shadowstops"},
+    "congregation": {"rowsduty", "evenwar", "benefits4", "stepreward", "familyneighbors"},
+    "wholeads": {"rankorder", "readerfaqih", "hostfirst", "drawlots", "unknownfault"},
+    "sickprayer": {"hardshipease", "standsitside", "nodlower", "bentstand", "sickjoin"},
+    "shortenedprayer": {"fourtotwo", "takerukhsa", "fourdaysrule", "charitygift", "homemissed"},
+    "joiningprayers": {"twopairs", "movingorresting", "rainmudwind", "delaytoasr", "advancewithzuhr", "nofajrjoin"},
+    "fridayprayer": {"fardayn", "notobligedbutvalid", "catchonerakah", "twokhutbas", "nostepping"},
+    "fridaymanners": {"earlyfriday", "silentlisten", "tworakatenter", "kahfread", "noreserve"},
+    "eidprayer": {"eidkifaya", "eidtime", "sevenfive", "datesbefore", "otherwayback"},
+    "eclipseprayer": {"sundarkens", "eclipsewindow", "tworukuperrakah", "longthenshorter", "secondless"},
+    "rainprayer": {"drought", "tworakatground", "repentfirst", "cloakturn", "rainarrives"},
+    "preparingdeceased": {"visitremind", "washdeceased", "threewhite", "dustinstead"},
+    "funeralprayer": {"fourtakbir", "foursteps", "latejoin", "duaall", "qirats"},
+    "burial": {"hastenbier", "lahdniche", "spanmound", "standdua", "taziya"},
+    "rabbgarden": {"nurtureall", "generalcare", "specialcare", "rabbduas", "needaid"},
+    "fatihaseven": {"shortholds", "fatihacontents", "everyrakah", "twohidayas", "ikhlasistiana"},
+    "falaqnas": {"allevils", "rabbmalikilah", "whisperretreat", "jinnins"},
+    "samadneeds": {"ahadunique", "samadneed", "nochild", "asmathree", "asmasifat"},
+    "masadsign": {"revealedalive", "foretoldtwo", "cametrue", "wealthnohelp", "faithsaves"},
+    "nasrdawn": {"gladtidings", "tasbihistighfar", "sealedwith", "nasrgrows", "subhanaka"},
+    "baraa": {"disown", "mixedcup", "twicesaid", "keybaraa", "purecup"},
+    "kawtharriver": {"muchgood", "riverhawd", "whitesweet", "prayersacrifice", "branchcut"},
+    "maunhouse": {"orphanhonor", "prayerguard", "lendsmall", "sahun", "sahwfi"},
+    "filquraysh": {"yearborn", "forquraysh", "twojourneys", "worshiplord"},
+    "humazawealth": {"slanderers", "countcoins", "nogiving", "hutama"},
+    "asrhourglass": {"timepasses", "fourtraits", "selfothers", "asrprofit"},
+    "visitors": {"rivalry", "allkinds", "graveguests", "barzakhpass"},
+    "qariaday": {"stingy", "selfwitness", "qariastrike", "guidedgive"},
+    "atomweight": {"earthspeaks", "obeysorder", "atomspeck", "evensmall"},
+    "bayyinascroll": {"messengerbook", "purepages", "seekerclear", "darknesslight"},
+    "qadrnight": {"greatworth", "exalted", "witrnights", "itikafnight"},
+    "iqrafirst": {"firstrevealed", "fromalaq", "commandsforbid", "forbidder"},
+    "tinmap": {"figolive", "sinaimakkah", "threeplaces", "bestform"},
+    "usryusrayn": {"chestopen", "withhardship", "oneandtwo", "lizardhole"},
+    "duhamorning": {"notleft", "perfectstate", "twoaskers", "teacherkind"},
+    "layleasy": {"gaveguarded", "husnameaning", "easeall", "forhisface"},
+    "nafsmirror": {"subtlesoul", "innerlife", "nafsroads", "purifiedfail"},
+    "kabad": {"toil", "restwork", "wasted", "tradedgod"},
+    "fajrten": {"dawnoath", "tennights", "lifeafter", "besttwo"},
+    "ghashiyaearth": {"goodtalk", "kindmanners", "flatround", "bigflat"},
+    "alaguide": {"sabbih", "guideall", "remindtwo", "fearkeeps"},
+    "tariqstar": {"piercingstar", "allstars", "comesbynight", "guardian"},
+    "burujsky": {"mansions", "wadud", "ghafurwadud", "lostmount"},
+    "easyreckon": {"rightbook", "sinveiled", "reckonstages", "underrule"},
+    "raynheart": {"fairmeasure", "fairargument", "rayn", "tasnim"},
+    "kiram": {"ghurur", "noblescribes", "abrar"},
+    "takwir": {"sunfolded", "eachknows", "asifseen", "noblemessenger"},
+    "abasa": {"twocome", "gentlereproach", "knownrule", "welcomeseeker"},
+    "naziat": {"angelsobey", "sixpillars", "pharaoh", "nofear"},
+    "naba": {"rowsstand", "nofalsehood", "greatnews", "speakright"},
+    "shafibook": {"manyhadith", "intercedes", "learnteach", "honorall"},
+    "harfgood": {"tenfold", "eachletter", "harfclimb"},
+    "ruinhouse": {"ruined", "raiselower", "mawla", "notlineage"},
+    "nightrecite": {"allhours", "slowrecite", "respond", "khatm"},
+    "mushaftouch": {"withbarrier", "tafsirpage", "devices", "junub"},
+    "recitemanners": {"istiadha", "basmala", "tadabbur", "oneverse"},
+    "tilawasujud": {"shaytanweeps", "sunnahnot", "imamled", "fifteen"},
+    "sujuddhikr": {"sameaswalat", "wajhisajad", "nocondition", "takbiroutside"},
+    "ttmafhum": {"ttmafhum0", "ttmafhum1", "ttmafhum2", "ttmafhum3"},
+    "tttanawwu": {"tttanawwu0", "tttanawwu1", "tttanawwu2", "tttanawwu3"},
+    "tttadadd": {"tttadadd0", "tttadadd1", "tttadadd2", "tttadadd3"},
+    "ttasbab": {"ttasbab0", "ttasbab1", "ttasbab2", "ttasbab3"},
+    "ttlafz": {"ttlafz0", "ttlafz1", "ttlafz2", "ttlafz3"},
+    "tttabaqat": {"tttabaqat0", "tttabaqat1", "tttabaqat2", "tttabaqat3"},
+    "tthushirat": {"tthushirat0", "tthushirat1", "tthushirat2", "tthushirat3"},
+    "ttnaba": {"ttnaba0", "ttnaba1", "ttnaba2", "ttnaba3"},
+    "ttzuwwijat": {"ttzuwwijat0", "ttzuwwijat1", "ttzuwwijat2", "ttzuwwijat3"},
+    "ttfajr": {"ttfajr0", "ttfajr1", "ttfajr2", "ttfajr3"},
+    "ttshaf": {"ttshaf0", "ttshaf1", "ttshaf2"},
+    "ttquran": {"ttquran0", "ttquran1", "ttquran2", "ttquran3"},
+    "tttin": {"tttin0", "tttin1", "tttin2", "tttin3"},
+    "ttqadr": {"ttqadr0", "ttqadr1", "ttqadr2", "ttqadr3"},
+    "ttfalaq": {"ttfalaq0", "ttfalaq1", "ttfalaq2", "ttfalaq3"},
+    "tzmujadila": {"tzmujadila0", "tzmujadila1", "tzmujadila2", "tzmujadila3"},
+    "tzhashr": {"tzhashr0", "tzhashr1", "tzhashr2", "tzhashr3"},
+    "tzmumtahana": {"tzmumtahana0", "tzmumtahana1", "tzmumtahana2", "tzmumtahana3"},
+    "tzsaff": {"tzsaff0", "tzsaff1", "tzsaff2", "tzsaff3"},
+    "tzjumua": {"tzjumua0", "tzjumua1", "tzjumua2", "tzjumua3"},
+    "tzmunafiqun": {"tzmunafiqun0", "tzmunafiqun1", "tzmunafiqun2", "tzmunafiqun3"},
+    "tztaghabun": {"tztaghabun0", "tztaghabun1", "tztaghabun2", "tztaghabun3"},
+    "tztalaq": {"tztalaq0", "tztalaq1", "tztalaq2", "tztalaq3"},
+    "tztahrim": {"tztahrim0", "tztahrim1", "tztahrim2", "tztahrim3"},
+    "tzmulk": {"tzmulk0", "tzmulk1", "tzmulk2", "tzmulk3"},
+    "tzqalam": {"tzqalam0", "tzqalam1", "tzqalam2", "tzqalam3"},
+    "tzhaqqa": {"tzhaqqa0", "tzhaqqa1", "tzhaqqa2", "tzhaqqa3"},
+    "tzmaarij": {"tzmaarij0", "tzmaarij1", "tzmaarij2", "tzmaarij3"},
+    "tznuh": {"tznuh0", "tznuh1", "tznuh2", "tznuh3"},
+    "tzjinn": {"tzjinn0", "tzjinn1", "tzjinn2", "tzjinn3"},
+    "tzmuzzammil": {"tzmuzzammil0", "tzmuzzammil1", "tzmuzzammil2", "tzmuzzammil3"},
+    "tzmuddaththir": {"tzmuddaththir0", "tzmuddaththir1", "tzmuddaththir2", "tzmuddaththir3"},
+    "tzqiyama": {"tzqiyama0", "tzqiyama1", "tzqiyama2", "tzqiyama3"},
+    "tzinsan": {"tzinsan0", "tzinsan1", "tzinsan2", "tzinsan3"},
+    "tzmursalat": {"tzmursalat0", "tzmursalat1", "tzmursalat2", "tzmursalat3"},
+    "tanun": {"tanun0", "tanun1", "tanun2", "tanun3"},
+    "taidgham": {"taidgham0", "taidgham1", "taidgham2", "taidgham3"},
+    "taiqlab": {"taiqlab0", "taiqlab1", "taiqlab2", "taiqlab3"},
+    "tamim": {"tamim0", "tamim1", "tamim2", "tamim3"},
+    "talam": {"talam0", "talam1", "talam2", "talam3"},
+    "tamithlan": {"tamithlan0", "tamithlan1", "tamithlan2", "tamithlan3"},
+    "tamadd": {"tamadd0", "tamadd1", "tamadd2", "tamadd3"},
+    "tamaddahkam": {"tamaddahkam0", "tamaddahkam1", "tamaddahkam2", "tamaddahkam3"},
+    "jzwajib": {"jzwajib0", "jzwajib1", "jzwajib2", "jzwajib3"},
+    "jzmakharij": {"jzmakharij0", "jzmakharij1", "jzmakharij2", "jzmakharij3", "jzmakharij4"},
+    "jzsifat": {"jzsifat0", "jzsifat1", "jzsifat2", "jzsifat3"},
+    "jztajwid": {"jztajwid0", "jztajwid1", "jztajwid2", "jztajwid3"},
+    "jztarqiq": {"jztarqiq0", "jztarqiq1", "jztarqiq2", "jztarqiq3"},
+    "jzwaqf": {"jzwaqf0", "jzwaqf1", "jzwaqf2", "jzwaqf3"},
+    "jzwasl": {"jzwasl0", "jzwasl1", "jzwasl2", "jzwasl3"},
+    "jzrawm": {"jzrawm0", "jzrawm1", "jzrawm2", "jzrawm3"},
+    "sbnasab": {"sbnasab0", "sbnasab1", "sbnasab2", "sbnasab3"},
+    "sbmawlid": {"sbmawlid0", "sbmawlid1", "sbmawlid2", "sbmawlid3"},
+    "sbridaa": {"sbridaa0", "sbridaa1", "sbridaa2", "sbridaa3"},
+    "sbsharh": {"sbsharh0", "sbsharh1", "sbsharh2", "sbsharh3"},
+    "sbyutm": {"sbyutm0", "sbyutm1", "sbyutm2", "sbyutm3"},
+    "sbhifz": {"sbhifz0", "sbhifz1", "sbhifz2", "sbhifz3"},
+    "sbkaaba": {"sbkaaba0", "sbkaaba1", "sbkaaba2", "sbkaaba3"},
+    "sbkhadija": {"sbkhadija0", "sbkhadija1", "sbkhadija2", "sbkhadija3"},
+    "mdhira": {"mdhira0", "mdhira1", "mdhira2", "mdhira3"},
+    "mdmudd": {"mdmudd0", "mdmudd1", "mdmudd2", "mdmudd3"},
+    "mdmaratib": {"mdmaratib0", "mdmaratib1", "mdmaratib2", "mdmaratib3"},
+    "mdsirr": {"mdsirr0", "mdsirr1", "mdsirr2", "mdsirr3"},
+    "mdjahr": {"mdjahr0", "mdjahr1", "mdjahr2", "mdjahr3"},
+    "mdadha": {"mdadha0", "mdadha1", "mdadha2", "mdadha3"},
+    "mdhabasha": {"mdhabasha0", "mdhabasha1", "mdhabasha2", "mdhabasha3"},
+    "mdshib": {"mdshib0", "mdshib1", "mdshib2", "mdshib3"},
+    "mdtaif": {"mdtaif0", "mdtaif1", "mdtaif2", "mdtaif3"},
+    "mdaqaba": {"mdaqaba0", "mdaqaba1", "mdaqaba2", "mdaqaba3"},
+    "mdhijra": {"mdhijra0", "mdhijra1", "mdhijra2", "mdhijra3"},
+    "mbmasjid": {"mbmasjid0", "mbmasjid1", "mbmasjid2", "mbmasjid3"},
+    "mbmuakhat": {"mbmuakhat0", "mbmuakhat1", "mbmuakhat2", "mbmuakhat3"},
+    "mbwathiqa": {"mbwathiqa0", "mbwathiqa1", "mbwathiqa2", "mbwathiqa3"},
+    "mbism": {"mbism0", "mbism1", "mbism2", "mbism3"},
+    "mbsukkan": {"mbsukkan0", "mbsukkan1", "mbsukkan2", "mbsukkan3"},
+    "mbidhn": {"mbidhn0", "mbidhn1", "mbidhn2", "mbidhn3"},
+    "gzbadr": {"gzbadr0", "gzbadr1", "gzbadr2", "gzbadr3"},
+    "gzuhud": {"gzuhud0", "gzuhud1", "gzuhud2", "gzuhud3"},
+    "gzkhandaq": {"gzkhandaq0", "gzkhandaq1", "gzkhandaq2", "gzkhandaq3"},
+    "gzhuday": {"gzhuday0", "gzhuday1", "gzhuday2", "gzhuday3"},
+    "gzkhaybar": {"gzkhaybar0", "gzkhaybar1", "gzkhaybar2", "gzkhaybar3"},
+    "gzmutah": {"gzmutah0", "gzmutah1", "gzmutah2", "gzmutah3"},
+    "gzfath": {"gzfath0", "gzfath1", "gzfath2", "gzfath3"},
+    "gzhunayn": {"gzhunayn0", "gzhunayn1", "gzhunayn2", "gzhunayn3"},
+    "gztabuk": {"gztabuk0", "gztabuk1", "gztabuk2", "gztabuk3"},
+    "wdwufud": {"wdwufud0", "wdwufud1", "wdwufud2", "wdwufud3"},
+    "wdbaraa": {"wdbaraa0", "wdbaraa1", "wdbaraa2", "wdbaraa3"},
+    "wdwada": {"wdwada0", "wdwada1", "wdwada2", "wdwada3"},
+    "wdmarad": {"wdmarad0", "wdmarad1", "wdmarad2", "wdmarad3"},
+    "wdwafat": {"wdwafat0", "wdwafat1", "wdwafat2", "wdwafat3"},
+    "umkhasais": {"umkhasais0", "umkhasais1", "umkhasais2", "umkhasais3"},
+    "umsawda": {"umsawda0", "umsawda1", "umsawda2", "umsawda3"},
+    "umaisha": {"umaisha0", "umaisha1", "umaisha2", "umaisha3"},
+    "umhafsa": {"umhafsa0", "umhafsa1", "umhafsa2", "umhafsa3"},
+    "umzaynabk": {"umzaynabk0", "umzaynabk1", "umzaynabk2", "umzaynabk3"},
+    "umsalama": {"umsalama0", "umsalama1", "umsalama2", "umsalama3"},
+    "umzaynabj": {"umzaynabj0", "umzaynabj1", "umzaynabj2", "umzaynabj3"},
+    "umjuway": {"umjuway0", "umjuway1", "umjuway2", "umjuway3"},
+    "umhabiba": {"umhabiba0", "umhabiba1", "umhabiba2", "umhabiba3"},
+    "umsafiyya": {"umsafiyya0", "umsafiyya1", "umsafiyya2", "umsafiyya3"},
+    "ummaymuna": {"ummaymuna0", "ummaymuna1", "ummaymuna2", "ummaymuna3"},
+    "tmahl": {"tmahl0", "tmahl1", "tmahl2", "tmahl3"},
+    "tmwafa": {"tmwafa0", "tmwafa1", "tmwafa2", "tmwafa3"},
+    "tmbanat": {"tmbanat0", "tmbanat1", "tmbanat2", "tmbanat3"},
+    "tmahfad": {"tmahfad0", "tmahfad1", "tmahfad2", "tmahfad3"},
+    "tmjar": {"tmjar0", "tmjar1", "tmjar2", "tmjar3"},
+    "tmkhadam": {"tmkhadam0", "tmkhadam1", "tmkhadam2", "tmkhadam3"},
+    "tmbala": {"tmbala0", "tmbala1", "tmbala2", "tmbala3"},
+    "tmkuffar": {"tmkuffar0", "tmkuffar1", "tmkuffar2", "tmkuffar3"},
+    "tmjadid": {"tmjadid0", "tmjadid1", "tmjadid2", "tmjadid3"},
+    "tmusat": {"tmusat0", "tmusat1", "tmusat2", "tmusat3"},
+    "tmnisa": {"tmnisa0", "tmnisa1", "tmnisa2", "tmnisa3"},
+    "tmkibar": {"tmkibar0", "tmkibar1", "tmkibar2", "tmkibar3"},
+    "tmsighar": {"tmsighar0", "tmsighar1", "tmsighar2", "tmsighar3"},
+    "hdshaar": {"hdshaar0", "hdshaar1", "hdshaar2", "hdshaar3"},
+    "hdlihya": {"hdlihya0", "hdlihya1", "hdlihya2", "hdlihya3"},
+    "hdkhatam": {"hdkhatam0", "hdkhatam1", "hdkhatam2", "hdkhatam3"},
+    "hdnaal": {"hdnaal0", "hdnaal1", "hdnaal2", "hdnaal3"},
+    "hdisbal": {"hdisbal0", "hdisbal1", "hdisbal2", "hdisbal3"},
+    "hdtib": {"hdtib0", "hdtib1", "hdtib2", "hdtib3"},
+    "hdnawm": {"hdnawm0", "hdnawm1", "hdnawm2", "hdnawm3"},
+    "hdyaqza": {"hdyaqza0", "hdyaqza1", "hdyaqza2", "hdyaqza3"},
+    "hdsawm": {"hdsawm0", "hdsawm1", "hdsawm2", "hdsawm3"},
+    "hdbika": {"hdbika0", "hdbika1", "hdbika2", "hdbika3"},
+    "hdmirath": {"hdmirath0", "hdmirath1", "hdmirath2", "hdmirath3"},
+    "ahtufayl": {"ahtufayl0", "ahtufayl1", "ahtufayl2", "ahtufayl3"},
+    "ahadab": {"ahadab0", "ahadab1", "ahadab2", "ahadab3"},
+    "ahahabb": {"ahahabb0", "ahahabb1", "ahahabb2", "ahahabb3"},
+    "ahansar": {"ahansar0", "ahansar1", "ahansar2", "ahansar3"},
+    "ahtaam": {"ahtaam0", "ahtaam1", "ahtaam2", "ahtaam3"},
+    "ahmakka": {"ahmakka0", "ahmakka1", "ahmakka2", "ahmakka3"},
+    "ahayyam": {"ahayyam0", "ahayyam1", "ahayyam2", "ahayyam3"},
+    "ahtayammun": {"ahtayammun0", "ahtayammun1", "ahtayammun2", "ahtayammun3"},
+    "ahfal": {"ahfal0", "ahfal1", "ahfal2", "ahfal3"},
+    "ahyakrah": {"ahyakrah0", "ahyakrah1", "ahyakrah2", "ahyakrah3"},
+    "ahummati": {"ahummati0", "ahummati1", "ahummati2", "ahummati3"},
+    "ahdahik": {"ahdahik0", "ahdahik1", "ahdahik2", "ahdahik3"},
+    "ahmulaaba": {"ahmulaaba0", "ahmulaaba1", "ahmulaaba2", "ahmulaaba3"},
+    "ahghadab": {"ahghadab0", "ahghadab1", "ahghadab2", "ahghadab3"},
+    "ahfarah": {"ahfarah0", "ahfarah1", "ahfarah2", "ahfarah3"},
+    "ahhuzn": {"ahhuzn0", "ahhuzn1", "ahhuzn2", "ahhuzn3"},
+    "ahtafakkur": {"ahtafakkur0", "ahtafakkur1", "ahtafakkur2", "ahtafakkur3"},
+    "ahtahfiz": {"ahtahfiz0", "ahtahfiz1", "ahtahfiz2", "ahtahfiz3"},
+    "ahtazir": {"ahtazir0", "ahtazir1", "ahtazir2", "ahtazir3"},
+    "mntazim": {"mntazim0", "mntazim1", "mntazim2", "mntazim3"},
+    "mntaa": {"mntaa0", "mntaa1", "mntaa2", "mntaa3"},
+    "mnmasajid": {"mnmasajid0", "mnmasajid1", "mnmasajid2", "mnmasajid3"},
+    "mnawlad": {"mnawlad0", "mnawlad1", "mnawlad2", "mnawlad3"},
+    "hdasbab": {"hdasbab0", "hdasbab1", "hdasbab2", "hdasbab3"},
+    "hdharam": {"hdharam0", "hdharam1", "hdharam2", "hdharam3"},
+    "hdhumma": {"hdhumma0", "hdhumma1", "hdhumma2", "hdhumma3"},
+    "hdtaun": {"hdtaun0", "hdtaun1", "hdtaun2", "hdtaun3"},
+    "hdayn": {"hdayn0", "hdayn1", "hdayn2", "hdayn3"},
+    "hdruqya": {"hdruqya0", "hdruqya1", "hdruqya2", "hdruqya3"},
+    "hdkarb": {"hdkarb0", "hdkarb1", "hdkarb2", "hdkarb3"},
+    "hdmanam": {"hdmanam0", "hdmanam1", "hdmanam2", "hdmanam3"},
+    "hdwaswasa": {"hdwaswasa0", "hdwaswasa1", "hdwaswasa2", "hdwaswasa3"},
+    "hdasma": {"hdasma0", "hdasma1", "hdasma2", "hdasma3"},
+    "hdalfadh": {"hdalfadh0", "hdalfadh1", "hdalfadh2", "hdalfadh3"},
+    "ssmasadir": {"ssmasadir0", "ssmasadir1", "ssmasadir2", "ssmasadir3"},
+    "ssquran": {"ssquran0", "ssquran1", "ssquran2", "ssquran3"},
+    "ssnaqd": {"ssnaqd0", "ssnaqd1", "ssnaqd2", "ssnaqd3"},
+    "ssmaghazi": {"ssmaghazi0", "ssmaghazi1", "ssmaghazi2", "ssmaghazi3"},
+    "ssibnishaq": {"ssibnishaq0", "ssibnishaq1", "ssibnishaq2", "ssibnishaq3"},
+    "tqashr": {"tqashr0", "tqashr1", "tqashr2", "tqashr3"},
+    "tqsunna": {"tqsunna0", "tqsunna1", "tqsunna2", "tqsunna3"},
+    "tqisra": {"tqisra0", "tqisra1", "tqisra2", "tqisra3"},
+    "tqtabiin": {"tqtabiin0", "tqtabiin1", "tqtabiin2", "tqtabiin3"},
+    "tqray": {"tqray0", "tqray1", "tqray2", "tqray3"},
+    "mhilm": {"mhilm0", "mhilm1", "mhilm2", "mhilm3"},
+    "mhkutub": {"mhkutub0", "mhkutub1", "mhkutub2", "mhkutub3"},
+    "mhmutawatir": {"mhmutawatir0", "mhmutawatir1", "mhmutawatir2", "mhmutawatir3"},
+    "mhsahih": {"mhsahih0", "mhsahih1", "mhsahih2", "mhsahih3"},
+    "mhmursal": {"mhmursal0", "mhmursal1", "mhmursal2", "mhmursal3"},
+    "mhmawdu": {"mhmawdu0", "mhmawdu1", "mhmawdu2", "mhmawdu3"},
+    "mhsahabi": {"mhsahabi0", "mhsahabi1", "mhsahabi2", "mhsahabi3"},
+    "jrjawami": {"jrjawami0", "jrjawami1", "jrjawami2", "jrjawami3"},
+    "jrusul": {"jrusul0", "jrusul1", "jrusul2", "jrusul3"},
+    "jrniyya": {"jrniyya0", "jrniyya1", "jrniyya2", "jrniyya3"},
+    "jrriya": {"jrriya0", "jrriya1", "jrriya2", "jrriya3"},
+    "jrbushra": {"jrbushra0", "jrbushra1", "jrbushra2", "jrbushra3"},
+    "amlayyin": {"amlayyin0", "amlayyin1", "amlayyin2", "amlayyin3"},
+    "amjaza": {"amjaza0", "amjaza1", "amjaza2", "amjaza3"},
+    "amdawa": {"amdawa0", "amdawa1", "amdawa2", "amdawa3"},
+    "amrahim": {"amrahim0", "amrahim1", "amrahim2", "amrahim3"},
+    "ambanat": {"ambanat0", "ambanat1", "ambanat2", "ambanat3"},
+    "amrahma": {"amrahma0", "amrahma1", "amrahma2", "amrahma3"},
+    "amjar": {"amjar0", "amjar1", "amjar2", "amjar3"},
+    "wsthalath": {"wsthalath0", "wsthalath1", "wsthalath2", "wsthalath3"},
+    "wsdhanb": {"wsdhanb0", "wsdhanb1", "wsdhanb2", "wsdhanb3"},
+    "wsjanah": {"wsjanah0", "wsjanah1", "wsjanah2", "wsjanah3"},
+    "wsyahya": {"wsyahya0", "wsyahya1", "wsyahya2", "wsyahya3"},
+    "wssalat": {"wssalat0", "wssalat1", "wssalat2", "wssalat3"},
+    "wshisn": {"wshisn0", "wshisn1", "wshisn2", "wshisn3"},
+    "wsjubba": {"wsjubba0", "wsjubba1", "wsjubba2", "wsjubba3"},
+    "wsmufarridun": {"wsmufarridun0", "wsmufarridun1", "wsmufarridun2", "wsmufarridun3"},
+    "wsmajlis": {"wsmajlis0", "wsmajlis1", "wsmajlis2", "wsmajlis3"},
+    "wssada": {"wssada0", "wssada1", "wssada2", "wssada3"},
+    "wsfawaid": {"wsfawaid0", "wsfawaid1", "wsfawaid2", "wsfawaid3"},
+    "wsghiras": {"wsghiras0", "wsghiras1", "wsghiras2", "wsghiras3"},
+    "wsjannat": {"wsjannat0", "wsjannat1", "wsjannat2", "wsjannat3"},
+    "amkhadim": {"amkhadim0", "amkhadim1", "amkhadim2", "amkhadim3"},
+    "ammaruf": {"ammaruf0", "ammaruf1", "ammaruf2", "ammaruf3"},
+    "amkabir": {"amkabir0", "amkabir1", "amkabir2", "amkabir3"},
+    "amrifq": {"amrifq0", "amrifq1", "amrifq2", "amrifq3"},
+    "amhijra": {"amhijra0", "amhijra1", "amhijra2", "amhijra3"},
+    "amzulm": {"amzulm0", "amzulm1", "amzulm2", "amzulm3"},
+    "amiyada": {"amiyada0", "amiyada1", "amiyada2", "amiyada3"},
+    "uahijra": {"uahijra0", "uahijra1", "uahijra2", "uahijra3"},
+    "uaqabul": {"uaqabul0", "uaqabul1", "uaqabul2", "uaqabul3"},
+    "uaaqab": {"uaaqab0", "uaaqab1", "uaaqab2", "uaaqab3"},
+    "uaistinshaq": {"uaistinshaq0", "uaistinshaq1", "uaistinshaq2", "uaistinshaq3"},
+    "uadaim": {"uadaim0", "uadaim1", "uadaim2", "uadaim3"},
+    "uakalb": {"uakalb0", "uakalb1", "uakalb2", "uakalb3"},
+    "uauthman": {"uauthman0", "uauthman1", "uauthman2", "uauthman3"},
+    "bmkasb": {"bmkasb0", "bmkasb1", "bmkasb2", "bmkasb3"},
+    "bmkhiyar": {"bmkhiyar0", "bmkhiyar1", "bmkhiyar2", "bmkhiyar3"},
+    "bmgharar": {"bmgharar0", "bmgharar1", "bmgharar2", "bmgharar3"},
+    "bmhadir": {"bmhadir0", "bmhadir1", "bmhadir2", "bmhadir3"},
+    "bmghish": {"bmghish0", "bmghish1", "bmghish2", "bmghish3"},
+    "bmriba": {"bmriba0", "bmriba1", "bmriba2", "bmriba3"},
+    "bmqabd": {"bmqabd0", "bmqabd1", "bmqabd2", "bmqabd3"},
+    "mbwahy": {"mbwahy0", "mbwahy1", "mbwahy2", "mbwahy3"},
+    "mbkhadija": {"mbkhadija0", "mbkhadija1", "mbkhadija2", "mbkhadija3"},
+    "mbthalatha": {"mbthalatha0", "mbthalatha1", "mbthalatha2", "mbthalatha3"},
+    "mbhasad": {"mbhasad0", "mbhasad1", "mbhasad2", "mbhasad3"},
+    "mbmusa": {"mbmusa0", "mbmusa1", "mbmusa2", "mbmusa3"},
+    "mbghayth": {"mbghayth0", "mbghayth1", "mbghayth2", "mbghayth3"},
+    "mbsalouni": {"mbsalouni0", "mbsalouni1", "mbsalouni2", "mbsalouni3"},
+    "mbniswa": {"mbniswa0", "mbniswa1", "mbniswa2", "mbniswa3"},
+    "ikharf": {"ikharf0", "ikharf1", "ikharf2", "ikharf3"},
+    "iktaghanni": {"iktaghanni0", "iktaghanni1", "iktaghanni2", "iktaghanni3"},
+    "iktaahud": {"iktaahud0", "iktaahud1", "iktaahud2", "iktaahud3"},
+    "iknusiya": {"iknusiya0", "iknusiya1", "iknusiya2", "iknusiya3"},
+    "ikmadd": {"ikmadd0", "ikmadd1", "ikmadd2", "ikmadd3"},
+    "ikkhatm": {"ikkhatm0", "ikkhatm1", "ikkhatm2", "ikkhatm3"},
+    "ikitlaf": {"ikitlaf0", "ikitlaf1", "ikitlaf2", "ikitlaf3"},
+    "ikistiadha": {"ikistiadha0", "ikistiadha1", "ikistiadha2", "ikistiadha3"},
+    "zbtaqwa": {"zbtaqwa0", "zbtaqwa1", "zbtaqwa2", "zbtaqwa3"},
+    "zbkhatm": {"zbkhatm0", "zbkhatm1", "zbkhatm2", "zbkhatm3"},
+    "zbnar": {"zbnar0", "zbnar1", "zbnar2", "zbnar3"},
+    "zbkhalifa": {"zbkhalifa0", "zbkhalifa1", "zbkhalifa2", "zbkhalifa3"},
+    "zbkhawf": {"zbkhawf0", "zbkhawf1", "zbkhawf2", "zbkhawf3"},
+    "zbhitta": {"zbhitta0", "zbhitta1", "zbhitta2", "zbhitta3"},
+    "ayqadr": {"ayqadr0", "ayqadr1", "ayqadr2", "ayqadr3"},
+    "aydukhan": {"aydukhan0", "aydukhan1", "aydukhan2", "aydukhan3"},
+    "ayzaqqum": {"ayzaqqum0", "ayzaqqum1", "ayzaqqum2", "ayzaqqum3"},
+    "aysharia": {"aysharia0", "aysharia1", "aysharia2", "aysharia3"},
+    "aydahr": {"aydahr0", "aydahr1", "aydahr2", "aydahr3"},
+    "aysabaquna": {"aysabaquna0", "aysabaquna1", "aysabaquna2", "aysabaquna3"},
+    "aytayyibat": {"aytayyibat0", "aytayyibat1", "aytayyibat2", "aytayyibat3"},
+    "agwaritha": {"agwaritha0", "agwaritha1", "agwaritha2", "agwaritha3"},
+    "agfurud": {"agfurud0", "agfurud1", "agfurud2", "agfurud3"},
+    "agwasiyya": {"agwasiyya0", "agwasiyya1", "agwasiyya2", "agwasiyya3"},
+    "agwali": {"agwali0", "agwali1", "agwali2", "agwali3"},
+    "agnafaqa": {"agnafaqa0", "agnafaqa1", "agnafaqa2", "agnafaqa3"},
+    "agqatl": {"agqatl0", "agqatl1", "agqatl2", "agqatl3"},
+    "agayman": {"agayman0", "agayman1", "agayman2", "agayman3"},
+    "agqada": {"agqada0", "agqada1", "agqada2", "agqada3"},
+    "hqhafs": {"hqhafs0", "hqhafs1", "hqhafs2", "hqhafs3"},
+    "hqmaratib": {"hqmaratib0", "hqmaratib1", "hqmaratib2", "hqmaratib3"},
+    "hqarkan": {"hqarkan0", "hqarkan1", "hqarkan2", "hqarkan3"},
+    "hqlahn": {"hqlahn0", "hqlahn1", "hqlahn2", "hqlahn3"},
+    "hqwaqf": {"hqwaqf0", "hqwaqf1", "hqwaqf2", "hqwaqf3"},
+    "hqbasmala": {"hqbasmala0", "hqbasmala1", "hqbasmala2", "hqbasmala3"},
+    "abfitra": {"abfitra0", "abfitra1", "abfitra2", "abfitra3"},
+    "abtafwid": {"abtafwid0", "abtafwid1", "abtafwid2", "abtafwid3"},
+    "abtatil": {"abtatil0", "abtatil1", "abtatil2", "abtatil3"},
+    "abhayra": {"abhayra0", "abhayra1", "abhayra2", "abhayra3"},
+    "abadam": {"abadam0", "abadam1", "abadam2", "abadam3"},
+    "abmunazara": {"abmunazara0", "abmunazara1", "abmunazara2", "abmunazara3"},
+    "abnabi": {"abnabi0", "abnabi1", "abnabi2", "abnabi3"},
+    "abumma": {"abumma0", "abumma1", "abumma2", "abumma3"},
+    "adhamd": {"adhamd0", "adhamd1", "adhamd2", "adhamd3"},
+    "adalamin": {"adalamin0", "adalamin1", "adalamin2", "adalamin3"},
+    "adrahman": {"adrahman0", "adrahman1", "adrahman2", "adrahman3"},
+    "addin": {"addin0", "addin1", "addin2", "addin3"},
+    "adiyyaka": {"adiyyaka0", "adiyyaka1", "adiyyaka2", "adiyyaka3"},
+    "adanam": {"adanam0", "adanam1", "adanam2", "adanam3"},
+    "admaghdub": {"admaghdub0", "admaghdub1", "admaghdub2", "admaghdub3"},
+    "mtqalb": {"mtqalb0", "mtqalb1", "mtqalb2", "mtqalb3"},
+    "mthubb": {"mthubb0", "mthubb1", "mthubb2", "mthubb3"},
+    "mtahdaf": {"mtahdaf0", "mtahdaf1", "mtahdaf2", "mtahdaf3"},
+    "mtqiyam": {"mtqiyam0", "mtqiyam1", "mtqiyam2", "mtqiyam3"},
+    "mtlayl": {"mtlayl0", "mtlayl1", "mtlayl2", "mtlayl3"},
+    "mthizb": {"mthizb0", "mthizb1", "mthizb2", "mthizb3"},
+    "mttardid": {"mttardid0", "mttardid1", "mttardid2", "mttardid3"},
+    "mtjahr": {"mtjahr0", "mtjahr1", "mtjahr2", "mtjahr3"},
+    "mmsigha": {"mmsigha0", "mmsigha1", "mmsigha2", "mmsigha3"},
+    "mmshurut": {"mmshurut0", "mmshurut1", "mmshurut2", "mmshurut3"},
+    "mmriba": {"mmriba0", "mmriba1", "mmriba2", "mmriba3"},
+    "mmsalam": {"mmsalam0", "mmsalam1", "mmsalam2", "mmsalam3"},
+    "mmqard": {"mmqard0", "mmqard1", "mmqard2", "mmqard3"},
+    "mmhawala": {"mmhawala0", "mmhawala1", "mmhawala2", "mmhawala3"},
+    "mmmudaraba": {"mmmudaraba0", "mmmudaraba1", "mmmudaraba2", "mmmudaraba3"},
+    "mmayb": {"mmayb0", "mmayb1", "mmayb2", "mmayb3"},
+    "mmrahn": {"mmrahn0", "mmrahn1", "mmrahn2", "mmrahn3"},
+    "mmkafala": {"mmkafala0", "mmkafala1", "mmkafala2", "mmkafala3"},
+    "mmsulh": {"mmsulh0", "mmsulh1", "mmsulh2", "mmsulh3"},
+    "mmwakala": {"mmwakala0", "mmwakala1", "mmwakala2", "mmwakala3"},
+    "mmijara": {"mmijara0", "mmijara1", "mmijara2", "mmijara3"},
+    "mmariya": {"mmariya0", "mmariya1", "mmariya2", "mmariya3"},
+    "mmluqata": {"mmluqata0", "mmluqata1", "mmluqata2", "mmluqata3"},
+    "frilm": {"frilm0", "frilm1", "frilm2", "frilm3"},
+    "frasaba": {"frasaba0", "frasaba1", "frasaba2", "frasaba3"},
+    "frikhwa": {"frikhwa0", "frikhwa1", "frikhwa2", "frikhwa3"},
+    "frhajb": {"frhajb0", "frhajb1", "frhajb2", "frhajb3"},
+    "frumariyya": {"frumariyya0", "frumariyya1", "frumariyya2", "frumariyya3"},
+    "frawl": {"frawl0", "frawl1", "frawl2", "frawl3"},
+    "frradd": {"frradd0", "frradd1", "frradd2", "frradd3"},
+    "nkhukm": {"nkhukm0", "nkhukm1", "nkhukm2", "nkhukm3"},
+    "nkarkan": {"nkarkan0", "nkarkan1", "nkarkan2", "nkarkan3"},
+    "nkshurut": {"nkshurut0", "nkshurut1", "nkshurut2", "nkshurut3"},
+    "nkmuharramat": {"nkmuharramat0", "nkmuharramat1", "nkmuharramat2", "nkmuharramat3"},
+    "nksadaq": {"nksadaq0", "nksadaq1", "nksadaq2", "nksadaq3"},
+    "nkwalima": {"nkwalima0", "nkwalima1", "nkwalima2", "nkwalima3"},
+    "nkkhul": {"nkkhul0", "nkkhul1", "nkkhul2", "nkkhul3"},
+    "tlhukm": {"tlhukm0", "tlhukm1", "tlhukm2", "tlhukm3"},
+    "tlbida": {"tlbida0", "tlbida1", "tlbida2", "tlbida3"},
+    "tlikrah": {"tlikrah0", "tlikrah1", "tlikrah2", "tlikrah3"},
+    "tlghadab": {"tlghadab0", "tlghadab1", "tlghadab2", "tlghadab3"},
+    "tlsarih": {"tlsarih0", "tlsarih1", "tlsarih2", "tlsarih3"},
+    "tlhazl": {"tlhazl0", "tlhazl1", "tlhazl2", "tlhazl3"},
+    "tlraja": {"tlraja0", "tlraja1", "tlraja2", "tlraja3"},
+    "tlila": {"tlila0", "tlila1", "tlila2", "tlila3"},
+    "tlzihar": {"tlzihar0", "tlzihar1", "tlzihar2", "tlzihar3"},
+    "tllian": {"tllian0", "tllian1", "tllian2", "tllian3"},
+    "tlidda": {"tlidda0", "tlidda1", "tlidda2", "tlidda3"},
+    "tlhamil": {"tlhamil0", "tlhamil1", "tlhamil2", "tlhamil3"},
+    "tlrada": {"tlrada0", "tlrada1", "tlrada2", "tlrada3"},
+    "tlnafaqa": {"tlnafaqa0", "tlnafaqa1", "tlnafaqa2", "tlnafaqa3"},
+    "wqwaqf": {"wqwaqf0", "wqwaqf1", "wqwaqf2", "wqwaqf3"},
+    "wqfil": {"wqfil0", "wqfil1", "wqfil2", "wqfil3"},
+    "wqshurut": {"wqshurut0", "wqshurut1", "wqshurut2", "wqshurut3"},
+    "wqshart": {"wqshart0", "wqshart1", "wqshart2", "wqshart3"},
+    "wshukm": {"wshukm0", "wshukm1", "wshukm2", "wshukm3"},
+    "wswaris": {"wswaris0", "wswaris1", "wswaris2", "wswaris3"},
+    "wshuquq": {"wshuquq0", "wshuquq1", "wshuquq2", "wshuquq3"},
+    "iqmakki": {"iqmakki0", "iqmakki1", "iqmakki2", "iqmakki3"},
+    "iqfaida": {"iqfaida0", "iqfaida1", "iqfaida2", "iqfaida3"},
+    "iqdawabit": {"iqdawabit0", "iqdawabit1", "iqdawabit2", "iqdawabit3"},
+    "iqsuar": {"iqsuar0", "iqsuar1", "iqsuar2", "iqsuar3"},
+    "iqsafari": {"iqsafari0", "iqsafari1", "iqsafari2", "iqsafari3"},
+    "iqlayli": {"iqlayli0", "iqlayli1", "iqlayli2", "iqlayli3"},
+    "jnhuquq": {"jnhuquq0", "jnhuquq1", "jnhuquq2", "jnhuquq3"},
+    "jnmaratib": {"jnmaratib0", "jnmaratib1", "jnmaratib2", "jnmaratib3"},
+    "jnhayat": {"jnhayat0", "jnhayat1", "jnhayat2", "jnhayat3"},
+    "jnsabab": {"jnsabab0", "jnsabab1", "jnsabab2", "jnsabab3"},
+    "jndiya": {"jndiya0", "jndiya1", "jndiya2", "jndiya3"},
+    "hdhadd": {"hdhadd0", "hdhadd1", "hdhadd2", "hdhadd3"},
+    "hdshurut": {"hdshurut0", "hdshurut1", "hdshurut2", "hdshurut3"},
+    "tmasl": {"tmasl0", "tmasl1", "tmasl2", "tmasl3"},
+    "tmsibaa": {"tmsibaa0", "tmsibaa1", "tmsibaa2", "tmsibaa3"},
+    "tmidtirar": {"tmidtirar0", "tmidtirar1", "tmidtirar2", "tmidtirar3"},
+    "ymhukm": {"ymhukm0", "ymhukm1", "ymhukm2", "ymhukm3"},
+    "ymikram": {"ymikram0", "ymikram1", "ymikram2", "ymikram3"},
+    "ymlaghw": {"ymlaghw0", "ymlaghw1", "ymlaghw2", "ymlaghw3"},
+    "ymnadhr": {"ymnadhr0", "ymnadhr1", "ymnadhr2", "ymnadhr3"},
+    "qdqada": {"qdqada0", "qdqada1", "qdqada2", "qdqada3"},
+    "qdghadab": {"qdghadab0", "qdghadab1", "qdghadab2", "qdghadab3"},
+    "qdrishwa": {"qdrishwa0", "qdrishwa1", "qdrishwa2", "qdrishwa3"},
+    "qdbayyina": {"qdbayyina0", "qdbayyina1", "qdbayyina2", "qdbayyina3"},
+    "shshahada": {"shshahada0", "shshahada1", "shshahada2", "shshahada3"},
+    "shnisab": {"shnisab0", "shnisab1", "shnisab2", "shnisab3"},
+    "qriqrar": {"qriqrar0", "qriqrar1", "qriqrar2", "qriqrar3"},
+    "iqawwal": {"iqawwal0", "iqawwal1", "iqawwal2", "iqawwal3"},
+    "iqakhir": {"iqakhir0", "iqakhir1", "iqakhir2", "iqakhir3"},
+    "iqsabab": {"iqsabab0", "iqsabab1", "iqsabab2", "iqsabab3"},
+    "iqumum": {"iqumum0", "iqumum1", "iqumum2", "iqumum3"},
+    "iqumar": {"iqumar0", "iqumar1", "iqumar2", "iqumar3"},
+    "iqinzal": {"iqinzal0", "iqinzal1", "iqinzal2", "iqinzal3"},
+    "astarif": {"astarif0", "astarif1", "astarif2", "astarif3"},
+    "asumum": {"asumum0", "asumum1", "asumum2", "asumum3"},
+    "asfaida": {"asfaida0", "asfaida1", "asfaida2", "asfaida3"},
+    "assafa": {"assafa0", "assafa1", "assafa2", "assafa3"},
+    "asqays": {"asqays0", "asqays1", "asqays2", "asqays3"},
+    "asbuyut": {"asbuyut0", "asbuyut1", "asbuyut2", "asbuyut3"},
+    "asmaqil": {"asmaqil0", "asmaqil1", "asmaqil2", "asmaqil3"},
+    "iqahruf": {"iqahruf0", "iqahruf1", "iqahruf2", "iqahruf3"},
+    "iqasma": {"iqasma0", "iqasma1", "iqasma2", "iqasma3"},
+    "iqjam1": {"iqjam10", "iqjam11", "iqjam12", "iqjam13"},
+    "iqjam2": {"iqjam20", "iqjam21", "iqjam22", "iqjam23"},
+    "iqtartib": {"iqtartib0", "iqtartib1", "iqtartib2", "iqtartib3"},
+    "iqadad": {"iqadad0", "iqadad1", "iqadad2", "iqadad3"},
+}
+TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
+
+errors, notes = [], []
+
+
+def err(cid, msg):
+    errors.append(f"{cid}: {msg}")
+
+
+def target_of(key):
+    """Audio key -> vowelled-text key: face-0 -> face:0, deep-1 -> deeper:1, title -> title."""
+    if key == "title":
+        return "title"
+    kind, i = key.split("-")
+    return f"{TARGET[kind]}:{i}"
+
+
+def speech_raw(sp, key):
+    if key == "title":
+        return sp["title"]
+    kind, i = key.split("-")
+    return sp[TARGET[kind]][int(i)]
+
+
+def bare(s):
+    return HARAKA.sub("", s)
+
+
+def is_boundary(s, i):
+    return i < 0 or i >= len(s) or not ("ء" <= s[i] <= "ي" or s[i] == "ـ")
+
+
+CLITICS = "وفبلك"
+
+
+def vowel_from(texts, label):
+    """Find `label` (no harakat) in the vowelled texts, the item's own sentence first; return the vowelled span.
+
+    Per text: whole words first, then after a one-letter prefix (و ف ب ل ك) that the label leaves out.
+    Only if no text has it that way, any position in any text."""
+    want = label.strip()
+
+    def search(v, mode):
+        kept, idx = [], []
+        for j, ch in enumerate(v):
+            if ch not in MARKS:
+                kept.append(ch)
+                idx.append(j)
+        s = "".join(kept)
+        start = 0
+        while True:
+            p = s.find(want, start)
+            if p < 0:
+                return None
+            end = p + len(want)
+            if mode == "word":
+                good = is_boundary(s, p - 1) and is_boundary(s, end)
+            elif mode == "clitic":
+                good = p > 0 and s[p - 1] in CLITICS and is_boundary(s, p - 2) and is_boundary(s, end)
+            else:
+                good = True
+            if good:
+                a, b = idx[p], idx[end - 1] + 1
+                while b < len(v) and v[b] in MARKS:
+                    b += 1
+                return v[a:b]
+            start = p + 1
+
+    for v in texts:
+        for mode in ("word", "clitic"):
+            r = search(v, mode)
+            if r:
+                return r
+    for v in texts:
+        r = search(v, "any")
+        if r:
+            notes.append(f"vowelled «{label}» from inside a word: «{r}»")
+            return r
+    return None
+
+
+def words_with_marks(s):
+    return re.findall(f"[ء-يـ{MARKS}]+", s)
+
+
+def check_vowels(cid, text, vocab):
+    """Compare each hand-vowelled word with the same word in the card (ignoring its last letter's case)."""
+    for w in words_with_marks(text):
+        b = bare(w)
+        if len(b) < 2:
+            continue
+        if not HARAKA.search(w):
+            err(cid, f"no harakat on «{w}» in «{text}»")
+            continue
+        forms = vocab.get(b)
+        if not forms:
+            continue
+
+        def body(x):                      # drop the marks on the last letter
+            return re.sub(f"[{MARKS}]+$", "", x)
+        if body(w) not in {body(f) for f in forms}:
+            notes.append(f"{cid}: «{w}» — the card has {' / '.join(sorted(forms))}")
+
+
+def vowelled(cid, s, texts, vocab):
+    if not s or not re.search("[ء-ي]", s):          # nothing to vowel (a number written in digits)
+        return s
+    if HARAKA.search(s):
+        check_vowels(cid, s, vocab)
+        return s
+    v = vowel_from(texts, s)
+    if v is None:
+        err(cid, f"cannot vowel «{s}»: not in the card text (write it with harakat)")
+        return s
+    v = v.strip(" ،؛:.")
+    check_vowels(cid, v, vocab)
+    return v
+
+
+HARAKAT = re.compile(r"[\u064b-\u0652\u0670\u0640]")
+LETTER = re.compile(r"[\u0621-\u064a\u0671]")
+
+
+def add_glosses(pack, cards):
+    """Hard words of each card (tools/cards/gloss.py): each must appear in the card's face or deeper text as a whole
+    word (one prefix letter و ف ب ل ك allowed), have full tashkeel, and its explanation must be one short sentence."""
+    for cid, items in GLOSS.items():
+        c = cards.get(cid)
+        if c is None:
+            err("gloss", f"{cid}: no such card"); continue
+        text = HARAKAT.sub("", " ".join([c["face"]] + c["deeper"]))
+        out, seen = [], set()
+        for w, d in items:
+            bare = HARAKAT.sub("", w)
+            if bare in seen:
+                err("gloss", f"{cid}: «{w}» twice"); continue
+            seen.add(bare)
+            found = False
+            for m in re.finditer(re.escape(bare), text):
+                a, b = m.start(), m.end()
+                pre = text[a - 1] if a else " "
+                start_ok = not LETTER.match(pre) or (pre in "وفبلك" and (a < 2 or not LETTER.match(text[a - 2])))
+                end_ok = b >= len(text) or not LETTER.match(text[b])
+                if start_ok and end_ok:
+                    found = True; break
+            if not found:
+                err("gloss", f"{cid}: «{w}» is not a word of the card's text")
+            if not re.search(r"[\u064b-\u0652]", w) or len(re.findall(r"[\u064b-\u0652]", d)) < len(LETTER.findall(d)) // 2:
+                err("gloss", f"{cid}: «{w}» needs tashkeel on the word and its explanation")
+            if not d.endswith(".") or len(d) > 140 or re.search(r"[٠-٩]", d):
+                err("gloss", f"{cid}: «{w}» explanation must be one short sentence ending with . (Western digits)")
+            out.append({"w": w, "d": d})
+        c["gloss"] = out
+
+
+def build(path):
+    pack = json.load(open(path, encoding="utf-8"))
+    speech = json.load(open(os.path.join(HERE, "..", "tts", "speech.json"), encoding="utf-8"))
+    cards = {c["id"]: c for c in pack["cards"]}
+    for cid in SCENES:
+        if cid not in cards:
+            err(cid, "no such card")
+    done = 0
+    for c in pack["cards"]:
+        spec = SCENES.get(c["id"])
+        c.pop("scene", None)
+        if spec is None:
+            continue
+        cid = c["id"]
+        keys = [a["key"] for a in c["audio"]]
+        diac = c.get("diac", {})
+        vocab = {}
+        for v in diac.values():
+            for w in words_with_marks(v):
+                vocab.setdefault(bare(w), set()).add(w)
+        for e, pending in codex_errors(cid, spec, lambda at, cid=cid: speech_raw(speech[cid], at) if at in keys else ""):
+            (notes.append(f"{cid}: codex, to be redrawn: {e}") if pending else err(cid, e))
+        if spec["type"] not in TYPES:
+            err(cid, f"unknown scene type {spec['type']}")
+        items, last_at, last_pos, last_order = [], None, {}, (-1, -1.0)
+        for n, it in enumerate(spec["items"]):
+            at = it.get("at") or last_at or "face-0"
+            last_at = at
+            if at not in keys:
+                err(cid, f"item {n}: no clip {at}")
+                continue
+            heard = letters(spoken(speech_raw(speech[cid], at)))
+            frac = 0.0
+            if it["cue"]:
+                cue = letters(it["cue"])
+                p = heard.find(cue, last_pos.get(at, 0))
+                if p < 0:
+                    err(cid, f"item {n}: cue «{it['cue']}» not heard in {at} after position {last_pos.get(at, 0)}: {heard}")
+                    continue
+                last_pos[at] = p + 1
+                frac = max(0.0, p / max(len(heard), 1) - LEAD)
+            order = (keys.index(at), frac)
+            if order < last_order:
+                err(cid, f"item {n} comes before the previous one in the audio")
+            last_order = order
+            # look first in the item's own sentence, then in the rest of the card
+            own = diac.get(target_of(at))
+            texts = ([own] if own else []) + [v for k, v in diac.items() if k != target_of(at)]
+            out = {"label": vowelled(cid, it["label"], texts, vocab), "at": at, "frac": round(frac, 3)}
+            if it["sub"]:
+                out["sub"] = "|".join(vowelled(cid, part.strip(), texts, vocab) for part in it["sub"].split("|"))
+            if it.get("side") is not None:
+                out["side"] = it["side"]
+            if it.get("value") is not None:
+                out["value"] = it["value"]
+            if it["kind"]:
+                out["kind"] = it["kind"]
+            items.append(out)
+        texts = list(diac.values())
+        scene = {"type": spec["type"], "items": items}
+        if spec["layout"]:
+            scene["layout"] = spec["layout"]
+        if spec["title"]:
+            scene["title"] = vowelled(cid, spec["title"], texts, vocab)
+        if spec["tone"]:
+            scene["tone"] = spec["tone"]
+        if spec["sides"]:
+            scene["sides"] = [{"title": vowelled(cid, s["title"], texts, vocab), "tone": s["tone"]} for s in spec["sides"]]
+        if spec["note"]:
+            scene["note"] = vowelled(cid, spec["note"], texts, vocab)
+        # per-type sanity
+        if spec["type"] == "sides" and len(spec["sides"]) != 2:
+            err(cid, "a sides scene needs two side titles")
+        if spec["type"] == "timeline" and any(i.get("value", 0) <= 0 for i in items):
+            err(cid, "timeline items need a positive value")
+        if spec["type"] == "transform":
+            for k in ("ring", "fill", "turn", "safe"):
+                if not any(i.get("kind") == k for i in items):
+                    err(cid, f"transform scene lacks a {k} item")
+        if spec["type"] == "art":
+            need = ART.get(spec["layout"])
+            known = ART_KINDS.get(spec["layout"])
+            if known is not None:
+                for i in items:
+                    if i.get("kind") not in known:
+                        err(cid, f"illustration {spec['layout']} has no beat «{i.get('kind')}»")
+            elif need is None:
+                err(cid, f"unknown illustration «{spec['layout']}»")
+            else:
+                for k, n in need.items():
+                    have = sum(1 for i in items if i.get("kind") == k)
+                    if have != n:
+                        err(cid, f"illustration {spec['layout']} needs {n} «{k}» beat(s), has {have}")
+                if len(spec["sides"]) > 2:
+                    err(cid, "an illustration takes at most two extra titles")
+        if spec["type"] == "stars":
+            for k in ("decor", "meteor", "guide", "rain"):
+                if not any(i.get("kind") == k for i in items):
+                    err(cid, f"stars scene lacks a {k} item")
+        c["scene"] = scene
+        done += 1
+    # the quiz: one question, the right answer first then two wrong ones (the app shuffles them), and the explanation
+    for c in pack["cards"]:
+        entry = QUIZ.get(c["id"])
+        if entry is None:
+            err(c["id"], "no quiz in quiz_choices.py")
+            continue
+        q, right, wrong, explain = entry
+        choices = [right] + list(wrong)
+        if len(wrong) != 2 or len(set(choices)) != 3 or not all(x.strip() for x in choices + [q, explain]):
+            err(c["id"], "a quiz needs a question, three different answers and an explanation")
+        if max(len(x) for x in choices) > 60:
+            notes.append(f"{c['id']}: a quiz answer is longer than 60 letters")
+        c["quiz"] = {"q": q, "a": explain, "choices": choices}
+    for k in QUIZ:
+        if k not in cards:
+            err(k, "quiz for a card that does not exist")
+    used = [c["path"] for c in pack["cards"]]
+    shelf = [b for b in SHELF if any(part["paths"] for part in b["parts"])]     # books with a ready part
+    listed = [p for cat in CATEGORIES for p in cat["paths"]] + [p for b in shelf for part in b["parts"] for p in part["paths"]]
+    for p in sorted(set(used)):
+        if listed.count(p) != 1:
+            err("categories", f"path «{p}» is in {listed.count(p)} categories or book parts (needs exactly one)")
+    for p in set(listed) - set(used):
+        err("categories", f"path «{p}» has no cards")
+    for b in shelf:
+        if b["book"] not in pack["books"]:
+            err("shelf", f"book {b['id']}: source {b['book']} is not in the pack's books")
+    add_glosses(pack, cards)
+    pack["categories"] = CATEGORIES
+    pack["shelf"] = shelf
+    problems, summary = variety_report(pack["cards"], SCENES)
+    print(summary)
+    for v in problems:
+        (err("variety", v) if STRICT else notes.append("variety: " + v))
+    for n in notes:
+        print("note:", n)
+    if errors:
+        print("\n".join("ERROR " + e for e in errors))
+        sys.exit(1)
+    json.dump(pack, open(path, "w", encoding="utf-8"), ensure_ascii=False)
+    print(f"{len(CATEGORIES)} categories, {len(shelf)} books on the shelf and {done} scenes written to {path}")
+
+
+if __name__ == "__main__":
+    default = os.path.join(HERE, "..", "..", "app", "src", "main", "assets", "content", "cards.json")
+    build(sys.argv[1] if len(sys.argv) > 1 else default)
+    # the clips still in the old Kareem voice, which the app plays 1.25x faster
+    import subprocess
+    subprocess.run([sys.executable, os.path.join(HERE, "..", "tts", "old_voice.py")], check=True)

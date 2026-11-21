@@ -1,0 +1,130 @@
+name: Build APK
+
+# Every push to main builds the app twice over: an APK to install directly on a phone, and an
+# Android App Bundle (AAB) to upload to Google Play. Both are attached to a GitHub release.
+on:
+  push:
+    branches: [main]
+    paths-ignore:          # documentation, previews and checking scripts alone don't need a new build
+      - "docs/**"
+      - "README.md"
+      - "tools/previews/**"
+      - "tools/cards/verify*.py"
+      - "tools/tts/*.py"   # voice scripts; their output (clips, speech.json) still triggers a build
+      - ".github/workflows/previews.yml"
+      - ".github/workflows/speech-check.yml"
+      - ".github/workflows/card-film.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# a newer push supersedes a build still running
+concurrency:
+  group: build-apk
+  cancel-in-progress: true
+
+env:
+  # 0: Quran recitations ship as published (MP3, 64 kbps, 67 MB). 32: re-encoded to Opus 32 kbps (~41 MB),
+  # chosen by ear on 2026-10-28; switch only once AlQuran.cloud has allowed re-encoding in writing.
+  QURAN_OPUS_KBPS: "32"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The content pack must be the one finish_pack.py writes, and it fails on any break of the visual codex or of the
+      # variety rules (a layout in more than 6 cards, two neighbours sharing one, more than 6 lanterns).
+      - name: Check the card pack (codex and variety)
+        run: |
+          python3 tools/cards/finish_pack.py
+          git diff --exit-code --stat app/src/main/assets/content/cards.json
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      # Recitations fetched by an earlier build are reused; only verses cited for the first time are downloaded.
+      - name: Restore the verse files of earlier builds
+        uses: actions/cache@v4
+        with:
+          path: app/src/main/assets/quran
+          key: quran-loud16-${{ env.QURAN_OPUS_KBPS }}-${{ hashFiles('app/src/main/assets/content/cards.json') }}
+          restore-keys: quran-loud16-${{ env.QURAN_OPUS_KBPS }}-
+
+      - name: Fetch verse recitations and Uthmani text
+        run: |
+          if [ "$QURAN_OPUS_KBPS" != "0" ]; then which ffmpeg || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg); fi
+          python3 tools/fetch_quran.py app/src/main/assets | tee "$RUNNER_TEMP/quran.log"
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.14.3"
+
+      # The upload key comes from the repository secrets (Settings > Secrets and variables > Actions):
+      # UPLOAD_KEYSTORE_BASE64, UPLOAD_KEYSTORE_PASSWORD, UPLOAD_KEY_ALIAS, UPLOAD_KEY_PASSWORD.
+      - name: Upload key from the repository secrets
+        env:
+          UPLOAD_KEYSTORE_BASE64: ${{ secrets.UPLOAD_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$UPLOAD_KEYSTORE_BASE64" ]; then
+            echo "$UPLOAD_KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/upload.p12"
+            echo "UPLOAD_KEYSTORE_PATH=$RUNNER_TEMP/upload.p12" >> "$GITHUB_ENV"
+            echo "Signing with the upload key."
+          else
+            echo "::warning::No UPLOAD_KEYSTORE_BASE64 secret: this build is signed with a temporary debug key and cannot be uploaded to Google Play."
+          fi
+
+      - name: Build signed APK and App Bundle
+        env:
+          UPLOAD_KEYSTORE_PASSWORD: ${{ secrets.UPLOAD_KEYSTORE_PASSWORD }}
+          UPLOAD_KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
+          UPLOAD_KEY_PASSWORD: ${{ secrets.UPLOAD_KEY_PASSWORD }}
+        run: |
+          set -o pipefail
+          gradle :app:assembleRelease :app:bundleRelease --no-daemon --stacktrace 2>&1 | tee "$RUNNER_TEMP/gradle.log"
+
+      # Job logs are not always reachable, so a failed build pushes its errors to the build-logs branch.
+      - name: Push the build errors to the build-logs branch
+        if: failure()
+        run: |
+          mkdir -p "$RUNNER_TEMP/log"
+          grep -E "^e: |^w: .*error|error:|What went wrong|FAILED|Exception|AAPT|Lint found" "$RUNNER_TEMP/gradle.log" | head -150 > "$RUNNER_TEMP/log/errors.txt" || true
+          tail -250 "$RUNNER_TEMP/gradle.log" > "$RUNNER_TEMP/log/tail.txt" || true
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git checkout --orphan build-logs
+          git rm -rq --cached . && rm -rf -- * .github
+          cp "$RUNNER_TEMP"/log/* . && git add errors.txt tail.txt
+          git commit -qm "Build errors of ${GITHUB_SHA::7}" && git push -qf origin build-logs
+
+      - name: Publish to Releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          N="${{ github.run_number }}"
+          if [ "$N" -gt 100 ]; then V="1.1.$((N - 100))"; else V="1.0.$N"; fi   # the versionName in app/build.gradle.kts
+          APK="Re-Iman-$V.apk"
+          AAB="Re-Iman-$V.aab"
+          cp app/build/outputs/apk/release/app-release.apk "$APK"
+          cp app/build/outputs/bundle/release/app-release.aab "$AAB"
+          if [ -n "$UPLOAD_KEYSTORE_PATH" ]; then
+            SIGNING="Signed with the upload key: the .aab can be uploaded to Google Play."
+          else
+            SIGNING="Signed with a temporary debug key: for testing only, NOT for Google Play (add the upload-key secrets and run the workflow again)."
+          fi
+          QURAN=$(tail -1 "$RUNNER_TEMP/quran.log" 2>/dev/null)
+          printf '%s\n\n%s\n%s\n%s\n\n%s\n' "Built from ${GITHUB_SHA::7}, version $V (code $N)." \
+            "- $APK: install directly on a phone." \
+            "- $AAB: upload to Google Play Console." \
+            "$SIGNING" "Quran files: $QURAN" > notes.md
+          gh release create "build-$N" "$APK" "$AAB" \
+            --title "Re-Iman $V" \
+            --notes-file notes.md \
+            --latest
+
+      # No artifact copy: the release above is the delivery, and release files are not counted in the
+      # Actions storage quota (500 MB on the free plan), where 136 MB copies of every build filled it.
