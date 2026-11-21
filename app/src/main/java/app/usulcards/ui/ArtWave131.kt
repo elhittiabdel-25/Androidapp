@@ -17,19 +17,19 @@ import androidx.compose.ui.graphics.drawscope.Stroke
  * takes away (1000 down to 800). People are faceless; the Prophet ﷺ only his named light.
  */
 
-private val Fig131 = Color(0xFFEDE4D0)
-private val Dim131 = Color(0xFF8A8296)
-private val Sack131 = Color(0xFFC9A46A)
+internal val Fig131 = Color(0xFFEDE4D0)
+internal val Dim131 = Color(0xFF8A8296)
+internal val Sack131 = Color(0xFFC9A46A)
 
-private fun DrawScope.night131(a: ArtCtx) {
+internal fun DrawScope.night131(a: ArtCtx) {
     nightSky(a.t, Qn.Night, Qn.NightLow, size.height * 0.8f, 0.7f)
     dunes97(size.height * 0.8f, Color(0xFF4A3A2A), Color(0xFF3A2E24))
 }
 
-private fun DrawScope.veil131(alpha: Float) = drawRect(Color(0xFF14102A), alpha = 0.55f * alpha)
+internal fun DrawScope.veil131(alpha: Float) = drawRect(Color(0xFF14102A), alpha = 0.55f * alpha)
 
 /** Tags in a row, read right to left (first part on the right). */
-private fun DrawScope.row131(a: ArtCtx, kind: String, n: Int, y: Float, p: Float, f: Float, from: Float = 0.1f, step: Float = 0.15f,
+internal fun DrawScope.row131(a: ArtCtx, kind: String, n: Int, y: Float, p: Float, f: Float, from: Float = 0.1f, step: Float = 0.15f,
                              first: Int = 0, ink: Color = ArtInk.Ivory) {
     for (i in 0 until n) {
         val x = size.width * (0.5f + ((n - 1) / 2f - i) * (0.84f / n))
@@ -37,7 +37,7 @@ private fun DrawScope.row131(a: ArtCtx, kind: String, n: Int, y: Float, p: Float
     }
 }
 
-private fun DrawScope.sack131(c: Offset, s: Float, color: Color, alpha: Float) {
+internal fun DrawScope.sack131(c: Offset, s: Float, color: Color, alpha: Float) {
     if (alpha <= 0.01f) return
     val p = Path().apply {
         moveTo(c.x - s * 0.35f, c.y - s * 0.55f)
@@ -51,20 +51,20 @@ private fun DrawScope.sack131(c: Offset, s: Float, color: Color, alpha: Float) {
     drawLine(Color(0xFF6E5432), Offset(c.x - s * 0.35f, c.y - s * 0.42f), Offset(c.x + s * 0.35f, c.y - s * 0.42f), s * 0.08f, alpha = alpha)
 }
 
-private fun DrawScope.coin131(c: Offset, r: Float, alpha: Float) {
+internal fun DrawScope.coin131(c: Offset, r: Float, alpha: Float) {
     if (alpha <= 0.01f) return
     drawCircle(Qn.Gold, r, c, alpha = alpha)
     drawCircle(Qn.GoldLight, r * 0.7f, c, alpha = alpha, style = Stroke(r * 0.15f))
 }
 
-private fun DrawScope.car131(c: Offset, s: Float, color: Color, alpha: Float) {
+internal fun DrawScope.car131(c: Offset, s: Float, color: Color, alpha: Float) {
     if (alpha <= 0.01f) return
     drawRoundRect(color, Offset(c.x - s, c.y - s * 0.35f), Size(s * 2f, s * 0.5f), CornerRadius(s * 0.15f), alpha = alpha)
     drawRoundRect(color, Offset(c.x - s * 0.55f, c.y - s * 0.75f), Size(s * 1.1f, s * 0.45f), CornerRadius(s * 0.2f), alpha = alpha)
     for (k in listOf(-0.55f, 0.55f)) drawCircle(Color(0xFF2A2140), s * 0.2f, Offset(c.x + s * k, c.y + s * 0.15f), alpha = alpha)
 }
 
-private fun DrawScope.box131(c: Offset, s: Float, color: Color, alpha: Float, crack: Float = 0f) {
+internal fun DrawScope.box131(c: Offset, s: Float, color: Color, alpha: Float, crack: Float = 0f) {
     if (alpha <= 0.01f) return
     drawRoundRect(color, Offset(c.x - s, c.y - s * 0.7f), Size(s * 2f, s * 1.4f), CornerRadius(s * 0.1f), alpha = alpha)
     drawLine(Color(0xFF2A2140), Offset(c.x - s, c.y - s * 0.3f), Offset(c.x + s, c.y - s * 0.3f), s * 0.05f, alpha = alpha * 0.6f)
@@ -75,13 +75,13 @@ private fun DrawScope.box131(c: Offset, s: Float, color: Color, alpha: Float, cr
 }
 
 /** A share of a whole: `frac` of a gold disc, the rest dim. */
-private fun DrawScope.pie131(c: Offset, r: Float, frac: Float, alpha: Float) {
+internal fun DrawScope.pie131(c: Offset, r: Float, frac: Float, alpha: Float) {
     if (alpha <= 0.01f) return
     drawCircle(Dim131, r, c, alpha = alpha * 0.7f)
     drawArc(Qn.Gold, -90f, 360f * frac, true, Offset(c.x - r, c.y - r), Size(r * 2f, r * 2f), alpha = alpha)
 }
 
-private fun DrawScope.arrow131(from: Offset, to: Offset, q: Float, color: Color, alpha: Float) {
+internal fun DrawScope.arrow131(from: Offset, to: Offset, q: Float, color: Color, alpha: Float) {
     if (alpha <= 0.01f || q <= 0f) return
     val e = Offset(mix(from.x, to.x, q), mix(from.y, to.y, q))
     drawLine(color, from, e, size.width * 0.006f, alpha = alpha, cap = StrokeCap.Round)
