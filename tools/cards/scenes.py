@@ -5109,4 +5109,47 @@ SCENES = {
         I("فور وجودها", None, "face-2", sub="فَوْرَ وُجُودِهَا", kind="mmluqata2"),
         I("ولا يجوز إنشاد الضالة في المساجد", None, "deep-0", sub="لَا يَجُوزُ إِنْشَادُ الضَّالَّةِ فِي الْمَسَاجِدِ", kind="mmluqata3"),
     ], layout="mmluqata"),
+    # ── v2.0: Inheritance, al-Sharh al-Mumti' abridged (wave 133) ──
+    "fr-ilm": S("art", [
+        I("وهو نوعان", None, "face-0", sub="شَرْعِيٌّ فِقْهِيٌّ|فَنِّيٌّ حِسَابِيٌّ", kind="frilm0"),
+        I("عن بنت وأخت شقيقة", None, "face-1", sub="النِّصْفَ|الْبَاقِيَ", kind="frilm1"),
+        I("المسألة من اثنين", None, "face-2", sub="لِلْبِنْتِ وَاحِدٌ|لِلْأُخْتِ وَاحِدٌ", kind="frilm2"),
+        I("وأسباب الإرث ثلاثة", None, "deep-1", sub="الرَّحِمُ|النِّكَاحُ|الْوَلَاءُ", kind="frilm3"),
+    ], layout="frilm"),
+    "fr-asaba": S("art", [
+        I("العاصب يرث بلا تقدير", None, "face-0", sub="بِلَا تَقْدِيرٍ", kind="frasaba0"),
+        I("والعصبة ثلاثة أصناف", None, "face-1", sub="عَاصِبٌ بِالنَّفْسِ|عَاصِبٌ بِالْغَيْرِ|عَاصِبٌ مَعَ الْغَيْرِ", kind="frasaba1"),
+        I("مع ذكر يساويهن درجة ووصفا", None, "face-2", sub="يُسَاوِيهِنَّ دَرَجَةً وَوَصْفًا", kind="frasaba2"),
+        I("عن أخ شقيق وأب", None, "deep-1", sub="لِلْأَبِ كُلُّ الْمَالِ|لَا شَيْءَ لِلْأَخِ", kind="frasaba3"),
+    ], layout="frasaba"),
+    "fr-ikhwa": S("art", [
+        I("للواحد من ولد الأم", None, "face-0", sub="السُّدُسُ|الثُّلُثُ", kind="frikhwa0"),
+        I("يتساوى فيه الذكر والأنثى", None, "face-1", sub="الذَّكَرُ وَالْأُنْثَى سَوَاءٌ", kind="frikhwa1"),
+        I("ويرثون بشرطين", None, "face-2", sub="فَرْعٌ وَارِثٌ|أَصْلٌ وَارِثٌ", kind="frikhwa2"),
+        I("عن جد وأخ لأم", None, "deep-1", sub="الْمَالُ لِلْجَدِّ وَحْدَهُ", kind="frikhwa3"),
+    ], layout="frikhwa"),
+    "fr-hajb": S("art", [
+        I("لا يحل لمن لا يعرف الحجب", None, "face-0", sub="مَنْ لَا يَعْرِفُ الْحَجْبَ", kind="frhajb0"),
+        I("من أدلى بواسطة", None, "face-1", sub="حَجَبَتْهُ تِلْكَ الْوَاسِطَةُ", kind="frhajb1"),
+        I("لم ترث الجدتان شيئا", None, "face-2", sub="الْأُمُّ|الْجَدَّتَانِ", kind="frhajb2"),
+        I("ويحجب الأخ الشقيق", None, "deep-0", sub="الِابْنُ|الْأَبُ|الْجَدُّ", kind="frhajb3"),
+    ], layout="frhajb"),
+    "fr-umariyya": S("art", [
+        I("العمريتان", None, "face-0", sub="عُمَرُ|ثُلُثَ الْبَاقِي", kind="frumariyya0"),
+        I("فالأولى من ستة", None, "face-1", sub="الزَّوْجُ ثَلَاثَةٌ|الْأُمُّ وَاحِدٌ|الْأَبُ اثْنَانِ", kind="frumariyya1"),
+        I("والثانية من أربعة", None, "face-2", sub="الزَّوْجَةُ وَاحِدٌ|الْأُمُّ وَاحِدٌ|الْأَبُ اثْنَانِ", kind="frumariyya2"),
+        I("وهذا قضاء عمر بن الخطاب", None, "deep-0", sub="قَضَاءُ عُمَرَ", kind="frumariyya3"),
+    ], layout="frumariyya"),
+    "fr-awl": S("art", [
+        I("إما ناقصة", None, "face-0", sub="نَاقِصَةٌ|عَادِلَةٌ|عَائِلَةٌ", kind="frawl0"),
+        I("مثال الناقصة", None, "face-1", sub="الْبِنْتُ ثَلَاثَةٌ|الْأُمُّ وَاحِدٌ|الْعَمُّ اثْنَانِ", kind="frawl1"),
+        I("فتعول إلى ثمانية", None, "face-2", sub="تَعُولُ إِلَى ثَمَانِيَةٍ", kind="frawl2"),
+        I("ومثال العادلة", None, "deep-0", sub="فَالْجَمِيعُ سِتَّةٌ", kind="frawl3"),
+    ], layout="frawl"),
+    "fr-radd": S("art", [
+        I("وهو عكس العول", None, "face-0", sub="الْعَوْلُ زِيَادَةٌ|الرَّدُّ نَقْصٌ", kind="frradd0"),
+        I("إلا الزوجين", None, "face-1", sub="إِلَّا الزَّوْجَيْنِ", kind="frradd1"),
+        I("فرضا وردا", None, "face-2", sub="فَرْضًا وَرَدًّا", kind="frradd2"),
+        I("إلى بيت المال", None, "deep-0", sub="بَيْتِ الْمَالِ", kind="frradd3"),
+    ], layout="frradd"),
 }
