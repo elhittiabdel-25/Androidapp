@@ -5447,4 +5447,47 @@ SCENES = {
         I("على الموفين بالنذر", None, "face-2", sub="النَّاذِرِينَ|الْمُوفِينَ بِالنَّذْرِ", kind="ymnadhr2"),
         I("لا يرد قدرا", None, "deep-0", sub="لَا يَرُدُّ قَدَرًا", kind="ymnadhr3"),
     ], layout="ymnadhr"),
+    # ── v2.0: Judgeship, testimony, admission, al-Sharh al-Mumti' abridged (wave 141) ──
+    "qd-qada": S("art", [
+        I("يتضمن ثلاثة أمور", None, "face-0", sub="تَبْيِينَ الْحُكْمِ الشَّرْعِيِّ|وَالْإِلْزَامَ بِهِ|وَفَصْلَ الْخُصُومَاتِ", kind="qdqada0"),
+        I("فالمفتي يبين ولا يلزم", None, "face-1", sub="يُبَيِّنُ وَلَا يُلْزِمُ", kind="qdqada1"),
+        I("فرض كفاية", None, "face-2", sub="فَرْضُ كِفَايَةٍ", kind="qdqada2"),
+        I("كن قاضيا في هذا البلد", None, "deep-1", sub="فَرْضَ عَيْنٍ", kind="qdqada3"),
+    ], layout="qdqada"),
+    "qd-ghadab": S("art", [
+        I("والغضب ثلاثة أقسام", None, "face-0", sub="ابْتِدَاءٌ|وَوَسَطٌ|وَغَايَةٌ", kind="qdghadab0"),
+        I("فابتداء الغضب لا يضر", None, "face-1", sub="لَا يَضُرُّ|فِي الْوَسَطِ وَالْغَايَةِ", kind="qdghadab1"),
+        I("فرع عن تصوره", None, "face-2", sub="فَرْعٌ عَنْ تَصَوُّرِهِ", kind="qdghadab2"),
+        I("اذهبا وارجعا", None, "deep-0", sub="اذْهَبَا وَارْجِعَا", kind="qdghadab3"),
+    ], layout="qdghadab"),
+    "qd-rishwa": S("art", [
+        I("الراشي والمرتشي", None, "face-0", sub="الرَّاشِيَ وَالْمُرْتَشِيَ", kind="qdrishwa0"),
+        I("أعطى ألفا", None, "face-1", sub="أَلْفًا|أَلْفَيْنِ", kind="qdrishwa1"),
+        I("فالإثم على الآخذ", None, "face-2", sub="عَلَى الْآخِذِ دُونَ الْمُعْطِي", kind="qdrishwa2"),
+        I("وجب عليه أن يردها", None, "deep-1", sub="أَنْ يَرُدَّهَا", kind="qdrishwa3"),
+    ], layout="qdrishwa"),
+    "qd-bayyina": S("art", [
+        I("البينة على المدعي", None, "face-0", sub="الْبَيِّنَةُ عَلَى الْمُدَّعِي|وَالْيَمِينُ عَلَى مَنْ أَنْكَرَ", kind="qdbayyina0"),
+        I("لأن الأصل معه", None, "face-1", sub="لِأَنَّ الْأَصْلَ مَعَهُ", kind="qdbayyina1"),
+        I("أن يحكم بعلمه في ثلاث", None, "face-2", sub="عَدَالَةِ الشُّهُودِ|فِي مَجْلِسِ الْحُكْمِ|وَمَا اشْتَهَرَ", kind="qdbayyina2"),
+        I("إلى قاض آخر", None, "deep-1", sub="قَاضٍ آخَرَ|شَاهِدًا", kind="qdbayyina3"),
+    ], layout="qdbayyina"),
+    "sh-shahada": S("art", [
+        I("بما يعلمه", None, "face-0", sub="بِمَا يَعْلَمُهُ", kind="shshahada0"),
+        I("وهي نوعان", None, "face-1", sub="تَحَمُّلٌ|وَأَدَاءٌ", kind="shshahada1"),
+        I("الجهل", None, "face-2", sub="الْجَهْلُ|النِّسْيَانُ", kind="shshahada2"),
+        I("شهادة الزور", None, "deep-0", sub="أَلَا وَشَهَادَةُ الزُّورِ", kind="shshahada3"),
+    ], layout="shshahada"),
+    "sh-nisab": S("art", [
+        I("رجلان", None, "face-0", sub="رَجُلَانِ|أَوْ رَجُلٌ وَامْرَأَتَانِ|أَوْ رَجُلٌ وَيَمِينُ الْمُدَّعِي", kind="shnisab0"),
+        I("أوسع البينات", None, "face-1", sub="أَوْسَعُ الْبَيِّنَاتِ", kind="shnisab1"),
+        I("إلا رجلان", None, "face-2", sub="إِلَّا رَجُلَانِ", kind="shnisab2"),
+        I("يشرب الخمر", None, "deep-1", sub="فَلَا يَجِبُ عَلَيْكَ", kind="shnisab3"),
+    ], layout="shnisab"),
+    "qr-iqrar": S("art", [
+        I("اعتراف الإنسان", None, "face-0", sub="اعْتِرَافُ الْإِنْسَانِ بِمَا عَلَيْهِ", kind="qriqrar0"),
+        I("أكره على أن يقر بمائة", None, "face-1", sub="بِمِائَةٍ|مِائَتَيْنِ", kind="qriqrar1"),
+        I("لا إله إلا الله", None, "face-2", sub="لَا إِلَهَ إِلَّا اللَّهُ", kind="qriqrar2"),
+        I("لأن دخول الجنة أبلغ", None, "deep-0", sub="دُخُولَ الْجَنَّةِ أَبْلَغُ", kind="qriqrar3"),
+    ], layout="qriqrar"),
 }

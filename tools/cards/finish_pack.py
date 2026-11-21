@@ -870,6 +870,13 @@ ART_KINDS = {
     "ymikram": {"ymikram0", "ymikram1", "ymikram2", "ymikram3"},
     "ymlaghw": {"ymlaghw0", "ymlaghw1", "ymlaghw2", "ymlaghw3"},
     "ymnadhr": {"ymnadhr0", "ymnadhr1", "ymnadhr2", "ymnadhr3"},
+    "qdqada": {"qdqada0", "qdqada1", "qdqada2", "qdqada3"},
+    "qdghadab": {"qdghadab0", "qdghadab1", "qdghadab2", "qdghadab3"},
+    "qdrishwa": {"qdrishwa0", "qdrishwa1", "qdrishwa2", "qdrishwa3"},
+    "qdbayyina": {"qdbayyina0", "qdbayyina1", "qdbayyina2", "qdbayyina3"},
+    "shshahada": {"shshahada0", "shshahada1", "shshahada2", "shshahada3"},
+    "shnisab": {"shnisab0", "shnisab1", "shnisab2", "shnisab3"},
+    "qriqrar": {"qriqrar0", "qriqrar1", "qriqrar2", "qriqrar3"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
