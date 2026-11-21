@@ -1024,6 +1024,8 @@ LETTER = re.compile(r"[\u0621-\u064a\u0671]")
 def add_glosses(pack, cards):
     """Hard words of each card (tools/cards/gloss.py): each must appear in the card's face or deeper text as a whole
     word (one prefix letter و ف ب ل ك allowed), have full tashkeel, and its explanation must be one short sentence."""
+    for c in cards.values():
+        c.pop("gloss", None)                  # re-added last, so the pack is the same on every run
     for cid, items in GLOSS.items():
         c = cards.get(cid)
         if c is None:
