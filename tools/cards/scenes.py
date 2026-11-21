@@ -5490,4 +5490,41 @@ SCENES = {
         I("لا إله إلا الله", None, "face-2", sub="لَا إِلَهَ إِلَّا اللَّهُ", kind="qriqrar2"),
         I("لأن دخول الجنة أبلغ", None, "deep-0", sub="دُخُولَ الْجَنَّةِ أَبْلَغُ", kind="qriqrar3"),
     ], layout="qriqrar"),
+    # ── v2.0: al-Itqan part 2 (wave 142) ──
+    "iq-awwal": S("art", [
+        I("صدر سورة العلق", None, "face-0", sub="اقْرَأْ بِاسْمِ رَبِّكَ", kind="iqawwal0"),
+        I("الرؤيا الصادقة", None, "face-1", sub="الرُّؤْيَا الصَّادِقَةُ|حِرَاءَ", kind="iqawwal1"),
+        I("ما أنا بقارئ", None, "face-2", sub="اقْرَأْ|مَا أَنَا بِقَارِئٍ", kind="iqawwal2"),
+        I("وكان أبو موسى", None, "deep-0", sub="أَبُو مُوسَى|هَذِهِ أَوَّلُ سُورَةٍ", kind="iqawwal3"),
+    ], layout="iqawwal"),
+    "iq-akhir": S("art", [
+        I("آية الكلالة", None, "face-0", sub="آيَةُ الْكَلَالَةِ|بَرَاءَةٌ", kind="iqakhir0"),
+        I("آية الربا", None, "face-1", sub="آيَةُ الرِّبَا", kind="iqakhir1"),
+        I("سورة النصر", None, "face-2", sub="سُورَةُ النَّصْرِ|الْمَائِدَةُ", kind="iqakhir2"),
+        I("من آخر القرآن نزولا", None, "deep-1", sub="مِنْ آخِرِ الْقُرْآنِ نُزُولًا", kind="iqakhir3"),
+    ], layout="iqakhir"),
+    "iq-sabab": S("art", [
+        I("بل له فوائد", None, "face-0", sub="بَلْ لَهُ فَوَائِدُ", kind="iqsabab0"),
+        I("وجه الحكمة", None, "face-1", sub="وَجْهِ الْحِكْمَةِ|الْوُقُوفُ عَلَى الْمَعْنَى", kind="iqsabab1"),
+        I("يورث العلم بالمسبب", None, "face-2", sub="الْعِلْمَ بِالسَّبَبِ|الْعِلْمَ بِالْمُسَبَّبِ", kind="iqsabab2"),
+        I("قصتها وبيان نزولها", None, "deep-0", sub="قِصَّتِهَا وَبَيَانِ نُزُولِهَا", kind="iqsabab3"),
+    ], layout="iqsabab"),
+    "iq-umum": S("art", [
+        I("بعموم اللفظ", None, "face-0", sub="بِعُمُومِ اللَّفْظِ|بِخُصُوصِ السَّبَبِ", kind="iqumum0"),
+        I("كآية الظهار", None, "face-1", sub="كَآيَةِ الظِّهَارِ|وَآيَةِ اللِّعَانِ", kind="iqumum1"),
+        I("السبب خاصا", None, "face-2", sub="السَّبَبُ خَاصًّا|وَالْوَعِيدُ عَامًّا", kind="iqumum2"),
+        I("أوس بن الصامت", None, "deep-0", sub="أَوْسِ بْنِ الصَّامِتِ|خَوْلَةَ", kind="iqumum3"),
+    ], layout="iqumum"),
+    "iq-umar": S("art", [
+        I("كان عمر يرى الرأي", None, "face-0", sub="عُمَرُ|فَيَنْزِلُ بِهِ الْقُرْآنُ", kind="iqumar0"),
+        I("وافقت ربي في ثلاث", None, "face-1", sub="فِي مَقَامِ إِبْرَاهِيمَ|وَفِي الْحِجَابِ|فِي الْغَيْرَةِ", kind="iqumar1"),
+        I("بمثل لفظه", None, "face-2", sub="آيَةُ التَّحْرِيمِ|بِمِثْلِ لَفْظِهِ", kind="iqumar2"),
+        I("بما قال عمر", None, "deep-0", sub="نَزَلَ الْقُرْآنُ بِمَا قَالَ عُمَرُ", kind="iqumar3"),
+    ], layout="iqumar"),
+    "iq-inzal": S("art", [
+        I("جملة واحدة", None, "face-0", sub="جُمْلَةً وَاحِدَةً|فِي عِشْرِينَ سَنَةً", kind="iqinzal0"),
+        I("في بيت العزة", None, "face-1", sub="بَيْتِ الْعِزَّةِ|جِبْرِيلُ", kind="iqinzal1"),
+        I("أحدث الله لهم جوابا", None, "face-2", sub="أَحْدَثَ اللَّهُ لَهُمْ جَوَابًا", kind="iqinzal2"),
+        I("لنثبت به فؤادك", None, "deep-1", sub="لِنُثَبِّتَ بِهِ فُؤَادَكَ", kind="iqinzal3"),
+    ], layout="iqinzal"),
 }
