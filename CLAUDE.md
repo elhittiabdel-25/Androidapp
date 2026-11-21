@@ -31,6 +31,9 @@ Read this instead of exploring. Keep replies short; the owner is a visual learne
   as `.base.onnx`). About 2000 older clips are still the old Kareem (kept where the speech check heard them better); it is slower,
   so the app plays the clips listed in assets/audio/old-kareem.txt at 1.25x (tools/tts/old_voice.py, run by
   finish_pack.py). The speed menu still shows x1.
+- Clarity run 12 (kareem-ft-e548/598/648, 2026-11-18): slightly clearer, but the melody switches between speakers
+  inside one sentence: REJECTED; keep e399. Voice training paused; the owner will try ElevenLabs later to make
+  more training audio. Do not pursue it until he asks.
 - Training: branch `voice-train`, workflow voice-kaggle (Kaggle GPU via secret KAGGLE_JSON; push voice/kaggle.cmd).
 
 ## Saving tokens
