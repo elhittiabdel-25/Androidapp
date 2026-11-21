@@ -883,6 +883,13 @@ ART_KINDS = {
     "iqumum": {"iqumum0", "iqumum1", "iqumum2", "iqumum3"},
     "iqumar": {"iqumar0", "iqumar1", "iqumar2", "iqumar3"},
     "iqinzal": {"iqinzal0", "iqinzal1", "iqinzal2", "iqinzal3"},
+    "astarif": {"astarif0", "astarif1", "astarif2", "astarif3"},
+    "asumum": {"asumum0", "asumum1", "asumum2", "asumum3"},
+    "asfaida": {"asfaida0", "asfaida1", "asfaida2", "asfaida3"},
+    "assafa": {"assafa0", "assafa1", "assafa2", "assafa3"},
+    "asqays": {"asqays0", "asqays1", "asqays2", "asqays3"},
+    "asbuyut": {"asbuyut0", "asbuyut1", "asbuyut2", "asbuyut3"},
+    "asmaqil": {"asmaqil0", "asmaqil1", "asmaqil2", "asmaqil3"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
