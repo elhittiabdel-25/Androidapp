@@ -123,6 +123,7 @@ fun categoryTone(p: Palette, id: String, index: Int): Pair<Color, Color> = when 
     "chain" -> p.accent to p.accentSoft
     "scale" -> p.gold to p.goldSoft
     "home" -> p.ok to p.okSoft
+    "bowl" -> p.gold to p.goldSoft
     else -> listOf(p.accent to p.accentSoft, p.gold to p.goldSoft, p.ok to p.okSoft, p.warn to p.warnSoft)[index % 4]
 }
 
@@ -212,6 +213,11 @@ fun CategoryGlyph(kind: String, color: Color, size: Dp = 26.dp) {
                 drawLine(color, Offset(w * 0.8f, h * 0.4f), Offset(w * 0.8f, h * 0.88f), sw, StrokeCap.Round)
                 drawLine(color, Offset(w * 0.2f, h * 0.88f), Offset(w * 0.8f, h * 0.88f), sw, StrokeCap.Round)
                 drawRoundRect(color, Offset(w * 0.4f, h * 0.6f), androidx.compose.ui.geometry.Size(w * 0.2f, h * 0.28f), androidx.compose.ui.geometry.CornerRadius(w * 0.04f), style = line)
+            }
+            "bowl" -> {   // a bowl with a rim and two wisps of steam (foods, oaths and vows)
+                drawArc(color, 0f, 180f, false, Offset(w * 0.14f, h * 0.3f), androidx.compose.ui.geometry.Size(w * 0.72f, h * 0.56f), style = line)
+                drawLine(color, Offset(w * 0.1f, h * 0.58f), Offset(w * 0.9f, h * 0.58f), sw, StrokeCap.Round)
+                for (x in listOf(0.4f, 0.6f)) drawArc(color, 200f, 140f, false, Offset(w * (x - 0.06f), h * 0.14f), androidx.compose.ui.geometry.Size(w * 0.12f, h * 0.24f), style = line)
             }
             "beads" -> {   // prayer beads: a ring of beads with a short tassel
                 val r = w * 0.3f

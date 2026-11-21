@@ -5404,4 +5404,47 @@ SCENES = {
         I("والصغير لا حد عليه", None, "face-2", sub="لَا حَدَّ عَلَيْهِ|تَعْزِيرُهُ", kind="hdshurut2"),
         I("أن يمنع منه", None, "deep-1", sub="لِأَنَّ اللَّهَ لَا يُحِبُّهُ", kind="hdshurut3"),
     ], layout="hdshurut"),
+    # ── v2.0: Foods, oaths and vows, al-Sharh al-Mumti' abridged (wave 140) ──
+    "tm-asl": S("art", [
+        I("والأصل فيها الحل", None, "face-0", sub="وَالْأَصْلُ فِيهَا الْحِلُّ", kind="tmasl0"),
+        I("فعليه الدليل", None, "face-1", sub="فَعَلَيْهِ الدَّلِيلُ", kind="tmasl1"),
+        I("دليل على نقصه", None, "face-2", sub="دَلِيلٌ عَلَى نَقْصِهِ", kind="tmasl2"),
+        I("كل طاهر لا مضرة فيه", None, "deep-1", sub="كُلُّ طَاهِرٍ لَا مَضَرَّةَ فِيهِ", kind="tmasl3"),
+    ], layout="tmasl"),
+    "tm-sibaa": S("art", [
+        I("ناب من السباع", None, "face-0", sub="نَابٌ مِنَ السِّبَاعِ", kind="tmsibaa0"),
+        I("للغذاء تأثيرا", None, "face-1", sub="لِلْغِذَاءِ تَأْثِيرًا عَلَى الْمُتَغَذِّي بِهِ", kind="tmsibaa1"),
+        I("وتحرم الحمر الأهلية", None, "face-2", sub="الْحُمُرُ الْأَهْلِيَّةُ|الْحِمَارُ الْوَحْشِيُّ", kind="tmsibaa2"),
+        I("الصعب بن جثامة", None, "deep-0", sub="الصَّعْبُ بْنُ جَثَّامَةَ|إِلَّا أَنَّا حُرُمٌ", kind="tmsibaa3"),
+    ], layout="tmsibaa"),
+    "tm-idtirar": S("art", [
+        I("إلى عين المال", None, "face-0", sub="إِلَى عَيْنِ الْمَالِ", kind="tmidtirar0"),
+        I("وإلى نفع المال", None, "face-1", sub="تَفْنَى عَيْنُهُ|تَبْقَى", kind="tmidtirar1"),
+        I("فهو أحق به", None, "face-2", sub="فَهُوَ أَحَقُّ بِهِ|ابْدَأْ بِنَفْسِكَ", kind="tmidtirar2"),
+        I("المصلحة العامة", None, "deep-0", sub="الْمَصْلَحَةُ الْعَامَّةُ", kind="tmidtirar3"),
+    ], layout="tmidtirar"),
+    "ym-hukm": S("art", [
+        I("تأكيد الشيء بذكر معظم", None, "face-0", sub="تَأْكِيدُ الشَّيْءِ بِذِكْرِ مُعَظَّمٍ", kind="ymhukm0"),
+        I("وأشهر حروف القسم", None, "face-1", sub="الْوَاوُ|وَالْبَاءُ|وَالتَّاءُ", kind="ymhukm1"),
+        I("أن تركها أولى", None, "face-2", sub="تَرْكَهَا أَوْلَى", kind="ymhukm2"),
+        I("إثبات الحق", None, "deep-0", sub="إِثْبَاتَ الْحَقِّ|دَفْعَ الظُّلْمِ", kind="ymhukm3"),
+    ], layout="ymhukm"),
+    "ym-ikram": S("art", [
+        I("إذا قصد الإكرام", None, "face-0", sub="قَصَدَ الْإِكْرَامَ", kind="ymikram0"),
+        I("قصة أبي بكر", None, "face-1", sub="أَبِي بَكْرٍ|أَنْتَ أَبَرُّهُمْ وَخَيْرُهُمْ", kind="ymikram1"),
+        I("واليمين الغموس", None, "face-2", sub="وَالْيَمِينُ الْغَمُوسُ|تَغْمِسُ صَاحِبَهَا فِي الْإِثْمِ", kind="ymikram2"),
+        I("مال امرئ مسلم", None, "deep-1", sub="مَالَ امْرِئٍ مُسْلِمٍ", kind="ymikram3"),
+    ], layout="ymikram"),
+    "ym-laghw": S("art", [
+        I("بغير قصد", None, "face-0", sub="بِغَيْرِ قَصْدٍ", kind="ymlaghw0"),
+        I("إطعام عشرة مساكين", None, "face-1", sub="إِطْعَامِ عَشَرَةِ مَسَاكِينَ|أَوْ كِسْوَتِهِمْ|أَوْ عِتْقِ رَقَبَةٍ", kind="ymlaghw1"),
+        I("صيام ثلاثة أيام", None, "face-2", sub="صِيَامُ ثَلَاثَةِ أَيَّامٍ|التَّتَابُعُ", kind="ymlaghw2"),
+        I("غداء أو عشاء", None, "deep-0", sub="غَدَاءً أَوْ عَشَاءً", kind="ymlaghw3"),
+    ], layout="ymlaghw"),
+    "ym-nadhr": S("art", [
+        I("إلزام المكلف نفسه", None, "face-0", sub="إِلْزَامُ الْمُكَلَّفِ نَفْسَهُ", kind="ymnadhr0"),
+        I("إنه لا يأتي بخير", None, "face-1", sub="لَا يَأْتِي بِخَيْرٍ", kind="ymnadhr1"),
+        I("على الموفين بالنذر", None, "face-2", sub="النَّاذِرِينَ|الْمُوفِينَ بِالنَّذْرِ", kind="ymnadhr2"),
+        I("لا يرد قدرا", None, "deep-0", sub="لَا يَرُدُّ قَدَرًا", kind="ymnadhr3"),
+    ], layout="ymnadhr"),
 }
