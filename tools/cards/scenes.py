@@ -5017,4 +5017,53 @@ SCENES = {
         I("ارفع من صوتك شيئا", None, "face-2", sub="ارْفَعْ مِنْ صَوْتِكَ شَيْئًا|اخْفِضْ مِنْ صَوْتِكَ شَيْئًا", kind="mtjahr2"),
         I("يعرف منازل الأشعريين", None, "deep-0", sub="الْأَشْعَرِيِّينَ", kind="mtjahr3"),
     ], layout="mtjahr"),
+    # ── v2.0: Transactions, al-Sharh al-Mumti' abridged (wave 131) ──
+    "md-sigha": S("art", [
+        I("ينعقد البيع بكل لفظ دل عليه عرفا", None, "face-0", sub="بِعْتُكَ|وَأَعْطَيْتُكَ|وَمَلَّكْتُكَ", kind="mmsigha0"),
+        I("وله صيغتان", None, "face-1", sub="قَوْلِيَّةٌ|فِعْلِيَّةٌ", kind="mmsigha1"),
+        I("وبجانبه وعاء للثمن", None, "deep-0", sub="وِعَاءٌ لِلثَّمَنِ|سِعْرُهُ", kind="mmsigha2"),
+        I("خذ هذا الكتاب بعشرة", None, "deep-2", sub="وَلَا يَقُولُ قَبِلْتُ", kind="mmsigha3"),
+    ], layout="mmsigha"),
+    "md-shurut": S("art", [
+        I("شروط صحة البيع سبعة", None, "face-0", sub="التَّرَاضِي|جَائِزَ التَّصَرُّفِ|مُبَاحَةَ النَّفْعِ", kind="mmshurut0"),
+        I("وأن يكون البيع من مالك", None, "face-1", sub="مِنْ مَالِكٍ|مَقْدُورًا عَلَى تَسْلِيمِهِ", kind="mmshurut1"),
+        I("وأن يكون المبيع معلوما", None, "face-2", sub="الْمَبِيعُ مَعْلُومًا|وَالثَّمَنُ مَعْلُومًا", kind="mmshurut2"),
+        I("ويصح من المكره بحق", None, "deep-1", sub="الْمُكْرَهِ بِحَقٍّ", kind="mmshurut3"),
+    ], layout="mmshurut"),
+    "md-riba": S("art", [
+        I("الربا نوعان", None, "face-0", sub="رِبَا الْفَضْلِ", kind="mmriba0"),
+        I("وربا النسيئة", None, "face-1", sub="رِبَا النَّسِيئَةِ", kind="mmriba1"),
+        I("وليست كل زيادة ربا", None, "face-2", sub="سَيَّارَةٌ بِسَيَّارَتَيْنِ", kind="mmriba2"),
+        I("اشترط شرطان", None, "deep-1", sub="الْمِثْلِيَّةُ|التَّقَابُضُ", kind="mmriba3"),
+    ], layout="mmriba"),
+    "md-salam": S("art", [
+        I("بيع يتقدم فيه الثمن", None, "face-0", sub="يَتَقَدَّمُ فِيهِ الثَّمَنُ", kind="mmsalam0"),
+        I("أن تأتي فلاحا", None, "face-1", sub="عَشَرَةَ آلَافِ رِيَالٍ|بَعْدَ سَنَةٍ", kind="mmsalam1"),
+        I("وفيه مصلحة للطرفين", None, "face-2", sub="يَتَعَجَّلُ الثَّمَنَ|يَحْصُلُ عَلَى أَكْثَرَ", kind="mmsalam2"),
+        I("وعقود البيع أربعة", None, "deep-0", sub="حَالٌّ بِحَالٍّ|مُؤَجَّلٌ بِمُؤَجَّلٍ", kind="mmsalam3"),
+    ], layout="mmsalam"),
+    "md-qard": S("art", [
+        I("وهو إحسان محض", None, "face-0", sub="إِحْسَانٌ مَحْضٌ", kind="mmqard0"),
+        I("يجر إليه نفعا", None, "face-1", sub="يَجُرُّ إِلَيْهِ نَفْعًا", kind="mmqard1"),
+        I("أقرضك مائة ألف", None, "face-2", sub="مِائَةَ أَلْفٍ|أَسْكُنَ بَيْتَكَ", kind="mmqard2"),
+        I("أجود من قرضه", None, "deep-0", sub="أَجْوَدَ مِنْ قَرْضِهِ", kind="mmqard3"),
+    ], layout="mmqard"),
+    "md-hawala": S("art", [
+        I("نقل دين من ذمة إلى ذمة أخرى", None, "face-0", sub="نَقْلُ دَيْنٍ", kind="mmhawala0"),
+        I("فيتحول الدين من ذمتك إلى ذمته", None, "face-1", sub="مِنْ ذِمَّتِكَ|إِلَى ذِمَّتِهِ", kind="mmhawala1"),
+        I("ومن شروطها", None, "face-2", sub="مُسْتَقِرًّا|جِنْسًا وَوَصْفًا", kind="mmhawala2"),
+        I("لم تصح حوالة", None, "deep-0", sub="صَاعِ بُرٍّ|صَاعِ شَعِيرٍ|وَإِنَّمَا هِيَ بَيْعٌ", kind="mmhawala3"),
+    ], layout="mmhawala"),
+    "md-mudaraba": S("art", [
+        I("دفع مال لمن يتجر به", None, "face-0", sub="دَفْعُ مَالٍ|لِمَنْ يَتَّجِرُ بِهِ", kind="mmmudaraba0"),
+        I("ولك نصف الربح", None, "face-1", sub="نِصْفُ الرِّبْحِ", kind="mmmudaraba1"),
+        I("معلوما مشاعا", None, "face-2", sub="كَالنِّصْفِ|أَوِ الرُّبُعِ|أَوْ ثَلَاثَةِ الْأَرْبَاعِ", kind="mmmudaraba2"),
+        I("فهو نصفان", None, "deep-0", sub="نِصْفَانِ", kind="mmmudaraba3"),
+    ], layout="mmmudaraba"),
+    "md-ayb": S("art", [
+        I("ما ينقص قيمة المبيع", None, "face-0", sub="يُنْقِصُ قِيمَةَ الْمَبِيعِ", kind="mmayb0"),
+        I("لساوى ألفا", None, "face-1", sub="أَلْفًا|ثَمَانِمِائَةٍ", kind="mmayb1"),
+        I("أن العيب فوات كمال", None, "face-2", sub="فَوَاتُ كَمَالٍ|إِظْهَارُ مَحَاسِنَ", kind="mmayb2"),
+        I("والمرض عيب ولو كان يسيرا", None, "deep-0", sub="الْمَرَضُ|فَقْدُ الْعُضْوِ", kind="mmayb3"),
+    ], layout="mmayb"),
 }
