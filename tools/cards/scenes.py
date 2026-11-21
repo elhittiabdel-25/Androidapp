@@ -5152,4 +5152,47 @@ SCENES = {
         I("فرضا وردا", None, "face-2", sub="فَرْضًا وَرَدًّا", kind="frradd2"),
         I("إلى بيت المال", None, "deep-0", sub="بَيْتِ الْمَالِ", kind="frradd3"),
     ], layout="frradd"),
+    # ── v2.0: Marriage, al-Sharh al-Mumti' abridged (wave 134) ──
+    "nk-hukm": S("art", [
+        I("وحصول الولد", None, "face-0", sub="حُصُولِ الْوَلَدِ", kind="nkhukm0"),
+        I("وتجري فيه الأحكام الخمسة", None, "face-1", sub="الْوُجُوبُ|الِاسْتِحْبَابُ|الْإِبَاحَةُ|التَّحْرِيمُ|الْكَرَاهَةُ", kind="nkhukm1"),
+        I("يجب عليه", None, "face-2", sub="يَجِبُ عَلَيْهِ", kind="nkhukm2"),
+        I("وقال عثمان بن مظعون", None, "deep-1", sub="عُثْمَانُ بْنُ مَظْعُونٍ|نَهَانَا عَنِ التَّبَتُّلِ", kind="nkhukm3"),
+    ], layout="nkhukm"),
+    "nk-arkan": S("art", [
+        I("للنكاح ركنان", None, "face-0", sub="الزَّوْجَانِ|الْإِيجَابُ وَالْقَبُولُ", kind="nkarkan0"),
+        I("وهي معتدة", None, "face-1", sub="مُعْتَدَّةٌ", kind="nkarkan1"),
+        I("اللفظ الصادر من الولي", None, "face-2", sub="الْوَلِيِّ|أَوْجَبَ بِهِ الْعَقْدَ", kind="nkarkan2"),
+        I("ولا بد من إعادته", None, "deep-0", sub="لَا بُدَّ مِنْ إِعَادَتِهِ", kind="nkarkan3"),
+    ], layout="nkarkan"),
+    "nk-shurut": S("art", [
+        I("قيود وضعها الشرع", None, "face-0", sub="قُيُودٌ وَضَعَهَا الشَّرْعُ|يَضَعُهَا الْعَاقِدُ", kind="nkshurut0"),
+        I("تعيين الزوجين", None, "face-1", sub="تَعْيِينُ الزَّوْجَيْنِ", kind="nkshurut1"),
+        I("رضا الزوجين", None, "face-2", sub="رِضَا الزَّوْجَيْنِ|وُجُودُ الْوَلِيِّ", kind="nkshurut2"),
+        I("لأن السلعة إذا لم تصلح", None, "deep-0", sub="السِّلْعَةُ|الزَّوَاجُ", kind="nkshurut3"),
+    ], layout="nkshurut"),
+    "nk-muharramat": S("art", [
+        I("فالأصل الحل", None, "face-0", sub="الْأَصْلُ الْحِلُّ", kind="nkmuharramat0"),
+        I("والمحرمات قسمان", None, "face-1", sub="إِلَى أَبَدٍ|إِلَى أَمَدٍ", kind="nkmuharramat1"),
+        I("خمسة أنواع", None, "face-2", sub="النَّسَبُ|الرَّضَاعُ|الْمُصَاهَرَةُ|اللِّعَانُ|الِاحْتِرَامُ", kind="nkmuharramat2"),
+        I("والمحرمات بالاحترام", None, "deep-0", sub="زَوْجَاتُ الرَّسُولِ ﷺ|إِلَى يَوْمِ الْقِيَامَةِ", kind="nkmuharramat3"),
+    ], layout="nkmuharramat"),
+    "nk-sadaq": S("art", [
+        I("العوض الواجب", None, "face-0", sub="الْعِوَضُ الْوَاجِبُ", kind="nksadaq0"),
+        I("صدق طلب الزوج", None, "face-1", sub="صِدْقِ طَلَبِ الزَّوْجِ", kind="nksadaq1"),
+        I("للفقير صدقة", None, "face-2", sub="صَدَقَةً", kind="nksadaq2"),
+        I("أنها أخته من الرضاع", None, "deep-0", sub="يَجِبُ لَهَا الصَّدَاقُ", kind="nksadaq3"),
+    ], layout="nksadaq"),
+    "nk-walima": S("art", [
+        I("أولم ولو بشاة", None, "face-0", sub="أَوْلِمْ وَلَوْ بِشَاةٍ", kind="nkwalima0"),
+        I("ومن حكمها", None, "face-1", sub="إِعْلَانُ النِّكَاحِ|إِطْعَامُ الْفُقَرَاءِ|صِلَةُ الْأَرْحَامِ|جَبْرُ خَاطِرِ الزَّوْجَةِ", kind="nkwalima1"),
+        I("في حق الزوج", None, "face-2", sub="فِي حَقِّ الزَّوْجِ", kind="nkwalima2"),
+        I("فهو من النياحة", None, "deep-0", sub="مِنَ النِّيَاحَةِ", kind="nkwalima3"),
+    ], layout="nkwalima"),
+    "nk-khul": S("art", [
+        I("على عوض منها", None, "face-0", sub="عَلَى عِوَضٍ مِنْهَا", kind="nkkhul0"),
+        I("فهو خلع", None, "face-1", sub="فَهُوَ خُلْعٌ", kind="nkkhul1"),
+        I("والصحيح أنه فسخ", None, "face-2", sub="فَسْخٌ|بِعَقْدٍ جَدِيدٍ", kind="nkkhul2"),
+        I("خالع زوجته على عوض", None, "deep-1", sub="خَالَعَ زَوْجَتَهُ|طَلَّقَ زَوْجَتَهُ", kind="nkkhul3"),
+    ], layout="nkkhul"),
 }

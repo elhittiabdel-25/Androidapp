@@ -41,7 +41,7 @@ private fun DrawScope.book130(c: Offset, s: Float, color: Color, alpha: Float) {
 }
 
 /** Sound going out from `c`: `loud` sets how far the rings reach. */
-private fun DrawScope.voice130(c: Offset, loud: Float, alpha: Float, t: Float) {
+internal fun DrawScope.voice130(c: Offset, loud: Float, alpha: Float, t: Float) {
     val w = size.width
     for (k in 0 until 3) {
         val ph = ((t * 0.6f + k / 3f) % 1f)

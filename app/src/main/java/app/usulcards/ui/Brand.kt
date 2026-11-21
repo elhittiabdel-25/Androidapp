@@ -122,6 +122,7 @@ fun categoryTone(p: Palette, id: String, index: Int): Pair<Color, Color> = when 
     "book" -> p.gold to p.goldSoft
     "chain" -> p.accent to p.accentSoft
     "scale" -> p.gold to p.goldSoft
+    "home" -> p.ok to p.okSoft
     else -> listOf(p.accent to p.accentSoft, p.gold to p.goldSoft, p.ok to p.okSoft, p.warn to p.warnSoft)[index % 4]
 }
 
@@ -203,6 +204,14 @@ fun CategoryGlyph(kind: String, color: Color, size: Dp = 26.dp) {
                     drawLine(color, Offset(w * x, h * 0.24f), Offset(w * (x + 0.12f), h * 0.56f), sw * 0.7f, StrokeCap.Round)
                     drawArc(color, 0f, 180f, false, Offset(w * (x - 0.15f), h * 0.46f), androidx.compose.ui.geometry.Size(w * 0.3f, h * 0.2f), style = line)
                 }
+            }
+            "home" -> {   // a house: roof, walls and a door (the family: marriage, divorce, maintenance)
+                drawLine(color, Offset(w * 0.1f, h * 0.48f), Offset(w * 0.5f, h * 0.14f), sw, StrokeCap.Round)
+                drawLine(color, Offset(w * 0.5f, h * 0.14f), Offset(w * 0.9f, h * 0.48f), sw, StrokeCap.Round)
+                drawLine(color, Offset(w * 0.2f, h * 0.4f), Offset(w * 0.2f, h * 0.88f), sw, StrokeCap.Round)
+                drawLine(color, Offset(w * 0.8f, h * 0.4f), Offset(w * 0.8f, h * 0.88f), sw, StrokeCap.Round)
+                drawLine(color, Offset(w * 0.2f, h * 0.88f), Offset(w * 0.8f, h * 0.88f), sw, StrokeCap.Round)
+                drawRoundRect(color, Offset(w * 0.4f, h * 0.6f), androidx.compose.ui.geometry.Size(w * 0.2f, h * 0.28f), androidx.compose.ui.geometry.CornerRadius(w * 0.04f), style = line)
             }
             "beads" -> {   // prayer beads: a ring of beads with a short tassel
                 val r = w * 0.3f
