@@ -14,14 +14,14 @@ import androidx.compose.ui.graphics.drawscope.Stroke
  * birds of the hadith are only green lights, never birds; the Throne is not drawn.
  */
 
-private val Dim145 = Color(0xFF8A8296)
+internal val Dim145 = Color(0xFF8A8296)
 
-private fun DrawScope.crowd145(cx: Float, foot: Float, n: Int, tall: Float, alpha: Float, lean: Float = 0f, gap: Float = 0.07f) {
+internal fun DrawScope.crowd145(cx: Float, foot: Float, n: Int, tall: Float, alpha: Float, lean: Float = 0f, gap: Float = 0.07f) {
     if (alpha <= 0.01f) return
     for (k in 0 until n) figure(Offset(cx + size.width * gap * (k - (n - 1) / 2f), foot), tall, Qn.Person, alpha, lean = lean)
 }
 
-private fun DrawScope.dots145(n: Int, cx: Float, cy: Float, cols: Int, color: Color, p: Float, f: Float, from: Float = 0.1f) {
+internal fun DrawScope.dots145(n: Int, cx: Float, cy: Float, cols: Int, color: Color, p: Float, f: Float, from: Float = 0.1f) {
     val rows = (n + cols - 1) / cols
     for (k in 0 until n) {
         val c = k % cols

@@ -905,6 +905,14 @@ ART_KINDS = {
     "aslaysa": {"aslaysa0", "aslaysa1", "aslaysa2", "aslaysa3"},
     "asfidya": {"asfidya0", "asfidya1", "asfidya2", "asfidya3"},
     "asshuhada": {"asshuhada0", "asshuhada1", "asshuhada2", "asshuhada3"},
+    "asulilamr": {"asulilamr0", "asulilamr1", "asulilamr2", "asulilamr3"},
+    "aszubayr": {"aszubayr0", "aszubayr1", "aszubayr2", "aszubayr3"},
+    "asmaiyya": {"asmaiyya0", "asmaiyya1", "asmaiyya2", "asmaiyya3"},
+    "askuffu": {"askuffu0", "askuffu1", "askuffu2", "askuffu3"},
+    "asistinbat": {"asistinbat0", "asistinbat1", "asistinbat2", "asistinbat3"},
+    "asfiatayn": {"asfiatayn0", "asfiatayn1", "asfiatayn2", "asfiatayn3"},
+    "assalam": {"assalam0", "assalam1", "assalam2", "assalam3"},
+    "asdarar": {"asdarar0", "asdarar1", "asdarar2", "asdarar3"},
 }
 TARGET = {"title": "title", "face": "face", "deep": "deeper", "had": "hadith"}
 
