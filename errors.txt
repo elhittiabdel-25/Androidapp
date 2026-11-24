@@ -1,0 +1,12 @@
+e: java.lang.RuntimeException: Error generating class file app/usulcards/ui/ArtKt.class (compiled from [/home/runner/work/Androidapp/Androidapp/app/src/main/java/app/usulcards/ui/Art.kt]): Method too large: app/usulcards/ui/ArtKt.beatMillisB (Ljava/lang/String;)I
+Caused by: org.jetbrains.org.objectweb.asm.MethodTooLargeException: Method too large: app/usulcards/ui/ArtKt.beatMillisB (Ljava/lang/String;)I
+> Task :app:compileDebugKotlin FAILED
+* What went wrong:
+* Exception is:
+org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:compileDebugKotlin'.
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+Caused by: org.gradle.workers.internal.DefaultWorkerExecutor$WorkExecutionException: A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+Caused by: org.jetbrains.kotlin.gradle.tasks.FailedCompilationException: Internal compiler error. See log for more details
+	at org.jetbrains.kotlin.gradle.tasks.TasksUtilsKt.throwExceptionIfCompilationFailed(tasksUtils.kt:22)
+BUILD FAILED in 1m 26s
