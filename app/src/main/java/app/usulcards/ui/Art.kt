@@ -1426,6 +1426,10 @@ internal fun beatMillisB(kind: String): Int = when (kind) {
     "amzulm3", "amiyada1" -> 5250
     "ammaruf0", "amiyada3" -> 5750
     "amkhadim0", "amkhadim2", "ammaruf3", "amkabir0", "amkabir1", "amkabir3", "amrifq0", "amhijra0", "amhijra2", "amhijra3", "amzulm0", "amzulm2", "amiyada0", "amiyada2" -> 6000
+    else -> beatMillisC(kind)
+}
+
+internal fun beatMillisC(kind: String): Int = when (kind) {
     // v2.0 fiqh: Sharh Umdat al-Ahkam (wave 120)
     "uaistinshaq3" -> 3000
     "uakalb2" -> 4000
