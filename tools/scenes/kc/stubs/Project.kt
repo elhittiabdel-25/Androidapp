@@ -19,6 +19,7 @@ internal object ArtInk {
     val Shade = Color(0xFF070B1A)
 }
 internal fun beatMillis(kind: String): Int = TODO()
+internal fun beatMillisB(kind: String): Int = TODO()
 internal class ArtCtx(
     private val kinds: List<String>,
     private val beats: List<Float>,
@@ -69,11 +70,11 @@ internal fun easeOut(x: Float): Float = TODO()
 internal fun easeInOut(x: Float): Float = TODO()
 internal fun bump(x: Float): Float = TODO()
 internal fun fract(x: Float): Float = TODO()
-internal fun DrawScope.tagAt(tl: TextLayoutResult?, c: Offset, alpha: Float, back: Color = Color(0xB3101426), ink: Color = Color.Unspecified) {}
+internal fun DrawScope.tagAt(tl: TextLayoutResult?, c: Offset, alpha: Float, back: Color = Color(0xB3101426), ink: Color = TODO()) {}
 internal fun starPath(c: Offset, r: Float): Path = TODO()
 internal fun horseshoe(cx: Float, cy: Float, r: Float, j: Float, floorY: Float): Path = TODO()
 internal fun cubic(p0: Offset, p1: Offset, p2: Offset, p3: Offset, t: Float): Offset = TODO()
-internal fun cubicPart(p0: Offset, p1: Offset, p2: Offset, p3: Offset, from: Float, to: Float, shift: Offset = Offset.Zero): Path = TODO()
+internal fun cubicPart(p0: Offset, p1: Offset, p2: Offset, p3: Offset, from: Float, to: Float, shift: Offset = TODO()): Path = TODO()
 internal fun DrawScope.lantern(ring: Offset, s: Float, glow: Float, flicker: Float) {}
 internal fun DrawScope.hills(color: Color, base: Float, amp: Float, f1: Float, f2: Float, ph: Float) {}
 internal fun DrawScope.throughCamera(layout: String, progress: Float, t: Float, block: DrawScope.() -> Unit) {}
@@ -82,11 +83,11 @@ internal fun DrawScope.bloom(c: Offset, r: Float, color: Color, strength: Float 
 internal fun DrawScope.lightShafts(from: Offset, angle: Float, spread: Float, length: Float, color: Color, strength: Float, t: Float, rays: Int = 7) {}
 internal fun cameraProgress(beats: List<Float>): Float = TODO()
 internal fun DrawScope.glint(c: Offset, r: Float, color: Color, alpha: Float) {}
-internal fun DrawScope.deepSky(t: Float, horizon: Float, top: Color, low: Color, glow: Color = Color(0xFF6E5A9A), starAlpha: Float = 1f, shine: Float = 0f, twinkles: Boolean = true) {}
+internal fun DrawScope.deepSky(t: Float, horizon: Float, top: Color, low: Color, glow: Color = Color(0xFF6E5A9A), starAlpha: Float = 1f, shine: Float = 0f, twinkles: Boolean = TODO()) {}
 internal fun DrawScope.farHills(near: Color, sky: Color, base: Float, amp: Float, ph: Float) {}
 internal fun lerpColor(a: Color, b: Color, f: Float): Color = TODO()
 internal fun DrawScope.softGlow(c: Offset, r: Float, color: Color, alpha: Float) {}
-internal fun DrawScope.sirajMunir(c: Offset, r: Float, strength: Float, t: Float, nameAt: Offset? = null, named: Boolean = true) {}
+internal fun DrawScope.sirajMunir(c: Offset, r: Float, strength: Float, t: Float, nameAt: Offset? = TODO(), named: Boolean = TODO()) {}
 internal fun DrawScope.sit12(seat: Offset, tall: Float, color: Color, alpha: Float, facing: Float, bob: Float = 0f) {}
 internal fun DrawScope.pray12(foot: Offset, tall: Float, color: Color, alpha: Float) {}
 internal fun DrawScope.bow12(foot: Offset, tall: Float, color: Color, alpha: Float, deep: Float) {}
@@ -102,27 +103,74 @@ internal fun DrawScope.sun12(c: Offset, r: Float, alpha: Float) {}
 internal fun DrawScope.daySky12(top: Color, low: Color, horizon: Float, ground: Color) {}
 internal fun DrawScope.hands12(c: Offset, s: Float, color: Color, alpha: Float) {}
 internal fun DrawScope.beads12(c: Offset, r: Float, color: Color, alpha: Float, turn: Float = 0f) {}
-internal fun DrawScope.cup12(foot: Offset, s: Float, color: Color, alpha: Float, fill: Color? = null) {}
-internal fun DrawScope.balance12(foot: Offset, s: Float, tilt: Float, color: Color, alpha: Float, left: Color = color, right: Color = color) {}
+internal fun DrawScope.cup12(foot: Offset, s: Float, color: Color, alpha: Float, fill: Color? = TODO()) {}
+internal fun DrawScope.balance12(foot: Offset, s: Float, tilt: Float, color: Color, alpha: Float, left: Color = TODO(), right: Color = TODO()) {}
 internal fun balancePans12(foot: Offset, s: Float, tilt: Float): Pair<Offset, Offset> = TODO()
 internal fun DrawScope.guardDome12(c: Offset, r: Float, rise: Float, t: Float, alpha: Float, color: Color = Color(0xFFBFE6FF)) {}
-internal fun DrawScope.heart12(c: Offset, s: Float, color: Color, alpha: Float, fill: Boolean = false) {}
+internal fun DrawScope.heart12(c: Offset, s: Float, color: Color, alpha: Float, fill: Boolean = TODO()) {}
 internal fun DrawScope.coin12(c: Offset, r: Float, alpha: Float, color: Color = Color(0xFFE8C25A)) {}
 internal fun DrawScope.child12(foot: Offset, tall: Float, color: Color, alpha: Float, walk: Float = 0f, arms: Float = 0f) {}
 internal fun DrawScope.rain12(x0: Float, x1: Float, top: Float, bottom: Float, t: Float, color: Color, alpha: Float, n: Int = 28) {}
 internal fun DrawScope.smoke12(from: Offset, to: Offset, p: Float, t: Float, alpha: Float, color: Color = Color(0xFF2A2430)) {}
 internal fun DrawScope.voice12(c: Offset, r: Float, t: Float, color: Color, alpha: Float, dir: Float = 1f) {}
-internal fun DrawScope.qFit(tl: TextLayoutResult?, c: Offset, maxW: Float, maxH: Float, color: Color, alpha: Float, glow: Color? = null) {}
-internal fun DrawScope.qRosette(c: Offset, r: Float, alpha: Float, fill: Color = Qn.Teal) {}
+internal fun fqIn(a: ArtCtx, kind: String, next: String? = TODO(), rise: Float = TODO()): Float = TODO()
+internal fun DrawScope.fqDrop(c: Offset, r: Float, color: Color, alpha: Float) {}
+internal fun DrawScope.fqEwer(foot: Offset, s: Float, color: Color, alpha: Float, pour: Float = 0f, t: Float = 0f) {}
+internal fun DrawScope.fqCloth(c: Offset, wd: Float, ht: Float, color: Color, alpha: Float, t: Float, open: Float = 1f) {}
+internal fun DrawScope.fqPilgrim(foot: Offset, tall: Float, alpha: Float, walk: Float = 0f, arms: Float = 0f) {}
+internal fun DrawScope.fqCircling(c: Offset, rx: Float, ry: Float, t: Float, color: Color, alpha: Float, n: Int = 14, speed: Float = 0.12f) {}
+internal fun DrawScope.fqMound(foot: Offset, wd: Float, ht: Float, color: Color, alpha: Float) {}
+internal fun DrawScope.fqPillar(foot: Offset, wd: Float, ht: Float, color: Color, alpha: Float) {}
+internal fun DrawScope.fqPebble(from: Offset, to: Offset, p: Float, r: Float, alpha: Float) {}
+internal fun DrawScope.fqTent(foot: Offset, s: Float, color: Color, alpha: Float) {}
+internal fun DrawScope.fqRug(c: Offset, wd: Float, ht: Float, color: Color, trim: Color, alpha: Float) {}
+internal fun DrawScope.fqCalendar(tl: Offset, cols: Int, count: Int, cell: Float, alpha: Float, rim: Color, fill: (Int) -> Color?) {}
+internal fun DrawScope.fqSack(foot: Offset, s: Float, color: Color, alpha: Float) {}
+internal fun DrawScope.fqScissors(c: Offset, s: Float, color: Color, alpha: Float, open: Float = 0.5f) {}
+internal fun DrawScope.fqPhial(foot: Offset, s: Float, color: Color, alpha: Float, t: Float) {}
+internal fun DrawScope.fqRoad(from: Offset, to: Offset, wd: Float, color: Color, alpha: Float) {}
+internal fun DrawScope.fqCoins(foot: Offset, r: Float, n: Int, alpha: Float, color: Color = TODO()) {}
+internal fun DrawScope.fqMeter(c: Offset, wd: Float, ht: Float, n: Int, p: Float, on: Color, off: Color, alpha: Float) {}
+internal fun DrawScope.fqCow(foot: Offset, s: Float, color: Color, alpha: Float) {}
+internal fun DrawScope.fqBird(c: Offset, s: Float, color: Color, alpha: Float, t: Float) {}
+internal fun DrawScope.fqShirt(c: Offset, s: Float, color: Color, alpha: Float) {}
+internal fun DrawScope.fqShade(foot: Offset, s: Float, color: Color, alpha: Float) {}
+internal fun DrawScope.fqRam(c: Offset, s: Float, color: Color, alpha: Float, amlah: Boolean = TODO()) {}
+internal fun DrawScope.fqEidMoon(c: Offset, r: Float, sky: Color, alpha: Float) {}
+internal object Qn {
+    val Night = Color(0xFF0B1424)
+    val NightLow = Color(0xFF1C2B46)
+    val Teal = Color(0xFF15393C)
+    val TealLight = Color(0xFF2E6B66)
+    val Parch = Color(0xFFF3E6C4)
+    val ParchLow = Color(0xFFE2CC98)
+    val Gold = Color(0xFFE8B84A)
+    val GoldLight = Color(0xFFF6D88A)
+    val Ink = Color(0xFF2A1E10)
+    val Lapis = Color(0xFF2C4A86)
+    val Rose = Color(0xFFC0566A)
+    val Leaf = Color(0xFF5FA36E)
+    val Soil = Color(0xFF6B4F35)
+    val Back = Color(0xE6121A24)
+    val Person = Color(0xFFEDE4D0)
+    val DayTop = Color(0xFF8FC1E3)
+    val DayLow = Color(0xFFF4E3C1)
+    val Smoke = Color(0xFF2A2430)
+    val Jade = Color(0xFF6FCB9A)
+    val Ember = Color(0xFFE8794A)
+}
+internal fun DrawScope.qFit(tl: TextLayoutResult?, c: Offset, maxW: Float, maxH: Float, color: Color, alpha: Float, glow: Color? = TODO()) {}
+internal fun DrawScope.qRosette(c: Offset, r: Float, alpha: Float, fill: Color = TODO()) {}
 internal fun DrawScope.qPlate(c: Offset, wd: Float, name: TextLayoutResult?, alpha: Float) {}
-internal fun DrawScope.glyphCard(c: Offset, s: Float, tl: TextLayoutResult?, alpha: Float, rim: Color = Qn.Gold, lit: Float = 0f, icon: DrawScope.(Offset, Float, Float) -> Unit) {}
+internal fun DrawScope.glyphCard(c: Offset, s: Float, tl: TextLayoutResult?, alpha: Float, rim: Color = TODO(), lit: Float = 0f, icon: DrawScope.(Offset, Float, Float) -> Unit) {}
 internal fun DrawScope.qIcon(name: String, c: Offset, s: Float, color: Color, alpha: Float, t: Float = 0f) {}
 internal fun DrawScope.qFlame(base: Offset, s: Float, color: Color, alpha: Float, t: Float) {}
 internal fun DrawScope.qBeam(from: Offset, to: Offset, p: Float, color: Color, alpha: Float, wd: Float) {}
 internal fun DrawScope.qPlant(base: Offset, ht: Float, grow: Float, alpha: Float, t: Float = 0f) {}
-internal fun DrawScope.qNamePlate(c: Offset, tl: TextLayoutResult?, alpha: Float, fill: Color = Color(0xFF3A3340), ink: Color = ArtInk.Ivory) {}
-internal fun DrawScope.qPage(c: Offset, wd: Float, ht: Float, alpha: Float, lines: Int = 7, frame: Boolean = true) {}
+internal fun DrawScope.qNamePlate(c: Offset, tl: TextLayoutResult?, alpha: Float, fill: Color = Color(0xFF3A3340), ink: Color = TODO()) {}
+internal fun DrawScope.qPage(c: Offset, wd: Float, ht: Float, alpha: Float, lines: Int = 7, frame: Boolean = TODO()) {}
 internal fun DrawScope.qSmoke(from: Offset, to: Offset, p: Float, t: Float, alpha: Float, r: Float) {}
+internal fun DrawScope.qIcon95(name: String, c: Offset, s: Float, color: Color, alpha: Float, t: Float = 0f) {}
 internal fun DrawScope.nightSky(t: Float, top: Color, bottom: Color, starsTo: Float, starAlpha: Float = 1f) {}
 internal fun DrawScope.lanternScene(a: ArtCtx) {}
 internal fun DrawScope.trailScene(a: ArtCtx) {}
@@ -133,6 +181,134 @@ internal fun DrawScope.majlisScene(a: ArtCtx) {}
 internal fun DrawScope.laneScene(a: ArtCtx) {}
 internal fun DrawScope.hilltopScene(a: ArtCtx) {}
 internal fun DrawScope.waysideScene(a: ArtCtx) {}
+internal fun DrawScope.gzbadrScene(a: ArtCtx) {}
+internal fun DrawScope.gzuhudScene(a: ArtCtx) {}
+internal fun DrawScope.gzkhandaqScene(a: ArtCtx) {}
+internal fun DrawScope.gzhudayScene(a: ArtCtx) {}
+internal fun DrawScope.gzkhaybarScene(a: ArtCtx) {}
+internal fun DrawScope.gzmutahScene(a: ArtCtx) {}
+internal fun DrawScope.gzfathScene(a: ArtCtx) {}
+internal fun DrawScope.gzhunaynScene(a: ArtCtx) {}
+internal fun DrawScope.gztabukScene(a: ArtCtx) {}
+internal fun DrawScope.wdwufudScene(a: ArtCtx) {}
+internal fun DrawScope.wdbaraaScene(a: ArtCtx) {}
+internal fun DrawScope.wdwadaScene(a: ArtCtx) {}
+internal fun DrawScope.wdmaradScene(a: ArtCtx) {}
+internal fun DrawScope.wdwafatScene(a: ArtCtx) {}
+internal fun DrawScope.mother102(c: Offset, r: Float, a: ArtCtx, kind: String, part: Int, m: Int, grow: Float) {}
+internal fun DrawScope.years102(c: Offset, n: Int, lit: Float, alpha: Float) {}
+internal fun DrawScope.umkhasaisScene(a: ArtCtx) {}
+internal fun DrawScope.umsawdaScene(a: ArtCtx) {}
+internal fun DrawScope.umaishaScene(a: ArtCtx) {}
+internal fun DrawScope.umhafsaScene(a: ArtCtx) {}
+internal fun DrawScope.umzaynabkScene(a: ArtCtx) {}
+internal fun DrawScope.umsalamaScene(a: ArtCtx) {}
+internal fun DrawScope.umzaynabjScene(a: ArtCtx) {}
+internal fun DrawScope.umjuwayScene(a: ArtCtx) {}
+internal fun DrawScope.umhabibaScene(a: ArtCtx) {}
+internal fun DrawScope.umsafiyyaScene(a: ArtCtx) {}
+internal fun DrawScope.ummaymunaScene(a: ArtCtx) {}
+internal fun DrawScope.tmahlScene(a: ArtCtx) {}
+internal fun DrawScope.tmwafaScene(a: ArtCtx) {}
+internal fun DrawScope.tmbanatScene(a: ArtCtx) {}
+internal fun DrawScope.tmahfadScene(a: ArtCtx) {}
+internal fun DrawScope.tmjarScene(a: ArtCtx) {}
+internal fun DrawScope.tmkhadamScene(a: ArtCtx) {}
+internal fun DrawScope.tmbalaScene(a: ArtCtx) {}
+internal fun DrawScope.tmkuffarScene(a: ArtCtx) {}
+internal fun DrawScope.tmjadidScene(a: ArtCtx) {}
+internal fun DrawScope.tmusatScene(a: ArtCtx) {}
+internal fun DrawScope.tmnisaScene(a: ArtCtx) {}
+internal fun DrawScope.tmkibarScene(a: ArtCtx) {}
+internal fun DrawScope.tmsigharScene(a: ArtCtx) {}
+internal fun DrawScope.study104(a: ArtCtx, book: Float = 1f) {}
+internal fun DrawScope.dim104(alpha: Float, k: Float = 0.5f) {}
+internal fun DrawScope.streams104(n: Int, join: Offset, u: Float, alpha: Float, color: Color = TODO()) {}
+internal fun DrawScope.fork104(c: Offset, open: Int, u: Float, alpha: Float) {}
+internal fun DrawScope.hills104(ground: Float, color: Color, alpha: Float = 1f) {}
+internal fun DrawScope.tree104(foot: Offset, s: Float, leaf: Color, fruit: Color, alpha: Float, grow: Float = 1f) {}
+internal fun DrawScope.dawn104(u: Float, ground: Float) {}
+internal fun DrawScope.ttmafhumScene(a: ArtCtx) {}
+internal fun DrawScope.tttanawwuScene(a: ArtCtx) {}
+internal fun DrawScope.tttadaddScene(a: ArtCtx) {}
+internal fun DrawScope.ttasbabScene(a: ArtCtx) {}
+internal fun DrawScope.ttlafzScene(a: ArtCtx) {}
+internal fun DrawScope.tttabaqatScene(a: ArtCtx) {}
+internal fun DrawScope.tthushiratScene(a: ArtCtx) {}
+internal fun DrawScope.ttnabaScene(a: ArtCtx) {}
+internal fun DrawScope.ttzuwwijatScene(a: ArtCtx) {}
+internal fun DrawScope.ttfajrScene(a: ArtCtx) {}
+internal fun DrawScope.ttshafScene(a: ArtCtx) {}
+internal fun DrawScope.ttquranScene(a: ArtCtx) {}
+internal fun DrawScope.tttinScene(a: ArtCtx) {}
+internal fun DrawScope.ttqadrScene(a: ArtCtx) {}
+internal fun DrawScope.ttfalaqScene(a: ArtCtx) {}
+internal fun DrawScope.tzmujadilaScene(a: ArtCtx) {}
+internal fun DrawScope.tzhashrScene(a: ArtCtx) {}
+internal fun DrawScope.tzmumtahanaScene(a: ArtCtx) {}
+internal fun DrawScope.tzsaffScene(a: ArtCtx) {}
+internal fun DrawScope.tzjumuaScene(a: ArtCtx) {}
+internal fun DrawScope.tzmunafiqunScene(a: ArtCtx) {}
+internal fun DrawScope.tztaghabunScene(a: ArtCtx) {}
+internal fun DrawScope.tztalaqScene(a: ArtCtx) {}
+internal fun DrawScope.tztahrimScene(a: ArtCtx) {}
+internal fun DrawScope.tzmulkScene(a: ArtCtx) {}
+internal fun DrawScope.tzqalamScene(a: ArtCtx) {}
+internal fun DrawScope.tzhaqqaScene(a: ArtCtx) {}
+internal fun DrawScope.tzmaarijScene(a: ArtCtx) {}
+internal fun DrawScope.tznuhScene(a: ArtCtx) {}
+internal fun DrawScope.tzjinnScene(a: ArtCtx) {}
+internal fun DrawScope.tzmuzzammilScene(a: ArtCtx) {}
+internal fun DrawScope.tzmuddaththirScene(a: ArtCtx) {}
+internal fun DrawScope.tzqiyamaScene(a: ArtCtx) {}
+internal fun DrawScope.tzinsanScene(a: ArtCtx) {}
+internal fun DrawScope.tzmursalatScene(a: ArtCtx) {}
+internal fun DrawScope.tanunScene(a: ArtCtx) {}
+internal fun DrawScope.taidghamScene(a: ArtCtx) {}
+internal fun DrawScope.taiqlabScene(a: ArtCtx) {}
+internal fun DrawScope.tamimScene(a: ArtCtx) {}
+internal fun DrawScope.talamScene(a: ArtCtx) {}
+internal fun DrawScope.tamithlanScene(a: ArtCtx) {}
+internal fun DrawScope.tamaddScene(a: ArtCtx) {}
+internal fun DrawScope.tamaddahkamScene(a: ArtCtx) {}
+internal fun DrawScope.jzwajibScene(a: ArtCtx) {}
+internal fun DrawScope.jzmakharijScene(a: ArtCtx) {}
+internal fun DrawScope.jzsifatScene(a: ArtCtx) {}
+internal fun DrawScope.jztajwidScene(a: ArtCtx) {}
+internal fun DrawScope.jztarqiqScene(a: ArtCtx) {}
+internal fun DrawScope.jzwaqfScene(a: ArtCtx) {}
+internal fun DrawScope.jzwaslScene(a: ArtCtx) {}
+internal fun DrawScope.jzrawmScene(a: ArtCtx) {}
+internal fun DrawScope.hdshaarScene(a: ArtCtx) {}
+internal fun DrawScope.hdlihyaScene(a: ArtCtx) {}
+internal fun DrawScope.hdkhatamScene(a: ArtCtx) {}
+internal fun DrawScope.hdnaalScene(a: ArtCtx) {}
+internal fun DrawScope.hdisbalScene(a: ArtCtx) {}
+internal fun DrawScope.hdtibScene(a: ArtCtx) {}
+internal fun DrawScope.hdnawmScene(a: ArtCtx) {}
+internal fun DrawScope.hdyaqzaScene(a: ArtCtx) {}
+internal fun DrawScope.hdsawmScene(a: ArtCtx) {}
+internal fun DrawScope.hdbikaScene(a: ArtCtx) {}
+internal fun DrawScope.hdmirathScene(a: ArtCtx) {}
+internal fun DrawScope.ahtufaylScene(a: ArtCtx) {}
+internal fun DrawScope.ahadabScene(a: ArtCtx) {}
+internal fun DrawScope.ahahabbScene(a: ArtCtx) {}
+internal fun DrawScope.ahansarScene(a: ArtCtx) {}
+internal fun DrawScope.ahtaamScene(a: ArtCtx) {}
+internal fun DrawScope.ahmakkaScene(a: ArtCtx) {}
+internal fun DrawScope.ahayyamScene(a: ArtCtx) {}
+internal fun DrawScope.ahtayammunScene(a: ArtCtx) {}
+internal fun DrawScope.ahfalScene(a: ArtCtx) {}
+internal fun DrawScope.ahyakrahScene(a: ArtCtx) {}
+internal fun DrawScope.ahummatiScene(a: ArtCtx) {}
+internal fun DrawScope.ahdahikScene(a: ArtCtx) {}
+internal fun DrawScope.ahmulaabaScene(a: ArtCtx) {}
+internal fun DrawScope.ahghadabScene(a: ArtCtx) {}
+internal fun DrawScope.ahfarahScene(a: ArtCtx) {}
+internal fun DrawScope.ahhuznScene(a: ArtCtx) {}
+internal fun DrawScope.ahtafakkurScene(a: ArtCtx) {}
+internal fun DrawScope.ahtahfizScene(a: ArtCtx) {}
+internal fun DrawScope.ahtazirScene(a: ArtCtx) {}
 internal fun DrawScope.flockScene(a: ArtCtx) {}
 internal fun DrawScope.deckScene(a: ArtCtx) {}
 internal fun DrawScope.damScene(a: ArtCtx) {}
@@ -140,11 +316,231 @@ internal fun DrawScope.aerialScene(a: ArtCtx) {}
 internal fun DrawScope.soukScene(a: ArtCtx) {}
 internal fun DrawScope.bridgeScene(a: ArtCtx) {}
 internal fun DrawScope.refugeScene(a: ArtCtx) {}
+internal fun DrawScope.mntazimScene(a: ArtCtx) {}
+internal fun DrawScope.mntaaScene(a: ArtCtx) {}
+internal fun DrawScope.mnmasajidScene(a: ArtCtx) {}
+internal fun DrawScope.mnawladScene(a: ArtCtx) {}
+internal fun DrawScope.hdasbabScene(a: ArtCtx) {}
+internal fun DrawScope.hdharamScene(a: ArtCtx) {}
+internal fun DrawScope.hdhummaScene(a: ArtCtx) {}
+internal fun DrawScope.hdtaunScene(a: ArtCtx) {}
+internal fun DrawScope.hdaynScene(a: ArtCtx) {}
+internal fun DrawScope.hdruqyaScene(a: ArtCtx) {}
+internal fun DrawScope.hdkarbScene(a: ArtCtx) {}
+internal fun DrawScope.hdmanamScene(a: ArtCtx) {}
+internal fun DrawScope.hdwaswasaScene(a: ArtCtx) {}
+internal fun DrawScope.hdasmaScene(a: ArtCtx) {}
+internal fun DrawScope.hdalfadhScene(a: ArtCtx) {}
+internal fun DrawScope.ssmasadirScene(a: ArtCtx) {}
+internal fun DrawScope.ssquranScene(a: ArtCtx) {}
+internal fun DrawScope.ssnaqdScene(a: ArtCtx) {}
+internal fun DrawScope.ssmaghaziScene(a: ArtCtx) {}
+internal fun DrawScope.ssibnishaqScene(a: ArtCtx) {}
+internal fun DrawScope.tqashrScene(a: ArtCtx) {}
+internal fun DrawScope.tqsunnaScene(a: ArtCtx) {}
+internal fun DrawScope.tqisraScene(a: ArtCtx) {}
+internal fun DrawScope.tqtabiinScene(a: ArtCtx) {}
+internal fun DrawScope.tqrayScene(a: ArtCtx) {}
+internal fun DrawScope.mhilmScene(a: ArtCtx) {}
+internal fun DrawScope.mhkutubScene(a: ArtCtx) {}
+internal fun DrawScope.mhmutawatirScene(a: ArtCtx) {}
+internal fun DrawScope.mhsahihScene(a: ArtCtx) {}
+internal fun DrawScope.mhmursalScene(a: ArtCtx) {}
+internal fun DrawScope.mhmawduScene(a: ArtCtx) {}
+internal fun DrawScope.mhsahabiScene(a: ArtCtx) {}
+internal fun DrawScope.jrjawamiScene(a: ArtCtx) {}
+internal fun DrawScope.jrusulScene(a: ArtCtx) {}
+internal fun DrawScope.jrniyyaScene(a: ArtCtx) {}
+internal fun DrawScope.jrriyaScene(a: ArtCtx) {}
+internal fun DrawScope.jrbushraScene(a: ArtCtx) {}
+internal fun DrawScope.amlayyinScene(a: ArtCtx) {}
+internal fun DrawScope.amjazaScene(a: ArtCtx) {}
+internal fun DrawScope.amdawaScene(a: ArtCtx) {}
+internal fun DrawScope.amrahimScene(a: ArtCtx) {}
+internal fun DrawScope.ambanatScene(a: ArtCtx) {}
+internal fun DrawScope.amrahmaScene(a: ArtCtx) {}
+internal fun DrawScope.amjarScene(a: ArtCtx) {}
+internal fun DrawScope.wsthalathScene(a: ArtCtx) {}
+internal fun DrawScope.wsdhanbScene(a: ArtCtx) {}
+internal fun DrawScope.wsjanahScene(a: ArtCtx) {}
+internal fun DrawScope.wsyahyaScene(a: ArtCtx) {}
+internal fun DrawScope.wssalatScene(a: ArtCtx) {}
+internal fun DrawScope.wshisnScene(a: ArtCtx) {}
+internal fun DrawScope.wsjubbaScene(a: ArtCtx) {}
+internal fun DrawScope.wsmufarridunScene(a: ArtCtx) {}
+internal fun DrawScope.wsmajlisScene(a: ArtCtx) {}
+internal fun DrawScope.wssadaScene(a: ArtCtx) {}
+internal fun DrawScope.wsfawaidScene(a: ArtCtx) {}
+internal fun DrawScope.wsghirasScene(a: ArtCtx) {}
+internal fun DrawScope.wsjannatScene(a: ArtCtx) {}
+internal fun DrawScope.amkhadimScene(a: ArtCtx) {}
+internal fun DrawScope.ammarufScene(a: ArtCtx) {}
+internal fun DrawScope.amkabirScene(a: ArtCtx) {}
+internal fun DrawScope.amrifqScene(a: ArtCtx) {}
+internal fun DrawScope.amhijraScene(a: ArtCtx) {}
+internal fun DrawScope.amzulmScene(a: ArtCtx) {}
+internal fun DrawScope.amiyadaScene(a: ArtCtx) {}
+internal fun DrawScope.saplingScene(a: ArtCtx) {}
+internal fun DrawScope.noSign11pub(c: Offset, r: Float, alpha: Float) {}
+internal fun DrawScope.returnScene(a: ArtCtx) {}
+internal fun DrawScope.uahijraScene(a: ArtCtx) {}
+internal fun DrawScope.uaqabulScene(a: ArtCtx) {}
+internal fun DrawScope.uaaqabScene(a: ArtCtx) {}
+internal fun DrawScope.uaistinshaqScene(a: ArtCtx) {}
+internal fun DrawScope.uadaimScene(a: ArtCtx) {}
+internal fun DrawScope.uakalbScene(a: ArtCtx) {}
+internal fun DrawScope.uauthmanScene(a: ArtCtx) {}
+internal fun DrawScope.bmkasbScene(a: ArtCtx) {}
+internal fun DrawScope.bmkhiyarScene(a: ArtCtx) {}
+internal fun DrawScope.bmghararScene(a: ArtCtx) {}
+internal fun DrawScope.bmhadirScene(a: ArtCtx) {}
+internal fun DrawScope.bmghishScene(a: ArtCtx) {}
+internal fun DrawScope.bmribaScene(a: ArtCtx) {}
+internal fun DrawScope.bmqabdScene(a: ArtCtx) {}
+internal fun DrawScope.mbwahyScene(a: ArtCtx) {}
+internal fun DrawScope.mbkhadijaScene(a: ArtCtx) {}
+internal fun DrawScope.mbthalathaScene(a: ArtCtx) {}
+internal fun DrawScope.mbhasadScene(a: ArtCtx) {}
+internal fun DrawScope.mbmusaScene(a: ArtCtx) {}
+internal fun DrawScope.mbghaythScene(a: ArtCtx) {}
+internal fun DrawScope.mbsalouniScene(a: ArtCtx) {}
+internal fun DrawScope.mbniswaScene(a: ArtCtx) {}
+internal fun DrawScope.ikharfScene(a: ArtCtx) {}
+internal fun DrawScope.iktaghanniScene(a: ArtCtx) {}
+internal fun DrawScope.iktaahudScene(a: ArtCtx) {}
+internal fun DrawScope.iknusiyaScene(a: ArtCtx) {}
+internal fun DrawScope.ikmaddScene(a: ArtCtx) {}
+internal fun DrawScope.ikkhatmScene(a: ArtCtx) {}
+internal fun DrawScope.ikitlafScene(a: ArtCtx) {}
+internal fun DrawScope.ikistiadhaScene(a: ArtCtx) {}
+internal fun DrawScope.zbtaqwaScene(a: ArtCtx) {}
+internal fun DrawScope.zbkhatmScene(a: ArtCtx) {}
+internal fun DrawScope.zbnarScene(a: ArtCtx) {}
+internal fun DrawScope.zbkhalifaScene(a: ArtCtx) {}
+internal fun DrawScope.zbkhawfScene(a: ArtCtx) {}
+internal fun DrawScope.zbhittaScene(a: ArtCtx) {}
+internal fun DrawScope.ayqadrScene(a: ArtCtx) {}
+internal fun DrawScope.aydukhanScene(a: ArtCtx) {}
+internal fun DrawScope.ayzaqqumScene(a: ArtCtx) {}
+internal fun DrawScope.ayshariaScene(a: ArtCtx) {}
+internal fun DrawScope.aydahrScene(a: ArtCtx) {}
+internal fun DrawScope.aysabaqunaScene(a: ArtCtx) {}
+internal fun DrawScope.aytayyibatScene(a: ArtCtx) {}
+internal fun DrawScope.agwarithaScene(a: ArtCtx) {}
+internal fun DrawScope.agfurudScene(a: ArtCtx) {}
+internal fun DrawScope.agwasiyyaScene(a: ArtCtx) {}
+internal fun DrawScope.agwaliScene(a: ArtCtx) {}
+internal fun DrawScope.agnafaqaScene(a: ArtCtx) {}
+internal fun DrawScope.agqatlScene(a: ArtCtx) {}
+internal fun DrawScope.agaymanScene(a: ArtCtx) {}
+internal fun DrawScope.agqadaScene(a: ArtCtx) {}
+internal fun DrawScope.hqhafsScene(a: ArtCtx) {}
+internal fun DrawScope.hqmaratibScene(a: ArtCtx) {}
+internal fun DrawScope.hqarkanScene(a: ArtCtx) {}
+internal fun DrawScope.hqlahnScene(a: ArtCtx) {}
+internal fun DrawScope.hqwaqfScene(a: ArtCtx) {}
+internal fun DrawScope.hqbasmalaScene(a: ArtCtx) {}
+internal fun DrawScope.abfitraScene(a: ArtCtx) {}
+internal fun DrawScope.abtafwidScene(a: ArtCtx) {}
+internal fun DrawScope.abtatilScene(a: ArtCtx) {}
+internal fun DrawScope.abhayraScene(a: ArtCtx) {}
+internal fun DrawScope.abadamScene(a: ArtCtx) {}
+internal fun DrawScope.abmunazaraScene(a: ArtCtx) {}
+internal fun DrawScope.abnabiScene(a: ArtCtx) {}
+internal fun DrawScope.abummaScene(a: ArtCtx) {}
+internal fun DrawScope.adhamdScene(a: ArtCtx) {}
+internal fun DrawScope.adalaminScene(a: ArtCtx) {}
+internal fun DrawScope.adrahmanScene(a: ArtCtx) {}
+internal fun DrawScope.addinScene(a: ArtCtx) {}
+internal fun DrawScope.adiyyakaScene(a: ArtCtx) {}
+internal fun DrawScope.adanamScene(a: ArtCtx) {}
+internal fun DrawScope.admaghdubScene(a: ArtCtx) {}
 internal fun DrawScope.shelfshopScene(a: ArtCtx) {}
 internal fun DrawScope.lawhScene(a: ArtCtx) {}
 internal fun DrawScope.plazaScene(a: ArtCtx) {}
 internal fun DrawScope.stallScene(a: ArtCtx) {}
 internal fun DrawScope.tentScene(a: ArtCtx) {}
+internal fun DrawScope.voice130(c: Offset, loud: Float, alpha: Float, t: Float) {}
+internal fun DrawScope.mtqalbScene(a: ArtCtx) {}
+internal fun DrawScope.mthubbScene(a: ArtCtx) {}
+internal fun DrawScope.mtahdafScene(a: ArtCtx) {}
+internal fun DrawScope.mtqiyamScene(a: ArtCtx) {}
+internal fun DrawScope.mtlaylScene(a: ArtCtx) {}
+internal fun DrawScope.mthizbScene(a: ArtCtx) {}
+internal fun DrawScope.mttardidScene(a: ArtCtx) {}
+internal fun DrawScope.mtjahrScene(a: ArtCtx) {}
+internal fun DrawScope.night131(a: ArtCtx) {}
+internal fun DrawScope.veil131(alpha: Float) {}
+internal fun DrawScope.row131(a: ArtCtx, kind: String, n: Int, y: Float, p: Float, f: Float, from: Float = 0.1f, step: Float = 0.15f, first: Int = 0, ink: Color = TODO()) {}
+internal fun DrawScope.sack131(c: Offset, s: Float, color: Color, alpha: Float) {}
+internal fun DrawScope.coin131(c: Offset, r: Float, alpha: Float) {}
+internal fun DrawScope.car131(c: Offset, s: Float, color: Color, alpha: Float) {}
+internal fun DrawScope.box131(c: Offset, s: Float, color: Color, alpha: Float, crack: Float = 0f) {}
+internal fun DrawScope.pie131(c: Offset, r: Float, frac: Float, alpha: Float) {}
+internal fun DrawScope.arrow131(from: Offset, to: Offset, q: Float, color: Color, alpha: Float) {}
+internal fun DrawScope.mmsighaScene(a: ArtCtx) {}
+internal fun DrawScope.mmshurutScene(a: ArtCtx) {}
+internal fun DrawScope.mmribaScene(a: ArtCtx) {}
+internal fun DrawScope.mmsalamScene(a: ArtCtx) {}
+internal fun DrawScope.mmqardScene(a: ArtCtx) {}
+internal fun DrawScope.mmhawalaScene(a: ArtCtx) {}
+internal fun DrawScope.mmmudarabaScene(a: ArtCtx) {}
+internal fun DrawScope.mmaybScene(a: ArtCtx) {}
+internal fun DrawScope.mmrahnScene(a: ArtCtx) {}
+internal fun DrawScope.mmkafalaScene(a: ArtCtx) {}
+internal fun DrawScope.mmsulhScene(a: ArtCtx) {}
+internal fun DrawScope.mmwakalaScene(a: ArtCtx) {}
+internal fun DrawScope.mmijaraScene(a: ArtCtx) {}
+internal fun DrawScope.mmariyaScene(a: ArtCtx) {}
+internal fun DrawScope.mmluqataScene(a: ArtCtx) {}
+internal fun DrawScope.frilmScene(a: ArtCtx) {}
+internal fun DrawScope.frasabaScene(a: ArtCtx) {}
+internal fun DrawScope.frikhwaScene(a: ArtCtx) {}
+internal fun DrawScope.frhajbScene(a: ArtCtx) {}
+internal fun DrawScope.frumariyyaScene(a: ArtCtx) {}
+internal fun DrawScope.frawlScene(a: ArtCtx) {}
+internal fun DrawScope.frraddScene(a: ArtCtx) {}
+internal fun DrawScope.nkhukmScene(a: ArtCtx) {}
+internal fun DrawScope.nkarkanScene(a: ArtCtx) {}
+internal fun DrawScope.nkshurutScene(a: ArtCtx) {}
+internal fun DrawScope.nkmuharramatScene(a: ArtCtx) {}
+internal fun DrawScope.nksadaqScene(a: ArtCtx) {}
+internal fun DrawScope.nkwalimaScene(a: ArtCtx) {}
+internal fun DrawScope.nkkhulScene(a: ArtCtx) {}
+internal fun DrawScope.tlhukmScene(a: ArtCtx) {}
+internal fun DrawScope.tlbidaScene(a: ArtCtx) {}
+internal fun DrawScope.tlikrahScene(a: ArtCtx) {}
+internal fun DrawScope.tlghadabScene(a: ArtCtx) {}
+internal fun DrawScope.tlsarihScene(a: ArtCtx) {}
+internal fun DrawScope.tlhazlScene(a: ArtCtx) {}
+internal fun DrawScope.tlrajaScene(a: ArtCtx) {}
+internal fun DrawScope.tlilaScene(a: ArtCtx) {}
+internal fun DrawScope.tlziharScene(a: ArtCtx) {}
+internal fun DrawScope.tllianScene(a: ArtCtx) {}
+internal fun DrawScope.tliddaScene(a: ArtCtx) {}
+internal fun DrawScope.tlhamilScene(a: ArtCtx) {}
+internal fun DrawScope.tlradaScene(a: ArtCtx) {}
+internal fun DrawScope.tlnafaqaScene(a: ArtCtx) {}
+internal fun DrawScope.wqwaqfScene(a: ArtCtx) {}
+internal fun DrawScope.wqfilScene(a: ArtCtx) {}
+internal fun DrawScope.wqshurutScene(a: ArtCtx) {}
+internal fun DrawScope.wqshartScene(a: ArtCtx) {}
+internal fun DrawScope.wshukmScene(a: ArtCtx) {}
+internal fun DrawScope.wswarisScene(a: ArtCtx) {}
+internal fun DrawScope.wshuquqScene(a: ArtCtx) {}
+internal fun DrawScope.iqmakkiScene(a: ArtCtx) {}
+internal fun DrawScope.iqfaidaScene(a: ArtCtx) {}
+internal fun DrawScope.iqdawabitScene(a: ArtCtx) {}
+internal fun DrawScope.iqsuarScene(a: ArtCtx) {}
+internal fun DrawScope.iqsafariScene(a: ArtCtx) {}
+internal fun DrawScope.iqlayliScene(a: ArtCtx) {}
+internal fun DrawScope.jnhuquqScene(a: ArtCtx) {}
+internal fun DrawScope.jnmaratibScene(a: ArtCtx) {}
+internal fun DrawScope.jnhayatScene(a: ArtCtx) {}
+internal fun DrawScope.jnsababScene(a: ArtCtx) {}
+internal fun DrawScope.jndiyaScene(a: ArtCtx) {}
+internal fun DrawScope.hdhaddScene(a: ArtCtx) {}
+internal fun DrawScope.hdshurutScene(a: ArtCtx) {}
 internal fun DrawScope.posed14(hip: Offset, neck: Offset, handA: Offset, handB: Offset, footA: Offset, footB: Offset, tall: Float, color: Color, alpha: Float = 1f) {}
 internal fun DrawScope.nabiLight14(c: Offset, r: Float, strength: Float, t: Float, name: TextLayoutResult?, nameAt: Offset) {}
 internal fun DrawScope.tick14(c: Offset, r: Float, p: Float, color: Color = Color(0xFF2E9A55)) {}
@@ -155,6 +551,42 @@ internal fun DrawScope.stageScene(a: ArtCtx) {}
 internal fun DrawScope.edenScene(a: ArtCtx) {}
 internal fun DrawScope.qMark14(c: Offset, s: Float, color: Color, alpha: Float) {}
 internal fun DrawScope.casketScene(a: ArtCtx) {}
+internal fun DrawScope.tmaslScene(a: ArtCtx) {}
+internal fun DrawScope.tmsibaaScene(a: ArtCtx) {}
+internal fun DrawScope.tmidtirarScene(a: ArtCtx) {}
+internal fun DrawScope.ymhukmScene(a: ArtCtx) {}
+internal fun DrawScope.ymikramScene(a: ArtCtx) {}
+internal fun DrawScope.ymlaghwScene(a: ArtCtx) {}
+internal fun DrawScope.ymnadhrScene(a: ArtCtx) {}
+internal fun DrawScope.qdqadaScene(a: ArtCtx) {}
+internal fun DrawScope.qdghadabScene(a: ArtCtx) {}
+internal fun DrawScope.qdrishwaScene(a: ArtCtx) {}
+internal fun DrawScope.qdbayyinaScene(a: ArtCtx) {}
+internal fun DrawScope.shshahadaScene(a: ArtCtx) {}
+internal fun DrawScope.shnisabScene(a: ArtCtx) {}
+internal fun DrawScope.qriqrarScene(a: ArtCtx) {}
+internal fun DrawScope.iqawwalScene(a: ArtCtx) {}
+internal fun DrawScope.iqakhirScene(a: ArtCtx) {}
+internal fun DrawScope.iqsababScene(a: ArtCtx) {}
+internal fun DrawScope.iqumumScene(a: ArtCtx) {}
+internal fun DrawScope.iqumarScene(a: ArtCtx) {}
+internal fun DrawScope.iqinzalScene(a: ArtCtx) {}
+internal fun DrawScope.astarifScene(a: ArtCtx) {}
+internal fun DrawScope.asumumScene(a: ArtCtx) {}
+internal fun DrawScope.asfaidaScene(a: ArtCtx) {}
+internal fun DrawScope.assafaScene(a: ArtCtx) {}
+internal fun DrawScope.asqaysScene(a: ArtCtx) {}
+internal fun DrawScope.asbuyutScene(a: ArtCtx) {}
+internal fun DrawScope.asmaqilScene(a: ArtCtx) {}
+internal fun DrawScope.iqahrufScene(a: ArtCtx) {}
+internal fun DrawScope.iqasmaScene(a: ArtCtx) {}
+internal fun DrawScope.iqjam1Scene(a: ArtCtx) {}
+internal fun DrawScope.iqjam2Scene(a: ArtCtx) {}
+internal fun DrawScope.iqtartibScene(a: ArtCtx) {}
+internal fun DrawScope.iqadadScene(a: ArtCtx) {}
+internal fun DrawScope.threadsScene(a: ArtCtx) {}
+internal fun DrawScope.carpetScene(a: ArtCtx) {}
+internal fun DrawScope.birdScene(a: ArtCtx) {}
 internal fun DrawScope.globeScene(a: ArtCtx) {}
 internal fun DrawScope.plainScene(a: ArtCtx) {}
 internal fun DrawScope.riverScene(a: ArtCtx) {}
@@ -167,6 +599,10 @@ internal fun DrawScope.buildingScene(a: ArtCtx) {}
 internal fun DrawScope.gateScene(a: ArtCtx) {}
 internal fun DrawScope.shrineScene(a: ArtCtx) {}
 internal fun DrawScope.hourglassScene(a: ArtCtx) {}
+internal fun DrawScope.jinnFlame20(base: Offset, s: Float, t: Float, k: Int, alpha: Float, bow: Float = 0f) {}
+internal fun DrawScope.mankindScene(a: ArtCtx) {}
+internal fun DrawScope.obey4Scene(a: ArtCtx) {}
+internal fun DrawScope.triptychScene(a: ArtCtx) {}
 internal fun DrawScope.qmark21(c: Offset, h: Float, color: Color, alpha: Float) {}
 internal fun DrawScope.cross21(c: Offset, r: Float, color: Color, p: Float, width: Float) {}
 internal fun DrawScope.struckTag21(tl: TextLayoutResult?, c: Offset, alpha: Float, strike: Float, red: Color, back: Color, ink: Color) {}
@@ -199,7 +635,7 @@ internal fun DrawScope.sieveScene(a: ArtCtx) {}
 internal fun DrawScope.kitchenScene(a: ArtCtx) {}
 internal fun DrawScope.karyotypeScene(a: ArtCtx) {}
 internal fun DrawScope.anatomyScene(a: ArtCtx) {}
-internal fun DrawScope.fitBig26(tl: TextLayoutResult?, c: Offset, maxW: Float, color: Color, alpha: Float, glow: Color? = null) {}
+internal fun DrawScope.fitBig26(tl: TextLayoutResult?, c: Offset, maxW: Float, color: Color, alpha: Float, glow: Color? = TODO()) {}
 internal fun DrawScope.angelLight26(c: Offset, r: Float, t: Float, alpha: Float) {}
 internal fun DrawScope.camel26(foot: Offset, s: Float, color: Color, alpha: Float, t: Float, walk: Float = 0f) {}
 internal fun DrawScope.sheep26(c: Offset, s: Float, color: Color, alpha: Float) {}
@@ -291,6 +727,28 @@ internal fun DrawScope.fourgatesScene(a: ArtCtx) {}
 internal fun DrawScope.examtrainScene(a: ArtCtx) {}
 internal fun DrawScope.lifeguardScene(a: ArtCtx) {}
 internal fun DrawScope.howwhyScene(a: ArtCtx) {}
+internal class Paper(dark: Boolean) {
+    val bg = if (dark) Color(0xFF13161E) else Color(0xFFF6F0E1)
+    val grid = if (dark) Color(0xFF222936) else Color(0xFFDCE3EC)
+    val ink = if (dark) Color(0xFFEAE2CC) else Color(0xFF1F2B48)
+    val faint = if (dark) Color(0xFF7C8394) else Color(0xFF8E97A9)
+    val amber = if (dark) Color(0xFFF2B451) else Color(0xFFC07A12)
+    val good = if (dark) Color(0xFF6FCB9F) else Color(0xFF2E7D57)
+    val bad = if (dark) Color(0xFFEE8158) else Color(0xFFB4492A)
+    val card = if (dark) Color(0xFF1C212C) else Color(0xFFFFFBF1)
+    val back = if (dark) Color(0xF213161E) else Color(0xF2F6F0E1)
+}
+internal fun DrawScope.paperSheet(pp: Paper) {}
+internal fun DrawScope.note(tl: TextLayoutResult?, c: Offset, alpha: Float, pp: Paper, ink: Color = TODO(), boxed: Boolean = TODO()) {}
+internal fun DrawScope.penLine(pts: List<Offset>, p: Float, color: Color, width: Float, alpha: Float = 1f, dash: PathEffect? = TODO()) {}
+internal fun DrawScope.arrowHead(tip: Offset, dir: Offset, len: Float, color: Color, width: Float, alpha: Float = 1f) {}
+internal fun DrawScope.crossMark(c: Offset, r: Float, color: Color, width: Float, alpha: Float = 1f) {}
+internal fun DrawScope.checkMark(c: Offset, r: Float, color: Color, width: Float, alpha: Float = 1f) {}
+internal fun DrawScope.figure(foot: Offset, tall: Float, color: Color, alpha: Float = 1f, walk: Float = 0f, lean: Float = 0f, arms: Float = 0f, stride: Float = 1f, armsAlpha: Float = 1f) {}
+internal fun DrawScope.chartScene(a: ArtCtx) {}
+internal fun DrawScope.circuitScene(a: ArtCtx) {}
+internal fun DrawScope.verdictScene(a: ArtCtx) {}
+internal fun DrawScope.boardScene(a: ArtCtx) {}
 internal fun DrawScope.twopathsScene(a: ArtCtx) {}
 internal fun DrawScope.teacherdeskScene(a: ArtCtx) {}
 internal fun DrawScope.steadyrevelationScene(a: ArtCtx) {}
@@ -465,7 +923,7 @@ internal object Roundel {
     val PlainFill = Color(0xFF3A3F4B)
     val PlainRim = Color(0xFFB4B8C2)
 }
-internal fun DrawScope.nameRoundel(c: Offset, r: Float, name: TextLayoutResult?, fill: Color, rim: Color, grow: Float, ink: Color = Roundel.Name) {}
+internal fun DrawScope.nameRoundel(c: Offset, r: Float, name: TextLayoutResult?, fill: Color, rim: Color, grow: Float, ink: Color = TODO()) {}
 internal fun DrawScope.callout(c: Offset, tl: TextLayoutResult?, maxW: Float, alpha: Float, ink: Color, rim: Color) {}
 internal fun DrawScope.inkScene(a: ArtCtx) {}
 internal fun DrawScope.lensScene(a: ArtCtx) {}
@@ -505,7 +963,7 @@ internal fun DrawScope.eye73(c: Offset, s: Float, color: Color, alpha: Float) {}
 internal fun DrawScope.ear73(c: Offset, s: Float, color: Color, alpha: Float) {}
 internal fun DrawScope.lips73(c: Offset, s: Float, color: Color, alpha: Float) {}
 internal fun DrawScope.saa73(foot: Offset, s: Float, fill: Float, grain: Color, alpha: Float) {}
-internal fun DrawScope.heap73(c: Offset, s: Float, color: Color, alpha: Float, round: Boolean = true) {}
+internal fun DrawScope.heap73(c: Offset, s: Float, color: Color, alpha: Float, round: Boolean = TODO()) {}
 internal fun DrawScope.hourglass73(c: Offset, ht: Float, p: Float, sand: Color, alpha: Float, frame: Color = Color(0xFFD8C8A0)) {}
 internal fun DrawScope.fastmannersScene(a: ArtCtx) {}
 internal fun DrawScope.suhooriftarScene(a: ArtCtx) {}
@@ -515,7 +973,7 @@ internal fun DrawScope.lasttenScene(a: ArtCtx) {}
 internal fun DrawScope.fitrsaaScene(a: ArtCtx) {}
 internal fun DrawScope.hall74(floor: Float, t: Float, lamps: Float = 1f) {}
 internal fun DrawScope.row74(y: Float, x0: Float, x1: Float, n: Int, tall: Float, color: Color, alpha: Float, pose: Float = 0f) {}
-internal fun DrawScope.rakah74(foot: Offset, s: Float, lit: Float, alpha: Float, odd: Boolean = false) {}
+internal fun DrawScope.rakah74(foot: Offset, s: Float, lit: Float, alpha: Float, odd: Boolean = TODO()) {}
 internal fun DrawScope.tarawihnightScene(a: ArtCtx) {}
 internal fun DrawScope.rakatcountScene(a: ArtCtx) {}
 internal fun DrawScope.withimamScene(a: ArtCtx) {}
@@ -634,6 +1092,10 @@ internal fun DrawScope.mosqueScene(a: ArtCtx) {}
 internal fun DrawScope.mazeScene(a: ArtCtx) {}
 internal fun DrawScope.fieldScene(a: ArtCtx) {}
 internal fun DrawScope.streetScene(a: ArtCtx) {}
+internal fun DrawScope.atelierScene(a: ArtCtx) {}
+internal fun DrawScope.heavensScene(a: ArtCtx) {}
+internal fun DrawScope.chamberScene(a: ArtCtx) {}
+internal fun DrawScope.scrollScene(a: ArtCtx) {}
 internal fun DrawScope.duhamorningScene(a: ArtCtx) {}
 internal fun DrawScope.layleasyScene(a: ArtCtx) {}
 internal fun DrawScope.nafsmirrorScene(a: ArtCtx) {}
@@ -658,7 +1120,46 @@ internal fun DrawScope.mushaftouchScene(a: ArtCtx) {}
 internal fun DrawScope.recitemannersScene(a: ArtCtx) {}
 internal fun DrawScope.tilawasujudScene(a: ArtCtx) {}
 internal fun DrawScope.sujuddhikrScene(a: ArtCtx) {}
+internal object S97 {
+    val Sand = Color(0xFFC9A46A)
+    val SandDark = Color(0xFF8A6A3E)
+    val Dusk = Color(0xFF2A2348)
+    val DuskLow = Color(0xFF8A5A5A)
+    val Thread = Color(0xFFF2C45A)
+    val Night = Color(0xFF0E1530)
+    val NightLow = Color(0xFF2A3560)
+}
+internal fun DrawScope.dunes97(ground: Float, near: Color, far: Color, alpha: Float = 1f) {}
+internal fun DrawScope.bead97(c: Offset, tl: TextLayoutResult?, alpha: Float, glow: Float = 0f) {}
+internal fun DrawScope.close97(c: Offset, r: Float, a: ArtCtx, kind: String, part: Int, k: Int, grow: Float) {}
+internal fun DrawScope.plain97(c: Offset, r: Float, a: ArtCtx, kind: String, part: Int, grow: Float) {}
+internal fun DrawScope.sbnasabScene(a: ArtCtx) {}
+internal fun DrawScope.sbmawlidScene(a: ArtCtx) {}
+internal fun DrawScope.sbridaaScene(a: ArtCtx) {}
+internal fun DrawScope.sbsharhScene(a: ArtCtx) {}
+internal fun DrawScope.sbyutmScene(a: ArtCtx) {}
+internal fun DrawScope.sbhifzScene(a: ArtCtx) {}
+internal fun DrawScope.sbkaabaScene(a: ArtCtx) {}
+internal fun DrawScope.sbkhadijaScene(a: ArtCtx) {}
+internal fun DrawScope.film98( a: ArtCtx, lay: String, shots: List<Shot>, world: DrawScope.() -> Unit, vararg beats: DrawScope.(p: Float, f: Float) -> Unit, ) {}
+internal fun DrawScope.angel98(c: Offset, r: Float, alpha: Float) {}
+internal fun DrawScope.mdhiraScene(a: ArtCtx) {}
+internal fun DrawScope.mdmuddScene(a: ArtCtx) {}
+internal fun DrawScope.mdmaratibScene(a: ArtCtx) {}
+internal fun DrawScope.mdsirrScene(a: ArtCtx) {}
+internal fun DrawScope.mdjahrScene(a: ArtCtx) {}
+internal fun DrawScope.mdadhaScene(a: ArtCtx) {}
+internal fun DrawScope.mdhabashaScene(a: ArtCtx) {}
+internal fun DrawScope.mdshibScene(a: ArtCtx) {}
+internal fun DrawScope.mdtaifScene(a: ArtCtx) {}
+internal fun DrawScope.mdaqabaScene(a: ArtCtx) {}
+internal fun DrawScope.mdhijraScene(a: ArtCtx) {}
+internal fun DrawScope.person99(foot: Offset, tall: Float, color: Color, alpha: Float = 1f, walk: Float = 0f, lean: Float = 0f, arms: Float = 0f) {}
+internal fun DrawScope.mbmasjidScene(a: ArtCtx) {}
+internal fun DrawScope.mbmuakhatScene(a: ArtCtx) {}
+internal fun DrawScope.mbwathiqaScene(a: ArtCtx) {}
+internal fun DrawScope.mbismScene(a: ArtCtx) {}
+internal fun DrawScope.mbsukkanScene(a: ArtCtx) {}
+internal fun DrawScope.mbidhnScene(a: ArtCtx) {}
 internal fun daysAr(n: Long): String = TODO()
-internal fun currentSeason(now: Long = System.currentTimeMillis()): Season? = TODO()
-internal fun SeasonCard(season: Season, repo: ContentRepo, progress: ProgressStore, onOpen: (String) -> Unit) {}
 internal fun ModuleRowView(name: String, done: Int, total: Int, started: Boolean, color: Color, onClick: () -> Unit) {}
