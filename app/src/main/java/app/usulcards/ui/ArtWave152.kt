@@ -191,7 +191,7 @@ internal fun DrawScope.asmarthadScene(a: ArtCtx) {
         { p, f ->
             veil131(f)
             plain97(Offset(w * 0.72f, h * 0.28f), w * 0.08f, a, "asmarthad0", 0, f * seg(p, 0.02f, 0.18f))
-            figure(Offset(mix(w * 0.2f, w * 0.6f, seg(p, 0.2f, 0.9f)), h * 0.82f), h * 0.2f, Qn.Person, f, walk = a.t * 3f, lean = 0.2f)
+            figure(Offset(mix(w * 0.2f, w * 0.6f, seg(p, 0.2f, 0.9f)), h * 0.82f), h * 0.2f, Qn.Person, f, walk = a.t * 3f, lean = 0.2f, face = 1f)
             tagAt(a.tag("asmarthad0", 0, 1), Offset(w * 0.4f, h * 0.5f), f * seg(p, 0.4f, 0.55f))
         },
         { p, f ->
@@ -209,7 +209,7 @@ internal fun DrawScope.asmarthadScene(a: ArtCtx) {
         { p, f ->
             veil131(f)
             qIcon("chain", Offset(w * 0.5f, h * 0.42f), w * 0.09f, Dim145, f * (1f - seg(p, 0.2f, 0.45f)), a.t)
-            figure(Offset(mix(w * 0.2f, w * 0.8f, seg(p, 0.3f, 0.95f)), h * 0.82f), h * 0.22f, Qn.Person, f, walk = a.t * 2f, lean = 0.25f)
+            figure(Offset(mix(w * 0.2f, w * 0.8f, seg(p, 0.3f, 0.95f)), h * 0.82f), h * 0.22f, Qn.Person, f, walk = a.t * 2f, lean = 0.25f, face = 1f)
             row131(a, "asmarthad3", 2, h * 0.24f, p, f, from = 0.1f, step = 0.45f)
         },
     )

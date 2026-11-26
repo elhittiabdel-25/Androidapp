@@ -174,7 +174,7 @@ private fun DrawScope.listenerEvening(a: ArtCtx) {
     val walk = easeInOut(seg(rt, 0.1f, 0.8f))
     val manX = mix(w * 0.42f, w * 0.68f, walk)
     val lean = -0.25f * easeOut(seg(fs, 0.3f, 0.7f)) * (1f - walk)
-    figure(Offset(manX, ground), h * 0.22f, UtbaC36.Man, easeOut(seg(of, 0f, 0.3f)), walk = if (walk in 0.01f..0.99f) t * 4f else 0f, lean = lean, arms = if (fs > 0f && rt <= 0f) 0.6f else 0.2f)
+    figure(Offset(manX, ground), h * 0.22f, UtbaC36.Man, easeOut(seg(of, 0f, 0.3f)), walk = if (walk in 0.01f..0.99f) t * 4f else 0f, lean = lean, arms = if (fs > 0f && rt <= 0f) 0.6f else 0.2f, face = if (walk > 0.01f) 1f else -1f)
     tagAt(a.tag("offers", 0, 0), Offset(manX, ground - h * 0.32f), seg(of, 0.2f, 0.45f) * (1f - seg(rt, 0f, BEAT_OUT)), back = Back36, ink = ArtInk.Ivory)
     // the offers
     val offerF = easeOut(seg(of, 0.3f, 0.6f)) * (1f - easeOut(seg(fs, 0.2f, 0.6f)))

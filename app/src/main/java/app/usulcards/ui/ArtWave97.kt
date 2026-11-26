@@ -265,7 +265,7 @@ internal fun DrawScope.sbridaaScene(a: ArtCtx) {
             val p = a.b("sbridaa1")
             kaaba29(Offset(w * 0.12f, ground), w * 0.06f, b1)
             val go = easeInOut(seg(p, 0.05f, 0.6f))
-            for (k in 0 until 3) camel26(Offset(mix(w * 0.18f, w * 0.62f, go) + k * w * 0.08f, ground - h * 0.01f), h * 0.12f, Color(0xFF5A4030), b1, t, walk = t * 2f)
+            for (k in 0 until 3) camel26(Offset(mix(w * 0.18f, w * 0.62f, go) + k * w * 0.08f, ground - h * 0.01f), h * 0.12f, Color(0xFF5A4030), b1, t, walk = t * 2f, dir = 1f)
             tagAt(a.tag("sbridaa1", 0, 0), Offset(w * 0.42f, h * 0.48f), b1 * seg(p, 0.1f, 0.25f), back = Color(0xCC1A1630), ink = ArtInk.Ivory)
             plain97(Offset(w * 0.8f, h * 0.36f), w * 0.08f, a, "sbridaa1", 1, b1 * seg(p, 0.55f, 0.8f))
             sirajMunir(Offset(w * 0.8f, h * 0.36f) + Offset(0f, h * 0.18f), w * 0.025f, b1 * seg(p, 0.7f, 0.9f), t, named = false)
@@ -619,7 +619,7 @@ internal fun DrawScope.sbkhadijaScene(a: ArtCtx) {
             val go = easeInOut(seg(p, 0.05f, 0.85f))
             for (k in 0 until 3) {
                 val foot = Offset(mix(w * 0.18f, w * 0.55f, go) + k * w * 0.08f, ground)
-                camel26(foot, h * 0.13f, Color(0xFF6A4A30), b0, t, walk = t * 2f)
+                camel26(foot, h * 0.13f, Color(0xFF6A4A30), b0, t, walk = t * 2f, dir = 1f)
                 drawRoundRect(Qn.Gold, Offset(foot.x - w * 0.02f, foot.y - h * 0.15f), Size(w * 0.04f, h * 0.03f), CornerRadius(3f * density), alpha = b0)
             }
             sirajMunir(Offset(mix(w * 0.2f, w * 0.57f, go), ground - h * 0.25f), w * 0.022f, b0, t, named = false)

@@ -67,14 +67,9 @@ internal fun DrawScope.ear73(c: Offset, s: Float, color: Color, alpha: Float) {
     drawArc(color, -80f, 200f, false, Offset(c.x - s * 0.12f, c.y - s * 0.22f), Size(s * 0.26f, s * 0.36f), alpha = alpha, style = Stroke(s * 0.05f, cap = StrokeCap.Round))
 }
 
-/** Closed lips drawn alone. */
-internal fun DrawScope.lips73(c: Offset, s: Float, color: Color, alpha: Float) {
-    if (alpha <= 0.01f) return
-    drawPath(Path().apply {
-        moveTo(c.x - s * 0.5f, c.y); quadraticTo(c.x - s * 0.25f, c.y - s * 0.25f, c.x, c.y - s * 0.1f)
-        quadraticTo(c.x + s * 0.25f, c.y - s * 0.25f, c.x + s * 0.5f, c.y); quadraticTo(c.x, c.y + s * 0.3f, c.x - s * 0.5f, c.y); close()
-    }, color, alpha = alpha, style = Stroke(s * 0.06f))
-    drawLine(color, c + Offset(-s * 0.45f, 0f), c + Offset(s * 0.45f, 0f), s * 0.04f, alpha = alpha)
+/** Speech (was lips; the owner chose sound waves, CODEX "Visual vocabulary"): waves flowing to the left. */
+internal fun DrawScope.lips73(c: Offset, s: Float, color: Color, alpha: Float, t: Float = 0f) {
+    speech153(c + Offset(s * 0.25f, 0f), s, V153.Wave, alpha, t, -1f)
 }
 
 /** A wooden measure (the ṣāʿ), its base at [foot], filled to [fill] with [grain]. */

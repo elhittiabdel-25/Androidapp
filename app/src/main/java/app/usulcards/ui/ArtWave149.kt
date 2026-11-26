@@ -178,7 +178,7 @@ internal fun DrawScope.askhawdScene(a: ArtCtx) {
         },
         { p, f ->
             veil131(f)
-            figure(Offset(mix(w * 0.3f, w * 0.7f, seg(p, 0.05f, 0.9f)), h * 0.82f), h * 0.2f, Dim145, f, walk = a.t * 5f, lean = 0.15f)
+            figure(Offset(mix(w * 0.3f, w * 0.7f, seg(p, 0.05f, 0.9f)), h * 0.82f), h * 0.2f, Dim145, f, walk = a.t * 5f, lean = 0.15f, face = 1f)
             for (k in 0 until 6) drawCircle(Color(0xFF8A7458), w * 0.008f, Offset(w * (0.2f + 0.11f * k), h * (0.86f + 0.01f * (k % 2))), alpha = f * seg(p, 0.2f + 0.08f * k, 0.3f + 0.08f * k))
             row131(a, "askhawd1", 2, h * 0.3f, p, f, from = 0.15f, step = 0.4f)
         },

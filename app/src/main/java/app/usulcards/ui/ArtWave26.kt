@@ -49,8 +49,13 @@ internal fun DrawScope.angelLight26(c: Offset, r: Float, t: Float, alpha: Float)
 }
 
 /** A camel standing, facing left, its feet at [foot]. */
-internal fun DrawScope.camel26(foot: Offset, s: Float, color: Color, alpha: Float, t: Float, walk: Float = 0f) {
+internal fun DrawScope.camel26(foot: Offset, s: Float, color: Color, alpha: Float, t: Float, walk: Float = 0f, dir: Float = -1f) {
     if (alpha <= 0.01f) return
+    // [dir] +1 turns the camel to face right, the way it walks (owner, 2026-11-26)
+    if (dir > 0f) scale(-1f, 1f, foot) { camel26L(foot, s, color, alpha, walk) } else camel26L(foot, s, color, alpha, walk)
+}
+
+private fun DrawScope.camel26L(foot: Offset, s: Float, color: Color, alpha: Float, walk: Float) {
     val body = foot + Offset(0f, -s * 0.62f)
     drawOval(color, Offset(body.x - s * 0.42f, body.y - s * 0.16f), Size(s * 0.84f, s * 0.32f), alpha = alpha)
     drawOval(color, Offset(body.x - s * 0.14f, body.y - s * 0.34f), Size(s * 0.34f, s * 0.3f), alpha = alpha)

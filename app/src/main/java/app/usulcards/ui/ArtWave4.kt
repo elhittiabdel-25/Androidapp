@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.withTransform
@@ -156,8 +157,14 @@ internal fun DrawScope.checkMark(c: Offset, r: Float, color: Color, width: Float
  * A faceless figure in a few strokes, feet at [foot], [tall] high. [walk] is the stride phase (radians), [lean] tilts
  * the body (positive leans to the left), [arms] 0 hangs them, 1 reaches forward (to the left), -1 pulls back.
  */
-internal fun DrawScope.figure(foot: Offset, tall: Float, color: Color, alpha: Float = 1f, walk: Float = 0f, lean: Float = 0f, arms: Float = 0f, stride: Float = 1f, armsAlpha: Float = 1f) {
+internal fun DrawScope.figure(foot: Offset, tall: Float, color: Color, alpha: Float = 1f, walk: Float = 0f, lean: Float = 0f, arms: Float = 0f, stride: Float = 1f, armsAlpha: Float = 1f, face: Float = -1f) {
     if (alpha <= 0.01f) return
+    // [face] +1 mirrors the figure so it leans and reaches to the right, toward where it walks (owner, 2026-11-26)
+    if (face > 0f) scale(-1f, 1f, foot) { figureL(foot, tall, color, alpha, walk, lean, arms, stride, armsAlpha) }
+    else figureL(foot, tall, color, alpha, walk, lean, arms, stride, armsAlpha)
+}
+
+private fun DrawScope.figureL(foot: Offset, tall: Float, color: Color, alpha: Float, walk: Float, lean: Float, arms: Float, stride: Float, armsAlpha: Float) {
     val sw = max(1.7f * density, tall * 0.065f)
     val hip = foot - Offset(0f, tall * 0.45f)
     val up = Offset(-sin(lean), -cos(lean))

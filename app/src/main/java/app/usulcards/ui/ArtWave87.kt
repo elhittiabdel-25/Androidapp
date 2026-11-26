@@ -565,7 +565,7 @@ private fun DrawScope.filDraw(a: ArtCtx) {
         val south = easeInOut(seg(p, 0.05f, 0.45f)) * (1f - home)
         val north = easeInOut(seg(p, 0.5f, 0.9f)) * (1f - home)
         camel26(Offset(mix(makkah.x, w * 0.43f, south), mix(makkah.y + h * 0.12f, h * 0.86f, south)), w * 0.05f, Color(0xFF6A4A30), tr, t, if (south in 0.01f..0.99f) t * 4f else 0f)
-        camel26(Offset(mix(makkah.x, w * 0.59f, north), mix(makkah.y, h * 0.16f, north)), w * 0.05f, Color(0xFF6A4A30), tr * seg(p, 0.45f, 0.5f).coerceAtLeast(if (wl > 0f) 1f else 0f), t, if (north in 0.01f..0.99f) t * 4f else 0f)
+        camel26(Offset(mix(makkah.x, w * 0.59f, north), mix(makkah.y, h * 0.16f, north)), w * 0.05f, Color(0xFF6A4A30), tr * seg(p, 0.45f, 0.5f).coerceAtLeast(if (wl > 0f) 1f else 0f), t, if (north in 0.01f..0.99f) t * 4f else 0f, dir = 1f)
         cloud38(Offset(w * 0.3f, h * 0.84f), w * 0.04f, Color(0xFF8A9AAA), tj * seg(p, 0.15f, 0.3f))
         sun12(Offset(w * 0.75f, h * 0.12f), w * 0.025f, tj * seg(p, 0.55f, 0.7f))
         tagAt(a.tag("twojourneys", 0, 0), Offset(w * 0.2f, h * 0.7f), tj * seg(p, 0.2f, 0.35f), back = Fq.Back, ink = ArtInk.Ivory)

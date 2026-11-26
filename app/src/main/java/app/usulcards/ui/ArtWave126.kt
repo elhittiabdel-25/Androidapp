@@ -265,7 +265,7 @@ internal fun DrawScope.agaymanScene(a: ArtCtx) {
         { p, f ->
             veil126(f)
             tagAt(a.tag("agayman0", 0, 0), Offset(w * 0.5f, h * 0.2f), f * seg(p, 0.1f, 0.25f), ink = ArtInk.Gold)
-            qIcon("hands", Offset(w * 0.5f, h * 0.5f), w * 0.14f, Fig126, f * seg(p, 0.3f, 0.45f), a.t)
+            qIcon("oath", Offset(w * 0.5f, h * 0.5f), w * 0.14f, Fig126, f * seg(p, 0.3f, 0.45f), a.t)
         },
         { p, f ->
             veil126(f)

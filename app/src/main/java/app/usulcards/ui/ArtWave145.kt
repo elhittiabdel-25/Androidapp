@@ -158,7 +158,7 @@ internal fun DrawScope.asyaminScene(a: ArtCtx) {
             veil131(f)
             tagAt(a.tag("asyamin0", 0, 1), Offset(w * 0.5f, h * 0.16f), f * seg(p, 0.6f, 0.75f), ink = ArtInk.Gold)
             qIcon("coin", Offset(mix(w * 0.65f, w * 0.38f, seg(p, 0.2f, 0.5f)), h * 0.46f), w * 0.07f, Qn.Gold, f * seg(p, 0.05f, 0.2f), a.t)
-            qIcon("hands", Offset(w * 0.32f, h * 0.5f), w * 0.09f, Dim145, f * seg(p, 0.1f, 0.25f), a.t)
+            qIcon("oath", Offset(w * 0.32f, h * 0.5f), w * 0.09f, Dim145, f * seg(p, 0.1f, 0.25f), a.t)
             tagAt(a.tag("asyamin0", 0, 0), Offset(w * 0.5f, h * 0.7f), f * seg(p, 0.2f, 0.35f))
         },
         { p, f ->
