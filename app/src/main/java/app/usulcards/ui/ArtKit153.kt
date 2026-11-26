@@ -239,3 +239,20 @@ internal fun DrawScope.lawBook153(c: Offset, s: Float, alpha: Float) {
     qIcon("book", c, s, Qn.Gold, alpha)
     qIcon("scale", c + Offset(0f, -s * 0.75f), s * 0.5f, Qn.GoldLight, alpha)
 }
+
+/** A woman: a fully covered, faceless silhouette, feet at [foot]; [sit] 0 standing, 1 seated; [lean] tilts her left. */
+internal fun DrawScope.woman153(foot: Offset, tall: Float, color: Color, alpha: Float, sit: Float = 0f, lean: Float = 0f) {
+    if (alpha <= 0.01f) return
+    val ht = tall * (1f - 0.38f * sit)
+    val top = Offset(foot.x - sin(lean) * ht * 0.8f, foot.y - ht)
+    val half = tall * (0.2f + 0.08f * sit)
+    drawPath(Path().apply {
+        moveTo(top.x, top.y)
+        cubicTo(top.x + tall * 0.12f, top.y, top.x + tall * 0.13f, top.y + tall * 0.12f, top.x + tall * 0.1f, top.y + tall * 0.2f)
+        quadraticTo(foot.x + half * 0.9f, foot.y - ht * 0.4f, foot.x + half, foot.y)
+        lineTo(foot.x - half, foot.y)
+        quadraticTo(foot.x - half * 0.9f, foot.y - ht * 0.4f, top.x - tall * 0.1f, top.y + tall * 0.2f)
+        cubicTo(top.x - tall * 0.13f, top.y + tall * 0.12f, top.x - tall * 0.12f, top.y, top.x, top.y)
+        close()
+    }, color, alpha = alpha)
+}
