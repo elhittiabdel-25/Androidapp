@@ -20,6 +20,7 @@ internal object ArtInk {
 }
 internal fun beatMillis(kind: String): Int = TODO()
 internal fun beatMillisB(kind: String): Int = TODO()
+internal fun beatMillisC(kind: String): Int = TODO()
 internal class ArtCtx(
     private val kinds: List<String>,
     private val beats: List<Float>,
@@ -592,6 +593,12 @@ internal fun DrawScope.asistinbatScene(a: ArtCtx) {}
 internal fun DrawScope.asfiataynScene(a: ArtCtx) {}
 internal fun DrawScope.assalamScene(a: ArtCtx) {}
 internal fun DrawScope.asdararScene(a: ArtCtx) {}
+internal fun DrawScope.assulhScene(a: ArtCtx) {}
+internal fun DrawScope.askalalaScene(a: ArtCtx) {}
+internal fun DrawScope.astayammumScene(a: ArtCtx) {}
+internal fun DrawScope.asrajmScene(a: ArtCtx) {}
+internal fun DrawScope.asqistScene(a: ArtCtx) {}
+internal fun DrawScope.asismahScene(a: ArtCtx) {}
 internal fun DrawScope.threadsScene(a: ArtCtx) {}
 internal fun DrawScope.carpetScene(a: ArtCtx) {}
 internal fun DrawScope.birdScene(a: ArtCtx) {}
