@@ -35,12 +35,12 @@ internal object V153 {
 /** Speech: sound-wave arcs flowing from [c] toward [dir] (-1 left, +1 right), pulsing with [t]. */
 internal fun DrawScope.speech153(c: Offset, s: Float, color: Color, alpha: Float, t: Float = 0f, dir: Float = -1f) {
     if (alpha <= 0.01f) return
-    val sw = s * 0.07f
+    val sw = s * 0.1f
     for (k in 0 until 3) {
         val ph = ((t * 0.9f + k / 3f) % 1f)
-        val r = s * (0.18f + 0.42f * ph)
+        val r = s * (0.3f + 0.75f * ph)
         val start = if (dir < 0) 180f - 40f else -40f
-        drawArc(color, start, 80f, false, Offset(c.x - r, c.y - r), Size(r * 2f, r * 2f), alpha = alpha * (1f - ph), style = Stroke(sw, cap = StrokeCap.Round))
+        drawArc(color, start, 80f, false, Offset(c.x - r, c.y - r), Size(r * 2f, r * 2f), alpha = alpha * (1f - 0.7f * ph), style = Stroke(sw, cap = StrokeCap.Round))
     }
 }
 

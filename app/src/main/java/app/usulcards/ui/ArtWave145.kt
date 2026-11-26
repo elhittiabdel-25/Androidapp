@@ -58,7 +58,6 @@ internal fun DrawScope.assukutScene(a: ArtCtx) {
             for (k in 0 until 3) {
                 val c = Offset(w * (0.37f + 0.13f * k), h * 0.5f)
                 qIcon("lips", c, w * 0.05f, Qn.GoldLight, f * (1f - seg(p, 0.2f, 0.4f)), a.t)
-                qIcon("hands", c, w * 0.05f, Qn.Gold, f * seg(p, 0.3f, 0.5f), a.t)
             }
             tagAt(a.tag("assukut1", 0, 0), Offset(w * 0.5f, h * 0.3f), f * seg(p, 0.45f, 0.6f), ink = ArtInk.Gold)
         },
