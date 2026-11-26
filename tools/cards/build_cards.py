@@ -79,6 +79,7 @@ from cards_batch69 import NEW69
 from cards_batch70 import NEW70
 from cards_batch71 import NEW71
 from cards_batch72 import NEW72
+from cards_batch73 import NEW73
 H = re.compile(r'[ً-ْٰـ]')
 def shown(s): return re.sub(r'\{[^}]*\}', '', re.sub(r'\[([^|\]]*)\|([^\]]*)\]', r'\1', s))
 def plain(s): return H.sub('', shown(s))
@@ -111,7 +112,7 @@ for c in OLD:                                   # first 16 cards: same text and 
     add_sources(c, MERGE_SOURCES4.get(c["id"], []))
     add_sources(c, MERGE_SOURCES5.get(c["id"], []))
     cards.append(c)
-for c in NEW + NEW3 + NEW4 + NEW5 + NEW6 + NEW7 + NEW8 + NEW9 + NEW10 + NEW11 + NEW12 + NEW13 + NEW14 + NEW15 + NEW16 + NEW17 + NEW18 + NEW19 + NEW20 + NEW21 + NEW22 + NEW23 + NEW24 + NEW25 + NEW26 + NEW27 + NEW28 + NEW29 + NEW30 + NEW31 + NEW32 + NEW33 + NEW34 + NEW35 + NEW36 + NEW37 + NEW38 + NEW39 + NEW40 + NEW41 + NEW42 + NEW43 + NEW44 + NEW45 + NEW46 + NEW47 + NEW48 + NEW49 + NEW50 + NEW51 + NEW52 + NEW53 + NEW54 + NEW55 + NEW56 + NEW57 + NEW58 + NEW59 + NEW60 + NEW61 + NEW62 + NEW63 + NEW64 + NEW65 + NEW66 + NEW67 + NEW68 + NEW69 + NEW70 + NEW71 + NEW72:
+for c in NEW + NEW3 + NEW4 + NEW5 + NEW6 + NEW7 + NEW8 + NEW9 + NEW10 + NEW11 + NEW12 + NEW13 + NEW14 + NEW15 + NEW16 + NEW17 + NEW18 + NEW19 + NEW20 + NEW21 + NEW22 + NEW23 + NEW24 + NEW25 + NEW26 + NEW27 + NEW28 + NEW29 + NEW30 + NEW31 + NEW32 + NEW33 + NEW34 + NEW35 + NEW36 + NEW37 + NEW38 + NEW39 + NEW40 + NEW41 + NEW42 + NEW43 + NEW44 + NEW45 + NEW46 + NEW47 + NEW48 + NEW49 + NEW50 + NEW51 + NEW52 + NEW53 + NEW54 + NEW55 + NEW56 + NEW57 + NEW58 + NEW59 + NEW60 + NEW61 + NEW62 + NEW63 + NEW64 + NEW65 + NEW66 + NEW67 + NEW68 + NEW69 + NEW70 + NEW71 + NEW72 + NEW73:
     ev = [quran_ev(q) if isinstance(q, str) else quran_ev(*q) for q in c["quran"]]
     ev += [{"kind": "hadith", "text": plain(t), "takhrij": tk} for t, tk in c["hadith"]]
     out = {"id": c["id"], "type": c["type"], "topic": c["topic"], "path": c["path"], "order": c["order"],
