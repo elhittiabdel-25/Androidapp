@@ -47,3 +47,40 @@ by people (at most 6 cards) and never stands for a prophet.
 - In الغلو في الصالحين the righteous men stay as lights going out: the light is the knowledge they carried.
 - The lantern check now reads every beat that draws a lantern (see `LANTERN` in variety.py), the sentence it is
   drawn in, and the people its tag names. Cards still to be redrawn are listed in `PENDING`.
+
+## Visual vocabulary (chosen by the owner, 2026-11-26)
+How recurring ideas are drawn. These replace older habits (lips for speech, two raised hands for an oath).
+
+| Idea | Drawn as |
+|---|---|
+| Speech | sound-wave arcs flowing from the speaker toward the listener (never lips) |
+| Oath (يمين، حلف) | one raised right hand |
+| A lie, a false oath | the words appear as a tag, then crack and fade grey |
+| «فنزلت الآية» | a beam of light coming down from the top of the scene |
+| The Prophet ﷺ present in a story | a soft warm light with «رَسُولُ اللَّهِ ﷺ» written beside it |
+| Other prophets | the same named light |
+| Angels | cool white light (Jibril larger) |
+| Movement to a place | figures face their goal and walk toward the destination drawn at the edge; a figure never leans or faces away from where it goes |
+| Grading of a report | a seal stamp: gold for sahih, silver for hasan, grey for weak or mursal |
+| Prohibition (نهي، حرام) | the forbidden thing drawn, with a red cross over it |
+| Permission (حلال، إباحة) | a green check beside the thing |
+| Du'a | two open palms with small lights rising from them |
+| Death | a simple grave mound |
+| Paradise | soft green-gold light with trees and flowing rivers |
+| Hellfire, punishment | rising flames in the lower part of the scene (never on a person) |
+| Narration («حدثنا», «قال فلان») | the narrator's name roundel, then his words appear under it |
+| Battles | Kings and Generals / History Marche style: a parchment top-down map (mountains, wells, Madina, Makka), army blocks with banners, arrows for movement; Muslims green, the enemy red, each with a name tag |
+| Large numbers (70 killed, 300 men, 10 years) | dots fill one by one while the number counts up in Western digits |
+| A gathering, a lesson, a sermon | faceless figures seated in a half circle around the named light or a roundel |
+| Emotions | posture and colour together: head bowed and a cool blue glow for sadness, upright with gold light for joy, crouched with dark red for fear |
+| Tears, weeping | a soft blue glow around the person (no drops) |
+| Allah's mercy, forgiveness, accepted repentance | a soft beam of light falling on the person (Allah is never depicted) |
+| Time passing | a quick day/night cycle: sun and moon crossing the sky |
+| Money, spoils, charity | the real goods given: dates, grain sacks, cloth, silver vessels (coins only when the text says dinars or dirhams) |
+| Animals (camel, sheep, horse) | a tiny dark silhouette far away, no detail, facing where it goes |
+| Women | a fully covered faceless silhouette; a named Mother of the Believers may also have her roundel |
+| Hadd punishments (stoning, lashing, cutting) | an open book of law with the ruling as a tag; never the act |
+| Background | fits the story: day for daytime events, night for night, mosque, desert, Madina houses as told |
+| Fiqh cards with no story | act out the card's worked example when it has one; otherwise a clean diagram (boxes, arrows, shares) |
+| Tags | 2–4 words each |
+| Pace | each picture changes when the voice reaches its sentence |
