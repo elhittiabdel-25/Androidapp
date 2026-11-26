@@ -617,6 +617,13 @@ internal fun DrawScope.asqamisScene(a: ArtCtx) {}
 internal fun DrawScope.threadsScene(a: ArtCtx) {}
 internal fun DrawScope.carpetScene(a: ArtCtx) {}
 internal fun DrawScope.birdScene(a: ArtCtx) {}
+internal fun DrawScope.astalibScene(a: ArtCtx) {}
+internal fun DrawScope.askab1Scene(a: ArtCtx) {}
+internal fun DrawScope.askab2Scene(a: ArtCtx) {}
+internal fun DrawScope.askab3Scene(a: ArtCtx) {}
+internal fun DrawScope.askab4Scene(a: ArtCtx) {}
+internal fun DrawScope.asyathnunScene(a: ArtCtx) {}
+internal fun DrawScope.asqasasScene(a: ArtCtx) {}
 internal fun DrawScope.globeScene(a: ArtCtx) {}
 internal fun DrawScope.plainScene(a: ArtCtx) {}
 internal fun DrawScope.riverScene(a: ArtCtx) {}
