@@ -259,7 +259,7 @@ internal fun DrawScope.asifkiqdScene(a: ArtCtx) {
             val go = seg(p, 0.15f, 1f)
             for (k in 0 until 3) {
                 val x = mix(w * 0.5f, w * 0.05f, go) + k * w * 0.1f
-                if (k == 0) howdah153(Offset(x, h * 0.84f), h * 0.1f, -1f, f, a.t * 4f) else camelFar153(Offset(x, h * 0.84f), h * 0.1f, -1f, f, a.t * 4f + k)
+                if (k == 0) howdah153(Offset(x, h * 0.84f), h * 0.14f, -1f, f, a.t * 4f) else camelFar153(Offset(x, h * 0.84f), h * 0.14f, -1f, f, a.t * 4f + k)
             }
             woman153(Offset(w * 0.86f, h * 0.88f), h * 0.12f, Woman153, f * seg(p, 0.5f, 0.7f), sit = 1f)
             tagAt(a.tag("asifkiqd2", 0, 0), Offset(w * 0.3f, h * 0.5f), f * seg(p, 0.05f, 0.2f))

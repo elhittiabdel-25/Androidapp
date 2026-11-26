@@ -174,9 +174,8 @@ internal fun DrawScope.dates153(c: Offset, s: Float, alpha: Float) {
 }
 
 /** An animal far away: a tiny dark camel silhouette facing [dir] (-1 left, +1 right), legs moving with [walk]. */
-internal fun DrawScope.camelFar153(foot: Offset, s: Float, dir: Float, alpha: Float, walk: Float = 0f) {
+internal fun DrawScope.camelFar153(foot: Offset, s: Float, dir: Float, alpha: Float, walk: Float = 0f, col: Color = Color(0xFF8A7058)) {
     if (alpha <= 0.01f) return
-    val col = Color(0xFF2A2018)
     val d = if (dir < 0) -1f else 1f
     drawOval(col, Offset(foot.x - s * 0.4f, foot.y - s * 0.75f), Size(s * 0.8f, s * 0.32f), alpha = alpha)
     drawCircle(col, s * 0.15f, Offset(foot.x - s * 0.05f, foot.y - s * 0.78f), alpha = alpha)
